@@ -19,9 +19,7 @@ package org.eclipse.lyo.samples.bugzilla;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,24 +56,17 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  */
 public class ChangeRequestCollectionService extends HttpServlet {    	
 	private static final long serialVersionUID = -5280734755943517104L; 
-	private static final Map<String, String> PREFIXES = new HashMap<String, String>();
-	static {
-		PREFIXES.put("oslc", "http://open-services.net/ns/core#");
-		PREFIXES.put("oslc_cm", "http://open-services.net/ns/cm#");
-		PREFIXES.put("dcterms", "http://purl.org/dc/terms/");
-		PREFIXES.put("foaf", "http://xmlns.com/foaf/0.1/");
-		PREFIXES.put("bugz", "http://www.bugzilla.org/rdf#");
-	}
-	
+
     public ChangeRequestCollectionService() {}
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
     	
     	String lang = null;
-    	if (request.getContentType().startsWith("application/rdf+xml")) {
-    		lang = "RDF/XML";
+		if (request.getContentType().startsWith("application/rdf+xml")
+				|| request.getContentType().startsWith("application/xml")) {
+    		lang = RdfUtils.JENA_LANG_RDF_XML;
     	} else if (request.getContentType().startsWith("text/turtle")) {
-    		lang = "TURTLE";
+    		lang = RdfUtils.JENA_LANG_TURTLE;
     	} else {    	
     		response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
     		return;
@@ -193,7 +184,8 @@ public class ChangeRequestCollectionService extends HttpServlet {
 	            final RequestDispatcher rd = request.getRequestDispatcher("/cm/changerequest_collection_html.jsp");  
 				rd.forward(request, response);
 				response.flushBuffer();
-			} else if (AcceptType.willAccept("application/rdf+xml", request)) {	
+			} else if (AcceptType.willAccept("application/rdf+xml", request)
+					|| AcceptType.willAccept("application/xml", request)) {
 				ResponseInfo responseInfo = new ResponseInfo();
 				responseInfo.setTitle("Bugzilla Query Result");
 				responseInfo.setNextPage(new URI(URLStrategy

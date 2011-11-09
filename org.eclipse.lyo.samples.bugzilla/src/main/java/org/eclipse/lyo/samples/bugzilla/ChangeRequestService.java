@@ -110,7 +110,8 @@ public class ChangeRequestService extends HttpServlet {
 				response.sendRedirect(BugzillaInitializer.getBugzillaUri() + "/show_bug.cgi?id=" + bugId);
 				return;
 				
-			} else if (AcceptType.willAccept("application/rdf+xml", request)) {	
+			} else if (AcceptType.willAccept("application/rdf+xml", request)
+					|| AcceptType.willAccept("application/xml", request)) {
 		        response.setHeader("OSLC-Core-Version", "2.0");
 		        response.setHeader("Content-Type", "application/rdf+xml");
 				RdfUtils.sendRdfResponse(response, bug, RdfUtils.JENA_LANG_ABBREVIATED_RDF_XML);
@@ -146,7 +147,8 @@ public class ChangeRequestService extends HttpServlet {
 		System.err.println("CR.doPUT - Accept: " + request.getHeader("Accept")
 				+ ", query=" + request.getQueryString());
 
-		if (!request.getContentType().startsWith("application/rdf+xml")) {
+		if (!request.getContentType().startsWith("application/rdf+xml")
+				&& !request.getContentType().startsWith("application/xml")) {
 			response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 			return;
 		}
