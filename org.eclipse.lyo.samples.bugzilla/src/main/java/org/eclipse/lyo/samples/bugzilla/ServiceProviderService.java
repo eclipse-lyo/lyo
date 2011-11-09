@@ -73,7 +73,7 @@ public class ServiceProviderService extends HttpServlet {
 			} else	if (AcceptType.willAccept("text/html", request)) {
 				dispatchTo = "/cm/serviceprovider_html.jsp";
 			} else {
-				response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+				response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
 				return;
 			}	
 			

@@ -57,7 +57,7 @@ public class ServiceProviderCatalogService extends HttpServlet {
                 dispatchTo = "/cm/serviceprovidercatalog_rdfxml.jsp";
 
             } else {
-                response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+                response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return;
             }
 
