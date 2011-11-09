@@ -199,7 +199,8 @@ public class ChangeRequestCollectionService extends HttpServlet {
 				responseInfo.setNextPage(new URI(URLStrategy
 						.getChangeRequestCollectionURL(product.getId())
 						+ "&oslc.paging=true&page=" + (page + 1)));
-				responseInfo.setUri(new URI(request.getRequestURL().append(request.getQueryString()).toString()));
+				responseInfo.setUri(new URI(request.getRequestURL().append('?')
+						.append(request.getQueryString()).toString()));
 
 				QueryResult queryResult = new QueryResult();
 				queryResult.setUri(new URI(request.getRequestURL().toString()));
