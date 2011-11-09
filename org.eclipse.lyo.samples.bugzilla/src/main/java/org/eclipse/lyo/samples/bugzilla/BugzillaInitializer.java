@@ -19,6 +19,9 @@ package org.eclipse.lyo.samples.bugzilla;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import jbugz.base.BugzillaConnector;
 import jbugz.exceptions.BugzillaException;
 import jbugz.exceptions.ConnectionException;
@@ -26,7 +29,8 @@ import jbugz.rpc.LogIn;
 
 public class BugzillaInitializer {
 
-    private static String baseUri = null;
+    private static final String CONNECTOR_SESSION_ATTRIBUTE = "org.eclipse.lyo.samples.bugzilla.BugzillaConnector";
+	private static String baseUri = null;
     private static String bugzillaUri = null;
     private static String username = null;
     private static String password = null;
@@ -60,8 +64,22 @@ public class BugzillaInitializer {
         LogIn login = new LogIn(username, password);
         bc.executeMethod(login);
         return bc;
-    }
+	}
 
+	public static BugzillaConnector getBugzillaConnector(
+			HttpServletRequest request) throws ConnectionException,
+			BugzillaException {
+		HttpSession session = request.getSession();
+		BugzillaConnector connector = (BugzillaConnector) session
+				.getAttribute(CONNECTOR_SESSION_ATTRIBUTE);
+		if (connector == null) {
+			connector = getBugzillaConnector();
+			session.setAttribute(CONNECTOR_SESSION_ATTRIBUTE, connector);
+		}
+		
+		return connector;
+	}
+    
     public static String getBaseUri() {
         return baseUri;
     }

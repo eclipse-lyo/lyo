@@ -52,7 +52,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 
 		Product product = null;
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			
 			int productId = Integer.parseInt(request.getParameter("productId"));
 			Integer[] productIds = { productId }; 
@@ -69,7 +69,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 		}		
 		
 		try {				
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 
 			GetLegalValues getComponentValues = 
 				new GetLegalValues("component", product.getId());
@@ -123,7 +123,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			}
 
 
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();				
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);				
 			GetProducts getProducts = new GetProducts(productIds); 
 			bc.executeMethod(getProducts);
 			List<Product> products = getProducts.getProducts();

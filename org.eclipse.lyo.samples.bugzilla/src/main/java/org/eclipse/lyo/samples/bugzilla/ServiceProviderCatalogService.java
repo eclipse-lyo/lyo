@@ -61,7 +61,7 @@ public class ServiceProviderCatalogService extends HttpServlet {
                 return;
             }
 
-            final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+            final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
             request.setAttribute("bugzillaUri", BugzillaInitializer.getBugzillaUri());
 
             GetAccessibleProducts getProductIds = new GetAccessibleProducts();

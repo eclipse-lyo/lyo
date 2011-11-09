@@ -52,7 +52,7 @@ public class CreationShapeService extends HttpServlet {
 			int productId = Integer.parseInt(request.getParameter("productId"));
 			Integer[] productIds = { productId }; 
 			
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();				
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);				
 			GetProducts getProducts = new GetProducts(productIds); 
 			bc.executeMethod(getProducts);
 			List<Product> products = getProducts.getProducts();
@@ -73,7 +73,7 @@ public class CreationShapeService extends HttpServlet {
 				return;
 			}	
 			
-			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();			
+			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);			
             request.setAttribute("bugzillaUri", BugzillaInitializer.getBugzillaUri());
 
 			GetAccessibleProducts getProductIds = new GetAccessibleProducts();

@@ -76,7 +76,7 @@ public class ChangeRequestService extends HttpServlet {
 		Bug bug = null;
 		try {
 			bugId = Integer.parseInt(request.getParameter("id"));
-			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();			
+			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);			
 			final ExtendedGetBug getBug = new ExtendedGetBug(bugId);
 			bc.executeMethod(getBug);
 			bug = getBug.getBug();	
@@ -192,7 +192,7 @@ public class ChangeRequestService extends HttpServlet {
 	private void updateBug(HttpServletRequest request, BugzillaChangeRequest cr)
 			throws ConnectionException, BugzillaException,
 			InvalidDescriptionException {
-		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 		// No built in field to hold external links. Just add the new link as a comment for now.
 		String comment = getLinksComment(cr);
 		if (comment.length() != 0) {

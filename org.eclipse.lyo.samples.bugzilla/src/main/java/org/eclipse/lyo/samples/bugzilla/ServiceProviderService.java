@@ -51,7 +51,7 @@ public class ServiceProviderService extends HttpServlet {
 			int productId = Integer.parseInt(request.getParameter("productId"));
 			Integer[] productIds = { productId }; 
 			
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();				
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);				
 			GetProducts getProducts = new GetProducts(productIds); 
 			bc.executeMethod(getProducts);
 			List<Product> products = getProducts.getProducts();
@@ -77,7 +77,7 @@ public class ServiceProviderService extends HttpServlet {
 				return;
 			}	
 			
-			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();			
+			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);			
             request.setAttribute("baseUri", BugzillaInitializer.getBaseUri());
             request.setAttribute("bugzillaUri", BugzillaInitializer.getBugzillaUri());
 

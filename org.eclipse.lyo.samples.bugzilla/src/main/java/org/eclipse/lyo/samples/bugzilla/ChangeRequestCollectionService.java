@@ -74,7 +74,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 		}
     	
 		try {	
-			createChangeRequests(response, changeRequests);
+			createChangeRequests(request, response, changeRequests);
             response.setHeader("OSLC-Core-Version", "2.0");
             response.setStatus(HttpServletResponse.SC_CREATED);
 		} catch (Exception e) {
@@ -82,10 +82,10 @@ public class ChangeRequestCollectionService extends HttpServlet {
 		}
     }
 
-	private void createChangeRequests(HttpServletResponse response,
+	private void createChangeRequests(HttpServletRequest request, HttpServletResponse response,
 			Collection<BugzillaChangeRequest> changeRequests)
 			throws ConnectionException, BugzillaException, InvalidDescriptionException {
-		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 
 		for (BugzillaChangeRequest cr : changeRequests) {
 			ReportBug reportBug = new ReportBug(cr.toBug());
@@ -118,7 +118,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 		
 		Product product = null;
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			
 			String pageString = request.getParameter("page");
 			if (null != pageString) {
@@ -151,7 +151,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 				return;
 			}					
 
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			ExtendedBugSearch bugSearch = new ExtendedBugSearch(
 					ExtendedBugSearch.ExtendedSearchLimiter.PRODUCT,
 					product.getName());

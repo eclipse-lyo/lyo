@@ -74,7 +74,7 @@ public class ChangeRequestSelectorService extends HttpServlet {
 		int productId, String terms, HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException {
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			ExtendedBugSearch bugSearch = new ExtendedBugSearch(BugSearch.SearchLimiter.SUMMARY, terms);
 			bc.executeMethod(bugSearch);
 			List<Bug> results = bugSearch.getSearchResults();
