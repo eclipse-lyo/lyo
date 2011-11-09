@@ -40,13 +40,12 @@ import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedGetBug;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 import org.eclipse.lyo.samples.bugzilla.resources.Person;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
+import org.eclipse.lyo.samples.bugzilla.utils.RdfUtils;
 
-import thewebsemantic.Bean2RDF;
 import thewebsemantic.RDF2Bean;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 
 /**
@@ -114,13 +113,13 @@ public class ChangeRequestService extends HttpServlet {
 			} else if (AcceptType.willAccept("application/rdf+xml", request)) {	
 		        response.setHeader("OSLC-Core-Version", "2.0");
 		        response.setHeader("Content-Type", "application/rdf+xml");
-				sendRdfResponse(response, bug, "RDF/XML");
+				RdfUtils.sendRdfResponse(response, bug, RdfUtils.JENA_LANG_ABBREVIATED_RDF_XML);
 				return;
 				
 			} else if (AcceptType.willAccept("text/turtle", request)) {
 		        response.setHeader("OSLC-Core-Version", "2.0");
 		        response.setHeader("Content-Type", "text/turtle");
-				sendRdfResponse(response, bug, "TURTLE");
+				RdfUtils.sendRdfResponse(response, bug, RdfUtils.JENA_LANG_TURTLE);
 				return;
 				
 			} else {
@@ -142,29 +141,6 @@ public class ChangeRequestService extends HttpServlet {
 		}
 	}
 
-	private void sendRdfResponse(HttpServletResponse response, Bug bug,
-			String lang) throws URISyntaxException, IOException {
-		Model m = ModelFactory.createDefaultModel();
-		m.setNsPrefixes(PREFIXES);
-		Bean2RDF writer = new Bean2RDF(m);
-		writer.save(BugzillaChangeRequest.fromBug(bug));
-		removeUnnecessaryStatements(m);
-		m.write(response.getOutputStream(), lang);
-		response.flushBuffer();
-	}
-
-	/**
-	 * Remove some extra stuff Jenabean puts in the model that we don't want.
-	 * 
-	 * @param model
-	 *            the model
-	 */
-	private void removeUnnecessaryStatements(Model model) {
-		model.removeAll(model.createResource("http://thewebsemantic.com/javaclass"), null, null);
-		model.removeAll(null, model.createProperty("http://thewebsemantic.com/javaclass"), null);
-		model.removeAll(null, RDF.type, model.createResource("http://www.w3.org/2000/01/rdf-schema#Class"));
-	}
-	
 	protected void doPut(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.err.println("CR.doPUT - Accept: " + request.getHeader("Accept")
