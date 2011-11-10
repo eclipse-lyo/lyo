@@ -29,9 +29,9 @@ import thewebsemantic.RdfType;
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
-@Namespace("http://www.w3.org/2000/01/rdf-schema#")
-@RdfType("Description")
-public class QueryResult {
+@Namespace("http://www.bugzilla.org/rdf#")
+@RdfType("QueryResponse")
+public class QueryResponse {
 	@Id
 	private URI uri;
 	
