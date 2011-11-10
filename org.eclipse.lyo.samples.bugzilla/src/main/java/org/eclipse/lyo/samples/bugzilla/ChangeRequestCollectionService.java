@@ -41,7 +41,7 @@ import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 import org.eclipse.lyo.samples.bugzilla.resources.Person;
-import org.eclipse.lyo.samples.bugzilla.resources.QueryResponse;
+import org.eclipse.lyo.samples.bugzilla.resources.QueryResult;
 import org.eclipse.lyo.samples.bugzilla.resources.ResponseInfo;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
 import org.eclipse.lyo.samples.bugzilla.utils.RdfUtils;
@@ -199,14 +199,10 @@ public class ChangeRequestCollectionService extends HttpServlet {
 				responseInfo.setNextPage(new URI(URLStrategy
 						.getChangeRequestCollectionURL(product.getId())
 						+ "&oslc.paging=true&page=" + (page + 1)));
-				responseInfo.setUri(new URI(request.getRequestURL().append('?')
-						.append(request.getQueryString()).toString()));
+				responseInfo.setUri(new URI(request.getRequestURL().append(request.getQueryString()).toString()));
 
-				QueryResponse queryResult = new QueryResponse();
-				// This must match the query capability base.
-				queryResult.setUri(new URI(request.getRequestURL()
-						.append("?productId=").append(product.getId())
-						.toString()));
+				QueryResult queryResult = new QueryResult();
+				queryResult.setUri(new URI(request.getRequestURL().toString()));
 				for (Bug bug : results) {
 					BugzillaChangeRequest changeRequest = BugzillaChangeRequest.fromBug(bug);
 					queryResult.getMembers().add(changeRequest);
