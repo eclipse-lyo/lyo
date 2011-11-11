@@ -34,6 +34,7 @@ import jbugz.exceptions.ConnectionException;
 import jbugz.exceptions.InvalidDescriptionException;
 import jbugz.rpc.ReportBug;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
@@ -42,6 +43,7 @@ import org.eclipse.lyo.samples.bugzilla.resources.Person;
 import org.eclipse.lyo.samples.bugzilla.resources.QueryResponse;
 import org.eclipse.lyo.samples.bugzilla.resources.ResponseInfo;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.RdfUtils;
 
 import thewebsemantic.Bean2RDF;
@@ -56,7 +58,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  */
 public class ChangeRequestCollectionService extends HttpServlet {    	
 	private static final long serialVersionUID = -5280734755943517104L; 
-
+	
     public ChangeRequestCollectionService() {}
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    	
@@ -83,15 +85,20 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			createChangeRequests(request, response, changeRequests);
             response.setHeader("OSLC-Core-Version", "2.0");
             response.setStatus(HttpServletResponse.SC_CREATED);
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
     }
 
-	private void createChangeRequests(HttpServletRequest request, HttpServletResponse response,
+	private void createChangeRequests(HttpServletRequest request,
+			HttpServletResponse response,
 			Collection<BugzillaChangeRequest> changeRequests)
-			throws ConnectionException, BugzillaException, InvalidDescriptionException {
-		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
+			throws ConnectionException, BugzillaException,
+			InvalidDescriptionException, UnauthroziedException {
+		BugzillaConnector bc = BugzillaInitializer
+				.getBugzillaConnector(request);
 
 		for (BugzillaChangeRequest cr : changeRequests) {
 			ReportBug reportBug = new ReportBug(cr.toBug());
@@ -139,6 +146,9 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			List<Product> products = getProducts.getProducts();
 			product = products.get(0);
 			
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
+			return;
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
@@ -196,9 +206,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 
 				QueryResponse queryResult = new QueryResponse();
 				// This must match the query capability base.
-				queryResult.setUri(new URI(request.getRequestURL()
-						.append("?productId=").append(product.getId())
-						.toString()));
+				queryResult.setUri(new URI(URLStrategy.getChangeRequestCollectionURL(product.getId())));
 				for (Bug bug : results) {
 					BugzillaChangeRequest changeRequest = BugzillaChangeRequest.fromBug(bug);
 					queryResult.getMembers().add(changeRequest);
@@ -213,6 +221,8 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			} else {
 				response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 			}
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Throwable e) {
 			throw new ServletException(e);
 		}

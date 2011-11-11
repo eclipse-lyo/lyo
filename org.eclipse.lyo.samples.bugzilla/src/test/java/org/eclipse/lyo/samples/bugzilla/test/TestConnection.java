@@ -15,9 +15,11 @@
  *******************************************************************************/
 package org.eclipse.lyo.samples.bugzilla.test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import jbugz.base.Bug;
 import jbugz.base.BugzillaConnector;
@@ -25,6 +27,7 @@ import jbugz.rpc.ReportBug;
 import junit.framework.TestCase;
 
 import org.eclipse.lyo.samples.bugzilla.BugzillaInitializer;
+import org.eclipse.lyo.samples.bugzilla.Credentials;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
@@ -33,11 +36,31 @@ import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 
 
 public class TestConnection extends TestCase {
+
+	private static Credentials credentials;
 	
+    static {
+        Properties props = new Properties();
+        try {
+            props.load(BugzillaInitializer.class.getResourceAsStream("/bugz.properties"));
+            String username    = props.getProperty("username");
+            String password    = props.getProperty("password");
+            System.out.println("username: "     + username);
+            System.out.println("password: "     + password);
+            
+            credentials = new Credentials();
+            credentials.setUsername(username);
+            credentials.setPassword(password);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 	public void testConnection() {
 		
 		try {
-			BugzillaInitializer.getBugzillaConnector();
+			BugzillaInitializer.getBugzillaConnector(credentials);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -47,7 +70,7 @@ public class TestConnection extends TestCase {
 	public void testReportBug() {
 		
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			
 			Map<String, Object> bugState = new HashMap<String, Object>();
 			bugState.put("product", "FakePortal");
@@ -71,7 +94,7 @@ public class TestConnection extends TestCase {
 		
 		Integer[] productIds = null;
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			GetAccessibleProducts gap = new GetAccessibleProducts();
 			bc.executeMethod(gap);
 			productIds = gap.getIds();
@@ -83,7 +106,7 @@ public class TestConnection extends TestCase {
 		}
 		
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			GetProducts gps = new GetProducts(productIds);
 			bc.executeMethod(gps);
 			List<Product> products = gps.getProducts();
@@ -95,7 +118,7 @@ public class TestConnection extends TestCase {
 		}
 		
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			GetLegalValues glv = new GetLegalValues("op_sys", -1);
 			bc.executeMethod(glv);
 			String[] values = glv.getValues();
@@ -110,7 +133,7 @@ public class TestConnection extends TestCase {
 	public void testSearchBugs() {
 
 		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector();
+			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			
 			ExtendedBugSearch search = new ExtendedBugSearch(ExtendedBugSearch.ExtendedSearchLimiter.PRODUCT, "FakePortal");
 			bc.executeMethod(search);

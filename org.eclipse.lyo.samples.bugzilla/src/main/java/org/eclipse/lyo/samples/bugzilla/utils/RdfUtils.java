@@ -16,15 +16,10 @@
 package org.eclipse.lyo.samples.bugzilla.utils;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-
-import jbugz.base.Bug;
-
-import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 
 import thewebsemantic.Bean2RDF;
 
@@ -64,14 +59,21 @@ public class RdfUtils {
 		response.flushBuffer();
 	}
 
-	public static void sendRdfResponse(HttpServletResponse response, Bug bug,
-			String lang) throws URISyntaxException, IOException {
-		Model m = createModel();
-		Bean2RDF writer = new Bean2RDF(m);
-		writer.save(BugzillaChangeRequest.fromBug(bug));
-		writeModel(response, m, lang);
+	public static void sendErrorResponse(HttpServletResponse response,
+			org.eclipse.lyo.samples.bugzilla.resources.Error error, String lang)
+			throws IOException {
+		response.setStatus(error.getStatusCode());
+		sendRdfResponse(response, error, lang);
 	}
 
+	public static void sendRdfResponse(HttpServletResponse response,
+			Object resource, String lang) throws IOException {
+		Model m = createModel();
+		Bean2RDF writer = new Bean2RDF(m);
+		writer.save(resource);
+		writeModel(response, m, lang);
+	}
+	
 	/**
 	 * Remove some extra stuff Jenabean puts in the model that we don't want.
 	 * 

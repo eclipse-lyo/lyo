@@ -29,7 +29,9 @@ import jbugz.base.Bug;
 import jbugz.base.BugzillaConnector;
 import jbugz.rpc.BugSearch;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 
 
 /**
@@ -72,7 +74,7 @@ public class ChangeRequestSelectorService extends HttpServlet {
 	
 	private void sendFilteredBugsReponse(
 		int productId, String terms, HttpServletRequest request, HttpServletResponse response) 
-		throws ServletException {
+		throws ServletException, IOException {
 		try {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			ExtendedBugSearch bugSearch = new ExtendedBugSearch(BugSearch.SearchLimiter.SUMMARY, terms);
@@ -83,6 +85,8 @@ public class ChangeRequestSelectorService extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/cm/changerequest_filtered_json.jsp"); 
     		rd.forward(request, response);
 
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}								

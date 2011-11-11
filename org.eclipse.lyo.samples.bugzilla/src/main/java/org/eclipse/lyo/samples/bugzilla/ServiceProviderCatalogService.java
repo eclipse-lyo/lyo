@@ -27,10 +27,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import jbugz.base.BugzillaConnector;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 
 /**
  * OSLC CM Change Request Service
@@ -78,6 +80,8 @@ public class ServiceProviderCatalogService extends HttpServlet {
             rd.forward(request, response);
             response.flushBuffer();
 
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
         } catch (Throwable e) {
             throw new ServletException(e);
         }

@@ -28,11 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import jbugz.base.BugzillaConnector;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 
 
 /**
@@ -58,6 +60,9 @@ public class CreationShapeService extends HttpServlet {
 			List<Product> products = getProducts.getProducts();
 			request.setAttribute("product", products.get(0));
 			
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
+			return;
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
@@ -111,6 +116,8 @@ public class CreationShapeService extends HttpServlet {
 			rd.forward(request, response);
 			response.flushBuffer();
 
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Throwable e) {
 			throw new ServletException(e);
 		}

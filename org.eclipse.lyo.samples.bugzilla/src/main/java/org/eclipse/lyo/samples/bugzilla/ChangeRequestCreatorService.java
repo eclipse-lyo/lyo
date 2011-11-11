@@ -33,9 +33,11 @@ import jbugz.base.Bug;
 import jbugz.base.BugzillaConnector;
 import jbugz.rpc.ReportBug;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.StringUtils;
 
 
@@ -63,6 +65,9 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			product = products.get(0);
 			request.setAttribute("product", product);
 			
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
+			return;
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
@@ -97,6 +102,8 @@ public class ChangeRequestCreatorService extends HttpServlet {
 	        RequestDispatcher rd = request.getRequestDispatcher("/cm/changerequest_creator.jsp");
     		rd.forward(request, response);
 			
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -157,6 +164,8 @@ public class ChangeRequestCreatorService extends HttpServlet {
 					"\"resource\" : \"" + URLStrategy.getChangeRequestURL(reportBug.getID()) + "\"}");
 			out.close();
     		
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}

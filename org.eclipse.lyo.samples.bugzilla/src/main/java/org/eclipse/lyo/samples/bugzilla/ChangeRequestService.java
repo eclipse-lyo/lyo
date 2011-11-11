@@ -36,10 +36,12 @@ import jbugz.exceptions.ConnectionException;
 import jbugz.exceptions.InvalidDescriptionException;
 import jbugz.rpc.CommentBug;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedGetBug;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 import org.eclipse.lyo.samples.bugzilla.resources.Person;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.RdfUtils;
 
 import thewebsemantic.RDF2Bean;
@@ -91,6 +93,9 @@ public class ChangeRequestService extends HttpServlet {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;      
+		} catch (UnauthroziedException e) {
+			HttpUtils.sendUnauthorizedResponse(response, e);
+			return;
 		}
 		
 		try {
@@ -114,13 +119,15 @@ public class ChangeRequestService extends HttpServlet {
 					|| AcceptType.willAccept("application/xml", request)) {
 		        response.setHeader("OSLC-Core-Version", "2.0");
 		        response.setHeader("Content-Type", "application/rdf+xml");
-				RdfUtils.sendRdfResponse(response, bug, RdfUtils.JENA_LANG_ABBREVIATED_RDF_XML);
+				BugzillaChangeRequest changeRequest = BugzillaChangeRequest.fromBug(bug);
+				RdfUtils.sendRdfResponse(response, changeRequest, RdfUtils.JENA_LANG_ABBREVIATED_RDF_XML);
 				return;
 				
 			} else if (AcceptType.willAccept("text/turtle", request)) {
 		        response.setHeader("OSLC-Core-Version", "2.0");
 		        response.setHeader("Content-Type", "text/turtle");
-				RdfUtils.sendRdfResponse(response, bug, RdfUtils.JENA_LANG_TURTLE);
+				BugzillaChangeRequest changeRequest = BugzillaChangeRequest.fromBug(bug);
+				RdfUtils.sendRdfResponse(response, changeRequest, RdfUtils.JENA_LANG_TURTLE);
 				return;
 				
 			} else {
@@ -169,7 +176,7 @@ public class ChangeRequestService extends HttpServlet {
 	
 	private void updateBug(HttpServletRequest request, BugzillaChangeRequest cr)
 			throws ConnectionException, BugzillaException,
-			InvalidDescriptionException {
+			InvalidDescriptionException, UnauthroziedException {
 		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 		// No built in field to hold external links. Just add the new link as a comment for now.
 		String comment = getLinksComment(cr);

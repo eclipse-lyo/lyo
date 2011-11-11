@@ -27,30 +27,27 @@ import jbugz.exceptions.BugzillaException;
 import jbugz.exceptions.ConnectionException;
 import jbugz.rpc.LogIn;
 
+import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
+import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
+
 public class BugzillaInitializer {
 
     private static final String CONNECTOR_SESSION_ATTRIBUTE = "org.eclipse.lyo.samples.bugzilla.BugzillaConnector";
 	private static String baseUri = null;
     private static String bugzillaUri = null;
-    private static String username = null;
-    private static String password = null;
     private static boolean provideHtml = true;
-
+    
     static {
         Properties props = new Properties();
         try {
             props.load(BugzillaInitializer.class.getResourceAsStream("/bugz.properties"));
             baseUri     = props.getProperty("adapter_uri");
             bugzillaUri = props.getProperty("bugzilla_uri");
-            username    = props.getProperty("username");
-            password    = props.getProperty("password");
             if (props.getProperty("provideHtml") != null) {
                 provideHtml = Boolean.parseBoolean(props.getProperty("provideHtml"));
             }
             System.out.println("adapter_uri: "  + baseUri);
             System.out.println("bugzilla_uri: " + bugzillaUri);
-            System.out.println("username: "     + username);
-            System.out.println("password: "     + password);
             System.out.println("provideHtml: "  + provideHtml);
             
         } catch (IOException e) {
@@ -58,29 +55,38 @@ public class BugzillaInitializer {
         }
     }
 
-    public static BugzillaConnector getBugzillaConnector() throws ConnectionException, BugzillaException {
-        BugzillaConnector bc = new BugzillaConnector();
-        bc.connectTo(bugzillaUri + "/xmlrpc.cgi");
-        LogIn login = new LogIn(username, password);
-        bc.executeMethod(login);
-        return bc;
+	public static BugzillaConnector getBugzillaConnector(Credentials credentials)
+			throws ConnectionException, UnauthroziedException {
+		BugzillaConnector bc = new BugzillaConnector();
+		bc.connectTo(bugzillaUri + "/xmlrpc.cgi");
+		LogIn login = new LogIn(credentials.getUsername(), credentials.getPassword());
+		try {
+			bc.executeMethod(login);
+		} catch (BugzillaException e) {
+			throw new UnauthroziedException(e.getCause().getMessage());
+		}
+		return bc;
 	}
 
 	public static BugzillaConnector getBugzillaConnector(
 			HttpServletRequest request) throws ConnectionException,
-			BugzillaException {
+			UnauthroziedException {
 		HttpSession session = request.getSession();
 		BugzillaConnector connector = (BugzillaConnector) session
 				.getAttribute(CONNECTOR_SESSION_ATTRIBUTE);
 		if (connector == null) {
-			connector = getBugzillaConnector();
+			Credentials credentials = HttpUtils.getCredentials(request);
+			if (credentials == null) {
+				throw new UnauthroziedException();
+			}
+			connector = getBugzillaConnector(credentials);
 			session.setAttribute(CONNECTOR_SESSION_ATTRIBUTE, connector);
 		}
 		
 		return connector;
 	}
-    
-    public static String getBaseUri() {
+
+	public static String getBaseUri() {
         return baseUri;
     }
 
@@ -94,22 +100,6 @@ public class BugzillaInitializer {
 
     public static void setBugzillaUri(String bugzillaUri) {
         BugzillaInitializer.bugzillaUri = bugzillaUri;
-    }
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        BugzillaInitializer.username = username;
-    }
-
-    public static String getPassword() {
-        return password;
-    }
-
-    public static void setPassword(String password) {
-        BugzillaInitializer.password = password;
     }
 
     public static boolean isProvideHtml() {
