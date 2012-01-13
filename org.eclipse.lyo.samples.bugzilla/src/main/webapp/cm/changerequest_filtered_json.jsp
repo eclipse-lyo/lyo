@@ -16,7 +16,7 @@
 <%@ page contentType="application/json" language="java" %>
 <%@page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%@ page import="java.net.*,java.util.*" %> 
-<%@ page import="jbugz.base.Bug" %>
+<%@ page import="com.j2bugzilla.base.Bug" %>
 {
 <% 
 List<Bug> results = (List<Bug>)request.getAttribute("results");

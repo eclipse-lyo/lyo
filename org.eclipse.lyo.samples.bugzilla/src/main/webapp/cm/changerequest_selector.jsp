@@ -1,4 +1,3 @@
-<%@ page import="jbugz.base.BugzillaConnector" %>
 <%--
  Copyright (c) 2011 IBM Corporation.
 
