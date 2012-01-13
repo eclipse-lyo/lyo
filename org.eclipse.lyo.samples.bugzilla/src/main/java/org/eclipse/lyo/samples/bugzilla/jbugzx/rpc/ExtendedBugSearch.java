@@ -20,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import jbugz.base.Bug;
-import jbugz.exceptions.InvalidDescriptionException;
-import jbugz.rpc.BugSearch;
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.rpc.BugSearch;
 
 /**
  * Adds additional search limiters to those provided by j2bugzilla and fixes a
@@ -35,11 +32,6 @@ import jbugz.rpc.BugSearch;
  */
 public class ExtendedBugSearch extends BugSearch {
 	private Map<Object, Object> hash = new HashMap<Object, Object>();
-
-	/**
-	 * Private logging instance
-	 */
-	private static final Log LOG = LogFactory.getLog(ExtendedBugSearch.class);
 	
 	public enum ExtendedSearchLimiter {
 		/**
@@ -50,12 +42,7 @@ public class ExtendedBugSearch extends BugSearch {
 		/**
 		 * An offset into bugs returned by search.
 		 */
-		OFFSET("offset"),
-		
-		/**
-		 * The product affected by this bug.
-		 */
-		PRODUCT("product");
+		OFFSET("offset");
 
 		private final String name;
 
@@ -125,11 +112,7 @@ public class ExtendedBugSearch extends BugSearch {
 				// Work around a bug in j2bugzilla where version isn't correctly recognized.
 				Map<?, ?> internals = (Map<?, ?>) bugMap.get("internals");
 				bugMap.put("version", internals.get("version"));
-				try {
-					results.add(new Bug(bugMap));
-				} catch (InvalidDescriptionException e) {
-					LOG.debug("A bug retrieved via search was invalid", e);
-				}
+				results.add(new BugFactory().createBug(bugMap));
 			}
 		}
 		return results;

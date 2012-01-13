@@ -19,9 +19,7 @@ package org.eclipse.lyo.samples.bugzilla;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,16 +27,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jbugz.base.Bug;
-import jbugz.base.BugzillaConnector;
-import jbugz.rpc.ReportBug;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.StringUtils;
+
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.rpc.ReportBug;
 
 
 /**
@@ -138,21 +137,27 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			String summary   = request.getParameter("summary"); 
 			String component = request.getParameter("component");
 			String version   = request.getParameter("version"); 
-			String op_sys    = request.getParameter("op_sys"); 
+			String operatingSystem = request.getParameter("op_sys"); 
 			String platform  = request.getParameter("platform");
 
-			Map<String, Object> bugState = new HashMap<String, Object>();
-
-			bugState.put("product",   products.get(0).getName());
-			bugState.put("component", component);
-			bugState.put("summary",   summary);
-			bugState.put("version",   version);
-			bugState.put("op_sys",    op_sys);
-			bugState.put("platform",  platform);
-
-			System.err.println("Bug="+bugState);
-
-			Bug bug = new  Bug(bugState);
+			BugFactory factory = new BugFactory().newBug().setProduct(products.get(0).getName());
+			if (summary != null) {
+				factory.setSummary(summary);
+			}
+			if (version != null) {
+				factory.setVersion(version);
+			}
+			if (component != null) {
+				factory.setComponent(component);
+			}
+			if (platform != null) {
+				factory.setPlatform(platform);
+			}
+			if (operatingSystem != null) {
+				factory.setOperatingSystem(operatingSystem);
+			}
+			
+			Bug bug = factory.createBug();
 			ReportBug reportBug = new ReportBug(bug);			
 			bc.executeMethod(reportBug);
 

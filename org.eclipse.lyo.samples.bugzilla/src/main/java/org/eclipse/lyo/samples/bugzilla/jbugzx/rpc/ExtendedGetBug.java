@@ -18,9 +18,9 @@ package org.eclipse.lyo.samples.bugzilla.jbugzx.rpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import jbugz.base.Bug;
-import jbugz.exceptions.InvalidDescriptionException;
-import jbugz.rpc.GetBug;
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.rpc.GetBug;
 
 /**
  * Allows users to retrieve a specific bug for which the ID is already known.
@@ -66,11 +66,7 @@ public class ExtendedGetBug extends GetBug {
 				// recognized.
 				Map<?, ?> internals = (Map<?, ?>) bugMap.get("internals");
 				bugMap.put("version", internals.get("version"));
-				try {
-					return new Bug(bugMap);
-				} catch (InvalidDescriptionException e) {
-					throw new RuntimeException(e);
-				}
+				return new BugFactory().createBug(bugMap);
 			}
 		}
 

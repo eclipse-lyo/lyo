@@ -26,8 +26,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jbugz.base.BugzillaConnector;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
@@ -35,6 +33,8 @@ import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
+
+import com.j2bugzilla.base.BugzillaConnector;
 
 
 /**

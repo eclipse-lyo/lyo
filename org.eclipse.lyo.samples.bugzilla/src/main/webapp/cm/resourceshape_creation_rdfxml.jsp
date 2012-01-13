@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="application/x-oslc-compact+xml" language="java"%>
 <%@ page import="java.util.List" %>
-<%@ page import="jbugz.base.Bug"%>
+<%@ page import="com.j2bugzilla.base.Bug" %>
 <%
 	String bugzillaUri = (String) request.getAttribute("bugzillaUri");
 	List<String> operatingSystems = (List<String>)request.getAttribute("operatingSystems");

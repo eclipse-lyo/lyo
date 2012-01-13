@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jbugz.base.BugzillaMethod;
-
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
+
+import com.j2bugzilla.base.BugzillaMethod;
 
 public class GetProducts implements BugzillaMethod {
 	

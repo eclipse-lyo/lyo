@@ -15,7 +15,7 @@
     IBM Corporation - initial API and implementation
 --%>
 <%@ page contentType="application/x-oslc-compact+xml" language="java" %>
-<%@ page import="jbugz.base.Bug" %>
+<%@ page import="com.j2bugzilla.base.Bug" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <% 
 Bug bug = (Bug)request.getAttribute("bug");

@@ -14,9 +14,10 @@
  
     IBM Corporation - initial API and implementation
 --%>
+<%@page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%@page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product"%>
 <%@ page contentType="text/html" language="java" %>
-<%@ page import="jbugz.base.*" %>
+<%@ page import="com.j2bugzilla.base.*" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.*" %>
 <%@ page import="java.util.List" %>
 <%
@@ -67,8 +68,8 @@
 				<h1>Query Results</h1>
 
                 <% for (Bug bug : bugs) { %>                
-                <p>Summary: <%= bug.getSummary() %><br /><a href="<%= bug.getInternalState().get("oslc_uri") %>">
-                	<%= bug.getInternalState().get("oslc_uri") %></a></p>
+                <p>Summary: <%= bug.getSummary() %><br /><a href="<%= URLStrategy.getChangeRequestURL(bug.getID()) %>">
+                	<%= URLStrategy.getChangeRequestURL(bug.getID()) %></a></p>
 			    <% } %>
             	<% if (nextPageUri != null) { %><a href="<%= nextPageUri %>">Next Page</a><% } %>
 

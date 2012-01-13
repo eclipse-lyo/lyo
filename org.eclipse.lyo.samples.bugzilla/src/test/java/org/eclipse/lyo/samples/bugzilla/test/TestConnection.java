@@ -16,14 +16,9 @@
 package org.eclipse.lyo.samples.bugzilla.test;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import jbugz.base.Bug;
-import jbugz.base.BugzillaConnector;
-import jbugz.rpc.ReportBug;
 import junit.framework.TestCase;
 
 import org.eclipse.lyo.samples.bugzilla.BugzillaInitializer;
@@ -33,6 +28,12 @@ import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
+
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.rpc.BugSearch;
+import com.j2bugzilla.rpc.ReportBug;
 
 
 public class TestConnection extends TestCase {
@@ -67,28 +68,25 @@ public class TestConnection extends TestCase {
 		}
 	}
 	
-	public void testReportBug() {
-		
-		try {
-			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
-			
-			Map<String, Object> bugState = new HashMap<String, Object>();
-			bugState.put("product", "FakePortal");
-			bugState.put("component", "Datastore");
-			bugState.put("summary", "New Bug: " + System.currentTimeMillis());
-			bugState.put("version", "1.0");
-			bugState.put("op_sys", "Mac OS");
-			bugState.put("platform", "Macintosh");
-			Bug bug = new  Bug(bugState);
-			ReportBug reportBug = new ReportBug(bug);
-			
-			bc.executeMethod(reportBug);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
-	}
+//	public void testReportBug() {
+//		
+//		try {
+//			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
+//			
+//			BugFactory factory = new BugFactory();
+//			Bug bug = factory.newBug().setProduct("FakePortal")
+//					.setComponent("Datastore")
+//					.setSummary("New Bug: " + System.currentTimeMillis())
+//					.setVersion("1.0").setOperatingSystem("Mac OS")
+//					.setPlatform("Macintosh").createBug();
+//			ReportBug reportBug = new ReportBug(bug);			
+//			bc.executeMethod(reportBug);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			fail();
+//		}
+//	}
 	
 	public void testGetLegalValues() {
 		
@@ -135,7 +133,7 @@ public class TestConnection extends TestCase {
 		try {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			
-			ExtendedBugSearch search = new ExtendedBugSearch(ExtendedBugSearch.ExtendedSearchLimiter.PRODUCT, "FakePortal");
+			ExtendedBugSearch search = new ExtendedBugSearch(BugSearch.SearchLimiter.PRODUCT, "FakePortal");
 			bc.executeMethod(search);
 			
 			System.out.println("Search returned = " + search.getSearchResults().size());

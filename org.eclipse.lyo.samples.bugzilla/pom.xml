@@ -61,17 +61,18 @@
 		</dependency>
 
 		<!--
-			To install j2bugzilla in your local maven repository,
-		
-			svn checkout http://j2bugzilla.googlecode.com/svn/trunk/ j2bugzilla-read-only
-			cd j2bugzilla-read-only/JBugz
-			mvn install
-		
+			Download j2bugzilla 1.0 from Google Code.
+	
+				http://j2bugzilla.googlecode.com/files/j2bugzilla-1.0.jar
+	
+			Install j2bugzilla into your local repository with the command,
+	
+	 				mvn install:install-file -Dfile=j2bugzilla-1.0.jar -DgroupId=j2bugzilla -DartifactId=j2bugzilla -Dversion=1.0 -Dpackaging=jar
 		-->
 		<dependency>
 			<groupId>j2bugzilla</groupId>
 			<artifactId>j2bugzilla</artifactId>
-			<version>0.2</version>
+			<version>1.0</version>
 		</dependency>
 
 	</dependencies>

@@ -25,13 +25,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jbugz.base.Bug;
-import jbugz.base.BugzillaConnector;
-import jbugz.rpc.BugSearch;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
+
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.rpc.BugSearch;
 
 
 /**

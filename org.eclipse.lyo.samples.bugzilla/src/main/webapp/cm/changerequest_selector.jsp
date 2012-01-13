@@ -14,7 +14,7 @@
  
     IBM Corporation - initial API and implementation
 --%>
-<%@ page import="jbugz.rpc.*" %>
+<%@ page import="com.j2bugzilla.base.*" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 int productId= (Integer)request.getAttribute("productId");

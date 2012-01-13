@@ -22,13 +22,13 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import jbugz.base.BugzillaConnector;
-import jbugz.exceptions.BugzillaException;
-import jbugz.exceptions.ConnectionException;
-import jbugz.rpc.LogIn;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
+
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.BugzillaException;
+import com.j2bugzilla.base.ConnectionException;
+import com.j2bugzilla.rpc.LogIn;
 
 public class BugzillaInitializer {
 

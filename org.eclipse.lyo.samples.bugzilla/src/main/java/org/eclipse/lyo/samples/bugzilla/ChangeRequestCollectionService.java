@@ -27,13 +27,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jbugz.base.Bug;
-import jbugz.base.BugzillaConnector;
-import jbugz.exceptions.BugzillaException;
-import jbugz.exceptions.ConnectionException;
-import jbugz.exceptions.InvalidDescriptionException;
-import jbugz.rpc.ReportBug;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
@@ -51,6 +44,12 @@ import thewebsemantic.RDF2Bean;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.BugzillaException;
+import com.j2bugzilla.base.ConnectionException;
+import com.j2bugzilla.rpc.BugSearch;
+import com.j2bugzilla.rpc.ReportBug;
 
 
 /**
@@ -96,7 +95,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			HttpServletResponse response,
 			Collection<BugzillaChangeRequest> changeRequests)
 			throws ConnectionException, BugzillaException,
-			InvalidDescriptionException, UnauthroziedException {
+			UnauthroziedException {
 		BugzillaConnector bc = BugzillaInitializer
 				.getBugzillaConnector(request);
 
@@ -159,7 +158,7 @@ public class ChangeRequestCollectionService extends HttpServlet {
 
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			ExtendedBugSearch bugSearch = new ExtendedBugSearch(
-					ExtendedBugSearch.ExtendedSearchLimiter.PRODUCT,
+					BugSearch.SearchLimiter.PRODUCT,
 					product.getName());
 			
 			// request one extra to see if there's more
@@ -168,7 +167,6 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			bc.executeMethod(bugSearch);
 			List<Bug> results = bugSearch.getSearchResults();
 			
-            
             response.setHeader("OSLC-Core-Version", "2.0");
 			
 			if (AcceptType.willAccept("text/html", request) && BugzillaInitializer.isProvideHtml()) {
@@ -186,10 +184,6 @@ public class ChangeRequestCollectionService extends HttpServlet {
 	                    URLStrategy.getChangeRequestCollectionURL(product.getId()) 
 	                    + "&amp;oslc.paging=true&amp;page=" + (page + 1));
 	            }		
-
-	            for (Bug bug : results) {
-	            	bug.getInternalState().put("oslc_uri", URLStrategy.getChangeRequestURL(bug.getID()));
-	            }
 
 	            final RequestDispatcher rd = request.getRequestDispatcher("/cm/changerequest_collection_html.jsp");  
 				rd.forward(request, response);

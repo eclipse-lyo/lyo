@@ -18,7 +18,7 @@ package org.eclipse.lyo.samples.bugzilla.jbugzx.rpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import jbugz.base.BugzillaMethod;
+import com.j2bugzilla.base.BugzillaMethod;
 
 public class GetAccessibleProducts implements BugzillaMethod {
 	

@@ -29,13 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jbugz.base.Bug;
-import jbugz.base.BugzillaConnector;
-import jbugz.exceptions.BugzillaException;
-import jbugz.exceptions.ConnectionException;
-import jbugz.exceptions.InvalidDescriptionException;
-import jbugz.rpc.CommentBug;
-
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedGetBug;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
@@ -48,6 +41,11 @@ import thewebsemantic.RDF2Bean;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.BugzillaException;
+import com.j2bugzilla.base.ConnectionException;
+import com.j2bugzilla.rpc.CommentBug;
 
 
 /**
@@ -173,10 +171,10 @@ public class ChangeRequestService extends HttpServlet {
 			throw new ServletException(e);
 		}
 	}
-	
+
 	private void updateBug(HttpServletRequest request, BugzillaChangeRequest cr)
 			throws ConnectionException, BugzillaException,
-			InvalidDescriptionException, UnauthroziedException {
+			UnauthroziedException {
 		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 		// No built in field to hold external links. Just add the new link as a comment for now.
 		String comment = getLinksComment(cr);

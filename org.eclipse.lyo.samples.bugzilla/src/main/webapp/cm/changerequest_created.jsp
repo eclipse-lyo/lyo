@@ -15,7 +15,7 @@
     IBM Corporation - initial API and implementation
 --%>
 <%@ page import="java.net.*,java.util.*,java.text.SimpleDateFormat" %> 
-<%@ page import="jbugz.base.Bug" %>
+<%@ page import="com.j2bugzilla.base.Bug" %>
 <% 
 Bug    bug     = (Bug)request.getAttribute("bug");
 String bugUri  = (String)request.getAttribute("bugUri");

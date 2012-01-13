@@ -16,21 +16,21 @@
 <%@ page contentType="text/html" language="java" %>
 <%@ page import="java.net.*,java.util.*" %>
 <%@ page import="java.net.*,java.util.*,java.text.SimpleDateFormat" %>
-<%@ page import="jbugz.base.Bug" %>
+<%@ page import="com.j2bugzilla.base.Bug" %>
 <%
 Bug bug = (Bug)request.getAttribute("bug");
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
 String bugUri = (String)request.getAttribute("bugUri");
 
 String title = bug.getSummary();
-Date createdDate = (Date)bug.getInternalState().get("creation_time"); 
+Date createdDate = (Date)bug.getParameterMap().get("creation_time"); 
 SimpleDateFormat formatter = new SimpleDateFormat();
 String created = formatter.format(createdDate);
-Date modifiedDate = (Date)bug.getInternalState().get("last_change_time");
+Date modifiedDate = (Date)bug.getParameterMap().get("last_change_time");
 String modified = formatter.format(modifiedDate);
 String identifier = bug.getID()+""; 
 String description = "None";
-String assignee = (String)bug.getInternalState().get("assigned_to");
+String assignee = (String)bug.getParameterMap().get("assigned_to");
 %>
 <html>
 <head>

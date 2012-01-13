@@ -20,21 +20,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-
-import jbugz.base.Bug;
-import jbugz.base.Bug.Priority;
-import jbugz.base.Bug.Status;
-import jbugz.exceptions.BugzillaException;
-import jbugz.exceptions.ConnectionException;
-import jbugz.exceptions.InvalidDescriptionException;
 
 import org.eclipse.lyo.samples.bugzilla.URLStrategy;
 
 import thewebsemantic.Namespace;
 import thewebsemantic.RdfProperty;
 import thewebsemantic.RdfType;
+
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.Bug.Priority;
+import com.j2bugzilla.base.Bug.Status;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.base.BugzillaException;
+import com.j2bugzilla.base.ConnectionException;
 
 /**
  * An OSLC-CM ChangeRequest with some Bugzilla-specific properties.
@@ -78,9 +77,12 @@ public class BugzillaChangeRequest extends ChangeRequest {
 		BugzillaChangeRequest cr = new BugzillaChangeRequest();
 		cr.setIdentifier(bug.getID());
 		cr.setTitle(bug.getSummary());
-		cr.setStatus(bug.getStatus());
+		
+		// j2bugzilla does not handle all status values properly.
+		//cr.setStatus(bug.getStatus());
+		cr.setStatus((String) bug.getParameterMap().get("status"));
 
-		Object assignedTo = bug.getInternalState().get("assigned_to");
+		Object assignedTo = bug.getParameterMap().get("assigned_to");
 		if (assignedTo != null) {
 			Person contributor = new Person();
 			String email = assignedTo.toString();
@@ -89,12 +91,12 @@ public class BugzillaChangeRequest extends ChangeRequest {
 			cr.setContributor(contributor);
 		}
 		
-		Date createdDate = (Date) bug.getInternalState().get("creation_time");
+		Date createdDate = (Date) bug.getParameterMap().get("creation_time");
 		Calendar createdCal = Calendar.getInstance();
 		createdCal.setTime(createdDate);
 		cr.setCreated(createdCal);
 		
-		Date modifiedDate = (Date) bug.getInternalState().get("last_change_time");
+		Date modifiedDate = (Date) bug.getParameterMap().get("last_change_time");
 		Calendar modifiedCal = Calendar.getInstance();
 		modifiedCal.setTime(modifiedDate);
 		cr.setModified(modifiedCal);
@@ -103,7 +105,7 @@ public class BugzillaChangeRequest extends ChangeRequest {
 		cr.setComponent(bug.getComponent());
 		
 		// Work around a bug in j2bugzilla. Bug.getVersion() results in a class cast exception.
-		Object version = bug.getInternalState().get("version");
+		Object version = bug.getParameterMap().get("version");
 		if (version != null) {
 			cr.setVersion(version.toString());
 		}
@@ -114,7 +116,7 @@ public class BugzillaChangeRequest extends ChangeRequest {
 			// Do nothing, priority is not set.
 		}
 		
-		Map<?, ?> internals = (Map<?, ?>) bug.getInternalState().get("internals");
+		Map<?, ?> internals = (Map<?, ?>) bug.getParameterMap().get("internals");
 		cr.setPlatform((String) internals.get("rep_platform"));
 		cr.setOperatingSystem((String) internals.get("op_sys"));
 		
@@ -131,45 +133,31 @@ public class BugzillaChangeRequest extends ChangeRequest {
 	 * @throws InvalidDescriptionException 
 	 * @throws URISyntaxException on errors setting the bug URI
 	 */
-	public Bug toBug() throws ConnectionException, BugzillaException, InvalidDescriptionException {
-		Map<String, Object> bugState = new HashMap<String, Object>();
-		fillInBugState(bugState);
-
-		return new Bug(bugState);
-	}
-
-	/**
-	 * Updates {@link Bug} state from an OSLC-CM ChangeRequest.
-	 * 
-	 * @param bug the bug
-	 * @return the ChangeRequest to be serialized
-	 * @throws BugzillaException 
-	 * @throws ConnectionException 
-	 * @throws URISyntaxException on errors setting the bug URI
-	 */
-	public void toBug(Bug bug) throws ConnectionException, BugzillaException {
-		fillInBugState(bug.getInternalState());
-	}
-
-	private void fillInBugState(Map<String, Object> bugState) {
-		if (identifier != null)
-			bugState.put("id", new Integer(identifier));
-		if (product != null)
-			bugState.put("product", product);
-		if (title != null)
-			bugState.put("summary", title);
-		if (description != null)
-			bugState.put("description", description);
-		if (version != null)
-			bugState.put("version", version);
-		if (component != null)
-			bugState.put("component", component);
-		if (platform != null)
-			bugState.put("platform", platform);
-		if (operatingSystem != null)
-			bugState.put("op_sys", operatingSystem);
-		if (status != null)
-			bugState.put("status", status);
+	public Bug toBug() throws ConnectionException, BugzillaException {
+		BugFactory factory = new BugFactory().newBug();
+		if (product != null) {
+			factory.setProduct(product);
+		}
+		if (title != null) {
+			factory.setSummary(title);
+		}
+		if (description != null) {
+			factory.setDescription(description);
+		}
+		if (version != null) {
+			factory.setVersion(version);
+		}
+		if (component != null) {
+			factory.setComponent(component);
+		}
+		if (platform != null) {
+			factory.setPlatform(platform);
+		}
+		if (operatingSystem != null) {
+			factory.setOperatingSystem(operatingSystem);
+		}
+		
+		return factory.createBug();
 	}
 	
 	public void setIdentifier(int identifier) throws URISyntaxException {
