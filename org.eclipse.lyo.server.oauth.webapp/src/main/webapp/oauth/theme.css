@@ -1,0 +1,24 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 9pt;
+}
+
+label {
+	color: #666666;
+	text-align: right;
+}
+
+.message {
+	font-size: 120t;
+}
+
+.textField {
+	width: 400px;
+	margin-bottom: 1em;
+}
+
+.error {
+	color: red;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

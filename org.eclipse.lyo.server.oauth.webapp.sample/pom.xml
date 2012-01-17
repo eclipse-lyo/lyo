@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.lyo.server</groupId>
+	<artifactId>oauth.sample</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Eclipse Lyo OAuth Provider Sample</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.lyo.server</groupId>
+			<artifactId>oauth.provider</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.lyo.server</groupId>
+			<artifactId>oauth.core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wink</groupId>
+			<artifactId>wink-server</artifactId>
+			<version>1.1.3-incubating</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-servlet_2.5_spec</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>oauth-webapp-sample</finalName>
+
+		<outputDirectory>target/classes</outputDirectory>
+		
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.3.0.v20110203</version>
+
+				<configuration>
+					<webAppConfig>
+						<contextPath>/sample</contextPath>
+					</webAppConfig>
+
+					<!-- Jetty config adds logging -->
+					<jettyConfig>${project.build.directory}/classes/jetty.xml</jettyConfig>
+
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+
+					<systemProperties>
+						<systemProperty>
+							<name>config.dir</name>
+							<value>${basedir}/src/test/resources</value>
+						</systemProperty>
+
+						<systemProperty>
+							<name>jetty.logs</name>
+							<value>${basedir}/target</value>
+						</systemProperty>
+
+						<systemProperty>
+							<name>jetty.port</name>
+							<value>8080</value>
+						</systemProperty>
+					</systemProperties>
+
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>
