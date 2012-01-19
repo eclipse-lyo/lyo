@@ -57,7 +57,7 @@ public class OAuthRequest {
 	private HttpServletRequest httpRequest;
 	private OAuthMessage message;
 	private OAuthAccessor accessor;
-
+	
 	public OAuthRequest(HttpServletRequest request)
 			throws OAuthProblemException, IOException {
 		this.httpRequest = request;
@@ -79,7 +79,7 @@ public class OAuthRequest {
 					.getTokenStrategy().getTokenSecret(this.httpRequest, token);
 		}
 	}
-
+	
 	public HttpServletRequest getHttpRequest() {
 		return httpRequest;
 	}

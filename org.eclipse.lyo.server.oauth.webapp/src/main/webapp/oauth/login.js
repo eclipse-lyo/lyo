@@ -51,7 +51,8 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/_base/event",
 	}
 
 	function cancel() {
-		alert('canceled!');
+		dom.byId('content').innerHTML =
+			'<div class="message">Access denied. Close the browser window to continue.</div>';
 	}
 
 	ready(function() {

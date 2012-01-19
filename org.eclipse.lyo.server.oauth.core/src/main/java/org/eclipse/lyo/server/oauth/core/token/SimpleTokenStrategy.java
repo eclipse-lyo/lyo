@@ -26,6 +26,7 @@ import org.eclipse.lyo.server.oauth.core.OAuthRequest;
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
+import net.oauth.OAuthMessage;
 import net.oauth.OAuthProblemException;
 
 /**
@@ -39,9 +40,31 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	private final static int REQUEST_TOKEN_MAX_ENTIRES = 500;
 	private final static int ACCESS_TOKEN_MAX_ENTRIES = 5000;
 	
-	// key is request token, value is boolean indicating if the token is
-	// authorized
-	private Map<String, Boolean> requestTokens;
+	protected class RequestTokenData {
+		private String consumerKey;
+		private boolean authorized;
+		
+		public RequestTokenData(String consumerKey) {
+			this.consumerKey = consumerKey;
+			this.authorized = false;
+		}
+		
+		public String getConsumerKey() {
+			return consumerKey;
+		}
+		public void setConsumerKey(String consumerKey) {
+			this.consumerKey = consumerKey;
+		}
+		public boolean isAuthorized() {
+			return authorized;
+		}
+		public void setAuthorized(boolean authorized) {
+			this.authorized = authorized;
+		}
+	}
+	
+	// key is request token string, value is RequestTokenData
+	private Map<String, RequestTokenData> requestTokens;
 
 	// key is access token, value is consumer key
 	private Map<String, String> accessTokens;
@@ -54,7 +77,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	}
 
 	public SimpleTokenStrategy(int requestTokenMaxCount, int accessTokenMaxCount) {
-		requestTokens = new LRUCache<String, Boolean>(requestTokenMaxCount);
+		requestTokens = new LRUCache<String, RequestTokenData>(requestTokenMaxCount);
 		accessTokens = new LRUCache<String, String>(accessTokenMaxCount);
 		tokenSecrets = new LRUCache<String, String>(requestTokenMaxCount
 				+ accessTokenMaxCount);
@@ -66,7 +89,8 @@ public class SimpleTokenStrategy implements TokenStrategy {
 		accessor.requestToken = generateTokenString();
 		accessor.tokenSecret = generateTokenString();
 		synchronized (requestTokens) {
-			requestTokens.put(accessor.requestToken, Boolean.FALSE); // not yet authorized
+			requestTokens.put(accessor.requestToken, new RequestTokenData(
+					accessor.consumer.consumerKey));
 		}
 		synchronized (tokenSecrets) {
 			tokenSecrets.put(accessor.requestToken, accessor.tokenSecret);
@@ -74,20 +98,27 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	}
 
 	@Override
-	public String validateRequestToken(OAuthRequest oAuthRequest) throws OAuthException, IOException {
-		String requestToken = oAuthRequest.getMessage().getToken();
-		if (!requestTokens.containsKey(requestToken)) {
-			throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
+	public String validateRequestToken(HttpServletRequest httpRequest,
+			OAuthMessage message) throws OAuthException, IOException {
+		synchronized (requestTokens) {
+			RequestTokenData tokenData = requestTokens.get(message.getToken());
+			if (tokenData == null) {
+				throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
+			}
+
+			return tokenData.getConsumerKey();
 		}
-		
-		return requestToken;
 	}
 
 	@Override
 	public void markRequestTokenAuthorized(HttpServletRequest httpRequest,
-			String requestToken) {
+			String requestToken) throws OAuthProblemException {
 		synchronized (requestTokens) {
-			requestTokens.put(requestToken, Boolean.TRUE);
+			RequestTokenData tokenData = requestTokens.get(requestToken);
+			if (tokenData == null) {
+				throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
+			}
+			tokenData.setAuthorized(true);
 		}
 	}
 
@@ -95,12 +126,12 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	public boolean isRequestTokenAuthorized(HttpServletRequest httpRequest,
 			String requestToken) {
 		synchronized (requestTokens) {
-			Boolean authorized = requestTokens.get(requestToken);
-			if (authorized == null) {
+			RequestTokenData tokenData = requestTokens.get(requestToken);
+			if (tokenData == null) {
 				return false;
 			}
 
-			return authorized.booleanValue();
+			return tokenData.isAuthorized();
 		}
 	}
 

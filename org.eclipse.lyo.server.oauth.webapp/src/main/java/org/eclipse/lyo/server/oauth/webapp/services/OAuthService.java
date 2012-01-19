@@ -30,10 +30,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
+import net.oauth.OAuthMessage;
+import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
 
@@ -41,6 +44,8 @@ import org.eclipse.lyo.server.oauth.core.Authentication;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
+import org.eclipse.lyo.server.oauth.core.consumer.ConsumerRegistry;
+import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
 
 /**
@@ -103,18 +108,25 @@ public class OAuthService {
 	@Path("/authorize")
 	public Response authorize() throws ServletException, IOException {
 		try {
-			// Check that the request is valid.
-			OAuthRequest oAuthRequest = validateRequest();
-			OAuthConfiguration config = OAuthConfiguration.getInstance();			
-			String requestToken = config.getTokenStrategy()
-					.validateRequestToken(oAuthRequest);
+			/*
+			 * Check that the request token is valid and determine what consumer
+			 * it's for. The OAuth spec does not require that consumers pass the
+			 * consumer key to the authorization page, so we must track this in
+			 * the TokenStrategy implementation.
+			 */
+			OAuthMessage message = OAuthServlet.getMessage(httpRequest, null);
+			OAuthConfiguration config = OAuthConfiguration.getInstance();
+			String consumerKey = config.getTokenStrategy()
+					.validateRequestToken(httpRequest, message);
 			
+			LyoOAuthConsumer consumer = ConsumerRegistry.getInstance()
+					.getConsumer(consumerKey);
+
 			// Pass some data to the JSP.
-			httpRequest.setAttribute("requestToken", requestToken);
-			httpRequest.setAttribute("consumerName", oAuthRequest.getConsumer()
-					.getName());
+			httpRequest.setAttribute("requestToken", message.getToken());
+			httpRequest.setAttribute("consumerName", consumer.getName());
 			httpRequest.setAttribute("callback",
-					oAuthRequest.getConsumer().callbackURL);
+					getCallbackURL(message, consumer));
 
 			Authentication auth = config.getAuthentication();
 			if (auth == null) {
@@ -135,6 +147,23 @@ public class OAuthService {
 		} catch (OAuthException e) {
 			return respondWithOAuthProblem(e);
 		}
+	}
+
+	private String getCallbackURL(OAuthMessage message,
+			LyoOAuthConsumer consumer) throws IOException {
+		// Find the callback URL.
+		String callback = message.getParameter(OAuth.OAUTH_CALLBACK);
+		if (callback == null) {
+			callback = consumer.callbackURL;
+		}
+
+		if (callback == null) {
+			return null;
+		}
+
+		return UriBuilder.fromUri(callback)
+				.queryParam(OAuth.OAUTH_TOKEN, message.getToken()).build()
+				.toString();
 	}
 
 	/**
@@ -162,8 +191,15 @@ public class OAuthService {
 					.type(MediaType.TEXT_PLAIN).build();
 		}
 
-		OAuthConfiguration.getInstance().getTokenStrategy()
-				.markRequestTokenAuthorized(httpRequest, requestToken);
+		try {
+			OAuthConfiguration.getInstance().getTokenStrategy()
+					.markRequestTokenAuthorized(httpRequest, requestToken);
+		} catch (OAuthProblemException e) {
+			return Response.status(Status.CONFLICT)
+					.entity("Request token invalid.")
+					.type(MediaType.TEXT_PLAIN).build();
+		}
+		
 		return Response.noContent().build();
 	}
 
@@ -182,13 +218,17 @@ public class OAuthService {
 	public Response getAccessToken() throws IOException, ServletException {
 		try {
 
+			// Validate the request is signed and check that the request token is valid.
 			OAuthRequest oAuthRequest = validateRequest();
-
 			TokenStrategy strategy = OAuthConfiguration.getInstance()
 					.getTokenStrategy();
-			strategy.validateRequestToken(oAuthRequest);
+			strategy.validateRequestToken(httpRequest,
+					oAuthRequest.getMessage());
+			
+			// Generate a new access token for this accessor.
 			strategy.generateAccessToken(oAuthRequest);
-
+			
+			// Send the new token and secret back to the consumer.
 			OAuthAccessor accessor = oAuthRequest.getAccessor();
 			return respondWithToken(accessor.accessToken, accessor.tokenSecret);
 

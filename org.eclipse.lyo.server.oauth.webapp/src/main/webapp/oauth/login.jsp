@@ -21,10 +21,14 @@
 
 <body>
 	<div id="content">
+		<%-- Creative Commons Image: http://openclipart.org/detail/211/shiny-key-by-tiothy --%>
+		<img src="<%=request.getContextPath()%>/oauth/key.png" style="float: right;">
+		<h1>Connect to <c:out value="${applicationName}">Your Application</c:out></h1>
+	
 		<form id="loginForm">
 		
-			<div class="message">Another application, <c:out value="${consumerName}">[Unknwon]</c:out>,
-			is requesting access to your <c:out value="${applicationName}">application</c:out> data. Enter your
+			<div class="message"><b><c:out value="${consumerName}">Another application</c:out></b>
+			is requesting access to your <b><c:out value="${applicationName}">application</c:out></b> data. Enter your
 			username and password to continue or click cancel to exit.</div>
 			
 			<div id="error" class="error" style="display: hidden;"></div>
