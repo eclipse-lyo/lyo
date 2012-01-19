@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <%--
- Copyright (c) 2011 IBM Corporation.
+ Copyright (c) 2011, 2012 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -14,7 +14,8 @@
  
     IBM Corporation - initial API and implementation
 --%>
-<%@ page contentType="application/rdf+xml" language="java"%>
+<%@ page contentType="application/rdf+xml" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%
 String baseUri = (String) request.getAttribute("baseUri");
 %>
@@ -29,10 +30,11 @@ String baseUri = (String) request.getAttribute("baseUri");
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
 	<dcterms:title>OSLC-CM Adapter/Bugzilla Jazz Root Services</dcterms:title>
-	<oslc_cm:cmServiceProviders rdf:resource="<%= baseUri + "/catalog" %>" />	
-	<jfs:oauthAccessTokenUrl rdf:resource="<%= baseUri + "/access_token" %>" />
+	<oslc_cm:cmServiceProviders rdf:resource="<%= baseUri + "/catalog" %>" />
 	<jfs:oauthRealmName>Bugzilla</jfs:oauthRealmName>
 	<jfs:oauthDomain><%= baseUri %></jfs:oauthDomain>
-	<jfs:oauthUserAuthorizationUrl rdf:resource="<%= baseUri + "/authorize" %>" />
-	<jfs:oauthRequestConsumerKeyUrl rdf:resource="<%= baseUri + "/consumer_key" %>" />	
+	<jfs:oauthRequestConsumerKeyUrl rdf:resource="<%= baseUri + "/consumer_key" %>" />
+	<jfs:oauthRequestTokenUrl rdf:resource="<%= baseUri + "/services/oauth/requestToken" %>"/>
+	<jfs:oauthUserAuthorizationUrl rdf:resource="<%= baseUri + "/services/oauth/authorize" %>" />
+	<jfs:oauthAccessTokenUrl rdf:resource="<%= baseUri + "/services/oauth/accessToken" %>"/>	
 </rdf:Description>

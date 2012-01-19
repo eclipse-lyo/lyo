@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -18,15 +18,20 @@ package org.eclipse.lyo.samples.bugzilla.utils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.oauth.server.OAuthServlet;
 
 import org.apache.ws.commons.util.Base64;
 import org.apache.ws.commons.util.Base64.DecodingException;
 import org.eclipse.lyo.samples.bugzilla.Credentials;
+import org.eclipse.lyo.samples.bugzilla.exception.BugzillaOAuthException;
 import org.eclipse.lyo.samples.bugzilla.exception.RestException;
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.resources.Error;
+import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 
 /**
  * Utilities for working with HTTP requests and responses.
@@ -38,9 +43,12 @@ public class HttpUtils {
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	public static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
 	private static final String BASIC_AUTHORIZATION_PREFIX = "Basic ";
-	private static final String WWW_AUTHENTICATE_HEADER_VALUE = BASIC_AUTHORIZATION_PREFIX
+	private static final String BASIC_AUTHENTICATION_CHALLENGE = BASIC_AUTHORIZATION_PREFIX
 			+ "realm=\"Bugzilla\"";
-
+	private static final String OAUTH_AUTHORIZATION_PREFIX = "OAuth ";
+	private static final String OAUTH_AUTHENTICATION_CHALLENGE = OAUTH_AUTHORIZATION_PREFIX
+			+ "realm=\"Bugzilla\"";
+	
 	/**
 	 * Gets the credentials from an HTTP request.
 	 * 
@@ -85,10 +93,18 @@ public class HttpUtils {
 	}
 
 	public static void sendUnauthorizedResponse(HttpServletResponse response,
-			UnauthroziedException e) throws IOException {
-		response.setHeader(WWW_AUTHENTICATE_HEADER,
-				WWW_AUTHENTICATE_HEADER_VALUE);
-		sendErrorResponse(response, e);
+			UnauthroziedException e) throws IOException, ServletException {
+		if (e instanceof BugzillaOAuthException) {
+			OAuthServlet.handleException(response, e, OAuthConfiguration
+					.getInstance().getRealm());
+		} else {
+			// Accept basic access or OAuth authentication.
+			response.addHeader(WWW_AUTHENTICATE_HEADER,
+					OAUTH_AUTHENTICATION_CHALLENGE);
+			response.addHeader(WWW_AUTHENTICATE_HEADER,
+					BASIC_AUTHENTICATION_CHALLENGE);
+			sendErrorResponse(response, e);
+		}
 	}
 
 	private static void sendErrorResponse(HttpServletResponse response,

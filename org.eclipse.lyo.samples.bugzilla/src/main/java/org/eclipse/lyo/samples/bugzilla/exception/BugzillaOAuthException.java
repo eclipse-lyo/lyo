@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -15,24 +15,15 @@
  *******************************************************************************/
 package org.eclipse.lyo.samples.bugzilla.exception;
 
-import javax.servlet.http.HttpServletResponse;
+import net.oauth.OAuthException;
 
 /**
- * Corresponds to an HTTP 401 response.
+ * A special unauthorized exception indicating an OAuth problem.
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
-public class UnauthroziedException extends RestException {
-	public UnauthroziedException() {
-		super(HttpServletResponse.SC_UNAUTHORIZED,
-				"You must authenticate with Bugzilla for this request.");
-	}
-	
-	public UnauthroziedException(String message) {
-		super(HttpServletResponse.SC_UNAUTHORIZED, message);
-	}
-	
-	public UnauthroziedException(Throwable t) {
-		super(t, HttpServletResponse.SC_UNAUTHORIZED);
+public class BugzillaOAuthException extends UnauthroziedException {
+	public BugzillaOAuthException(OAuthException e) {
+		super(e);
 	}
 }

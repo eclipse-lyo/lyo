@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -174,7 +174,7 @@ public class ChangeRequestService extends HttpServlet {
 
 	private void updateBug(HttpServletRequest request, BugzillaChangeRequest cr)
 			throws ConnectionException, BugzillaException,
-			UnauthroziedException {
+			UnauthroziedException, IOException, ServletException {
 		BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 		// No built in field to hold external links. Just add the new link as a comment for now.
 		String comment = getLinksComment(cr);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,8 @@
  *******************************************************************************/
 package org.eclipse.lyo.samples.bugzilla.exception;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Holds a status code and error message for an error response.
  * 
@@ -29,6 +31,16 @@ public class RestException extends Exception {
 		this.message = message;
 	}
 	
+	public RestException(Throwable t) {
+		this(t, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	}
+	
+	public RestException(Throwable t, int statusCode) {
+		super(t);
+		this.message = t.getMessage();
+		this.statusCode = statusCode;
+	}
+
 	public int getStatusCode() {
 		return statusCode;
 	}
