@@ -140,7 +140,7 @@ response.setHeader("OSLC-Core-Version", "2.0");
         <oslc:prefixDefinition>
             <oslc:PrefixDefinition>
                 <oslc:prefix>foaf</oslc:prefix>
-                <oslc:prefixBase rdf:resource="http://http://xmlns.com/foaf/0.1/" />
+                <oslc:prefixBase rdf:resource="http://xmlns.com/foaf/0.1/" />
             </oslc:PrefixDefinition>
         </oslc:prefixDefinition>
    
