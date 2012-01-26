@@ -17,6 +17,7 @@ package org.eclipse.lyo.server.oauth.webapp.services;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import net.oauth.OAuth;
+import net.oauth.OAuth.Parameter;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
@@ -65,6 +67,12 @@ public class OAuthService {
 	@Context
 	protected HttpServletResponse httpResponse;
 
+	@GET
+	@Path("/requestToken")
+	public Response doGetRequestToken() throws IOException, ServletException {
+		return doPostRequestToken();
+	}
+	
 	/**
 	 * Responds with a request token and token secret.
 	 * 
@@ -76,19 +84,47 @@ public class OAuthService {
 	 */
 	@POST
 	@Path("/requestToken")
-	public Response getRequestToken() throws IOException, ServletException {
+	public Response doPostRequestToken() throws IOException, ServletException {
 		try {
-
 			OAuthRequest oAuthRequest = validateRequest();
-			OAuthConfiguration.getInstance()
-					.getTokenStrategy().generateRequestToken(oAuthRequest);
 
+			// Generate the token.
+			OAuthConfiguration.getInstance().getTokenStrategy()
+					.generateRequestToken(oAuthRequest);
+
+			// Check for OAuth 1.0a authentication.
+			boolean callbackConfirmed = confirmCallback(oAuthRequest);
+			
+			// Respond to the consumer.
 			OAuthAccessor accessor = oAuthRequest.getAccessor();
-			return respondWithToken(accessor.requestToken, accessor.tokenSecret);
-
+			return respondWithToken(accessor.requestToken,
+					accessor.tokenSecret, callbackConfirmed);
 		} catch (OAuthException e) {
 			return respondWithOAuthProblem(e);
 		}
+	}
+
+	protected boolean confirmCallback(OAuthRequest oAuthRequest)
+			throws OAuthException {
+		boolean callbackConfirmed = OAuthConfiguration
+				.getInstance()
+				.getTokenStrategy()
+				.getCallback(httpRequest,
+						oAuthRequest.getAccessor().requestToken) != null;
+		if (callbackConfirmed) {
+			oAuthRequest.getConsumer().setOAuthVersion(
+					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A);
+		} else {
+			if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
+				throw new OAuthProblemException(
+						OAuth.Problems.OAUTH_PARAMETERS_ABSENT);
+			}
+
+			oAuthRequest.getConsumer().setOAuthVersion(
+					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0);
+		}
+
+		return callbackConfirmed;
 	}
 
 	/*
@@ -127,6 +163,10 @@ public class OAuthService {
 			httpRequest.setAttribute("consumerName", consumer.getName());
 			httpRequest.setAttribute("callback",
 					getCallbackURL(message, consumer));
+			boolean callbackConfirmed =
+					consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
+			httpRequest.setAttribute("callbackConfirmed", new Boolean(
+					callbackConfirmed));
 
 			Authentication auth = config.getAuthentication();
 			if (auth == null) {
@@ -150,20 +190,40 @@ public class OAuthService {
 	}
 
 	private String getCallbackURL(OAuthMessage message,
-			LyoOAuthConsumer consumer) throws IOException {
-		// Find the callback URL.
-		String callback = message.getParameter(OAuth.OAUTH_CALLBACK);
-		if (callback == null) {
-			callback = consumer.callbackURL;
+			LyoOAuthConsumer consumer) throws IOException, OAuthException {
+		String callback = null;
+		switch (consumer.getOAuthVersion()) {
+		case OAUTH_1_0:
+			if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
+				throw new OAuthProblemException(OAuth.Problems.VERSION_REJECTED);
+			}
+
+			// If this is OAuth 1.0, the callback should be a request parameter.
+			callback = message.getParameter(OAuth.OAUTH_CALLBACK);
+			break;
+
+		case OAUTH_1_0A:
+			// If this is OAuth 1.0a, the callback was passed when the consumer
+			// asked for a request token.
+			String requestToken = message.getToken();
+			callback = OAuthConfiguration.getInstance().getTokenStrategy()
+					.getCallback(httpRequest, requestToken);
 		}
 
 		if (callback == null) {
 			return null;
 		}
 
-		return UriBuilder.fromUri(callback)
-				.queryParam(OAuth.OAUTH_TOKEN, message.getToken()).build()
-				.toString();
+		UriBuilder uriBuilder = UriBuilder.fromUri(callback)
+				.queryParam(OAuth.OAUTH_TOKEN, message.getToken());
+		if (consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
+			String verificationCode = OAuthConfiguration.getInstance()
+					.getTokenStrategy()
+					.generateVerificationCode(httpRequest, message.getToken());
+			uriBuilder.queryParam(OAuth.OAUTH_VERIFIER, verificationCode);
+		}
+		
+		return uriBuilder.build().toString();
 	}
 
 	/**
@@ -194,7 +254,7 @@ public class OAuthService {
 		try {
 			OAuthConfiguration.getInstance().getTokenStrategy()
 					.markRequestTokenAuthorized(httpRequest, requestToken);
-		} catch (OAuthProblemException e) {
+		} catch (OAuthException e) {
 			return Response.status(Status.CONFLICT)
 					.entity("Request token invalid.")
 					.type(MediaType.TEXT_PLAIN).build();
@@ -203,6 +263,12 @@ public class OAuthService {
 		return Response.noContent().build();
 	}
 
+	@GET
+	@Path("/accessToken")
+	public Response doGetAccessToken() throws IOException, ServletException {
+		return doPostAccessToken();
+	}
+	
 	/**
 	 * Responds with an access token and token secret for valid OAuth requests.
 	 * The request must be signed and the request token valid.
@@ -215,15 +281,22 @@ public class OAuthService {
 	 */
 	@POST
 	@Path("/accessToken")
-	public Response getAccessToken() throws IOException, ServletException {
+	public Response doPostAccessToken() throws IOException, ServletException {
 		try {
-
-			// Validate the request is signed and check that the request token is valid.
+			// Validate the request is signed and check that the request token
+			// is valid.
 			OAuthRequest oAuthRequest = validateRequest();
-			TokenStrategy strategy = OAuthConfiguration.getInstance()
-					.getTokenStrategy();
+			OAuthConfiguration config = OAuthConfiguration.getInstance();
+			TokenStrategy strategy = config.getTokenStrategy();
 			strategy.validateRequestToken(httpRequest,
 					oAuthRequest.getMessage());
+
+			// The verification code MUST be passed in the request if this is
+			// OAuth 1.0a.
+			if (!config.isV1_0Allowed()
+					|| oAuthRequest.getConsumer().getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
+				strategy.validateVerificationCode(oAuthRequest);
+			}
 			
 			// Generate a new access token for this accessor.
 			strategy.generateAccessToken(oAuthRequest);
@@ -231,7 +304,6 @@ public class OAuthService {
 			// Send the new token and secret back to the consumer.
 			OAuthAccessor accessor = oAuthRequest.getAccessor();
 			return respondWithToken(accessor.accessToken, accessor.tokenSecret);
-
 		} catch (OAuthException e) {
 			return respondWithOAuthProblem(e);
 		}
@@ -264,9 +336,19 @@ public class OAuthService {
 
 	protected Response respondWithToken(String token, String tokenSecret)
 			throws IOException {
-		String responseBody = OAuth.formEncode(OAuth.newList(OAuth.OAUTH_TOKEN,
-				token, OAuth.OAUTH_TOKEN_SECRET, tokenSecret));
+		return respondWithToken(token, tokenSecret, false);
+	}
 
+	protected Response respondWithToken(String token, String tokenSecret,
+			boolean callbackConfirmed) throws IOException {
+		List<Parameter> oAuthParameters = OAuth.newList(OAuth.OAUTH_TOKEN,
+				token, OAuth.OAUTH_TOKEN_SECRET, tokenSecret);
+		if (callbackConfirmed) {
+			oAuthParameters.add(new Parameter(OAuth.OAUTH_CALLBACK_CONFIRMED,
+					"true"));
+		}
+		
+		String responseBody = OAuth.formEncode(oAuthParameters);
 		return Response.ok(responseBody)
 				.type(MediaType.APPLICATION_FORM_URLENCODED).build();
 	}

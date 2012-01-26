@@ -37,6 +37,7 @@ public class OAuthConfiguration {
 	private TokenStrategy tokenStrategy;
 	private ConsumerStore consumerStore = null;
 	private Authentication authentication = null;
+	private boolean v1_0Allowed = true;
 
 	private static final OAuthConfiguration instance = new OAuthConfiguration();
 
@@ -130,5 +131,27 @@ public class OAuthConfiguration {
 
 	public void setAuthentication(Authentication authentication) {
 		this.authentication = authentication;
+	}
+
+	/**
+	 * Is OAuth version 1.0 allowed, or do we require 1.0a?
+	 * 
+	 * @return true if version 1.0 is allowed
+	 * @see <a href="http://oauth.net/advisories/2009-1/">OAuth Security Advisory: 2009.1</a>
+	 */
+	public boolean isV1_0Allowed() {
+		return v1_0Allowed;
+	}
+
+	/**
+	 * Sets if we allow OAuth 1.0.
+	 * 
+	 * @param allowed
+	 *            true to allow OAuth version 1.0 requests or false to require
+	 *            OAuth version 1.0a
+	 * @see <a href="http://oauth.net/advisories/2009-1/">OAuth Security Advisory: 2009.1</a>
+	 */
+	public void setV1_0Allowed(boolean allowed) {
+		this.v1_0Allowed = allowed;
 	}
 }

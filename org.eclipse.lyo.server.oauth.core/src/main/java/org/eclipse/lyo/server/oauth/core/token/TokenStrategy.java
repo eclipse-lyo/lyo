@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
-import net.oauth.OAuthProblemException;
 
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
 
@@ -40,9 +39,13 @@ public interface TokenStrategy {
 	 * 
 	 * @param oAuthRequest
 	 *            the OAuth request
+	 * @throws IOException
+	 *             on errors reading from the request message
+	 * @throws OAuthException
+	 *             on OAuth problems
 	 * @see OAuthRequest#getAccessor()
 	 */
-	public void generateRequestToken(OAuthRequest oAuthRequest);
+	public void generateRequestToken(OAuthRequest oAuthRequest) throws OAuthException, IOException;
 
 	/**
 	 * Validates that the request token is valid, throwing an exception if not.
@@ -67,6 +70,23 @@ public interface TokenStrategy {
 			OAuthMessage message) throws OAuthException, IOException;
 
 	/**
+	 * Gets the OAuth callback associated with this consumer for OAuth 1.0a
+	 * authentication flows. Returns null if the consumer did not specify a
+	 * callback when asking for a request token.
+	 * 
+	 * @param httpRequest
+	 *            the HTTP request
+	 * @param requestToken
+	 *            the request token
+	 * @return the callback URL
+	 * 
+	 * @throws OAuthException
+	 *             on OAuth problems
+	 */
+	public String getCallback(HttpServletRequest httpRequest,
+			String requestToken) throws OAuthException;
+
+	/**
 	 * Indicates that a user has typed in a valid ID and password, and that the
 	 * request token can now be exchanged for an access token.
 	 * 
@@ -74,13 +94,13 @@ public interface TokenStrategy {
 	 *            the servlet request
 	 * @param requestToken
 	 *            the request token string
-	 * @throws OAuthProblemException
+	 * @throws OAuthException
 	 *             if the token is not valid
 	 *             
 	 * @see #isRequestTokenAuthorized(HttpServletRequest, String)
 	 */
 	public void markRequestTokenAuthorized(HttpServletRequest httpRequest,
-			String requestToken) throws OAuthProblemException;
+			String requestToken) throws OAuthException;
 
 	/**
 	 * Checks with the request token has been authorized by the end user.
@@ -91,11 +111,44 @@ public interface TokenStrategy {
 	 *            the request token
 	 * @return answers if the request token is authorized and can be exchanged
 	 *         for an access token
+	 * @throws OAuthException
+	 *             on OAuth problems
 	 * 
 	 * @see #markRequestTokenAuthorized(HttpServletRequest, OAuthAccessor)
 	 */
 	public boolean isRequestTokenAuthorized(HttpServletRequest httpRequest,
-			String requestToken);
+			String requestToken) throws OAuthException;
+
+	/**
+	 * Generates an "unguessable" OAuth verification code. The consumer must
+	 * supply the verification code when exchanging the request token for an
+	 * access token. This is specific to OAuth 1.0a.
+	 * 
+	 * @param httpRequest
+	 *            the HTTP request
+	 * @param requestToken
+	 *            the request token
+	 * @return a verification code
+	 * @throws OAuthException
+	 *             on OAuth problems (e.g., the request token is invalid)
+	 */
+	public String generateVerificationCode(HttpServletRequest httpRequest,
+			String requestToken) throws OAuthException;
+
+	/**
+	 * Validates that the verification code is recognized and associated with
+	 * the request token. This must be called before the request token is
+	 * exchanged for the access token in an OAuth 1.0a authentication flow.
+	 * 
+	 * @param oAuthRequest
+	 *            the OAuth request
+	 * @throws OAuthException
+	 *             on OAuth problems (e.g., the request token is invalid)
+	 * @throws IOException
+	 *             on I/O errors
+	 */
+	public void validateVerificationCode(OAuthRequest oAuthRequest)
+			throws OAuthException, IOException;
 
 	/**
 	 * Generates an access token and token secret and sets it in the accessor in
@@ -103,14 +156,14 @@ public interface TokenStrategy {
 	 * 
 	 * @param oAuthRequest
 	 *            the OAuth request
-	 * @throws OAuthProblemException
+	 * @throws OAuthException
 	 *             on OAuth problems
 	 * @throws IOException
 	 *             on I/O errors
 	 * @see OAuthRequest#getAccessor()
 	 */
 	public void generateAccessToken(OAuthRequest oAuthRequest)
-			throws OAuthProblemException, IOException;
+			throws OAuthException, IOException;
 
 	/**
 	 * Validates that the access token is valid, throwing an exception if not.
@@ -134,9 +187,9 @@ public interface TokenStrategy {
 	 *            the token string, either a request token or access token
 	 * 
 	 * @return the token secret
-	 * @throws OAuthProblemException
+	 * @throws OAuthException
 	 *             on OAuth problems (e.g., the token is invalid)
 	 */
 	public String getTokenSecret(HttpServletRequest httpRequest, String token)
-			throws OAuthProblemException;
+			throws OAuthException;
 }

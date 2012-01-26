@@ -26,9 +26,18 @@ import net.oauth.OAuthServiceProvider;
 public class LyoOAuthConsumer extends OAuthConsumer {
 	private static final long serialVersionUID = 7634987410903334464L;
 
+	public enum OAuthVersion { OAUTH_1_0, OAUTH_1_0A };
+	
 	private String name;
 	private boolean trusted = false;
 
+	/*
+	 * Assume 1.0 until we learn otherwise. This can be determined if the
+	 * consumer passes an oauth_callback parameter when asking for a request
+	 * token.
+	 */
+	private OAuthVersion oAuthVersion = OAuthVersion.OAUTH_1_0;
+	
 	public LyoOAuthConsumer(String consumerKey, String consumerSecret) {
 		super(null, consumerKey, consumerSecret, null);
 	}
@@ -84,5 +93,26 @@ public class LyoOAuthConsumer extends OAuthConsumer {
 	 */
 	public void setTrusted(boolean trusted) {
 		this.trusted = trusted;
+	}
+
+	/**
+	 * Gets the OAuth version that the consumer supports.
+	 * 
+	 * @return the OAuth version
+	 */
+	public OAuthVersion getOAuthVersion() {
+		return oAuthVersion;
+	}
+
+	/**
+	 * Sets the OAuth version that the consumer supports. This should be set by
+	 * the OAuth service depending on whether the consumer specified an
+	 * oauth_callback parameter when asking for a request token.
+	 * 
+	 * @param oAuthVersion
+	 *            the OAuth version
+	 */
+	public void setOAuthVersion(OAuthVersion oAuthVersion) {
+		this.oAuthVersion = oAuthVersion;
 	}
 }

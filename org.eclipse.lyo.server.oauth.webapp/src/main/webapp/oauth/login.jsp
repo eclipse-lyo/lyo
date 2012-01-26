@@ -24,13 +24,20 @@
 		<%-- Creative Commons Image: http://openclipart.org/detail/211/shiny-key-by-tiothy --%>
 		<img src="<%=request.getContextPath()%>/oauth/key.png" style="float: right;">
 		<h1>Connect to <c:out value="${applicationName}">Your Application</c:out></h1>
-	
+
 		<form id="loginForm">
 		
-			<div class="message"><b><c:out value="${consumerName}">Another application</c:out></b>
+			<div><b><c:out value="${consumerName}">Another application</c:out></b>
 			is requesting access to your <b><c:out value="${applicationName}">application</c:out></b> data. Enter your
 			username and password to continue or click cancel to exit.</div>
-			
+
+			<c:if test="${not callbackConfirmed}">
+				<p>
+					Only continue if you initiated this request directly from
+					<c:out value="${consumerName}">the consumer's website</c:out>.
+				</p>
+			</c:if>
+
 			<div id="error" class="error" style="display: hidden;"></div>
 			<input type="hidden" name="requestToken" value="<c:out value="${requestToken}"/>">
 			<input type="hidden" id="callback" value="<c:out value="${callback}"/>">

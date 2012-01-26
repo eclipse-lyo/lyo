@@ -32,7 +32,8 @@ import net.oauth.OAuthProblemException;
 /**
  * A simple strategy for generating and validating tokens. Generates random
  * tokens and stores them in memory. Tokens are only good for the life of the
- * process.
+ * process. Least recently used tokens are invalidated when cached limits are
+ * reached.
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
@@ -40,26 +41,60 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	private final static int REQUEST_TOKEN_MAX_ENTIRES = 500;
 	private final static int ACCESS_TOKEN_MAX_ENTRIES = 5000;
 	
+	/**
+	 * Holds information associated with a request token such as the callback
+	 * URL and OAuth verification code.
+	 * 
+	 * @author Samuel Padgett <spadgett@us.ibm.com>
+	 */
 	protected class RequestTokenData {
 		private String consumerKey;
 		private boolean authorized;
+		private String callback;
+		private String verificationCode;
 		
 		public RequestTokenData(String consumerKey) {
 			this.consumerKey = consumerKey;
 			this.authorized = false;
+			this.callback = null;
+		}
+
+		public RequestTokenData(String consumerKey, String callback) {
+			this.consumerKey = consumerKey;
+			this.authorized = false;
+			this.callback = callback;
 		}
 		
 		public String getConsumerKey() {
 			return consumerKey;
 		}
+		
 		public void setConsumerKey(String consumerKey) {
 			this.consumerKey = consumerKey;
 		}
+		
 		public boolean isAuthorized() {
 			return authorized;
 		}
+		
 		public void setAuthorized(boolean authorized) {
 			this.authorized = authorized;
+		}
+		
+		public String getCallback() {
+			return callback;
+		}
+		
+		public void setCallback(String callback) {
+			this.callback = callback;
+		}
+		
+		public String getVerificationCode() {
+			return verificationCode;
+		}
+		
+		public void setVerificationCode(String verificationCode) {
+			this.verificationCode = verificationCode;
 		}
 	}
 	
@@ -72,10 +107,25 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	// key is token, value is token secret
 	private Map<String, String> tokenSecrets;
 
+	/**
+	 * Constructs a SimpleTokenStrategy using the defaults for cache limits on request and access tokens.
+	 * 
+	 * @see SimpleTokenStrategy#SimpleTokenStrategy(int, int)
+	 */
 	public SimpleTokenStrategy() {
 		this(REQUEST_TOKEN_MAX_ENTIRES, ACCESS_TOKEN_MAX_ENTRIES);
 	}
 
+	/**
+	 * Constructs a SimpleTokenStrategy with cache limits on the number of
+	 * request and access tokens. Least recently used tokens are invalidated
+	 * when cache limits are reached.
+	 * 
+	 * @param requestTokenMaxCount
+	 *            the maximum number of request tokens to track
+	 * @param accessTokenMaxCount
+	 *            the maximum number of access tokens to track
+	 */
 	public SimpleTokenStrategy(int requestTokenMaxCount, int accessTokenMaxCount) {
 		requestTokens = new LRUCache<String, RequestTokenData>(requestTokenMaxCount);
 		accessTokens = new LRUCache<String, String>(accessTokenMaxCount);
@@ -84,13 +134,16 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	}
 
 	@Override
-	public void generateRequestToken(OAuthRequest oAuthRequest) {
+	public void generateRequestToken(OAuthRequest oAuthRequest)
+			throws IOException {
 		OAuthAccessor accessor = oAuthRequest.getAccessor();
 		accessor.requestToken = generateTokenString();
 		accessor.tokenSecret = generateTokenString();
+		String callback = oAuthRequest.getMessage()
+				.getParameter(OAuth.OAUTH_CALLBACK);
 		synchronized (requestTokens) {
 			requestTokens.put(accessor.requestToken, new RequestTokenData(
-					accessor.consumer.consumerKey));
+					accessor.consumer.consumerKey, callback));
 		}
 		synchronized (tokenSecrets) {
 			tokenSecrets.put(accessor.requestToken, accessor.tokenSecret);
@@ -100,38 +153,50 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	@Override
 	public String validateRequestToken(HttpServletRequest httpRequest,
 			OAuthMessage message) throws OAuthException, IOException {
-		synchronized (requestTokens) {
-			RequestTokenData tokenData = requestTokens.get(message.getToken());
-			if (tokenData == null) {
-				throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
-			}
+		return getRequestTokenData(message.getToken()).getConsumerKey();
+	}
 
-			return tokenData.getConsumerKey();
-		}
+	@Override
+	public String getCallback(HttpServletRequest httpRequest,
+			String requestToken) throws OAuthProblemException {
+		return getRequestTokenData(requestToken).getCallback();
 	}
 
 	@Override
 	public void markRequestTokenAuthorized(HttpServletRequest httpRequest,
 			String requestToken) throws OAuthProblemException {
-		synchronized (requestTokens) {
-			RequestTokenData tokenData = requestTokens.get(requestToken);
-			if (tokenData == null) {
-				throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
-			}
-			tokenData.setAuthorized(true);
-		}
+		getRequestTokenData(requestToken).setAuthorized(true);
 	}
 
 	@Override
 	public boolean isRequestTokenAuthorized(HttpServletRequest httpRequest,
-			String requestToken) {
-		synchronized (requestTokens) {
-			RequestTokenData tokenData = requestTokens.get(requestToken);
-			if (tokenData == null) {
-				return false;
-			}
+			String requestToken) throws OAuthProblemException {
+		return getRequestTokenData(requestToken).isAuthorized();
+	}
 
-			return tokenData.isAuthorized();
+	@Override
+	public String generateVerificationCode(HttpServletRequest httpRequest,
+			String requestToken) throws OAuthProblemException {
+		String verificationCode = generateTokenString();
+		getRequestTokenData(requestToken).setVerificationCode(verificationCode);
+		
+		return verificationCode;
+	}
+
+	@Override
+	public void validateVerificationCode(OAuthRequest oAuthRequest)
+			throws OAuthException, IOException {
+		String verificationCode = oAuthRequest.getMessage().getParameter(
+				OAuth.OAUTH_VERIFIER);
+		if (verificationCode == null) {
+			throw new OAuthProblemException(
+					OAuth.Problems.OAUTH_PARAMETERS_ABSENT);
+		}
+
+		RequestTokenData tokenData = getRequestTokenData(oAuthRequest);
+		if (!verificationCode.equals(tokenData.getVerificationCode())) {
+			throw new OAuthProblemException(
+					OAuth.Problems.OAUTH_PARAMETERS_REJECTED);
 		}
 	}
 
@@ -153,7 +218,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 
 		// Generate a new access token.
 		accessor.accessToken = generateTokenString();
-		synchronized (requestTokens) {
+		synchronized (accessTokens) {
 			accessTokens.put(accessor.accessToken,
 					accessor.consumer.consumerKey);
 		}
@@ -203,5 +268,41 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	 */
 	protected String generateTokenString() {
 		return UUID.randomUUID().toString();
+	}
+
+	/**
+	 * Gets the request token data from this OAuth request.
+	 * 
+	 * @param oAuthRequest
+	 *            the OAuth request
+	 * @return the request token data
+	 * @throws OAuthProblemException
+	 *             if the request token is invalid
+	 * @throws IOException
+	 *             on reading OAuth parameters
+	 */
+	protected RequestTokenData getRequestTokenData(OAuthRequest oAuthRequest)
+			throws OAuthProblemException, IOException {
+		return getRequestTokenData(oAuthRequest.getMessage().getToken());
+	}
+
+	/**
+	 * Gets the request token data for this request token.
+	 * 
+	 * @param requestToken
+	 *            the request token string
+	 * @return the request token data
+	 * @throws OAuthProblemException
+	 *             if the request token is invalid
+	 */
+	protected RequestTokenData getRequestTokenData(String requestToken)
+			throws OAuthProblemException {
+		synchronized (requestTokens) {
+			RequestTokenData tokenData = requestTokens.get(requestToken);
+			if (tokenData == null) {
+				throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
+			}
+			return tokenData;
+		}
 	}
 }
