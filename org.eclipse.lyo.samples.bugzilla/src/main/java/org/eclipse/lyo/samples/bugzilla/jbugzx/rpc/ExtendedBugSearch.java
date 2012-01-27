@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -15,13 +15,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.samples.bugzilla.jbugzx.rpc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.j2bugzilla.base.Bug;
-import com.j2bugzilla.base.BugFactory;
 import com.j2bugzilla.rpc.BugSearch;
 
 /**
@@ -31,8 +25,6 @@ import com.j2bugzilla.rpc.BugSearch;
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
 public class ExtendedBugSearch extends BugSearch {
-	private Map<Object, Object> hash = new HashMap<Object, Object>();
-	
 	public enum ExtendedSearchLimiter {
 		/**
 		 * The maximum number of bugs to return.
@@ -92,34 +84,5 @@ public class ExtendedBugSearch extends BugSearch {
 	 */
 	public void addQueryParam(ExtendedSearchLimiter limit, Object query) {
 		getParameterMap().put(limit.getName(), query);
-	}
-	
-	/**
-	 * Returns the {@link Bug}s found by the query as a <code>List</code>
-	 * @return a {@link List} of {@link Bug}s that match the query and limit
-	 */
-	public List<Bug> getSearchResults() {
-		List<Bug> results = new ArrayList<Bug>();
-		/*
-		 * The following is messy, but necessary due to how the returned XML document nests
-		 * Maps.
-		 */	
-		if(hash.containsKey("bugs")) {
-			Object[] bugs = (Object[])hash.get("bugs");
-			for(Object o : bugs) {
-				@SuppressWarnings("unchecked")
-				Map<String, Object> bugMap = (HashMap<String, Object>)o;
-				// Work around a bug in j2bugzilla where version isn't correctly recognized.
-				Map<?, ?> internals = (Map<?, ?>) bugMap.get("internals");
-				bugMap.put("version", internals.get("version"));
-				results.add(new BugFactory().createBug(bugMap));
-			}
-		}
-		return results;
-	}
-	
-	@Override
-	public void setResultMap(Map<Object, Object> hash) {
-		this.hash = hash;
 	}
 }
