@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedGetBug;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 import org.eclipse.lyo.samples.bugzilla.resources.Person;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
@@ -46,6 +45,7 @@ import com.j2bugzilla.base.BugzillaConnector;
 import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
 import com.j2bugzilla.rpc.CommentBug;
+import com.j2bugzilla.rpc.GetBug;
 
 
 /**
@@ -76,13 +76,13 @@ public class ChangeRequestService extends HttpServlet {
 		try {
 			bugId = Integer.parseInt(request.getParameter("id"));
 			final BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);			
-			final ExtendedGetBug getBug = new ExtendedGetBug(bugId);
+			final GetBug getBug = new GetBug(bugId);
 			bc.executeMethod(getBug);
 			bug = getBug.getBug();	
 			if (bug == null) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
-			}			
+			}
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

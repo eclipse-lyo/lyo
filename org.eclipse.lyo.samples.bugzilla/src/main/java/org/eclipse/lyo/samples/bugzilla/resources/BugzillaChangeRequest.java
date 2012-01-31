@@ -116,7 +116,7 @@ public class BugzillaChangeRequest extends ChangeRequest {
 			// Do nothing, priority is not set.
 		}
 		
-		Map<?, ?> internals = (Map<?, ?>) bug.getParameterMap().get("internals");
+		Map<?, ?> internals = bug.getParameterMap();
 		cr.setPlatform((String) internals.get("rep_platform"));
 		cr.setOperatingSystem((String) internals.get("op_sys"));
 		
