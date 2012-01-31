@@ -36,8 +36,7 @@ function search(baseUrl){
 		}
 	};
 	terms = document.getElementById("searchTerms").value;
-	xmlhttp.open("GET", baseUrl + "&terms=" + escape(terms), true); 
-	xmlhttp.setRequestHeader("Connection","close");
+	xmlhttp.open("GET", baseUrl + "&terms=" + escape(terms), true);
 	xmlhttp.send();
 }
 
@@ -71,7 +70,6 @@ function create(baseUrl){
 	}
 	xmlhttp.open("POST", postData, true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-from-urlencoded");
-	xmlhttp.setRequestHeader("Connection","close");
 	xmlhttp.send(postData);
 }
 
