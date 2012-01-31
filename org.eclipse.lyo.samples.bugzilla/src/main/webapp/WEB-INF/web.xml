@@ -41,10 +41,6 @@
 		<servlet-class>org.eclipse.lyo.samples.bugzilla.RootServicesService</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>ConsumerKeyService</servlet-name>
-		<servlet-class>org.eclipse.lyo.samples.bugzilla.ConsumerKeyService</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>JAX-RS Services</servlet-name>
 		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
 		<init-param>
@@ -94,9 +90,5 @@
 	<servlet-mapping>
 		<servlet-name>RootServicesService</servlet-name>
 		<url-pattern>/rootservices</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ConsumerKeyService</servlet-name>
-		<url-pattern>/consumer_key</url-pattern>
 	</servlet-mapping>
 </web-app>

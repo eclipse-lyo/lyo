@@ -17,8 +17,7 @@
 package org.eclipse.lyo.samples.bugzilla;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
@@ -36,12 +35,12 @@ import net.oauth.server.OAuthServlet;
 import org.eclipse.lyo.samples.bugzilla.exception.BugzillaOAuthException;
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
-import org.eclipse.lyo.server.oauth.core.Authentication;
+import org.eclipse.lyo.server.oauth.consumerstore.RdfConsumerStore;
+import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
-import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 
@@ -51,11 +50,17 @@ import com.j2bugzilla.base.ConnectionException;
 import com.j2bugzilla.rpc.LogIn;
 
 public class BugzillaInitializer implements ServletContextListener {
-
+	/**
+	 * The authentication realm for the Bugzilla adapter.
+	 */
+	public final static String REALM = "Bugzilla";
+	
     private static final String CONNECTOR_ATTRIBUTE = "org.eclipse.lyo.samples.bugzilla.BugzillaConnector";
+    private static final String ADMIN_SESSION_ATTRIBUTE = "org.eclipse.lyo.samples.bugzilla.AdminSession";
 	private static String baseUri = null;
     private static String bugzillaUri = null;
 	private static boolean provideHtml = true;
+	private static String admin = null;
 	
 	/*
 	 * We can't rely on session tracking always working for OAuth requests, so store the BugzillaConnector in a map
@@ -68,11 +73,8 @@ public class BugzillaInitializer implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		OAuthConfiguration config = OAuthConfiguration.getInstance();
 
-		// The realm used in 401 unauthorized responses.
-		config.setRealm("Bugzilla");
-
 		// Validates a user's ID and password.
-		config.setAuthentication(new Authentication() {
+		config.setApplication(new Application() {
 			@Override
 			public void login(HttpServletRequest request, String id,
 					String password) throws AuthenticationException {
@@ -82,15 +84,29 @@ public class BugzillaInitializer implements ServletContextListener {
 					LogIn login = new LogIn(id, password);
 					bc.executeMethod(login);
 					request.setAttribute(CONNECTOR_ATTRIBUTE, bc);
+
+					request.getSession().setAttribute(ADMIN_SESSION_ATTRIBUTE,
+							admin != null && admin.equals(id));
 				} catch (Exception e) {
 					throw new AuthenticationException(e.getCause().getMessage(), e);
 				}
 			}
 
 			@Override
-			public String getApplicationName() {
+			public String getName() {
 				// Display name for this application.
 				return "Bugzilla";
+			}
+
+			@Override
+			public boolean isAdminSession(HttpServletRequest request) {
+				return Boolean.TRUE.equals(request.getSession().getAttribute(
+						ADMIN_SESSION_ATTRIBUTE));
+			}
+
+			@Override
+			public String getRealm(HttpServletRequest request) {
+				return REALM;
 			}
 		});
 
@@ -117,19 +133,15 @@ public class BugzillaInitializer implements ServletContextListener {
 				keyToConnectorCache.put(oAuthRequest.getAccessor().accessToken, bc);
 			}
 		});
-		
+
 		try {
 			// For now, hard-code the consumers.
-			config.setConsumerStore(new ConsumerStore() {
-				@Override
-				public Collection<LyoOAuthConsumer> load() throws IOException {
-					// Define one consumer with key "key" and secret "secret".
-					LyoOAuthConsumer consumer = new LyoOAuthConsumer("rtc", "sesame");
-					consumer.setName("Rational Team Concert");
-					return Collections.singletonList(consumer);
-				}
-			});
-		} catch (IOException e) {
+			config.setConsumerStore(new RdfConsumerStore());
+		} catch (ConsumerStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -147,9 +159,11 @@ public class BugzillaInitializer implements ServletContextListener {
             if (props.getProperty("provideHtml") != null) {
                 provideHtml = Boolean.parseBoolean(props.getProperty("provideHtml"));
             }
+            admin = props.getProperty("admin");
             System.out.println("adapter_uri: "  + baseUri);
             System.out.println("bugzilla_uri: " + bugzillaUri);
             System.out.println("provideHtml: "  + provideHtml);
+            System.out.println("admin: " + admin);
             
         } catch (IOException e) {
             e.printStackTrace();

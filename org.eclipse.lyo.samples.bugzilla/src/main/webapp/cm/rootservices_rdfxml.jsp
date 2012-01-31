@@ -33,7 +33,8 @@ String baseUri = (String) request.getAttribute("baseUri");
 	<oslc_cm:cmServiceProviders rdf:resource="<%= baseUri + "/catalog" %>" />
 	<jfs:oauthRealmName>Bugzilla</jfs:oauthRealmName>
 	<jfs:oauthDomain><%= baseUri %></jfs:oauthDomain>
-	<jfs:oauthRequestConsumerKeyUrl rdf:resource="<%= baseUri + "/consumer_key" %>" />
+	<jfs:oauthRequestConsumerKeyUrl rdf:resource="<%= baseUri + "/services/oauth/requestKey" %>" />
+	<jfs:oauthApprovalModuleUrl rdf:resource="<%= baseUri + "/services/oauth/approveKey" %>" />
 	<jfs:oauthRequestTokenUrl rdf:resource="<%= baseUri + "/services/oauth/requestToken" %>"/>
 	<jfs:oauthUserAuthorizationUrl rdf:resource="<%= baseUri + "/services/oauth/authorize" %>" />
 	<jfs:oauthAccessTokenUrl rdf:resource="<%= baseUri + "/services/oauth/accessToken" %>"/>	

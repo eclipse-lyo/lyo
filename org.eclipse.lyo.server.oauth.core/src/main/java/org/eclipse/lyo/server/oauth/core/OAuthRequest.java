@@ -29,7 +29,6 @@ import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
 
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerRegistry;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 
 /**
@@ -63,8 +62,8 @@ public class OAuthRequest {
 		this.httpRequest = request;
 		this.message = OAuthServlet.getMessage(httpRequest, null);
 
-		LyoOAuthConsumer consumer = ConsumerRegistry.getInstance().getConsumer(
-				message);
+		LyoOAuthConsumer consumer = OAuthConfiguration.getInstance()
+				.getConsumerStore().getConsumer(message);
 		if (consumer == null) {
 			throw new OAuthProblemException(
 					OAuth.Problems.CONSUMER_KEY_REJECTED);

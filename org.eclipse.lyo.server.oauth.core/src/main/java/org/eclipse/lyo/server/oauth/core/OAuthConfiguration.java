@@ -15,13 +15,15 @@
  *******************************************************************************/
 package org.eclipse.lyo.server.oauth.core;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 
+import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.SimpleOAuthValidator;
+import net.oauth.http.HttpMessage;
 
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerRegistry;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
+import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
 
@@ -32,11 +34,10 @@ import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
 public class OAuthConfiguration {
-	private String realm;
 	private OAuthValidator validator;
 	private TokenStrategy tokenStrategy;
 	private ConsumerStore consumerStore = null;
-	private Authentication authentication = null;
+	private Application application = null;
 	private boolean v1_0Allowed = true;
 
 	private static final OAuthConfiguration instance = new OAuthConfiguration();
@@ -46,27 +47,8 @@ public class OAuthConfiguration {
 	}
 
 	private OAuthConfiguration() {
-		realm = "Lyo";
 		validator = new SimpleOAuthValidator();
 		tokenStrategy = new SimpleTokenStrategy();
-	}
-
-	/**
-	 * Gets the realm to be included in OAuth problem responses.
-	 * 
-	 * @return the realm
-	 */
-	public String getRealm() {
-		return realm;
-	}
-
-	/**
-	 * Sets the realm to be included in OAuth problem responses.
-	 * 
-	 * @param realm the realm
-	 */
-	public void setRealm(String realm) {
-		this.realm = realm;
 	}
 
 	/**
@@ -118,19 +100,25 @@ public class OAuthConfiguration {
 	 * Sets the store used for managing consumers.
 	 * 
 	 * @param consumerStore the consumer store
-	 * @throws IOException 
+	 * @throws ConsumerStoreException on errors initializing the consumer registry
 	 */
-	public void setConsumerStore(ConsumerStore consumerStore) throws IOException {
+	public void setConsumerStore(ConsumerStore consumerStore) throws ConsumerStoreException {
 		this.consumerStore = consumerStore;
-		ConsumerRegistry.getInstance().init(consumerStore);
 	}
 
-	public Authentication getAuthentication() {
-		return authentication;
+	public Application getApplication() throws OAuthProblemException {
+		if (application == null) {
+			OAuthProblemException e = new OAuthProblemException();
+			e.setParameter(HttpMessage.STATUS_CODE,
+					HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+			throw e;
+		}
+
+		return application;
 	}
 
-	public void setAuthentication(Authentication authentication) {
-		this.authentication = authentication;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 	/**

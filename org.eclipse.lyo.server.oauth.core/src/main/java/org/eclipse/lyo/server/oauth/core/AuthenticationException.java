@@ -19,7 +19,7 @@ package org.eclipse.lyo.server.oauth.core;
  * An exception indicating that authentication failed.
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
- * @see Authentication#login(String, char[])
+ * @see Application#login(String, char[])
  */
 public class AuthenticationException extends Exception {
 	private static final long serialVersionUID = -7357859796941279773L;

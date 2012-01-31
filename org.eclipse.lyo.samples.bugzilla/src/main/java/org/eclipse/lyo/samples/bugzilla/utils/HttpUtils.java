@@ -26,6 +26,7 @@ import net.oauth.server.OAuthServlet;
 
 import org.apache.ws.commons.util.Base64;
 import org.apache.ws.commons.util.Base64.DecodingException;
+import org.eclipse.lyo.samples.bugzilla.BugzillaInitializer;
 import org.eclipse.lyo.samples.bugzilla.Credentials;
 import org.eclipse.lyo.samples.bugzilla.exception.BugzillaOAuthException;
 import org.eclipse.lyo.samples.bugzilla.exception.RestException;
@@ -44,10 +45,10 @@ public class HttpUtils {
 	public static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
 	private static final String BASIC_AUTHORIZATION_PREFIX = "Basic ";
 	private static final String BASIC_AUTHENTICATION_CHALLENGE = BASIC_AUTHORIZATION_PREFIX
-			+ "realm=\"Bugzilla\"";
+			+ "realm=\"" + BugzillaInitializer.REALM + "\"";
 	private static final String OAUTH_AUTHORIZATION_PREFIX = "OAuth ";
 	private static final String OAUTH_AUTHENTICATION_CHALLENGE = OAUTH_AUTHORIZATION_PREFIX
-			+ "realm=\"Bugzilla\"";
+			+ "realm=\"" + BugzillaInitializer.REALM + "\"";
 	
 	/**
 	 * Gets the credentials from an HTTP request.
@@ -95,8 +96,7 @@ public class HttpUtils {
 	public static void sendUnauthorizedResponse(HttpServletResponse response,
 			UnauthroziedException e) throws IOException, ServletException {
 		if (e instanceof BugzillaOAuthException) {
-			OAuthServlet.handleException(response, e, OAuthConfiguration
-					.getInstance().getRealm());
+			OAuthServlet.handleException(response, e, BugzillaInitializer.REALM);
 		} else {
 			// Accept basic access or OAuth authentication.
 			response.addHeader(WWW_AUTHENTICATE_HEADER,

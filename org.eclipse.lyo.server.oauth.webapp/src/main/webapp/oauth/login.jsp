@@ -9,20 +9,20 @@
 
 <head>
 <meta charset="utf-8">
-<title>Log In</title>
-<link type="text/css" href="<%=request.getContextPath()%>/oauth/theme.css" rel="stylesheet" ></link>
+<title>Connect to <c:out value="${applicationName}">Your Application</c:out></title>
+<link type="text/css" href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet" ></link>
 <script
 	data-dojo-config="async: true"
     type="text/javascript"
     src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
 </script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/oauth/login.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/oauth/scripts/login.js"></script>
 </head>
 
 <body>
 	<div id="content">
 		<%-- Creative Commons Image: http://openclipart.org/detail/211/shiny-key-by-tiothy --%>
-		<img src="<%=request.getContextPath()%>/oauth/key.png" style="float: right;">
+		<img src="<%=request.getContextPath()%>/oauth/images/key.png" style="float: right;">
 		<h1>Connect to <c:out value="${applicationName}">Your Application</c:out></h1>
 
 		<form id="loginForm">

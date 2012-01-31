@@ -43,7 +43,7 @@ public class TestConnection extends TestCase {
     static {
         Properties props = new Properties();
         try {
-            props.load(BugzillaInitializer.class.getResourceAsStream("/bugz.properties"));
+            props.load(BugzillaInitializer.class.getResourceAsStream("/test.properties"));
             String username    = props.getProperty("username");
             String password    = props.getProperty("password");
             System.out.println("username: "     + username);

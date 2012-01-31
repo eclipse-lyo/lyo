@@ -16,51 +16,51 @@
 package org.eclipse.lyo.server.oauth.core.consumer;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.oauth.OAuth;
+import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
-import net.oauth.OAuthProblemException;
 
 /**
  * Manages the list of OAuth consumers.
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
-public class ConsumerRegistry {
+public abstract class AbstractConsumerStore implements ConsumerStore {
 	private Map<String, LyoOAuthConsumer> consumerMap = Collections
 			.synchronizedMap(new HashMap<String, LyoOAuthConsumer>());
-	private static ConsumerRegistry instance = new ConsumerRegistry();
 	
-	public static ConsumerRegistry getInstance() {
-		return instance;
-	}
+	public AbstractConsumerStore() {}
 	
-	private ConsumerRegistry() {}
-
-	public void init(ConsumerStore consumerStore) throws IOException {
-		for (LyoOAuthConsumer consumer : consumerStore.load()) {
+	public void addAll(Collection<LyoOAuthConsumer> consumers) {
+		for (LyoOAuthConsumer consumer : consumers) {
 			consumerMap.put(consumer.consumerKey, consumer);
 		}
 	}
 	
+	public Collection<LyoOAuthConsumer> getAllConsumers() {
+		return consumerMap.values();
+	}
+
 	public LyoOAuthConsumer getConsumer(OAuthMessage requestMessage)
-			throws OAuthProblemException, IOException {
+			throws OAuthException, IOException {
 		requestMessage.requireParameters(OAuth.OAUTH_CONSUMER_KEY);
 		return getConsumer(requestMessage.getConsumerKey());
 	}
-	
+
 	public LyoOAuthConsumer getConsumer(String consumerKey) {
 		return consumerMap.get(consumerKey);
 	}
 	
-//	public LyoOAuthConsumer addConsumer(LyoOAuthConsumer consumer) {
-//		return consumerMap.put(consumer.consumerKey, consumer);
-//	}
-//	
-//	public LyoOAuthConsumer removeConsumer(LyoOAuthConsumer consumer) {
-//		return consumerMap.remove(consumer);
-//	}
+	protected LyoOAuthConsumer add(LyoOAuthConsumer consumer) {
+		return consumerMap.put(consumer.consumerKey, consumer);
+	}
+	
+	protected LyoOAuthConsumer remove(String consumerKey) {
+		return consumerMap.remove(consumerKey);
+	}
 }

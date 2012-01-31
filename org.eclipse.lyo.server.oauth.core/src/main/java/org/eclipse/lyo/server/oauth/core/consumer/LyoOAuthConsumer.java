@@ -29,6 +29,7 @@ public class LyoOAuthConsumer extends OAuthConsumer {
 	public enum OAuthVersion { OAUTH_1_0, OAUTH_1_0A };
 	
 	private String name;
+	private boolean provisional = false;
 	private boolean trusted = false;
 
 	/*
@@ -52,6 +53,10 @@ public class LyoOAuthConsumer extends OAuthConsumer {
 		super(callbackURL, consumerKey, consumerSecret, serviceProvider);
 	}
 
+	public String getKey() {
+		return consumerKey;
+	}
+	
 	/**
 	 * Gets the name of the consumer, which might be shown in the login dialog
 	 * and other user interfaces.
@@ -71,6 +76,14 @@ public class LyoOAuthConsumer extends OAuthConsumer {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isProvisional() {
+		return provisional;
+	}
+
+	public void setProvisional(boolean provisional) {
+		this.provisional = provisional;
 	}
 
 	/**

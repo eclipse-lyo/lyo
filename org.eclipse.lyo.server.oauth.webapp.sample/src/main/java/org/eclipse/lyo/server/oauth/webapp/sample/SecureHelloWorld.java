@@ -16,8 +16,7 @@
 package org.eclipse.lyo.server.oauth.webapp.sample;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
+import java.sql.SQLException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -34,12 +33,12 @@ import javax.ws.rs.core.Response.Status;
 import net.oauth.OAuthException;
 import net.oauth.server.OAuthServlet;
 
-import org.eclipse.lyo.server.oauth.core.Authentication;
+import org.eclipse.lyo.server.oauth.consumerstore.RdfConsumerStore;
+import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
-import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 
 /**
  * A simple OAuth example using the Lyo OAuth provider framework.
@@ -56,6 +55,11 @@ public class SecureHelloWorld implements ServletContextListener {
 	private HttpServletResponse httpResponse;
 
 	/**
+	 * The OAuth realm for this application.
+	 */
+	public static final String REALM = "Hello";
+	
+	/**
 	 * Initialize the OAuth provider when the webapp loads.
 	 * 
 	 * @param event
@@ -65,11 +69,8 @@ public class SecureHelloWorld implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		OAuthConfiguration config = OAuthConfiguration.getInstance();
 
-		// The realm used in 401 unauthorized responses.
-		config.setRealm("Hello");
-
 		// Validates a user's ID and password.
-		config.setAuthentication(new Authentication() {
+		config.setApplication(new Application() {
 			@Override
 			public void login(HttpServletRequest request, String id,
 					String password) throws AuthenticationException {
@@ -78,27 +79,32 @@ public class SecureHelloWorld implements ServletContextListener {
 				if ("bogus".equals(password)) {
 					throw new AuthenticationException("Invalid ID or password.");
 				}
+				
+				request.getSession().setAttribute("admin", "admin".equals(id));
 			}
 
 			@Override
-			public String getApplicationName() {
-				// Display name for this application.
+			public String getName() {
 				return "Hello World";
 			}
-		});
 
+			@Override
+			public boolean isAdminSession(HttpServletRequest request) {
+				return Boolean.TRUE
+						.equals(request.getSession().getAttribute("admin"));
+			}
+
+			@Override
+			public String getRealm(HttpServletRequest request) {
+				return REALM;
+			}
+		});
+		
 		try {
-			// The consumers.
-			config.setConsumerStore(new ConsumerStore() {
-				@Override
-				public Collection<LyoOAuthConsumer> load() throws IOException {
-					// Define one consumer with key "key" and secret "secret".
-					LyoOAuthConsumer consumer = new LyoOAuthConsumer("key", "secret");
-					consumer.setName("Hello World Consumer");
-					return Collections.singletonList(consumer);
-				}
-			});
-		} catch (IOException e) {
+			config.setConsumerStore(new RdfConsumerStore());
+		} catch (ConsumerStoreException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -114,8 +120,7 @@ public class SecureHelloWorld implements ServletContextListener {
 			request.validate();
 		} catch (OAuthException e) {
 			// Request failed validation. Send an unauthorized response.
-			OAuthServlet.handleException(httpResponse, e, OAuthConfiguration
-					.getInstance().getRealm());
+			OAuthServlet.handleException(httpResponse, e, REALM);
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 

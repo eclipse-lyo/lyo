@@ -88,6 +88,12 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.eclipse.lyo.server</groupId>
+			<artifactId>oauth-consumer-store</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

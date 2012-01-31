@@ -21,15 +21,15 @@ import javax.servlet.http.HttpServletRequest;
  * Handles authentication with the backend system.
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
- * @see OAuthConfiguration#setAuthentication(Authentication)
+ * @see OAuthConfiguration#setApplication(Authentication)
  */
-public interface Authentication {
+public interface Application {
 	/**
 	 * Gets the name of the application to show in the login dialog.
 	 * 
 	 * @return the application name
 	 */
-	public String getApplicationName();
+	public String getName();
 
 	/**
 	 * Authenticates with the application. On errors, throws an
@@ -46,4 +46,23 @@ public interface Authentication {
 	 */
 	public void login(HttpServletRequest request, String id, String password)
 			throws AuthenticationException;
+
+	/**
+	 * Determines if the current session is an admin session. If so, the user
+	 * will be able to approve, edit, and delete OAuth consumers.
+	 * 
+	 * @param request
+	 *            the HTTP request
+	 * @return if this is an admin session
+	 */
+	public boolean isAdminSession(HttpServletRequest request);
+
+	/**
+	 * Gets the realm to be included in OAuth problem responses.
+	 * 
+	 * @param request
+	 *            the HTTP request
+	 * @return the realm
+	 */
+	public String getRealm(HttpServletRequest request);
 }

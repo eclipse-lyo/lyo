@@ -3,7 +3,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-	<display-name>Eclipse Lyo OAuth Provider Framework</display-name>
+	<display-name>Eclipse Lyo OAuth Provider Framework Sample</display-name>
 	<servlet>
 		<servlet-name>JAX-RS Services</servlet-name>
 		<servlet-class>
