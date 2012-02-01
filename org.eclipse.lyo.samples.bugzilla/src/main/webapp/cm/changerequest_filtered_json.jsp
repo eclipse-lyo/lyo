@@ -1,5 +1,5 @@
 <%-- 
- Copyright (c) 2011 IBM Corporation.
+ Copyright (c) 2011, 2012 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -13,7 +13,7 @@
  
     IBM Corporation - initial API and implementation
 --%>
-<%@ page contentType="application/json" language="java" %>
+<%@ page contentType="application/json" language="java" pageEncoding="UTF-8" %>
 <%@page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%@ page import="java.net.*,java.util.*" %> 
 <%@ page import="com.j2bugzilla.base.Bug" %>

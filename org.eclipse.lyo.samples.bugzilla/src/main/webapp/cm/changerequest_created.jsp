@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html>
 <%--
- Copyright (c) 2011 IBM Corporation.
+ Copyright (c) 2011, 2012 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -14,6 +15,7 @@
  
     IBM Corporation - initial API and implementation
 --%>
+<%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.net.*,java.util.*,java.text.SimpleDateFormat" %> 
 <%@ page import="com.j2bugzilla.base.Bug" %>
 <% 
@@ -22,6 +24,7 @@ String bugUri  = (String)request.getAttribute("bugUri");
 String title   = bug.getSummary();
 %>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <script type="text/javascript">
    // Step #2: read the return URL 
    var returnURL = window.name;

@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <!--
- Copyright (c) 2011 IBM Corporation.
+ Copyright (c) 2011, 2012 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -13,7 +14,7 @@
  
     IBM Corporation - initial API and implementation
  -->
-<%@ page contentType="text/html" language="java" %>
+<%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.net.*,java.util.*,java.text.SimpleDateFormat" %>
 <%@ page import="com.j2bugzilla.base.Bug" %>
 <%
@@ -33,6 +34,7 @@ String assignee = (String)bug.getParameterMap().get("assigned_to");
 %>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>Change Request: <%=title %> (<%=identifier %>)</title>
 <link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
 <link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">

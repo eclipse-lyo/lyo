@@ -14,8 +14,7 @@
  
     IBM Corporation - initial API and implementation
 --%>
-<%@ page contentType="application/rdf+xml" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
+<%@ page contentType="application/rdf+xml" language="java" pageEncoding="UTF-8" %>
 <%
 String baseUri = (String) request.getAttribute("baseUri");
 %>

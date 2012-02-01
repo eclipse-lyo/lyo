@@ -1,6 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <%--
- Copyright (c) 2011 IBM Corporation.
+ Copyright (c) 2011, 2012 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -14,7 +14,7 @@
  
     IBM Corporation - initial API and implementation
 --%>
-<%@ page contentType="text/html" language="java"%>
+<%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
@@ -24,6 +24,7 @@ List<Product> products = (List<Product>)request.getAttribute("products");
 %>
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<title>Bugzilla OSLC Adapter: Service Provider Catalog</title>
 		<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
 		<link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">
