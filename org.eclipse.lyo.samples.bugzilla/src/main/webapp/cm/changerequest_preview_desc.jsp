@@ -34,11 +34,14 @@ String bugUri = (String)request.getAttribute("bugUri");
 		<oslc:smallPreview>
 			<oslc:Preview>
 				<oslc:document rdf:resource="<%= URLStrategy.getChangeRequestURL(bug.getID()) + "&amp;preview=small" %>" />
-				<oslc:hintWidth>500px</oslc:hintWidth>
-				<oslc:hintHeight>160px</oslc:hintHeight>
+				<oslc:hintWidth>650px</oslc:hintWidth>
+				<oslc:hintHeight>140px</oslc:hintHeight>
 			</oslc:Preview>
 		</oslc:smallPreview>
 		
+		<%-- Disable the large preview for now. --%>
+		
+		<%--
 		<oslc:largePreview>
 			<oslc:Preview>
                 <oslc:document rdf:resource="<%= URLStrategy.getChangeRequestURL(bug.getID()) + "&amp;preview=large" %>" />
@@ -46,6 +49,7 @@ String bugUri = (String)request.getAttribute("bugUri");
 				<oslc:hintHeight>500px</oslc:hintHeight>
 			</oslc:Preview>
 		</oslc:largePreview>
+		--%>
 		
 	</oslc:Compact>
 	

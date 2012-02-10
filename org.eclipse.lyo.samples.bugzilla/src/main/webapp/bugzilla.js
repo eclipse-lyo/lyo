@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -17,13 +17,15 @@ function search(baseUrl){
 	var ie = window.navigator.userAgent.indexOf("MSIE");
 	list = document.getElementById("results");
 	list.options.length = 0;
+	var searchMessage = document.getElementById('searchMessage');
+	var loadingMessage = document.getElementById('loadingMessage');
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 			// populate results
 			txt = xmlhttp.responseText;
 			resp = eval('(' + txt + ')');
-			for( i=0; i<resp.results.length; i=i+1 ) {
+			for( var i=0; i<resp.results.length; i=i+1 ) {
 				var item=document.createElement('option');
 				item.text = resp.results[i].title;
 				item.value = resp.results[i].resource;
@@ -33,16 +35,20 @@ function search(baseUrl){
 	 				list.add(item, null); 
 				}
 			}
+			
+			searchMessage.style.display = 'block';
+			loadingMessage.style.display = 'none';
 		}
 	};
 	terms = document.getElementById("searchTerms").value;
-	xmlhttp.open("GET", baseUrl + "&terms=" + escape(terms), true);
+	xmlhttp.open("GET", baseUrl + "&terms=" + encodeURIComponent(terms), true);	
+	searchMessage.style.display = 'none';
+	loadingMessage.style.display = 'block';
 	xmlhttp.send();
 }
 
 function create(baseUrl){
-	var ie = window.navigator.userAgent.indexOf("MSIE");
-	var form = document.getElementById("bugz_form");
+	var form = document.getElementById("Create");
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState==4 && (xmlhttp.status==201)) {
@@ -54,19 +60,22 @@ function create(baseUrl){
 	};
  	var postData=baseUrl+"&prefill=false"; 
  	if (form.component) {
- 		postData += "&component="+form.component.value;
+ 		postData += "&component="+encodeURIComponent(form.component.value);
  	}
  	if (form.summary) {
- 		postData += "&summary="+form.summary.value;
+ 		postData += "&summary="+encodeURIComponent(form.summary.value);
  	}
  	if (form.version) {
- 		postData += "&version="+form.version.value;
+ 		postData += "&version="+encodeURIComponent(form.version.value);
  	}
  	if (form.op_sys) {
- 		postData += "&op_sys="+form.op_sys.value;
+ 		postData += "&op_sys="+encodeURIComponent(form.op_sys.value);
 	} 
 	if (form.platform) {
-		postData += "&platform="+form.platform.value;	
+		postData += "&platform="+encodeURIComponent(form.platform.value);	
+	}
+	if (form.description) {
+		postData += "&description="+encodeURIComponent(form.description.value);	
 	}
 	xmlhttp.open("POST", postData, true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-from-urlencoded");

@@ -17,25 +17,17 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.net.*,java.util.*,java.text.SimpleDateFormat" %>
 <%@ page import="com.j2bugzilla.base.Bug" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 Bug bug = (Bug)request.getAttribute("bug");
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
-String bugUri = (String)request.getAttribute("bugUri");
-
-String title = bug.getSummary();
-Date createdDate = (Date)bug.getParameterMap().get("creation_time"); 
-SimpleDateFormat formatter = new SimpleDateFormat();
-String created = formatter.format(createdDate);
-Date modifiedDate = (Date)bug.getParameterMap().get("last_change_time");
-String modified = formatter.format(modifiedDate);
-String identifier = bug.getID()+""; 
-String description = "None";
 String assignee = (String)bug.getParameterMap().get("assigned_to");
 %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>Change Request: <%=title %> (<%=identifier %>)</title>
+<title>Change Request: <c:out value="${bug.summary}"/> (<c:out value="${bug.ID}"/>)</title>
 <link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
 <link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">
 <link href="<%= bugzillaUri %>/skins/standard/global.css" rel="alternate stylesheet" title="Classic" type="text/css">
@@ -45,30 +37,56 @@ String assignee = (String)bug.getParameterMap().get("assigned_to");
 <link href="<%= bugzillaUri %>/skins/custom/global.css" rel="stylesheet" type="text/css">
 <link href="<%= bugzillaUri %>/skins/custom/index.css" rel="stylesheet" type="text/css">
 <link rel="shortcut icon" href="<%= bugzillaUri %>/images/favicon.ico">
+<style type="text/css">
+body {
+	background: #FFFFFF;
+	padding: 0;
+}
+
+td {
+	padding-right: 5px;
+	min-width: 175px;
+}
+
+th {
+	padding-right: 5px;
+	text-align: right;
+}
+</style>
 </head>
 <body>
-<b>Bugzilla Bug #<%= bug.getID() %></b>
-<table>
+	<div id="bugzilla-body">
+<table class="edit_form">
 	<tr>
-		<td>Summary:</td>
-		<td><%= title %></td>
+		<th>Status:</th>
+		<td><c:out value="${bug.status}"/></td>
+		<th>Product:</th>
+		<td><c:out value="${bug.product}"/></td>
 	</tr>
+	
 	<tr>
-		<td>Identifier:</td>
-		<td><%= identifier %></td>
+		<th>Assignee:</th>
+		<td><c:out value="<%= bug.getParameterMap().get("assigned_to") %>">Unassigned</c:out></td>
+		<th>Component:</th>
+		<td><c:out value="${bug.component}"/></td>
 	</tr>
+	
 	<tr>
-		<td>URI:</td>
-		<td><%= bugUri %></td>
+		<th>Priority:</th>
+		<td><c:out value="${bug.priority}"/></td>
+		<th>Version:</th>
+		<td><c:out value="${bug.version}"/></td>
 	</tr>
+	
 	<tr>
-		<td>Created:</td>
-		<td><%= created %></td>
-	</tr>
-	<tr>
-		<td>Modified:</td>
-		<td><%= modified %></td>
+		<th>Reported:</th>
+		<td><fmt:formatDate value="<%=(Date)bug.getParameterMap().get("last_change_time")%>" type="date"
+				dateStyle="default" /></td>
+		<th>Modified:</th>
+		<td><fmt:formatDate value="<%=(Date)bug.getParameterMap().get("creation_time")%>" type="date"
+				dateStyle="default" /></td>
 	</tr>
 </table>
+</div>
 </body>
 </html>

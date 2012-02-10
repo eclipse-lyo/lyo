@@ -50,8 +50,8 @@ response.setHeader("OSLC-Core-Version", "2.0");
 						<dcterms:title>Bugzilla Bug Picker</dcterms:title>
 						<oslc:label>Bugs</oslc:label>
 						<oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedSelectionURL(product.getId()) %>" />
-						<oslc:hintHeight>300px</oslc:hintHeight>
-						<oslc:hintWidth>350px</oslc:hintWidth>
+						<oslc:hintHeight>320px</oslc:hintHeight>
+						<oslc:hintWidth>470px</oslc:hintWidth>
 						<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
 						<oslc:usage rdf:resource="http://open-services.net/ns/core#default" />
 					</oslc:Dialog>
@@ -62,8 +62,8 @@ response.setHeader("OSLC-Core-Version", "2.0");
 						<dcterms:title>Bugzilla Bug Creator</dcterms:title>
 						<oslc:label>Bugs</oslc:label>
                         <oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedCreationURL(product.getId()) %>" />
-						<oslc:hintHeight>240px</oslc:hintHeight>
-						<oslc:hintWidth>420px</oslc:hintWidth>
+						<oslc:hintHeight>360px</oslc:hintHeight>
+						<oslc:hintWidth>600px</oslc:hintWidth>
 						<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
 						<oslc:usage rdf:resource="http://open-services.net/ns/core#default" />
 					</oslc:Dialog>

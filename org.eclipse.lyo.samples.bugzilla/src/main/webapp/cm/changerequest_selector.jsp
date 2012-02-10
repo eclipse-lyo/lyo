@@ -18,37 +18,56 @@
 <%@ page import="com.j2bugzilla.base.*" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
-int productId= (Integer)request.getAttribute("productId");
-String bugzillaUri = (String) request.getAttribute("bugzillaUri");
+	int productId = (Integer) request.getAttribute("productId");
+	String bugzillaUri = (String) request.getAttribute("bugzillaUri");
 %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>Bugzilla OSLC Adapter: Resource Selector</title>
-<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
-<link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">
-<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="alternate stylesheet" title="Classic" type="text/css">
-<link href="<%= bugzillaUri %>/skins/standard/index.css" rel="alternate stylesheet" title="Classic" type="text/css">
-<link href="<%= bugzillaUri %>/skins/contrib/Dusk/global.css" rel="stylesheet" title="Dusk" type="text/css">
-<link href="<%= bugzillaUri %>/skins/contrib/Dusk/index.css" rel="stylesheet" title="Dusk" type="text/css">
-<link href="<%= bugzillaUri %>/skins/custom/global.css" rel="stylesheet" type="text/css">
-<link href="<%= bugzillaUri %>/skins/custom/index.css" rel="stylesheet" type="text/css">
-<link rel="shortcut icon" href="<%= bugzillaUri %>/images/favicon.ico">
+<link href="<%=bugzillaUri%>/skins/standard/global.css" rel="stylesheet" type="text/css">
+<link href="<%=bugzillaUri%>/skins/standard/index.css" rel="stylesheet" type="text/css">
+<link href="<%=bugzillaUri%>/skins/standard/global.css" rel="alternate stylesheet" title="Classic" type="text/css">
+<link href="<%=bugzillaUri%>/skins/standard/index.css" rel="alternate stylesheet" title="Classic" type="text/css">
+<link href="<%=bugzillaUri%>/skins/contrib/Dusk/global.css" rel="stylesheet" title="Dusk" type="text/css">
+<link href="<%=bugzillaUri%>/skins/contrib/Dusk/index.css" rel="stylesheet" title="Dusk" type="text/css">
+<link href="<%=bugzillaUri%>/skins/custom/global.css" rel="stylesheet" type="text/css">
+<link href="<%=bugzillaUri%>/skins/custom/index.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="<%=bugzillaUri%>/images/favicon.ico">
 
 <script type="text/javascript" src="bugzilla.js"></script>
 
 </head>
-<body>
-	
-	<input type="text" style="width: 200px" id="searchTerms" />
-	<button type="button" onclick="search( '<%= URLStrategy.getDelegatedSelectionURL(productId) %>' )">Search</button>	
-	<br/><b>Change Requests</b><br/>
-	
-	<table>
-		<tr><td><select id="results" size="10" style="width: 300px"></select></td></tr>
-		<tr><td><button type="button" onclick="javascript: select();">OK</button>
-		<button type="button" onclick="javascript: cancel()">Cancel</button></td></tr>
-	</table>
-	
+<body style="padding: 10px;">
+	<%-- Padding --%>
+	<div id="bugzilla-body">
+
+		<p id="searchMessage">Find a specific bug by entering words that describe it.</p>
+
+		<p id="loadingMessage" style="display: none;">Bugzilla is pondering your
+			search. Please stand by ...</p>
+
+		<div>
+			<input type="search" style="width: 335px" id="searchTerms" placeholder="Enter search terms" autofocus>
+			<button type="button"
+				onclick="search( '<%=URLStrategy.getDelegatedSelectionURL(productId)%>' )">Search</button>
+		</div>
+
+		<div style="margin-top: 5px;">
+			<select id="results" size="10" style="width: 400px"></select>
+		</div>
+
+		<div style="width: 400px; margin-top: 5px;">
+			<button style="float: right;" type="button"
+				onclick="javascript: cancel()">Cancel</button>
+			<button style="float: right;" type="button"
+				onclick="javascript: select();">OK</button>
+			</td>
+		</div>
+		
+		<%-- So the buttons don't float outside the content area. --%>
+		<div style="clear: both;"></div>
+
+	</div>
 </body>
 </html>
