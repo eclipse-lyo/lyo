@@ -166,7 +166,10 @@ public class ChangeRequestService extends HttpServlet {
 			}
 
 			updateBug(request, cr);
-			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			
+			//response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			// No content might be more appropriate, but some consumers check explicitly for 200 OK.
+			response.setStatus(HttpServletResponse.SC_OK);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -218,7 +221,8 @@ public class ChangeRequestService extends HttpServlet {
 
 	private BugzillaChangeRequest readChangeRequest(HttpServletRequest request)
 			throws URISyntaxException, IOException {
-		String bugURI = getFullRequestURL(request);
+		int id = Integer.parseInt(request.getParameter("id"));
+		String bugURI = URLStrategy.getChangeRequestURL(id);
 		Model model = ModelFactory.createOntologyModel();
 		model.read(request.getInputStream(), bugURI);
 
@@ -226,18 +230,14 @@ public class ChangeRequestService extends HttpServlet {
 		reader.bind(BugzillaChangeRequest.class);
 		reader.bind(Person.class);
 		
-		return reader.load(BugzillaChangeRequest.class,
+		BugzillaChangeRequest changeRequest = reader.load(BugzillaChangeRequest.class,
 				new URI(bugURI));
-	}
-	
-	private String getFullRequestURL(HttpServletRequest request) {
-		StringBuffer url = request.getRequestURL();
-		String queryString = request.getQueryString();
-		if (queryString != null) {
-			url.append("?");
-			url.append(queryString);
+		
+		// dcterms:identifier might not be present on a partial update.
+		if (changeRequest.getIdentifier() == null) {
+			changeRequest.setIdentifier(id);
 		}
 		
-		return url.toString();
+		return changeRequest;
 	}
 }
