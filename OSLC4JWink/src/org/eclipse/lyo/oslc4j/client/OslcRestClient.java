@@ -31,6 +31,7 @@ import org.apache.wink.client.ClientWebException;
 import org.apache.wink.client.EntityType;
 import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
+import org.apache.wink.client.handlers.ClientHandler;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 public final class OslcRestClient
@@ -46,7 +47,8 @@ public final class OslcRestClient
 	public OslcRestClient(final Set<Class<?>> providers,
 	                      final String        uri,
 	                      final String        mediaType,
-	                      final int           readTimeout)
+	                      final int           readTimeout,
+	                      final ClientHandler ... handlers)
 	{
 	    super();
 
@@ -74,6 +76,12 @@ public final class OslcRestClient
 		}
 
         clientConfig.readTimeout(readTimeout);
+        
+        if ((handlers != null) && 
+        	(handlers.length > 0))
+        {
+        	clientConfig.handlers(handlers);
+        }
 
 		final RestClient client = new RestClient(clientConfig);
 
