@@ -145,7 +145,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
                        OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-one",
                        OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-many",
                        OslcConstants.OSLC_CORE_NAMESPACE + "One-or-many"})
-	@OslcDescription("MUST be either http://open-service.net/ns/core#Exactly-one, http://open-service.net/ns/core#Zero-or-one, http://open-service.net/ns/core#Zero-or-many or http://open-service.net/ns/core#One-or-many")
+	@OslcDescription("MUST be either http://open-services.net/ns/core#Exactly-one, http://open-services.net/ns/core#Zero-or-one, http://open-services.net/ns/core#Zero-or-many or http://open-services.net/ns/core#One-or-many")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "occurs")
 	@OslcReadOnly
@@ -183,7 +183,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	@OslcAllowedValue({OslcConstants.OSLC_CORE_NAMESPACE + "Reference",
 	                   OslcConstants.OSLC_CORE_NAMESPACE + "Inline",
 	                   OslcConstants.OSLC_CORE_NAMESPACE + "Either"})
-    @OslcDescription("Should be http://open-service.net/ns/core#Reference, http://open-service.net/ns/core#Inline or http://open-service.net/ns/core#Either")
+    @OslcDescription("Should be http://open-services.net/ns/core#Reference, http://open-services.net/ns/core#Inline or http://open-services.net/ns/core#Either")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "representation")
 	@OslcReadOnly
     @OslcTitle("Representation")

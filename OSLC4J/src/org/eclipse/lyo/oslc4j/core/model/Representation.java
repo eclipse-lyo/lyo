@@ -21,9 +21,9 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 
 public enum Representation {
-	Reference(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Reference"),
-	Inline(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Inline");
-//	Either(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Either"); // Either not supported by OSLC4J
+	Reference(OslcConstants.OSLC_CORE_NAMESPACE + "Reference"),
+	Inline(OslcConstants.OSLC_CORE_NAMESPACE + "Inline");
+//	Either(OslcConstants.OSLC_CORE_NAMESPACE + "Either"); // Either not supported by OSLC4J
 
 	private String uri;
 

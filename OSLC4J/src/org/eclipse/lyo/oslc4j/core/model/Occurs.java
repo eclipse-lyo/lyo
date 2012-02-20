@@ -21,10 +21,10 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 
 public enum Occurs {
-	ExactlyOne(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Exactly-one"),
-	ZeroOrOne(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Zero-or-one"),
-	ZeroOrMany(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Zero-or-many"),
-	OneOrMany(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "One-or-many");
+	ExactlyOne(OslcConstants.OSLC_CORE_NAMESPACE + "Exactly-one"),
+	ZeroOrOne(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-one"),
+	ZeroOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-many"),
+	OneOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "One-or-many");
 
 	private String uri;
 

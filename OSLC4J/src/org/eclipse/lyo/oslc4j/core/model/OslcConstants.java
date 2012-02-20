@@ -23,7 +23,6 @@ public interface OslcConstants {
 
     public static String DCTERMS_NAMESPACE        = "http://purl.org/dc/terms/";
     public static String OSLC_CORE_NAMESPACE      = "http://open-services.net/ns/core#";
-    public static String OSLC_CORE_ENUM_NAMESPACE = "http://open-service.net/ns/core#"; // TODO - For some reason enum values have a different namespace in OSLC.
     public static String OSLC_DATA_NAMESPACE      = "http://open-services.net/ns/servicemanagement/1.0/";
     public static String RDF_NAMESPACE            = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
     public static String RDFS_NAMESPACE           = "http://www.w3.org/2000/01/rdf-schema#";

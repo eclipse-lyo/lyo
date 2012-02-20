@@ -29,8 +29,8 @@ public enum ValueType {
 	Integer(OslcConstants.XML_NAMESPACE + "integer"),
 	String(OslcConstants.XML_NAMESPACE + "string"),
 	XMLLiteral(OslcConstants.RDF_NAMESPACE + "XMLLiteral"),
-	Resource(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "Resource"),
-	LocalResource(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "LocalResource");
+	Resource(OslcConstants.OSLC_CORE_NAMESPACE + "Resource"),
+	LocalResource(OslcConstants.OSLC_CORE_NAMESPACE + "LocalResource");
 //	AnyResource(OslcConstants.OSLC_CORE_ENUM_NAMESPACE + "AnyResource"); // AnyResource not supported by OSLC4J
 
 	private final String uri;
