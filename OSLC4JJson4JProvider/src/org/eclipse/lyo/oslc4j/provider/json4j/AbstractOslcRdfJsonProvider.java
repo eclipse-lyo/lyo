@@ -113,7 +113,7 @@ public abstract class AbstractOslcRdfJsonProvider
 
                     responseInfoURI = descriptionURI;
 
-                    if (queryString != null)
+                    if ((queryString != null) && isOslcQuery(queryString))
                     {
                         responseInfoURI += "?" + queryString;
                     }
@@ -183,4 +183,17 @@ public abstract class AbstractOslcRdfJsonProvider
         final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
         return responseBuilder.type(errorMediaType).entity(error).build();
     }
+    
+	public static boolean isOslcQuery (String parmString)
+	{
+		boolean containsOslcParm = false;
+
+		String [] uriParts = parmString.toLowerCase().split("oslc\\.",2);
+		if (uriParts.length > 1)
+		{
+			containsOslcParm = true;
+		}
+		
+		return containsOslcParm;
+	}
 }
