@@ -311,6 +311,10 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		this.name = name;
 	}
 
+	public void setOccurs(final Occurs occurs) {
+	    this.occurs = occurs;
+	}
+
 	public void setOccurs(final URI occurs) {
 	    if (occurs != null) {
 	        this.occurs = Occurs.fromString(occurs.toString());
@@ -334,6 +338,10 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		this.readOnly = readOnly;
 	}
 
+	public void setRepresentation(final Representation representation) {
+	    this.representation = representation;
+	}
+
 	public void setRepresentation(final URI representation) {
 	    if (representation != null) {
 	        this.representation = Representation.fromString(representation.toString());
@@ -350,6 +358,10 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	    this.valueShape = valueShape;
 	}
 
+	public void setValueType(final ValueType valueType) {
+	    this.valueType = valueType;
+	}
+	
 	public void setValueType(final URI valueType) {
 	    if (valueType != null) {
 	        this.valueType = ValueType.fromString(valueType.toString());

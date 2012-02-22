@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -113,7 +113,8 @@ public abstract class AbstractOslcRdfJsonProvider
 
                     responseInfoURI = descriptionURI;
 
-                    if ((queryString != null) && isOslcQuery(queryString))
+                    if ((queryString != null) &&
+                        (isOslcQuery(queryString)))
                     {
                         responseInfoURI += "?" + queryString;
                     }
@@ -183,17 +184,17 @@ public abstract class AbstractOslcRdfJsonProvider
         final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
         return responseBuilder.type(errorMediaType).entity(error).build();
     }
-    
-	public static boolean isOslcQuery (String parmString)
+
+	private static boolean isOslcQuery(final String parmString)
 	{
 		boolean containsOslcParm = false;
 
-		String [] uriParts = parmString.toLowerCase().split("oslc\\.",2);
+		final String [] uriParts = parmString.toLowerCase().split("oslc\\.",2);
 		if (uriParts.length > 1)
 		{
 			containsOslcParm = true;
 		}
-		
+
 		return containsOslcParm;
 	}
 }
