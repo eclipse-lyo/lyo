@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -101,7 +102,7 @@ public abstract class AbstractOslcRdfXmlProvider
 
     protected void writeTo(final boolean      queryResult,
                            final Object[]     objects,
-                           final MediaType    errorMediaType,
+                           final MediaType    baseMediaType,
                            final OutputStream outputStream)
               throws WebApplicationException
     {
@@ -144,13 +145,26 @@ public abstract class AbstractOslcRdfXmlProvider
             }
         }
 
+        // Determine whether to serialize in xml or abreviated xml based upon mediatype.
+        // application/rdf+xml yields xml
+        // applicaton/xml yields abbreviated xml
+        final String serializationLanguage;
+        if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
+        {
+            serializationLanguage = FileUtils.langXML;
+        }
+        else
+        {
+            serializationLanguage = FileUtils.langXMLAbbrev;
+        }
+
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
                                                                 objects);
 
-            final RDFWriter writer = model.getWriter(FileUtils.langXMLAbbrev);
+            final RDFWriter writer = model.getWriter(serializationLanguage);
             writer.setProperty("showXmlDeclaration",
                                "true");
             writer.setErrorHandler(ERROR_HANDLER);
@@ -163,7 +177,7 @@ public abstract class AbstractOslcRdfXmlProvider
         {
             throw new WebApplicationException(exception,
                                               buildBadRequestResponse(exception,
-                                                                      errorMediaType));
+                                                                      baseMediaType));
         }
     }
 
@@ -192,7 +206,7 @@ public abstract class AbstractOslcRdfXmlProvider
     {
         final Model model = ModelFactory.createDefaultModel();
 
-        final RDFReader reader = model.getReader(FileUtils.langXMLAbbrev);
+        final RDFReader reader = model.getReader(); // Default reader handles both xml and abbreviated xml
         reader.setErrorHandler(ERROR_HANDLER);
 
         try
