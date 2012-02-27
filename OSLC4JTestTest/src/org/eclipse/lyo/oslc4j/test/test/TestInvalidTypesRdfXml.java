@@ -36,18 +36,10 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.test.Constants;
 import org.eclipse.lyo.oslc4j.test.Test;
 
-import com.hp.hpl.jena.shared.JenaException;
-
 @SuppressWarnings("deprecation")
 public class TestInvalidTypesRdfXml
        extends TestBase
 {
-    private static final String INVALID_ABOUT_RELATIVE_URI = "<?xml version=\"1.0\"?>\n" +
-                                                             "<rdf:RDF xmlns:rdf=\"" + OslcConstants.RDF_NAMESPACE + "\" " +
-                                                                      "xmlns:oslc_test=\"" + Constants.TEST_NAMESPACE + "\">\n" +
-                                                             "<oslc_test:Test rdf:about=\"relative\"/>\n" +
-                                                             "</rdf:RDF>";
-
     private static final String INVALID_RELATIVE_URI = "<?xml version=\"1.0\"?>\n" +
                                                        "<rdf:RDF xmlns:rdf=\"" + OslcConstants.RDF_NAMESPACE + "\" " +
                                                                 "xmlns:oslc_test=\"" + Constants.TEST_NAMESPACE + "\">\n" +
@@ -173,12 +165,6 @@ public class TestInvalidTypesRdfXml
                            "Hello"));
     }
 
-    public void testInvalidStreamedAboutRelativeURI()
-    {
-        test(JenaException.class,
-             INVALID_ABOUT_RELATIVE_URI);
-    }
-
     public void testInvalidJavaAboutRelativeURI()
            throws IOException,
                   URISyntaxException
@@ -206,12 +192,6 @@ public class TestInvalidTypesRdfXml
             verifyWebApplicationException(exception,
                                           OslcCoreRelativeURIException.class);
         }
-    }
-
-    public void testInvalidStreamedRelativeURI()
-    {
-        test(JenaException.class,
-             INVALID_RELATIVE_URI);
     }
 
     public void testInvalidJavaRelativeURI()

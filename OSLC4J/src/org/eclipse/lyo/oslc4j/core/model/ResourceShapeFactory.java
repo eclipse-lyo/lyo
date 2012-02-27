@@ -184,7 +184,27 @@ public final class ResourceShapeFactory {
 			occurs = getDefaultOccurs(returnType);
 		}
 
-        final Class<?> componentType = getComponentType(resourceClass, method, returnType);
+        Class<?> componentType = getComponentType(resourceClass, method, returnType);
+        
+        // Reified resources are a special case.
+        if (IReifiedResource.class.isAssignableFrom(componentType))
+        {
+        	final Type genericType = componentType.getGenericSuperclass();
+
+        	if (genericType instanceof ParameterizedType)
+        	{
+        		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+        		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        		if (actualTypeArguments.length == 1)
+        		{
+        			final Type actualTypeArgument = actualTypeArguments[0];
+        			if (actualTypeArgument instanceof Class)
+        			{
+        				componentType = (Class<?>) actualTypeArgument;
+        			}
+        		}
+        	}
+        }
 
 		final ValueType valueType;
 		final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcValueType.class);

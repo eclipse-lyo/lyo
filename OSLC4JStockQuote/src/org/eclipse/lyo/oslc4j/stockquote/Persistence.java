@@ -54,7 +54,9 @@ public class Persistence
                   InstantiationException,
                   InvocationTargetException,
                   OslcCoreApplicationException,
-                  URISyntaxException
+                  URISyntaxException,
+                  SecurityException,
+                  NoSuchMethodException
     {
         final String fileName = createFileName(uriString);
 

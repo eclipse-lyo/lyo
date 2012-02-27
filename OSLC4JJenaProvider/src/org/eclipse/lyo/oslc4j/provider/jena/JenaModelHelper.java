@@ -60,6 +60,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionEx
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
@@ -70,6 +71,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.RSIterator;
+import com.hp.hpl.jena.rdf.model.ReifiedStatement;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
@@ -245,7 +248,9 @@ public final class JenaModelHelper
                   InstantiationException,
                   InvocationTargetException,
                   OslcCoreApplicationException,
-                  URISyntaxException
+                  URISyntaxException,
+                  SecurityException,
+                  NoSuchMethodException
     {
         final List<Object> results = new ArrayList<Object>();
 
@@ -289,7 +294,9 @@ public final class JenaModelHelper
                    InstantiationException,
                    InvocationTargetException,
                    OslcCoreApplicationException,
-                   URISyntaxException
+                   URISyntaxException,
+                   SecurityException,
+                   NoSuchMethodException
     {
         Map<String, Method> setMethodMap = classPropertyDefinitionsToSetMethods.get(beanClass);
         if (setMethodMap == null)
@@ -352,7 +359,9 @@ public final class JenaModelHelper
             else
             {
                 Class<?> setMethodComponentParameterClass = setMethod.getParameterTypes()[0];
+                
 
+                
                 boolean multiple = setMethodComponentParameterClass.isArray();
                 if (multiple)
                 {
@@ -378,7 +387,28 @@ public final class JenaModelHelper
                         }
                     }
                 }
+                
+                Class<?> reifiedClass = null;
+                if (IReifiedResource.class.isAssignableFrom(setMethodComponentParameterClass))
+                {
+                	reifiedClass = setMethodComponentParameterClass;
+                	final Type genericType = setMethodComponentParameterClass.getGenericSuperclass();
 
+                	if (genericType instanceof ParameterizedType)
+                	{
+                		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+                		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+                		if (actualTypeArguments.length == 1)
+                		{
+                			final Type actualTypeArgument = actualTypeArguments[0];
+                			if (actualTypeArgument instanceof Class)
+                			{
+                				setMethodComponentParameterClass = (Class<?>) actualTypeArgument;
+                			}
+                		}
+                	}
+                }
+                
                 Object parameter = null;
                 if (object.isLiteral())
                 {
@@ -481,6 +511,41 @@ public final class JenaModelHelper
 
                 if (parameter != null)
                 {
+                	if (reifiedClass != null)
+                	{
+						// This property supports reified statements. Create the
+						// new resource to hold the value and any metadata.
+						final Object reifiedResource = reifiedClass.newInstance();
+						
+						// Find a setter for the actual value.
+					    for (Method method : reifiedClass.getMethods())
+					    {
+					        if (!"setValue".equals(method.getName()))
+					        {
+					            continue;
+					        }
+					        final Class<?>[] parameterTypes = method.getParameterTypes();
+					        if (parameterTypes.length == 1 && setMethodComponentParameterClass.isAssignableFrom(parameterTypes[0]))
+					        {
+								method.invoke(reifiedResource, parameter);		
+								break;
+					        }
+					    }
+
+					    // Fill in any reified statements.
+					    RSIterator rsIter = statement.listReifiedStatements();
+					    while (rsIter.hasNext())
+					    {
+					    	ReifiedStatement reifiedStatement = rsIter.next();
+						    fromResource(classPropertyDefinitionsToSetMethods,
+						    		reifiedClass,
+	                                reifiedResource,
+	                                reifiedStatement);
+					    }
+					    
+                		parameter = reifiedResource;
+                	}
+                	
                     if (multiple)
                     {
                         List<Object> values = propertyDefinitionsToArrayValues.get(uri);
@@ -793,16 +858,19 @@ public final class JenaModelHelper
     {
         final Class<? extends Object> objectClass = object.getClass();
 
-        if ((object instanceof String)  ||
-            (object instanceof Boolean) ||
-            (object instanceof Number))
+        Statement statement = null;
+        final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
+        final Object value = (reifiedResource == null) ? object : reifiedResource.getValue();
+        
+        if ((value instanceof String)  ||
+            (value instanceof Boolean) ||
+            (value instanceof Number))
         {
-            resource.addProperty(attribute,
-                                 object.toString());
+            statement = model.createStatement(resource, attribute, value.toString());
         }
-        else if (object instanceof URI)
+        else if (value instanceof URI)
         {
-            final URI uri = (URI) object;
+            final URI uri = (URI) value;
 
             if (!uri.isAbsolute())
             {
@@ -811,19 +879,18 @@ public final class JenaModelHelper
                                                        uri);
             }
 
+
             // URIs represent references to other resources identified by their IDs, so they need to be managed as such
-            resource.addProperty(attribute,
-                                 model.createResource(object.toString()));
+            statement = model.createStatement(resource, attribute, model.createResource(value.toString()));
         }
-        else if (object instanceof Date)
+        else if (value instanceof Date)
         {
             final GregorianCalendar calendar = new GregorianCalendar();
-            calendar.setTime((Date) object);
+            calendar.setTime((Date) value);
 
             final String string = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar).toString();
 
-            resource.addProperty(attribute,
-                                 string);
+            statement = model.createStatement(resource, attribute, string);
         }
         else if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {
@@ -831,9 +898,9 @@ public final class JenaModelHelper
             final String name      = TypeFactory.getName(objectClass);
 
             URI aboutURI = null;
-            if (object instanceof IResource)
+            if (value instanceof IResource)
             {
-                aboutURI = ((IResource) object).getAbout();
+                aboutURI = ((IResource) value).getAbout();
             }
 
             final Resource nestedResource;
@@ -856,15 +923,41 @@ public final class JenaModelHelper
                                                                            name));
             }
 
-            buildResource(object,
+            buildResource(value,
                           objectClass,
                           model,
                           nestedResource);
 
             resource.addProperty(attribute,
                                  nestedResource);
+            statement = model.createStatement(resource, attribute, nestedResource);
+        }
+
+        if (statement != null)
+        {
+        	if (reifiedResource != null)
+        	{
+        		addReifiedStatements(model, statement, reifiedResource);
+        	}
+
+        	// Finally, add the statement to the model.
+        	model.add(statement);
         }
     }
+
+	private static void addReifiedStatements(final Model model,
+			                                 final Statement statement,
+			                                 final IReifiedResource<?> reifiedResource)
+			throws IllegalArgumentException,
+			       IllegalAccessException,
+			       InvocationTargetException,
+			       DatatypeConfigurationException,
+			       OslcCoreApplicationException
+    {
+		ReifiedStatement reifiedStatement = statement.createReifiedStatement();
+		buildResource(reifiedResource, reifiedResource.getClass(), model,
+				reifiedStatement);
+	}
 
     private static String getDefaultPropertyName(final Method method)
     {

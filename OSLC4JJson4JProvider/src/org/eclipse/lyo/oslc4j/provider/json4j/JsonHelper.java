@@ -61,10 +61,12 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyTypeException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespaceDeclarationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespacePrefixException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
@@ -467,7 +469,50 @@ final class JsonHelper
                    JSONException,
                    OslcCoreApplicationException
     {
-        for (final Method method : objectClass.getMethods())
+        buildResourceAttributes(namespaceMappings,
+        		                reverseNamespaceMappings,
+				                object,
+				                objectClass,
+				                jsonObject);
+
+        // For JSON, we have to save array of rdf:type
+
+        // Ensure we have an rdf prefix
+        final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+                                                       OslcConstants.RDF_NAMESPACE,
+                                                       namespaceMappings,
+                                                       reverseNamespaceMappings);
+
+        if (rdfPrefix != null)
+        {
+            final String qualifiedName = TypeFactory.getQualifiedName(objectClass);
+
+            final JSONArray rdfTypesJSONArray = new JSONArray();
+
+            final JSONObject rdfTypeJSONObject = new JSONObject();
+
+            rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                                  qualifiedName);
+
+            rdfTypesJSONArray.add(rdfTypeJSONObject);
+
+            jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
+                           rdfTypesJSONArray);
+        }
+    }
+
+	private static void buildResourceAttributes(final Map<String, String> namespaceMappings,
+			                                    final Map<String, String> reverseNamespaceMappings,
+			                                    final Object              object,
+			                                    final Class<?>            objectClass,
+			                                    final JSONObject          jsonObject)
+			throws IllegalAccessException,
+			       InvocationTargetException,
+			       DatatypeConfigurationException,
+			       JSONException,
+			       OslcCoreApplicationException
+    {
+		for (final Method method : objectClass.getMethods())
         {
             if (method.getParameterTypes().length == 0)
             {
@@ -498,32 +543,7 @@ final class JsonHelper
                 }
             }
         }
-
-        // For JSON, we have to save array of rdf:type
-
-        // Ensure we have an rdf prefix
-        final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
-                                                       OslcConstants.RDF_NAMESPACE,
-                                                       namespaceMappings,
-                                                       reverseNamespaceMappings);
-
-        if (rdfPrefix != null)
-        {
-            final String qualifiedName = TypeFactory.getQualifiedName(objectClass);
-
-            final JSONArray rdfTypesJSONArray = new JSONArray();
-
-            final JSONObject rdfTypeJSONObject = new JSONObject();
-
-            rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-                                  qualifiedName);
-
-            rdfTypesJSONArray.add(rdfTypeJSONObject);
-
-            jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
-                           rdfTypesJSONArray);
-        }
-    }
+	}
 
     private static String getDefaultPropertyName(final Method method)
     {
@@ -564,28 +584,11 @@ final class JsonHelper
         }
         else if (object instanceof URI)
         {
-            final URI uri = (URI) object;
-
-            if (!uri.isAbsolute())
-            {
-                throw new OslcCoreRelativeURIException(resourceClass,
-                                                       method.getName(),
-                                                       uri);
-            }
-
-            // Special nested JSONObject for URI
-            final JSONObject jsonObject = new JSONObject();
-
-            // Ensure we have an rdf prefix
-            final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
-                                                           OslcConstants.RDF_NAMESPACE,
-                                                           namespaceMappings,
-                                                           reverseNamespaceMappings);
-
-            jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-                           object.toString());
-
-            return jsonObject;
+            return handleResourceReference(namespaceMappings,
+            		                       reverseNamespaceMappings,
+            		                       resourceClass,
+            		                       method,
+            		                       (URI) object);
         }
         else if (object instanceof Date)
         {
@@ -594,12 +597,97 @@ final class JsonHelper
 
             return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar).toString();
         }
+        else if (object instanceof IReifiedResource)
+        {
+        	return handleReifiedResource(namespaceMappings,
+					                     reverseNamespaceMappings,
+					                     object.getClass(),
+					                     method,
+					                     (IReifiedResource<?>) object);
+        }
 
         return handleSingleResource(object,
                                     new JSONObject(),
                                     namespaceMappings,
                                     reverseNamespaceMappings);
     }
+
+	private static Object handleReifiedResource(final Map<String, String> namespaceMappings,
+			                                    final Map<String, String> reverseNamespaceMappings,
+			                                    final Class<?>            resourceClass,
+			                                    final Method              method,
+			                                    final IReifiedResource<?> reifiedResource)
+			throws OslcCoreInvalidPropertyTypeException,
+			       OslcCoreRelativeURIException,
+			       JSONException,
+			       IllegalAccessException,
+			       InvocationTargetException,
+			       DatatypeConfigurationException,
+			       OslcCoreApplicationException
+	{
+		final Object value = reifiedResource.getValue();
+		if (value == null)
+		{
+			return null;
+		}
+		
+		if (!(value instanceof URI))
+		{
+			// The OSLC JSON serialization doesn't support reification on anything except
+			// resources by reference (typically links with labels). Throw an exception
+			// if the value isn't a URI.
+			// See http://open-services.net/bin/view/Main/OslcCoreSpecAppendixLinks
+			throw new OslcCoreInvalidPropertyTypeException(resourceClass,
+					                                       method,
+					                                       method.getReturnType());
+		}
+		
+		// Add the resource reference value.
+		final JSONObject jsonObject = handleResourceReference(namespaceMappings,
+		                                                      reverseNamespaceMappings,
+		                                                      resourceClass,
+		                                                      method,
+		                                                      (URI) value);
+		
+		// Add any reified statements.
+		buildResourceAttributes(namespaceMappings,
+				                reverseNamespaceMappings,
+				                reifiedResource,
+				                resourceClass,
+				                jsonObject);
+		
+		return jsonObject;
+	}
+
+	protected static JSONObject handleResourceReference(final Map<String, String> namespaceMappings,
+													    final Map<String, String> reverseNamespaceMappings,
+													    final Class<?>            resourceClass,
+													    final Method              method,
+													    final URI                 uri)
+			throws OslcCoreRelativeURIException,
+			       JSONException
+	{
+		if (!uri.isAbsolute())
+		{
+		    throw new OslcCoreRelativeURIException(resourceClass,
+		                                           method.getName(),
+		                                           uri);
+		}
+
+		// Special nested JSONObject for URI
+		final JSONObject jsonObject = new JSONObject();
+
+		// Ensure we have an rdf prefix
+		final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+		                                               OslcConstants.RDF_NAMESPACE,
+		                                               namespaceMappings,
+		                                               reverseNamespaceMappings);
+
+		jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+		               uri.toString());
+		
+		return jsonObject;
+	}
 
     private static JSONObject handleSingleResource(final Object              object,
                                                    final JSONObject          jsonObject,
@@ -787,7 +875,30 @@ final class JsonHelper
                 ((IResource) bean).setAbout(aboutURI);
             }
         }
+        else if (bean instanceof IReifiedResource)
+    	{
+    		@SuppressWarnings("unchecked")
+    		final IReifiedResource<Object> reifiedResource = (IReifiedResource<Object>) bean;
+    		String resourceReference;
+    		try
+    		{
+    			resourceReference = jsonObject.getString(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE);
+    		}
+    		catch (JSONException e)
+    		{
+    			throw new IllegalArgumentException(e);
+    		}
 
+    		try
+    		{
+    			reifiedResource.setValue(new URI(resourceReference));
+    		}
+    		catch (ClassCastException e)
+    		{
+    			throw new IllegalArgumentException(e);
+    		}
+    	}	
+    	
         @SuppressWarnings("unchecked")
         final Set<Map.Entry<String, Object>> entrySet = jsonObject.entrySet();
 
@@ -865,7 +976,7 @@ final class JsonHelper
                             }
                         }
                     }
-
+                    
                     final Object parameter = fromJSONValue(rdfPrefix,
                                                            jsonNamespaceMappings,
                                                            classPropertyDefinitionsToSetMethods,
@@ -905,21 +1016,24 @@ final class JsonHelper
         {
             final JSONObject nestedJSONObject = (JSONObject) jsonValue;
 
-            // If this is the special case for an rdf:resource?
-            final Object uriObject = nestedJSONObject.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE);
-
-            if (uriObject instanceof String)
+            if (!IReifiedResource.class.isAssignableFrom(setMethodComponentParameterClass))
             {
-                final URI uri = new URI(uriObject.toString());
+            	// If this is the special case for an rdf:resource?
+            	final Object uriObject = nestedJSONObject.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE);
 
-                if (!uri.isAbsolute())
-                {
-                    throw new OslcCoreRelativeURIException(beanClass,
-                                                           setMethod.getName(),
-                                                           uri);
-                }
+            	if (uriObject instanceof String)
+            	{
+            		final URI uri = new URI(uriObject.toString());
 
-                return uri;
+            		if (!uri.isAbsolute())
+            		{
+            			throw new OslcCoreRelativeURIException(beanClass,
+            					setMethod.getName(),
+            					uri);
+            		}
+
+            		return uri;
+            	}
             }
 
             final Object nestedBean = setMethodComponentParameterClass.newInstance();
