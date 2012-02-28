@@ -30,7 +30,6 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.shared.JenaException;
 import com.hp.hpl.jena.shared.PropertyNotFoundException;
-import com.hp.hpl.jena.util.FileUtils;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
@@ -76,9 +75,6 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		ModelMaker maker = ModelFactory.createModelRDBMaker(conn);
 		model = maker.createDefaultModel();
 		conn.close();
-		
-		// For debugging...
-		model.write(System.out, FileUtils.langTurtle);
 	}
 
 	public void loadConsumers() throws ConsumerStoreException {
