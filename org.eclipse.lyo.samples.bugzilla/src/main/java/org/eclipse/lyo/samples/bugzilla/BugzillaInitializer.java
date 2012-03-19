@@ -137,10 +137,7 @@ public class BugzillaInitializer implements ServletContextListener {
 		try {
 			// For now, hard-code the consumers.
 			config.setConsumerStore(new RdfConsumerStore());
-		} catch (ConsumerStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

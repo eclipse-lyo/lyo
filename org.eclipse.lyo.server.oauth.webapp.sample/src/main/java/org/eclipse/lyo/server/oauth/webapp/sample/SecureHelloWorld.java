@@ -16,7 +16,6 @@
 package org.eclipse.lyo.server.oauth.webapp.sample;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -38,7 +37,6 @@ import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 
 /**
  * A simple OAuth example using the Lyo OAuth provider framework.
@@ -102,9 +100,7 @@ public class SecureHelloWorld implements ServletContextListener {
 		
 		try {
 			config.setConsumerStore(new RdfConsumerStore());
-		} catch (ConsumerStoreException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

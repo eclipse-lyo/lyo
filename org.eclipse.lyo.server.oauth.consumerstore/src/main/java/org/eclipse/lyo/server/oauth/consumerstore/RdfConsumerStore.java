@@ -17,6 +17,7 @@ package org.eclipse.lyo.server.oauth.consumerstore;
 
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
@@ -28,7 +29,9 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.ModelMaker;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.shared.Command;
 import com.hp.hpl.jena.shared.JenaException;
+import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.shared.PropertyNotFoundException;
 import com.hp.hpl.jena.vocabulary.RDF;
 
@@ -58,10 +61,13 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 	protected final static String DB_PASSWD = ""; // database password
 	protected final static String DB = "Derby"; // database type
 
+	private Logger logger = Logger.getLogger(RdfConsumerStore.class);
+	
 	private Model model;
 
-	public RdfConsumerStore() throws SQLException, ConsumerStoreException {
-		initializeModel();
+	public RdfConsumerStore() throws SQLException, ConsumerStoreException,
+			ClassNotFoundException {
+		createModel();
 		loadConsumers();
 	}
 
@@ -70,59 +76,100 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		loadConsumers();
 	}
 
-	protected void initializeModel() throws SQLException {
-		IDBConnection conn = new DBConnection(DB_URL, DB_USER, DB_PASSWD, DB);
-		ModelMaker maker = ModelFactory.createModelRDBMaker(conn);
-		model = maker.createDefaultModel();
-		conn.close();
+	protected void createModel() {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+
+			IDBConnection conn = new DBConnection(DB_URL, DB_USER, DB_PASSWD, DB);
+			ModelMaker maker = ModelFactory.createModelRDBMaker(conn);
+			model = maker.createDefaultModel();
+			conn.close();
+		} catch (Exception e) {
+			logger.error("Could not create OAuth consumer store.", e);
+		}
 	}
 
-	public void loadConsumers() throws ConsumerStoreException {
-		ResIterator i = model.listResourcesWithProperty(RDF.type,
-				model.createResource(CONSUMER_RESOURCE));
-		while (i.hasNext()) {
-			Resource consumerResource = i.next();
-			try {
-				add(fromResource(consumerResource));
-			} catch (PropertyNotFoundException e) {
-				// The resource is missing some properties.
-				// Not good, but other consumer resources might
-				// be OK, so continue. (Log the error, though.)
-				e.printStackTrace();
-			} catch (JenaException e) {
-				// Some other runtime exception occurred.
-				throw new ConsumerStoreException(e);
+	protected void loadConsumers() throws ConsumerStoreException {
+		try {
+			model.enterCriticalSection(Lock.READ);
+			ResIterator i = model.listResourcesWithProperty(RDF.type,
+					model.createResource(CONSUMER_RESOURCE));
+			while (i.hasNext()) {
+				Resource consumerResource = i.next();
+				try {
+					add(fromResource(consumerResource));
+				} catch (PropertyNotFoundException e) {
+					// The resource is missing some properties.
+					// Not good, but other consumer resources might
+					// be OK, so continue. (Log the error, though.)
+					logger.error(
+							"Could not load consumer "
+									+ consumerResource.getProperty(model
+											.createProperty(CONSUMER_NAME))
+									+ " ("
+									+ consumerResource.getProperty(model
+											.createProperty(CONSUMER_KEY))
+									+ ")", e);
+				} catch (JenaException e) {
+					// Some other runtime exception occurred.
+					throw new ConsumerStoreException(e);
+				}
 			}
+		} finally {
+			model.leaveCriticalSection();
 		}
 	}
 
 	@Override
-	public LyoOAuthConsumer addConsumer(LyoOAuthConsumer consumer)
+	public LyoOAuthConsumer addConsumer(final LyoOAuthConsumer consumer)
 			throws ConsumerStoreException {
-		model.begin();
+		if (model == null) {
+			throw new ConsumerStoreException("Consumer store not initialized.");
+		}
+		
 		try {
-			removeProperties(consumer);
-			toResource(consumer);
-			model.commit();
+			model.enterCriticalSection(Lock.WRITE);
+			model.executeInTransaction(new Command() {
+				@Override
+				public Object execute() {
+					removeProperties(consumer);
+					toResource(consumer);
+					
+					return consumer;
+				}
+			});
+						
 			return add(consumer);
 		} catch (JenaException e) {
-			model.abort();
 			throw new ConsumerStoreException(e);
+		} finally {
+			model.leaveCriticalSection();
 		}
 	}
 
 	@Override
-	public LyoOAuthConsumer removeConsumer(String consumerKey)
+	public LyoOAuthConsumer removeConsumer(final String consumerKey)
 			throws ConsumerStoreException {
-		model.begin();
+		if (model == null) {
+			throw new ConsumerStoreException("Consumer store not initialized.");
+		}
+		
 		try {
-			removeProperties(consumerKey);
-			model.commit();
-
+			model.enterCriticalSection(Lock.WRITE);
+			model.executeInTransaction(new Command() {
+				@Override
+				public Object execute() {
+					removeProperties(consumerKey);
+					
+					return consumerKey;
+				}
+			});
+	
 			return remove(consumerKey);
 		} catch (JenaException e) {
-			model.abort();
 			throw new ConsumerStoreException(e);
+		} finally {
+			model.leaveCriticalSection();
 		}
 	}
 
