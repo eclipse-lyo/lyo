@@ -19,9 +19,14 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class AbstractResource implements IResource {
+import javax.xml.namespace.QName;
+
+public abstract class AbstractResource implements IExtendedResource {
     private URI about;
+    private Map<QName, Object> extendedProperties = new HashMap<QName, Object>();
 
     protected AbstractResource(final URI about) {
         super();
@@ -33,7 +38,7 @@ public abstract class AbstractResource implements IResource {
         super();
     }
 
-    @Override
+	@Override
     public final URI getAbout() {
 		return about;
 	}
@@ -41,5 +46,17 @@ public abstract class AbstractResource implements IResource {
 	@Override
     public final void setAbout(final URI about) {
 		this.about = about;
+	}
+    
+	@Override
+	public void setExtendedProperties(final Map<QName, Object> properties)
+	{
+		this.extendedProperties = properties;
+	}
+
+	@Override
+	public Map<QName, Object> getExtendedProperties()
+	{
+		return extendedProperties;
 	}
 }

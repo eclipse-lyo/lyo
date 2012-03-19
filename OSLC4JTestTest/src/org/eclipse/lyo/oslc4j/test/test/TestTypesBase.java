@@ -26,13 +26,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.ws.rs.core.Response;
+import javax.xml.namespace.QName;
 
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.ClientWebException;
@@ -41,9 +45,11 @@ import org.eclipse.lyo.oslc4j.client.OslcRestClient;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ExtendedError;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Preview;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 import org.eclipse.lyo.oslc4j.test.Constants;
 import org.eclipse.lyo.oslc4j.test.Nested;
 import org.eclipse.lyo.oslc4j.test.Test;
@@ -51,44 +57,47 @@ import org.eclipse.lyo.oslc4j.test.Test;
 public abstract class TestTypesBase
        extends TestBase
 {
-    private static final BigInteger   VALUE_BIG_INTEGER        = new BigInteger("1");
-    private static final BigInteger[] VALUE_BIG_INTEGERS       = new BigInteger[] {VALUE_BIG_INTEGER};
-    private static final Boolean      VALUE_BOOLEAN            = Boolean.TRUE;
-    private static final Boolean[]    VALUE_BOOLEANS           = new Boolean[] {VALUE_BOOLEAN};
-    private static final Byte         VALUE_BYTE               = Byte.valueOf("2");
-    private static final Byte[]       VALUE_BYTES              = new Byte[] {VALUE_BYTE};
-    static private final Date         VALUE_DATE               = new Date();
-    static private final Date[]       VALUE_DATES              = new Date[] {VALUE_DATE};
-    private static final Double       VALUE_DOUBLE             = Double.valueOf(3);
-    private static final Double[]     VALUE_DOUBLES            = new Double[] {VALUE_DOUBLE};
-    private static final Float        VALUE_FLOAT              = Float.valueOf(4);
-    private static final Float[]      VALUE_FLOATS             = new Float[] {VALUE_FLOAT};
-    private static final Integer      VALUE_INTEGER            = Integer.valueOf(5);
-    private static final Integer[]    VALUE_INTEGERS           = new Integer[] {VALUE_INTEGER};
-    private static final Long         VALUE_LONG               = Long.valueOf(6);
-    private static final Long[]       VALUE_LONGS              = new Long[] {VALUE_LONG};
-    private static final Nested       VALUE_NESTED             = new Nested();
-    private static final Nested[]     VALUE_NESTEDS            = new Nested[] {VALUE_NESTED};
-    private static final boolean      VALUE_PRIMITIVE_BOOLEAN  = true;
-    private static final boolean[]    VALUE_PRIMITIVE_BOOLEANS = new boolean[] {VALUE_PRIMITIVE_BOOLEAN};
-    private static final byte         VALUE_PRIMITIVE_BYTE     = (byte) 7;
-    private static final byte[]       VALUE_PRIMITIVE_BYTES    = new byte[] {VALUE_PRIMITIVE_BYTE};
-    private static final double       VALUE_PRIMITIVE_DOUBLE   = 8.0D;
-    private static final double[]     VALUE_PRIMITIVE_DOUBLES  = new double[] {VALUE_PRIMITIVE_DOUBLE};
-    private static final float        VALUE_PRIMITIVE_FLOAT    = 9.0F;
-    private static final float[]      VALUE_PRIMITIVE_FLOATS   = new float[] {VALUE_PRIMITIVE_FLOAT};
-    private static final int          VALUE_PRIMITIVE_INTEGER  = 10;
-    private static final int[]        VALUE_PRIMITIVE_INTEGERS = new int[] {VALUE_PRIMITIVE_INTEGER};
-    private static final long         VALUE_PRIMITIVE_LONG     = 11;
-    private static final long[]       VALUE_PRIMITIVE_LONGS    = new long[] {VALUE_PRIMITIVE_LONG};
-    private static final short        VALUE_PRIMITIVE_SHORT    = (short) 12;
-    private static final short[]      VALUE_PRIMITIVE_SHORTS   = new short[] {VALUE_PRIMITIVE_SHORT};
-    private static final Short        VALUE_SHORT              = Short.valueOf((short) 13);
-    private static final Short[]      VALUE_SHORTS             = new Short[] {VALUE_SHORT};
-    private static final String       VALUE_STRING             = "Hello World!";
-    private static final String[]     VALUE_STRINGS            = new String[] {VALUE_STRING};
-    private static final URI          VALUE_URI;
-    private static final URI[]        VALUE_URIS;
+	private static final BigInteger				VALUE_BIG_INTEGER				= new BigInteger("1");
+	private static final BigInteger[]			VALUE_BIG_INTEGERS				= new BigInteger[] { VALUE_BIG_INTEGER };
+	private static final Boolean				VALUE_BOOLEAN					= Boolean.TRUE;
+	private static final Boolean[]				VALUE_BOOLEANS					= new Boolean[] { VALUE_BOOLEAN };
+	private static final Byte					VALUE_BYTE						= Byte.valueOf("2");
+	private static final Byte[]					VALUE_BYTES						= new Byte[] { VALUE_BYTE };
+	static private final Date					VALUE_DATE						= new Date();
+	static private final Date[]					VALUE_DATES						= new Date[] { VALUE_DATE };
+	private static final Double					VALUE_DOUBLE					= Double.valueOf(3);
+	private static final Double[]				VALUE_DOUBLES					= new Double[] { VALUE_DOUBLE };
+	private static final Float					VALUE_FLOAT						= Float.valueOf(4);
+	private static final Float[]				VALUE_FLOATS					= new Float[] { VALUE_FLOAT };
+	private static final Integer				VALUE_INTEGER					= Integer.valueOf(5);
+	private static final Integer[]				VALUE_INTEGERS					= new Integer[] { VALUE_INTEGER };
+	private static final Long					VALUE_LONG						= Long.valueOf(6);
+	private static final Long[]					VALUE_LONGS						= new Long[] { VALUE_LONG };
+	private static final Nested					VALUE_NESTED					= new Nested();
+	private static final Nested[]				VALUE_NESTEDS					= new Nested[] { VALUE_NESTED };
+	private static final boolean				VALUE_PRIMITIVE_BOOLEAN			= true;
+	private static final boolean[]				VALUE_PRIMITIVE_BOOLEANS		= new boolean[] { VALUE_PRIMITIVE_BOOLEAN };
+	private static final byte					VALUE_PRIMITIVE_BYTE			= (byte) 7;
+	private static final byte[]					VALUE_PRIMITIVE_BYTES			= new byte[] { VALUE_PRIMITIVE_BYTE };
+	private static final double					VALUE_PRIMITIVE_DOUBLE			= 8.0D;
+	private static final double[]				VALUE_PRIMITIVE_DOUBLES			= new double[] { VALUE_PRIMITIVE_DOUBLE };
+	private static final float					VALUE_PRIMITIVE_FLOAT			= 9.0F;
+	private static final float[]				VALUE_PRIMITIVE_FLOATS			= new float[] { VALUE_PRIMITIVE_FLOAT };
+	private static final int					VALUE_PRIMITIVE_INTEGER			= 10;
+	private static final int[]					VALUE_PRIMITIVE_INTEGERS		= new int[] { VALUE_PRIMITIVE_INTEGER };
+	private static final long					VALUE_PRIMITIVE_LONG			= 11;
+	private static final long[]					VALUE_PRIMITIVE_LONGS			= new long[] { VALUE_PRIMITIVE_LONG };
+	private static final short					VALUE_PRIMITIVE_SHORT			= (short) 12;
+	private static final short[]				VALUE_PRIMITIVE_SHORTS			= new short[] { VALUE_PRIMITIVE_SHORT };
+	private static final Short					VALUE_SHORT						= Short.valueOf((short) 13);
+	private static final Short[]				VALUE_SHORTS					= new Short[] { VALUE_SHORT };
+	private static final String					VALUE_STRING					= "Hello World!";
+	private static final String[]				VALUE_STRINGS					= new String[] { VALUE_STRING };
+	private static final URI					VALUE_URI;
+	private static final URI[]					VALUE_URIS;
+	private static final String                 CUSTOM_NAMESPACE                = "http://example.com/ns#";
+	private static final String                 CUSTOM_PREFIX                   = "ex";	
+	private static final Map<QName, Object>		CUSTOM_FIELDS					= new HashMap<QName, Object>();
 
     private static URI CREATED_TEST_URI;
 
@@ -100,6 +109,46 @@ public abstract class TestTypesBase
         {
             VALUE_URI  = new URI("http://www.ibm.com");
             VALUE_URIS = new URI[] {VALUE_URI};
+            
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customString", CUSTOM_PREFIX), VALUE_STRING);
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customBool", CUSTOM_PREFIX), Boolean.TRUE);
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customDate", CUSTOM_PREFIX), new Date());
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customURIRef", CUSTOM_PREFIX), new URI("http://example.com/resources/3"));
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customInt", CUSTOM_PREFIX), VALUE_INTEGER);
+            
+            final List<String> stringCollection = Arrays.asList("one",
+            	                                                "two",
+            	                                                "three");
+            
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customStringCollection", CUSTOM_PREFIX), stringCollection);
+            
+            final List<URI> uriCollection = Arrays.asList(new URI("http://example.com/resources/27"),
+            	                                          new URI("http://example.com/resources/13"));
+            
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customURICollection", CUSTOM_PREFIX), uriCollection);
+
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customBigInt", CUSTOM_PREFIX), VALUE_BIG_INTEGER);
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customFloat", CUSTOM_PREFIX), VALUE_FLOAT);
+            
+            // Inline resource with a URI
+            final Nested nested1 = new Nested();
+            nested1.setAbout(new URI("http://example.com/resources/42"));
+            nested1.setStringProperty("foo");
+            
+            final Nested nested2 = new Nested();
+            nested2.setAbout(new URI("http://example.com/resources/109"));
+            nested2.setStringProperty("bar");
+            
+            // Individual resource
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customInlineResource", CUSTOM_PREFIX), nested1);
+            
+            // Collection
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customInlineResourceCollection", CUSTOM_PREFIX), Arrays.asList(nested1, nested2));
+            
+            // Blank node
+            final Nested nested3 = new Nested();
+            nested3.setStringProperty("baz");
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customBlankNode", CUSTOM_PREFIX), nested3);
         }
         catch (final URISyntaxException exception)
         {
@@ -181,6 +230,11 @@ public abstract class TestTypesBase
         test.setUriCollection(VALUE_URI_COLLECTION);
         test.setUriProperty(VALUE_URI);
         test.setUriProperties(VALUE_URIS);
+        
+        for (Entry<QName, Object> customField : CUSTOM_FIELDS.entrySet())
+        {
+        	test.getExtendedProperties().put(customField.getKey(), customField.getValue());
+        }
 
         final String creation = getCreation(mediaType,
                                             Constants.TEST_DOMAIN,
@@ -608,6 +662,15 @@ public abstract class TestTypesBase
         assertEquals(VALUE_URI_COLLECTION, uriCollection);
         assertTrue(Arrays.equals(VALUE_URIS, uriProperties));
 
+        final Set<Map.Entry<QName, Object>> extendedProperties = test.getExtendedProperties().entrySet();
+        assertEquals(CUSTOM_FIELDS.size(), extendedProperties.size());
+        for (final Entry<QName, Object> entry : extendedProperties)
+        {
+        	final Object expected = CUSTOM_FIELDS.get(entry.getKey());
+        	final Object actual = entry.getValue();
+        	verifyCustomField(expected, actual);
+        }
+        
         if (recurse)
         {
             final OslcRestClient aboutOSLCRestClient = new OslcRestClient(PROVIDERS,
@@ -620,6 +683,78 @@ public abstract class TestTypesBase
         }
     }
 
+    protected static boolean collectionHasResource(final IResource toFind,
+    		                                       final Collection<?> c)
+    {
+    	for (final Object next : c)
+    	{
+    		if (next instanceof IResource)
+    		{
+    			final IResource nextResource = (IResource) next;
+    			if (toFind.getAbout().equals(nextResource.getAbout()))
+    			{
+    				return true;
+    			}
+    		}
+    	}
+    	
+    	return false;
+    }
+    
+    protected static void verifyCustomField(final Object expected,
+    		                                final Object actual)
+    {
+    	if (expected instanceof Collection && actual instanceof Collection)
+    	{
+    		final Collection<?> expectedCollection = (Collection<?>) expected;
+    		final Collection<?> actualCollection = (Collection<?>) actual;
+    		assertEquals(expectedCollection.size(), actualCollection.size());
+    		for (final Object o : actualCollection)
+    		{
+    			if (o instanceof IResource)
+    			{
+    				assertTrue(collectionHasResource((IResource) o, expectedCollection));
+    			}
+    			else
+    			{
+    				assertTrue(expectedCollection.contains(o));
+    			}
+    		}
+    	}
+    	// If the resource didn't have any properties, you'll get back only
+    	// a URI when reading it in again.
+    	else if (expected instanceof IResource && actual instanceof URI)
+    	{
+    		final IResource expectedResource = (IResource) expected;
+    		assertEquals(expectedResource.getAbout(), actual);
+    	}
+    	else if (expected instanceof Nested && actual instanceof AnyResource)
+    	{
+    		final Nested expectedNested = (Nested) expected;
+    		final AnyResource actualNested = (AnyResource) actual;
+    		final String expectedString = expectedNested.getStringProperty();
+    		if (expectedString != null)
+    		{
+    			final String actualString = (String) actualNested.getExtendedProperties().get(new QName(Constants.TEST_DOMAIN, "stringProperty"));
+    			assertEquals(expectedString, actualString);
+    		}
+    	}
+    	else if (expected instanceof Number && actual instanceof Number)
+		{
+			// In some cases, the number type might be different when serialized
+			// out and then read back in (for instance, a BigInteger might
+			// become an Integer). Do our best to compare the values.
+			// This loses precision, but should be sufficient for these tests.
+    		final Number expectedNumber = (Number) expected;
+    		final Number actualNumber = (Number) actual;
+    		assertEquals(expectedNumber.doubleValue(), actualNumber.doubleValue()); 
+    	}
+    	else
+    	{
+    		assertEquals(expected, actual);
+    	}
+    }
+    
     protected static void verifyCompact(final String  mediaType,
                                         final Compact compact,
                                         final boolean recurse)

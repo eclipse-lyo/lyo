@@ -37,6 +37,7 @@ import java.util.Deque;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.namespace.QName;
 
 import org.apache.wink.json4j.JSONArray;
 import org.apache.wink.json4j.JSONException;
@@ -66,11 +68,13 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespaceDeclaration
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespacePrefixException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
+import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 
 final class JsonHelper
 {
@@ -543,8 +547,153 @@ final class JsonHelper
                 }
             }
         }
+		
+        if (object instanceof IExtendedResource)
+        {
+        	final IExtendedResource extendedResource = (IExtendedResource) object;
+        	addExtendedProperties(namespaceMappings,
+				                  reverseNamespaceMappings,
+				                  jsonObject,
+				                  extendedResource);
+        }
 	}
 
+	protected static void addExtendedProperties(final Map<String, String> namespaceMappings,
+					                            final Map<String, String> reverseNamespaceMappings,
+					                            final JSONObject jsonObject,
+					                            final IExtendedResource extendedResource)
+			throws JSONException,
+				   DatatypeConfigurationException,
+				   IllegalAccessException,
+				   InvocationTargetException,
+				   OslcCoreApplicationException
+	{
+		for (Map.Entry<QName, Object> extendedProperty : extendedResource.getExtendedProperties().entrySet())
+		{
+			final Object value = getExtendedPropertyJsonValue(namespaceMappings, reverseNamespaceMappings, extendedProperty.getValue());
+			if (value == null)
+			{
+				logger.warning("Could not add extended property " + extendedProperty.getKey() + " for resource " + extendedResource.getAbout());
+			}
+			else
+			{
+				final String prefix = extendedProperty.getKey().getPrefix();
+				final String namespace = extendedProperty.getKey().getNamespaceURI();
+				final String localName = extendedProperty.getKey().getLocalPart();
+
+				// Add the prefix to the JSON namespace mappings.
+				namespaceMappings.put(prefix, namespace);
+				reverseNamespaceMappings.put(namespace, prefix);
+
+				// Add the value to the JSON object.
+				jsonObject.put(prefix + JSON_PROPERTY_DELIMITER + localName, value);
+			}
+		}
+	}
+
+	private static Object getExtendedPropertyJsonValue(final Map<String, String> namespaceMappings,
+												       final Map<String, String> reverseNamespaceMappings,
+												       final Object              object)
+	    throws JSONException,
+	           DatatypeConfigurationException,
+	           IllegalArgumentException,
+	           IllegalAccessException,
+	           InvocationTargetException,
+	           OslcCoreApplicationException
+	{
+		final Class<?> resourceClass = object.getClass();
+		if (object instanceof Collection)
+		{
+			final JSONArray jsonArray = new JSONArray();
+			@SuppressWarnings("unchecked")
+			final Collection<Object> c = (Collection<Object>) object;
+			for (final Object next : c)
+			{
+				final Object nextJson =  getExtendedPropertyJsonValue(namespaceMappings, reverseNamespaceMappings, next);
+				if (nextJson != null)
+				{
+					jsonArray.add(nextJson);
+				}
+			}
+			
+			return jsonArray;
+		}
+		else if ((object instanceof String)  ||
+				(object instanceof Boolean) ||
+				(object instanceof Number))
+		{
+			return object;
+		}
+		else if (object instanceof Date)
+		{
+			final GregorianCalendar calendar = new GregorianCalendar();
+			calendar.setTime((Date) object);
+
+			return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar).toString();
+		}
+		else if (object instanceof URI)
+		{
+			return handleResourceReference(namespaceMappings,
+				                           reverseNamespaceMappings,
+				                           resourceClass,
+				                           null,
+				                           (URI) object);
+		}
+		else if (object instanceof AnyResource)
+		{
+			final AnyResource any = (AnyResource) object;
+			final JSONObject jsonObject = new JSONObject();
+			if (any.getAbout() != null)
+			{
+                addAboutURI(jsonObject,
+					        namespaceMappings,
+					        reverseNamespaceMappings,
+					        AnyResource.class,
+					        any.getAbout());
+			}
+			
+        	addExtendedProperties(namespaceMappings,
+                                  reverseNamespaceMappings,
+                                  jsonObject,
+                                  any);
+
+    		// Ensure we have an rdf prefix
+    		final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+    		                                               OslcConstants.RDF_NAMESPACE,
+    		                                               namespaceMappings,
+    		                                               reverseNamespaceMappings);
+        	
+    		if (!any.getTypes().isEmpty())
+    		{
+    			final JSONArray rdfTypesJSONArray = new JSONArray();
+
+    			final JSONObject rdfTypeJSONObject = new JSONObject();
+
+    			for (final URI type : any.getTypes())
+    			{
+    				rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+    					type.toString());
+    			}
+
+    			rdfTypesJSONArray.add(rdfTypeJSONObject);
+
+    			jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
+    				rdfTypesJSONArray);
+    		}
+    		
+        	return jsonObject;
+		}
+		else if (object instanceof IResource)
+		{
+			return handleSingleResource(object,
+				                        new JSONObject(),
+				                        namespaceMappings,
+				                        reverseNamespaceMappings);
+		}
+		
+		return null;
+	}
+	
     private static String getDefaultPropertyName(final Method method)
     {
         final String methodName    = method.getName();
@@ -670,7 +819,7 @@ final class JsonHelper
 		if (!uri.isAbsolute())
 		{
 		    throw new OslcCoreRelativeURIException(resourceClass,
-		                                           method.getName(),
+		                                           (method == null) ? "<none>" : method.getName(),
 		                                           uri);
 		}
 
@@ -712,25 +861,11 @@ final class JsonHelper
             if (object instanceof IResource)
             {
                 final URI aboutURI = ((IResource) object).getAbout();
-
-                if (aboutURI != null)
-                {
-                    if (!aboutURI.isAbsolute())
-                    {
-                        throw new OslcCoreRelativeURIException(objectClass,
-                                                               "getAbout",
-                                                               aboutURI);
-                    }
-
-                    // Ensure we have an rdf prefix
-                    final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
-                                                                   OslcConstants.RDF_NAMESPACE,
-                                                                   namespaceMappings,
-                                                                   reverseNamespaceMappings);
-
-                    jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
-                                   aboutURI.toString());
-                }
+                addAboutURI(jsonObject,
+					        namespaceMappings,
+					        reverseNamespaceMappings,
+					        objectClass,
+					        aboutURI);
             }
 
             buildResource(namespaceMappings,
@@ -744,6 +879,34 @@ final class JsonHelper
 
         return null;
     }
+
+	protected static void addAboutURI(final JSONObject jsonObject,
+			                          final Map<String, String> namespaceMappings,
+			                          final Map<String, String> reverseNamespaceMappings,
+			                          final Class<? extends Object> objectClass,
+			                          final URI aboutURI)
+			throws OslcCoreRelativeURIException,
+				   JSONException
+	{
+		if (aboutURI != null)
+		{
+		    if (!aboutURI.isAbsolute())
+		    {
+		        throw new OslcCoreRelativeURIException(objectClass,
+		                                               "getAbout",
+		                                               aboutURI);
+		    }
+
+		    // Ensure we have an rdf prefix
+		    final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+		                                                   OslcConstants.RDF_NAMESPACE,
+		                                                   namespaceMappings,
+		                                                   reverseNamespaceMappings);
+
+		    jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
+		                   aboutURI.toString());
+		}
+	}
 
     private static String ensureNamespacePrefix(final String              prefix,
                                                 final String              namespace,
@@ -899,6 +1062,18 @@ final class JsonHelper
     		}
     	}	
     	
+        final Map<QName, Object> extendedProperties;
+        if (bean instanceof IExtendedResource)
+        {
+        	final IExtendedResource extendedResource = (IExtendedResource) bean;
+        	extendedProperties = new HashMap<QName, Object>();
+        	extendedResource.setExtendedProperties(extendedProperties);
+        }
+        else
+        {
+        	extendedProperties = null;
+        }
+        
         @SuppressWarnings("unchecked")
         final Set<Map.Entry<String, Object>> entrySet = jsonObject.entrySet();
 
@@ -932,7 +1107,7 @@ final class JsonHelper
 
                 final String propertyDefinition = namespace +
                                                   name;
-
+                
                 final Method setMethod = setMethodMap.get(propertyDefinition);
                 if (setMethod == null)
                 {
@@ -943,10 +1118,25 @@ final class JsonHelper
                     }
                     else
                     {
-                        logger.warning("Set method not found for object type:  " +
-                                       beanClass.getName() +
-                                       ", propertyDefinition:  " +
-                                       propertyDefinition);
+                    	if (extendedProperties == null)
+                    	{
+                    		logger.warning("Set method not found for object type:  " +
+                    				beanClass.getName() +
+                    				", propertyDefinition:  " +
+                    				propertyDefinition);
+                    	}
+                    	else
+                    	{
+                    		final Object value = fromExtendedJSONValue(jsonValue,
+                    			                                       rdfPrefix,
+                    			                                       jsonNamespaceMappings,
+                    			                                       beanClass);
+                    		final QName qName = new QName(namespace,
+                    			                          name,
+                    			                          namespacePrefix);
+                    		
+                    		extendedProperties.put(qName, value);
+                    	}
                     }
                 }
                 else
@@ -995,6 +1185,102 @@ final class JsonHelper
             }
         }
     }
+
+	/*
+	 * Infer the appropriate bean value from the JSON value. We can't rely on
+	 * the setter parameter type since this is an extended value that has no
+	 * setter in the bean.
+	 */
+	private static Object fromExtendedJSONValue(final Object jsonValue,
+			                                    final String rdfPrefix,
+			                                    final Map<String, String> jsonNamespaceMappings,
+			                                    final Class<?> beanClass)
+			throws DatatypeConfigurationException,
+			       URISyntaxException,
+			       IllegalArgumentException,
+			       IllegalAccessException,
+			       InstantiationException,
+			       InvocationTargetException,
+			       OslcCoreApplicationException
+	{
+		if (jsonValue instanceof JSONArray)
+		{
+			final JSONArray jsonArray = (JSONArray) jsonValue;
+			final ArrayList<Object> collection = new ArrayList<Object>();
+			final Iterator<?> i = jsonArray.iterator();
+			while (i.hasNext())
+			{
+				collection.add(fromExtendedJSONValue(i.next(), rdfPrefix, jsonNamespaceMappings, beanClass));
+			}
+
+			return collection;
+		}
+		else if (jsonValue instanceof JSONObject)
+		{
+			final JSONObject o = (JSONObject) jsonValue;
+			
+			// Is it a resource reference?
+			final Object resourceURIValue = o.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE);
+			if (resourceURIValue != null)
+			{
+				final URI uri = new URI((String) resourceURIValue); 
+				if (!uri.isAbsolute())
+	            {
+	                throw new OslcCoreRelativeURIException(beanClass,
+	                                                       "<none>",
+	                                                       uri);
+	            }
+				
+				return new URI((String) resourceURIValue);
+			}
+			
+			// Handle an inline resource.
+			final AnyResource any = new AnyResource();
+			fromJSON(rdfPrefix,
+				     jsonNamespaceMappings,
+				     new HashMap<Class<?>, Map<String, Method>>(),
+				     o,
+				     AnyResource.class,
+				     any);
+
+			final String typeProperty = rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE;
+			if (o.has(typeProperty))
+			{
+				try
+				{
+					JSONArray array = o.getJSONArray(typeProperty);
+					for (int i = 0; i < array.size(); ++i)
+					{
+						final JSONObject typeObj = array.getJSONObject(i);
+						any.addType(new URI(typeObj.getString(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE)));
+					}
+				}
+				catch (JSONException e)
+				{
+					throw new IllegalArgumentException(e);
+				}
+			}
+			
+			return any;
+		}
+		else if (jsonValue instanceof String)
+		{
+			// Check if it's in the OSLC date format.
+			try
+			{
+				return DatatypeFactory.newInstance()
+						.newXMLGregorianCalendar((String) jsonValue)
+						.toGregorianCalendar().getTime();
+			}
+			catch (IllegalArgumentException e)
+			{
+				// It's not a date. Treat it as a string.
+				return jsonValue;
+			}
+		}
+
+		return jsonValue;
+	}
 
     private static Object fromJSONValue(final String                             rdfPrefix,
                                         final Map<String, String>                jsonNamespaceMappings,

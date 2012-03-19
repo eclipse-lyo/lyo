@@ -31,6 +31,7 @@ import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.AbstractSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Deque;
@@ -49,6 +50,7 @@ import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.namespace.QName;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -60,12 +62,15 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionEx
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
+import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 
+import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -92,6 +97,8 @@ public final class JenaModelHelper
 
     private static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
     private static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
+    
+    private static final String GENERATED_PREFIX_START = "j.";
 
     private static final Logger logger = Logger.getLogger(JenaModelHelper.class.getName());
 
@@ -284,7 +291,8 @@ public final class JenaModelHelper
                                                             results.size()));
     }
 
-    private static void fromResource(final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
+    @SuppressWarnings("unchecked")
+	private static void fromResource(final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
                                      final Class<?>                           beanClass,
                                      final Object                             bean,
                                      final Resource                           resource)
@@ -334,6 +342,18 @@ public final class JenaModelHelper
 
         final StmtIterator listProperties = resource.listProperties();
 
+        final Map<QName, Object> extendedProperties;
+        if (bean instanceof IExtendedResource)
+        {
+        	final IExtendedResource extendedResource = (IExtendedResource) bean;
+        	extendedProperties = new HashMap<QName, Object>();
+        	extendedResource.setExtendedProperties(extendedProperties);
+        }
+        else
+        {
+        	extendedProperties = null;
+        }
+        
         while (listProperties.hasNext())
         {
             final Statement statement = listProperties.next();
@@ -350,10 +370,44 @@ public final class JenaModelHelper
                 }
                 else
                 {
-                    logger.warning("Set method not found for object type:  " +
-                                   beanClass.getName() +
-                                   ", uri:  " +
-                                   uri);
+                	if (extendedProperties == null)
+                	{
+                        logger.warning("Set method not found for object type:  " +
+                                       beanClass.getName() +
+                                       ", uri:  " +
+                                       uri);
+                	}
+                	else
+                	{
+                		String prefix = resource.getModel().getNsURIPrefix(predicate.getNameSpace());
+                		if (prefix == null)
+                		{
+                			prefix = generatePrefix(resource.getModel(), predicate.getNameSpace());
+                		}
+                		final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
+                		final Object value = handleExtendedPropertyValue(beanClass, object);
+                		final Object previous = extendedProperties.get(key);
+                		if (previous == null)
+                		{
+                			extendedProperties.put(key, value);
+                		}
+                		else
+                		{
+                			final Collection<Object> collection;
+                			if (previous instanceof Collection)
+                			{
+                				collection = ((Collection<Object>) previous);
+                			}
+                			else
+                			{
+                				collection = new ArrayList<Object>();
+                				collection.add(previous);
+                				extendedProperties.put(key, collection);
+                			}
+
+                			collection.add(value);
+                		}
+                	}
                 }
             }
             else
@@ -639,7 +693,6 @@ public final class JenaModelHelper
                 // Not handled above.  Let's try newInstance with possible failure.
                 else
                 {
-                    @SuppressWarnings("unchecked")
                     final Collection<Object> tempCollection = ((Collection<Object>) parameterClass.newInstance());
                     collection = tempCollection;
                 }
@@ -652,6 +705,88 @@ public final class JenaModelHelper
         }
     }
 
+	/**
+	 * Generates a prefix for unrecognized namespaces when reading in unknown
+	 * properties and content.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param namespace
+	 *            the unrecognized namespace URI that needs a prefix
+	 * @return the generated prefix (e.g., 'j.0')
+	 */
+	private static String generatePrefix(Model model, String namespace)
+	{
+		final Map<String, String> map = model.getNsPrefixMap();
+		int i = 0;
+		String candidatePrefix;
+		do {
+			candidatePrefix = GENERATED_PREFIX_START + i;
+			++i;
+		} while (map.containsKey(candidatePrefix));
+		
+		model.setNsPrefix(candidatePrefix, namespace);
+		return candidatePrefix;
+	}
+
+	private static Object handleExtendedPropertyValue(final Class<?> beanClass,
+												      final RDFNode object)
+			throws URISyntaxException,
+				   IllegalArgumentException,
+				   SecurityException,
+				   DatatypeConfigurationException,
+				   IllegalAccessException,
+				   InstantiationException,
+				   InvocationTargetException,
+				   OslcCoreApplicationException,
+				   NoSuchMethodException
+	{
+		if (object.isLiteral())
+		{
+			final Object literalValue = object.asLiteral().getValue();
+			if (literalValue instanceof XSDDateTime)
+			{
+				final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
+				return xsdDateTime.asCalendar().getTime();
+			}
+			
+			return literalValue;
+		}
+		
+		final Resource nestedResource = object.asResource();
+		
+		// Is this an inline resource?
+		if (nestedResource.getURI() == null || nestedResource.listProperties().hasNext())
+		{
+			final AnyResource any = new AnyResource();
+            final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+            fromResource(classPropertyDefinitionsToSetMethods,
+                         AnyResource.class,
+                         any,
+                         nestedResource);
+
+            // Preserve rdf:type information.
+            final StmtIterator typeIter = nestedResource.listProperties(RDF.type);
+            while (typeIter.hasNext())
+            {
+            	final Statement typeStatement = typeIter.next();
+            	any.addType(new URI(typeStatement.getResource().getURI()));
+            }
+            
+            return any;
+		}
+
+		// It's a resource reference.
+		final URI nestedResourceURI = new URI(nestedResource.getURI());
+		if (!nestedResourceURI.isAbsolute())
+		{
+			throw new OslcCoreRelativeURIException(beanClass, "<none>",
+					nestedResourceURI);
+		}
+
+		return nestedResourceURI;
+	}
+    
     private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
             throws OslcCoreApplicationException
     {
@@ -753,8 +888,103 @@ public final class JenaModelHelper
                 }
             }
         }
+        
+        // Handle any extended properties.
+        if (object instanceof IExtendedResource)
+        {
+        	final IExtendedResource extendedResource = (IExtendedResource) object;
+        	handleExtendedProperties(resourceClass,
+				                     model,
+				                     mainResource,
+				                     extendedResource);
+        }
     }
 
+	protected static void handleExtendedProperties(final Class<?> resourceClass,
+					                               final Model model,
+					                               final Resource mainResource,
+					                               final IExtendedResource extendedResource)
+		throws DatatypeConfigurationException,
+			   IllegalAccessException,
+			   InvocationTargetException,
+			   OslcCoreApplicationException
+	{
+		for (Map.Entry<QName, ?> extendedProperty : extendedResource.getExtendedProperties().entrySet())
+		{
+			final QName qName = extendedProperty.getKey();
+			final Property property = model.createProperty(qName.getNamespaceURI() + qName.getLocalPart());
+			final Object value = extendedProperty.getValue();
+			if (value instanceof Collection)
+			{
+				final Collection<?> collection = (Collection<?>) value;
+				for (Object next : collection)
+				{
+					handleExtendedValue(resourceClass, next, model, mainResource, property);
+				}
+			}
+			else
+			{
+				handleExtendedValue(resourceClass, value, model, mainResource, property);
+			}
+		}
+	}
+    
+    private static void handleExtendedValue(final Class<?> objectClass,
+    									    final Object value,
+    									    final Model model,
+    									    final Resource resource,
+    									    final Property property)
+    	throws DatatypeConfigurationException,
+    		   IllegalAccessException,
+    		   IllegalArgumentException,
+    		   InvocationTargetException,
+    		   OslcCoreApplicationException
+    {
+    	if (value instanceof AnyResource)
+    	{
+    		final AnyResource any = (AnyResource) value;
+    		final Resource nestedResource;
+    		final URI aboutURI = any.getAbout();
+    		if (aboutURI != null)
+    		{
+    			if (!aboutURI.isAbsolute())
+    			{
+    				throw new OslcCoreRelativeURIException(AnyResource.class,
+    					"getAbout",
+    					aboutURI);
+    			}
+
+    			nestedResource = model.createResource(aboutURI.toString());
+    		}
+    		else
+    		{
+    			nestedResource = model.createResource();
+    		}
+
+    		for (final URI type : any.getTypes())
+    		{
+    			nestedResource.addProperty(RDF.type, model.createResource(type.toString()));
+    		}
+
+    		handleExtendedProperties(AnyResource.class, model, nestedResource, any);
+    		resource.addProperty(property, nestedResource);
+    	}
+    	else if (value.getClass().getAnnotation(OslcResourceShape.class) != null || value instanceof URI)
+    	{
+			handleLocalResource(objectClass, null, value, model, resource, property);
+    	}
+    	else if (value instanceof Date)
+    	{
+    		final Calendar cal = Calendar.getInstance();
+    		cal.setTime((Date) value);
+    		resource.addProperty(property, model.createTypedLiteral(cal));
+    	}
+    	else
+    	{
+    		resource.addProperty(property, model.createTypedLiteral(value));
+    	}
+    }
+    
     private static void buildAttributeResource(final Class<?>               resourceClass,
                                                final Method                 method,
                                                final OslcPropertyDefinition propertyDefinitionAnnotation,
@@ -875,7 +1105,7 @@ public final class JenaModelHelper
             if (!uri.isAbsolute())
             {
                 throw new OslcCoreRelativeURIException(resourceClass,
-                                                       method.getName(),
+                                                       (method == null) ? "<none>" : method.getName(),
                                                        uri);
             }
 
@@ -928,8 +1158,6 @@ public final class JenaModelHelper
                           model,
                           nestedResource);
 
-            resource.addProperty(attribute,
-                                 nestedResource);
             statement = model.createStatement(resource, attribute, nestedResource);
         }
 
