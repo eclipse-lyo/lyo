@@ -579,7 +579,7 @@ public final class JenaModelHelper
 					            continue;
 					        }
 					        final Class<?>[] parameterTypes = method.getParameterTypes();
-					        if (parameterTypes.length == 1 && setMethodComponentParameterClass.isAssignableFrom(parameterTypes[0]))
+					        if (parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(setMethodComponentParameterClass))
 					        {
 								method.invoke(reifiedResource, parameter);		
 								break;
