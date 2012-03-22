@@ -41,7 +41,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Service Provider Resource Shape", describes = OslcConstants.TYPE_SERVICE_PROVIDER)
-public final class ServiceProvider extends AbstractResource{
+public class ServiceProvider extends AbstractResource{
     private final SortedSet<URI> details = new TreeSet<URI>();
     private final List<PrefixDefinition> prefixDefinitions = new ArrayList<PrefixDefinition>();
     private final List<Service> services = new ArrayList<Service>();

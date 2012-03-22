@@ -48,7 +48,10 @@ public final class ServiceProviderFactory {
     }
 
 	public static ServiceProvider createServiceProvider(final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses) throws OslcCoreApplicationException, URISyntaxException {
-		final ServiceProvider serviceProvider = new ServiceProvider();
+		return initServiceProvider(new ServiceProvider(), baseURI, genericBaseURI, title, description, publisher, resourceClasses);
+	}
+
+	public static ServiceProvider initServiceProvider(final ServiceProvider serviceProvider, final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses) throws OslcCoreApplicationException, URISyntaxException {
 		serviceProvider.setTitle(title);
 		serviceProvider.setDescription(description);
 		serviceProvider.setPublisher(publisher);
