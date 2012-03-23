@@ -17,6 +17,7 @@
 package org.eclipse.lyo.samples.bugzilla;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -26,13 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 
 import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.Product;
+import com.j2bugzilla.rpc.GetProduct;
 
 /**
  * OSLC CM Change Request Service
@@ -70,9 +71,13 @@ public class ServiceProviderCatalogService extends HttpServlet {
             bc.executeMethod(getProductIds);
             Integer[] productIds = getProductIds.getIds();
 
-            GetProducts getProducts = new GetProducts(productIds);
-            bc.executeMethod(getProducts);
-            List<Product> products = getProducts.getProducts();
+            List<Product> products = new ArrayList<Product>();
+            for (Integer product : productIds) {
+            	GetProduct getProductMethod = new GetProduct(product);
+            	bc.executeMethod(getProductMethod);
+            	products.add(getProductMethod.getProduct());
+            }
+            
             request.setAttribute("products", products);
 
             response.setHeader("OSLC-Core-Version", "2.0");

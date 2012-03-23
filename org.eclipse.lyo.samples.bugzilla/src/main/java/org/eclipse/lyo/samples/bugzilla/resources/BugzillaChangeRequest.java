@@ -30,7 +30,6 @@ import thewebsemantic.RdfType;
 
 import com.j2bugzilla.base.Bug;
 import com.j2bugzilla.base.Bug.Priority;
-import com.j2bugzilla.base.Bug.Status;
 import com.j2bugzilla.base.BugFactory;
 import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
@@ -77,10 +76,7 @@ public class BugzillaChangeRequest extends ChangeRequest {
 		BugzillaChangeRequest cr = new BugzillaChangeRequest();
 		cr.setIdentifier(bug.getID());
 		cr.setTitle(bug.getSummary());
-		
-		// j2bugzilla does not handle all status values properly.
-		//cr.setStatus(bug.getStatus());
-		cr.setStatus((String) bug.getParameterMap().get("status"));
+		cr.setStatus(bug.getStatus());
 
 		Object assignedTo = bug.getParameterMap().get("assigned_to");
 		if (assignedTo != null) {
@@ -219,13 +215,5 @@ public class BugzillaChangeRequest extends ChangeRequest {
 	
 	public void setOperatingSystem(String operatingSystem) {
 		this.operatingSystem = operatingSystem;
-	}
-	
-	public void setStatus(Status status) {
-		if (status != null) {
-			setStatus(status.toString());
-		} else {
-			setStatus((String) null);
-		}
 	}
 }

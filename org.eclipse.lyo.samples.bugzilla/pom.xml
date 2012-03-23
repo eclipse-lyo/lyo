@@ -60,10 +60,19 @@
    			<version>1.0.6</version> 
 		</dependency>
 		
+		<!--
+			Download j2bugzilla 2.0-SNAPSHOT from
+			
+			  http://code.google.com/p/j2bugzilla/downloads/list,
+			
+			then run this command.
+			
+			  mvn install:install-file -Dfile=<path-to-file> -DgroupId=com.j2bugzilla -DartifactId=j2bugzilla -Dversion=2.0-SNAPSHOT -Dpackaging=jar 
+		 -->
 		<dependency>
   			<groupId>com.j2bugzilla</groupId>
   			<artifactId>j2bugzilla</artifactId>
-  			<version>1.0</version>
+  			<version>2.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

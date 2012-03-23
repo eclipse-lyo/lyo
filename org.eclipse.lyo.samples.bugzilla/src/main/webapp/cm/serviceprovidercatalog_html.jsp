@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
@@ -90,8 +90,8 @@ List<Product> products = (List<Product>)request.getAttribute("products");
 			
 			<% for (Product p : products) { %>
 			<h3>Service Provider for Product <%= p.getName() %></h3>
-			<p><a href="<%= URLStrategy.getServiceProviderURL(p.getId()) %>">
-                    <%= URLStrategy.getServiceProviderURL(p.getId()) %></a></p>
+			<p><a href="<%= URLStrategy.getServiceProviderURL(p.getID()) %>">
+                    <%= URLStrategy.getServiceProviderURL(p.getID()) %></a></p>
 			<% } %>			
 			
 			</div>

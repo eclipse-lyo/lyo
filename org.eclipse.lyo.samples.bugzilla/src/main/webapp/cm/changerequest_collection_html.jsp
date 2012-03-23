@@ -15,7 +15,7 @@
     IBM Corporation - initial API and implementation
 --%>
 <%@page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
-<%@page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product"%>
+<%@page import="com.j2bugzilla.base.Product"%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="com.j2bugzilla.base.*" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.*" %>
@@ -30,7 +30,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Bugzilla OSLC Adapter: Service Provider for <%= product.getName() + "(" + product.getId() + ")" %></title>
+		<title>Bugzilla OSLC Adapter: Service Provider for <%= product.getName() + "(" + product.getID() + ")" %></title>
 		<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
 		<link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">
 		<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="alternate stylesheet" title="Classic" type="text/css">

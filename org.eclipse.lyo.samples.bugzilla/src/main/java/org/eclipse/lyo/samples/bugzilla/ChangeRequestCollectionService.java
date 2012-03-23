@@ -28,9 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.resources.BugzillaChangeRequest;
 import org.eclipse.lyo.samples.bugzilla.resources.Person;
 import org.eclipse.lyo.samples.bugzilla.resources.QueryResponse;
@@ -48,7 +45,9 @@ import com.j2bugzilla.base.Bug;
 import com.j2bugzilla.base.BugzillaConnector;
 import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
+import com.j2bugzilla.base.Product;
 import com.j2bugzilla.rpc.BugSearch;
+import com.j2bugzilla.rpc.GetProduct;
 import com.j2bugzilla.rpc.ReportBug;
 
 
@@ -138,12 +137,9 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			}
 			int productId = Integer.parseInt(request.getParameter("productId"));
 
-			Integer[] productIds = { productId }; 
-			
-			GetProducts getProducts = new GetProducts(productIds); 
+			GetProduct getProducts = new GetProduct(productId); 
 			bc.executeMethod(getProducts);
-			List<Product> products = getProducts.getProducts();
-			product = products.get(0);
+			product = getProducts.getProduct();
 			
 		} catch (UnauthroziedException e) {
 			HttpUtils.sendUnauthorizedResponse(response, e);
@@ -157,13 +153,8 @@ public class ChangeRequestCollectionService extends HttpServlet {
 			
 
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
-			ExtendedBugSearch bugSearch = new ExtendedBugSearch(
-					BugSearch.SearchLimiter.PRODUCT,
-					product.getName());
 			
-			// request one extra to see if there's more
-			bugSearch.addQueryParam(ExtendedBugSearch.ExtendedSearchLimiter.LIMIT, (limit + 1) + "");
-			bugSearch.addQueryParam(ExtendedBugSearch.ExtendedSearchLimiter.OFFSET, (page * limit) + "");
+			BugSearch bugSearch = createBugSearch(page, limit, product);			
 			bc.executeMethod(bugSearch);
 			List<Bug> results = bugSearch.getSearchResults();
 			
@@ -175,13 +166,13 @@ public class ChangeRequestCollectionService extends HttpServlet {
 	            request.setAttribute("product", product);
 	            request.setAttribute("bugzillaUri", BugzillaInitializer.getBugzillaUri());
 	            request.setAttribute("queryUri", 
-	                    URLStrategy.getChangeRequestCollectionURL(product.getId()) 
+	                    URLStrategy.getChangeRequestCollectionURL(product.getID()) 
 	                    + "&oslc.paging=true");
 	            
 	            if (results.size() > limit) { 
 	    			results.remove(results.size() - 1); // remove that one extra bug
 	            	request.setAttribute("nextPageUri", 
-	                    URLStrategy.getChangeRequestCollectionURL(product.getId()) 
+	                    URLStrategy.getChangeRequestCollectionURL(product.getID()) 
 	                    + "&amp;oslc.paging=true&amp;page=" + (page + 1));
 	            }		
 
@@ -193,14 +184,14 @@ public class ChangeRequestCollectionService extends HttpServlet {
 				ResponseInfo responseInfo = new ResponseInfo();
 				responseInfo.setTitle("Bugzilla Query Result");
 				responseInfo.setNextPage(new URI(URLStrategy
-						.getChangeRequestCollectionURL(product.getId())
+						.getChangeRequestCollectionURL(product.getID())
 						+ "&oslc.paging=true&page=" + (page + 1)));
 				responseInfo.setUri(new URI(request.getRequestURL().append('?')
 						.append(request.getQueryString()).toString()));
 
 				QueryResponse queryResult = new QueryResponse();
 				// This must match the query capability base.
-				queryResult.setUri(new URI(URLStrategy.getChangeRequestCollectionURL(product.getId())));
+				queryResult.setUri(new URI(URLStrategy.getChangeRequestCollectionURL(product.getID())));
 				for (Bug bug : results) {
 					BugzillaChangeRequest changeRequest = BugzillaChangeRequest.fromBug(bug);
 					queryResult.getMembers().add(changeRequest);
@@ -220,5 +211,16 @@ public class ChangeRequestCollectionService extends HttpServlet {
 		} catch (Throwable e) {
 			throw new ServletException(e);
 		}
+	}
+
+	protected BugSearch createBugSearch(int page, int limit, Product product) {
+		BugSearch.SearchQuery productQuery = new BugSearch.SearchQuery(
+				BugSearch.SearchLimiter.PRODUCT, product.getName());
+		BugSearch.SearchQuery limitQuery = new BugSearch.SearchQuery(
+				BugSearch.SearchLimiter.LIMIT, (limit + 1) + "");
+		BugSearch.SearchQuery offsetQuery = new BugSearch.SearchQuery(
+				BugSearch.SearchLimiter.OFFSET, (page * limit) + "");
+		
+		return new BugSearch(productQuery, limitQuery, offsetQuery);
 	}
 }

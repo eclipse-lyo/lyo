@@ -17,7 +17,7 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%
 	String bugzillaUri = (String) request.getAttribute("bugzillaUri");
 	Product product = (Product) request.getAttribute("product");
@@ -121,7 +121,7 @@
 					<td>
 						<input type="button"
 							value="Submit Bug"
-							onclick="javascript: create( '<%=URLStrategy.getDelegatedCreationURL(product.getId())%>' )">
+							onclick="javascript: create( '<%=URLStrategy.getDelegatedCreationURL(product.getID())%>' )">
 						<input type="button" value="Cancel" onclick="javascript: cancel()">
 					</td>
 				</tr>

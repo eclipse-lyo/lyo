@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="application/rdf+xml" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
@@ -27,9 +27,9 @@ response.setHeader("OSLC-Core-Version", "2.0");
 	xmlns:dcterms="http://purl.org/dc/terms/"
 	xmlns:oslc="http://open-services.net/ns/core#">
 
-    <oslc:ServiceProvider rdf:about="<%= URLStrategy.getServiceProviderURL(product.getId()) %>">
+    <oslc:ServiceProvider rdf:about="<%= URLStrategy.getServiceProviderURL(product.getID()) %>">
 		<dcterms:title>OSLC-CM Adapter/Bugzilla Service Provider: 
-		Product <%= product.getName() + "(" + product.getId() + ")" %></dcterms:title>
+		Product <%= product.getName() + "(" + product.getID() + ")" %></dcterms:title>
 		<dcterms:description>
         Enables navigation to OSLC-CM Resource Creator and Selector Dialogs
         </dcterms:description>
@@ -49,7 +49,7 @@ response.setHeader("OSLC-Core-Version", "2.0");
 					<oslc:Dialog>
 						<dcterms:title>Bugzilla Bug Picker</dcterms:title>
 						<oslc:label>Bugs</oslc:label>
-						<oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedSelectionURL(product.getId()) %>" />
+						<oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedSelectionURL(product.getID()) %>" />
 						<oslc:hintHeight>320px</oslc:hintHeight>
 						<oslc:hintWidth>470px</oslc:hintWidth>
 						<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
@@ -61,7 +61,7 @@ response.setHeader("OSLC-Core-Version", "2.0");
 					<oslc:Dialog>
 						<dcterms:title>Bugzilla Bug Creator</dcterms:title>
 						<oslc:label>Bugs</oslc:label>
-                        <oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedCreationURL(product.getId()) %>" />
+                        <oslc:dialog rdf:resource="<%= URLStrategy.getDelegatedCreationURL(product.getID()) %>" />
 						<oslc:hintHeight>360px</oslc:hintHeight>
 						<oslc:hintWidth>600px</oslc:hintWidth>
 						<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
@@ -74,9 +74,9 @@ response.setHeader("OSLC-Core-Version", "2.0");
 						<dcterms:title>OSLC-CM Creation Factory</dcterms:title>
 						<oslc:label>CreationFactory</oslc:label>
 						<oslc:creation 
-							rdf:resource="<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %>" />
+							rdf:resource="<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %>" />
 						<oslc:resourceShape
-							rdf:resource="<%= URLStrategy.getCreationShapeURL(product.getId()) %>" />
+							rdf:resource="<%= URLStrategy.getCreationShapeURL(product.getID()) %>" />
 						<oslc:resourceType
 							rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
 						<oslc:usage
@@ -89,9 +89,9 @@ response.setHeader("OSLC-Core-Version", "2.0");
 						<dcterms:title>OSLC-CM Query Capability</dcterms:title>
 						<oslc:label>QueryCapability</oslc:label>
 						<oslc:queryBase
-							rdf:resource="<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %>" />
+							rdf:resource="<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %>" />
 						<oslc:resourceShape
-                            rdf:resource="<%= URLStrategy.getQueryShapeURL(product.getId()) %>" />
+                            rdf:resource="<%= URLStrategy.getQueryShapeURL(product.getID()) %>" />
 						<oslc:resourceType
 							rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
 						<oslc:usage

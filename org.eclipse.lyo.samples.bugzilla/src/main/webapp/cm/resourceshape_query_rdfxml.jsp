@@ -17,7 +17,7 @@
 <%@ page contentType="application/x-oslc-compact+xml" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.j2bugzilla.base.Bug" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 	String bugzillaUri = (String) request.getAttribute("bugzillaUri");
@@ -41,7 +41,7 @@
 			<oslc:name>member</oslc:name>
 			<oslc:propertyDefinition rdf:resource="http://www.w3.org/2000/01/rdf-schema#member" />
 			<oslc:valueType rdf:resource="http://open-services.net/ns/core#AnyResource" />
-            <oslc:valueShape rdf:resource="<%= URLStrategy.getQueryChangeRequestShapeURL(product.getId()) %>" />
+            <oslc:valueShape rdf:resource="<%= URLStrategy.getQueryChangeRequestShapeURL(product.getID()) %>" />
 			<oslc:occurs rdf:resource="http://open-services.net/ns/core#Zero-or-many" />
             <oslc:isMemberProperty>true</oslc:isMemberProperty>
 		</oslc:Property>

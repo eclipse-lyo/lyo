@@ -17,7 +17,6 @@
 package org.eclipse.lyo.samples.bugzilla;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
@@ -40,7 +39,6 @@ import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
-import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 

@@ -16,6 +16,7 @@
 package org.eclipse.lyo.samples.bugzilla;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -25,14 +26,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.AcceptType;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.StringUtils;
 
 import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.Product;
+import com.j2bugzilla.rpc.GetProduct;
 
 
 /**
@@ -51,13 +52,11 @@ public class ServiceProviderService extends HttpServlet {
 
 		try {
 			int productId = Integer.parseInt(request.getParameter("productId"));
-			Integer[] productIds = { productId }; 
 			
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);				
-			GetProducts getProducts = new GetProducts(productIds); 
-			bc.executeMethod(getProducts);
-			List<Product> products = getProducts.getProducts();
-			request.setAttribute("product", products.get(0));
+			GetProduct getProduct = new GetProduct(productId); 
+			bc.executeMethod(getProduct);
+			request.setAttribute("product", getProduct.getProduct());
 			
 		} catch (UnauthroziedException e) {
 			HttpUtils.sendUnauthorizedResponse(response, e);
@@ -89,11 +88,14 @@ public class ServiceProviderService extends HttpServlet {
 			GetAccessibleProducts getProductIds = new GetAccessibleProducts();
 			bc.executeMethod(getProductIds);
 			Integer[] productIds = getProductIds.getIds();
+			List<Product> products = new ArrayList<Product>();
+			for (Integer product : productIds) {
+				GetProduct getProductMethod = new GetProduct(product);
+				bc.executeMethod(getProductMethod);
+				products.add(getProductMethod.getProduct());
+			}
 
-			GetProducts getProducts = new GetProducts(productIds); 
-			bc.executeMethod(getProducts);
-			List<Product> products = getProducts.getProducts();
-			request.setAttribute("products", products);            
+			request.setAttribute("products", products);
             
 			final RequestDispatcher rd = request.getRequestDispatcher(dispatchTo); 
 			rd.forward(request, response);

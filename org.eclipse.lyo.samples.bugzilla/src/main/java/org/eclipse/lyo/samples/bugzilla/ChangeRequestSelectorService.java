@@ -26,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch.ExtendedSearchLimiter;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 
 import com.j2bugzilla.base.Bug;
@@ -78,18 +76,7 @@ public class ChangeRequestSelectorService extends HttpServlet {
 		throws ServletException, IOException {
 		try {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
-			ExtendedBugSearch bugSearch = new ExtendedBugSearch(BugSearch.SearchLimiter.SUMMARY, terms);
-			bugSearch.addQueryParam(ExtendedSearchLimiter.LIMIT, "50");
-			
-			/*
-			 * Specific to 4.0, but improves performance. You have to minimally
-			 * include Bug.requiredFields ("product", "component", "summary",
-			 * "version").
-			 */
-			bugSearch.getParameterMap().put(
-					"include_fields",
-					new String[] { "id", "product", "component", "summary",
-							"version" });
+			BugSearch bugSearch = createBugSearch(terms);
 			bc.executeMethod(bugSearch);
 			List<Bug> results = bugSearch.getSearchResults();
 			request.setAttribute("results", results);
@@ -102,5 +89,16 @@ public class ChangeRequestSelectorService extends HttpServlet {
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
+	}
+
+	protected BugSearch createBugSearch(String summary) {
+		BugSearch.SearchQuery summaryQuery = new BugSearch.SearchQuery(
+				BugSearch.SearchLimiter.SUMMARY, summary);
+		BugSearch.SearchQuery limitQuery = new BugSearch.SearchQuery(
+				BugSearch.SearchLimiter.LIMIT, "50");
+		
+		BugSearch bugSearch = new BugSearch(summaryQuery, limitQuery);
+		
+		return bugSearch;
 	}
 }

@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="application/rdf+xml" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
@@ -45,9 +45,9 @@ response.setHeader("OSLC-Core-Version", "2.0");
 		
 		<% for (Product p : products) { %>
 		<oslc:serviceProvider>
-            <oslc:ServiceProvider rdf:about="<%= URLStrategy.getServiceProviderURL(p.getId()) %>">
+            <oslc:ServiceProvider rdf:about="<%= URLStrategy.getServiceProviderURL(p.getID()) %>">
 				<dcterms:title><%= p.getName() %></dcterms:title>
-			    <oslc:details rdf:resource="<%= URLStrategy.getServiceProviderURL(p.getId()) %>" />					
+			    <oslc:details rdf:resource="<%= URLStrategy.getServiceProviderURL(p.getID()) %>" />					
 			</oslc:ServiceProvider>
 		</oslc:serviceProvider>
 		<% } %>

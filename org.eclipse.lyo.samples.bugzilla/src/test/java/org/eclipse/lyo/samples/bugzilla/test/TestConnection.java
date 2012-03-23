@@ -16,24 +16,18 @@
 package org.eclipse.lyo.samples.bugzilla.test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import org.eclipse.lyo.samples.bugzilla.BugzillaInitializer;
 import org.eclipse.lyo.samples.bugzilla.Credentials;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.ExtendedBugSearch;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetAccessibleProducts;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 
-import com.j2bugzilla.base.Bug;
-import com.j2bugzilla.base.BugFactory;
 import com.j2bugzilla.base.BugzillaConnector;
 import com.j2bugzilla.rpc.BugSearch;
-import com.j2bugzilla.rpc.ReportBug;
+import com.j2bugzilla.rpc.GetProduct;
 
 
 public class TestConnection extends TestCase {
@@ -105,11 +99,9 @@ public class TestConnection extends TestCase {
 		
 		try {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
-			GetProducts gps = new GetProducts(productIds);
-			bc.executeMethod(gps);
-			List<Product> products = gps.getProducts();
-		    assertTrue(products.size()  > 0);
-		    
+			GetProduct getProductMethod = new GetProduct(productIds[0]);
+			bc.executeMethod(getProductMethod);
+			assertNotNull(getProductMethod.getProduct());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
@@ -128,13 +120,22 @@ public class TestConnection extends TestCase {
 		}
 	}
 	
+	private final static int TEST_SEARCH_LIMIT = 5;
+	
 	public void testSearchBugs() {
 
 		try {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(credentials);
 			
-			ExtendedBugSearch search = new ExtendedBugSearch(BugSearch.SearchLimiter.PRODUCT, "FakePortal");
+			BugSearch.SearchQuery limitQuery = new BugSearch.SearchQuery(
+					BugSearch.SearchLimiter.LIMIT, "" + TEST_SEARCH_LIMIT);
+			
+			BugSearch search = new BugSearch(limitQuery);
+			
 			bc.executeMethod(search);
+			
+			// Assumes the connected bugzilla repository has at least TEST_SEARCH_LIMIT bugs in it.
+			assertEquals(TEST_SEARCH_LIMIT, search.getSearchResults().size());
 			
 			System.out.println("Search returned = " + search.getSearchResults().size());
 			

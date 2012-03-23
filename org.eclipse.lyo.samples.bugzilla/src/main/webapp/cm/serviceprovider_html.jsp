@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product" %>
+<%@ page import="com.j2bugzilla.base.Product" %>
 <%@ page import="org.eclipse.lyo.samples.bugzilla.URLStrategy"%>
 <%
 String bugzillaUri = (String) request.getAttribute("bugzillaUri");
@@ -25,7 +25,7 @@ Product product = (Product)request.getAttribute("product");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Bugzilla OSLC Adapter: Service Provider for <%= product.getName() + "(" + product.getId() + ")" %></title>
+		<title>Bugzilla OSLC Adapter: Service Provider for <%= product.getName() + "(" + product.getID() + ")" %></title>
 		<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="stylesheet" type="text/css">
 		<link href="<%= bugzillaUri %>/skins/standard/index.css" rel="stylesheet" type="text/css">
 		<link href="<%= bugzillaUri %>/skins/standard/global.css" rel="alternate stylesheet" title="Classic" type="text/css">
@@ -61,15 +61,15 @@ Product product = (Product)request.getAttribute("product");
 			
 				<img src="bugzilla.gif" alt="icon" width="80" height="80" />
 	
-				<h1>Service Provider for <%= product.getName() + "(" + product.getId() + ")" %></h1>
+				<h1>Service Provider for <%= product.getName() + "(" + product.getID() + ")" %></h1>
 				
 				<p>Enables navigation to OSLC-CM Resource Creator and Selector Dialogs</p>
 
 	            <table>
 		            <tr>
 			            <td><b>This document</b>:</td>
-			            <td><a href="<%= URLStrategy.getServiceProviderURL(product.getId()) %>">
-			            <%= URLStrategy.getServiceProviderURL(product.getId()) %></a></td>
+			            <td><a href="<%= URLStrategy.getServiceProviderURL(product.getID()) %>">
+			            <%= URLStrategy.getServiceProviderURL(product.getID()) %></a></td>
 		            </tr>
 		            <tr>
 			            <td><b>Bugzilla</b>:</td>
@@ -86,24 +86,24 @@ Product product = (Product)request.getAttribute("product");
 	            </table>
             								
 				<h2>OSLC-CM Resource Selector Dialog</h2>
-				<p><a href="<%= URLStrategy.getDelegatedSelectionURL(product.getId()) %>">
-				            <%= URLStrategy.getDelegatedSelectionURL(product.getId()) %></a></p>
+				<p><a href="<%= URLStrategy.getDelegatedSelectionURL(product.getID()) %>">
+				            <%= URLStrategy.getDelegatedSelectionURL(product.getID()) %></a></p>
 				
 				<h2>OSLC-CM Resource Creator Dialog</h2>
-				<p><a href="<%= URLStrategy.getDelegatedCreationURL(product.getId()) %>">
-				            <%= URLStrategy.getDelegatedCreationURL(product.getId()) %></a></p>
+				<p><a href="<%= URLStrategy.getDelegatedCreationURL(product.getID()) %>">
+				            <%= URLStrategy.getDelegatedCreationURL(product.getID()) %></a></p>
 			
 				<h2>OSLC-CM Resource Creation Factory and Resource Shape</h2>
-				<p><a href="<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %>">
-				<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %></a></p>
-				<p><a href="<%= URLStrategy.getCreationShapeURL(product.getId()) %>">
-				            <%= URLStrategy.getCreationShapeURL(product.getId()) %></a></p>
+				<p><a href="<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %>">
+				<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %></a></p>
+				<p><a href="<%= URLStrategy.getCreationShapeURL(product.getID()) %>">
+				            <%= URLStrategy.getCreationShapeURL(product.getID()) %></a></p>
 				
 				<h2>OSLC-CM Resource Query Capability and Resource Shape</h2>
-				<p><a href="<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %>">
-				<%= URLStrategy.getChangeRequestCollectionURL(product.getId()) %></a></p>
-				<p><a href="<%= URLStrategy.getQueryShapeURL(product.getId()) %>">
-				            <%= URLStrategy.getQueryShapeURL(product.getId()) %></a></p>
+				<p><a href="<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %>">
+				<%= URLStrategy.getChangeRequestCollectionURL(product.getID()) %></a></p>
+				<p><a href="<%= URLStrategy.getQueryShapeURL(product.getID()) %>">
+				            <%= URLStrategy.getQueryShapeURL(product.getID()) %></a></p>
 			
 			</div>
 		</div>

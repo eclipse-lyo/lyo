@@ -28,15 +28,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.base.Product;
 import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetLegalValues;
-import org.eclipse.lyo.samples.bugzilla.jbugzx.rpc.GetProducts;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
 import org.eclipse.lyo.samples.bugzilla.utils.StringUtils;
 
 import com.j2bugzilla.base.Bug;
 import com.j2bugzilla.base.BugFactory;
 import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.Product;
+import com.j2bugzilla.rpc.GetProduct;
 import com.j2bugzilla.rpc.ReportBug;
 
 
@@ -56,12 +56,10 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 			
 			int productId = Integer.parseInt(request.getParameter("productId"));
-			Integer[] productIds = { productId }; 
 			
-			GetProducts getProducts = new GetProducts(productIds);
+			GetProduct getProducts = new GetProduct(productId);
 			bc.executeMethod(getProducts);
-			List<Product> products = getProducts.getProducts();
-			product = products.get(0);
+			product = getProducts.getProduct();
 			request.setAttribute("product", product);
 			
 		} catch (UnauthroziedException e) {
@@ -76,7 +74,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);
 
 			GetLegalValues getComponentValues = 
-				new GetLegalValues("component", product.getId());
+				new GetLegalValues("component", product.getID());
 			bc.executeMethod(getComponentValues);
 			List<String> components = Arrays.asList(getComponentValues.getValues());
 			request.setAttribute("components", components);
@@ -91,7 +89,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			List<String> platforms = Arrays.asList(getPlatformValues.getValues());
 			request.setAttribute("platforms", platforms);
 			
-			GetLegalValues getVersionValues = new GetLegalValues("version", product.getId());
+			GetLegalValues getVersionValues = new GetLegalValues("version", product.getID());
 			bc.executeMethod(getVersionValues);
 			List<String> versions = Arrays.asList(getVersionValues.getValues());
 			request.setAttribute("versions", versions);
@@ -116,7 +114,6 @@ public class ChangeRequestCreatorService extends HttpServlet {
 		try {	
         
 			int productId = Integer.parseInt(request.getParameter("productId"));
-			Integer[] productIds = { productId }; 
 
 			String prefill   = request.getParameter("prefill");
 
@@ -130,9 +127,9 @@ public class ChangeRequestCreatorService extends HttpServlet {
 
 
 			BugzillaConnector bc = BugzillaInitializer.getBugzillaConnector(request);				
-			GetProducts getProducts = new GetProducts(productIds); 
+			GetProduct getProducts = new GetProduct(productId); 
 			bc.executeMethod(getProducts);
-			List<Product> products = getProducts.getProducts();
+			Product product = getProducts.getProduct();
 
 			String summary   = request.getParameter("summary"); 
 			String component = request.getParameter("component");
@@ -141,7 +138,7 @@ public class ChangeRequestCreatorService extends HttpServlet {
 			String platform  = request.getParameter("platform");
 			String description = request.getParameter("description");
 
-			BugFactory factory = new BugFactory().newBug().setProduct(products.get(0).getName());
+			BugFactory factory = new BugFactory().newBug().setProduct(product.getName());
 			if (summary != null) {
 				factory.setSummary(summary);
 			}
