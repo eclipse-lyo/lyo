@@ -29,7 +29,6 @@ import thewebsemantic.RdfProperty;
 import thewebsemantic.RdfType;
 
 import com.j2bugzilla.base.Bug;
-import com.j2bugzilla.base.Bug.Priority;
 import com.j2bugzilla.base.BugFactory;
 import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
@@ -106,11 +105,7 @@ public class BugzillaChangeRequest extends ChangeRequest {
 			cr.setVersion(version.toString());
 		}
 		
-		try {
-			cr.setPriority(bug.getPriority());
-		} catch (NumberFormatException e) {
-			// Do nothing, priority is not set.
-		}
+		cr.setPriority(bug.getPriority());
 		
 		Map<?, ?> internals = bug.getParameterMap();
 		cr.setPlatform((String) internals.get("rep_platform"));
@@ -193,14 +188,6 @@ public class BugzillaChangeRequest extends ChangeRequest {
 		this.priority = priority;
 	}
 
-	public void setPriority(Priority priority) {
-		if (priority == null) {
-			setPriority((String) null);
-		} else {
-			setPriority(priority.toString());
-		}
-	}
-	
 	public String getPlatform() {
 		return platform;
 	}
