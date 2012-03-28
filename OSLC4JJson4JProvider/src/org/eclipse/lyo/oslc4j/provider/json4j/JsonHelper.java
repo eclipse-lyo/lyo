@@ -68,6 +68,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespaceDeclaration
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingNamespacePrefixException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
@@ -489,22 +490,52 @@ final class JsonHelper
 
         if (rdfPrefix != null)
         {
-            final String qualifiedName = TypeFactory.getQualifiedName(objectClass);
-
             final JSONArray rdfTypesJSONArray = new JSONArray();
 
-            final JSONObject rdfTypeJSONObject = new JSONObject();
+            final String qualifiedName;
+            if (objectClass.getAnnotation(OslcResourceShape.class) != null)
+            {
+            	qualifiedName = TypeFactory.getQualifiedName(objectClass);
+            	addType(rdfPrefix,
+            			rdfTypesJSONArray,
+            			qualifiedName);
+            }
+            else
+            {
+            	qualifiedName = null;
+            }
 
-            rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-                                  qualifiedName);
-
-            rdfTypesJSONArray.add(rdfTypeJSONObject);
-
+            if (object instanceof IExtendedResource)
+            {
+            	final IExtendedResource extendedResource = (IExtendedResource) object;
+            	for (final URI type : extendedResource.getTypes())
+            	{
+            		final String typeString = type.toString();
+            		if (!typeString.equals(qualifiedName))
+            		{
+            			addType(rdfPrefix,
+            					rdfTypesJSONArray,
+            					typeString);
+            		}
+            	}
+            }
+            
             jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
                            rdfTypesJSONArray);
         }
     }
 
+    private static void addType(final String    rdfPrefix,
+    		                    final JSONArray rdfTypesJSONArray,
+    		                    final String    typeURI)
+          throws JSONException
+    {
+    	  final JSONObject rdfTypeJSONObject = new JSONObject();
+          rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+        		                typeURI);
+          rdfTypesJSONArray.add(rdfTypeJSONObject);
+    }
+    
 	private static void buildResourceAttributes(final Map<String, String> namespaceMappings,
 			                                    final Map<String, String> reverseNamespaceMappings,
 			                                    final Object              object,
@@ -638,50 +669,6 @@ final class JsonHelper
 				                           resourceClass,
 				                           null,
 				                           (URI) object);
-		}
-		else if (object instanceof AnyResource)
-		{
-			final AnyResource any = (AnyResource) object;
-			final JSONObject jsonObject = new JSONObject();
-			if (any.getAbout() != null)
-			{
-                addAboutURI(jsonObject,
-					        namespaceMappings,
-					        reverseNamespaceMappings,
-					        AnyResource.class,
-					        any.getAbout());
-			}
-			
-        	addExtendedProperties(namespaceMappings,
-                                  reverseNamespaceMappings,
-                                  jsonObject,
-                                  any);
-
-    		// Ensure we have an rdf prefix
-    		final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
-    		                                               OslcConstants.RDF_NAMESPACE,
-    		                                               namespaceMappings,
-    		                                               reverseNamespaceMappings);
-        	
-    		if (!any.getTypes().isEmpty())
-    		{
-    			final JSONArray rdfTypesJSONArray = new JSONArray();
-
-    			final JSONObject rdfTypeJSONObject = new JSONObject();
-
-    			for (final URI type : any.getTypes())
-    			{
-    				rdfTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-    					type.toString());
-    			}
-
-    			rdfTypesJSONArray.add(rdfTypeJSONObject);
-
-    			jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
-    				rdfTypesJSONArray);
-    		}
-    		
-        	return jsonObject;
 		}
 		else if (object instanceof IResource)
 		{
@@ -851,33 +838,28 @@ final class JsonHelper
     {
         final Class<? extends Object> objectClass = object.getClass();
 
-        if (objectClass.getAnnotation(OslcResourceShape.class) != null)
+        // Collect the namespace prefix -> namespace mappings
+        recursivelyCollectNamespaceMappings(namespaceMappings,
+                                            reverseNamespaceMappings,
+                                            objectClass);
+
+        if (object instanceof IResource)
         {
-            // Collect the namespace prefix -> namespace mappings
-            recursivelyCollectNamespaceMappings(namespaceMappings,
-                                                reverseNamespaceMappings,
-                                                objectClass);
-
-            if (object instanceof IResource)
-            {
-                final URI aboutURI = ((IResource) object).getAbout();
-                addAboutURI(jsonObject,
-					        namespaceMappings,
-					        reverseNamespaceMappings,
-					        objectClass,
-					        aboutURI);
-            }
-
-            buildResource(namespaceMappings,
-                          reverseNamespaceMappings,
-                          object,
-                          objectClass,
-                          jsonObject);
-
-            return jsonObject;
+            final URI aboutURI = ((IResource) object).getAbout();
+            addAboutURI(jsonObject,
+				        namespaceMappings,
+				        reverseNamespaceMappings,
+				        objectClass,
+				        aboutURI);
         }
 
-        return null;
+        buildResource(namespaceMappings,
+                      reverseNamespaceMappings,
+                      object,
+                      objectClass,
+                      jsonObject);
+
+        return jsonObject;
     }
 
 	protected static void addAboutURI(final JSONObject jsonObject,
@@ -1062,15 +1044,17 @@ final class JsonHelper
     		}
     	}	
     	
+        final IExtendedResource extendedResource;
         final Map<QName, Object> extendedProperties;
         if (bean instanceof IExtendedResource)
         {
-        	final IExtendedResource extendedResource = (IExtendedResource) bean;
+        	extendedResource = (IExtendedResource) bean;
         	extendedProperties = new HashMap<QName, Object>();
         	extendedResource.setExtendedProperties(extendedProperties);
         }
         else
         {
+        	extendedResource = null;
         	extendedProperties = null;
         }
         
@@ -1111,10 +1095,17 @@ final class JsonHelper
                 final Method setMethod = setMethodMap.get(propertyDefinition);
                 if (setMethod == null)
                 {
-                    if ((RDF_ABOUT_URI.equals(propertyDefinition)) ||
-                        (RDF_TYPE_URI.equals(propertyDefinition)))
+                    if (RDF_ABOUT_URI.equals(propertyDefinition))
                     {
                         // Ignore missing property definitions for rdf:about and rdf:types.
+                    }
+                    else if (RDF_TYPE_URI.equals(propertyDefinition))
+                    {
+                    	if (extendedResource != null)
+                    	{
+                    		fillInRdfType(rdfPrefix, jsonObject, extendedResource);
+                    	}
+                    	// Otherwise ignore missing propertyDefinition for rdf:type.
                     }
                     else
                     {
@@ -1235,31 +1226,13 @@ final class JsonHelper
 			}
 			
 			// Handle an inline resource.
-			final AnyResource any = new AnyResource();
+			final AbstractResource any = new AnyResource();
 			fromJSON(rdfPrefix,
 				     jsonNamespaceMappings,
 				     new HashMap<Class<?>, Map<String, Method>>(),
 				     o,
 				     AnyResource.class,
 				     any);
-
-			final String typeProperty = rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE;
-			if (o.has(typeProperty))
-			{
-				try
-				{
-					JSONArray array = o.getJSONArray(typeProperty);
-					for (int i = 0; i < array.size(); ++i)
-					{
-						final JSONObject typeObj = array.getJSONObject(i);
-						any.addType(new URI(typeObj.getString(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE)));
-					}
-				}
-				catch (JSONException e)
-				{
-					throw new IllegalArgumentException(e);
-				}
-			}
 			
 			return any;
 		}
@@ -1280,6 +1253,30 @@ final class JsonHelper
 		}
 
 		return jsonValue;
+	}
+
+	protected static void fillInRdfType(final String rdfPrefix,
+			                            final JSONObject jsonObject,
+			                            final IExtendedResource resource)
+			throws URISyntaxException
+	{
+		final String typeProperty = rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE;
+		if (jsonObject.has(typeProperty))
+		{
+			try
+			{
+				JSONArray array = jsonObject.getJSONArray(typeProperty);
+				for (int i = 0; i < array.size(); ++i)
+				{
+					final JSONObject typeObj = array.getJSONObject(i);
+					resource.addType(new URI(typeObj.getString(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE)));
+				}
+			}
+			catch (JSONException e)
+			{
+				throw new IllegalArgumentException(e);
+			}
+		}
 	}
 
     private static Object fromJSONValue(final String                             rdfPrefix,
