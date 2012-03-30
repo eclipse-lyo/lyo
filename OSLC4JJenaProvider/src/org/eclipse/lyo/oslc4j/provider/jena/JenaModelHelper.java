@@ -71,6 +71,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -749,14 +750,21 @@ public final class JenaModelHelper
 	{
 		if (object.isLiteral())
 		{
-			final Object literalValue = object.asLiteral().getValue();
-			if (literalValue instanceof XSDDateTime)
+			try
 			{
-				final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
-				return xsdDateTime.asCalendar().getTime();
+				final Object literalValue = object.asLiteral().getValue();
+				if (literalValue instanceof XSDDateTime)
+				{
+					final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
+					return xsdDateTime.asCalendar().getTime();
+				}
+				
+				return literalValue;
 			}
-			
-			return literalValue;
+			catch (final DatatypeFormatException e)
+			{
+				return object.asLiteral().getString();
+			}
 		}
 		
 		final Resource nestedResource = object.asResource();
