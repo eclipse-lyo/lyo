@@ -247,6 +247,29 @@ public final class JenaModelHelper
         }
     }
 
+    public static Object fromJenaResource(final Resource resource,
+                                          final Class<?> beanClass)
+           throws DatatypeConfigurationException,
+                  IllegalAccessException,
+                  IllegalArgumentException,
+                  InstantiationException,
+                  InvocationTargetException,
+                  OslcCoreApplicationException,
+                  URISyntaxException,
+                  SecurityException,
+                  NoSuchMethodException
+    {
+        final Object   newInstance = beanClass.newInstance();
+        final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+
+        fromResource(classPropertyDefinitionsToSetMethods,
+                     beanClass,
+                     newInstance,
+                     resource);
+
+        return newInstance;
+    }
+
     public static Object[] fromJenaModel(final Model    model,
                                          final Class<?> beanClass)
            throws DatatypeConfigurationException,
