@@ -16,8 +16,6 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Represents a resource of any (unknown) type, usually the object of a
@@ -25,8 +23,6 @@ import java.util.Collection;
  */
 public class AnyResource extends AbstractResource
 {
-	private Collection<URI> types = new ArrayList<URI>();
-	
 	public AnyResource()
 	{
 		super();
@@ -35,20 +31,5 @@ public class AnyResource extends AbstractResource
 	public AnyResource(URI about)
 	{
 		super(about);
-	}
-
-	public Collection<URI> getTypes()
-	{
-		return types;
-	}
-
-	public void setTypes(final Collection<URI> type)
-	{
-		this.types = type;
-	}
-	
-	public void addType(final URI type)
-	{
-		this.types.add(type);
 	}
 }

@@ -62,6 +62,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionEx
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
@@ -70,6 +71,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -199,52 +201,73 @@ public final class JenaModelHelper
     {
         final Class<? extends Object> objectClass = object.getClass();
 
+        // Collect the namespace prefix -> namespace mappings
+        recursivelyCollectNamespaceMappings(namespaceMappings,
+                                            objectClass);
+
+        URI aboutURI = null;
+        if (object instanceof IResource)
+        {
+            aboutURI = ((IResource) object).getAbout();
+        }
+        
+        final Resource mainResource;
+        if (aboutURI != null)
+        {
+            if (!aboutURI.isAbsolute())
+            {
+                throw new OslcCoreRelativeURIException(objectClass,
+                                                       "getAbout",
+                                                       aboutURI);
+            }
+
+            mainResource = model.createResource(aboutURI.toString());
+        }
+        else
+        {
+            mainResource = model.createResource();
+        }
+        
         if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {
-            // Collect the namespace prefix -> namespace mappings
-            recursivelyCollectNamespaceMappings(namespaceMappings,
-                                                objectClass);
-
             final String namespace = TypeFactory.getNamespace(objectClass);
             final String name      = TypeFactory.getName(objectClass);
-
-            URI aboutURI = null;
-            if (object instanceof IResource)
-            {
-                aboutURI = ((IResource) object).getAbout();
-            }
-
-            final Resource mainResource;
-            if (aboutURI != null)
-            {
-                if (!aboutURI.isAbsolute())
-                {
-                    throw new OslcCoreRelativeURIException(objectClass,
-                                                           "getAbout",
-                                                           aboutURI);
-                }
-
-                mainResource = model.createResource(aboutURI.toString(),
-                                                    model.createProperty(namespace,
-                                                                         name));
-            }
-            else
-            {
-                mainResource = model.createResource(model.createProperty(namespace,
-                                                                         name));
-            }
-
-            buildResource(object,
-                          objectClass,
-                          model,
-                          mainResource);
-
-            if (descriptionResource != null)
-            {
-                descriptionResource.addProperty(RDFS.member,
-                                                mainResource);
-            }
+            mainResource.addProperty(RDF.type, model.createResource(namespace + name));
         }
+        
+        buildResource(object,
+                      objectClass,
+                      model,
+                      mainResource);
+
+        if (descriptionResource != null)
+        {
+            descriptionResource.addProperty(RDFS.member,
+                                            mainResource);
+        }
+    }
+
+    public static Object fromJenaResource(final Resource resource,
+                                          final Class<?> beanClass)
+           throws DatatypeConfigurationException,
+                  IllegalAccessException,
+                  IllegalArgumentException,
+                  InstantiationException,
+                  InvocationTargetException,
+                  OslcCoreApplicationException,
+                  URISyntaxException,
+                  SecurityException,
+                  NoSuchMethodException
+    {
+        final Object   newInstance = beanClass.newInstance();
+        final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+
+        fromResource(classPropertyDefinitionsToSetMethods,
+                     beanClass,
+                     newInstance,
+                     resource);
+
+        return newInstance;
     }
 
     public static Object[] fromJenaModel(final Model    model,
@@ -342,15 +365,17 @@ public final class JenaModelHelper
 
         final StmtIterator listProperties = resource.listProperties();
 
+        final IExtendedResource extendedResource;
         final Map<QName, Object> extendedProperties;
         if (bean instanceof IExtendedResource)
         {
-        	final IExtendedResource extendedResource = (IExtendedResource) bean;
+        	extendedResource = (IExtendedResource) bean;
         	extendedProperties = new HashMap<QName, Object>();
         	extendedResource.setExtendedProperties(extendedProperties);
         }
         else
         {
+            extendedResource = null;
         	extendedProperties = null;
         }
         
@@ -366,7 +391,12 @@ public final class JenaModelHelper
             {
                 if (RDF_TYPE_URI.equals(uri))
                 {
-                    // Ignore missing propertyDefinition for rdf:type.
+                    if (extendedResource != null)
+                    {
+                        final URI type = new URI(object.asResource().getURI());
+                        extendedResource.addType(type);
+                    }
+                    // Otherwise ignore missing propertyDefinition for rdf:type.
                 }
                 else
                 {
@@ -743,14 +773,21 @@ public final class JenaModelHelper
 	{
 		if (object.isLiteral())
 		{
-			final Object literalValue = object.asLiteral().getValue();
-			if (literalValue instanceof XSDDateTime)
+			try
 			{
-				final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
-				return xsdDateTime.asCalendar().getTime();
+				final Object literalValue = object.asLiteral().getValue();
+				if (literalValue instanceof XSDDateTime)
+				{
+					final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
+					return xsdDateTime.asCalendar().getTime();
+				}
+				
+				return literalValue;
 			}
-			
-			return literalValue;
+			catch (final DatatypeFormatException e)
+			{
+				return object.asLiteral().getString();
+			}
 		}
 		
 		final Resource nestedResource = object.asResource();
@@ -758,21 +795,13 @@ public final class JenaModelHelper
 		// Is this an inline resource?
 		if (nestedResource.getURI() == null || nestedResource.listProperties().hasNext())
 		{
-			final AnyResource any = new AnyResource();
+			final AbstractResource any = new AnyResource();
             final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
             fromResource(classPropertyDefinitionsToSetMethods,
                          AnyResource.class,
                          any,
                          nestedResource);
 
-            // Preserve rdf:type information.
-            final StmtIterator typeIter = nestedResource.listProperties(RDF.type);
-            while (typeIter.hasNext())
-            {
-            	final Statement typeStatement = typeIter.next();
-            	any.addType(new URI(typeStatement.getResource().getURI()));
-            }
-            
             return any;
 		}
 
@@ -909,7 +938,16 @@ public final class JenaModelHelper
 			   InvocationTargetException,
 			   OslcCoreApplicationException
 	{
-		for (Map.Entry<QName, ?> extendedProperty : extendedResource.getExtendedProperties().entrySet())
+	    for (final URI type : extendedResource.getTypes())
+	    {
+	        final Resource typeResource = model.createResource(type.toString());
+	        if (!mainResource.hasProperty(RDF.type, typeResource))
+	        {
+	            mainResource.addProperty(RDF.type, typeResource);
+	        }
+	    }
+	    
+		for (final Map.Entry<QName, ?> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
 			final QName qName = extendedProperty.getKey();
 			final Property property = model.createProperty(qName.getNamespaceURI() + qName.getLocalPart());
@@ -942,7 +980,7 @@ public final class JenaModelHelper
     {
     	if (value instanceof AnyResource)
     	{
-    		final AnyResource any = (AnyResource) value;
+    		final AbstractResource any = (AbstractResource) value;
     		final Resource nestedResource;
     		final URI aboutURI = any.getAbout();
     		if (aboutURI != null)

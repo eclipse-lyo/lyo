@@ -98,6 +98,8 @@ public abstract class TestTypesBase
 	private static final String                 CUSTOM_NAMESPACE                = "http://example.com/ns#";
 	private static final String                 CUSTOM_PREFIX                   = "ex";	
 	private static final Map<QName, Object>		CUSTOM_FIELDS					= new HashMap<QName, Object>();
+	private static final URI                    CUSTOM_TYPE;
+	private static final AnyResource            ANY_RESOURCE                    = new AnyResource();
 
     private static URI CREATED_TEST_URI;
 
@@ -149,6 +151,20 @@ public abstract class TestTypesBase
             final Nested nested3 = new Nested();
             nested3.setStringProperty("baz");
             CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customBlankNode", CUSTOM_PREFIX), nested3);
+            
+            // Custom RDF types
+            CUSTOM_TYPE = new URI(CUSTOM_NAMESPACE + "CustomType");
+            
+            // "Any" resource
+            ANY_RESOURCE.addType(CUSTOM_TYPE);
+            ANY_RESOURCE.getExtendedProperties().put(new QName(CUSTOM_NAMESPACE, "anyResourceProperty", CUSTOM_PREFIX), "Nested property of an 'any' resource.");
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "anyResource", CUSTOM_PREFIX), ANY_RESOURCE);
+            
+            // Multiple types
+            final Nested nested4 = new Nested();
+            nested4.addType(CUSTOM_TYPE);
+            nested4.setStringProperty("This resource has more than one rdf:type.");
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "multipleTypes", CUSTOM_PREFIX), nested4);
         }
         catch (final URISyntaxException exception)
         {
@@ -737,7 +753,21 @@ public abstract class TestTypesBase
     		{
     			final String actualString = (String) actualNested.getExtendedProperties().get(new QName(Constants.TEST_DOMAIN, "stringProperty"));
     			assertEquals(expectedString, actualString);
+    			
+    			Collection<URI> actualTypes = actualNested.getTypes();
+    			try {
+					assert(actualTypes.contains(new URI(Constants.TYPE_NESTED)));
+				} catch (URISyntaxException e) {
+					fail(e.getMessage());
+				}
     		}
+    	}
+    	else if (expected instanceof AnyResource && actual instanceof AnyResource)
+    	{
+    		final AnyResource expectedAny = (AnyResource) expected;
+    		final AnyResource actualAny   = (AnyResource) actual;
+    		assertEquals(expectedAny.getTypes(), actualAny.getTypes());
+    		assertEquals(expectedAny.getExtendedProperties(), actualAny.getExtendedProperties());
     	}
     	else if (expected instanceof Number && actual instanceof Number)
 		{
