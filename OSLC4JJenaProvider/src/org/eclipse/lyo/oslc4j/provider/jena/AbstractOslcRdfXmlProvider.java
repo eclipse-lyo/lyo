@@ -20,6 +20,7 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
 
 import javax.servlet.http.HttpServletRequest;
@@ -166,12 +167,15 @@ public abstract class AbstractOslcRdfXmlProvider
 
             final RDFWriter writer = model.getWriter(serializationLanguage);
             writer.setProperty("showXmlDeclaration",
-                               "true");
+                    "false");
             writer.setErrorHandler(ERROR_HANDLER);
-
+            
+            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            outputStream.write(xmlDeclaration.getBytes());
+                     
             writer.write(model,
-                         outputStream,
-                         null);
+                    outputStream,
+                    null);
         }
         catch (final Exception exception)
         {
