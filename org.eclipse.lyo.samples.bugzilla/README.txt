@@ -1,14 +1,8 @@
 You must have connect to an existing Bugzilla server to run this sample.
 Simplest is to connect to the Bugzilla Landfull <http://landfill.bugzilla.org/>.
 
-To install the j2bugzilla API (a 3rd party dependency), download the
-2.0-SNAPSHOT version from
-			
-    http://code.google.com/p/j2bugzilla/downloads/list
-			
-then run this command.
-			
-mvn install:install-file -Dfile=<path-to-file> -DgroupId=com.j2bugzilla -DartifactId=j2bugzilla -Dversion=2.0-SNAPSHOT -Dpackaging=jar 
+j2bugzilla 2.0 is now available from Maven Central.   There is no need to
+install it separately.  mvn install will handle the installation.
 
 To run the Bugzilla adapter, edit src/main/resources/bugz.properties to
 point to your Bugzilla server (or use the default, Bugzilla Landfill).
