@@ -78,7 +78,7 @@ function create(baseUrl){
 		postData += "&description="+encodeURIComponent(form.description.value);	
 	}
 	xmlhttp.open("POST", postData, true);
-	xmlhttp.setRequestHeader("Content-type","application/x-www-from-urlencoded");
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send(postData);
 }
 
