@@ -18,7 +18,6 @@
 <%@page import="com.j2bugzilla.base.Product"%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%@ page import="com.j2bugzilla.base.*" %>
-<%@ page import="org.eclipse.lyo.samples.bugzilla.jbugzx.base.*" %>
 <%@ page import="java.util.List" %>
 <%
 	List<Bug> bugs = (List<Bug>)request.getAttribute("results"); 
