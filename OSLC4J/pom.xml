@@ -20,18 +20,6 @@
   		<artifactId>jsr311-api</artifactId>
   		<version>1.1.1</version>
   	</dependency>
-  	<dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.2</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>antlr</artifactId>
-                    <groupId>antlr</groupId>
-                </exclusion>
-            </exclusions>
-     </dependency>
   </dependencies>
   <build>
     <sourceDirectory>${basedir}/src/</sourceDirectory>
@@ -54,21 +42,6 @@
   			<artifactId>maven-javadoc-plugin</artifactId>
   			<version>2.8.1</version>
   		</plugin>
-  		<plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr3-maven-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <verbose>true</verbose>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>antlr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-         </plugin>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -83,39 +56,5 @@
         	</includes>
         </resource>
     </resources>
-  	<pluginManagement>
-        	<plugins>
-        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        		<plugin>
-        			<groupId>org.eclipse.m2e</groupId>
-        			<artifactId>lifecycle-mapping</artifactId>
-        			<version>1.0.0</version>
-        			<configuration>
-        				<lifecycleMappingMetadata>
-        					<pluginExecutions>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>org.antlr</groupId>
-        								<artifactId>
-        									antlr3-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[3.2,)
-        								</versionRange>
-        								<goals>
-        									<goal>antlr</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<execute></execute>
-        							</action>
-        						</pluginExecution>
-        					</pluginExecutions>
-        				</lifecycleMappingMetadata>
-        			</configuration>
-        		</plugin>
-        	</plugins>
-
-        </pluginManagement>
   </build>
 </project>
