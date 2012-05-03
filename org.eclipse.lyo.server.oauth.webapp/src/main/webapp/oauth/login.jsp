@@ -14,7 +14,7 @@
 <script
 	data-dojo-config="async: true"
     type="text/javascript"
-    src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
+    src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/oauth/scripts/login.js"></script>
 </head>

@@ -14,7 +14,7 @@
 <link type="text/css"
 	href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet"></link>
 <script data-dojo-config="async: true" type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
 </script>
 <script type="text/javascript">
 require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_base/xhr", "dojo/ready" ],

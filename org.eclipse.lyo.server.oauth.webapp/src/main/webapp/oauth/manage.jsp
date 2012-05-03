@@ -15,7 +15,7 @@
 <link type="text/css"
 	href="<%=request.getContextPath()%>/oauth/stylesheets/admin.css" rel="stylesheet"></link>
 <script data-dojo-config="async: true" type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/oauth/scripts/manage.js"></script>
 </head>
