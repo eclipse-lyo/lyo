@@ -224,6 +224,7 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/dom-style", "dojo/on",
 				'Accept' : 'application/json'
 			},
 			handleAs : 'json',
+			preventCache: true,
 			load : showConsumers,
 			error : function() {
 				showError();
