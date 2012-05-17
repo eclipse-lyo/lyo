@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.apache.wink.json4j.JSONObject;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 
@@ -97,14 +98,24 @@ public abstract class AbstractOslcRdfJsonProvider
                 final String method = httpServletRequest.getMethod();
                 if ("GET".equals(method))
                 {
-                    final String scheme      = httpServletRequest.getScheme();
-                    final String serverName  = httpServletRequest.getServerName();
-                    final int    serverPort  = httpServletRequest.getServerPort();
-                    final String contextPath = httpServletRequest.getContextPath();
+                	final String publicURI   = OSLC4JUtils.getPublicURI();
+                	
+                	if (publicURI != null)
+                	{
+                		descriptionURI = publicURI;
+                	}
+                	else
+                	{
+                		final String scheme      = httpServletRequest.getScheme();
+                		final String serverName  = httpServletRequest.getServerName();
+                		final int    serverPort  = httpServletRequest.getServerPort();
+                		final String contextPath = httpServletRequest.getContextPath();
+                		
+                		descriptionURI = scheme + "://" + serverName + ":" + serverPort + contextPath;
+                	}
+                	
                     final String pathInfo    = httpServletRequest.getPathInfo();
                     final String queryString = httpServletRequest.getQueryString();
-
-                    descriptionURI = scheme + "://" + serverName + ":" + serverPort + contextPath;
 
                     if (pathInfo != null)
                     {
