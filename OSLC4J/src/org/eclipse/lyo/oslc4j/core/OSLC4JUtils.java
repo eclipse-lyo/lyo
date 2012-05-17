@@ -38,7 +38,6 @@ public class OSLC4JUtils {
 	/**
 	 * Sets the value of org.eclipse.lyo.oslc4j.core.public.uri
 	 * @param publicURI
-	 * @return The previous value of the property.
 	 */
 	public static void setPublicURI(String publicURI) throws MalformedURLException
 	{
