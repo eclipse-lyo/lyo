@@ -31,6 +31,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.wink.common.AbstractDynamicResource;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
@@ -78,13 +79,23 @@ public class OslcResourceShapeResource
            throws OslcCoreApplicationException,
                   URISyntaxException
     {
-        final String protocol = httpServletRequest.getScheme();
-        final String host     = httpServletRequest.getServerName();
-        final int port        = httpServletRequest.getServerPort();
-        final String path     = httpServletRequest.getServletContext().getContextPath();
+    	final String baseURI;
+    	final String publicURI= OSLC4JUtils.getPublicURI(); 
+    	
+    	if (publicURI != null)
+    	{
+    		baseURI = publicURI;
+    	}
+    	else
+    	{
+        	final String protocol = httpServletRequest.getScheme();
+        	final String host     = httpServletRequest.getServerName();
+        	final int port        = httpServletRequest.getServerPort();
+        	final String path     = httpServletRequest.getServletContext().getContextPath();
 
-        final String baseURI = protocol + "://" + host + ":" + port + path;
-
+        	baseURI = protocol + "://" + host + ":" + port + path;
+    	}
+    	
         final Class<?> resourceClass = resourcePathToResourceClassMap.get(resourceShapePath);
 
         if (resourceClass != null)
