@@ -36,6 +36,7 @@ public class AllTests
         suite.addTestSuite(TestInvalidTypesRdfXml.class);
         suite.addTestSuite(TestInvalidTypesJson.class);
         suite.addTestSuite(TestRelativeUriRdfXml.class);
+        suite.addTestSuite(TestLiteralXml.class);
 
         return suite;
     }
