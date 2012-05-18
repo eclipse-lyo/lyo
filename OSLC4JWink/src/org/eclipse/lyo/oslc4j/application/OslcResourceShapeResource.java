@@ -79,23 +79,8 @@ public class OslcResourceShapeResource
            throws OslcCoreApplicationException,
                   URISyntaxException
     {
-    	final String baseURI;
-    	final String publicURI= OSLC4JUtils.getPublicURI(); 
-    	
-    	if (publicURI != null)
-    	{
-    		baseURI = publicURI;
-    	}
-    	else
-    	{
-        	final String protocol = httpServletRequest.getScheme();
-        	final String host     = httpServletRequest.getServerName();
-        	final int port        = httpServletRequest.getServerPort();
-        	final String path     = httpServletRequest.getServletContext().getContextPath();
+    	final String baseURI = OSLC4JUtils.resolveURI(httpServletRequest,false);
 
-        	baseURI = protocol + "://" + host + ":" + port + path;
-    	}
-    	
         final Class<?> resourceClass = resourcePathToResourceClassMap.get(resourceShapePath);
 
         if (resourceClass != null)

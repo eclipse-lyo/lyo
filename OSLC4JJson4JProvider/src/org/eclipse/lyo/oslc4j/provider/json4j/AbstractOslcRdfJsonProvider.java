@@ -35,6 +35,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Providers;
 
 import org.apache.wink.json4j.JSONObject;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 
@@ -102,38 +103,21 @@ public abstract class AbstractOslcRdfJsonProvider
 
         if (queryResult)
         {
-            try
-            {
-                final String method = httpServletRequest.getMethod();
-                if ("GET".equals(method))
+
+        	final String method = httpServletRequest.getMethod();
+        	if ("GET".equals(method))
+        	{
+        		descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
+        		responseInfoURI = descriptionURI;
+        		
+        		final String queryString = httpServletRequest.getQueryString();
+                if ((queryString != null) &&
+                    (isOslcQuery(queryString)))
                 {
-                    final String scheme      = httpServletRequest.getScheme();
-                    final String serverName  = httpServletRequest.getServerName();
-                    final int    serverPort  = httpServletRequest.getServerPort();
-                    final String contextPath = httpServletRequest.getContextPath();
-                    final String pathInfo    = httpServletRequest.getPathInfo();
-                    final String queryString = httpServletRequest.getQueryString();
+                    responseInfoURI += "?" + queryString;
+                } 
+        	}
 
-                    descriptionURI = scheme + "://" + serverName + ":" + serverPort + contextPath;
-
-                    if (pathInfo != null)
-                    {
-                        descriptionURI += pathInfo;
-                    }
-
-                    responseInfoURI = descriptionURI;
-
-                    if ((queryString != null) &&
-                        (isOslcQuery(queryString)))
-                    {
-                        responseInfoURI += "?" + queryString;
-                    }
-                }
-            }
-            catch (final NullPointerException exception)
-            {
-                // Ignore since this means the context has not been set
-            }
         }
 
         final JSONObject jsonObject;

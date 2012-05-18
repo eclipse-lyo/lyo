@@ -19,5 +19,6 @@ package org.eclipse.lyo.oslc4j.core;
 public interface OSLC4JConstants {
 	
 	public static String OSLC4J_PUBLIC_URI 		= "org.eclipse.lyo.oslc4j.publicURI";
+	public static String OSLC4J_DISABLE_HOST_RESOLUTION = "org.eclipse.lyo.oslc4j.disableHostResolution";
 
 }
