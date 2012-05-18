@@ -57,6 +57,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
@@ -69,8 +70,10 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 
+import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -92,6 +95,7 @@ public final class JenaModelHelper
     private static final String PROPERTY_TOTAL_COUNT = "totalCount";
 
     private static final String RDF_TYPE_URI = OslcConstants.RDF_NAMESPACE + "type";
+    private static final BaseDatatype RDF_TYPE_XMLLITERAL = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "XMLLiteral");
 
     private static final String METHOD_NAME_START_GET = "get";
     private static final String METHOD_NAME_START_IS  = "is";
@@ -569,16 +573,21 @@ public final class JenaModelHelper
 
                     if (URI.class == setMethodComponentParameterClass)
                     {
-                        final URI nestedResourceURI = new URI(nestedResource.getURI());
+                        final String nestedResourceURIString = nestedResource.getURI();
 
-                        if (!nestedResourceURI.isAbsolute())
+                        if (nestedResourceURIString != null)
                         {
-                            throw new OslcCoreRelativeURIException(beanClass,
-                                                                   setMethod.getName(),
-                                                                   nestedResourceURI);
-                        }
+                            final URI nestedResourceURI = new URI(nestedResourceURIString);
 
-                        parameter = nestedResourceURI;
+                            if (!nestedResourceURI.isAbsolute())
+                         	{
+                            	throw new OslcCoreRelativeURIException(beanClass,
+                                                                       setMethod.getName(),
+                                                                       nestedResourceURI);
+                        	}
+
+                        	parameter = nestedResourceURI;
+                        }
                     }
                     else
                     {
@@ -1008,8 +1017,10 @@ public final class JenaModelHelper
     		resource.addProperty(property, nestedResource);
     	}
     	else if (value.getClass().getAnnotation(OslcResourceShape.class) != null || value instanceof URI)
-    	{
-			handleLocalResource(objectClass, null, value, model, resource, property);
+    	{ 
+    		//TODO:  Until we handle XMLLiteral for incoming unknown resources, need to assume it is not XMLLiteral
+    		boolean xmlliteral = false;
+			handleLocalResource(objectClass, null, xmlliteral, value, model, resource, property);
     	}
     	else if (value instanceof Date)
     	{
@@ -1057,6 +1068,11 @@ public final class JenaModelHelper
                                                                  propertyDefinitionAnnotation);
         }
 
+        final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, 
+                                                                                                OslcValueType.class);
+        
+        final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value()); 
+
         final Property attribute = model.createProperty(propertyDefinition);
 
         final Class<?> returnType = method.getReturnType();
@@ -1080,6 +1096,7 @@ public final class JenaModelHelper
 
                 handleLocalResource(resourceClass,
                                     method,
+                                    xmlLiteral,
                                     object,
                                     model,
                                     resource,
@@ -1095,6 +1112,7 @@ public final class JenaModelHelper
             {
                 handleLocalResource(resourceClass,
                                     method,
+                                    xmlLiteral,
                                     object,
                                     model,
                                     resource,
@@ -1105,6 +1123,7 @@ public final class JenaModelHelper
         {
             handleLocalResource(resourceClass,
                                 method,
+                                xmlLiteral,
                                 value,
                                 model,
                                 resource,
@@ -1114,6 +1133,7 @@ public final class JenaModelHelper
 
     private static void handleLocalResource(final Class<?> resourceClass,
                                             final Method   method,
+                                            final boolean   xmlLiteral,
                                             final Object   object,
                                             final Model    model,
                                             final Resource resource,
@@ -1130,9 +1150,22 @@ public final class JenaModelHelper
         final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
         final Object value = (reifiedResource == null) ? object : reifiedResource.getValue();
         
-        if ((value instanceof String)  ||
-            (value instanceof Boolean) ||
-            (value instanceof Number))
+        if (value instanceof String)
+        {
+        	if (xmlLiteral)
+        	{
+        		statement = model.createStatement(resource,
+        				                          attribute,
+        				                          model.createTypedLiteral(value.toString(), 
+                                                          RDF_TYPE_XMLLITERAL));
+        	}
+        	else
+        	{
+        		statement = model.createStatement(resource, attribute, value.toString());
+        	}
+        }
+        else if ((value instanceof Boolean) ||
+                 (value instanceof Number))
         {
             statement = model.createStatement(resource, attribute, value.toString());
         }
