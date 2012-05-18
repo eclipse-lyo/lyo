@@ -20,18 +20,20 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.ext.Providers;
 
-import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
@@ -44,9 +46,13 @@ import com.hp.hpl.jena.util.FileUtils;
 
 public abstract class AbstractOslcRdfXmlProvider
 {
-    private static final ErrorHandler ERROR_HANDLER = new ErrorHandler();
+    private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
+    private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;
+    private static final ErrorHandler ERROR_HANDLER           = new ErrorHandler();
 
-    private @Context HttpServletRequest httpServletRequest;
+    private @Context HttpHeaders        httpHeaders;        // Available only on the server
+    private @Context HttpServletRequest httpServletRequest; // Available only on the server
+    private @Context Providers          providers;          // Available on both client and server
 
     protected AbstractOslcRdfXmlProvider()
     {
@@ -63,7 +69,7 @@ public abstract class AbstractOslcRdfXmlProvider
             // When handling "recursive" writing of an OSLC Error object, we get a zero-length array of annotations
             if ((annotations != null) &&
                 ((annotations.length > 0) ||
-                 (Error.class != type)))
+                 (CLASS_OSLC_ERROR != type)))
             {
                 for (final Annotation annotation : annotations)
                 {
@@ -102,10 +108,11 @@ public abstract class AbstractOslcRdfXmlProvider
         return false;
     }
 
-    protected void writeTo(final boolean      queryResult,
-                           final Object[]     objects,
-                           final MediaType    baseMediaType,
-                           final OutputStream outputStream)
+    protected void writeTo(final boolean                        queryResult,
+                           final Object[]                       objects,
+                           final MediaType                      baseMediaType,
+                           final MultivaluedMap<String, Object> map,
+                           final OutputStream                   outputStream)
               throws WebApplicationException
     {
         String descriptionURI  = null;
@@ -118,24 +125,14 @@ public abstract class AbstractOslcRdfXmlProvider
                 final String method = httpServletRequest.getMethod();
                 if ("GET".equals(method))
                 {
-                	final String publicURI   = OSLC4JUtils.getPublicURI();
-                	
-                	if (publicURI != null)
-                	{
-                		descriptionURI = publicURI;
-                	}
-                	else
-                	{
-                		final String scheme      = httpServletRequest.getScheme();
-                		final String serverName  = httpServletRequest.getServerName();
-                		final int    serverPort  = httpServletRequest.getServerPort();
-                		final String contextPath = httpServletRequest.getContextPath();
-                		
-                		descriptionURI = scheme + "://" + serverName + ":" + serverPort + contextPath;
-                	}
-                	
+                    final String scheme      = httpServletRequest.getScheme();
+                    final String serverName  = httpServletRequest.getServerName();
+                    final int    serverPort  = httpServletRequest.getServerPort();
+                    final String contextPath = httpServletRequest.getContextPath();
                     final String pathInfo    = httpServletRequest.getPathInfo();
                     final String queryString = httpServletRequest.getQueryString();
+
+                    descriptionURI = scheme + "://" + serverName + ":" + serverPort + contextPath;
 
                     if (pathInfo != null)
                     {
@@ -178,21 +175,19 @@ public abstract class AbstractOslcRdfXmlProvider
 
             final RDFWriter writer = model.getWriter(serializationLanguage);
             writer.setProperty("showXmlDeclaration",
-                    "false");
+                               "true");
             writer.setErrorHandler(ERROR_HANDLER);
-            
-            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-            outputStream.write(xmlDeclaration.getBytes());
-                     
+
             writer.write(model,
-                    outputStream,
-                    null);
+                         outputStream,
+                         null);
         }
         catch (final Exception exception)
         {
             throw new WebApplicationException(exception,
                                               buildBadRequestResponse(exception,
-                                                                      baseMediaType));
+                                                                      baseMediaType,
+                                                                      map));
         }
     }
 
@@ -214,9 +209,10 @@ public abstract class AbstractOslcRdfXmlProvider
         return false;
     }
 
-    protected static Object[] readFrom(final Class<?>    type,
-                                       final MediaType   errorMediaType,
-                                       final InputStream inputStream)
+    protected Object[] readFrom(final Class<?>                       type,
+                                final MediaType                      errorMediaType,
+                                final MultivaluedMap<String, String> map,
+                                final InputStream                    inputStream)
               throws WebApplicationException
     {
         final Model model = ModelFactory.createDefaultModel();
@@ -226,14 +222,9 @@ public abstract class AbstractOslcRdfXmlProvider
 
         try
         {
-			// Pass the empty string as the base URI. This allows Jena to
-			// resolve relative URIs commonly used to in reified statements
-			// for OSLC link labels. See this section of the CM specification
-			// for an example:
-        	// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
         	reader.read(model,
         				inputStream,
-        				"");
+        				null);
 
             return JenaModelHelper.fromJenaModel(model,
                                                  type);
@@ -242,20 +233,116 @@ public abstract class AbstractOslcRdfXmlProvider
         {
             throw new WebApplicationException(exception,
                                               buildBadRequestResponse(exception,
-                                                                      errorMediaType));
+                                                                      errorMediaType,
+                                                                      map));
         }
     }
 
-    protected static Response buildBadRequestResponse(final Exception exception,
-                                                      final MediaType errorMediaType)
+    protected Response buildBadRequestResponse(final Exception                 exception,
+                                               final MediaType                 initialErrorMediaType,
+                                               final MultivaluedMap<String, ?> map)
     {
+        final MediaType determinedErrorMediaType = determineErrorMediaType(initialErrorMediaType,
+                                                                           map);
+
         final Error error = new Error();
 
         error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
         error.setMessage(exception.getMessage());
 
         final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
-        return responseBuilder.type(errorMediaType).entity(error).build();
+        return responseBuilder.type(determinedErrorMediaType).entity(error).build();
+    }
+
+    /**
+     * We handle the case where a client requests an accept type different than their content type.
+     * This will work correctly in the successful case.  But, in the error case where our
+     * MessageBodyReader/MessageBodyWriter fails internally, we respect the client's requested accept type.
+     */
+    private MediaType determineErrorMediaType(final MediaType                 initialErrorMediaType,
+                                              final MultivaluedMap<String, ?> map)
+    {
+        try
+        {
+            // HttpHeaders will not be available on the client side and will throw a NullPointerException
+            final List<MediaType> acceptableMediaTypes = httpHeaders.getAcceptableMediaTypes();
+
+            // Since we got here, we know we are executing on the server
+
+            if (acceptableMediaTypes != null)
+            {
+                for (final MediaType acceptableMediaType : acceptableMediaTypes)
+                {
+                    // If a concrete media type with a MessageBodyWriter
+                    if (isAcceptableMediaType(acceptableMediaType))
+                    {
+                        return acceptableMediaType;
+                    }
+                }
+            }
+        }
+        catch (final NullPointerException exception)
+        {
+            // Ignore NullPointerException since this means the context has not been set since we are on the client
+
+            // See if the MultivaluedMap for headers is available
+            if (map != null)
+            {
+                final Object acceptObject = map.getFirst("Accept");
+
+                if (acceptObject instanceof String)
+                {
+                    final String[] accepts = acceptObject.toString().split(",");
+
+                    double    winningQ         = 0.0D;
+                    MediaType winningMediaType = null;
+
+                    for (final String accept : accepts)
+                    {
+                        final MediaType acceptMediaType = MediaType.valueOf(accept);
+
+                        // If a concrete media type with a MessageBodyWriter
+                        if (isAcceptableMediaType(acceptMediaType))
+                        {
+                            final String stringQ = acceptMediaType.getParameters().get("q");
+
+                            final double q = stringQ == null ? 1.0D : Double.parseDouble(stringQ);
+
+                            // Make sure and exclude blackballed media type
+                            if (Double.compare(q, 0.0D) > 0)
+                            {
+                                if ((winningMediaType == null) ||
+                                    (Double.compare(q, winningQ) > 0))
+                                {
+                                    winningMediaType = acceptMediaType;
+                                    winningQ         = q;
+                                }
+                            }
+                        }
+                    }
+
+                    if (winningMediaType != null)
+                    {
+                        return winningMediaType;
+                    }
+                }
+            }
+        }
+
+        return initialErrorMediaType;
+    }
+
+    /**
+     * Only allow media types that are not wildcards and have a related MessageBodyWriter for OSLC Error.
+     */
+    private boolean isAcceptableMediaType(final MediaType mediaType)
+    {
+        return (!mediaType.isWildcardType()) &&
+               (!mediaType.isWildcardSubtype()) &&
+               (providers.getMessageBodyWriter(CLASS_OSLC_ERROR,
+                                               CLASS_OSLC_ERROR,
+                                               ANNOTATIONS_EMPTY_ARRAY,
+                                               mediaType) != null);
     }
 
 	private static boolean isOslcQuery(final String parmString)

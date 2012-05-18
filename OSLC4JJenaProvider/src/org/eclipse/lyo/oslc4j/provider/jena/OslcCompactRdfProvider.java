@@ -86,6 +86,7 @@ public final class OslcCompactRdfProvider
         writeTo(false,
                 new Compact[] {compact},
                 OslcMediaType.APPLICATION_XML_TYPE,
+                map,
                 outputStream);
     }
 
@@ -113,6 +114,7 @@ public final class OslcCompactRdfProvider
     {
         final Object[] objects = readFrom(type,
                                           OslcMediaType.APPLICATION_XML_TYPE,
+                                          map,
                                           inputStream);
 
         if ((objects != null) &&
