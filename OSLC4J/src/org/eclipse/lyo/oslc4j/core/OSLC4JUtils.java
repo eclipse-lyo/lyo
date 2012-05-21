@@ -30,6 +30,7 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 
 
 public class OSLC4JUtils {
+	private static String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
 	
 	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
@@ -40,7 +41,6 @@ public class OSLC4JUtils {
 	 */
 	public static String getPublicURI()
 	{
-		String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
 		return publicURI;
 	}
 	
@@ -48,18 +48,16 @@ public class OSLC4JUtils {
 	 * Sets the value of org.eclipse.lyo.oslc4j.core.public.uri
 	 * @param publicURI
 	 */
-	public static void setPublicURI(String publicURI) throws MalformedURLException
+	@SuppressWarnings("unused")
+	public static void setPublicURI(String newPublicURI) throws MalformedURLException
 	{
 
-		if (publicURI == null || publicURI.isEmpty())
+		if (newPublicURI != null && !newPublicURI.isEmpty())
 		{
-			System.clearProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
+			//test for valid URL - exception will be thrown if invalid
+			URL newPublicURL = new URL(newPublicURI);			
 		}
-		else
-		{
-			URL newPublicURL = new URL(publicURI);			
-            System.setProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI, newPublicURL.toString());
-		}
+		publicURI = newPublicURI;
 	}
 	
 	/**
