@@ -159,8 +159,11 @@ public abstract class AbstractOslcRdfXmlProvider
 
             final RDFWriter writer = model.getWriter(serializationLanguage);
             writer.setProperty("showXmlDeclaration",
-                               "true");
-            writer.setErrorHandler(ERROR_HANDLER);
+                    "false");
+            writer.setErrorHandler(ERROR_HANDLER);    
+            
+            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            outputStream.write(xmlDeclaration.getBytes());
 
             writer.write(model,
                          outputStream,
@@ -206,9 +209,14 @@ public abstract class AbstractOslcRdfXmlProvider
 
         try
         {
+        	// Pass the empty string as the base URI. This allows Jena to
+        	// resolve relative URIs commonly used to in reified statements
+        	// for OSLC link labels. See this section of the CM specification
+        	// for an example:
+        	// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
         	reader.read(model,
         				inputStream,
-        				null);
+        				"");
 
             return JenaModelHelper.fromJenaModel(model,
                                                  type);
