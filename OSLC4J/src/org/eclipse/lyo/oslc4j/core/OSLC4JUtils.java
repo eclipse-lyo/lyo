@@ -34,7 +34,7 @@ public class OSLC4JUtils {
 	
 	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
-	 * Returns the value of org.eclipse.lyo.oslc4j.core.public.uri or null if not set.
+	 * Returns the value of org.eclipse.lyo.oslc4j.publicURI or null if not set.
 	 * 
 	 * 
 	 * @return
@@ -45,7 +45,7 @@ public class OSLC4JUtils {
 	}
 	
 	/**
-	 * Sets the value of org.eclipse.lyo.oslc4j.core.public.uri
+	 * Sets the value of org.eclipse.lyo.oslc4j.publicURI
 	 * @param publicURI
 	 */
 	@SuppressWarnings("unused")
@@ -61,7 +61,7 @@ public class OSLC4JUtils {
 	}
 	
 	/**
-	 * Returns the boolean value of org.eclipse.lyo.oslc4j.core.disableHostResolution
+	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableHostResolution
 	 * Default is false if not set or invalid (hostname resolution will take place)
 	 * @return
 	 */
@@ -86,7 +86,7 @@ public class OSLC4JUtils {
 	
 	/**
 	 * Resolve a URI (usually a resource subject or info URI) based on the settings of
-	 * org.eclipse.lyo.oslc4j.core.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
+	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
 	 * 
 	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
 	 * 
