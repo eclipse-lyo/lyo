@@ -57,6 +57,9 @@ public class SecureHelloWorld implements ServletContextListener {
 	 */
 	public static final String REALM = "Hello";
 	
+	private static final String AUTHENTICATED = "authenticated";
+	private static final String ADMIN = "admin";
+	
 	/**
 	 * Initialize the OAuth provider when the webapp loads.
 	 * 
@@ -78,7 +81,8 @@ public class SecureHelloWorld implements ServletContextListener {
 					throw new AuthenticationException("Invalid ID or password.");
 				}
 				
-				request.getSession().setAttribute("admin", "admin".equals(id));
+				request.getSession().setAttribute(AUTHENTICATED, true);
+				request.getSession().setAttribute(ADMIN, "admin".equals(id));
 			}
 
 			@Override
@@ -87,9 +91,13 @@ public class SecureHelloWorld implements ServletContextListener {
 			}
 
 			@Override
+			public boolean isAuthenticated(HttpServletRequest request) {
+				return Boolean.TRUE.equals(request.getSession().getAttribute(AUTHENTICATED));
+			}
+			
+			@Override
 			public boolean isAdminSession(HttpServletRequest request) {
-				return Boolean.TRUE
-						.equals(request.getSession().getAttribute("admin"));
+				return Boolean.TRUE.equals(request.getSession().getAttribute(ADMIN));
 			}
 
 			@Override

@@ -48,6 +48,17 @@ public interface Application {
 			throws AuthenticationException;
 
 	/**
+	 * Determines if the user is already authenticated with the application. If
+	 * so, the OAuth provider can show a different authorization dialog that
+	 * doesn't require a login.
+	 * 
+	 * @param request
+	 *            the servlet request
+	 * @return if the user is already logged in for this session
+	 */
+	public boolean isAuthenticated(HttpServletRequest request);
+	
+	/**
 	 * Determines if the current session is an admin session. If so, the user
 	 * will be able to approve, edit, and delete OAuth consumers.
 	 * 

@@ -97,6 +97,18 @@ public class BugzillaInitializer implements ServletContextListener {
 			}
 
 			@Override
+			public boolean isAuthenticated(HttpServletRequest request) {
+				BugzillaConnector bc = (BugzillaConnector) request.getSession()
+						.getAttribute(CONNECTOR_ATTRIBUTE);
+				if (bc == null) {
+					return false;
+				}
+				
+				request.setAttribute(CONNECTOR_ATTRIBUTE, bc);
+				return true;
+			}
+
+			@Override
 			public boolean isAdminSession(HttpServletRequest request) {
 				return Boolean.TRUE.equals(request.getSession().getAttribute(
 						ADMIN_SESSION_ATTRIBUTE));
