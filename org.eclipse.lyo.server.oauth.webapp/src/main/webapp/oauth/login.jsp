@@ -27,9 +27,9 @@
 
 		<form id="loginForm">
 		
-			<div><b><c:out value="${consumerName}">Another application</c:out></b>
+			<p><b><c:out value="${consumerName}">Another application</c:out></b>
 			is requesting access to your <b><c:out value="${applicationName}">application</c:out></b> data. Enter your
-			username and password to continue or click cancel to exit.</div>
+			username and password to continue or click cancel to exit.</p>
 
 			<c:if test="${not callbackConfirmed}">
 				<p>
@@ -38,7 +38,7 @@
 				</p>
 			</c:if>
 
-			<div id="error" class="error" style="display: hidden;"></div>
+			<div id="error" class="error" style="display: none;"></div>
 			<input type="hidden" name="requestToken" value="<c:out value="${requestToken}"/>">
 			<input type="hidden" id="callback" value="<c:out value="${callback}"/>">
 			

@@ -24,7 +24,6 @@ import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -180,9 +179,15 @@ public class OAuthService {
 			httpRequest.setAttribute("applicationName",
 					config.getApplication().getName());
 
-			// Show the login page.
-			httpRequest.getRequestDispatcher("/oauth/login.jsp").forward(
-					httpRequest, httpResponse);
+			if (config.getApplication().isAuthenticated(httpRequest)) {
+				// Show the grant access page.
+				httpRequest.getRequestDispatcher("/oauth/authorize.jsp").forward(
+						httpRequest, httpResponse);
+			} else {
+				// Show the login page.
+				httpRequest.getRequestDispatcher("/oauth/login.jsp").forward(
+						httpRequest, httpResponse);
+			}
 			
 			return null;
 		} catch (OAuthException e) {
@@ -263,7 +268,34 @@ public class OAuthService {
 
 		return Response.noContent().build();
 	}
+	
+	@POST
+	@Path("/internal/approveToken")
+	public Response authorize(@FormParam("requestToken") String requestToken) {
+		try {
+			if (!OAuthConfiguration.getInstance().getApplication().isAuthenticated(httpRequest)) {
+				return Response.status(Status.FORBIDDEN).build();
+			}
+		} catch (OAuthProblemException e) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
 
+		return authorizeToken(requestToken);
+	}
+
+	private Response authorizeToken(String requestToken) {
+		try {
+			OAuthConfiguration.getInstance().getTokenStrategy()
+					.markRequestTokenAuthorized(httpRequest, requestToken);
+		} catch (OAuthException e) {
+			return Response.status(Status.CONFLICT)
+					.entity("Request token invalid.")
+					.type(MediaType.TEXT_PLAIN).build();
+		}
+
+		return Response.noContent().build();
+	}
+	
 	@GET
 	@Path("/accessToken")
 	public Response doGetAccessToken() throws IOException, ServletException {
