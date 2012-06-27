@@ -148,7 +148,13 @@ IRI_REF
 
 
 LANGTAG
-    : '@' PN_CHARS_BASE+ (MINUS (PN_CHARS_BASE DIGIT)+)?
+    : '@' ALPHA_CHARS+ (MINUS (DIGIT | ALPHA_CHARS)+)*
+    ;
+    
+fragment
+ALPHA_CHARS
+    : 'a'..'z'
+    | 'A'..'Z'
     ;
 
 BOOLEAN       

@@ -47,13 +47,16 @@ public class BasicWhereTest
         
         prefixMap.put("qm", "http://qm.example.com/ns");
         prefixMap.put("olsc", "http://open-services.net/ns/core#");
+        prefixMap.put("xs", "http://www.w3.org/2001/XMLSchema");
         
         String[] expressions = {
                 "qm:testcase=<http://example.com/tests/31459>",
                 "qm:duration>=10.4",
                 "oslc:create!=\"Bob\" and qm:verified!=true",
                 "qm:state in [\"Done\",\"Open\"]",
-                "oslc:verified_by{oslc:owner=\"Steve\" and qm:duration=-47.0} and oslc:description=\"very hairy expression\""
+                "oslc:verified_by{oslc:owner=\"Steve\" and qm:duration=-47.0} and oslc:description=\"very hairy expression\"",
+                "qm:submitted<\"2011-10-10T07:00:00Z\"^^\"xs:dateTime\"",
+                "oslc:label>\"The End\"@en-US"
             };
         
         for (String expression : expressions) {

@@ -55,7 +55,8 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
         boolean isValue = methodName.equals("value");
 
         if (! isValue &&
-            ! methodName.equals("prefixedName")) {
+            ! methodName.equals("prefixedName") &&
+            ! methodName.equals("toString")) {
             super.invoke(proxy, method, args);
         }
         
@@ -63,7 +64,7 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
             
             if (value == null) {
                 
-                String rawValue = ((CommonTree)tree.getChild(0)).getToken().toString();
+                String rawValue = ((CommonTree)tree.getChild(0)).getText();
                 
                 // XXX - determine if need to unescape
                 value = rawValue.substring(1, rawValue.length() - 1);
@@ -74,7 +75,9 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
         
         if (prefixedName == null) {
             
-            String rawPName = tree.getChild(1).toString();
+            String rawPName = tree.getChild(1).getText();
+            
+            rawPName = rawPName.substring(1, rawPName.length() - 1);
             
             prefixedName = new PName();
             
@@ -90,8 +93,13 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
                 prefixedName.local = rawPName.substring(colon + 1);
             }
         }
-    
-        return prefixedName;
+        
+        if (methodName.equals("prefixedName")) {    
+            return prefixedName;
+        }
+        
+        return '"' + ((TypedValue)proxy).value() + "\"^^\"" +
+            ((TypedValue)proxy).prefixedName() + '"';
     }
     
     private final Map<String, String> prefixMap;

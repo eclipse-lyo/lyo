@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.eclipse.lyo.core.query.LangedStringValue;
+import org.eclipse.lyo.core.query.TypedValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
 /**
@@ -48,7 +49,8 @@ class LangedStringValueInvocationHandler extends ValueInvocationHandler
         boolean isValue = methodName.equals("value");
 
         if (! isValue &&
-            ! methodName.equals("langTag")) {
+            ! methodName.equals("langTag")&&
+            ! methodName.equals("toString")) {
             super.invoke(proxy, method, args);
         }
         
@@ -69,7 +71,12 @@ class LangedStringValueInvocationHandler extends ValueInvocationHandler
             langTag = ((CommonTree)tree.getChild(1)).getText().substring(1);
         }
     
-        return langTag;
+        if (methodName.equals("langTag")) {
+            return langTag;
+        }
+        
+        return '"' + ((LangedStringValue)proxy).value() + "\"@" +
+            ((LangedStringValue)proxy).langTag();
     }
     
     private String value = null;
