@@ -32,6 +32,10 @@ package org.eclipse.lyo.core.query;
     public List<String> getErrors() {
         return errors;
     }
+    public OslcSelectParser(String where)
+    {
+        this(new CommonTokenStream(new OslcSelectLexer(new ANTLRStringStream(where))));
+    }       
 }
 
 oslc_select	: properties
@@ -52,23 +56,13 @@ nested_property : identifier OPEN_CURLY_BRACE properties CLOSE_CURLY_BRACE -> ^(
 identifier	: prefixedName -> ^( 'prefixed_name' prefixedName )
 	;
 
-wildcard	: ASTERISK -> ^( 'wildcard' ASTERISK )
+wildcard	: ASTERISK -> ^( 'wildcard' )
 	;
-
-uri_ref_esc	: '<' iriRef '>';
-
-string_esc	: STRING_LITERAL ;
-	
-iriRef
-    : IRI_REF
-    | prefixedName
-    ;
 
 prefixedName
     : PNAME_LN
     | PNAME_NS
     ;
-
 
 // $>
 
@@ -87,21 +81,6 @@ PNAME_LN
     : PNAME_NS PN_LOCAL
     ;
 
-
-IRI_REF
-    : LESS ( options {greedy=false;} : ~(LESS | GREATER | '"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\' | '`' | ('\u0000'..'\u0020')) )* GREATER 
-    ;
-
-
-
-STRING_LITERAL
-    : '"'  ( options {greedy=false;} : ~('\u0022' | '\u005C' | '\u000A' | '\u000D') | ECHAR )* '"'
-    ;
-
-STRING_LITERAL_LONG
-    :   '"""' ( options {greedy=false;} : ( '"' | '""' )? ( ~('"'|'\\') | ECHAR ) )* '"""'
-    ;
-
 fragment
 ECHAR
     : '\\' ('t' | 'b' | 'n' | 'r' | 'f' | '\\' | '"' | '\'')
@@ -110,11 +89,6 @@ ECHAR
 fragment
 PN_CHARS_U
     : PN_CHARS_BASE | '_'
-    ;
-
-fragment
-VARNAME
-    : ( PN_CHARS_U | DIGIT ) ( PN_CHARS_U | DIGIT | '\u00B7' | '\u0300'..'\u036F' | '\u203F'..'\u2040' )*
     ;
 
 fragment
@@ -172,18 +146,6 @@ CLOSE_CURLY_BRACE
     : '}'
     ;
 
-OPEN_SQUARE_BRACE
-    : '['
-    ;
-
-CLOSE_SQUARE_BRACE
-    : ']'
-    ;
-
-SEMICOLON
-    : ';'
-    ;
-
 DOT
     : '.'
     ;
@@ -206,25 +168,6 @@ COMMA
 
 NOT
     : '!'
-    ;
-
-DIVIDE
-    : '/'
-    ;
-
-EQUAL
-    : '='
-    ;
-
-LESS
-    : '<'
-    ;
-
-GREATER
-    : '>'
-    ;
-
-ANY : .
     ;
 
 // $>

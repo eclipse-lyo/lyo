@@ -20,7 +20,6 @@ import java.lang.reflect.Method;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.eclipse.lyo.core.query.LangedStringValue;
-import org.eclipse.lyo.core.query.TypedValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
 /**
