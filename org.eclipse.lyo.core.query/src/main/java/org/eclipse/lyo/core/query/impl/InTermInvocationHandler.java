@@ -52,7 +52,11 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
         Object[] args
     ) throws Throwable
     {
-        if (! method.getName().equals("values")) {
+        String methodName = method.getName();
+        boolean isValues = methodName.equals("values");
+        
+        if (! isValues &&
+            ! methodName.equals("toString")) {
             return super.invoke(proxy, method, args);
         }
         
@@ -77,7 +81,31 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
             values = Collections.unmodifiableList(values);
         }
         
-        return values;
+        if (isValues) {
+            return values;
+        }
+        
+        StringBuffer buffer = new StringBuffer();
+        
+        buffer.append(((InTerm)proxy).property().toString());
+        buffer.append(" in [");
+        
+        boolean first = true;
+        
+        for (Value value : values) {
+            
+            if (first) {
+                first = false;
+            } else {
+                buffer.append(',');
+            }
+            
+            buffer.append(value.toString());
+        }
+        
+        buffer.append(']');
+        
+        return buffer.toString();
     }
     
     private List<Value> values = null;

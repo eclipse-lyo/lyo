@@ -62,7 +62,11 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
         Object[] args
     ) throws Throwable
     {
-        if (! method.getName().equals("children")) {
+        String methodName = method.getName();
+        boolean isChildren = methodName.equals("children");
+        
+        if (! isChildren &&
+            ! methodName.equals("toString")) {
             return super.invoke(proxy, method, args);
         }
         
@@ -115,7 +119,35 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
         
         children = Collections.unmodifiableList(children);
         
-        return children;
+        if (isChildren) {
+            return children;
+        }
+        
+        StringBuffer buffer = new StringBuffer();
+        
+        if (! isTopLevel) {
+            buffer.append(((CompoundTerm)proxy).property().toString());
+            buffer.append('{');
+        }
+        
+        boolean first = true;
+        
+        for (SimpleTerm term : children) {
+            
+            if (first) {
+                first = false;
+            } else {
+                buffer.append(" and ");
+            }
+            
+            buffer.append(term.toString());
+        }
+        
+        if (! isTopLevel) {
+            buffer.append('}');
+        }
+        
+        return buffer.toString();
     }
     
     private final CommonTree tree;

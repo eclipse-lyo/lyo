@@ -86,7 +86,10 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
             return operator;
         }
         
-        if (! methodName.equals("operand")) {
+        boolean isOperand = methodName.equals("operand");
+        
+        if (! isOperand &&
+            ! methodName.equals("toString")) {
             return super.invoke(proxy, method, args);
         }
         
@@ -98,7 +101,12 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
                                   prefixMap);            
         }
         
-        return operand;
+        if (isOperand) {
+            return operand;
+        }
+        
+        return ((ComparisonTerm)proxy).property().toString() +
+            operator.toString() + operand.toString();
     }
     
     static Value

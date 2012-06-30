@@ -67,83 +67,18 @@ public class BasicWhereTest
                 OslcWhereParser.oslc_where_return resultTree =
                     parser.oslc_where();
                 
-                CompoundTerm whereClause = (CompoundTerm)
+                WhereClause whereClause = (WhereClause)
                     Proxy.newProxyInstance(CompoundTerm.class.getClassLoader(), 
                             new Class<?>[] { CompoundTerm.class, WhereClause.class },
                             new CompoundTermInvocationHandler(
                                     (CommonTree)resultTree.getTree(), true,
                                     prefixMap));
                 
-                System.out.println("Is where: " + (whereClause instanceof WhereClause));
-                
-                dumpCompound(whereClause);
-                
-                System.out.println();
+                System.out.println("Is where: " + whereClause);
                 
             } catch (RecognitionException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
-        }
-    }
-    
-    private static void
-    dumpCompound(CompoundTerm compoundTerm)
-    {
-        List<SimpleTerm> children = compoundTerm.children();
-        boolean first = true;
-        
-        for (SimpleTerm term : children) {
-            
-            if (first) {
-                first = false;
-            } else {
-                System.out.print(" and ");
-            }
-            
-            System.out.print(term.property().toString());
-            
-            switch (term.type()) {
-            case COMPARISON:
-                {
-                    ComparisonTerm compTerm = (ComparisonTerm)term;
-                    
-                    System.out.print(compTerm.operator().toString());
-                    System.out.print(compTerm.operand().toString());
-                }
-                break;
-            case IN_TERM:
-                {
-                    System.out.print(" in [");
-                    
-                    InTerm inTerm = (InTerm)term;
-                    boolean firstValue = true;
-                    
-                    for (Value value : inTerm.values()) {
-                        
-                        if (firstValue) {
-                            firstValue = false;
-                        } else {
-                            System.out.print(',');
-                        }
-                        
-                        System.out.print(value.toString());
-                    }
-                    
-                    System.out.print(']');
-                }
-                break;
-            case NESTED:
-                {
-                    System.out.print('{');
-                    
-                    dumpCompound((CompoundTerm)term);
-                    
-                    System.out.print('}');
-                }
-                break;
-            default:
-                throw new IllegalStateException("unknown simple term type");
             }
         }
     }
