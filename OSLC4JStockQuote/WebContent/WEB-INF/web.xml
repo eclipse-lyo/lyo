@@ -26,7 +26,7 @@
     <context-param>
   	<description>Port used for URI when registering ServiceProvider.  Can be overridden by System property of the same name.</description>
   	<param-name>org.eclipse.lyo.oslc4j.stockquote.servlet.port</param-name>
-  	<param-value>8081</param-value>
+  	<param-value>8080</param-value>
   </context-param>
   <listener>
     <description>Listener for JAX-RS Servlet</description>
