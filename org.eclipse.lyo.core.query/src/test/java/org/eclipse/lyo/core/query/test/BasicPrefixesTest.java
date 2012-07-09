@@ -17,29 +17,25 @@ package org.eclipse.lyo.core.query.test;
 
 import java.util.Map;
 
-import org.eclipse.lyo.core.query.OrderByClause;
 import org.eclipse.lyo.core.query.ParseException;
 import org.eclipse.lyo.core.query.QueryUtils;
 
 /**
- * Basic tests of oslc.orderBy clause parsing
+ * Basic tests of oslc.searchTerms clause parsing
  */
-public class BasicOrderByTest
+public class BasicPrefixesTest
 {
-
     /**
      * @param args
      */
     public static void main(String[] args)
     {
-        String prefixes = "qm=<http://qm.example.com/ns>," +
-            "olsc=<http://open-services.net/ns/core#>";
-       
         String[] expressions = {
-                "+gm:priority",
-                "+gm:priority,-oscl:name",
-                "gm:tested_by{+oslc:description}",
-                "?qm:blah"
+                "qm=<http://qm.example.com/ns>," +
+                    "olsc=<http://open-services.net/ns/core#>," +
+                    "xs=<http://www.w3.org/2001/XMLSchema>",
+                "qm=<http://qm.example.com/ns>," +
+                    "XXX>"
             };
         
         for (String expression : expressions) {
@@ -47,11 +43,9 @@ public class BasicOrderByTest
             try {
                 
                 Map<String, String> prefixMap =
-                    QueryUtils.parsePrefixes(prefixes);
-                OrderByClause orderByClause =
-                    QueryUtils.parseOrderBy(expression, prefixMap);
+                    QueryUtils.parsePrefixes(expression);
                 
-                System.out.println(orderByClause);
+                System.out.println(prefixMap);
                 
             } catch (ParseException e) {
                 e.printStackTrace(System.out);

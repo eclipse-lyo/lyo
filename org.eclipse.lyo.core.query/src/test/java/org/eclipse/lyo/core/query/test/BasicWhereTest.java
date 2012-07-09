@@ -15,39 +15,22 @@
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 
-import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.lyo.core.query.ComparisonTerm;
-import org.eclipse.lyo.core.query.CompoundTerm;
-import org.eclipse.lyo.core.query.InTerm;
-import org.eclipse.lyo.core.query.OslcWhereParser;
-import org.eclipse.lyo.core.query.SimpleTerm;
-import org.eclipse.lyo.core.query.Value;
+import org.eclipse.lyo.core.query.ParseException;
+import org.eclipse.lyo.core.query.QueryUtils;
 import org.eclipse.lyo.core.query.WhereClause;
-import org.eclipse.lyo.core.query.impl.CompoundTermInvocationHandler;
 
 /**
- * @author pitschke
- *
+ * Basic tests of oslc.where clause parsing
  */
 public class BasicWhereTest
 {
-
-    /**
-     * @param args
-     */
     public static void main(String[] args)
     {
-        Map<String, String> prefixMap = new HashMap<String, String>();
-        
-        prefixMap.put("qm", "http://qm.example.com/ns");
-        prefixMap.put("olsc", "http://open-services.net/ns/core#");
-        prefixMap.put("xs", "http://www.w3.org/2001/XMLSchema");
+        String prefixes = "qm=<http://qm.example.com/ns>," +
+            "olsc=<http://open-services.net/ns/core#>," +
+            "xs=<http://www.w3.org/2001/XMLSchema>";
         
         String[] expressions = {
                 "qm:testcase=<http://example.com/tests/31459>",
@@ -56,29 +39,23 @@ public class BasicWhereTest
                 "qm:state in [\"Done\",\"Open\"]",
                 "oslc:verified_by{oslc:owner=\"Steve\" and qm:duration=-47.0} and oslc:description=\"very hairy expression\"",
                 "qm:submitted<\"2011-10-10T07:00:00Z\"^^\"xs:dateTime\"",
-                "oslc:label>\"The End\"@en-US"
+                "oslc:label>\"The End\"@en-US",
+                "XXX"
             };
         
         for (String expression : expressions) {
         
-            OslcWhereParser parser = new OslcWhereParser(expression);
-            
             try {
-                OslcWhereParser.oslc_where_return resultTree =
-                    parser.oslc_where();
                 
+                Map<String, String> prefixMap =
+                    QueryUtils.parsePrefixes(prefixes);
                 WhereClause whereClause = (WhereClause)
-                    Proxy.newProxyInstance(CompoundTerm.class.getClassLoader(), 
-                            new Class<?>[] { CompoundTerm.class, WhereClause.class },
-                            new CompoundTermInvocationHandler(
-                                    (CommonTree)resultTree.getTree(), true,
-                                    prefixMap));
+                    QueryUtils.parseWhere(expression, prefixMap);
                 
-                System.out.println("Is where: " + whereClause);
+                System.out.println(whereClause);
                 
-            } catch (RecognitionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace(System.out);
             }
         }
     }

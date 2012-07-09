@@ -15,14 +15,8 @@
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.lyo.core.query.OslcSearchTermsParser;
+import org.eclipse.lyo.core.query.ParseException;
+import org.eclipse.lyo.core.query.QueryUtils;
 import org.eclipse.lyo.core.query.SearchTermsClause;
 
 /**
@@ -30,80 +24,28 @@ import org.eclipse.lyo.core.query.SearchTermsClause;
  */
 public class BasicSearchTermsTest
 {
-    static class StringList extends ArrayList<String>
-        implements SearchTermsClause
-    {
-        public
-        StringList(int size)
-        {
-            super(size);
-        }
-        
-        public String
-        toString()
-        {
-            StringBuffer buffer = new StringBuffer();
-            boolean first = true;
-            
-            for (String string : this) {
-                
-                if (first) {
-                    first = false;
-                } else {
-                    buffer.append(',');
-                }
-                
-                buffer.append('"');
-                buffer.append(string);
-                buffer.append('"');
-            }
-            
-            return buffer.toString();
-        }
-        
-        private static final long serialVersionUID = 1943909246265711359L;
-    }
-    
     /**
      * @param args
      */
     public static void main(String[] args)
     {
-        Map<String, String> prefixMap = new HashMap<String, String>();
-        
-        prefixMap.put("qm", "http://qm.example.com/ns");
-        prefixMap.put("olsc", "http://open-services.net/ns/core#");
-       
         String[] expressions = {
                 "\"foobar\"",
                 "\"foobar\",\"whatsis\\\"yousa\"",
+                ""
             };
         
         for (String expression : expressions) {
         
-            OslcSearchTermsParser parser = new OslcSearchTermsParser(expression);
-            
             try {
-                OslcSearchTermsParser.oslc_search_terms_return resultTree =
-                    parser.oslc_search_terms();
                 
-                CommonTree rawTree = (CommonTree)resultTree.getTree();
-                @SuppressWarnings("unchecked")
-                List<CommonTree> rawList = rawTree.getChildren();
-                List<String> stringList = new StringList(rawList.size());
-                
-                for (CommonTree string : rawList) {
-                    
-                    String rawString = string.getText();
-                    
-                    stringList.add(rawString.substring(1, rawString.length()-1));
-                }
+                SearchTermsClause stringList =
+                    QueryUtils.parseSearchTerms(expression);
                 
                 System.out.println(stringList);
                 
-            } catch (RecognitionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace(System.out);
             }
         }
     }
