@@ -21,6 +21,8 @@ package org.eclipse.lyo.oslc4j.stockquote.servlet;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +40,7 @@ public class ServletListener
 {
     private static final String PROPERTY_SCHEME = ServletListener.class.getPackage().getName() + ".scheme";
     private static final String PROPERTY_PORT   = ServletListener.class.getPackage().getName() + ".port";
-
+    private static final int REGISTRATION_DELAY = 15000; //Delay before contacting OSLC4JRegistry
     private static final Logger logger = Logger.getLogger(ServletListener.class.getName());
 
     private static final String HOST = getHost();
@@ -86,47 +88,10 @@ public class ServletListener
     public void contextInitialized(final ServletContextEvent servletContextEvent)
     {
         final String basePath = generateBasePath(servletContextEvent);
-
-        final URI serviceProviderURI;
-
-        try
-        {
-            final ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(basePath);
-
-            client = new ServiceProviderRegistryClient(JenaProvidersRegistry.getProviders());
-
-            serviceProviderURI = client.registerServiceProvider(serviceProvider);
-
-            ServiceProviderSingleton.setServiceProviderURI(serviceProviderURI);
-        }
-        catch (final Exception exception)
-        {
-            client = null;
-
-            logger.log(Level.SEVERE, "Unable to register with service provider catalog", exception);
-
-            return;
-        }
-
-        try
-        {
-            final Populate populate = new Populate(basePath,
-                                                   serviceProviderURI);
-
-            if (Persistence.load(basePath))
-            {
-                // References to ServiceProvider have to be updated
-                populate.fixup();
-            }
-            else
-            {
-                populate.populate();
-            }
-        }
-        catch (final Exception exception)
-        {
-            logger.log(Level.SEVERE, "Unable to load", exception);
-        }
+ 
+        Timer timer = new Timer();
+        timer.schedule(new RegistrationTask(basePath), REGISTRATION_DELAY);
+  
     }
 
     private static String generateBasePath(final ServletContextEvent servletContextEvent)
@@ -158,5 +123,62 @@ public class ServletListener
         {
             return "localhost";
         }
+    }
+    
+    private class RegistrationTask extends TimerTask
+    {
+    	String basePath;
+    	
+    	protected RegistrationTask(String basePath)
+    	{
+    		this.basePath = basePath;
+    	}
+
+		@Override
+		public void run() {
+			 final URI serviceProviderURI;
+			try
+	        {
+	            final ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(basePath);
+
+	            client = new ServiceProviderRegistryClient(JenaProvidersRegistry.getProviders());
+
+	            serviceProviderURI = client.registerServiceProvider(serviceProvider);
+
+	            ServiceProviderSingleton.setServiceProviderURI(serviceProviderURI);
+	            
+	            logger.log(Level.INFO, "Service provider registration complete.");
+	        }
+	        catch (final Exception exception)
+	        {
+	            client = null;
+
+	            logger.log(Level.SEVERE, "Unable to register with service provider catalog", exception);
+
+	            return;
+	        }
+
+	        try
+	        {
+	            final Populate populate = new Populate(basePath,
+	                                                   serviceProviderURI);
+
+	            if (Persistence.load(basePath))
+	            {
+	                // References to ServiceProvider have to be updated
+	                populate.fixup();
+	            }
+	            else
+	            {
+	                populate.populate();
+	            }
+	        }
+	        catch (final Exception exception)
+	        {
+	            logger.log(Level.SEVERE, "Unable to load", exception);
+	        }
+			
+		}
+    	
     }
 }
