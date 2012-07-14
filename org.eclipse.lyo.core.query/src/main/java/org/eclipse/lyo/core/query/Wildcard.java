@@ -18,6 +18,6 @@ package org.eclipse.lyo.core.query;
 /**
  * Wildcard property from olsc.select of oslc.properties clause
  */
-public interface Wildcard extends Properties
+public interface Wildcard extends Property
 {
 }

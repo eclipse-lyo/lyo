@@ -56,6 +56,9 @@ import javax.xml.namespace.QName;
 import org.apache.wink.json4j.JSONArray;
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
+import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
@@ -106,9 +109,10 @@ final class JsonHelper
         super();
     }
 
-    public static JSONObject createJSON(final String   descriptionAbout,
-                                        final String   responseInfoAbout,
-                                        final Object[] objects)
+    public static JSONObject createJSON(final String              descriptionAbout,
+                                        final String              responseInfoAbout,
+                                        final Object[]            objects,
+                                        final Map<String, Object> properties)
            throws DatatypeConfigurationException,
                   IllegalAccessException,
                   IllegalArgumentException,
@@ -130,7 +134,8 @@ final class JsonHelper
                 final JSONObject jsonObject = handleSingleResource(object,
                                                                    new JSONObject(),
                                                                    namespaceMappings,
-                                                                   reverseNamespaceMappings);
+                                                                   reverseNamespaceMappings,
+                                                                   properties);
 
                 if (jsonObject != null)
                 {
@@ -193,7 +198,8 @@ final class JsonHelper
             handleSingleResource(objects[0],
                                  resultJSONObject,
                                  namespaceMappings,
-                                 reverseNamespaceMappings);
+                                 reverseNamespaceMappings,
+                                 properties);
         }
 
         // Set the namespace prefixes
@@ -338,7 +344,9 @@ final class JsonHelper
                                                final Method                 method,
                                                final OslcPropertyDefinition propertyDefinitionAnnotation,
                                                final JSONObject             jsonObject,
-                                               final Object                 value)
+                                               final Object                 value,
+                                               final Map<String, Object>    nestedProperties,
+                                               final boolean                onlyNested)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -391,7 +399,9 @@ final class JsonHelper
                                                                  reverseNamespaceMappings,
                                                                  resourceClass,
                                                                  method,
-                                                                 object);
+                                                                 object,
+                                                                 nestedProperties,
+                                                                 onlyNested);
                 if (localResource != null)
                 {
                     jsonArray.add(localResource);
@@ -420,7 +430,9 @@ final class JsonHelper
                                                                  reverseNamespaceMappings,
                                                                  resourceClass,
                                                                  method,
-                                                                 object);
+                                                                 object,
+                                                                 nestedProperties,
+                                                                 onlyNested);
                 if (localResource != null)
                 {
                     jsonArray.add(localResource);
@@ -442,7 +454,9 @@ final class JsonHelper
                                                      reverseNamespaceMappings,
                                                      resourceClass,
                                                      method,
-                                                     value);
+                                                     value,
+                                                     nestedProperties,
+                                                     onlyNested);
         }
 
         if (localResourceValue != null)
@@ -466,7 +480,8 @@ final class JsonHelper
                                       final Map<String, String> reverseNamespaceMappings,
                                       final Object              object,
                                       final Class<?>            objectClass,
-                                      final JSONObject          jsonObject)
+                                      final JSONObject          jsonObject,
+                                      final Map<String, Object> properties)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -478,7 +493,8 @@ final class JsonHelper
         		                reverseNamespaceMappings,
 				                object,
 				                objectClass,
-				                jsonObject);
+				                jsonObject,
+				                properties);
 
         // For JSON, we have to save array of rdf:type
 
@@ -540,14 +556,20 @@ final class JsonHelper
 			                                    final Map<String, String> reverseNamespaceMappings,
 			                                    final Object              object,
 			                                    final Class<?>            objectClass,
-			                                    final JSONObject          jsonObject)
+			                                    final JSONObject          jsonObject,
+			                                    final Map<String, Object> properties)
 			throws IllegalAccessException,
 			       InvocationTargetException,
 			       DatatypeConfigurationException,
 			       JSONException,
 			       OslcCoreApplicationException
     {
-		for (final Method method : objectClass.getMethods())
+	    if (properties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON)
+	    {
+	        return;
+	    }
+	    
+	    for (final Method method : objectClass.getMethods())
         {
             if (method.getParameterTypes().length == 0)
             {
@@ -566,13 +588,43 @@ final class JsonHelper
 
                         if (value != null)
                         {
+                            Map<String, Object> nestedProperties = null;
+                            boolean onlyNested = false;
+                            
+                            if (properties != null)
+                            {
+                                @SuppressWarnings("unchecked")
+                                final Map<String, Object> map = (Map<String, Object>)properties.get(oslcPropertyDefinitionAnnotation.value());
+                                
+                                if (map != null)
+                                {
+                                    nestedProperties = map;
+                                }
+                                else if (properties instanceof SingletonWildcardProperties &&
+                                         ! (properties instanceof NestedWildcardProperties))
+                                {
+                                    nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
+                                }
+                                else if (properties instanceof NestedWildcardProperties)
+                                {
+                                    nestedProperties = ((NestedWildcardProperties)properties).commonNestedProperties();
+                                    onlyNested = ! (properties instanceof SingletonWildcardProperties);
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+
                             buildAttributeResource(namespaceMappings,
                                                    reverseNamespaceMappings,
                                                    objectClass,
                                                    method,
                                                    oslcPropertyDefinitionAnnotation,
                                                    jsonObject,
-                                                   value);
+                                                   value,
+                                                   nestedProperties,
+                                                   onlyNested);
                         }
                     }
                 }
@@ -582,17 +634,20 @@ final class JsonHelper
         if (object instanceof IExtendedResource)
         {
         	final IExtendedResource extendedResource = (IExtendedResource) object;
+        	
         	addExtendedProperties(namespaceMappings,
 				                  reverseNamespaceMappings,
 				                  jsonObject,
-				                  extendedResource);
+				                  extendedResource,
+				                  properties);
         }
 	}
 
 	protected static void addExtendedProperties(final Map<String, String> namespaceMappings,
 					                            final Map<String, String> reverseNamespaceMappings,
 					                            final JSONObject jsonObject,
-					                            final IExtendedResource extendedResource)
+					                            final IExtendedResource extendedResource,
+                                                final Map<String, Object> properties)
 			throws JSONException,
 				   DatatypeConfigurationException,
 				   IllegalAccessException,
@@ -601,30 +656,65 @@ final class JsonHelper
 	{
 		for (Map.Entry<QName, Object> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
-			final Object value = getExtendedPropertyJsonValue(namespaceMappings, reverseNamespaceMappings, extendedProperty.getValue());
-			if (value == null)
+            final String namespace = extendedProperty.getKey().getNamespaceURI();
+            final String localName = extendedProperty.getKey().getLocalPart();
+            Map<String, Object> nestedProperties = null;
+            boolean onlyNested = false;
+            
+            if (properties != null)
+            {
+                @SuppressWarnings("unchecked")
+                final Map<String, Object> map = (Map<String, Object>)properties.get(namespace + localName);
+                
+                if (map != null)
+                {
+                    nestedProperties = map;
+                }
+                else if (properties instanceof SingletonWildcardProperties &&
+                         ! (properties instanceof NestedWildcardProperties))
+                {
+                    nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
+                }
+                else if (properties instanceof NestedWildcardProperties)
+                {
+                    nestedProperties = ((NestedWildcardProperties)properties).commonNestedProperties();
+                    onlyNested = ! (properties instanceof SingletonWildcardProperties);
+                }                                
+                else
+                {
+                    continue;
+                }
+            }
+            
+			final Object value = getExtendedPropertyJsonValue(namespaceMappings,
+			                                                  reverseNamespaceMappings,
+			                                                  extendedProperty.getValue(),
+			                                                  nestedProperties,
+			                                                  onlyNested);
+			
+			if (value == null && ! onlyNested)
 			{
 				logger.warning("Could not add extended property " + extendedProperty.getKey() + " for resource " + extendedResource.getAbout());
 			}
 			else
 			{
-				final String prefix = extendedProperty.getKey().getPrefix();
-				final String namespace = extendedProperty.getKey().getNamespaceURI();
-				final String localName = extendedProperty.getKey().getLocalPart();
+                final String prefix = extendedProperty.getKey().getPrefix();
+                
+                // Add the prefix to the JSON namespace mappings.
+                namespaceMappings.put(prefix, namespace);
+                reverseNamespaceMappings.put(namespace, prefix);
 
-				// Add the prefix to the JSON namespace mappings.
-				namespaceMappings.put(prefix, namespace);
-				reverseNamespaceMappings.put(namespace, prefix);
-
-				// Add the value to the JSON object.
-				jsonObject.put(prefix + JSON_PROPERTY_DELIMITER + localName, value);
+                // Add the value to the JSON object.
+                jsonObject.put(prefix + JSON_PROPERTY_DELIMITER + localName, value);
 			}
 		}
 	}
 
 	private static Object getExtendedPropertyJsonValue(final Map<String, String> namespaceMappings,
 												       final Map<String, String> reverseNamespaceMappings,
-												       final Object              object)
+												       final Object              object,
+												       final Map<String, Object> nestedProperties,
+												       final boolean             onlyNested)
 	    throws JSONException,
 	           DatatypeConfigurationException,
 	           IllegalArgumentException,
@@ -640,7 +730,11 @@ final class JsonHelper
 			final Collection<Object> c = (Collection<Object>) object;
 			for (final Object next : c)
 			{
-				final Object nextJson =  getExtendedPropertyJsonValue(namespaceMappings, reverseNamespaceMappings, next);
+				final Object nextJson = getExtendedPropertyJsonValue(namespaceMappings,
+				                                                     reverseNamespaceMappings,
+				                                                     next,
+				                                                     nestedProperties,
+				                                                     onlyNested);
 				if (nextJson != null)
 				{
 					jsonArray.add(nextJson);
@@ -653,10 +747,20 @@ final class JsonHelper
 				(object instanceof Boolean) ||
 				(object instanceof Number))
 		{
+            if (onlyNested)
+            {
+                return null;
+            }
+            
 			return object;
 		}
 		else if (object instanceof Date)
 		{
+		    if (onlyNested)
+		    {
+		        return null;
+		    }
+		    
 			final GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime((Date) object);
 
@@ -664,6 +768,11 @@ final class JsonHelper
 		}
 		else if (object instanceof URI)
 		{
+            if (onlyNested)
+            {
+                return null;
+            }
+            
 			return handleResourceReference(namespaceMappings,
 				                           reverseNamespaceMappings,
 				                           resourceClass,
@@ -675,7 +784,8 @@ final class JsonHelper
 			return handleSingleResource(object,
 				                        new JSONObject(),
 				                        namespaceMappings,
-				                        reverseNamespaceMappings);
+				                        reverseNamespaceMappings,
+				                        nestedProperties);
 		}
 		
 		return null;
@@ -704,7 +814,9 @@ final class JsonHelper
                                               final Map<String, String> reverseNamespaceMappings,
                                               final Class<?>            resourceClass,
                                               final Method              method,
-                                              final Object              object)
+                                              final Object              object,
+                                              final Map<String, Object> nestedProperties,
+                                              final boolean             onlyNested)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -716,10 +828,20 @@ final class JsonHelper
             (object instanceof Boolean) ||
             (object instanceof Number))
         {
+            if (onlyNested)
+            {
+                return null;
+            }
+            
             return object;
         }
         else if (object instanceof URI)
         {
+            if (onlyNested)
+            {
+                return null;
+            }
+            
             return handleResourceReference(namespaceMappings,
             		                       reverseNamespaceMappings,
             		                       resourceClass,
@@ -728,6 +850,11 @@ final class JsonHelper
         }
         else if (object instanceof Date)
         {
+            if (onlyNested)
+            {
+                return null;
+            }
+            
             final GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime((Date) object);
 
@@ -739,20 +866,23 @@ final class JsonHelper
 					                     reverseNamespaceMappings,
 					                     object.getClass(),
 					                     method,
-					                     (IReifiedResource<?>) object);
+					                     (IReifiedResource<?>) object,
+					                     nestedProperties);
         }
 
         return handleSingleResource(object,
                                     new JSONObject(),
                                     namespaceMappings,
-                                    reverseNamespaceMappings);
+                                    reverseNamespaceMappings,
+                                    nestedProperties);
     }
 
 	private static Object handleReifiedResource(final Map<String, String> namespaceMappings,
 			                                    final Map<String, String> reverseNamespaceMappings,
 			                                    final Class<?>            resourceClass,
 			                                    final Method              method,
-			                                    final IReifiedResource<?> reifiedResource)
+			                                    final IReifiedResource<?> reifiedResource,
+	                                            final Map<String, Object> properties)
 			throws OslcCoreInvalidPropertyTypeException,
 			       OslcCoreRelativeURIException,
 			       JSONException,
@@ -790,7 +920,8 @@ final class JsonHelper
 				                reverseNamespaceMappings,
 				                reifiedResource,
 				                resourceClass,
-				                jsonObject);
+				                jsonObject,
+				                properties);
 		
 		return jsonObject;
 	}
@@ -828,7 +959,8 @@ final class JsonHelper
     private static JSONObject handleSingleResource(final Object              object,
                                                    final JSONObject          jsonObject,
                                                    final Map<String, String> namespaceMappings,
-                                                   final Map<String, String> reverseNamespaceMappings)
+                                                   final Map<String, String> reverseNamespaceMappings,
+                                                   final Map<String, Object> properties)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -857,7 +989,8 @@ final class JsonHelper
                       reverseNamespaceMappings,
                       object,
                       objectClass,
-                      jsonObject);
+                      jsonObject,
+                      properties);
 
         return jsonObject;
     }

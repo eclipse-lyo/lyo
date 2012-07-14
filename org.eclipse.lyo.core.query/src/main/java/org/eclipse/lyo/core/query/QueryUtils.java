@@ -28,9 +28,11 @@ import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.impl.CompoundTermInvocationHandler;
-import org.eclipse.lyo.core.query.impl.PropertyListInvocationHandler;
+import org.eclipse.lyo.core.query.impl.PropertiesInvocationHandler;
 import org.eclipse.lyo.core.query.impl.SortTermsInvocationHandler;
-import org.eclipse.lyo.core.query.impl.WildcardInvocationHandler;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 
 /**
  * Utility methods for parsing various OSLC HTTP query
@@ -38,6 +40,14 @@ import org.eclipse.lyo.core.query.impl.WildcardInvocationHandler;
  */
 public class QueryUtils
 {
+    /**
+     * A property list that selects all properties
+     */
+    static public final Properties WILDCARD_PROPERTY_LIST = (Properties)
+        Proxy.newProxyInstance(Properties.class.getClassLoader(), 
+                new Class<?>[] { Properties.class },
+                new PropertiesInvocationHandler());
+    
     /**
      * Parse a oslc.prefix clause into a map between prefixes
      * and corresponding URIs
@@ -56,12 +66,19 @@ public class QueryUtils
         String prefixExpression
     ) throws ParseException
     {
+        if (prefixExpression == null) {
+            return new HashMap<String, String>();
+        }
+        
         OslcPrefixParser parser = new OslcPrefixParser(prefixExpression);
         
         try {
             
             CommonTree rawTree =
                 (CommonTree)parser.oslc_prefixes().getTree();            
+
+            checkErrors(parser.getErrors());;
+            
             @SuppressWarnings("unchecked")
             List<CommonTree> rawPrefixes = rawTree.getChildren();
             PrefixMap prefixMap =
@@ -111,7 +128,10 @@ public class QueryUtils
         try {
             
             OslcWhereParser.oslc_where_return resultTree =
-                parser.oslc_where();
+                parser.oslc_where();            
+
+            checkErrors(parser.getErrors());;
+            
             CommonTree rawTree = (CommonTree)resultTree.getTree();
             Tree child = rawTree.getChild(0);
             
@@ -154,25 +174,21 @@ public class QueryUtils
             
             OslcSelectParser.oslc_select_return resultTree =
                 parser.oslc_select();            
+
+            checkErrors(parser.getErrors());;
+            
             CommonTree rawTree = (CommonTree)resultTree.getTree();
             
             if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
                 throw ((CommonErrorNode)rawTree).trappedException;
             }            
             
-            if (rawTree.getType() == OslcSelectParser.PROPERTIES) {
-                return (SelectClause)
-                    Proxy.newProxyInstance(SelectClause.class.getClassLoader(), 
-                            new Class<?>[] { SelectClause.class, PropertyList.class },
-                            new PropertyListInvocationHandler(
-                                    (CommonTree)resultTree.getTree(),
-                                    prefixMap));
-            } else {
-                return (SelectClause)
-                    Proxy.newProxyInstance(SelectClause.class.getClassLoader(), 
-                            new Class<?>[] { SelectClause.class, Wildcard.class },
-                            new WildcardInvocationHandler());
-            }            
+            return (SelectClause)
+                Proxy.newProxyInstance(SelectClause.class.getClassLoader(), 
+                        new Class<?>[] { SelectClause.class, Properties.class },
+                        new PropertiesInvocationHandler(
+                                (CommonTree)resultTree.getTree(),
+                                prefixMap));
             
         } catch (RecognitionException e) {
             throw new ParseException(e);
@@ -203,25 +219,21 @@ public class QueryUtils
 
             OslcSelectParser.oslc_select_return resultTree =
                 parser.oslc_select();            
+
+            checkErrors(parser.getErrors());;
+            
             CommonTree rawTree = (CommonTree)resultTree.getTree();
             
             if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
                 throw ((CommonErrorNode)rawTree).trappedException;
             }
             
-            if (rawTree.getType() == OslcSelectParser.PROPERTIES) {
-                return (PropertiesClause)
-                    Proxy.newProxyInstance(SelectClause.class.getClassLoader(), 
-                            new Class<?>[] { PropertiesClause.class, PropertyList.class },
-                            new PropertyListInvocationHandler(
-                                    (CommonTree)resultTree.getTree(),
-                                    prefixMap));
-            } else {
-                return (PropertiesClause)
-                    Proxy.newProxyInstance(SelectClause.class.getClassLoader(), 
-                            new Class<?>[] { PropertiesClause.class, Wildcard.class },
-                            new WildcardInvocationHandler());
-            }            
+            return (PropertiesClause)
+                Proxy.newProxyInstance(PropertiesClause.class.getClassLoader(), 
+                        new Class<?>[] { PropertiesClause.class, Properties.class },
+                        new PropertiesInvocationHandler(
+                                (CommonTree)resultTree.getTree(),
+                                prefixMap));
             
         } catch (RecognitionException e) {
             throw new ParseException(e);
@@ -252,6 +264,9 @@ public class QueryUtils
             
             OslcOrderByParser.oslc_order_by_return resultTree =
                 parser.oslc_order_by();
+
+            checkErrors(parser.getErrors());;
+            
             CommonTree rawTree = (CommonTree)resultTree.getTree();
             Tree child = rawTree.getChild(0);
             
@@ -267,6 +282,127 @@ public class QueryUtils
         } catch (RecognitionException e) {
             throw new ParseException(e);
         }
+    }
+    
+    /**
+     * Create a map representation of the {@link Properties} returned
+     * from parsing oslc.properties or olsc.select URL query
+     * parameters suitable for generating a property result from an
+     * HTTP GET request.<p>
+     * 
+     * The map keys are the property names; i.e. the local name of the
+     * property concatenated to the XML namespace of the property.  The
+     * values of the map are:<p>
+     * 
+     * <ul>
+     * <li> {@link OSLC4JConstants.OSL4J_PROPERTY_WILDCARD} - if all
+     * properties at this level are to be output.  No recursion
+     * below this level is to be done.</li>
+     * <li> {@link OSLC4JConstants.OSL4J_PROPERTY_SINGLETON} - if only
+     * the named property is to be output, without recursion</li>
+     * <li> a nested property list to recurse through</li>
+     * </ul>
+     * 
+     * @param properties
+     * 
+     * @return the property map
+     */
+    public static Map<String, Object>
+    invertSelectedProperties(final Properties properties)
+    {
+        List<Property> children = properties.children();
+        Map<String, Object> result = new HashMap<String, Object>(children.size());
+        
+        for (Property property : children) {
+            
+            PName pname = null;
+            String propertyName = null;
+            
+            if (! property.isWildcard()) {
+                pname = property.identifier();
+                propertyName = pname.namespace + pname.local;
+            }
+            
+            switch (property.type()) {
+            case IDENTIFIER:
+                if (property.isWildcard()) {
+                    
+                    if (result instanceof SingletonWildcardProperties) {
+                        break;
+                    }
+                    
+                    if (result instanceof NestedWildcardProperties) {
+                        result = new BothWildcardPropertiesImpl(
+                                (NestedWildcardPropertiesImpl)result);
+                    } else {
+                        result = new SingletonWildcardPropertiesImpl();
+                    }
+                    
+                    break;
+                    
+                } else {
+                    
+                    if (result instanceof SingletonWildcardProperties) {
+                        break;
+                    }
+                }
+                
+                result.put(propertyName,
+                           OSLC4JConstants.OSL4J_PROPERTY_SINGLETON);
+                
+                break;
+                
+            case NESTED_PROPERTY:
+                if (property.isWildcard()) {
+                    
+                    if (! (result instanceof NestedWildcardProperties)) {                        
+                        if (result instanceof SingletonWildcardProperties) {
+                            result = new BothWildcardPropertiesImpl();
+                        } else {
+                            result = new NestedWildcardPropertiesImpl(result);
+                        }
+                        
+                        ((NestedWildcardPropertiesImpl)result).commonNestedProperties =
+                            invertSelectedProperties((NestedProperty)property);
+                        
+                   } else {
+                        mergePropertyMaps(
+                            ((NestedWildcardProperties)result).commonNestedProperties(),
+                            invertSelectedProperties((NestedProperty)property));
+                   }
+                    
+                    break;
+                }
+                
+                result.put(propertyName,
+                           invertSelectedProperties(
+                                   (NestedProperty)property));
+                
+                break;
+            }
+        }
+        
+        if (! (result instanceof NestedWildcardProperties)) {
+            return result;
+        }
+        
+        Map<String, Object> commonNestedProperties =
+            ((NestedWildcardProperties)result).commonNestedProperties();
+        
+        for (Map.Entry<String, Object> propertyMapping : result.entrySet()) {
+            
+            @SuppressWarnings("unchecked")
+            Map<String, Object> nestedProperties =
+                (Map<String, Object>)propertyMapping.getValue();
+            
+            if (nestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+                result.put(propertyMapping.getKey(), commonNestedProperties);
+            } else {
+                mergePropertyMaps(nestedProperties, commonNestedProperties);
+            }
+        }
+        
+        return result;
     }
     
     /**
@@ -293,6 +429,9 @@ public class QueryUtils
             
             OslcSearchTermsParser.oslc_search_terms_return resultTree =
                 parser.oslc_search_terms();            
+
+            checkErrors(parser.getErrors());;
+            
             CommonTree rawTree = (CommonTree)resultTree.getTree();
             Tree child = rawTree.getChild(0);
             
@@ -321,7 +460,7 @@ public class QueryUtils
     /**
      * Implementation of a {@link SearchTermsClause} interface
      */
-    static class StringList extends ArrayList<String>
+    private static class StringList extends ArrayList<String>
         implements SearchTermsClause
     {
         public
@@ -358,7 +497,7 @@ public class QueryUtils
     /**
      * Implementation of a Map<String, String> prefixMap
      */
-    static class PrefixMap extends HashMap<String, String>
+    private static class PrefixMap extends HashMap<String, String>
     {
         public
         PrefixMap(int size)
@@ -394,5 +533,147 @@ public class QueryUtils
         }
         
         private static final long serialVersionUID = 1943909246265711359L;
+    }
+    /**
+     * Implementation of {@link SingletonWildcardProperties}
+     */
+    private static class SingletonWildcardPropertiesImpl
+        extends HashMap<String, Object>
+        implements SingletonWildcardProperties
+    {
+        public
+        SingletonWildcardPropertiesImpl()
+        {
+            super(0);
+        }
+
+        private static final long serialVersionUID = -5490896670186283412L;
+    }
+    
+    /**
+     * Implementation of {@link NestedWildcardProperties}
+     */
+    private static class NestedWildcardPropertiesImpl
+        extends HashMap<String, Object>
+        implements NestedWildcardProperties
+    {
+        public
+        NestedWildcardPropertiesImpl(Map<String, Object> accumulated)
+        {
+            super(accumulated);
+        }
+        
+        protected
+        NestedWildcardPropertiesImpl()
+        {
+            super(0);
+        }
+        
+        public Map<String, Object>
+        commonNestedProperties()
+        {
+            return commonNestedProperties;
+        }
+        
+        protected Map<String, Object> commonNestedProperties =
+            new HashMap<String, Object>();
+        private static final long serialVersionUID = -938983371894966574L;
+    }
+    
+    /**
+     * Implementation of both {@link SingletonWildcardProperties} and
+     * {@link NestedWildcardProperties}
+     */
+    private static class BothWildcardPropertiesImpl
+        extends NestedWildcardPropertiesImpl
+        implements SingletonWildcardProperties
+    {
+        public
+        BothWildcardPropertiesImpl()
+        {
+        }
+        
+        public
+        BothWildcardPropertiesImpl(NestedWildcardPropertiesImpl accumulated)
+        {
+            this();
+            
+            commonNestedProperties = accumulated.commonNestedProperties();
+        }
+
+        private static final long serialVersionUID = 654939845613307220L;
+    }
+    
+    /**
+     * Merge into {@link #lhs} properties those of {@link #rhs} property
+     * map, merging any common, nested property maps
+     * 
+     * @param lhs target of property map merge
+     * @param rhs source of property map merge
+     */
+    private static void
+    mergePropertyMaps(
+        Map<String, Object> lhs,
+        Map<String, Object> rhs
+    )
+    {
+        Iterator<String> propertyNames = rhs.keySet().iterator();
+        
+        while (propertyNames.hasNext()) {
+            
+            String propertyName = propertyNames.next();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> lhsNestedProperties =
+                (Map<String, Object>)lhs.get(propertyName);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> rhsNestedProperties =
+                (Map<String, Object>)rhs.get(propertyName);
+            
+            if (lhsNestedProperties == rhsNestedProperties) {
+                continue;
+            }
+            
+            if (lhsNestedProperties == null ||
+                lhsNestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+                
+                lhs.put(propertyName, rhsNestedProperties);
+                
+                continue;
+            }
+            
+            mergePropertyMaps(lhsNestedProperties, rhsNestedProperties);
+        }
+    }
+
+    /**
+     * Check list of errors from parsing some expression, generating
+     * @{link {@link ParseException} if there are any.
+     * 
+     * @param errors list of errors, hopefully empty
+     * 
+     * @throws ParseException
+     */
+    private static void
+    checkErrors(List<String> errors) throws ParseException
+    {
+        if (errors.isEmpty()) {
+            return;
+        }
+            
+        StringBuffer buffer = new StringBuffer();
+        boolean first = true;
+        
+        for (String error : errors) {
+            
+            if (first) {
+                first = false;
+            } else {
+                buffer.append('\n');
+            }
+            
+            buffer.append(error);
+        }
+        
+        throw new ParseException(buffer.toString());
     }
 }

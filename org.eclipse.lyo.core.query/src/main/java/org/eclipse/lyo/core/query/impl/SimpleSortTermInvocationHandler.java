@@ -19,7 +19,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
-import org.eclipse.lyo.core.query.OslcOrderByLexer;
 import org.eclipse.lyo.core.query.SimpleSortTerm;
 import org.eclipse.lyo.core.query.SortTerm.Type;
 

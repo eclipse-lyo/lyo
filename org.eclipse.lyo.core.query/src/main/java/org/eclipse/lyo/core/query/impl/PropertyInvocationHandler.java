@@ -33,12 +33,14 @@ class PropertyInvocationHandler implements InvocationHandler
     PropertyInvocationHandler(
         CommonTree tree,
         Type type,
-        Map<String, String> prefixMap
+        Map<String, String> prefixMap,
+        boolean isWildcard
     )
     {
         this.tree = tree;
         this.type = type;
         this.prefixMap = prefixMap;
+        this.isWildcard = isWildcard;
     }
     
     /**
@@ -51,11 +53,23 @@ class PropertyInvocationHandler implements InvocationHandler
         Object[] args
     ) throws Throwable
     {
-        if (method.getName().equals("type")) {
+        String methodName = method.getName();
+
+        if (methodName.equals("type")) {
             return type;
         }
         
-        if (identifier != null) {
+        if (methodName.equals("isWildcard")) {
+            return isWildcard;
+        }
+        
+        boolean isIdentifier = methodName.equals("identifier");
+        
+        if (isIdentifier && isWildcard) {
+            throw new IllegalStateException("wildcard has no identifier");
+        }
+        
+        if (isIdentifier && identifier != null) {
             return identifier;
         }
         
@@ -75,11 +89,16 @@ class PropertyInvocationHandler implements InvocationHandler
             identifier.local = rawIdentifier.substring(colon + 1);
         }
         
-        return identifier;
+        if (isIdentifier) {
+            return identifier;
+        }
+        
+        return identifier.toString();
     }
     
     private final CommonTree tree;
     private final Type type;
     protected final Map<String, String> prefixMap;
+    private final Boolean isWildcard;
     private PName identifier = null;
 }

@@ -13,22 +13,21 @@
  *
  *    Steve Pitschke - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.core.query;
+package org.eclipse.lyo.oslc4j.core;
+
+import java.util.Map;
 
 /**
- * Property list element from olsc.select of oslc.properties clause
+ * Marker interface applied to {@link Map}<String, Object> to
+ * indicate that when selecting properties for output all immediate,
+ * resource properties of the resource should be output with entries
+ * in the {@link NestedWildcardProperties#commonNestedProperties()}
  */
-public interface Property
+public interface NestedWildcardProperties
 {
-    enum Type
-    {
-        IDENTIFIER,
-        NESTED_PROPERTY
-    }
-    
-    Type type();
-    
-    boolean isWildcard();
-    
-    PName identifier();
+    /**
+     * @return map of all member properties of nested resources to be
+     * output
+     */
+    Map<String, Object> commonNestedProperties();
 }

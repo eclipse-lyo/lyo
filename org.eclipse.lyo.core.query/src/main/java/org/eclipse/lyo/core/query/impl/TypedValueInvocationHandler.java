@@ -57,7 +57,7 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
         if (! isValue &&
             ! methodName.equals("prefixedName") &&
             ! methodName.equals("toString")) {
-            super.invoke(proxy, method, args);
+            return super.invoke(proxy, method, args);
         }
         
         if (isValue) {
