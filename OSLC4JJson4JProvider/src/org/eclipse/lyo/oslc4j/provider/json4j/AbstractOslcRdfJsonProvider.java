@@ -100,10 +100,18 @@ public abstract class AbstractOslcRdfJsonProvider
                            final OutputStream                   outputStream)
               throws WebApplicationException
     {
+        boolean isClientSide = false;
+        
+        try {
+            httpServletRequest.getMethod();
+        } catch (RuntimeException e) {
+            isClientSide = true;
+        }
+        
         String descriptionURI  = null;
         String responseInfoURI = null;
 
-        if (queryResult)
+        if (queryResult && ! isClientSide)
         {
 
         	final String method = httpServletRequest.getMethod();
@@ -125,7 +133,8 @@ public abstract class AbstractOslcRdfJsonProvider
         final JSONObject jsonObject;
 
         @SuppressWarnings("unchecked")
-        final Map<String, Object> properties = 
+        final Map<String, Object> properties = isClientSide ?
+            null :
             (Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
 
         try

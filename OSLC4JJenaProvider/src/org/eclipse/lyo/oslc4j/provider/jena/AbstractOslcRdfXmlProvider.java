@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -118,10 +119,18 @@ public abstract class AbstractOslcRdfXmlProvider
                            final OutputStream                   outputStream)
               throws WebApplicationException
     {
+        boolean isClientSide = false;
+        
+        try {
+            httpServletRequest.getMethod();
+        } catch (RuntimeException e) {
+            isClientSide = true;
+        }
+        
         String descriptionURI  = null;
         String responseInfoURI = null;
-
-        if (queryResult)
+        
+        if (queryResult && ! isClientSide)
         {
 
         	final String method = httpServletRequest.getMethod();
@@ -154,7 +163,8 @@ public abstract class AbstractOslcRdfXmlProvider
         }
 
         @SuppressWarnings("unchecked")
-        final Map<String, Object> properties =
+        final Map<String, Object> properties = isClientSide ?
+            null :
             (Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
 
         try
