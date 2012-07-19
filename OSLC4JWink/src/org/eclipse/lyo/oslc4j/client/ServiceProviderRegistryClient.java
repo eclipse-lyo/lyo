@@ -356,4 +356,8 @@ public final class ServiceProviderRegistryClient
 
         return null;
     }
+
+	public OslcRestClient getClient() {
+		return client;
+	}
 }
