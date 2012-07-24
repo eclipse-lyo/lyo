@@ -32,11 +32,14 @@ public class BasicSelectTest
             "olsc=<http://open-services.net/ns/core#>";
        
         String[] expressions = {
+                "*{*}",
                 "qm:testcase",
                 "*",
                 "oslc:create,qm:verified",
                 "qm:state{oslc:verified_by{oslc:owner,qm:duration}}",
                 "qm:submitted{*}",
+                "qm:testcase,*",
+                "*,qm:state{*}",
                 "XXX"
             };
         

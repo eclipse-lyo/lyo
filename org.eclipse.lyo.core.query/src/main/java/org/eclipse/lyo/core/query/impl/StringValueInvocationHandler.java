@@ -49,7 +49,7 @@ class StringValueInvocationHandler extends ValueInvocationHandler
         
         if (! isValue &&
             ! methodName.equals("toString")) {
-            super.invoke(proxy, method, args);
+            return super.invoke(proxy, method, args);
         }
         
         if (value == null) {

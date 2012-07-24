@@ -17,17 +17,18 @@ package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
 
-import org.eclipse.lyo.core.query.Properties.Type;
+import org.eclipse.lyo.core.query.Property.Type;
+
 
 /**
  * Proxy implementation of {@link Wildcard} interface
  */
-public class WildcardInvocationHandler extends PropertiesInvocationHandler
+public class WildcardInvocationHandler extends PropertyInvocationHandler
 {
     public
     WildcardInvocationHandler()
     {
-        super(Type.WILDCARD);
+        super(null, Type.IDENTIFIER, null, true);
     }
 
     /**

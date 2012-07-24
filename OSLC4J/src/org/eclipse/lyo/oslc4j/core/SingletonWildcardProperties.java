@@ -13,14 +13,15 @@
  *
  *    Steve Pitschke - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.core.query;
+package org.eclipse.lyo.oslc4j.core;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * Property list from olsc.select of oslc.properties clause
+ * Marker interface applied to {@link Map}<String, Object> to
+ * indicate that when selecting properties for output all immediate,
+ * properties of the resource should be output
  */
-public interface PropertyList extends Properties
+public interface SingletonWildcardProperties
 {
-    List<Property> children();
 }

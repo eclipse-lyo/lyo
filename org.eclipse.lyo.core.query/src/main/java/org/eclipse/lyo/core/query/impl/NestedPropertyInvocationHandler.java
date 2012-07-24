@@ -16,16 +16,14 @@
 package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.eclipse.lyo.core.query.NestedProperty;
 import org.eclipse.lyo.core.query.OslcSelectParser;
-import org.eclipse.lyo.core.query.Properties;
+import org.eclipse.lyo.core.query.Property;
 import org.eclipse.lyo.core.query.Property.Type;
-import org.eclipse.lyo.core.query.PropertyList;
-import org.eclipse.lyo.core.query.Wildcard;
 
 /**
  * Proxy implementation of {@link NestedProperty} interface
@@ -39,7 +37,7 @@ class NestedPropertyInvocationHandler extends PropertyInvocationHandler
     )
     {
         super((CommonTree)tree.getChild(0).getChild(0), Type.NESTED_PROPERTY,
-              prefixMap);
+              prefixMap, tree.getChild(0).getType() == OslcSelectParser.WILDCARD);
         
         this.tree = tree;
     }
@@ -48,49 +46,46 @@ class NestedPropertyInvocationHandler extends PropertyInvocationHandler
      * @see org.eclipse.lyo.core.query.impl.PropertyInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable
+    public Object invoke(
+        Object proxy,
+        Method method,
+        Object[] args
+    ) throws Throwable
     {
         String methodName = method.getName();
-        boolean isProperties = methodName.equals("properties");
+        boolean isChildren = methodName.equals("children");
         
-        if (! isProperties &&
+        if (! isChildren &&
             ! methodName.equals("toString")) {
             return super.invoke(proxy, method, args);
         }
         
-        if (isProperties && properties != null) {
-            return properties;            
+        if (isChildren && children != null) {
+            return children;            
         }
         
-        CommonTree treeProperties = (CommonTree)tree.getChild(1);
+        children = PropertiesInvocationHandler.createChildren(
+                (CommonTree)tree.getChild(1), prefixMap);        
         
-        switch (treeProperties.getType())
-        {
-        case OslcSelectParser.WILDCARD:
-            properties = (Properties)
-                Proxy.newProxyInstance(Wildcard.class.getClassLoader(), 
-                        new Class<?>[] { Wildcard.class },
-                        new WildcardInvocationHandler());
-            break;
-        default:
-        case OslcSelectParser.PROPERTIES:
-            properties = (Properties)
-                Proxy.newProxyInstance(PropertyList.class.getClassLoader(), 
-                        new Class<?>[] { PropertyList.class },
-                        new PropertyListInvocationHandler(treeProperties,
-                                                            prefixMap));
-            break;
+        if (isChildren) {
+            return children;
         }
         
-        if (isProperties) {
-            return properties;
-        }
+        NestedProperty nestedProperty = ((NestedProperty)proxy);
+        StringBuffer buffer = new StringBuffer();
         
-        return ((NestedProperty)proxy).identifier().toString() + '{' +
-            properties.toString() + '}';
+        buffer.append(nestedProperty.isWildcard() ?
+                            "*" :
+                            nestedProperty.identifier().toString());
+        buffer.append('{');
+        
+        PropertiesInvocationHandler.childrenToString(buffer, children);
+        
+        buffer.append('}');
+        
+        return buffer.toString();
     }
     
     private final CommonTree tree;
-    private Properties properties = null;
+    private List<Property> children = null;
 }

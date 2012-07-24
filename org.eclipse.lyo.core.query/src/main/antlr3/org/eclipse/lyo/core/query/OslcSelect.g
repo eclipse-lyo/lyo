@@ -57,22 +57,17 @@ package org.eclipse.lyo.core.query;
 oslc_select	: properties
 	;
 
-property	: identifier | nested_property 
+properties : property  ( ',' property )*  -> ^( 'properties' property (property)* )
 	;
 	
-property_list	: property  ( ',' property )*  -> ^( 'properties' property (property)* )
-	;
-	
-properties	: ( wildcard | property_list ) 
-	; 
-	
+property    : identifier | nested_property
+    ;
+
 nested_property : identifier OPEN_CURLY_BRACE properties CLOSE_CURLY_BRACE -> ^( 'nested_property' identifier properties )
 	;
 
-identifier	: prefixedName -> ^( 'prefixed_name' prefixedName )
-	;
-
-wildcard	: ASTERISK -> ^( 'wildcard' )
+identifier : prefixedName -> ^( 'prefixed_name' prefixedName )
+    | ASTERISK -> ^( 'wildcard' )
 	;
 
 prefixedName

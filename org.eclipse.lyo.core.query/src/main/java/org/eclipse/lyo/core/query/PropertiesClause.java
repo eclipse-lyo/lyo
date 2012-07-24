@@ -15,7 +15,6 @@
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
-import java.beans.PropertyEditor;
 
 /**
  * Top-level properties from oslc.Properties clause

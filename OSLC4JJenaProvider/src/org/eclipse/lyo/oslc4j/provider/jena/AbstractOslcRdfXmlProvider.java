@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
@@ -34,6 +35,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Providers;
 
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
@@ -151,11 +153,16 @@ public abstract class AbstractOslcRdfXmlProvider
             serializationLanguage = FileUtils.langXMLAbbrev;
         }
 
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> properties =
+            (Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
+
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
-                                                                objects);
+                                                                objects,
+                                                                properties);
 
             final RDFWriter writer = model.getWriter(serializationLanguage);
             writer.setProperty("showXmlDeclaration",

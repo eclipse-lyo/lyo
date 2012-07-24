@@ -23,12 +23,14 @@ import org.antlr.runtime.RecognitionException;
  */
 public class ParseException extends Exception
 {
-    /**
-     * @param cause
-     */
     ParseException(RecognitionException cause)
     {
         super(cause);
+    }
+    
+    ParseException(String msg)
+    {
+        super(msg);
     }
     
     private static final long serialVersionUID = 2373494371127406191L;

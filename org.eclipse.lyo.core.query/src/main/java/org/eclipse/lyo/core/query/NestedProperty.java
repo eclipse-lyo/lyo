@@ -18,7 +18,6 @@ package org.eclipse.lyo.core.query;
 /**
  * Nested property from olsc.select of oslc.properties clause
  */
-public interface NestedProperty extends Property
+public interface NestedProperty extends Property, Properties
 {
-    Properties properties();
 }

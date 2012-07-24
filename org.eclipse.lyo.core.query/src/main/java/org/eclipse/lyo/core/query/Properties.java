@@ -15,16 +15,12 @@
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
+import java.util.List;
+
 /**
  * Properties from olsc.select of oslc.properties clause
  */
 public interface Properties
 {
-    enum Type
-    {
-        WILDCARD,
-        PROPERTY_LIST;
-    }
-    
-    Type type();
+    List<Property> children();
 }
