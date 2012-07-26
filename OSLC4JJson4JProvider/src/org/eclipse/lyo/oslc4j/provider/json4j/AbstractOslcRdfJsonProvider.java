@@ -136,11 +136,15 @@ public abstract class AbstractOslcRdfJsonProvider
         final Map<String, Object> properties = isClientSide ?
             null :
             (Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
+        final String nextPageURI = isClientSide ?
+                null :
+                (String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
 
         try
         {
             jsonObject = JsonHelper.createJSON(descriptionURI,
                                                responseInfoURI,
+                                               nextPageURI,
                                                objects,
                                                properties);
 

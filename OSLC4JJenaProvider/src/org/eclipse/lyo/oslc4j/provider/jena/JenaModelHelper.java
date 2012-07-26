@@ -96,6 +96,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public final class JenaModelHelper
 {
     private static final String PROPERTY_TOTAL_COUNT = "totalCount";
+    private static final String PROPERTY_NEXT_PAGE = "nextPage";
 
     private static final String RDF_TYPE_URI = OslcConstants.RDF_NAMESPACE + "type";
     private static final BaseDatatype RDF_TYPE_XMLLITERAL = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "XMLLiteral");
@@ -125,12 +126,14 @@ public final class JenaModelHelper
     {
         return createJenaModel(null,
                                null,
+                               null,
                                objects,
                                null);
     }
 
     static Model createJenaModel(final String              descriptionAbout,
                                  final String              responseInfoAbout,
+                                 final String              nextPageAbout,
                                  final Object[]            objects,
                                  final Map<String, Object> properties)
            throws DatatypeConfigurationException,
@@ -156,6 +159,13 @@ public final class JenaModelHelper
                 responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
                                                                       PROPERTY_TOTAL_COUNT),
                                                  String.valueOf(objects.length));
+                
+                if (nextPageAbout != null)
+                {
+                    responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
+                                                                          PROPERTY_NEXT_PAGE),
+                                                     nextPageAbout);
+                }
             }
         }
 

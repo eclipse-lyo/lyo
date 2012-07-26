@@ -90,6 +90,7 @@ final class JsonHelper
     private static final String JSON_PROPERTY_SUFFIX_RESPONSE_INFO = "responseInfo";
     private static final String JSON_PROPERTY_SUFFIX_RESULTS       = "results";
     private static final String JSON_PROPERTY_SUFFIX_TOTAL_COUNT   = "totalCount";
+    private static final String JSON_PROPERTY_SUFFIX_NEXT_PAGE     = "nextPage";
     private static final String JSON_PROPERTY_SUFFIX_TYPE          = "type";
 
     private static final String RDF_ABOUT_URI = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_ABOUT;
@@ -111,6 +112,7 @@ final class JsonHelper
 
     public static JSONObject createJSON(final String              descriptionAbout,
                                         final String              responseInfoAbout,
+                                        final String              nextPageAbout,
                                         final Object[]            objects,
                                         final Map<String, Object> properties)
            throws DatatypeConfigurationException,
@@ -177,6 +179,12 @@ final class JsonHelper
                 responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TOTAL_COUNT,
                                            objects.length);
 
+                if (nextPageAbout != null)
+                {
+                    responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_NEXT_PAGE,
+                                               nextPageAbout);
+                }
+                
                 final JSONArray responseInfoTypesJSONArray = new JSONArray();
 
                 final JSONObject responseInfoTypeJSONObject = new JSONObject();

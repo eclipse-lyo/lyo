@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
@@ -166,11 +165,15 @@ public abstract class AbstractOslcRdfXmlProvider
         final Map<String, Object> properties = isClientSide ?
             null :
             (Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
-
+        final String nextPageURI = isClientSide ?
+            null :
+            (String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+        
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
+                                                                nextPageURI,
                                                                 objects,
                                                                 properties);
 
