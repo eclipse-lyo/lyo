@@ -27,5 +27,6 @@ public interface OSLC4JConstants {
     public static final Map<String, Object> OSL4J_PROPERTY_SINGLETON =
         new HashMap<String, Object>(0);
     
-    public static String OSLC4J_SELECTED_PROPERTIES = "selected.properties";
+    public static String OSLC4J_SELECTED_PROPERTIES = "org.eclipse.lyo.oslc4j.selected.properties";
+    public static String OSLC4J_NEXT_PAGE = "org.eclipse.lyo.oslc4j.next.page";
 }
