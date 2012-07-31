@@ -706,11 +706,15 @@ final class JsonHelper
 			}
 			else
 			{
-	            final String prefix = reverseNamespaceMappings.get(namespace);
+	            String prefix = reverseNamespaceMappings.get(namespace);
 
 	            if (prefix == null)
 	            {
-	                throw new OslcCoreMissingNamespaceDeclarationException(namespace);
+	                prefix = extendedProperty.getKey().getPrefix();
+	                
+	                // Add the prefix to the JSON namespace mappings.
+	                namespaceMappings.put(prefix, namespace);
+	                reverseNamespaceMappings.put(namespace, prefix);
 	            }
 
                 // Add the value to the JSON object.
