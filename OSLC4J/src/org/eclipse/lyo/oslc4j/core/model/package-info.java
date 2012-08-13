@@ -16,12 +16,14 @@
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
  *******************************************************************************/
-@OslcSchema ({
-                 @OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,   namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
-                 @OslcNamespaceDefinition(prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX, namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
-                 @OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX,       namespaceURI = OslcConstants.RDF_NAMESPACE),
-                 @OslcNamespaceDefinition(prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,      namespaceURI = OslcConstants.RDFS_NAMESPACE)
-             })
+
+@OslcSchema ({ 
+   @OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,   namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
+   @OslcNamespaceDefinition(prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX, namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
+   @OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX,       namespaceURI = OslcConstants.RDF_NAMESPACE),
+   @OslcNamespaceDefinition(prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,      namespaceURI = OslcConstants.RDFS_NAMESPACE)
+ })
+
 package org.eclipse.lyo.oslc4j.core.model;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
