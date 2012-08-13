@@ -63,7 +63,14 @@
   			<version>2.1.1</version>
   			<configuration>
   			    <warSourceDirectory>WebContent</warSourceDirectory>
-    			<webXml>WebContent\WEB-INF\web.xml</webXml>      
+    			<webXml>WebContent\WEB-INF\web.xml</webXml> 
+    			<webResources>
+            		<resource>
+              			<directory>src</directory>
+              			<include>log4j.properties</include>
+              			<targetPath>WEB-INF/classes</targetPath>
+            		</resource>
+          		</webResources>     
   			</configuration>
   			
   		</plugin>
