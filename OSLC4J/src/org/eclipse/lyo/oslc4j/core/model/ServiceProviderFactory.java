@@ -169,14 +169,14 @@ public final class ServiceProviderFactory {
 		}
 
 		CreationFactory creationFactory = null;
-		creationFactory = new CreationFactory(title, new URI(creation));
+		creationFactory = new CreationFactory(title, new URI(creation).normalize());
 
 		if ((label != null) && (label.length() > 0)) {
 		    creationFactory.setLabel(label);
 		}
 
 		for (final String resourceShape : resourceShapes) {
-            creationFactory.addResourceShape(new URI(basePath + resourceShape));
+            creationFactory.addResourceShape(new URI(basePath + resourceShape).normalize());
         }
 
 		for (final String resourceType : resourceTypes) {
@@ -211,14 +211,14 @@ public final class ServiceProviderFactory {
         }
 
 		QueryCapability queryCapability = null;
-		queryCapability = new QueryCapability(title, new URI(creation));
+		queryCapability = new QueryCapability(title, new URI(creation).normalize());
 
 		if ((label != null) && (label.length() > 0)) {
 		    queryCapability.setLabel(label);
 		}
 
 		if ((resourceShape != null) && (resourceShape.length() > 0)) {
-		    queryCapability.setResourceShape(new URI(basePath + resourceShape));
+		    queryCapability.setResourceShape(new URI(basePath + resourceShape).normalize());
         }
 
         for (final String resourceType : resourceTypes) {
@@ -326,7 +326,7 @@ public final class ServiceProviderFactory {
         }
 
         Dialog dialog = null;
-        dialog = new Dialog(title, new URI(uri));
+        dialog = new Dialog(title, new URI(uri).normalize());
 
         if ((label != null) && (label.length() > 0)) {
             dialog.setLabel(label);
