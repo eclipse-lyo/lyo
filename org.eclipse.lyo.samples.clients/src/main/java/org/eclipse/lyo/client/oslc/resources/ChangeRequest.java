@@ -43,8 +43,8 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-@OslcNamespace(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE)
-@OslcResourceShape(title = "Change Request Resource Shape", describes = OslcConstants.TYPE_CHANGE_REQUEST)
+@OslcNamespace(CmConstants.CHANGE_MANAGEMENT_NAMESPACE)
+@OslcResourceShape(title = "Change Request Resource Shape", describes = CmConstants.TYPE_CHANGE_REQUEST)
 public final class ChangeRequest
        extends AbstractResource
 {
@@ -93,7 +93,7 @@ public final class ChangeRequest
     {
         super();
 
-        rdfTypes.add(new URI(OslcConstants.TYPE_CHANGE_REQUEST));
+        rdfTypes.add(new URI(CmConstants.TYPE_CHANGE_REQUEST));
     }
 
     public ChangeRequest(final URI about)
@@ -101,7 +101,7 @@ public final class ChangeRequest
     {
         super(about);
 
-        rdfTypes.add(new URI(OslcConstants.TYPE_CHANGE_REQUEST));
+        rdfTypes.add(new URI(CmConstants.TYPE_CHANGE_REQUEST));
     }
 
     public void addAffectedByDefect(final Link affectedByDefect)
@@ -192,8 +192,8 @@ public final class ChangeRequest
 
     @OslcDescription("Change request is affected by a reported defect.")
     @OslcName("affectedByDefect")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectedByDefect")
-    @OslcRange(OslcConstants.TYPE_CHANGE_REQUEST)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectedByDefect")
+    @OslcRange(CmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Affected By Defects")
     public Link[] getAffectedByDefects()
@@ -203,8 +203,8 @@ public final class ChangeRequest
 
     @OslcDescription("Change request affects a plan item. ")
     @OslcName("affectsPlanItem")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsPlanItem")
-    @OslcRange(OslcConstants.TYPE_CHANGE_REQUEST)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsPlanItem")
+    @OslcRange(CmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Affects Plan Items")
     public Link[] getAffectsPlanItems()
@@ -214,8 +214,8 @@ public final class ChangeRequest
 
     @OslcDescription("Change request affecting a Requirement.")
     @OslcName("affectsRequirement")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsRequirement")
-    @OslcRange(OslcConstants.TYPE_REQUIREMENT)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsRequirement")
+    @OslcRange(CmConstants.TYPE_REQUIREMENT)
     @OslcReadOnly(false)
     @OslcTitle("Affects Requirements")
     public Link[] getAffectsRequirements()
@@ -225,8 +225,8 @@ public final class ChangeRequest
 
     @OslcDescription("Associated QM resource that is affected by this Change Request.")
     @OslcName("affectsTestResult")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsTestResult")
-    @OslcRange(OslcConstants.TYPE_TEST_RESULT)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "affectsTestResult")
+    @OslcRange(CmConstants.TYPE_TEST_RESULT)
     @OslcReadOnly(false)
     @OslcTitle("Affects Test Results")
     public Link[] getAffectsTestResults()
@@ -236,8 +236,8 @@ public final class ChangeRequest
 
     @OslcDescription("Associated QM resource that is blocked by this Change Request.")
     @OslcName("blocksTestExecutionRecord")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "blocksTestExecutionRecord")
-    @OslcRange(OslcConstants.TYPE_TEST_EXECUTION_RECORD)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "blocksTestExecutionRecord")
+    @OslcRange(CmConstants.TYPE_TEST_EXECUTION_RECORD)
     @OslcReadOnly(false)
     @OslcTitle("Blocks Test Execution Records")
     public Link[] getBlocksTestExecutionRecords()
@@ -246,7 +246,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("The date at which no further activity or work is intended to be conducted. ")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "closeDate")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "closeDate")
     @OslcReadOnly
     @OslcTitle("Close Date")
     public Date getCloseDate()
@@ -257,7 +257,7 @@ public final class ChangeRequest
     @OslcDescription("The person(s) who are responsible for the work needed to complete the change request.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
-    @OslcRange(OslcConstants.TYPE_PERSON)
+    @OslcRange(CmConstants.TYPE_PERSON)
     @OslcTitle("Contributors")
     public URI getContributors()
     {
@@ -276,7 +276,7 @@ public final class ChangeRequest
     @OslcDescription("Creator or creators of resource.")
     @OslcName("creator")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "creator")
-    @OslcRange(OslcConstants.TYPE_PERSON)
+    @OslcRange(CmConstants.TYPE_PERSON)
     @OslcTitle("Creators")
     public URI getCreators()
     {
@@ -305,7 +305,7 @@ public final class ChangeRequest
 
     @OslcDescription("A series of notes and comments about this change request.")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "discussedBy")
-    @OslcRange(OslcConstants.TYPE_DISCUSSION)
+    @OslcRange(CmConstants.TYPE_DISCUSSION)
     @OslcTitle("Discussed By")
     public URI getDiscussedBy()
     {
@@ -324,8 +324,8 @@ public final class ChangeRequest
 
     @OslcDescription("Implements associated Requirement.")
     @OslcName("implementsRequirement")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "implementsRequirement")
-    @OslcRange(OslcConstants.TYPE_REQUIREMENT)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "implementsRequirement")
+    @OslcRange(CmConstants.TYPE_REQUIREMENT)
     @OslcReadOnly(false)
     @OslcTitle("Implements Requirements")
     public Link[] getImplementsRequirements()
@@ -362,8 +362,8 @@ public final class ChangeRequest
 
     @OslcDescription("This relationship is loosely coupled and has no specific meaning.")
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedChangeRequest")
-    @OslcRange(OslcConstants.TYPE_CHANGE_REQUEST)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedChangeRequest")
+    @OslcRange(CmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Related Change Requests")
     public Link[] getRelatedChangeRequests()
@@ -373,7 +373,7 @@ public final class ChangeRequest
 
     @OslcDescription("Related OSLC resources of any type.")
     @OslcName("relatedResource")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedResource")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedResource")
     @OslcTitle("Related Resources")
     public Link[] getRelatedResources()
     {
@@ -382,8 +382,8 @@ public final class ChangeRequest
 
     @OslcDescription("Related QM test case resource.")
     @OslcName("relatedTestCase")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestCase")
-    @OslcRange(OslcConstants.TYPE_TEST_CASE)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestCase")
+    @OslcRange(CmConstants.TYPE_TEST_CASE)
     @OslcReadOnly(false)
     @OslcTitle("Related Test Cases")
     public Link[] getRelatedTestCases()
@@ -393,8 +393,8 @@ public final class ChangeRequest
 
     @OslcDescription("Related to a QM test execution resource.")
     @OslcName("relatedTestExecutionRecord")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestExecutionRecord")
-    @OslcRange(OslcConstants.TYPE_TEST_EXECUTION_RECORD)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestExecutionRecord")
+    @OslcRange(CmConstants.TYPE_TEST_EXECUTION_RECORD)
     @OslcReadOnly(false)
     @OslcTitle("Related Test Execution Records")
     public Link[] getRelatedTestExecutionRecords()
@@ -404,8 +404,8 @@ public final class ChangeRequest
 
     @OslcDescription("Related QM test plan resource.")
     @OslcName("relatedTestPlan")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestPlan")
-    @OslcRange(OslcConstants.TYPE_TEST_PLAN)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestPlan")
+    @OslcRange(CmConstants.TYPE_TEST_PLAN)
     @OslcReadOnly(false)
     @OslcTitle("Related Test Plans")
     public Link[] getRelatedTestPlans()
@@ -415,8 +415,8 @@ public final class ChangeRequest
 
     @OslcDescription("Related QM test script resource.")
     @OslcName("relatedTestScript")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestScript")
-    @OslcRange(OslcConstants.TYPE_TEST_SCRIPT)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "relatedTestScript")
+    @OslcRange(CmConstants.TYPE_TEST_SCRIPT)
     @OslcReadOnly(false)
     @OslcTitle("Related Test Scripts")
     public Link[] getRelatedTestScripts()
@@ -436,7 +436,7 @@ public final class ChangeRequest
     @OslcAllowedValue({"Unclassified", "Minor", "Normal", "Major", "Critical", "Blocker"})
     @OslcDescription("Severity of change request.")
     @OslcOccurs(Occurs.ExactlyOne)
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "severity")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "severity")
     @OslcTitle("Severity")
     public String getSeverity()
     {
@@ -453,7 +453,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "status")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "status")
     @OslcTitle("Status")
     public String getStatus()
     {
@@ -472,8 +472,8 @@ public final class ChangeRequest
 
     @OslcDescription("Test case by which this change request is tested.")
     @OslcName("testedByTestCase")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "testedByTestCase")
-    @OslcRange(OslcConstants.TYPE_TEST_CASE)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "testedByTestCase")
+    @OslcRange(CmConstants.TYPE_TEST_CASE)
     @OslcReadOnly(false)
     @OslcTitle("Tested by Test Cases")
     public Link[] getTestedByTestCases()
@@ -493,8 +493,8 @@ public final class ChangeRequest
 
     @OslcDescription("Tracks SCM change set resource.")
     @OslcName("tracksChangeSet")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "tracksChangeSet")
-    @OslcRange(OslcConstants.TYPE_CHANGE_SET)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "tracksChangeSet")
+    @OslcRange(CmConstants.TYPE_CHANGE_SET)
     @OslcReadOnly(false)
     @OslcTitle("Tracks Change Sets")
     public Link[] getTracksChangeSets()
@@ -504,8 +504,8 @@ public final class ChangeRequest
 
     @OslcDescription("Tracks the associated Requirement or Requirement ChangeSet resources.")
     @OslcName("tracksRequirement")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "tracksRequirement")
-    @OslcRange(OslcConstants.TYPE_REQUIREMENT)
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "tracksRequirement")
+    @OslcRange(CmConstants.TYPE_REQUIREMENT)
     @OslcReadOnly(false)
     @OslcTitle("Tracks Requirements")
     public Link[] getTracksRequirements()
@@ -514,7 +514,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Whether or not the Change Request has been approved.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "approved")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "approved")
     @OslcReadOnly
     @OslcTitle("Approved")
     public Boolean isApproved()
@@ -523,7 +523,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Whether or not the Change Request is completely done, no further fixes or fix verification is needed.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "closed")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "closed")
     @OslcReadOnly
     @OslcTitle("Closed")
     public Boolean isClosed()
@@ -532,7 +532,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Whether or not the Change Request has been fixed.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "fixed")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "fixed")
     @OslcReadOnly
     @OslcTitle("Fixed")
     public Boolean isFixed()
@@ -542,7 +542,7 @@ public final class ChangeRequest
 
     @OslcDescription("Whether or not the Change Request in a state indicating that active work is occurring. If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false.")
     @OslcName("inprogress")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "inprogress")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "inprogress")
     @OslcReadOnly
     @OslcTitle("In Progress")
     public Boolean isInProgress()
@@ -551,7 +551,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Whether or not the Change Request has been reviewed.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "reviewed")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "reviewed")
     @OslcReadOnly
     @OslcTitle("Reviewed")
     public Boolean isReviewed()
@@ -560,7 +560,7 @@ public final class ChangeRequest
     }
 
     @OslcDescription("Whether or not the resolution or fix of the Change Request has been verified.")
-    @OslcPropertyDefinition(OslcConstants.CHANGE_MANAGEMENT_NAMESPACE + "verified")
+    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "verified")
     @OslcReadOnly
     @OslcTitle("Verified")
     public Boolean isVerified()
