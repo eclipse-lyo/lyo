@@ -133,11 +133,13 @@ final class JsonHelper
 
             for (final Object object : objects)
             {
+            	HashMap<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
                 final JSONObject jsonObject = handleSingleResource(object,
                                                                    new JSONObject(),
                                                                    namespaceMappings,
                                                                    reverseNamespaceMappings,
-                                                                   properties);
+                                                                   properties,
+                                                                   visitedObjects);
 
                 if (jsonObject != null)
                 {
@@ -203,11 +205,13 @@ final class JsonHelper
         }
         else if (objects.length == 1)
         {
+        	HashMap<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
             handleSingleResource(objects[0],
                                  resultJSONObject,
                                  namespaceMappings,
                                  reverseNamespaceMappings,
-                                 properties);
+                                 properties,
+                                 visitedObjects);
         }
 
         // Set the namespace prefixes
@@ -489,7 +493,8 @@ final class JsonHelper
                                       final Object              object,
                                       final Class<?>            objectClass,
                                       final JSONObject          jsonObject,
-                                      final Map<String, Object> properties)
+                                      final Map<String, Object> properties,
+                                      final Map<Object,JSONObject> visitedObjects)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -497,12 +502,14 @@ final class JsonHelper
                    JSONException,
                    OslcCoreApplicationException
     {
+    	visitedObjects.put(object, jsonObject);
         buildResourceAttributes(namespaceMappings,
         		                reverseNamespaceMappings,
 				                object,
 				                objectClass,
 				                jsonObject,
-				                properties);
+				                properties,
+				                visitedObjects);
 
         // For JSON, we have to save array of rdf:type
 
@@ -565,7 +572,8 @@ final class JsonHelper
 			                                    final Object              object,
 			                                    final Class<?>            objectClass,
 			                                    final JSONObject          jsonObject,
-			                                    final Map<String, Object> properties)
+			                                    final Map<String, Object> properties,
+			                                    final Map<Object,JSONObject> visitedObjects)
 			throws IllegalAccessException,
 			       InvocationTargetException,
 			       DatatypeConfigurationException,
@@ -647,7 +655,8 @@ final class JsonHelper
 				                  reverseNamespaceMappings,
 				                  jsonObject,
 				                  extendedResource,
-				                  properties);
+				                  properties,
+				                  visitedObjects);
         }
 	}
 
@@ -655,7 +664,8 @@ final class JsonHelper
 					                            final Map<String, String> reverseNamespaceMappings,
 					                            final JSONObject jsonObject,
 					                            final IExtendedResource extendedResource,
-                                                final Map<String, Object> properties)
+                                                final Map<String, Object> properties,
+                                                final Map<Object, JSONObject> visitedObjects)
 			throws JSONException,
 				   DatatypeConfigurationException,
 				   IllegalAccessException,
@@ -698,7 +708,8 @@ final class JsonHelper
 			                                                  reverseNamespaceMappings,
 			                                                  extendedProperty.getValue(),
 			                                                  nestedProperties,
-			                                                  onlyNested);
+			                                                  onlyNested,
+			                                                  visitedObjects);
 			
 			if (value == null && ! onlyNested)
 			{
@@ -727,7 +738,8 @@ final class JsonHelper
 												       final Map<String, String> reverseNamespaceMappings,
 												       final Object              object,
 												       final Map<String, Object> nestedProperties,
-												       final boolean             onlyNested)
+												       final boolean             onlyNested,
+					                                   final Map<Object,JSONObject> visitedObjects)
 	    throws JSONException,
 	           DatatypeConfigurationException,
 	           IllegalArgumentException,
@@ -747,7 +759,8 @@ final class JsonHelper
 				                                                     reverseNamespaceMappings,
 				                                                     next,
 				                                                     nestedProperties,
-				                                                     onlyNested);
+				                                                     onlyNested,
+				                                                     visitedObjects);
 				if (nextJson != null)
 				{
 					jsonArray.add(nextJson);
@@ -792,13 +805,19 @@ final class JsonHelper
 				                           null,
 				                           (URI) object);
 		}
-		else if (object instanceof IResource)
+		else if (object instanceof IResource && !visitedObjects.containsKey(object))
 		{
 			return handleSingleResource(object,
 				                        new JSONObject(),
 				                        namespaceMappings,
 				                        reverseNamespaceMappings,
-				                        nestedProperties);
+				                        nestedProperties,
+				                        visitedObjects);
+		} else if (visitedObjects.containsKey(object))
+		{
+			//FIXME:  Seems like this works in terms of building the JSONObject, but the Wink JSON4J serializer
+			//goes crazy writing nested nodes.  For now, we break the cycle and the final nested node is missing.
+			//return visitedObjects.get(object);
 		}
 		
 		return null;
@@ -883,11 +902,13 @@ final class JsonHelper
 					                     nestedProperties);
         }
 
+        Map<Object, JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
         return handleSingleResource(object,
                                     new JSONObject(),
                                     namespaceMappings,
                                     reverseNamespaceMappings,
-                                    nestedProperties);
+                                    nestedProperties,
+                                    visitedObjects);
     }
 
 	private static Object handleReifiedResource(final Map<String, String> namespaceMappings,
@@ -929,12 +950,14 @@ final class JsonHelper
 		                                                      (URI) value);
 		
 		// Add any reified statements.
+		Map<Object, JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
 		buildResourceAttributes(namespaceMappings,
 				                reverseNamespaceMappings,
 				                reifiedResource,
 				                resourceClass,
 				                jsonObject,
-				                properties);
+				                properties,
+				                visitedObjects);
 		
 		return jsonObject;
 	}
@@ -973,7 +996,8 @@ final class JsonHelper
                                                    final JSONObject          jsonObject,
                                                    final Map<String, String> namespaceMappings,
                                                    final Map<String, String> reverseNamespaceMappings,
-                                                   final Map<String, Object> properties)
+                                                   final Map<String, Object> properties,
+                                                   final Map<Object,JSONObject> visitedObjects)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -997,13 +1021,14 @@ final class JsonHelper
 				        objectClass,
 				        aboutURI);
         }
-
+      
         buildResource(namespaceMappings,
                       reverseNamespaceMappings,
                       object,
                       objectClass,
                       jsonObject,
-                      properties);
+                      properties,
+                      visitedObjects);
 
         return jsonObject;
     }
