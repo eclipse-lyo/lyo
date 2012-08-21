@@ -44,6 +44,7 @@ import org.apache.wink.client.ApacheHttpClientConfig;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
+import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
@@ -51,6 +52,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Selector;
 import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
@@ -113,11 +115,17 @@ public class OslcClient {
 	 * @throws URISyntaxException
 	 */
 	
-	public ClientResponse getResource(String url, String mediaType) throws IOException, OAuthException, URISyntaxException {
+	public ClientResponse getResponse(String url, String mediaType) throws IOException, OAuthException, URISyntaxException {
 		
 
 		RestClient restClient = new RestClient(clientConfig);
 		return restClient.resource(url).accept(mediaType).header("Oslc-Core-Version","2.0").get();
+	}
+	
+	public org.apache.wink.client.Resource getRemoteResource(OslcQuery query) {
+		RestClient restClient = new RestClient(clientConfig);
+		org.apache.wink.client.Resource resource = restClient.resource(query.getCapabilityUrl());
+		return resource;
 	}
 	
 	public class OAuthHttpPool implements HttpClientPool {
@@ -139,7 +147,7 @@ public class OslcClient {
 	public String lookupServiceProviderUrl(String catalogUrl, String serviceProviderTitle) throws IOException, OAuthException, URISyntaxException
 	{
 		String retval = null;
-		ClientResponse response = getResource(catalogUrl,"application/rdf+xml");
+		ClientResponse response = getResponse(catalogUrl,"application/rdf+xml");
 		Model rdfModel = ModelFactory.createDefaultModel();
 
 		rdfModel.read(response.getEntity(InputStream.class),catalogUrl);
@@ -176,7 +184,7 @@ public class OslcClient {
 	public String lookupQueryCapability(String serviceProviderUrl, String oslcDomain) throws IOException, OAuthException, URISyntaxException
 	{
 		String retval = null;
-		ClientResponse response = getResource(serviceProviderUrl,"application/rdf+xml");
+		ClientResponse response = getResponse(serviceProviderUrl,"application/rdf+xml");
 		
 		Model rdfModel = ModelFactory.createDefaultModel();
 		rdfModel.read(response.getEntity(InputStream.class),serviceProviderUrl);
