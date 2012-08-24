@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.lyo.samples</groupId>
 	<artifactId>oslc-client</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<name>org.eclipse.lyo.samples.jazz.clients</name>
 	<repositories>
 		<repository>
@@ -65,12 +65,12 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.rio</groupId>
 			<artifactId>oslc4j-cm-common</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
+			<version>[0.1.1-SNAPSHOT,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 			<artifactId>oslc4j-jena-provider</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
+			<version>[0.1.1-SNAPSHOT,)</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 			<artifactId>oslc4j-json4j-provider</artifactId>
-			<version>0.1.1-SNAPSHOT</version>
+			<version>[0.1.1-SNAPSHOT,)</version>
 		</dependency>
 	</dependencies>
 
