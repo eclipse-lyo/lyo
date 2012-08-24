@@ -2,32 +2,32 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
   <artifactId>oslc4j-stockquote-test</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.2-SNAPSHOT</version>
       <dependencies>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-core</artifactId>
-  		<version>0.1.1-SNAPSHOT</version>
+  		<version>[0.1.1-SNAPSHOT,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-wink</artifactId>
-  		<version>0.1.1-SNAPSHOT</version>
+  		<version>[0.1.1-SNAPSHOT,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-json4j-provider</artifactId>
-  		<version>0.1.1-SNAPSHOT</version>
+  		<version>[0.1.1-SNAPSHOT,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-jena-provider</artifactId>
-  		<version>0.1.1-SNAPSHOT</version>
+  		<version>[0.1.1-SNAPSHOT,)</version>
     </dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.samples</groupId>
   		<artifactId>oslc4j-stockquote-common</artifactId>
-  		<version>0.1.1-SNAPSHOT</version>
+  		<version>0.1.2-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>junit</groupId>

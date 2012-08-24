@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.oslc4j.core</groupId>
   <artifactId>oslc4j-core</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.1.2-SNAPSHOT</version>
   <dependencies>
   	<dependency> 
   		<groupId>log4j</groupId>
