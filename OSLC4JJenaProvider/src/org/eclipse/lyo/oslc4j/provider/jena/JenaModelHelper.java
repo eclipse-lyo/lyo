@@ -283,11 +283,13 @@ public final class JenaModelHelper
     {
         final Object   newInstance = beanClass.newInstance();
         final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+        final Map<String,Object> visitedResources = new HashMap<String, Object>();
 
         fromResource(classPropertyDefinitionsToSetMethods,
                      beanClass,
                      newInstance,
-                     resource);
+                     resource,
+                     visitedResources);
 
         return newInstance;
     }
@@ -321,11 +323,13 @@ public final class JenaModelHelper
                 {
                     final Resource resource    = listSubjects.next();
                     final Object   newInstance = beanClass.newInstance();
+                    final Map<String,Object> visitedResources = new HashMap<String, Object>();
 
                     fromResource(classPropertyDefinitionsToSetMethods,
                                  beanClass,
                                  newInstance,
-                                 resource);
+                                 resource,
+                                 visitedResources);
 
                     results.add(newInstance);
                 }
@@ -340,7 +344,8 @@ public final class JenaModelHelper
 	private static void fromResource(final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
                                      final Class<?>                           beanClass,
                                      final Object                             bean,
-                                     final Resource                           resource)
+                                     final Resource                           resource,
+                                           Map<String,Object>                 visitedResources)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -359,6 +364,8 @@ public final class JenaModelHelper
             classPropertyDefinitionsToSetMethods.put(beanClass,
                                                      setMethodMap);
         }
+
+        visitedResources.put(getVisitedResourceName(resource),bean);
 
         if (bean instanceof IResource)
         {
@@ -437,7 +444,7 @@ public final class JenaModelHelper
                 			prefix = generatePrefix(resource.getModel(), predicate.getNameSpace());
                 		}
                 		final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-                		final Object value = handleExtendedPropertyValue(beanClass, object);
+                		final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources);
                 		final Object previous = extendedProperties.get(key);
                 		if (previous == null)
                 		{
@@ -614,7 +621,8 @@ public final class JenaModelHelper
                         fromResource(classPropertyDefinitionsToSetMethods,
                                      setMethodComponentParameterClass,
                                      nestedBean,
-                                     nestedResource);
+                                     nestedResource,
+                                     visitedResources);
 
                         parameter = nestedBean;
                     }
@@ -651,7 +659,8 @@ public final class JenaModelHelper
 						    fromResource(classPropertyDefinitionsToSetMethods,
 						    		reifiedClass,
 	                                reifiedResource,
-	                                reifiedStatement);
+	                                reifiedStatement,
+	                                visitedResources);
 					    }
 					    
                 		parameter = reifiedResource;
@@ -787,7 +796,8 @@ public final class JenaModelHelper
 	}
 
 	private static Object handleExtendedPropertyValue(final Class<?> beanClass,
-												      final RDFNode object)
+												      final RDFNode object,
+												            Map<String,Object> visitedResources)
 			throws URISyntaxException,
 				   IllegalArgumentException,
 				   SecurityException,
@@ -819,28 +829,35 @@ public final class JenaModelHelper
 		
 		final Resource nestedResource = object.asResource();
 		
-		// Is this an inline resource?
-		if (nestedResource.getURI() == null || nestedResource.listProperties().hasNext())
+		// Is this an inline resource? AND we have not visited it yet?
+		if ((nestedResource.getURI() == null || nestedResource.listProperties().hasNext()) && 
+		    (!visitedResources.containsKey(getVisitedResourceName(nestedResource))))
 		{
 			final AbstractResource any = new AnyResource();
             final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
             fromResource(classPropertyDefinitionsToSetMethods,
                          AnyResource.class,
                          any,
-                         nestedResource);
+                         nestedResource,
+                         visitedResources);
 
             return any;
 		}
 
-		// It's a resource reference.
-		final URI nestedResourceURI = new URI(nestedResource.getURI());
-		if (!nestedResourceURI.isAbsolute())
+		if (nestedResource.getURI() == null)
 		{
-			throw new OslcCoreRelativeURIException(beanClass, "<none>",
-					nestedResourceURI);
-		}
+			return visitedResources.get(getVisitedResourceName(nestedResource));
+		} else {
+			// It's a resource reference.
+			final URI nestedResourceURI = new URI(nestedResource.getURI());
+			if (!nestedResourceURI.isAbsolute())
+			{
+				throw new OslcCoreRelativeURIException(beanClass, "<none>",
+				                                       nestedResourceURI);
+			}
 
-		return nestedResourceURI;
+			return nestedResourceURI;
+		}
 	}
     
     private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
@@ -985,11 +1002,13 @@ public final class JenaModelHelper
         if (object instanceof IExtendedResource)
         {
         	final IExtendedResource extendedResource = (IExtendedResource) object;
+        	Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
         	handleExtendedProperties(resourceClass,
 				                     model,
 				                     mainResource,
 				                     extendedResource,
-				                     properties);
+				                     properties,
+				                     visitedResources);
         }
     }
 
@@ -997,12 +1016,14 @@ public final class JenaModelHelper
 					                               final Model model,
 					                               final Resource mainResource,
 					                               final IExtendedResource extendedResource,
-					                               final Map<String, Object> properties)
+					                               final Map<String, Object> properties,
+					                                     Map<IExtendedResource, Resource> visitedResources)
 		throws DatatypeConfigurationException,
 			   IllegalAccessException,
 			   InvocationTargetException,
 			   OslcCoreApplicationException
 	{
+		visitedResources.put(extendedResource,mainResource);
 	    for (final URI type : extendedResource.getTypes())
 	    {
 	        final String propertyName = type.toString();
@@ -1069,7 +1090,8 @@ public final class JenaModelHelper
 					                    mainResource,
 					                    property,
 					                    nestedProperties,
-					                    onlyNested);
+					                    onlyNested,
+					                    visitedResources);
 				}
 			}
 			else
@@ -1080,7 +1102,8 @@ public final class JenaModelHelper
 				                    mainResource,
 				                    property,
 				                    nestedProperties,
-				                    onlyNested);
+				                    onlyNested,
+				                    visitedResources);
 			}
 		}
 	}
@@ -1091,7 +1114,8 @@ public final class JenaModelHelper
     									    final Resource resource,
     									    final Property property,
     									    final Map<String, Object> nestedProperties,
-    									    final boolean onlyNested)
+    									    final boolean onlyNested,
+    									    final Map<IExtendedResource, Resource> visitedResources)
     	throws DatatypeConfigurationException,
     		   IllegalAccessException,
     		   IllegalArgumentException,
@@ -1101,39 +1125,48 @@ public final class JenaModelHelper
     	if (value instanceof AnyResource)
     	{
     		final AbstractResource any = (AbstractResource) value;
-    		final Resource nestedResource;
-    		final URI aboutURI = any.getAbout();
-    		if (aboutURI != null)
+    		
+    		//create a new resource in the model if we have not visited it yet
+    		if (!visitedResources.containsKey(any))
     		{
-    			if (!aboutURI.isAbsolute())
-    			{
-    				throw new OslcCoreRelativeURIException(AnyResource.class,
-    					"getAbout",
-    					aboutURI);
-    			}
+	    		final Resource nestedResource;
+	    		final URI aboutURI = any.getAbout();
+	    		if (aboutURI != null)
+	    		{
+	    			if (!aboutURI.isAbsolute())
+	    			{
+	    				throw new OslcCoreRelativeURIException(AnyResource.class,
+	    					"getAbout",
+	    					aboutURI);
+	    			}
+	
+	    			nestedResource = model.createResource(aboutURI.toString());
+	    		}
+	    		else
+	    		{
+	    			nestedResource = model.createResource();
+	    		}
+	
+	    		for (final URI type : any.getTypes())
+	    		{
+	                final String propertyName = type.toString();
+	                
+	                if (nestedProperties == null ||
+	                    nestedProperties.get(propertyName) != null ||
+	                    nestedProperties instanceof NestedWildcardProperties ||
+	                    nestedProperties instanceof SingletonWildcardProperties)
+	                {
+	                    nestedResource.addProperty(RDF.type, model.createResource(propertyName));
+	                }
+	    		}
 
-    			nestedResource = model.createResource(aboutURI.toString());
+	            handleExtendedProperties(AnyResource.class, model, nestedResource, any, nestedProperties, visitedResources);
+	            resource.addProperty(property, nestedResource);
+    		} else {
+    			//We've already added the inline resource, add a reference to it for this property
+    			resource.addProperty(property, visitedResources.get(any));
     		}
-    		else
-    		{
-    			nestedResource = model.createResource();
-    		}
-
-    		for (final URI type : any.getTypes())
-    		{
-                final String propertyName = type.toString();
-                
-                if (nestedProperties == null ||
-                    nestedProperties.get(propertyName) != null ||
-                    nestedProperties instanceof NestedWildcardProperties ||
-                    nestedProperties instanceof SingletonWildcardProperties)
-                {
-                    nestedResource.addProperty(RDF.type, model.createResource(propertyName));
-                }
-    		}
-
-    		handleExtendedProperties(AnyResource.class, model, nestedResource, any, nestedProperties);
-    		resource.addProperty(property, nestedResource);
+           
     	}
     	else if (value.getClass().getAnnotation(OslcResourceShape.class) != null || value instanceof URI)
     	{ 
@@ -1522,5 +1555,21 @@ public final class JenaModelHelper
                 }
             }
         }
+    }
+    
+    private static String getVisitedResourceName(Resource resource)
+    {
+    	String visitedResourceName = null;
+    	
+    	if (resource.getURI() != null)
+    	{
+    		visitedResourceName = resource.getURI();
+    	}
+    	else
+    	{
+    		visitedResourceName = resource.getId().toString();
+    	}
+    	
+    	return visitedResourceName;
     }
 }
