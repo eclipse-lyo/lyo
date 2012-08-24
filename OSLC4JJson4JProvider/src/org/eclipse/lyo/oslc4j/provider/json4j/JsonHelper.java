@@ -815,9 +815,9 @@ final class JsonHelper
 				                        visitedObjects);
 		} else if (visitedObjects.containsKey(object))
 		{
-			//FIXME:  Seems like this works in terms of building the JSONObject, but the Wink JSON4J serializer
-			//goes crazy writing nested nodes.  For now, we break the cycle and the final nested node is missing.
-			//return visitedObjects.get(object);
+			JSONObject returnObject = visitedObjects.get(object);
+			if (!returnObject.isEmpty())
+				return returnObject;
 		}
 		
 		return null;

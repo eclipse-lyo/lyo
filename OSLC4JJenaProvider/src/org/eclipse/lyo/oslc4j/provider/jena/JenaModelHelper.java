@@ -844,7 +844,7 @@ public final class JenaModelHelper
             return any;
 		}
 
-		if (nestedResource.getURI() == null)
+		if (nestedResource.getURI() == null || nestedResource.listProperties().hasNext())
 		{
 			return visitedResources.get(getVisitedResourceName(nestedResource));
 		} else {
