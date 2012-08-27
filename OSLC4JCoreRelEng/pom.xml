@@ -16,5 +16,6 @@
 		<module>../OSLC4JTest</module>
 		<module>../OSLC4JTestCommon</module>
 		<module>../OSLC4JTestTest</module>
+		<module>../org.eclipse.lyo.core.query</module>
 	</modules> 
 </project>
