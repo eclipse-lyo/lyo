@@ -16,6 +16,10 @@
 
 package org.eclipse.lyo.client.oslc;
 
+/**
+ * General OSLC constants
+ *
+ */
 public interface OSLCConstants {
 	static String RFC_DATE_FORMAT = "yyyy-MM-dd'T'h:m:ss.S'Z'";
 
@@ -35,6 +39,8 @@ public interface OSLCConstants {
 	// Version 1.0 namespace definitions
 	static String OSLC_DISC = "http://open-services.net/xmlns/discovery/1.0/";
 	static String OSLC_CM   = "http://open-services.net/xmlns/cm/1.0/";
+	static String OSLC_QM   = "http://open-services.net/xmlns/qm/1.0/";
+	static String OSLC_RM   = "http://open-services.net/xmlns/rm/1.0/";
 	// Misc definitions
 	static String RTC_CM = "http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/";
 	static String JFS = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
@@ -55,6 +61,9 @@ public interface OSLCConstants {
 	static String CT_CR_QUERY = "application/x-oslc-cm-change-request+xml";
 	static String CT_DISC_CAT_XML = "application/x-oslc-disc-service-provider-catalog+xml"; 
 	static String CT_DISC_DESC_XML = "application/x-oslc-cm-service-description+xml";
+	
+	// Version 2 headers:
+	static String OSLC_CORE_VERSION = "OSLC-Core-Version";
 	
 	static String POST = "POST";
 	static String SSL = "SSL";

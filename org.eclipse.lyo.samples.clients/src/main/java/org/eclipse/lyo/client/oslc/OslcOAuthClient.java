@@ -63,11 +63,13 @@ public class OslcOAuthClient extends OslcClient {
 		
 	}
 
-	/***
-	 * Get an OAuth protected OSLC resource
-	 */
+
 	@Override
-	public ClientResponse getResponse(String url, String mediaType) throws IOException, OAuthException, URISyntaxException
+	/**
+	 * Get an OAuth protected OSLC resource
+	 * @see OSLCClient#getResponse(final String url, final String mediaType)
+	 */
+	public ClientResponse getResource(String url, String mediaType) throws IOException, OAuthException, URISyntaxException
 	{
 		OAuthMessage message = getResourceInternal(url, HttpMethod.GET, false);
 		

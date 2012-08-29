@@ -16,28 +16,24 @@
 package org.eclipse.lyo.client.oslc.jazz;
 
 import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 
+/**
+ * An OSLC client for IBM Rational Jazz servers using Form Auth to authenticate.
+ * Accesses the Jazz rootservices URL to lookup the OSLC Catlalog location
+ * 
+ * This class is not currently thread safe.
+ * 
+ */
 public class JazzFormAuthClient extends OslcClient {
 	
 	private String url;
@@ -45,12 +41,19 @@ public class JazzFormAuthClient extends OslcClient {
 	private String user;
 	private String password;
 
-	
 	public JazzFormAuthClient()
 	{
 		super(); 
 	}
 	
+	/**
+	 * Create a new Jazz Form Auth client for the given URL, user and password
+	 * 
+	 * @param url - the URL of the Jazz server, including the web app context
+	 * @param user
+	 * @param password
+	 * @returns 
+	 **/
 	public JazzFormAuthClient(String url, String user, String password) 
 	{
 		this();
@@ -86,6 +89,11 @@ public class JazzFormAuthClient extends OslcClient {
 		this.password = password;
 	}
 	
+	/**
+	 * Execute the sequence of HTTP requests to perform a form login to a Jazz server
+	 * 
+	 * @returns The HTTP status code of the final request to verify login is successful
+	 **/
 	public  int formLogin() {
 
 		int statusCode = -1;
@@ -172,12 +180,12 @@ public class JazzFormAuthClient extends OslcClient {
 	}
 	
 	
-	public HttpResponse getArtifactFeed(String feedUrl)
+	private HttpResponse getArtifactFeed(String feedUrl)
 	{
 		HttpResponse resp = null;
 		try {
 			HttpGet feedGet = new HttpGet(feedUrl);
-			feedGet.addHeader("Accept", "application/atom+xml");
+			feedGet.addHeader("Accept", OSLCConstants.ATOM);
 			resp = httpClient.execute(feedGet);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK)

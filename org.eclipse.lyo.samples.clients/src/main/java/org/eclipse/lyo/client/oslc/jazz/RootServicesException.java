@@ -15,7 +15,13 @@
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
+/**
+ * 
+ * Exceptions for Jazz rootservices problems
+ *
+ */
 public class RootServicesException extends Exception {
+
 
 	public RootServicesException()
 	{

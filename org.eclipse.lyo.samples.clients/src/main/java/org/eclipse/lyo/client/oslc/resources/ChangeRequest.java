@@ -53,9 +53,9 @@ public final class ChangeRequest
     private final Set<Link>     affectsRequirements         = new HashSet<Link>();
     private final Set<Link>     affectsTestResults          = new HashSet<Link>();
     private final Set<Link>     blocksTestExecutionRecords  = new HashSet<Link>();
-    private URI     contributors;
-    private URI      creators;
-    private  String     dctermsTypes;
+    private final Set<URI>      contributors                = new TreeSet<URI>();
+    private final Set<URI>      creators                    = new TreeSet<URI>();
+    private final Set<String>   dctermsTypes                = new TreeSet<String>();
     private final Set<Link>     implementsRequirements      = new HashSet<Link>();
     private final Set<Link>     relatedChangeRequests       = new HashSet<Link>();
     private final Set<Link>     relatedResources            = new HashSet<Link>(); // TODO - Extension to point to any other OSLC resource(s).
@@ -63,7 +63,7 @@ public final class ChangeRequest
     private final Set<Link>     relatedTestExecutionRecords = new HashSet<Link>();
     private final Set<Link>     relatedTestPlans            = new HashSet<Link>();
     private final Set<Link>     relatedTestScripts          = new HashSet<Link>();
-    private  String   subjects;
+    private final Set<String>   subjects                    = new TreeSet<String>();
     private final Set<Link>     testedByTestCases           = new HashSet<Link>();
     private final Set<Link>     tracksChangeSets            = new HashSet<Link>();
     private final Set<Link>     tracksRequirements          = new HashSet<Link>();
@@ -82,7 +82,6 @@ public final class ChangeRequest
     private Date     modified;
     private Boolean  reviewed;
     private URI      serviceProvider;
-    private String severity; // TODO - Added severity for demo
     private String   shortTitle;
     private String   status;
     private String   title;
@@ -129,6 +128,20 @@ public final class ChangeRequest
         this.blocksTestExecutionRecords.add(blocksTestExecutionRecord);
     }
 
+    public void addContributor(final URI contributor)
+    {
+        this.contributors.add(contributor);
+    }
+
+    public void addCreator(final URI creator)
+    {
+        this.creators.add(creator);
+    }
+
+    public void addDctermsType(final String dctermsType)
+    {
+        this.dctermsTypes.add(dctermsType);
+    }
 
     public void addImplementsRequirement(final Link implementsRequirement)
     {
@@ -172,7 +185,7 @@ public final class ChangeRequest
 
     public void addSubject(final String subject)
     {
-        this.subjects=subject;
+        this.subjects.add(subject);
     }
 
     public void addTestedByTestCase(final Link testedByTestCase)
@@ -259,9 +272,9 @@ public final class ChangeRequest
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
     @OslcRange(CmConstants.TYPE_PERSON)
     @OslcTitle("Contributors")
-    public URI getContributors()
+    public URI[] getContributors()
     {
-        return contributors;
+        return contributors.toArray(new URI[contributors.size()]);
     }
 
     @OslcDescription("Timestamp of resource creation.")
@@ -278,9 +291,9 @@ public final class ChangeRequest
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "creator")
     @OslcRange(CmConstants.TYPE_PERSON)
     @OslcTitle("Creators")
-    public URI getCreators()
+    public URI[] getCreators()
     {
-        return creators;
+        return creators.toArray(new URI[creators.size()]);
     }
 
     @OslcAllowedValue({"Defect", "Task", "Story", "Bug Report", "Feature Request"})
@@ -288,10 +301,9 @@ public final class ChangeRequest
     @OslcName("type")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "type")
     @OslcTitle("Types")
-    public String getDctermsTypes()
+    public String[] getDctermsTypes()
     {
-
-        return dctermsTypes;
+        return dctermsTypes.toArray(new String[dctermsTypes.size()]);
     }
 
     @OslcDescription("Descriptive text (reference: Dublin Core) about resource represented as rich text in XHTML content.")
@@ -433,16 +445,6 @@ public final class ChangeRequest
         return serviceProvider;
     }
 
-    @OslcAllowedValue({"Unclassified", "Minor", "Normal", "Major", "Critical", "Blocker"})
-    @OslcDescription("Severity of change request.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcPropertyDefinition(CmConstants.CHANGE_MANAGEMENT_NAMESPACE + "severity")
-    @OslcTitle("Severity")
-    public String getSeverity()
-    {
-        return severity.toString();
-    }
-
     @OslcDescription("Short name identifying a resource, often used as an abbreviated identifier for presentation to end-users.")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "shortTitle")
     @OslcTitle("Short Title")
@@ -465,9 +467,9 @@ public final class ChangeRequest
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "subject")
     @OslcReadOnly(false)
     @OslcTitle("Subjects")
-    public String getSubjects()
+    public String[] getSubjects()
     {
-        return subjects;
+        return subjects.toArray(new String[subjects.size()]);
     }
 
     @OslcDescription("Test case by which this change request is tested.")
@@ -633,10 +635,14 @@ public final class ChangeRequest
         this.closeDate = closeDate;
     }
 
-    public void setContributors(final URI contributors)
+    public void setContributors(final URI[] contributors)
     {
-        this.contributors=contributors;
+        this.contributors.clear();
 
+        if (contributors != null)
+        {
+            this.contributors.addAll(Arrays.asList(contributors));
+        }
     }
 
     public void setCreated(final Date created)
@@ -644,17 +650,24 @@ public final class ChangeRequest
         this.created = created;
     }
 
-    public void setCreators(final URI creators)
+    public void setCreators(final URI[] creators)
     {
-        this.creators=creators;
+        this.creators.clear();
 
+        if (creators != null)
+        {
+            this.creators.addAll(Arrays.asList(creators));
+        }
     }
 
-    public void setDctermsTypes(final String dctermsTypes)
+    public void setDctermsTypes(final String[] dctermsTypes)
     {
-        this.dctermsTypes=dctermsTypes;
+        this.dctermsTypes.clear();
 
-
+        if (dctermsTypes != null)
+        {
+        	this.dctermsTypes.addAll(Arrays.asList(dctermsTypes));
+        }
     }
 
     public void setDescription(final String description)
@@ -782,11 +795,6 @@ public final class ChangeRequest
         this.serviceProvider = serviceProvider;
     }
 
-    public void setSeverity(final String severity)
-    {
-        this.severity = severity;
-    }
-
     public void setShortTitle(final String shortTitle)
     {
         this.shortTitle = shortTitle;
@@ -797,11 +805,14 @@ public final class ChangeRequest
         this.status = status;
     }
 
-    public void setSubjects(final String subjects)
+    public void setSubjects(final String[] subjects)
     {
-        this.subjects=subjects;
+        this.subjects.clear();
 
-
+        if (subjects != null)
+        {
+            this.subjects.addAll(Arrays.asList(subjects));
+        }
     }
 
     public void setTestedByTestCases(final Link[] testedByTestCases)

@@ -15,8 +15,12 @@
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
+
+import java.util.logging.Logger;
+
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.Resource;
+import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 
 /**
@@ -24,14 +28,7 @@ import org.eclipse.lyo.client.oslc.OslcClient;
  * 
  * Immutable.
  */
-//TODO: Support additional (possibly arbitrary) query parameters
-//		if we need to allow arbitrary query parameters, 
-//		or have too many possible parameters for ease of use in constructors,
-//		decide on some way to allow users to build the parameter list with
-//		multiple statements.
-//	Possible solution: contained static class that has all available parameters
-//	(perhaps with support for arbitrary parameters) that is passed on the 
-//	constructor and held as a final variable.
+
 public class OslcQuery {
 
 	private final OslcClient oslcClient;
@@ -44,6 +41,14 @@ public class OslcQuery {
 	
 	private final Resource queryResource;
 	
+	//query parameters
+	private final String where;
+	private final String select;
+	private final String orderBy;
+	private final String searchTerms;
+	private final String prefix;
+
+	
 	/**
 	 * Create an OSLC query that uses the remote system's default page size.
 	 * 
@@ -55,18 +60,57 @@ public class OslcQuery {
 	}
 	
 	/**
-	 * Create an OSLC query that uses the given page size
+	 * Create an OSLC query with query parameters that uses the default page size
+	 * @param oslcClient the authenticated OSLC client
+	 * @param capabilityUrl capabilityUrl the URL that is the base 
+	 * @param oslcQueryParams an OslcQueryParameters object
+	 * @see OslcQueryParameters
+	 */
+	public OslcQuery(OslcClient oslcClient, String capabilityUrl, OslcQueryParameters oslcQueryParams) {
+		this(oslcClient, capabilityUrl, 0, oslcQueryParams);
+	}
+	
+	/**
+	 * Create an OSLC query that uses the given page size 
 	 * 
 	 * @param oslcClient the authenticated OSLC client
 	 * @param capabilityUrl the URL that is the base
 	 * @param pageSize the number of results to include on each page (OslcQueryResult)
+	 * 
 	 */
 	public OslcQuery(OslcClient oslcClient, String capabilityUrl, int pageSize) {
+		this(oslcClient, capabilityUrl, pageSize, null);
+	}
+	
+	/**
+	 * Create an OSLC query that uses OSLC query parameters and the given page size 
+	 * 
+	 * @param oslcClient the authenticated OSLC client
+	 * @param capabilityUrl the URL that is the base
+	 * @param pageSize the number of results to include on each page (OslcQueryResult)
+	 * @param oslcQueryParams an OslcQueryParameters object
+	 * @see OslcQueryParameters
+	 */
+	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
+					 int pageSize, OslcQueryParameters oslcQueryParams) {
 		this.oslcClient = oslcClient;
 		this.capabilityUrl = capabilityUrl;
 		this.pageSize = (pageSize < 1) ? 0 : pageSize;
+		
+		//make a local copy of any query parameters
+		if (oslcQueryParams != null)
+		{
+			this.where = oslcQueryParams.getWhere();
+			this.select = oslcQueryParams.getSelect();
+			this.orderBy = oslcQueryParams.getOrderBy();
+			this.searchTerms = oslcQueryParams.getSearchTerms();
+			this.prefix = oslcQueryParams.getPrefix();
+		} else {
+			this.where = this.select = this.orderBy = this.searchTerms = this.prefix = null;
+		}
 		this.queryResource = createQueryResource();
-		this.queryUrl = null;
+		this.queryUrl = this.getQueryUrl();
+				
 	}
 	
 	OslcQuery(OslcQueryResult previousResult) {
@@ -80,10 +124,11 @@ public class OslcQuery {
 	}
 	
 	private Resource createQueryResource() {
-		Resource resource = oslcClient.getRemoteResource(this);
-		resource.accept("application/rdf+xml");
-		resource.header("Oslc-Core-Version","2.0");
+		Resource resource = oslcClient.getQueryResource(this);
+		resource.accept(OSLCConstants.CT_RDF);
+		resource.header(OSLCConstants.OSLC_CORE_VERSION,"2.0");
 		applyPagination(resource);
+		applyOslcQueryParams(resource);
 		return resource;
 	}
 	
@@ -91,6 +136,24 @@ public class OslcQuery {
 		if (pageSize > 0) {
 			resource.queryParam("oslc.paging", "true");
 			resource.queryParam("oslc.pageSize", pageSize);
+		}
+	}
+	
+	private void applyOslcQueryParams(Resource resource) {
+		if (this.where != null && !this.where.isEmpty()) {
+			resource.queryParam("oslc.where", this.where);
+		}
+		if (this.select != null && !this.select.isEmpty()) {
+			resource.queryParam("oslc.select", this.select);
+		}
+		if (this.orderBy != null && !this.orderBy.isEmpty()) {
+			resource.queryParam("oslc.orderBy", this.orderBy);
+		}
+		if (this.searchTerms != null && !this.searchTerms.isEmpty()) {
+			resource.queryParam("oslc.searchTerms", this.searchTerms);
+		}
+		if (this.prefix != null && !this.searchTerms.isEmpty()) {
+			resource.queryParam("oslc.prefix", this.prefix);
 		}
 	}
 

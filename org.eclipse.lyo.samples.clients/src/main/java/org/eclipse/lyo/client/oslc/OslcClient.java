@@ -14,10 +14,8 @@
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -44,6 +42,7 @@ import org.apache.wink.client.ApacheHttpClientConfig;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
+
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
@@ -62,8 +61,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * An OSLC Client.  Provides an Apache HttpClient, an Apache Wink REST ClientConfig and defines
  * a getResource method which returns an Apache Wink ClientResponse.
  * 
- * 
- * @author mffiedler
+ * This class is not currently thread safe.
  *
  */
 
@@ -74,6 +72,9 @@ public class OslcClient {
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	
+	/**
+	 * Initialize a new OslcClient
+	 */
 	public OslcClient()
 	{
 		httpClient = new DefaultHttpClient();
@@ -92,15 +93,19 @@ public class OslcClient {
 		
 	}
 	
+	/**
+	 * Returns the HTTP client associated with this OSLC Client
+	 * @return the HTTP client
+	 */
 	public HttpClient getHttpClient() {
 		return httpClient;
 	}
 
-	public HttpClientPool getClientPool() {
+	protected HttpClientPool getClientPool() {
 		return clientPool;
 	}
 
-	public ClientConfig getClientConfig() {
+	protected ClientConfig getClientConfig() {
 		return clientConfig;
 	}
 
@@ -109,26 +114,55 @@ public class OslcClient {
 	 * @param url
 	 * @param method
 	 * @param mediaType
-	 * @return
+	 * @return a Wink ClientResponse
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	
-	public ClientResponse getResponse(String url, String mediaType) throws IOException, OAuthException, URISyntaxException {
+	public ClientResponse getResource(final String url, final String mediaType) 
+			throws IOException, OAuthException, URISyntaxException {
 		
-
 		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).accept(mediaType).header("Oslc-Core-Version","2.0").get();
+		return restClient.resource(url).accept(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").get();
 	}
 	
-	public org.apache.wink.client.Resource getRemoteResource(OslcQuery query) {
+	/**
+	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @return
+	 */
+	public ClientResponse createResource(final String url, final Object artifact, String mediaType) {
+		RestClient restClient = new RestClient(clientConfig);
+		return restClient.resource(url).contentType(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+	}
+	
+	/**
+	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @return
+	 */
+	public ClientResponse updateResource(final String url, final Object artifact, String mediaType) {
+		RestClient restClient = new RestClient(clientConfig);
+		return restClient.resource(url).contentType(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+	}
+	
+
+	/**
+	 * Create a Wink Resource for the given OslcQuery object
+	 * @param query
+	 * @return
+	 */
+	public org.apache.wink.client.Resource getQueryResource(final OslcQuery query) {
 		RestClient restClient = new RestClient(clientConfig);
 		org.apache.wink.client.Resource resource = restClient.resource(query.getCapabilityUrl());
 		return resource;
 	}
 	
-	public class OAuthHttpPool implements HttpClientPool {
+	protected class OAuthHttpPool implements HttpClientPool {
 		public HttpClient getHttpClient(URL url) {
 			return httpClient;
 		}
@@ -136,6 +170,7 @@ public class OslcClient {
 	}
 	
 	/**
+	 * Lookup the URL of a specific OSLC Service Provider in an OSLC Catalog using the service provider's title
 	 * 
 	 * @param catalogUrl
 	 * @param serviceProviderTitle
@@ -144,10 +179,11 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public String lookupServiceProviderUrl(String catalogUrl, String serviceProviderTitle) throws IOException, OAuthException, URISyntaxException
+	public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle) 
+			throws IOException, OAuthException, URISyntaxException
 	{
 		String retval = null;
-		ClientResponse response = getResponse(catalogUrl,"application/rdf+xml");
+		ClientResponse response = getResource(catalogUrl,OSLCConstants.CT_RDF);
 		Model rdfModel = ModelFactory.createDefaultModel();
 
 		rdfModel.read(response.getEntity(InputStream.class),catalogUrl);
@@ -173,18 +209,55 @@ public class OslcClient {
 	}
 	
 	/**
-	 * 
+	 * Find the OSLC Query Capability URL for a given OSLC resource type.  If no resource type is given, returns
+	 * the default Query Capability, if it exists.
+	 *
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
-	 * @return
+	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
+	 * @return URL of requested Query Capablility or null if not found.
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public String lookupQueryCapability(String serviceProviderUrl, String oslcDomain) throws IOException, OAuthException, URISyntaxException
+	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+			throws IOException, OAuthException, URISyntaxException
 	{
 		String retval = null;
-		ClientResponse response = getResponse(serviceProviderUrl,"application/rdf+xml");
+		
+		retval = lookupService(serviceProviderUrl, oslcDomain, oslcResourceType, "queryCapability", "queryBase");
+		
+		return retval;
+	}
+	
+	/**
+	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
+	 * the default Creation Factory, if it exists.
+	 *
+	 * @param serviceProviderUrl
+	 * @param oslcDomain
+	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
+	 * @return URL of requested Creation Factory or null if not found.
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 */
+	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+			throws IOException, OAuthException, URISyntaxException
+	{
+		String retval = null;
+		
+		retval = lookupService(serviceProviderUrl, oslcDomain, oslcResourceType, "creationFactory", "creation");
+		
+		return retval;
+	}
+	
+	protected String lookupService(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, 
+			                    final String serviceName, final String serviceLocation) 
+			throws IOException, OAuthException, URISyntaxException
+	{
+		String retval = null;
+		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
 		
 		Model rdfModel = ModelFactory.createDefaultModel();
 		rdfModel.read(response.getEntity(InputStream.class),serviceProviderUrl);
@@ -204,18 +277,32 @@ public class OslcClient {
 			
 			//Second, find all queryCapabilities this service provider has
 			if (domainValue.equals(oslcDomain)) {
-				Property queryCapPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,"queryCapability");
+				Property queryCapPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,serviceName);
 				Selector selectQuery = new SimpleSelector(serviceRes, queryCapPredicate, (RDFNode) null);
 				StmtIterator queryCaps = rdfModel.listStatements(selectQuery);
 				
-				//Third, find the service provider with usage = default and return its queryBase
+				//Third, find the capability for the requested artifact type, or the default query capability if no 
+				//artifact type was given.
+				
+				String searchAttribute = null;
+				String searchAttributeValue = null;
+
+				if (oslcResourceType == null || oslcResourceType.isEmpty()) {
+					searchAttribute = "usage";
+					searchAttributeValue = OSLCConstants.OSLC_V2 + "default";
+				} else {
+					searchAttribute = "resourceType";
+					searchAttributeValue = oslcResourceType;
+				}
+				
 				while (queryCaps.hasNext() && !foundQueryCapability) {
 					Statement thisQueryCap = queryCaps.nextStatement();
 					com.hp.hpl.jena.rdf.model.Resource queryCapRes = thisQueryCap.getResource();
-					Property usageProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,"usage");
-					String usageValue = queryCapRes.getProperty(usageProp).getObject().toString();
-					if (usageValue.equals(OSLCConstants.OSLC_V2 + "default")) {
-						Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,"queryBase");
+					Property searchProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,searchAttribute);
+					String value = queryCapRes.getProperty(searchProp).getObject().toString();
+
+					if (value.equals(searchAttributeValue)) {
+						Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2, serviceLocation);
 						retval = queryCapRes.getProperty(queryBaseProp).getObject().toString();
 						foundQueryCapability = true;
 					}
@@ -226,32 +313,7 @@ public class OslcClient {
 		return retval;
 	}
 	
-	public Collection<String> getQueryResponseMembers(String queryCapability, ClientResponse response) 
-	{
-		ArrayList<String> memberList = new ArrayList<String> ();
-		
-		Model rdfModel = ModelFactory.createDefaultModel();
-		rdfModel.read(response.getEntity(InputStream.class),queryCapability);
-		
-		Property spPredicate = rdfModel.createProperty(OSLCConstants.RDFS,"member");
-		com.hp.hpl.jena.rdf.model.Resource queryCapResource = rdfModel.getResource(queryCapability);
-		Selector select = new SimpleSelector(queryCapResource, spPredicate, (RDFNode)null); 
-		StmtIterator listStatements = rdfModel.listStatements(select);
-		while (listStatements.hasNext()) {
-			Statement thisMember = listStatements.nextStatement();
-			try {
-				String memberUrl = thisMember.getResource().getURI();
-				memberList.add(memberUrl);
-			} catch (Throwable t) {
-				//FIXME
-				System.err.println("Member was not a resource");
-			}
-		}
-		
-		return memberList;
-	}
-	
-	static public void setupLazySSLSupport(HttpClient httpClient) {
+	private static void setupLazySSLSupport(HttpClient httpClient) {
 		ClientConnectionManager connManager = httpClient.getConnectionManager();
 		SchemeRegistry schemeRegistry = connManager.getSchemeRegistry();
 		schemeRegistry.unregister("https");
