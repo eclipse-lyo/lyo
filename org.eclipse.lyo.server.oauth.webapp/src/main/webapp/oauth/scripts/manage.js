@@ -144,7 +144,8 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/dom-style", "dojo/on",
 			var img = domConstruct.create('img', {
 				'src' : action.icon,
 				'title' : action.name,
-				'class' : 'action'
+				'class' : 'action',
+				'alt': action.name
 			}, node);
 			on(img, 'click', function() {
 				action.callback(consumer);
