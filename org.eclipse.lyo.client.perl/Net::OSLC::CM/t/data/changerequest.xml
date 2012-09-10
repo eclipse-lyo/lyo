@@ -1,0 +1,36 @@
+<rdf:RDF
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:oslc="http://open-services.net/ns/core#"
+xmlns:bugz="http://www.bugzilla.org/rdf#"
+xmlns:foaf="http://xmlns.com/foaf/0.1/"
+xmlns:dcterms="http://purl.org/dc/terms/"
+xmlns:oslc_cm="http://open-services.net/ns/cm#">
+<oslc_cm:ChangeRequest rdf:about="http://192.168.56.101:8282/bugz/changerequest?id=20">
+<bugz:version rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>1.0</bugz:version>
+<oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>RESOLVED</oslc_cm:status>
+<dcterms:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>bug 1</dcterms:title>
+<dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+>2012-04-30T20:48:36Z</dcterms:modified>
+<dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+>2012-04-22T16:16:00Z</dcterms:created>
+<bugz:component rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>Datastore</bugz:component>
+<bugz:opsys rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>Linux</bugz:opsys>
+<dcterms:contributor>
+<foaf:Person rdf:about="http://192.168.56.101:8282/bugz/person?mbox=stephanie%40minet.net">
+<foaf:email rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>stephanie@minet.net</foaf:email>
+</foaf:Person>
+</dcterms:contributor>
+<dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>20</dcterms:identifier>
+<bugz:product rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>FakePayroll</bugz:product>
+<bugz:priority rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+>---</bugz:priority>
+</oslc_cm:ChangeRequest>
+</rdf:RDF>
