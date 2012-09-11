@@ -13,23 +13,33 @@
  *  
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.client.oslc.jazz;
+package org.eclipse.lyo.client.exception;
+
 
 /**
- * 
- * Exceptions for Jazz rootservices problems
+ * Exception indicating a Jazz authentication or credentials problem
  *
  */
-public class RootServicesException extends Exception {
+public class JazzAuthFailedException extends OslcClientApplicationException {
 
-
-	public RootServicesException()
-	{
-		super();
+	private static final String MESSAGE_KEY = "JazzAuthFailedException";
+	
+	private final String user;
+	private final String jazzUrl;
+	
+	public JazzAuthFailedException(final String user, final String jazzUrl) {
+		super(MESSAGE_KEY, new Object[] {user, jazzUrl});
+		this.user = user;
+		this.jazzUrl = jazzUrl;
 	}
 	
-	public RootServicesException(Exception e)
-	{
-		super(e);
+	public String getUser() {
+		return user;
 	}
+	
+	public String getJazzUrl() {
+		return jazzUrl;
+	}
+
+
 }

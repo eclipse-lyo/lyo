@@ -24,6 +24,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.lyo.client.exception.JazzAuthErrorException;
+import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 
@@ -40,6 +42,9 @@ public class JazzFormAuthClient extends OslcClient {
 	private String project;
 	private String user;
 	private String password;
+	
+	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
+	private static final String JAZZ_AUTH_FAILED = "authfailed";
 
 	public JazzFormAuthClient()
 	{
@@ -91,10 +96,12 @@ public class JazzFormAuthClient extends OslcClient {
 	
 	/**
 	 * Execute the sequence of HTTP requests to perform a form login to a Jazz server
+	 * @throws JazzAuthFailedException 
+	 * @throws JazzAuthErrorException 
 	 * 
 	 * @returns The HTTP status code of the final request to verify login is successful
 	 **/
-	public  int formLogin() {
+	public  int formLogin() throws JazzAuthFailedException, JazzAuthErrorException {
 
 		int statusCode = -1;
 		String location = null;
@@ -128,11 +135,24 @@ public class JazzFormAuthClient extends OslcClient {
 		    
 		    resp = httpClient.execute(post);
 		    statusCode = resp.getStatusLine().getStatusCode();
-		    if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
-		    {
-		    	System.out.println("Login failed with status code: " + statusCode);
+		    
+		    String jazzAuthMessage = null;
+		    Header jazzAuthMessageHeader = resp.getLastHeader(JAZZ_AUTH_MESSAGE_HEADER);
+		    if (jazzAuthMessageHeader != null) {
+		    	jazzAuthMessage = jazzAuthMessageHeader.getValue();
 		    }
-		    else
+		    
+		    if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED))
+		    {
+		    	EntityUtils.consume(resp.getEntity());
+		    	throw new JazzAuthFailedException(this.user,this.url);
+		    }
+		    else if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
+		    {
+		    	EntityUtils.consume(resp.getEntity());
+		    	throw new JazzAuthErrorException(statusCode, this.url);
+		    }
+		    else //success
 		    {
 		    	location = getHeader(resp,"Location");
 		    	EntityUtils.consume(resp.getEntity());
@@ -145,8 +165,11 @@ public class JazzFormAuthClient extends OslcClient {
 		    	followRedirects(statusCode,location);
 		    	
 		    }
-
-		} catch (Exception e) {
+		} catch (JazzAuthFailedException jfe) {
+			throw jfe;
+	    } catch (JazzAuthErrorException jee) {
+	    	throw jee;
+	    }catch (Exception e) {
 			e.printStackTrace();
 		}
 		return statusCode;

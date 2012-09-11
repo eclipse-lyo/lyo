@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.apache.wink.client.ClientResponse;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.OslcOAuthClient;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
@@ -154,7 +155,7 @@ public class JazzRootServicesHelper {
 			this.authorizationTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_USER_AUTH_URL);
 			this.accessTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_ACCESS_TOKEN_URL);
 		} catch (Exception e) {
-			throw new RootServicesException(e);
+			throw new RootServicesException(this.baseUrl, e);
 		}
 		
 				

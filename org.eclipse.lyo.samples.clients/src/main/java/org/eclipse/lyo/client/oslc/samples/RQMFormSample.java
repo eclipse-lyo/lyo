@@ -28,7 +28,7 @@ import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzRootServicesHelper;
-import org.eclipse.lyo.client.oslc.jazz.RootServicesException;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
