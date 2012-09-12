@@ -34,7 +34,7 @@ import net.oauth.server.OAuthServlet;
 import org.eclipse.lyo.samples.bugzilla.exception.BugzillaOAuthException;
 import org.eclipse.lyo.samples.bugzilla.exception.UnauthroziedException;
 import org.eclipse.lyo.samples.bugzilla.utils.HttpUtils;
-import org.eclipse.lyo.server.oauth.consumerstore.RdfConsumerStore;
+import org.eclipse.lyo.server.oauth.consumerstore.FileSystemConsumerStore;
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
@@ -146,7 +146,7 @@ public class BugzillaInitializer implements ServletContextListener {
 
 		try {
 			// For now, hard-code the consumers.
-			config.setConsumerStore(new RdfConsumerStore());
+			config.setConsumerStore(new FileSystemConsumerStore("bugzillaOAuthStore.xml"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
