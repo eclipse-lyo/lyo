@@ -1,0 +1,50 @@
+Lyo::OSLC
+=========
+
+This is a set of Perl modules that use the OSLC interface to interact
+with Rational Team Concert and Rational ClearQuest. 
+
+The goal of the modules is to query and update work items in Rational
+Team Concert, change requests in ClearQuest, and potentially other record
+types provided by other OSLC Change Management providers.
+
+Please see the POD for the modules for additional information.
+
+DEPENDENCIES
+
+This is the list of direct dependencies to modules that
+don't normally ship with Perl. Additional module might
+be required due to dependencies that these module might have.
+
+   REST::Client
+   LWP::UserAgent
+   XML::Simple
+   URI
+   URI::Escape
+   HTTP::Cookies
+   
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+COPYRIGHT AND LICENCE
+
+Copyright (c) 2012 IBM Corporation.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+and Eclipse Distribution License v. 1.0 which accompanies this distribution. 
+
+The Eclipse Public License is available at 
+http://www.eclipse.org/legal/epl-v10.html
+and the Eclipse Distribution License is available at 
+http://www.eclipse.org/org/documents/edl-v10.php.
+
+Contributors:
+
+ Max Vohlken - initial API and implementation

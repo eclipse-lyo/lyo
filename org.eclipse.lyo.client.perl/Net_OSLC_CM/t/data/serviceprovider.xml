@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dcterms="http://purl.org/dc/terms/"
+xmlns:oslc="http://open-services.net/ns/core#">
+
+<oslc:ServiceProvider rdf:about="http://192.168.56.101:8282/bugz/provider?productId=1">
+<dcterms:title>OSLC-CM Adapter/Bugzilla Service Provider: 
+Product TestProduct(1)</dcterms:title>
+<dcterms:description>
+Enables navigation to OSLC-CM Resource Creator and Selector Dialogs
+</dcterms:description>
+
+<dcterms:publisher>
+<oslc:Publisher>
+<dcterms:title>OSLC Tools Project</dcterms:title>
+<dcterms:identifier>org.eclipse.lyo.samples.bugzilla.test</dcterms:identifier>
+<oslc:icon rdf:resource="http://192.168.56.101/bugzilla/images/favicon.ico" />
+</oslc:Publisher>
+</dcterms:publisher>
+
+<oslc:service>
+<oslc:Service>
+<oslc:domain rdf:resource="http://open-services.net/ns/cm#" />
+<oslc:selectionDialog>
+<oslc:Dialog>
+<dcterms:title>Bugzilla Bug Picker</dcterms:title>
+<oslc:label>Bugs</oslc:label>
+<oslc:dialog rdf:resource="http://192.168.56.101:8282/bugz/selector?productId=1" />
+<oslc:hintHeight>320px</oslc:hintHeight>
+<oslc:hintWidth>470px</oslc:hintWidth>
+<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
+<oslc:usage rdf:resource="http://open-services.net/ns/core#default" />
+</oslc:Dialog>
+</oslc:selectionDialog>
+
+<oslc:creationDialog>
+<oslc:Dialog>
+<dcterms:title>Bugzilla Bug Creator</dcterms:title>
+<oslc:label>Bugs</oslc:label>
+<oslc:dialog rdf:resource="http://192.168.56.101:8282/bugz/creator?productId=1" />
+<oslc:hintHeight>360px</oslc:hintHeight>
+<oslc:hintWidth>600px</oslc:hintWidth>
+<oslc:resourceType rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
+<oslc:usage rdf:resource="http://open-services.net/ns/core#default" />
+</oslc:Dialog>
+</oslc:creationDialog>
+
+<oslc:creationFactory>
+<oslc:CreationFactory>
+<dcterms:title>OSLC-CM Creation Factory</dcterms:title>
+<oslc:label>CreationFactory</oslc:label>
+<oslc:creation 
+rdf:resource="http://192.168.56.101:8282/bugz/changerequests?productId=1" />
+<oslc:resourceShape
+rdf:resource="http://192.168.56.101:8282/bugz/creationshape?productId=1" />
+<oslc:resourceType
+rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
+<oslc:usage
+rdf:resource="http://open-services.net/ns/core#default" />
+</oslc:CreationFactory>
+</oslc:creationFactory>
+
+<oslc:queryCapability>
+<oslc:QueryCapability>
+<dcterms:title>OSLC-CM Query Capability</dcterms:title>
+<oslc:label>QueryCapability</oslc:label>
+<oslc:queryBase
+rdf:resource="http://192.168.56.101:8282/bugz/changerequests?productId=1" />
+<oslc:resourceShape
+rdf:resource="http://192.168.56.101:8282/bugz/queryshape?productId=1" />
+<oslc:resourceType
+rdf:resource="http://open-services.net/ns/cm#ChangeRequest" />
+<oslc:usage
+rdf:resource="http://open-services.net/ns/core#default" />
+</oslc:QueryCapability>
+</oslc:queryCapability>
+
+</oslc:Service>
+</oslc:service>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>oslc</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://open-services.net/ns/core#" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>oslc_cm</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://open-services.net/ns/cm#" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>rdf</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>dcterms</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://purl.org/dc/terms/" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>rdfs</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://www.w3.org/2000/01/rdf-schema#" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>foaf</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://xmlns.com/foaf/0.1/" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+<oslc:prefixDefinition>
+<oslc:PrefixDefinition>
+<oslc:prefix>bugz</oslc:prefix>
+<oslc:prefixBase rdf:resource="http://www.bugzilla.org/rdf#" />
+</oslc:PrefixDefinition>
+</oslc:prefixDefinition>
+
+</oslc:ServiceProvider>
+
+</rdf:RDF>
