@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.apache.wink.client.ClientResponse;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.OslcOAuthClient;
@@ -161,13 +162,17 @@ public class JazzRootServicesHelper {
 				
 	}
 	
-	private String getRootServicesProperty(Model rdfModel, String namespace, String predicate) {
+	private String getRootServicesProperty(Model rdfModel, String namespace, String predicate) throws ResourceNotFoundException {
 		String returnVal = null;
 				
 		Property prop = rdfModel.createProperty(namespace, predicate);
 		Statement stmt = rdfModel.getProperty((Resource) null, prop);
 		if (stmt != null && stmt.getObject() != null)
 			returnVal = stmt.getObject().toString();
+		if (returnVal == null)
+		{
+			throw new ResourceNotFoundException(baseUrl, namespace + predicate);
+		}
 		return returnVal;
 	}
 
