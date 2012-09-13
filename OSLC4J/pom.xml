@@ -3,25 +3,6 @@
   <groupId>org.eclipse.lyo.oslc4j.core</groupId>
   <artifactId>oslc4j-core</artifactId>
   <version>0.1.2-SNAPSHOT</version>
-  <repositories>
-    <repository>
-      <id>orbit</id>
-      <name>Orbit approved dependency repository</name>
-      <layout>maven2</layout>
-      <url>http://maven.eclipse.org/orbit</url>
-      <snapshots><enabled>false</enabled></snapshots>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-        <id>central</id>
-        <name>Maven central</name>
-        <layout>maven2</layout>
-        <url>http://maven.eclipse.org/build</url>
-        <snapshots><enabled>false</enabled></snapshots>
-        <releases><updatePolicy>never</updatePolicy></releases>  
-    </pluginRepository>
-  </pluginRepositories>
   <dependencies>
   	<dependency> 
   		<groupId>log4j</groupId>
