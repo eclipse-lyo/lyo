@@ -75,7 +75,7 @@ public class TestResource
         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public Test[] getTests()
     {
         return Persistence.getTests();
@@ -83,7 +83,7 @@ public class TestResource
 
     @GET
     @Path("{testId}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public Test getTest(@PathParam("testId") final String testId)
     {
         final Test test = Persistence.getTest(testId);
@@ -136,8 +136,8 @@ public class TestResource
          usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @POST
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public Response addTest(@Context final HttpServletRequest httpServletRequest,
                                      final Test               test)
            throws URISyntaxException
@@ -161,7 +161,7 @@ public class TestResource
     }
 
     @PUT
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     @Path("{testId}")
     public Response updateTest(@PathParam("testId") final String testId,
                                                     final Test   test)

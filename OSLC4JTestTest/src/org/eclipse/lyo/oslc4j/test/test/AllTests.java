@@ -31,6 +31,7 @@ public class AllTests
         suite.addTestSuite(TestServiceProviderCatalog.class);
         suite.addTestSuite(TestTypesRdfXml.class);
         suite.addTestSuite(TestTypesXml.class);
+        suite.addTestSuite(TestTypesTextXml.class);
         suite.addTestSuite(TestTypesJson.class);
         suite.addTestSuite(TestInvalid.class);
         suite.addTestSuite(TestInvalidTypesRdfXml.class);

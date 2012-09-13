@@ -33,7 +33,10 @@ public interface OslcMediaType {
 
 	public final static String APPLICATION_XML = MediaType.APPLICATION_XML;
 	public final static MediaType APPLICATION_XML_TYPE = MediaType.APPLICATION_XML_TYPE;
-
+	
+	public final static String TEXT_XML = MediaType.TEXT_XML;
+	public final static MediaType TEXT_XML_TYPE = MediaType.TEXT_XML_TYPE;
+	
 	public final static String X_OSLC_COMPACT_XML = "x-oslc-compact+xml";
     public final static String APPLICATION_X_OSLC_COMPACT_XML = APPLICATION + "/" + X_OSLC_COMPACT_XML;
     public final static MediaType APPLICATION_X_OSLC_COMPACT_XML_TYPE = new MediaType(APPLICATION, X_OSLC_COMPACT_XML);

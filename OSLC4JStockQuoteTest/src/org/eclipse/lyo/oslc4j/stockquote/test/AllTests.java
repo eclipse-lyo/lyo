@@ -29,6 +29,7 @@ public class AllTests
 
         suite.addTestSuite(TestStockQuoteRdfXml.class);
         suite.addTestSuite(TestStockQuoteXml.class);
+        suite.addTestSuite(TestStockQuoteTextXml.class);
         suite.addTestSuite(TestStockQuoteJson.class);
 
         return suite;

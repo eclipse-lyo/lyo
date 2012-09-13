@@ -36,8 +36,8 @@ import javax.ws.rs.ext.Provider;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML})
+@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
+@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
 public final class OslcRdfXmlProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Object>,
@@ -68,7 +68,8 @@ public final class OslcRdfXmlProvider
                            annotations,
                            mediaType,
                            OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                           OslcMediaType.APPLICATION_XML_TYPE);
+                           OslcMediaType.APPLICATION_XML_TYPE,
+                           OslcMediaType.TEXT_XML_TYPE);
     }
 
     @Override
@@ -98,7 +99,8 @@ public final class OslcRdfXmlProvider
         return isReadable(type,
                           mediaType,
                           OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                          OslcMediaType.APPLICATION_XML_TYPE);
+                          OslcMediaType.APPLICATION_XML_TYPE,
+                          OslcMediaType.TEXT_XML_TYPE);
     }
 
     @Override

@@ -73,7 +73,7 @@ public class OslcResourceShapeResource
 
     @GET
     @Path("{resourceShapePath}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public ResourceShape getResourceShape(@Context                        final HttpServletRequest httpServletRequest,
                                           @PathParam("resourceShapePath") final String             resourceShapePath)
            throws OslcCoreApplicationException,

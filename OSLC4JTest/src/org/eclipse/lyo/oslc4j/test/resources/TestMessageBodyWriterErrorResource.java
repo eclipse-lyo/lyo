@@ -52,7 +52,7 @@ public class TestMessageBodyWriterErrorResource
         usages = {Constants.USAGE_MESSAGE_BODY_WRITER_ERROR}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public Test[] getTests()
            throws URISyntaxException
     {

@@ -97,7 +97,7 @@
 			    <!-- Also start OSLC4JRegistry webApp -->
 			    <contextHandlers>
 					<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
-						<war>${basedir}/../OSLC4JRegistry/target/oslc4j-registry-0.1.1-SNAPSHOT.war</war>
+						<war>${basedir}/../OSLC4JRegistry/target/oslc4j-registry-0.1.2-SNAPSHOT.war</war>
 						<contextPath>/OSLC4JRegistry</contextPath>
 					</contextHandler>
 				</contextHandlers>

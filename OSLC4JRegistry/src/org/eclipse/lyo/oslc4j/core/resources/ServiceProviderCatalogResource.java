@@ -54,7 +54,7 @@ public class ServiceProviderCatalogResource
         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public ServiceProviderCatalog[] getServiceProviderCatalogs()
     {
         return new ServiceProviderCatalog[] {ServiceProviderCatalogSingleton.getServiceProviderCatalog()};
@@ -62,7 +62,7 @@ public class ServiceProviderCatalogResource
 
     @GET
     @Path("{serviceProviderCatalogId}") // Required to distinguish from array result.  But, ignored.
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public ServiceProviderCatalog getServiceProviderCatalog()
     {
         return ServiceProviderCatalogSingleton.getServiceProviderCatalog();

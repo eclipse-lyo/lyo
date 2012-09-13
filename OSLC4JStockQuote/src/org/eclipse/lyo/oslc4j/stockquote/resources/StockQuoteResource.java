@@ -93,7 +93,7 @@ public class StockQuoteResource
         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public StockQuote[] getStockQuotes()
            throws JSONException
     {
@@ -111,7 +111,7 @@ public class StockQuoteResource
 
     @GET
     @Path("{stockQuoteId}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public StockQuote getStockQuote(@PathParam("stockQuoteId") final String stockQuoteId)
            throws JSONException
     {
@@ -161,8 +161,8 @@ public class StockQuoteResource
          usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @POST
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
     public Response addStockQuote(@Context final HttpServletRequest httpServletRequest,
                                            final StockQuote         stockQuote)
            throws URISyntaxException
