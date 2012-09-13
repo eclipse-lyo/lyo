@@ -11,6 +11,7 @@
 <meta charset="utf-8">
 <title><c:out value="${applicationName}">Administer</c:out> - Log In</title>
 <link type="text/css" href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet" ></link>
+<jsp:include page="/oauth/common.jsp"/>
 <script
 	data-dojo-config="async: true"
     type="text/javascript"

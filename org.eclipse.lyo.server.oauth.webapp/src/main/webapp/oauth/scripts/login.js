@@ -41,6 +41,9 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/_base/event",
 		xhr.post({
 			url : 'login',
 			form : 'loginForm',
+			headers : {
+				'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+			},
 			load : function() {
 				returnToConsumer();
 			},

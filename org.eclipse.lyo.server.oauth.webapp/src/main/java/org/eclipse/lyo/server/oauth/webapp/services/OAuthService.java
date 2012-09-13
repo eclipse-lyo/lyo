@@ -243,6 +243,8 @@ public class OAuthService {
 	public Response login(@FormParam("id") String id,
 			@FormParam("password") String password,
 			@FormParam("requestToken") String requestToken) {
+		CSRFPrevent.check(httpRequest);
+
 		try {
 			OAuthConfiguration.getInstance().getApplication()
 					.login(httpRequest, id, password);
@@ -272,6 +274,8 @@ public class OAuthService {
 	@POST
 	@Path("/internal/approveToken")
 	public Response authorize(@FormParam("requestToken") String requestToken) {
+		CSRFPrevent.check(httpRequest);
+
 		try {
 			if (!OAuthConfiguration.getInstance().getApplication().isAuthenticated(httpRequest)) {
 				return Response.status(Status.FORBIDDEN).build();
@@ -503,6 +507,8 @@ public class OAuthService {
 	@Path("/adminLogin")
 	public Response login(@FormParam("id") String id,
 			@FormParam("password") String password) {
+		CSRFPrevent.check(httpRequest);
+
 		try {
 			Application app = OAuthConfiguration.getInstance().getApplication();
 			app.login(httpRequest, id, password);

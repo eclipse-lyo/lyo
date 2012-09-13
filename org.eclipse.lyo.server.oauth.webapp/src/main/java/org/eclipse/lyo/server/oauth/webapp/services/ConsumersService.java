@@ -111,6 +111,8 @@ public class ConsumersService {
 			@FormParam("name") String name,
 			@FormParam("trusted") String trusted,
 			@FormParam("provisional") String provisional) {
+		CSRFPrevent.check(httpRequest);
+
 		try {
 			if (!OAuthConfiguration.getInstance().getApplication()
 					.isAdminSession(httpRequest)) {
@@ -154,6 +156,8 @@ public class ConsumersService {
 	@DELETE
 	@Path("/{key}")
 	public Response removeConsumer(@PathParam("key") String key) {
+		CSRFPrevent.check(httpRequest);
+
 		try {
 			if (!OAuthConfiguration.getInstance().getApplication()
 					.isAdminSession(httpRequest)) {

@@ -67,6 +67,9 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/dom-style", "dojo/on",
 				provisional : 'false',
 				name : name
 			},
+			headers : {
+				'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+			},
 			load : function(response) {
 				clearError();
 				
@@ -99,6 +102,9 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/dom-style", "dojo/on",
 				+ ')?')) {
 			xhr.del({
 				url : 'consumers/' + encodeURIComponent(consumer.key),
+				headers : {
+					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+				},
 				load : function(response) {
 					clearError();
 					domConstruct.destroy('tableRow-' + consumer.key);

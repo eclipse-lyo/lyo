@@ -11,6 +11,7 @@
 <meta charset="utf-8">
 <title>Connect to <c:out value="${applicationName}">Your Application</c:out></title>
 <link type="text/css" href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet" ></link>
+<jsp:include page="/oauth/common.jsp"/>
 <script
 	data-dojo-config="async: true"
     type="text/javascript"

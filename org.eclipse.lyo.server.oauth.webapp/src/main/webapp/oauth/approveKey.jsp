@@ -13,6 +13,7 @@
 	Consumer</title>
 <link type="text/css"
 	href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet"></link>
+<jsp:include page="/oauth/common.jsp"/>
 <script data-dojo-config="async: true" type="text/javascript"
 	src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
 </script>
@@ -24,6 +25,9 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 			event.stop(e);
 			xhr.post({
 				url : 'consumers/' + encodeURIComponent(dom.byId('key').value),
+				headers : {
+					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+				},
 				content : {
 					provisional : 'false',
 					name : dom.byId('name').value,
@@ -43,6 +47,9 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 			event.stop(e);
 			xhr.del({
 				url : 'consumers/' + encodeURIComponent(dom.byId('key').value),
+				headers : {
+					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+				},
 				load : function(response) {
 					domStyle.set('keyRejected', 'display', 'block');
 					domStyle.set('approveConsumer', 'display', 'none');

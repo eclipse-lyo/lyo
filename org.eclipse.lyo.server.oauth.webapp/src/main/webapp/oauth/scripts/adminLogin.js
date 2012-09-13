@@ -41,6 +41,9 @@ require([ "dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/_base/event",
 			load : function() {
 				callback();
 			},
+			headers : {
+				'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
+			},
 			error : function(error, ioArgs) {
 				showError(ioArgs.xhr.responseText);
 			}
