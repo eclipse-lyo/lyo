@@ -27,6 +27,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Selector;
 import com.hp.hpl.jena.rdf.model.SimpleSelector;
@@ -78,14 +79,24 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 			rdfModel = ModelFactory.createDefaultModel();
 			rdfModel.read(response.getEntity(InputStream.class), query.getCapabilityUrl());
 			
-			infoResource = rdfModel.getResource(query.getQueryUrl());
+			//Find a resource with rdf:type of oslc:ResourceInfo
+			Property rdfType = rdfModel.createProperty(OslcConstants.RDF_NAMESPACE, "type");
+			Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
+			ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
+			
+			//There should only be one - take the first
+			infoResource = null;
+			while (iter.hasNext()) {
+				infoResource = iter.next();
+				break;
+			}
 			membersResource = rdfModel.getResource(query.getCapabilityUrl());
 		}
 	}
 	
 	String getNextPageUrl() {
 		initializeRdf();
-		if (nextPageUrl == null) {
+		if (nextPageUrl == null && infoResource != null) {
 			Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
 			Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
 			StmtIterator iter = rdfModel.listStatements(select);

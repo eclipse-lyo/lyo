@@ -41,6 +41,7 @@ import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
 
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
@@ -175,9 +176,10 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
 	 */
 	public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle) 
-			throws IOException, OAuthException, URISyntaxException
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
 		ClientResponse response = getResource(catalogUrl,OSLCConstants.CT_RDF);
@@ -201,6 +203,9 @@ public class OslcClient {
 				retval = spRes.getURI();
 			}
 		}
+		if (retval == null ) {
+			throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
+		}
 		
 		return retval;
 	}
@@ -216,9 +221,10 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
 	 */
 	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
-			throws IOException, OAuthException, URISyntaxException
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
 		
@@ -238,9 +244,10 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
 	 */
 	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
-			throws IOException, OAuthException, URISyntaxException
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
 		
@@ -251,7 +258,7 @@ public class OslcClient {
 	
 	protected String lookupService(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, 
 			                    final String serviceName, final String serviceLocation) 
-			throws IOException, OAuthException, URISyntaxException
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
 		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
@@ -307,6 +314,10 @@ public class OslcClient {
 			}
 		}
 		
+		if (retval == null)
+		{
+			throw new ResourceNotFoundException(serviceProviderUrl, serviceName);
+		}
 		return retval;
 	}
 	
