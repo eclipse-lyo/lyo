@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.oslc4j.core</groupId>
   <artifactId>oslc4j-registry</artifactId>
-  <version>0.1.2-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>war</packaging>
   <dependencies>
   	<dependency>
@@ -14,22 +14,22 @@
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-core</artifactId>
-  		<version>[0.1.1-SNAPSHOT,)</version>
+  		<version>[1.0,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-wink</artifactId>
-  		<version>[0.1.1-SNAPSHOT,)</version>
+  		<version>[1.0,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-json4j-provider</artifactId>
-  		<version>[0.1.1-SNAPSHOT,)</version>
+  		<version>[1.0,)</version>
   	</dependency>
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-jena-provider</artifactId>
-  		<version>[0.1.1-SNAPSHOT,)</version>
+  		<version>[1.0,)</version>
   	</dependency>
   </dependencies>
   <build>
