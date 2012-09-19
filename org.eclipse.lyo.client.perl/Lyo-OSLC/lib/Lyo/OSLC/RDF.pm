@@ -158,8 +158,8 @@ sub Init {
 	$self->{'Results'} = [];
 	$self->{'ResponseInfo'} = {};
 	$self->{'Descriptions'} = {};
-	$self->{'byTitle'} = undef;
-	$self->{'byIdentifier'} = undef;
+	$self->{'byTitle'} = -1;
+	$self->{'byIdentifier'} = -1;
 	$self->{'referenceResolutionNeeded'} = 1;
 	
 	if(!defined($rdfxml) or $rdfxml eq '') {
@@ -339,8 +339,8 @@ sub QueryResults {
 		# invalidate the byTitle and IndexByIdentifier hashes
 		# so that they will get recalculated when they are
 		# accessed again.
-		$self->{'byTitle'} = undef;
-		$self->{'byIdentifier'} = undef;
+		$self->{'byTitle'} = -1;
+		$self->{'byIdentifier'} = -1;
 		$self->{'referenceResolutionNeeded'} = 1;	
 
 		# The results for CQ are a list of hashes with one oslc_cm:ChangeRequest member
@@ -379,14 +379,16 @@ sub QueryResults {
 
 =head3 QueryResultsByTitle ( )
 
-Method to get the query results as a hash keyed on the
-dcterms:title field of each record.
+Method to get the query results as a hash reference keyed on the
+dcterms:title field of each record.  If any of the records in the result
+is missing the dcterms:title field then undef is returned instead of a
+reference to a hash.
 
 =cut
 
 sub QueryResultsByTitle {
 	my $self = shift;
-	if(!defined($self->{'byTitle'})) {
+	if($self->{'byTitle'} == -1) {
 		$self->UpdateByTitle();
 	}
 	$self->{'byTitle'};
@@ -394,14 +396,16 @@ sub QueryResultsByTitle {
 
 =head3 QueryResultsByIdentifier ( )
 
-Method to get the query results as a hash keyed on the
-dcterms:identifier field of each record.
+Method to get the query results as a hash reference keyed on the
+dcterms:identifier field of each record.  If any of the records in the
+result is missing the dcterms:identifier field then undef is returned
+instead of a reference to a hash.
 
 =cut
 
 sub QueryResultsByIdentifier {
 	my $self = shift;
-	if(!defined($self->{'byIdentifier'})) {
+	if($self->{'byIdentifier'} == -1) {
 		$self->UpdateByIdentifier();
 	}
 	$self->{'byIdentifier'};
@@ -458,11 +462,11 @@ sub Add {
 	}
 	
 	# Since the results have changed we must
-	# invalidate the byTitle and IndexByIdentifier hashes
+	# invalidate the byTitle and byIdentifier hashes
 	# so that they will get recalculated when they are
 	# accessed again.
-	$self->{'byTitle'} = undef;
-	$self->{'byIdentifier'} = undef;
+	$self->{'byTitle'} = -1;
+	$self->{'byIdentifier'} = -1;
 	$self->{'referenceResolutionNeeded'} = 1;
 	
 	# Replace the response with the new response.
@@ -485,7 +489,9 @@ sub Add {
 =head3 UpdateByTitle ( )
 
 Utility method to make sure the query result by title hash is
-in sync with the query result records.
+in sync with the query result records. The title hash is only
+updated if every record in the result contain a dcterms:title
+value.
 
 =cut
 
@@ -496,19 +502,27 @@ sub UpdateByTitle {
 	
 	$self->{'byTitle'} = {};
 	
-	# Create a hash keyed on {dcterms:title}->{content}.
+	# Create a hash keyed on {dcterms:title} or {dcterms:title}->{content}.
 	my $ok = 1;
 	foreach my $record (@{$self->{'Results'}}) {
-		unless( exists($record->{'dcterms:title'})
-		and exists($record->{'dcterms:title'}->{'content'})
+		# dcterms:title hash element must exist
+		# If dcterms:title is a hash ref then it must contain a content element
+		# else we assume since dcterms:title exists it must have a valid value.
+		if(
+		    !exists($record->{'dcterms:title'})
+		or  (ref($record->{'dcterms:title'}) eq 'HASH' and !exists($record->{'dcterms:title'}->{'content'}))
 		) {
 			$ok = 0;
+			$self->{'byTitle'} = undef;
 			last;
 		}
 	}
 	if($ok) {
 		foreach my $record (@{$self->{'Results'}}) {
-			$self->{'byTitle'}->{$record->{'dcterms:title'}->{'content'}} = $record;
+			# The title can be stored in dcterms:title or dcterms:title->content.
+			my $title = $record->{'dcterms:title'};
+			$title = $record->{'dcterms:title'}->{'content'} if(ref($record->{'dcterms:title'}) eq 'HASH');
+			$self->{'byTitle'}->{$title} = $record;
 		}
 	}
 	
@@ -518,7 +532,9 @@ sub UpdateByTitle {
 =head3 UpdateByIdentifier ( )
 
 Utility method to make sure the query result by identifier hash is
-in sync with the query result records.
+in sync with the query result records.  The identifier hash is only
+updated if every record in the result contain a dcterms:identifier
+value.
 
 =cut
 
@@ -529,19 +545,27 @@ sub UpdateByIdentifier {
 
 	$self->{'byIdentifier'} = {};
 	
-	# Create a hash keyed on {dcterms:identifier}->{content}.
+	# Create a hash keyed on {dcterms:identifier} or {dcterms:identifier}->{content}.
 	my $ok = 1;
 	foreach my $record (@{$self->{'Results'}}) {
-		unless( exists($record->{'dcterms:identifier'})
-		and exists($record->{'dcterms:identifier'}->{'content'})
+		# dcterms:identifier hash element must exist
+		# If dcterms:identifier is a hash ref then it must contain a content element
+		# else we assume since dcterms:identifier exists it must have a valid value.
+		if(
+		    !exists($record->{'dcterms:identifier'})
+		or  (ref($record->{'dcterms:identifier'}) eq 'HASH' and !exists($record->{'dcterms:identifier'}->{'content'}))
 		) {
 			$ok = 0;
+			$self->{'byIdentifier'} = undef;
 			last;
 		}
 	}
 	if($ok) {
 		foreach my $record (@{$self->{'Results'}}) {
-			$self->{'byIdentifier'}->{$record->{'dcterms:identifier'}->{'content'}} = $record;
+			# The identifier can be stored in {dcterms:identifier} or {dcterms:identifier}->{content}.
+			my $id = $record->{'dcterms:identifier'};
+			$id = $record->{'dcterms:identifier'}->{'content'} if(ref($record->{'dcterms:identifier'}) eq 'HASH');
+			$self->{'byIdentifier'}->{$id} = $record;
 		}
 	}
 	
