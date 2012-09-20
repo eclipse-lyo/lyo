@@ -28,6 +28,7 @@ public final class ErrorHandler
        implements RDFErrorHandler
 {
     private static final Logger logger = Logger.getLogger(ErrorHandler.class.getName());
+    private static final String JENA_RELATIVE_URI_WARNING_ID = "W130";
 
     public ErrorHandler()
     {
@@ -49,9 +50,20 @@ public final class ErrorHandler
     @Override
     public void warning(final Exception exception)
     {
-        logger.log(Level.WARNING,
-                   "Warning in Jena 2.6.3 handling",
-                   exception);
+    	Level level = Level.WARNING;
+    	
+    	//Workaround to avoid flooding the logs with Jena warnings about using
+    	//relative URIs with no base URI.  Common for reified statements in OSLC
+    	String msg = exception.getMessage();
+    	if (msg != null && (msg.indexOf(JENA_RELATIVE_URI_WARNING_ID) >= 0))
+    	{
+    		level=Level.FINE;
+    	}
+
+    	logger.log(level,
+    			"Warning in Jena handling",
+    			exception);
+    		
     }
 
     private static void handleException(final Exception exception)

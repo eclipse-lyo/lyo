@@ -1282,7 +1282,7 @@ final class JsonHelper
                     {
                     	if (extendedProperties == null)
                     	{
-                    		logger.warning("Set method not found for object type:  " +
+                    		logger.fine("Set method not found for object type:  " +
                     				beanClass.getName() +
                     				", propertyDefinition:  " +
                     				propertyDefinition);

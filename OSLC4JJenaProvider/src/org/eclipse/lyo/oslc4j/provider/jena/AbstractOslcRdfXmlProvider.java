@@ -176,8 +176,15 @@ public abstract class AbstractOslcRdfXmlProvider
                                                                 nextPageURI,
                                                                 objects,
                                                                 properties);
-
-            final RDFWriter writer = model.getWriter(serializationLanguage);
+            RDFWriter writer = null;
+            if  (serializationLanguage.equals(FileUtils.langXMLAbbrev))
+            {
+            	writer = new RdfXmlAbbreviatedWriter();
+            }
+            else
+            {
+            	writer = model.getWriter(serializationLanguage);
+            }
             writer.setProperty("showXmlDeclaration",
                     "false");
             writer.setErrorHandler(ERROR_HANDLER);    

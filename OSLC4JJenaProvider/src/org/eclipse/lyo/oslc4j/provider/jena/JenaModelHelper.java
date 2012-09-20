@@ -374,14 +374,19 @@ public final class JenaModelHelper
             {
                 final URI aboutURI = new URI(aboutURIString);
 
-                if (!aboutURI.isAbsolute())
+                if (aboutURI.isAbsolute())
+                {
+                	((IResource) bean).setAbout(aboutURI);
+                }
+                //ignore relative URIs when creating new non-local resources
+                else if (!(bean instanceof AbstractResource))
                 {
                     throw new OslcCoreRelativeURIException(beanClass,
                                                            "setAbout",
                                                            aboutURI);
                 }
 
-                ((IResource) bean).setAbout(aboutURI);
+                
             }
         }
 
@@ -431,7 +436,7 @@ public final class JenaModelHelper
                 {
                 	if (extendedProperties == null)
                 	{
-                        logger.warning("Set method not found for object type:  " +
+                        logger.fine("Set method not found for object type:  " +
                                        beanClass.getName() +
                                        ", uri:  " +
                                        uri);
