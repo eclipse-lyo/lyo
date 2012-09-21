@@ -165,8 +165,14 @@ sub serviceProviders {
 	if($self->responseCode() != 200) {
 		die("$ScriptName: serviceProviders: ERROR: failure querying $projectAreas: ", $self->responseMessage, "\n");
 	}
+	print("\nserviceProviders response:\n", $self->responseContent(), "\n") if($self->debugging() > 1);
 	
-	$self->{'serviceProviders'} = XMLin($self->responseContent());
+	$self->{'serviceProviders'} = XMLin($self->responseContent(),
+		'ForceArray' => ['oslc:serviceProvider'],
+	);
+	print("\nserviceProviders XML object: ", Dumper($self->{'serviceProviders'})) if($self->debugging() > 1);
+	
+	$self->{'serviceProviders'};
 }
 
 =head3 $url = servicesURL ( $projectArea )
@@ -195,7 +201,7 @@ sub servicesURL {
 	if(!defined($servicesURL) or $servicesURL eq '') {
 		die("$ScriptName: servicesURL: ERROR: unable to find project area named $projectArea\n");
 	}
-	print("servicesURL: $servicesURL\n") if($self->debugging());
+	print("\nservicesURL: $servicesURL\n") if($self->debugging());
 	
 	$servicesURL;
 }
@@ -227,10 +233,15 @@ sub services {
 	if($self->responseCode() != 200) {
 		die("$ScriptName: services: ERROR: failure querying $servicesURL: ", $self->responseMessage, "\n");
 	}
+	print("\nservices response:\n", $self->responseContent(), "\n") if($self->debugging() > 1);
 	
 	$self->{'services'}->{$projectArea} = XMLin($self->responseContent(),
 		'ForceArray' => ['oslc:queryCapability'],
 	);
+
+	print("\nservices XML object: ", Dumper($self->{'services'}->{$projectArea})) if($self->debugging() > 1);
+	
+	$self->{'services'}->{$projectArea};
 }
 
 sub projectAreaContextID {
@@ -291,7 +302,7 @@ sub queryCapabilityURL {
 	my $queryCapabilityHR = $self->queryCapability($projectArea, $queryCapability);
 	
 	my $url = $queryCapabilityHR->{'oslc:queryBase'}->{'rdf:resource'};
-	print("queryCapabilityURL: $url\n") if($self->debugging());
+	print("\nqueryCapabilityURL: $url\n") if($self->debugging());
 	$url;
 }
 
@@ -329,7 +340,7 @@ sub oslcWhere {
 	$form{'oslc.select'} = join(',', @props);
 	
 	$uri->query_form(%form);
-	print("oslcWhere URL: $uri\n") if($self->debugging());
+	print("\noslcWhere URL: $uri\n") if($self->debugging());
 
 	my $data = $self->getAllPages($uri, undef, {'DontFollowMembers' => $DontFollowMembers});
 	$self->errorHandler("oslcWhere: ERROR: query failed");
@@ -363,7 +374,7 @@ sub workitem {
 		$uri->query_form('oslc.properties' => join(',', @{$propertiesAR}));
 	}
 	
-	print("workitem: $uri\n") if($self->debugging());
+	print("\nworkitem: $uri\n") if($self->debugging());
 	$self->GET($uri);
 	$self->errorHandler("workitem: ERROR: work item query failed for $workItemNumber");
 	
@@ -379,7 +390,7 @@ sub workitem {
 		}
 	}
 	
-	print("workitem: ", Dumper($data), "\n") if($self->debugging());
+	print("\nworkitem: ", Dumper($data)) if($self->debugging());
 
 	$data;
 }
@@ -433,15 +444,15 @@ sub workitemUpdate {
 		$uri->query_form('oslc.properties' => join(',', @updated_fields));
 	}
 	
-	print("workitemUpdate: $uri\n") if($self->debugging());
+	print("\nworkitemUpdate: $uri\n") if($self->debugging());
 	
 	$self->GET($uri);
 	$self->errorHandler("workitemUpdate: ERROR: work item query failed for $workItemNumber");
 	
 	my $response = $self->responseContent();
-	print("$response\n") if($self->debugging());
+	print("\n$response\n") if($self->debugging());
 	my $ETag = $self->responseHeader('Etag');
-	print("workitemUpdate: ETag: $ETag\n") if($self->debugging());
+	print("\nworkitemUpdate: ETag: $ETag\n") if($self->debugging());
 
 	my $xml = OLSC::RDF::XML::Simple->new();
 	my $perl = $xml->XMLin($response, 
@@ -466,10 +477,10 @@ sub workitemUpdate {
 	if($verbose) {
 		print("\nData structure before updates.\n");
 		print("Use this to determine the syntax of the -update argument.\n");
-		print("\n", Dumper($perl), "\n");
+		print("\n", Dumper($perl));
 	}
 	
-	print("\nworkitemUpdate:", Dumper($perl), "\n") if($self->debugging());
+	print("\nworkitemUpdate:", Dumper($perl)) if($self->debugging());
 	
 	foreach my $new_valueAR (@$newValuesAR) {
 		my($field, $val) = @$new_valueAR;
@@ -479,20 +490,20 @@ sub workitemUpdate {
 		}
 		my $sub;
 		($field, $sub) = split(/->/, $field, 2);
-		print("workitemUpdate: field: $field, sub: $sub, append: $append, val: $val\n") if($self->debugging());
+		print("\nworkitemUpdate: field: $field, sub: $sub, append: $append, val: $val\n") if($self->debugging());
 		Lyo::OSLC::RDF::updateUtil($cr->{$field}, $field, $sub, $val, $append);
 	}
 
 	if($verbose) {
 		print("\nData structure after updates.\n");
-		print("\n", Dumper($perl), "\n");
+		print("\n", Dumper($perl));
 	}
 
 	my $new = $xml->XMLout($perl, 'RootName' => 'rdf:RDF', 'AttrIndent' => 1 );
-	print("workitemUpdate: new XML:\n$new\n") if($self->debugging());
+	print("\nworkitemUpdate: new XML:\n$new\n") if($self->debugging());
 	
 	$uri->query_form('oslc.properties' => join(',', @updated_fields));
-	print("workitemUpdate: PUT url: $uri\n") if($self->debugging());
+	print("\nworkitemUpdate: PUT url: $uri\n") if($self->debugging());
 	$self->PUT($uri, $new, 
 		{
 			'If-Match' => $ETag,
@@ -531,7 +542,7 @@ sub enumeration {
 	
 	$url =~ s,/contexts/,/enumerations/,;
 	$url =~ s,/workitems$,/$enum,;
-	print("enumerationURL: $url\n") if($self->debugging());
+	print("\nenumerationURL: $url\n") if($self->debugging());
 	
 	my $data = $self->getAllPages($url, undef, {'DontFollowMembers' => $DontFollowMembers});
 	$self->errorHandler("enumeration: ERROR: Lookup of enum $enum failed");
@@ -706,7 +717,7 @@ sub iterations {
 	my $data = $self->getAllPages($uri, undef, {'DontFollowMembers' => $DontFollowMembers});
 	$self->errorHandler('iterations: ERROR: Lookup of iterations failed');
 	
-	print("iterations:\n", Dumper($data)) if($self->debugging());
+	print("\niterations:\n", Dumper($data)) if($self->debugging());
 	
 	$self->{'iterations'} = $data;
 }
