@@ -8,7 +8,7 @@ The goal of the modules is to query and update work items in Rational
 Team Concert, change requests in ClearQuest, and potentially other record
 types provided by other OSLC Change Management providers.
 
-Please see the POD for the modules for additional information.
+Please see the POD sections in the modules for additional information.
 
 DEPENDENCIES
 
