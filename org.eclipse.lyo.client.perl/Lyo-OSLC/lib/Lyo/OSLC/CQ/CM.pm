@@ -55,7 +55,7 @@ use strict;
 use warnings;
 use 5.008_000;
 
-our ($VERSION) = 1.0100;
+our ($VERSION) = 1.0102;
 
 use File::Basename;
 use URI;
