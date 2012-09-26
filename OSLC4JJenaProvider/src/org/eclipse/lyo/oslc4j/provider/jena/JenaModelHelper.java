@@ -18,6 +18,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -51,9 +52,15 @@ import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -75,6 +82,7 @@ import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
@@ -1049,6 +1057,8 @@ public final class JenaModelHelper
 	        }
 	    }
 	    
+		final Transformer transformer = createTransformer();
+		
 		for (final Map.Entry<QName, ?> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
 			final QName qName = extendedProperty.getKey();
@@ -1096,7 +1106,8 @@ public final class JenaModelHelper
 					                    property,
 					                    nestedProperties,
 					                    onlyNested,
-					                    visitedResources);
+					                    visitedResources,
+					                    transformer);
 				}
 			}
 			else
@@ -1108,7 +1119,8 @@ public final class JenaModelHelper
 				                    property,
 				                    nestedProperties,
 				                    onlyNested,
-				                    visitedResources);
+				                    visitedResources,
+				                    transformer);
 			}
 		}
 	}
@@ -1120,7 +1132,8 @@ public final class JenaModelHelper
     									    final Property property,
     									    final Map<String, Object> nestedProperties,
     									    final boolean onlyNested,
-    									    final Map<IExtendedResource, Resource> visitedResources)
+    									    final Map<IExtendedResource, Resource> visitedResources,
+    									    final Transformer transformer)
     	throws DatatypeConfigurationException,
     		   IllegalAccessException,
     		   IllegalArgumentException,
@@ -1198,6 +1211,23 @@ public final class JenaModelHelper
     		cal.setTime((Date) value);
     		resource.addProperty(property, model.createTypedLiteral(cal));
     	}
+    	else if (value instanceof Element)
+    	{
+			final StreamResult result = new StreamResult(new StringWriter());
+			
+			final DOMSource source = new DOMSource((Element)value);
+			
+			try
+			{
+				transformer.transform(source, result);
+			} catch (TransformerException e) {
+				throw new RuntimeException(e);
+			}
+			
+    		final Literal xmlString = model.createLiteral(result.getWriter().toString(), true);
+    		
+    		resource.addProperty(property, xmlString);
+    	}
     	else
     	{
             if (onlyNested)
@@ -1253,7 +1283,7 @@ public final class JenaModelHelper
         final Property attribute = model.createProperty(propertyDefinition);
 
         final Class<?> returnType = method.getReturnType();
-
+        
         if (returnType.isArray())
         {
             // We cannot cast to Object[] in case this is an array of
@@ -1577,4 +1607,22 @@ public final class JenaModelHelper
     	
     	return visitedResourceName;
     }
+    
+    private static Transformer createTransformer()
+    {
+		try
+		{
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			
+			return transformer;
+			
+		} catch (TransformerException e) {
+			
+			throw new RuntimeException(e);
+			
+		}
+    }
+    
 }
