@@ -125,6 +125,22 @@ public class OslcClient {
 	}
 	
 	/**
+	 * Delete an OSLC resource and return a Wink ClientResponse
+	 * @param url
+	 * @return a Wink ClientResponse
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 */
+	public ClientResponse deleteResource(final String url) 
+			throws IOException, OAuthException, URISyntaxException {
+		
+		RestClient restClient = new RestClient(clientConfig);
+		return restClient.resource(url).delete();
+	}
+	
+	
+	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
 	 * @param url
 	 * @param artifact
