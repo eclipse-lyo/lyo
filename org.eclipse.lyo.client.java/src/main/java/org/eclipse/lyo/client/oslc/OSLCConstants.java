@@ -35,6 +35,7 @@ public interface OSLCConstants {
 	static String OSLC_ASSET_V2 = "http://open-services.net/ns/asset#";
 	static String OSLC_QM_V2 = "http://open-services.net/ns/qm#";
 	static String OSLC_RM_V2 = "http://open-services.net/ns/rm#";
+	static String OSLC_AUTO = "http://open-services.net/ns/auto#";
 	
 	// Version 1.0 namespace definitions
 	static String OSLC_DISC = "http://open-services.net/xmlns/discovery/1.0/";

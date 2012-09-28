@@ -96,8 +96,14 @@ public class JazzRootServicesHelper {
 			this.catalogNamespace = OSLCConstants.OSLC_RM;
 			this.catalogProperty =  JazzRootServicesConstants.RM_ROOTSERVICES_CATALOG_PROP;
 			
-		} else {
-			logger.severe("Jazz rootservices only supports CM, RM and QM catalogs");
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
+			
+			this.catalogNamespace = OSLCConstants.OSLC_AUTO;
+			this.catalogProperty =  JazzRootServicesConstants.AUTO_ROOTSERVICES_CATALOG_PROP;
+		
+		}
+		else {
+			logger.severe("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
 		}
 				
 		processRootServices();

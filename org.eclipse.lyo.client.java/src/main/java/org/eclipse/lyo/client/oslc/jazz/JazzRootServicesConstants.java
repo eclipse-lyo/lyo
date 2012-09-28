@@ -28,6 +28,7 @@ public interface JazzRootServicesConstants {
 	static String CM_ROOTSERVICES_CATALOG_PROP = "cmServiceProviders";
 	static String QM_ROOTSERVICES_CATALOG_PROP = "qmServiceProviders";
 	static String RM_ROOTSERVICES_CATALOG_PROP = "rmServiceProviders";
+	static String AUTO_ROOTSERVICES_CATALOG_PROP = "autoServiceProviders";
 	
 	//OAuth entries
 	static String OAUTH_REQUEST_TOKEN_URL = "oauthRequestTokenUrl";
