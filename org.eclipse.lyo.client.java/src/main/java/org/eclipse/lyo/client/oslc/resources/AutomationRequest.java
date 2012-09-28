@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -32,6 +33,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
@@ -59,7 +61,7 @@ extends AbstractResource
     private URI      serviceProvider;
     private String   title;
     private URI      desiredState;
-    private URI      executesAutomationPlan;
+    private Link      executesAutomationPlan;
 
 	public AutomationRequest()
 	{
@@ -197,6 +199,13 @@ extends AbstractResource
     @OslcName("desiredState")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcTitle("Desired State")
+    @OslcAllowedValue({
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_NEW,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_IN_PROGRESS,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_QUEUED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELING,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_COMPLETE})
     public URI getDesiredState()
     {
         return desiredState;
@@ -207,7 +216,7 @@ extends AbstractResource
     @OslcName("executesAutomationPlan")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcTitle("Executes Automation Plan")
-    public URI getExecutesAutomationPlan()
+    public Link getExecutesAutomationPlan()
     {
         return executesAutomationPlan;
     }
@@ -238,6 +247,13 @@ extends AbstractResource
     @OslcName("state")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "state")
     @OslcTitle("States")
+    @OslcAllowedValue({
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_NEW,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_IN_PROGRESS,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_QUEUED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELING,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_COMPLETE})
     public URI[] getStates()
     {
         return states.toArray(new URI[states.size()]);
@@ -320,7 +336,7 @@ extends AbstractResource
         this.desiredState = desiredState;
     }
 
-    public void setExecutesAutomationPlan(final URI executesAutomationPlan)
+    public void setExecutesAutomationPlan(final Link executesAutomationPlan)
     {
         this.executesAutomationPlan = executesAutomationPlan;
     }

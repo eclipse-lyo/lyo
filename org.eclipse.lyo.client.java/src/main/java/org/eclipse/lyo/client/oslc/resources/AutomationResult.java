@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.lyo.oslc4j.automation.Constants;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -32,6 +34,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
@@ -61,8 +64,8 @@ extends AbstractResource
     private URI      serviceProvider;
     private String   title;
     private URI      desiredState;
-    private URI      producedByAutomationRequest;
-    private URI      reportsOnAutomationPlan;
+    private Link      producedByAutomationRequest;
+    private Link      reportsOnAutomationPlan;
 
 	public AutomationResult()
 	{
@@ -228,6 +231,13 @@ extends AbstractResource
     @OslcName("state")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "state")
     @OslcTitle("State")
+    @OslcAllowedValue({
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_NEW,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_IN_PROGRESS,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_QUEUED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELING,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_COMPLETE})
     public URI[] getStates()
     {
         return states.toArray(new URI[states.size()]);
@@ -248,6 +258,12 @@ extends AbstractResource
     @OslcName("verdict")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "verdict")
     @OslcTitle("Verdict")
+    @OslcAllowedValue({
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.VERDICT_PASSED,
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.VERDICT_FAILED,
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.VERDICT_WARNING,
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.VERDICT_ERROR,
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.VERDICT_UNAVAILABLE})
     public URI[] getVerdicts()
     {
         return verdicts.toArray(new URI[verdicts.size()]);
@@ -258,6 +274,13 @@ extends AbstractResource
     @OslcName("desiredState")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcTitle("Desired State")
+    @OslcAllowedValue({
+    	AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_NEW,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_IN_PROGRESS,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_QUEUED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELING,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_CANCELED,
+		AutomationConstants.AUTOMATION_NAMESPACE + AutomationConstants.STATE_COMPLETE})
     public URI getDesiredState()
     {
         return desiredState;
@@ -268,7 +291,7 @@ extends AbstractResource
     @OslcName("producedByAutomationRequest")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcTitle("Produced By Automation Request")
-    public URI getProducedByAutomationRequest()
+    public Link getProducedByAutomationRequest()
     {
         return producedByAutomationRequest;
     }
@@ -278,7 +301,7 @@ extends AbstractResource
     @OslcName("reportsOnAutomationPlan")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcTitle("Reports On Automation Plan")
-    public URI getReportsOnAutomationPlan()
+    public Link getReportsOnAutomationPlan()
     {
         return reportsOnAutomationPlan;
     }
@@ -409,12 +432,12 @@ extends AbstractResource
         this.desiredState = desiredState;
     }
 
-    public void setProducedByAutomationRequest(final URI producedByAutomationRequest)
+    public void setProducedByAutomationRequest(final Link producedByAutomationRequest)
     {
         this.producedByAutomationRequest = producedByAutomationRequest;
     }
     
-    public void setReportsOnAutomationPlan(final URI reportsOnAutomationPlan)
+    public void setReportsOnAutomationPlan(final Link reportsOnAutomationPlan)
     {
         this.reportsOnAutomationPlan = reportsOnAutomationPlan;
     }

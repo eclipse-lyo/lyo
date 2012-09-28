@@ -64,6 +64,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
@@ -1023,9 +1024,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			AutomationResult result) throws AutomationException, IOException,
 			OAuthException, URISyntaxException {
 
-		result.setProducedByAutomationRequest(request.getAbout());
+		
+		
+		result.setProducedByAutomationRequest(new Link(request.getAbout()));
 
-		URI automationPlan = request.getExecutesAutomationPlan();
+		Link automationPlan = request.getExecutesAutomationPlan();
 
 		result.setInputParameters(request.getInputParameters());
 
@@ -1037,7 +1040,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		resultExtProperties.put(PROPERTY_QM_EXECUTES_TEST_SCRIPT,
 				requestExtProperties.get(PROPERTY_QM_EXECUTES_TEST_SCRIPT));
 
-		if (automationPlan != null) {
+		if (automationPlan != null && automationPlan.getValue() != null) {
 
 			result.setReportsOnAutomationPlan(request
 					.getExecutesAutomationPlan());
