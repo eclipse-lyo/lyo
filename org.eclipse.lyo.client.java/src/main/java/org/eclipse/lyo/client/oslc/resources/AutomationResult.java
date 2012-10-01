@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.lyo.oslc4j.automation.Constants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
