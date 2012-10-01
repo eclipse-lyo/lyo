@@ -1049,7 +1049,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 			synchronized (client) {
 
-				plan = client.getResource(automationPlan.toString(),
+				plan = client.getResource(automationPlan.getValue().toString(),
 						OslcMediaType.APPLICATION_RDF_XML).getEntity(
 						AutomationPlan.class);
 
