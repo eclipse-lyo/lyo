@@ -54,18 +54,18 @@ extends AbstractResource implements Comparable<ParameterInstance>
 	{
 		super();
 		
-		rdfTypes.add(URI.create(AutomationConstants.TYPE_AUTOMATION_PLAN));
+		rdfTypes.add(URI.create(AutomationConstants.TYPE_PARAMETER_INSTANCE));
 	}
 	
     public ParameterInstance(final URI about)
     {
          super(about);
 
-		rdfTypes.add(URI.create(AutomationConstants.TYPE_AUTOMATION_PLAN));
+		rdfTypes.add(URI.create(AutomationConstants.TYPE_PARAMETER_INSTANCE));
      }
 
     protected URI getRdfType() {
-    	return URI.create(AutomationConstants.TYPE_AUTOMATION_PLAN);
+    	return URI.create(AutomationConstants.TYPE_PARAMETER_INSTANCE);
     }
     
     public void addRdfType(final URI rdfType)
