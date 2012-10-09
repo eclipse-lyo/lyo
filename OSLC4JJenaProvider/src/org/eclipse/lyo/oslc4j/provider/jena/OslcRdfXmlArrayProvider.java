@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.Consumes;
@@ -33,6 +34,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
@@ -84,7 +86,9 @@ public final class OslcRdfXmlArrayProvider
            throws IOException,
                   WebApplicationException
     {
-        writeTo(true,
+        OslcNotQueryResult notQueryResult = type.getComponentType().getAnnotation(OslcNotQueryResult.class);
+        
+        writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
                 objects,
                 mediaType,
                 map,

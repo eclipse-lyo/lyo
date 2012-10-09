@@ -49,6 +49,8 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
@@ -117,7 +119,11 @@ public final class OslcRdfXmlCollectionProvider
            throws IOException,
                   WebApplicationException
     {
-        writeTo(true,
+        final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+        final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        OslcNotQueryResult notQueryResult = ((Class<?>)actualTypeArguments[0]).getAnnotation(OslcNotQueryResult.class);
+        
+        writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
                 collection.toArray(new Object[collection.size()]),
                 mediaType,
                 map,

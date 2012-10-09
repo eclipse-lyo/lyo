@@ -29,4 +29,5 @@ public interface OSLC4JConstants {
     
     public static String OSLC4J_SELECTED_PROPERTIES = "org.eclipse.lyo.oslc4j.selected.properties";
     public static String OSLC4J_NEXT_PAGE = "org.eclipse.lyo.oslc4j.next.page";
+    public static String OSLC4J_TOTAL_COUNT = "org.eclipse.lyo.oslc4j.total.count";
 }
