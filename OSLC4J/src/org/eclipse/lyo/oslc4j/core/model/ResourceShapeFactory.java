@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -306,7 +307,7 @@ public final class ResourceShapeFactory {
 		final int    endingIndex   = startingIndex + 1;
 
         // We want the name to start with a lower-case letter
-		final String lowercasedFirstCharacter = methodName.substring(startingIndex, endingIndex).toLowerCase();
+		final String lowercasedFirstCharacter = methodName.substring(startingIndex, endingIndex).toLowerCase(Locale.ENGLISH);
 		if (methodName.length() == endingIndex) {
 		    return lowercasedFirstCharacter;
 		}

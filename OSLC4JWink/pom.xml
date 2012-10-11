@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.oslc4j.core</groupId>
   <artifactId>oslc4j-wink</artifactId>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <dependencies>
   	<dependency>
   		<groupId>org.apache.wink</groupId>
@@ -45,7 +45,7 @@
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-core</artifactId>
-  		<version>1.0</version>
+  		<version>1.0.1</version>
   	</dependency>
   	<dependency>
   		<groupId>com.sun.xml.bind</groupId>
