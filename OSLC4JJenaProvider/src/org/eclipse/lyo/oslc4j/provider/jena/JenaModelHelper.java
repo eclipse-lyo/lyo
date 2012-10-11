@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Queue;
@@ -1507,7 +1508,7 @@ public final class JenaModelHelper
 
         // We want the name to start with a lower-case letter
         final String lowercasedFirstCharacter = methodName.substring(startingIndex,
-                                                                     endingIndex).toLowerCase();
+                                                                     endingIndex).toLowerCase(Locale.ENGLISH);
 
         if (methodName.length() == endingIndex)
         {
