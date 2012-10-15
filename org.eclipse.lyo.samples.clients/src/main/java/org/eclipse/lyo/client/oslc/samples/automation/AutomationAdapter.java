@@ -98,7 +98,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	public static final String PROPERTY_IP_ADDRESS = "ipAddress";
 	public static final String PROPERTY_POLLING_INTERVAL = "pollingInterval";
 	public static final String PROPERTY_MAC_ADDRESSS = "macAddress";
-	public static final String PROPERTY_FQDN = "fqdn";
+	public static final String PROPERTY_FULLY_QUALIFIED_DOMAIN_NAME = "fullyQualifiedDomainName";
 	public static final String PROPERTY_CAPABIILTY = "capability";
 
 	// connection properties
@@ -115,7 +115,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	private String ipAddress;
 	private Integer pollingInterval;
 	private String macAddress;
-	private String fqdn;
+	private String fullyQualifiedDomainName;
 
 	// properties provided by the server
 	private URI relation;
@@ -163,7 +163,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		hostname = properties.getProperty(PROPERTY_HOSTNAME);
 		ipAddress = properties.getProperty(PROPERTY_IP_ADDRESS);
 		macAddress = properties.getProperty(PROPERTY_MAC_ADDRESSS);
-		fqdn = properties.getProperty(PROPERTY_FQDN);
+		fullyQualifiedDomainName = properties.getProperty(PROPERTY_FULLY_QUALIFIED_DOMAIN_NAME);
 
 		String pollingIntervalStr = properties
 				.getProperty(PROPERTY_POLLING_INTERVAL);
@@ -296,15 +296,15 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.macAddress = macAddress;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "fQDN")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "fullyQualifiedDomainName")
 	@OslcTitle("Fully Qualified Domain Name")
 	@OslcValueType(ValueType.XMLLiteral)
-	public String getfQDN() {
-		return fqdn;
+	public String getFullyQualifiedDomainName() {
+		return fullyQualifiedDomainName;
 	}
 
-	public void setfQDN(String fqdn) {
-		this.fqdn = fqdn;
+	public void setFullyQualifiedDomainName(String fullyQualifiedDomainName) {
+		this.fullyQualifiedDomainName = fullyQualifiedDomainName;
 	}
 
 	@OslcDescription("Capability of the adapter like Execute, Record, Import.")
