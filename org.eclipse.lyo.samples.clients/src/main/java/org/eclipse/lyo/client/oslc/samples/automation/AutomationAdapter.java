@@ -243,7 +243,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	@OslcDescription("Type (reference: Dublin Core) of adapter.")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "type")
 	@OslcTitle("Type")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getType() {
 		return type;
 	}
@@ -254,7 +254,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "hostname")
 	@OslcTitle("Hostname")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getHostname() {
 		return hostname;
 	}
@@ -265,7 +265,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "ipAddress")
 	@OslcTitle("IP Address")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getIpAddress() {
 		return ipAddress;
 	}
@@ -287,7 +287,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "macAddress")
 	@OslcTitle("MAC Address")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getMacAddress() {
 		return macAddress;
 	}
@@ -298,7 +298,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "fullyQualifiedDomainName")
 	@OslcTitle("Fully Qualified Domain Name")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getFullyQualifiedDomainName() {
 		return fullyQualifiedDomainName;
 	}
@@ -367,7 +367,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	@OslcDescription("Identifier (reference: Dublin Core) for the adapter.")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
 	@OslcTitle("Identifier")
-	@OslcValueType(ValueType.XMLLiteral)
+	@OslcValueType(ValueType.String)
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -591,6 +591,8 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		request.setStates(new URI[] { URI.create(
 				AutomationConstants.STATE_COMPLETE) });
 
+		request.getExtendedProperties().remove(PROPERTY_RQM_PROGRESS);
+		
 		request.getExtendedProperties().put(PROPERTY_RQM_PROGRESS,
 				new Integer(100));
 
@@ -1178,22 +1180,22 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	/**
-	 * Set the current progress percentage of the Automation. If the provided
-	 * value is greater than 99 then it is adjusted down to 99 since the
-	 * progress should not reach 100 until the {@link IAutomationRequestHandler}
-	 * has finished processing the request and returned control back to this
-	 * Adapter.
+	 * Send the current progress (percentage) of the Automation Request. If the
+	 * provided value is greater than 99 then it is adjusted down to 99 since
+	 * the progress should not reach 100 until the
+	 * {@link IAutomationRequestHandler} has finished processing the request and
+	 * returned control back to this Adapter.
 	 * 
 	 * Before calling this method the adapter needs to be logged in and
 	 * registered with the automation service provider.
 	 * 
-	 * @param request
 	 * @param i
 	 *            An integer less than 100
+	 * @param request
 	 * @throws URISyntaxException
 	 * @throws AutomationException
 	 */
-	public void setProgress(AutomationRequest request, int i)
+	public void sendProgressForRequest(int i, AutomationRequest request)
 			throws URISyntaxException, AutomationException {
 
 		if (!isRegistered) {
@@ -1208,17 +1210,19 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			i = 99;
 		}
 
-		request.getExtendedProperties().put(PROPERTY_RQM_PROGRESS,
+		AutomationRequest requestCopy = new AutomationRequest(request.getAbout());
+
+		requestCopy.getExtendedProperties().put(PROPERTY_RQM_PROGRESS,
 				new Integer(i));
 
-		URI updateUri = appendOslcProperties(request.getAbout(),
+		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
 				"rqm_qm:progress");
 
 		ClientResponse response;
 
 		synchronized (client) {
 
-			response = client.updateResource(updateUri.toString(), request,
+			response = client.updateResource(updateUri.toString(), requestCopy,
 					OslcMediaType.APPLICATION_RDF_XML);
 
 			response.consumeContent();
@@ -1236,6 +1240,109 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		}
 
 	}
+	
+	/**
+	 * Send a status for the Automation Request. Before calling this method the
+	 * adapter needs to be logged in and registered with the automation service
+	 * provider.
+	 * 
+	 * @param statusResponse
+	 * @param request
+	 * @throws URISyntaxException
+	 * @throws AutomationException
+	 */
+	public void sendStatusForRequest(StatusResponse statusResponse,
+			AutomationRequest request) throws AutomationException {
+		
+		if (!isRegistered) {
+
+			throw new AutomationException(
+					"Adapter is not registered with the Automation Service Provider");
+
+		}
+		
+		AutomationRequest requestCopy = new AutomationRequest(request.getAbout());
+		
+		requestCopy.getExtendedProperties().put(PROPERTY_RQM_STATUS_RESPONSE,
+				statusResponse);
+
+		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
+				"rqm_qm:statusResponse");
+
+		ClientResponse response;
+
+		synchronized (client) {
+
+			response = client.updateResource(updateUri.toString(), requestCopy,
+					OslcMediaType.APPLICATION_RDF_XML);
+
+			response.consumeContent();
+
+		}
+
+		if (response.getStatusCode() != HttpStatus.SC_OK) {
+
+			throw new AutomationException(
+					"Failed to update AutomationResult at "
+							+ updateUri.toString() + ". "
+							+ response.getStatusCode() + ": "
+							+ response.getMessage());
+
+		}
+		
+	}
+	
+	/**
+	 * Send a message update to the Automation Request. Before calling this
+	 * method the adapter needs to be logged in and registered with the
+	 * automation service provider.
+	 * 
+	 * @param message
+	 * @param request
+	 * @throws URISyntaxException
+	 * @throws AutomationException
+	 */
+	public void sendMessageForRequest(Message message, AutomationRequest request)
+			throws AutomationException {
+		
+		if (!isRegistered) {
+
+			throw new AutomationException(
+					"Adapter is not registered with the Automation Service Provider");
+
+		}
+		
+		AutomationRequest requestCopy = new AutomationRequest(request.getAbout());
+
+		requestCopy.getExtendedProperties().put(PROPERTY_RQM_MESSAGE,
+				message);
+
+		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
+				"rqm_qm:message");
+
+		ClientResponse response;
+
+		synchronized (client) {
+
+			response = client.updateResource(updateUri.toString(), requestCopy,
+					OslcMediaType.APPLICATION_RDF_XML);
+
+			response.consumeContent();
+
+		}
+
+		if (response.getStatusCode() != HttpStatus.SC_OK) {
+
+			throw new AutomationException(
+					"Failed to update AutomationResult at "
+							+ updateUri.toString() + ". "
+							+ response.getStatusCode() + ": "
+							+ response.getMessage());
+
+		}
+		
+	}
+	
 
 	/**
 	 * Cancel an Automation Request by updating its desiredState property to

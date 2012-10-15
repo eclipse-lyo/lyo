@@ -26,6 +26,8 @@ public interface IConstants {
 	String NAMESPACE_URI_DC_ELEMENTS = "http://purl.org/dc/elements/1.1/"; //$NON-NLS-1$
 	
     String TYPE_AUTOMATION_ADAPTER    = NAMESPACE_URI_JAZZ_QM + "AutomationAdapter";
+    String TYPE_STATUS_RESPONSE       = NAMESPACE_URI_JAZZ_QM + "StatusResponse";
+    String TYPE_MESSAGE               = NAMESPACE_URI_JAZZ_QM + "Message";
     
 	QName PROPERTY_DC_RELATION               = new QName(OSLCConstants.DC, "relation");
 	
@@ -45,5 +47,7 @@ public interface IConstants {
 	QName PROPERTY_RQM_END_TIME              = new QName(IConstants.NAMESPACE_URI_JAZZ_QM, "endTime");
 	QName PROPERTY_RQM_ATTACHMENT            = new QName(IConstants.NAMESPACE_URI_JAZZ_QM, "attachment");
 	QName PROPERTY_RQM_EXECUTED_ON_MACHINE   = new QName(IConstants.NAMESPACE_URI_JAZZ_QM, "executedOnMachine");
+	QName PROPERTY_RQM_STATUS_RESPONSE       = new QName(IConstants.NAMESPACE_URI_JAZZ_QM, "statusResponse");
+	QName PROPERTY_RQM_MESSAGE               = new QName(IConstants.NAMESPACE_URI_JAZZ_QM, "message");
 	
 }

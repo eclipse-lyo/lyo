@@ -146,16 +146,18 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			// An example of how to get the script for the AutomationRequest.
 			// The script might contain references to resources needed to
 			// execute the test.
+			adapter.sendMessageForRequest(new Message("LYO_1", "Downloading script document"), request);
+			
 			Document script = adapter.getScriptDocument(request);
 			
+			adapter.sendMessageForRequest(new Message("LYO_2", "Script document successfully downloaded"), request);
+			
 			// update progress indication
-			adapter.setProgress(request, 50);
+			adapter.sendProgressForRequest(50, request);
 			
 			// execute the script with the parameters from the Automation Request
-			executeScript(script, request.getInputParameters());
-			
-			// update progress indication
-			adapter.setProgress(request, 99);
+			executeScript(script, request.getInputParameters(), adapter,
+					request);
 			
 			// Upload an attachment for the result
 			File attachment = getSampleFile();
@@ -175,6 +177,9 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			// Save the end time in the result
 			result.getExtendedProperties().put(PROPERTY_RQM_END_TIME,
 					new Date(System.currentTimeMillis()));
+			
+			// update progress indication
+			adapter.sendProgressForRequest(99, request);
 			
 		} catch (Exception e) {
 			
@@ -197,9 +202,13 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 	 * @param script
 	 * @param inputParameters
 	 * @throws InterruptedException 
+	 * @throws AutomationException 
 	 */
 	private void executeScript(Document script,
-			ParameterInstance[] inputParameters) throws InterruptedException {
+			ParameterInstance[] inputParameters, AutomationAdapter adapter,
+			AutomationRequest request) throws InterruptedException,
+			AutomationException {
+		
 		
 		String scriptTitle = script.getDocumentElement()
 				.getElementsByTagNameNS(NAMESPACE_URI_DC_ELEMENTS, "title")
@@ -218,6 +227,13 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 		 * Add code here to execute the test script
 		 */
 		Thread.sleep(1000);
+		
+		// Update the request status
+		StatusResponse statusResponse = new StatusResponse(
+				StatusResponse.STATUS_OK,
+				"Script '" + scriptTitle + "' was executed successfully.");
+		
+		adapter.sendStatusForRequest(statusResponse, request);
 		
 	}
 
