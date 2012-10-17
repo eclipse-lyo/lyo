@@ -19,12 +19,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.wink.client.ClientResponse;
-import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
@@ -34,12 +40,8 @@ import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.ParseException;
+import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * Samples of logging in to Rational Team Concert and running OSLC operations
@@ -47,8 +49,8 @@ import org.apache.commons.cli.ParseException;
  * 
  * - run an OLSC ChangeRequest query and retrieve OSLC ChangeRequests and de-serialize them as Java objects
  * - retrieve an OSLC ChangeRequest and print it as XML
- * - (future) create a new ChangeRequest
- * - (future) update an existing ChangeRequest
+ * - create a new ChangeRequest
+ * - update an existing ChangeRequest
  *
  */
 public class RTCFormSample {
@@ -134,8 +136,45 @@ public class RTCFormSample {
 				processRawResponse(rawResponse);
 				rawResponse.consumeContent();
 				
-				//SCENARIO C:  RTC Workitem creation and update...TBD
+				//SCENARIO C:  RTC Workitem creation and update
+				ChangeRequest changeRequest = new ChangeRequest();
+				changeRequest.setTitle("Implement accessibility in Pet Store application");
+				changeRequest.setDescription("Image elements must provide a description in the 'alt' attribute for consumption by screen readers.");
+				changeRequest.addTestedByTestCase(new Link(new URI("http://qmprovider/testcase/1"), "Accessibility verification using a screen reader"));
+				changeRequest.addDctermsType("task");
 				
+				//Get the Creation Factory URL for change requests so that we can create one
+				String changeRequestCreation = client.lookupCreationFactory(
+						serviceProviderUrl, OSLCConstants.OSLC_CM_V2,
+						changeRequest.getRdfTypes()[0].toString());
+
+				//Create the change request
+				ClientResponse creationResponse = client.createResource(
+						changeRequestCreation, changeRequest,
+						OslcMediaType.APPLICATION_RDF_XML,
+						OslcMediaType.APPLICATION_RDF_XML);
+				String changeRequestLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
+				creationResponse.consumeContent();
+				System.out.println("Change Request created a location " + changeRequestLocation);
+				
+				
+				//Get the change request from the service provider and update its title property 
+				changeRequest = client.getResource(changeRequestLocation,
+						OslcMediaType.APPLICATION_RDF_XML).getEntity(
+								ChangeRequest.class);
+				changeRequest.setTitle(changeRequest.getTitle() + " (updated)");
+
+				//Create a partial update URL so that only the title will be updated.
+				//Assuming (for readability) that the change request URL does not already contain a '?'
+				String updateUrl = changeRequest.getAbout() + "?oslc.properties=dcterms:title";
+				
+				//Update the change request at the service provider
+				ClientResponse updateResponse = client.updateResource(
+						updateUrl, changeRequest,
+						OslcMediaType.APPLICATION_RDF_XML,
+						OslcMediaType.APPLICATION_RDF_XML);
+				
+				updateResponse.consumeContent();
 							
 			}
 		} catch (RootServicesException re) {

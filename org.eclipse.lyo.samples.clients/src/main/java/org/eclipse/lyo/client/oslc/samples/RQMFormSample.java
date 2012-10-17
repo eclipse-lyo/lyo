@@ -19,34 +19,38 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.wink.client.ClientResponse;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzRootServicesHelper;
-import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
+import org.eclipse.lyo.client.oslc.resources.TestCase;
 import org.eclipse.lyo.client.oslc.resources.TestResult;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.ParseException;
+import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * Samples of logging in to Rational Quality Manager and running OSLC operations
  * 
  * - run an OLSC TestResult query and retrieve OSLC TestResults and de-serialize them as Java objects
  * - retrieve an OSLC TestResult and print it as XML
- * - (future) create a new TestCase
- * - (future) update an existing TestCase
+ * - create a new TestCase
+ * - update an existing TestCase
  *
  */
 public class RQMFormSample {
@@ -132,7 +136,38 @@ public class RQMFormSample {
 				processRawResponse(rawResponse);
 				rawResponse.consumeContent();
 				
-				//SCENARIO C:  RQM TestCase creation and update...TBD
+				//SCENARIO C:  RQM TestCase creation and update
+				TestCase testcase = new TestCase();
+				testcase.setTitle("Accessibility verification using a screen reader");
+				testcase.setDescription("This test case uses a screen reader application to ensure that the web browser content fully complies with accessibility standards");
+				testcase.addTestsChangeRequest(new Link(new URI("http://cmprovider/changerequest/1"), "Implement accessibility in Pet Store application"));
+				
+				//Get the Creation Factory URL for test cases so that we can create a test case
+				String testcaseCreation = client.lookupCreationFactory(
+						serviceProviderUrl, OSLCConstants.OSLC_QM_V2,
+						testcase.getRdfTypes()[0].toString());
+
+				//Create the test case
+				ClientResponse creationResponse = client.createResource(
+						testcaseCreation, testcase,
+						OslcMediaType.APPLICATION_RDF_XML);
+				creationResponse.consumeContent();
+				String testcaseLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
+				System.out.println("Test Case created a location " + testcaseLocation);
+				
+				//Get the test case from the service provider and update its title property 
+				testcase = client.getResource(testcaseLocation,
+						OslcMediaType.APPLICATION_RDF_XML).getEntity(
+						TestCase.class);
+				testcase.setTitle(testcase.getTitle() + " (updated)");
+
+				//Create a partial update URL so that only the title will be updated.
+				//Assuming (for readability) that the test case URL does not already contain a '?'
+				String updateUrl = testcase.getAbout() + "?oslc.properties=dcterms:title";
+				
+				//Update the test case at the service provider
+				client.updateResource(updateUrl, testcase,
+						OslcMediaType.APPLICATION_RDF_XML).consumeContent();				
 				
 							
 			}

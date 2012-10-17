@@ -154,7 +154,7 @@ public final class TestCase
     @OslcTitle("Tests Change Request")
     public Link[] getTestsChangeRequests()
     {
-        return usesTestScripts.toArray(new Link[usesTestScripts.size()]);
+        return testsChangeRequests.toArray(new Link[testsChangeRequests.size()]);
     }
     
     @OslcDescription("Test Script used by the Test Case.")

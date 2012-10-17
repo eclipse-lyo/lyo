@@ -153,6 +153,19 @@ public class OslcClient {
 	}
 	
 	/**
+	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @param acceptType
+	 * @return
+	 */
+	public ClientResponse createResource(final String url, final Object artifact, String mediaType, String acceptType) {
+		RestClient restClient = new RestClient(clientConfig);
+		return restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+	}
+	
+	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 * @param url
 	 * @param artifact
@@ -164,6 +177,18 @@ public class OslcClient {
 		return restClient.resource(url).contentType(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
 	}
 	
+	/**
+	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @param acceptType
+	 * @return
+	 */
+	public ClientResponse updateResource(final String url, final Object artifact, String mediaType, String acceptType) {
+		RestClient restClient = new RestClient(clientConfig);
+		return restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+	}
 
 	/**
 	 * Create a Wink Resource for the given OslcQuery object
