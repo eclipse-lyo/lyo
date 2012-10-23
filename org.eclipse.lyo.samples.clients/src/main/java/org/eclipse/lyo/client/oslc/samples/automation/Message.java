@@ -27,7 +27,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcResourceShape(title = "Message Resource Shape", describes = IConstants.TYPE_MESSAGE)
-@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_QM)
+@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM)
 public class Message extends AbstractResource implements IConstants {
 	
 	private String name;
@@ -50,7 +50,7 @@ public class Message extends AbstractResource implements IConstants {
 	}
 	
 	@OslcDescription("The name of the message")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "name")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "name")
 	@OslcTitle("Name")
     @OslcOccurs(Occurs.ExactlyOne)
 	@OslcValueType(ValueType.String)
@@ -63,7 +63,7 @@ public class Message extends AbstractResource implements IConstants {
 	}
 	
 	@OslcDescription("The actual message content")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "value")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "value")
 	@OslcTitle("Value")
     @OslcOccurs(Occurs.ExactlyOne)
 	@OslcValueType(ValueType.XMLLiteral)

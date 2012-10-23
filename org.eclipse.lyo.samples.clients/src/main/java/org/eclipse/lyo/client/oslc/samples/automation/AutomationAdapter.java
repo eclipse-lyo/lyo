@@ -78,7 +78,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 @OslcResourceShape(title = "Automation Adapter Resource Shape", describes = IConstants.TYPE_AUTOMATION_ADAPTER)
-@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_QM)
+@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM)
 public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	// connection properties for the adapter. These are not part of the
@@ -252,7 +252,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.type = type;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "hostname")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "hostname")
 	@OslcTitle("Hostname")
 	@OslcValueType(ValueType.String)
 	public String getHostname() {
@@ -263,7 +263,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.hostname = hostname;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "ipAddress")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "ipAddress")
 	@OslcTitle("IP Address")
 	@OslcValueType(ValueType.String)
 	public String getIpAddress() {
@@ -274,7 +274,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.ipAddress = ipAddress;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "pollingInterval")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "pollingInterval")
 	@OslcTitle("Polling Interval")
 	@OslcValueType(ValueType.Integer)
 	public Integer getPollingInterval() {
@@ -285,7 +285,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.pollingInterval = pollingInterval;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "macAddress")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "macAddress")
 	@OslcTitle("MAC Address")
 	@OslcValueType(ValueType.String)
 	public String getMacAddress() {
@@ -296,7 +296,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		this.macAddress = macAddress;
 	}
 
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "fullyQualifiedDomainName")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "fullyQualifiedDomainName")
 	@OslcTitle("Fully Qualified Domain Name")
 	@OslcValueType(ValueType.String)
 	public String getFullyQualifiedDomainName() {
@@ -309,7 +309,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	@OslcDescription("Capability of the adapter like Execute, Record, Import.")
 	@OslcName("capability")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "capability")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "capability")
 	@OslcTitle("Capability")
 	@OslcOccurs(Occurs.OneOrMany)
 	public String[] getCapabilities() {
@@ -341,7 +341,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("URL to poll for work assigned to the adapter.")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "workAvailableUrl")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "workAvailableUrl")
 	@OslcTitle("Work Available URL")
 	@OslcValueType(ValueType.Resource)
 	public URI getWorkAvailableUrl() {
@@ -353,7 +353,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("Boolean indicating whether work is available for the adapter.")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "workAvailable")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "workAvailable")
 	@OslcTitle("Is Work Available")
 	@OslcValueType(ValueType.Boolean)
 	public Boolean getWorkAvailable() {
@@ -413,7 +413,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("URL for the machine that the adapter is running on.")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "runsOnMachine")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "runsOnMachine")
 	@OslcTitle("Runs On Machine")
 	@OslcValueType(ValueType.Resource)
 	public URI getRunsOnMachine() {
@@ -438,7 +438,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("URL for the work assigned to the adapter.")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "assignedWorkUrl")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "assignedWorkUrl")
 	@OslcTitle("Work Available URL")
 	@OslcValueType(ValueType.Resource)
 	public URI getAssignedWorkUrl() {
@@ -597,7 +597,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 				new Integer(100));
 
 		URI updateUri = appendOslcProperties(request.getAbout(),
-				"oslc_auto:state", "rqm_qm:progress");
+				"oslc_auto:state", "rqm_auto:progress");
 
 		ClientResponse response;
 
@@ -700,7 +700,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					AutomationConstants.STATE_IN_PROGRESS) });
 
 			updateUri = appendOslcProperties(URI.create(requestUrl),
-					"oslc_auto:state", "rqm_qm:taken");
+					"oslc_auto:state", "rqm_auto:taken");
 
 			response = client.updateResource(updateUri.toString(), request,
 					OslcMediaType.APPLICATION_RDF_XML);
@@ -1083,7 +1083,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		}
 		
 		URI updateUrl = appendOslcProperties(getAbout(),
-				"rqm_qm:pollingInterval");
+				"rqm_auto:pollingInterval");
 
 		ClientResponse response;
 
@@ -1110,7 +1110,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Upload a File to the Automation Service Provider using the
-	 * rqm_qm:uploadAttachmentUrl property in the Automation Request.
+	 * rqm_auto:uploadAttachmentUrl property in the Automation Request.
 	 * 
 	 * Before calling this method the adapter needs to be logged into the
 	 * Automation Service Provider.
@@ -1216,7 +1216,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 				new Integer(i));
 
 		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
-				"rqm_qm:progress");
+				"rqm_auto:progress");
 
 		ClientResponse response;
 
@@ -1267,7 +1267,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 				statusResponse);
 
 		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
-				"rqm_qm:statusResponse");
+				"rqm_auto:statusResponse");
 
 		ClientResponse response;
 
@@ -1318,7 +1318,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 				message);
 
 		URI updateUri = appendOslcProperties(requestCopy.getAbout(),
-				"rqm_qm:message");
+				"rqm_auto:message");
 
 		ClientResponse response;
 

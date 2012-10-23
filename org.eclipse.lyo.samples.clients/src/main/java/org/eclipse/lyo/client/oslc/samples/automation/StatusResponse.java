@@ -29,7 +29,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcResourceShape(title = "Status Response Resource Shape", describes = IConstants.TYPE_STATUS_RESPONSE)
-@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_QM)
+@OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM)
 public class StatusResponse extends AbstractResource implements IConstants {
 	
 	private static final Logger logger = Logger.getLogger(StatusResponse.class.getName());
@@ -75,7 +75,7 @@ public class StatusResponse extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("The severity of the status")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "statusCode")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "statusCode")
 	@OslcTitle("Status Code")
     @OslcOccurs(Occurs.ExactlyOne)
 	@OslcValueType(ValueType.Integer)
@@ -103,7 +103,7 @@ public class StatusResponse extends AbstractResource implements IConstants {
 	}
 
 	@OslcDescription("Human friendly description of the status")
-	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_QM + "status")
+	@OslcPropertyDefinition(NAMESPACE_URI_JAZZ_AUTO_RQM + "status")
 	@OslcTitle("Status")
     @OslcOccurs(Occurs.ZeroOrOne)
 	@OslcValueType(ValueType.String)
