@@ -16,6 +16,7 @@
 package org.eclipse.lyo.client.oslc.samples.automation;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,6 +28,8 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import net.oauth.OAuthException;
 
 import org.eclipse.lyo.client.oslc.resources.AutomationConstants;
 import org.eclipse.lyo.client.oslc.resources.AutomationRequest;
@@ -181,6 +184,19 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			// update progress indication
 			adapter.sendProgressForRequest(99, request);
 			
+			logger.info("Returning a result with verdict "
+					+ result.getVerdicts()[0]);
+			
+			
+		} catch (AutomationRequestCanceledException e) {
+			
+			logger.info("Automation Request \""
+					+ e.getCanceledRequest().getTitle() + "\" was canceled.");
+			
+			// clean up any resources created for test execution here
+			
+			result = null;
+			
 		} catch (Exception e) {
 			
 			// cancel the request since it could not be completed
@@ -189,9 +205,6 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			throw new AutomationException(e);
 			
 		}
-		
-		logger.info("Returning a result with verdict "
-				+ result.getVerdicts()[0]);
 		
 		return result;
 	}
@@ -203,12 +216,15 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 	 * @param inputParameters
 	 * @throws InterruptedException 
 	 * @throws AutomationException 
+	 * @throws URISyntaxException 
+	 * @throws OAuthException 
+	 * @throws IOException 
 	 */
 	private void executeScript(Document script,
 			ParameterInstance[] inputParameters, AutomationAdapter adapter,
 			AutomationRequest request) throws InterruptedException,
-			AutomationException {
-		
+			AutomationException, IOException, OAuthException,
+			URISyntaxException {		
 		
 		String scriptTitle = script.getDocumentElement()
 				.getElementsByTagNameNS(NAMESPACE_URI_DC_ELEMENTS, "title")
