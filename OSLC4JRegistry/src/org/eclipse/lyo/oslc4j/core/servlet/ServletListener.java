@@ -19,6 +19,7 @@
 package org.eclipse.lyo.oslc4j.core.servlet;
 
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
 public class ServletListener
@@ -73,19 +75,30 @@ public class ServletListener
         {
             final ServletContext servletContext = servletContextEvent.getServletContext();
 
-            String scheme = System.getProperty(PROPERTY_SCHEME);
-            if (scheme == null)
-            {
-                scheme = servletContext.getInitParameter(PROPERTY_SCHEME);
+            //Honor the public URI property, if set 
+            String publicURI = OSLC4JUtils.getPublicURI();
+            String baseURI;
+            
+            if (publicURI == null || publicURI.isEmpty())
+	            {
+	            String scheme = System.getProperty(PROPERTY_SCHEME);
+	            if (scheme == null)
+	            {
+	                scheme = servletContext.getInitParameter(PROPERTY_SCHEME);
+	            }
+	
+	            String port = System.getProperty(PROPERTY_PORT);
+	            if (port == null)
+	            {
+	                port = servletContext.getInitParameter(PROPERTY_PORT);
+	            }
+	           
+	            baseURI = scheme + "://" + HOST + ":" + port + servletContext.getContextPath();
+            } else {
+            	//Instead of the context in the publicUri, need to use context for the registry
+            	URI uri = new URI(publicURI);
+            	baseURI = uri.getScheme() + "://" + uri.getHost() + ":" + uri.getPort() + "/" + servletContext.getContextPath();
             }
-
-            String port = System.getProperty(PROPERTY_PORT);
-            if (port == null)
-            {
-                port = servletContext.getInitParameter(PROPERTY_PORT);
-            }
-
-            final String baseURI = scheme + "://" + HOST + ":" + port + servletContext.getContextPath();
 
             final ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(baseURI);
 
