@@ -100,6 +100,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	public static final String PROPERTY_MAC_ADDRESSS = "macAddress";
 	public static final String PROPERTY_FULLY_QUALIFIED_DOMAIN_NAME = "fullyQualifiedDomainName";
 	public static final String PROPERTY_CAPABIILTY = "capability";
+	public static final String PROPERTY_ABOUT = "about";
 
 	// connection properties
 	private String serverUrl;
@@ -130,7 +131,6 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	private URI assignedWorkUrl;
 
 	// state of the adapter
-	private boolean isRegistered = false;
 	private boolean isStopped = false;
 
 	private JazzFormAuthClient client = null;
@@ -176,6 +176,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		String capabilities = properties.getProperty(PROPERTY_CAPABIILTY);
 		if (capabilities != null) {
 			setCapabilities(capabilities.split(","));
+		}
+		
+		String aboutStr = properties.getProperty(PROPERTY_ABOUT);
+		if (aboutStr != null) {
+			setAbout(URI.create(aboutStr));
 		}
 	}
 
@@ -477,7 +482,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			throws AutomationException, InterruptedException, IOException,
 			URISyntaxException, OAuthException, ResourceNotFoundException {
 
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider.");
@@ -728,8 +740,13 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	}
 
 	/**
-	 * Register with the Automation Service Provider. Before calling this method
-	 * the adapter needs to be logged in to the Automation Service Provider.
+	 * Register with the Automation Service Provider if necessary. Before
+	 * calling this method the adapter needs to be logged in to the Automation
+	 * Service Provider.
+	 * 
+	 * If the adapter's <code>about</code> property is not null then it is
+	 * assumed that the adapter is already created and its properties will be
+	 * refreshed from the service provider instead of recreating it again.
 	 * 
 	 * @throws AutomationException
 	 * @throws IOException
@@ -744,59 +761,112 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		if (client == null) {
 
 			throw new AutomationException(
-					"The adapter has not logged into the server.");
+					"Adapter is not logged into the Automation Service Provider.");
 
 		}
 
+		if (getAbout() == null) {
+
+			String adapterCreationFactoryUrl;
+			ClientResponse response;
+
+			synchronized (client) {
+
+				// Find the OSLC Service Provider for the project area we want
+				// to work with
+				String serviceProviderUrl = client.lookupServiceProviderUrl(
+						rootServicesHelper.getCatalogUrl(), projectArea);
+
+				adapterCreationFactoryUrl = client.lookupCreationFactory(
+						serviceProviderUrl,
+						AutomationConstants.AUTOMATION_DOMAIN,
+						TYPE_AUTOMATION_ADAPTER);
+
+				response = client.createResource(adapterCreationFactoryUrl,
+						this, OslcMediaType.APPLICATION_RDF_XML);
+
+				response.consumeContent();
+
+			}
+
+			if (response.getStatusCode() != HttpStatus.SC_CREATED) {
+
+				throw new AutomationException(
+						"Failed to register the adapter at "
+								+ adapterCreationFactoryUrl + ". "
+								+ response.getStatusCode() + ": "
+								+ response.getMessage());
+
+			}
+
+			String adapterUrl = response.getHeaders().getFirst(
+					HttpHeaders.LOCATION);
+
+			setAbout(URI.create(adapterUrl));
+
+		}
+
+		reloadPropertiesFromServiceProvider();
+		
+	}
+	
+	/**
+	 * Reload the adapter's properties from the service Provider. This ensures
+	 * that the adapter has the properties it needs such as the URL to poll for
+	 * assigned work. Before calling this method the adapter needs to be logged
+	 * in and registered with the Automation Service Provider.
+	 * 
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 * @throws AutomationException
+	 * @see #login()
+	 */
+	public void reloadPropertiesFromServiceProvider() throws IOException,
+			OAuthException, URISyntaxException, AutomationException {
+		
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+
+		if (getAbout() == null) {
+
+			throw new AutomationException(
+					"Adapter is not registered with the Automation Service Provider.");
+
+		}
+		
 		AutomationAdapter registeredAdapter;
-		String adapterCreationFactoryUrl;
-		ClientResponse response;
-
+		
 		synchronized (client) {
-
-			// Find the OSLC Service Provider for the project area we want to
-			// work with
-			String serviceProviderUrl = client.lookupServiceProviderUrl(
-					rootServicesHelper.getCatalogUrl(), projectArea);
-
-			adapterCreationFactoryUrl = client.lookupCreationFactory(
-					serviceProviderUrl, AutomationConstants.AUTOMATION_DOMAIN,
-					TYPE_AUTOMATION_ADAPTER);
-
-			response = client.createResource(adapterCreationFactoryUrl, this,
+			
+			ClientResponse response = client.getResource(getAbout().toString(),
 					OslcMediaType.APPLICATION_RDF_XML);
+			
+			if (response.getStatusCode() != HttpStatus.SC_OK) {
+				
+				response.consumeContent();
+				
+				throw new AutomationException(
+						"The Adapter has an 'about' property that it is not acknowledged by the Automation Service Provider. The Adapter may have been deleted.");
+			}			
 
-			response.consumeContent();
-		}
-
-		if (response.getStatusCode() != HttpStatus.SC_CREATED) {
-
-			throw new AutomationException("Failed to register the adapter at "
-					+ adapterCreationFactoryUrl + ". "
-					+ response.getStatusCode() + ": " + response.getMessage());
-
-		}
-
-		String adapterUrl = response.getHeaders()
-				.getFirst(HttpHeaders.LOCATION);
-
-		synchronized (client) {
-
-			registeredAdapter = client.getResource(adapterUrl,
-					OslcMediaType.APPLICATION_RDF_XML).getEntity(
-					AutomationAdapter.class);
+			registeredAdapter = response.getEntity(AutomationAdapter.class);
 
 		}
 
 		// copy the server side properties into this local adapter instance
 		copyServerProperties(registeredAdapter);
 
-		isRegistered = true;
 	}
 
 	/**
 	 * Unregister with the Automation Service Provider. Before calling this
-	 * method the adapter needs to be logged in.
+	 * method the adapter needs to be logged in and registered with the
+	 * Service Provider.
 	 * 
 	 * @throws AutomationException
 	 * @throws IOException
@@ -807,7 +877,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	public void unregister() throws AutomationException, IOException,
 			OAuthException, URISyntaxException {
 
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider.");
@@ -837,7 +914,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 		}
 
-		isRegistered = false;
+		setAbout(null);
 	}
 
 	/**
@@ -1082,7 +1159,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 */
 	private void sendHeartbeat() throws URISyntaxException, AutomationException {
 
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
@@ -1212,7 +1296,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			throws URISyntaxException, AutomationException, IOException,
 			OAuthException {
 
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
@@ -1273,7 +1364,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			AutomationRequest request) throws AutomationException, IOException,
 			OAuthException, URISyntaxException {
 		
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
@@ -1329,7 +1427,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			throws AutomationException, IOException, OAuthException,
 			URISyntaxException {
 		
-		if (!isRegistered) {
+		if (client == null) {
+
+			throw new AutomationException(
+					"Adapter is not logged into the Automation Service Provider.");
+
+		}
+		
+		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");

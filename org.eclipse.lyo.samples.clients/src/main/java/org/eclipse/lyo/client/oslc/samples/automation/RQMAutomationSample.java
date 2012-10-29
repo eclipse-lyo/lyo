@@ -69,25 +69,7 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 	 */
 	private void begin() throws Exception {
 		
-		// Initialize a local adapter instance
-		Properties adapterProperties = new Properties();
-		
-		adapterProperties.load(RQMAutomationSample.class
-				.getResourceAsStream("adapter.properties"));
-		
-		adapter = new AutomationAdapter(adapterProperties);
-		
-		logger.info("Logging into service provider at "
-				+ adapter.getServerUrl());
-		
-		// Login to the server using the properties provided in the constructor
-		adapter.login();
-		
-		logger.info("Registering with service provider");
-		
-		// Register the adapter with the service provider, letting it know that
-		// the adapter is available for work
-		adapter.register();
+		configureAdapter();
 		
 		try {
 			
@@ -110,10 +92,6 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			
 		} finally {
 			
-			// notify the Automation Service Provider that this adapter is no
-			// longer available for work
-			adapter.unregister();
-			
 			// stop the adapter, in case we are in this catch block due to
 			// an exception being thrown
 			adapter.stop();
@@ -122,6 +100,44 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 			// side resources, licenses, etc.  Currently this is a no-op.
 			adapter.logout();
 		}
+	}
+	
+	/**
+	 * Configure the adapter by reading its properties from a Properties file
+	 * and logging into the Service Provider.
+	 * 
+	 * @throws Exception
+	 */
+	private void configureAdapter() throws Exception {
+
+		// For the sake of simplicity this sample loads the adapter
+		// properties from a file in the class loader. A real world adapter
+		// would load the adapter properties from a stable location in the
+		// filesystem or from a database.
+		URI propertiesFileUri = RQMAutomationSample.class.getResource(
+				"adapter.properties").toURI();
+		
+		logger.info("Loading cached adapter properties from " + propertiesFileUri.toString());
+		
+		Properties properties = new WriteThroughProperties(propertiesFileUri);
+		
+		adapter = new AutomationAdapter(properties);
+
+		logger.info("Logging into service provider at "
+				+ adapter.getServerUrl());
+
+		// Login to the server using the properties provided in the constructor
+		adapter.login();
+
+		logger.info("Registering with service provider");
+
+		// this call will establish the adapter's "about" property
+		// as the URL for the adapter.
+		adapter.register();
+
+		properties.setProperty(AutomationAdapter.PROPERTY_ABOUT,
+				adapter.getAbout().toString());
+
 	}
 	
 	/**
@@ -320,6 +336,8 @@ public class RQMAutomationSample implements IConstants, IAutomationRequestHandle
 		
 		logger.severe("Adapter heartbeat running in Thread " + thread.getName()
 				+ " threw an uncaught exception.");
+		
+		throwable.printStackTrace(System.err);
 
 		adapter.stop();
 		
