@@ -344,12 +344,19 @@ public class OslcClient {
 					Statement thisQueryCap = queryCaps.nextStatement();
 					com.hp.hpl.jena.rdf.model.Resource queryCapRes = thisQueryCap.getResource();
 					Property searchProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,searchAttribute);
-					String value = queryCapRes.getProperty(searchProp).getObject().toString();
-
-					if (value.equals(searchAttributeValue)) {
-						Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2, serviceLocation);
-						retval = queryCapRes.getProperty(queryBaseProp).getObject().toString();
-						foundQueryCapability = true;
+					Selector searchPropSelector = new SimpleSelector(null, searchProp, (RDFNode)null);
+					
+					StmtIterator matchingStatements = rdfModel.listStatements(searchPropSelector);
+					
+					while (matchingStatements.hasNext()  && !foundQueryCapability) {
+						Statement currentStatement = matchingStatements.next();
+						String value = currentStatement.getObject().toString();
+	
+						if (value.equals(searchAttributeValue)) {
+							Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2, serviceLocation);
+							retval = queryCapRes.getProperty(queryBaseProp).getObject().toString();
+							foundQueryCapability = true;
+						}
 					}
 				}
 			}

@@ -145,6 +145,21 @@ public class JazzRootServicesHelper {
 		
 	}
 	
+	/**
+	 * 
+	 * @param userid
+	 * @param password
+	 * @param authUrl - the base URL to use for authentication.  This is normally the 
+	 * application base URL for RQM and RTC and is the JTS application URL for fronting
+	 * applications like RRC and DM. 
+	 * @return
+	 */
+	public JazzFormAuthClient initFormClient(String userid, String password, String authUrl)
+	{
+		return new JazzFormAuthClient(baseUrl, authUrl, userid, password);
+		
+	}
+	
 	private void processRootServices() throws RootServicesException
 	{
 		try {

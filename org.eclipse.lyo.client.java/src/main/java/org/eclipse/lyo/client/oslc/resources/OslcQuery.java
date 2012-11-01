@@ -152,7 +152,7 @@ public class OslcQuery {
 		if (this.searchTerms != null && !this.searchTerms.isEmpty()) {
 			resource.queryParam("oslc.searchTerms", this.searchTerms);
 		}
-		if (this.prefix != null && !this.searchTerms.isEmpty()) {
+		if (this.prefix != null && !this.prefix.isEmpty()) {
 			resource.queryParam("oslc.prefix", this.prefix);
 		}
 	}

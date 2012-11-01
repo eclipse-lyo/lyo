@@ -39,6 +39,7 @@ import org.eclipse.lyo.client.oslc.OslcClient;
 public class JazzFormAuthClient extends OslcClient {
 	
 	private String url;
+	private String authUrl;
 	private String project;
 	private String user;
 	private String password;
@@ -63,9 +64,27 @@ public class JazzFormAuthClient extends OslcClient {
 	{
 		this();
 		this.url=url;
+		this.authUrl = url;  //default to base URL
 		this.user = user;
 		this.password = password;
 		
+	}
+	
+	/**
+	 * Create a new Jazz Form Auth client for the given URL, user and password
+	 * 
+	 * @param url - the URL of the Jazz server, including the web app context
+	 * @param authUrl - the base URL to use for authentication.  This is normally the 
+	 * application base URL for RQM and RTC and is the JTS application URL for fronting
+	 * applications like RRC and DM. 
+	 * @param user
+	 * @param password
+	 * @returns 
+	 **/
+	public JazzFormAuthClient(String url, String authUrl, String user, String password) 
+	{
+		this(url, user, password);
+		this.authUrl = authUrl;		
 	}
 	
 	public String getUrl() {
@@ -73,6 +92,14 @@ public class JazzFormAuthClient extends OslcClient {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	public String getAuthUrl() {
+		return authUrl;
+	}
+	
+	public void setAuthUrl(String authUrl) {
+		this.authUrl = authUrl;
 	}
 
 	public String getProject() {
@@ -109,7 +136,7 @@ public class JazzFormAuthClient extends OslcClient {
 		HttpResponse resp;
 		try 
 		{
-			HttpGet get1 = new HttpGet(this.url + "/auth/authrequired");
+			HttpGet get1 = new HttpGet(this.authUrl + "/auth/authrequired");
 			resp = httpClient.execute(get1);
 			statusCode = resp.getStatusLine().getStatusCode();
 			location = getHeader(resp,"Location");
@@ -117,7 +144,7 @@ public class JazzFormAuthClient extends OslcClient {
 			followRedirects(statusCode,location);
 			
 			
-			HttpGet get2= new HttpGet(this.url + "/authenticated/identity");
+			HttpGet get2= new HttpGet(this.authUrl + "/authenticated/identity");
 			
 			resp = httpClient.execute(get2);
 			statusCode = resp.getStatusLine().getStatusCode();
@@ -126,9 +153,10 @@ public class JazzFormAuthClient extends OslcClient {
 			followRedirects(statusCode,location);
 			
 			
-			HttpPost post = new HttpPost(this.url + "/j_security_check");
+			HttpPost post = new HttpPost(this.authUrl + "/j_security_check");
 			StringEntity entity = new StringEntity("j_username=" + this.user + "&j_password=" + this.password);
 			post.setHeader("Accept", "*/*");
+			post.setHeader("X-Requested-With", "XMLHttpRequest");
 			post.setEntity(entity);
 			post.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		    post.addHeader("OSLC-Core-Version", "2.0");
@@ -157,7 +185,7 @@ public class JazzFormAuthClient extends OslcClient {
 		    	location = getHeader(resp,"Location");
 		    	EntityUtils.consume(resp.getEntity());
 		    	followRedirects(statusCode,location);
-		    	HttpGet get3 = new HttpGet(this.url + "/service/com.ibm.team.repository.service.internal.webuiInitializer.IWebUIInitializerRestService/initializationData");
+		    	HttpGet get3 = new HttpGet(this.authUrl + "/service/com.ibm.team.repository.service.internal.webuiInitializer.IWebUIInitializerRestService/initializationData");
 		    	resp = httpClient.execute(get3);
 		    	statusCode = resp.getStatusLine().getStatusCode();
 		    	location = getHeader(resp,"Location");
