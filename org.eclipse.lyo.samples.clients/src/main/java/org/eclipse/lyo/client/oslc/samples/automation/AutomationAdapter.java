@@ -516,11 +516,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 				if (result != null) {
 
-					completeRequest(request);
-
 					populateResultFromRequest(request, result);
 
 					saveResult(result);
+
+					completeRequest(request);
 
 				}
 
