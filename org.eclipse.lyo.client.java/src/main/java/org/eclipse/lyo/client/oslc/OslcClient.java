@@ -298,7 +298,7 @@ public class OslcClient {
 	}
 	
 	protected String lookupService(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, 
-			                    final String serviceName, final String serviceLocation) 
+			                    final String capability, final String serviceLocation) 
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
@@ -312,21 +312,21 @@ public class OslcClient {
 		Selector select = new SimpleSelector(null, spPredicate, (RDFNode)null); 
 		StmtIterator listStatements = rdfModel.listStatements(select);
 		
-		boolean foundQueryCapability = false;
+		boolean foundCapability = false;
 		
-		while (listStatements.hasNext()  && !foundQueryCapability) {
+		while (listStatements.hasNext()  && !foundCapability) {
 			Statement thisService = listStatements.nextStatement();
 			com.hp.hpl.jena.rdf.model.Resource  serviceRes = thisService.getResource();
 			Property domainProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,"domain");
 			String domainValue = serviceRes.getProperty(domainProp).getObject().toString();
 			
-			//Second, find all queryCapabilities this service provider has
+			//Second, find all target capabilities this service provider has
 			if (domainValue.equals(oslcDomain)) {
-				Property queryCapPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,serviceName);
-				Selector selectQuery = new SimpleSelector(serviceRes, queryCapPredicate, (RDFNode) null);
-				StmtIterator queryCaps = rdfModel.listStatements(selectQuery);
+				Property capabilityPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,capability);
+				Selector selectQuery = new SimpleSelector(serviceRes, capabilityPredicate, (RDFNode) null);
+				StmtIterator capabilities = rdfModel.listStatements(selectQuery);
 				
-				//Third, find the capability for the requested artifact type, or the default query capability if no 
+				//Third, find the target capability for the requested artifact type, or the default capability if no 
 				//artifact type was given.
 				
 				String searchAttribute = null;
@@ -340,22 +340,22 @@ public class OslcClient {
 					searchAttributeValue = oslcResourceType;
 				}
 				
-				while (queryCaps.hasNext() && !foundQueryCapability) {
-					Statement thisQueryCap = queryCaps.nextStatement();
-					com.hp.hpl.jena.rdf.model.Resource queryCapRes = thisQueryCap.getResource();
+				while (capabilities.hasNext() && !foundCapability) {
+					Statement thisQueryCap = capabilities.nextStatement();
+					com.hp.hpl.jena.rdf.model.Resource capabilityRes = thisQueryCap.getResource();
 					Property searchProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,searchAttribute);
-					Selector searchPropSelector = new SimpleSelector(null, searchProp, (RDFNode)null);
+					Selector searchPropSelector = new SimpleSelector(capabilityRes, searchProp, (RDFNode)null);
 					
 					StmtIterator matchingStatements = rdfModel.listStatements(searchPropSelector);
 					
-					while (matchingStatements.hasNext()  && !foundQueryCapability) {
+					while (matchingStatements.hasNext()  && !foundCapability) {
 						Statement currentStatement = matchingStatements.next();
 						String value = currentStatement.getObject().toString();
 	
 						if (value.equals(searchAttributeValue)) {
 							Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2, serviceLocation);
-							retval = queryCapRes.getProperty(queryBaseProp).getObject().toString();
-							foundQueryCapability = true;
+							retval = capabilityRes.getProperty(queryBaseProp).getObject().toString();
+							foundCapability = true;
 						}
 					}
 				}
@@ -364,7 +364,7 @@ public class OslcClient {
 		
 		if (retval == null)
 		{
-			throw new ResourceNotFoundException(serviceProviderUrl, serviceName);
+			throw new ResourceNotFoundException(serviceProviderUrl, capability);
 		}
 		return retval;
 	}
