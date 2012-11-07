@@ -34,6 +34,7 @@ import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Deque;
 import java.util.GregorianCalendar;
@@ -93,6 +94,7 @@ import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.RSIterator;
 import com.hp.hpl.jena.rdf.model.ReifiedStatement;
@@ -490,8 +492,6 @@ public final class JenaModelHelper
             {
                 Class<?> setMethodComponentParameterClass = setMethod.getParameterTypes()[0];
                 
-
-                
                 boolean multiple = setMethodComponentParameterClass.isArray();
                 if (multiple)
                 {
@@ -518,6 +518,32 @@ public final class JenaModelHelper
                     }
                 }
                 
+                final List<RDFNode> objects;
+                if (multiple && object.isResource() && (
+                       (object.asResource().hasProperty(RDF.first) 
+                           && object.asResource().hasProperty(RDF.rest))
+                       || (RDF.nil.equals(object))
+                       || object.canAs(RDFList.class)))
+                {
+                    objects = new ArrayList<RDFNode>();
+                    Resource listNode = object.asResource();
+                    while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI())) 
+                    {
+                        visitedResources.put(getVisitedResourceName(listNode), new Object());
+                       
+                        RDFNode o = listNode.getPropertyResourceValue(RDF.first);
+                        objects.add(o);
+                       
+                        listNode = listNode.getPropertyResourceValue(RDF.rest);
+                    }
+                   
+                    visitedResources.put(getVisitedResourceName(object.asResource()), objects);
+                }
+                else
+                {
+                   objects = Collections.singletonList(object);
+                }
+                
                 Class<?> reifiedClass = null;
                 if (IReifiedResource.class.isAssignableFrom(setMethodComponentParameterClass))
                 {
@@ -539,176 +565,179 @@ public final class JenaModelHelper
                 	}
                 }
                 
-                Object parameter = null;
-                if (object.isLiteral())
+                for (RDFNode o : objects)
                 {
-                    final Literal literal    = object.asLiteral();
-                    final String stringValue = literal.getString();
-
-                    if (String.class == setMethodComponentParameterClass)
+                    Object parameter = null;
+                    if (o.isLiteral())
                     {
-                        parameter = stringValue;
-                    }
-                    else if ((Boolean.class == setMethodComponentParameterClass) ||
-                             (Boolean.TYPE == setMethodComponentParameterClass))
-                    {
-                        // XML supports both 'true' and '1' for a true Boolean.
-                        // Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
-                        if ((Boolean.TRUE.toString().equals(stringValue)) ||
-                            ("1".equals(stringValue)))
+                        final Literal literal    = o.asLiteral();
+                        final String stringValue = literal.getString();
+    
+                        if (String.class == setMethodComponentParameterClass)
                         {
-                            parameter = Boolean.TRUE;
+                            parameter = stringValue;
                         }
-                        // XML supports both 'false' and '0' for a false Boolean.
-                        else if ((Boolean.FALSE.toString().equals(stringValue)) ||
-                                 ("0".equals(stringValue)))
+                        else if ((Boolean.class == setMethodComponentParameterClass) ||
+                                 (Boolean.TYPE == setMethodComponentParameterClass))
                         {
-                            parameter = Boolean.FALSE;
+                            // XML supports both 'true' and '1' for a true Boolean.
+                            // Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
+                            if ((Boolean.TRUE.toString().equals(stringValue)) ||
+                                ("1".equals(stringValue)))
+                            {
+                                parameter = Boolean.TRUE;
+                            }
+                            // XML supports both 'false' and '0' for a false Boolean.
+                            else if ((Boolean.FALSE.toString().equals(stringValue)) ||
+                                     ("0".equals(stringValue)))
+                            {
+                                parameter = Boolean.FALSE;
+                            }
+                            else
+                            {
+                                throw new IllegalArgumentException("'" + stringValue + "' has wrong format for Boolean.");
+                            }
+                        }
+                        else if ((Byte.class == setMethodComponentParameterClass) ||
+                                 (Byte.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Byte.valueOf(stringValue);
+                        }
+                        else if ((Short.class == setMethodComponentParameterClass) ||
+                                 (Short.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Short.valueOf(stringValue);
+                        }
+                        else if ((Integer.class == setMethodComponentParameterClass) ||
+                                 (Integer.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Integer.valueOf(stringValue);
+                        }
+                        else if ((Long.class == setMethodComponentParameterClass) ||
+                                 (Long.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Long.valueOf(stringValue);
+                        }
+                        else if (BigInteger.class == setMethodComponentParameterClass)
+                        {
+                            parameter = new BigInteger(stringValue);
+                        }
+                        else if ((Float.class == setMethodComponentParameterClass) ||
+                                 (Float.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Float.valueOf(stringValue);
+                        }
+                        else if ((Double.class == setMethodComponentParameterClass) ||
+                                 (Double.TYPE == setMethodComponentParameterClass))
+                        {
+                            parameter = Double.valueOf(stringValue);
+                        }
+                        else if (Date.class == setMethodComponentParameterClass)
+                        {
+                            parameter = DatatypeFactory.newInstance().newXMLGregorianCalendar(stringValue).toGregorianCalendar().getTime();
+                        }
+                    }
+                    else if (o.isResource())
+                    {
+                        final Resource nestedResource = o.asResource();
+    
+                        if (URI.class == setMethodComponentParameterClass)
+                        {
+                            final String nestedResourceURIString = nestedResource.getURI();
+    
+                            if (nestedResourceURIString != null)
+                            {
+                                final URI nestedResourceURI = new URI(nestedResourceURIString);
+    
+                                if (!nestedResourceURI.isAbsolute())
+                             	{
+                                	throw new OslcCoreRelativeURIException(beanClass,
+                                                                           setMethod.getName(),
+                                                                           nestedResourceURI);
+                            	}
+    
+                            	parameter = nestedResourceURI;
+                            }
                         }
                         else
                         {
-                            throw new IllegalArgumentException("'" + stringValue + "' has wrong format for Boolean.");
+                            final Object nestedBean = setMethodComponentParameterClass.newInstance();
+    
+                            fromResource(classPropertyDefinitionsToSetMethods,
+                                         setMethodComponentParameterClass,
+                                         nestedBean,
+                                         nestedResource,
+                                         visitedResources);
+    
+                            parameter = nestedBean;
                         }
                     }
-                    else if ((Byte.class == setMethodComponentParameterClass) ||
-                             (Byte.TYPE == setMethodComponentParameterClass))
+    
+                    if (parameter != null)
                     {
-                        parameter = Byte.valueOf(stringValue);
-                    }
-                    else if ((Short.class == setMethodComponentParameterClass) ||
-                             (Short.TYPE == setMethodComponentParameterClass))
-                    {
-                        parameter = Short.valueOf(stringValue);
-                    }
-                    else if ((Integer.class == setMethodComponentParameterClass) ||
-                             (Integer.TYPE == setMethodComponentParameterClass))
-                    {
-                        parameter = Integer.valueOf(stringValue);
-                    }
-                    else if ((Long.class == setMethodComponentParameterClass) ||
-                             (Long.TYPE == setMethodComponentParameterClass))
-                    {
-                        parameter = Long.valueOf(stringValue);
-                    }
-                    else if (BigInteger.class == setMethodComponentParameterClass)
-                    {
-                        parameter = new BigInteger(stringValue);
-                    }
-                    else if ((Float.class == setMethodComponentParameterClass) ||
-                             (Float.TYPE == setMethodComponentParameterClass))
-                    {
-                        parameter = Float.valueOf(stringValue);
-                    }
-                    else if ((Double.class == setMethodComponentParameterClass) ||
-                             (Double.TYPE == setMethodComponentParameterClass))
-                    {
-                        parameter = Double.valueOf(stringValue);
-                    }
-                    else if (Date.class == setMethodComponentParameterClass)
-                    {
-                        parameter = DatatypeFactory.newInstance().newXMLGregorianCalendar(stringValue).toGregorianCalendar().getTime();
-                    }
-                }
-                else if (object.isResource())
-                {
-                    final Resource nestedResource = object.asResource();
-
-                    if (URI.class == setMethodComponentParameterClass)
-                    {
-                        final String nestedResourceURIString = nestedResource.getURI();
-
-                        if (nestedResourceURIString != null)
+                    	if (reifiedClass != null)
+                    	{
+    						// This property supports reified statements. Create the
+    						// new resource to hold the value and any metadata.
+    						final Object reifiedResource = reifiedClass.newInstance();
+    						
+    						// Find a setter for the actual value.
+    					    for (Method method : reifiedClass.getMethods())
+    					    {
+    					        if (!"setValue".equals(method.getName()))
+    					        {
+    					            continue;
+    					        }
+    					        final Class<?>[] parameterTypes = method.getParameterTypes();
+    					        if (parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(setMethodComponentParameterClass))
+    					        {
+    								method.invoke(reifiedResource, parameter);		
+    								break;
+    					        }
+    					    }
+    
+    					    // Fill in any reified statements.
+    					    RSIterator rsIter = statement.listReifiedStatements();
+    					    while (rsIter.hasNext())
+    					    {
+    					    	ReifiedStatement reifiedStatement = rsIter.next();
+    						    fromResource(classPropertyDefinitionsToSetMethods,
+    						    		reifiedClass,
+    	                                reifiedResource,
+    	                                reifiedStatement,
+    	                                visitedResources);
+    					    }
+    					    
+                    		parameter = reifiedResource;
+                    	}
+                    	
+                        if (multiple)
                         {
-                            final URI nestedResourceURI = new URI(nestedResourceURIString);
-
-                            if (!nestedResourceURI.isAbsolute())
-                         	{
-                            	throw new OslcCoreRelativeURIException(beanClass,
-                                                                       setMethod.getName(),
-                                                                       nestedResourceURI);
-                        	}
-
-                        	parameter = nestedResourceURI;
+                            List<Object> values = propertyDefinitionsToArrayValues.get(uri);
+                            if (values == null)
+                            {
+                                values = new ArrayList<Object>();
+    
+                                propertyDefinitionsToArrayValues.put(uri,
+                                                                     values);
+                            }
+    
+                            values.add(parameter);
                         }
-                    }
-                    else
-                    {
-                        final Object nestedBean = setMethodComponentParameterClass.newInstance();
-
-                        fromResource(classPropertyDefinitionsToSetMethods,
-                                     setMethodComponentParameterClass,
-                                     nestedBean,
-                                     nestedResource,
-                                     visitedResources);
-
-                        parameter = nestedBean;
-                    }
-                }
-
-                if (parameter != null)
-                {
-                	if (reifiedClass != null)
-                	{
-						// This property supports reified statements. Create the
-						// new resource to hold the value and any metadata.
-						final Object reifiedResource = reifiedClass.newInstance();
-						
-						// Find a setter for the actual value.
-					    for (Method method : reifiedClass.getMethods())
-					    {
-					        if (!"setValue".equals(method.getName()))
-					        {
-					            continue;
-					        }
-					        final Class<?>[] parameterTypes = method.getParameterTypes();
-					        if (parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(setMethodComponentParameterClass))
-					        {
-								method.invoke(reifiedResource, parameter);		
-								break;
-					        }
-					    }
-
-					    // Fill in any reified statements.
-					    RSIterator rsIter = statement.listReifiedStatements();
-					    while (rsIter.hasNext())
-					    {
-					    	ReifiedStatement reifiedStatement = rsIter.next();
-						    fromResource(classPropertyDefinitionsToSetMethods,
-						    		reifiedClass,
-	                                reifiedResource,
-	                                reifiedStatement,
-	                                visitedResources);
-					    }
-					    
-                		parameter = reifiedResource;
-                	}
-                	
-                    if (multiple)
-                    {
-                        List<Object> values = propertyDefinitionsToArrayValues.get(uri);
-                        if (values == null)
+                        else
                         {
-                            values = new ArrayList<Object>();
-
-                            propertyDefinitionsToArrayValues.put(uri,
-                                                                 values);
+                            if (singleValueMethodsUsed.contains(setMethod))
+                            {
+                                throw new OslcCoreMisusedOccursException(beanClass,
+                                                                         setMethod);
+                            }
+    
+    
+                            setMethod.invoke(bean,
+                                             new Object[] {parameter});
+    
+                            singleValueMethodsUsed.add(setMethod);
                         }
-
-                        values.add(parameter);
-                    }
-                    else
-                    {
-                        if (singleValueMethodsUsed.contains(setMethod))
-                        {
-                            throw new OslcCoreMisusedOccursException(beanClass,
-                                                                     setMethod);
-                        }
-
-
-                        setMethod.invoke(bean,
-                                         new Object[] {parameter});
-
-                        singleValueMethodsUsed.add(setMethod);
                     }
                 }
             }
@@ -1202,7 +1231,8 @@ public final class JenaModelHelper
 			                    resource, 
 			                    property, 
 			                    nestedProperties,
-			                    onlyNested);
+			                    onlyNested,
+			                    null);
     	}
     	else if (value instanceof Date)
     	{
@@ -1284,26 +1314,27 @@ public final class JenaModelHelper
         
         final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value()); 
 
-        Property attribute = model.createProperty(propertyDefinition);
+        final Property attribute = model.createProperty(propertyDefinition);
 
         final Class<?> returnType = method.getReturnType();
+        final OslcRdfCollectionType collectionType =
+            InheritedMethodAnnotationHelper.getAnnotation(method, 
+                                                          OslcRdfCollectionType.class);
+        final List<RDFNode> rdfNodeContainer;
+        
+        if (collectionType != null &&
+                OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
+                "List".equals(collectionType.collectionType()))
+        {
+            rdfNodeContainer = new ArrayList<RDFNode>();
+        }
+        else
+        {
+            rdfNodeContainer = null;
+        }
         
         if (returnType.isArray())
         {
-            final OslcRdfCollectionType collectionType =
-                InheritedMethodAnnotationHelper.getAnnotation(method, 
-                                                              OslcRdfCollectionType.class);
-            if (collectionType != null)
-            {
-                Resource origResource = resource;
-                
-                resource = model.createResource(model.createProperty(collectionType.namespaceURI(),
-                                                                     collectionType.collectionType()));
-                model.add(model.createStatement(origResource, attribute, resource));
-                
-                attribute = model.createProperty(OslcConstants.RDFS_NAMESPACE + "member");
-            }
-            
             // We cannot cast to Object[] in case this is an array of
             // primitives. We will use Array reflection instead.
             // Strange case about primitive arrays: they cannot be cast to
@@ -1327,25 +1358,20 @@ public final class JenaModelHelper
                                     resource,
                                     attribute,
                                     nestedProperties,
-                                    onlyNested);
+                                    onlyNested,
+                                    rdfNodeContainer);
+            }
+            
+            // XXX - Need to generalize to arbitrary RDF collections
+            if (rdfNodeContainer != null)
+            {
+                RDFList list = model.createList(rdfNodeContainer.iterator());
+                Statement s = model.createStatement(resource, attribute, list);
+                model.add(s);
             }
         }
         else if (Collection.class.isAssignableFrom(returnType))
         {
-            final OslcRdfCollectionType collectionType =
-                InheritedMethodAnnotationHelper.getAnnotation(method, 
-                                                              OslcRdfCollectionType.class);
-            if (collectionType != null)
-            {
-                Resource origResource = resource;
-                
-                resource = model.createResource(model.createProperty(collectionType.namespaceURI(),
-                                                                     collectionType.collectionType()));
-                model.add(model.createStatement(origResource, attribute, resource));
-                
-                attribute = model.createProperty(OslcConstants.RDFS_NAMESPACE + "member");
-            }
-            
             @SuppressWarnings("unchecked")
             final Collection<Object> collection = (Collection<Object>) value;
 
@@ -1359,7 +1385,16 @@ public final class JenaModelHelper
                                     resource,
                                     attribute,
                                     nestedProperties,
-                                    onlyNested);
+                                    onlyNested,
+                                    rdfNodeContainer);
+            }
+            
+            // XXX - Need to generalize to arbitrary RDF collections
+            if (rdfNodeContainer != null)
+            {
+                RDFList list = model.createList(rdfNodeContainer.iterator());
+                Statement s = model.createStatement(resource, attribute, list);
+                model.add(s);
             }
         }
         else
@@ -1372,7 +1407,8 @@ public final class JenaModelHelper
                                 resource,
                                 attribute,
                                 nestedProperties,
-                                onlyNested);
+                                onlyNested,
+                                rdfNodeContainer);
         }
     }
 
@@ -1384,7 +1420,8 @@ public final class JenaModelHelper
                                             final Resource            resource,
                                             final Property            attribute,
                                             final Map<String, Object> nestedProperties,
-                                            final boolean             onlyNested)
+                                            final boolean             onlyNested,
+                                            final List<RDFNode>       rdfNodeContainer)
         throws DatatypeConfigurationException,
                IllegalAccessException,
                IllegalArgumentException,
@@ -1393,7 +1430,7 @@ public final class JenaModelHelper
     {
         final Class<? extends Object> objectClass = object.getClass();
 
-        Statement statement = null;
+        RDFNode nestedNode = null;
         final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
         final Object value = (reifiedResource == null) ? object : reifiedResource.getValue();
         
@@ -1406,14 +1443,12 @@ public final class JenaModelHelper
             
         	if (xmlLiteral)
         	{
-        		statement = model.createStatement(resource,
-        				                          attribute,
-        				                          model.createTypedLiteral(value.toString(), 
-                                                          RDF_TYPE_XMLLITERAL));
+        	    nestedNode = model.createTypedLiteral(value.toString(), 
+                                                      RDF_TYPE_XMLLITERAL);
         	}
         	else
         	{
-        		statement = model.createStatement(resource, attribute, value.toString());
+        	    nestedNode = model.createLiteral(value.toString());
         	}
         }
         else if ((value instanceof Boolean) ||
@@ -1424,7 +1459,7 @@ public final class JenaModelHelper
                 return;
             }
             
-            statement = model.createStatement(resource, attribute, value.toString());
+            nestedNode = model.createLiteral(value.toString());
         }
         else if (value instanceof URI)
         {
@@ -1443,7 +1478,7 @@ public final class JenaModelHelper
             }
 
             // URIs represent references to other resources identified by their IDs, so they need to be managed as such
-            statement = model.createStatement(resource, attribute, model.createResource(value.toString()));
+            nestedNode = model.createResource(value.toString());
         }
         else if (value instanceof Date)
         {
@@ -1457,7 +1492,7 @@ public final class JenaModelHelper
 
             final String string = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar).toString();
 
-            statement = model.createStatement(resource, attribute, string);
+            nestedNode = model.createLiteral(string);
         }
         else if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {
@@ -1496,19 +1531,37 @@ public final class JenaModelHelper
                           nestedResource,
                           nestedProperties);
 
-            statement = model.createStatement(resource, attribute, nestedResource);
+            nestedNode = nestedResource;
         }
 
-        if (statement != null)
+        if (nestedNode != null)
         {
-        	if (reifiedResource != null &&
-        	    nestedProperties != OSLC4JConstants.OSL4J_PROPERTY_SINGLETON)
-        	{
-        		addReifiedStatements(model, statement, reifiedResource, nestedProperties);
-        	}
-
-        	// Finally, add the statement to the model.
-        	model.add(statement);
+            if (rdfNodeContainer != null)
+            {
+                if (reifiedResource != null)
+                {
+                    // Reified resource is not supported for rdf collection resources
+                    throw new OslcCoreInvalidPropertyDefinitionException(resourceClass,
+                                                                         method,
+                                                                         null);
+                }
+                
+                // Instead of adding a nested node to model, add it to a list
+                rdfNodeContainer.add(nestedNode);
+            }
+            else
+            {
+                Statement statement = model.createStatement(resource, attribute, nestedNode);
+                
+            	if (reifiedResource != null &&
+            	    nestedProperties != OSLC4JConstants.OSL4J_PROPERTY_SINGLETON)
+            	{
+            		addReifiedStatements(model, statement, reifiedResource, nestedProperties);
+            	}
+    
+            	// Finally, add the statement to the model.
+            	model.add(statement);
+            }
         }
     }
 
