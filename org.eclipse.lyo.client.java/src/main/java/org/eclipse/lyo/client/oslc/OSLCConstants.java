@@ -42,11 +42,7 @@ public interface OSLCConstants {
 	static String OSLC_CM   = "http://open-services.net/xmlns/cm/1.0/";
 	static String OSLC_QM   = "http://open-services.net/xmlns/qm/1.0/";
 	static String OSLC_RM   = "http://open-services.net/xmlns/rm/1.0/";
-	// Misc definitions
-	static String RTC_CM = "http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/";
-	static String JFS = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
-	static String JD = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
-	static String JP06 = "http://jazz.net/xmlns/prod/jazz/process/0.6/";
+	
 	
 	//--------------------------------------------------------------------------
 	// Content-types for Accept header requests
