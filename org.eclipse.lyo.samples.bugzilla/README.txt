@@ -1,16 +1,8 @@
-You must have connect to an existing Bugzilla server to run this sample.
-Simplest is to connect to the Bugzilla Landfull <http://landfill.bugzilla.org/>.
+The Lyo Bugzilla adapter can now be found in the OSLC4JBugzilla project in the Lyo doc Git repository:
 
-j2bugzilla 2.0 is now available from Maven Central.   There is no need to
-install it separately.  mvn install will handle the installation.
+http://git.eclipse.org/gitroot/lyo/org.eclipse.lyo.docs.git
 
-To run the Bugzilla adapter, edit src/main/resources/bugz.properties to
-point to your Bugzilla server (or use the default, Bugzilla Landfill).
-Then from the project root directory,
+The adapter is in the doc repository since it represents the completed version of the OSLC4 workshop found there.   
+In the future it may move to this repository, but for now it is located at that location.
 
-mvn install
-mvn jetty:run
-
-The adapter will be running at
-
-http://localhost:8282/bugz/
+See http://wiki.eclipse.org/Lyo/BuildOSLC4JBugzilla for info on building and running the adapter.
