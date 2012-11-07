@@ -37,6 +37,7 @@ import javax.ws.rs.ext.Providers;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
@@ -67,7 +68,8 @@ public abstract class AbstractOslcRdfXmlProvider
                                          final MediaType     actualMediaType,
                                          final MediaType ... requiredMediaTypes)
     {
-        if (type.getAnnotation(OslcResourceShape.class) != null)
+        if (type.getAnnotation(OslcResourceShape.class) != null ||
+            type.getAnnotation(OslcNotQueryResult.class) != null)
         {
             // When handling "recursive" writing of an OSLC Error object, we get a zero-length array of annotations
             if ((annotations != null) &&
@@ -168,12 +170,16 @@ public abstract class AbstractOslcRdfXmlProvider
         final String nextPageURI = isClientSide ?
             null :
             (String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+        final Integer totalCount = isClientSide ?
+            null :
+            (Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
         
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
                                                                 nextPageURI,
+                                                                totalCount,
                                                                 objects,
                                                                 properties);
             RDFWriter writer = null;

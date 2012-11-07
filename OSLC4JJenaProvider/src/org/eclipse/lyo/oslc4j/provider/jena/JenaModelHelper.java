@@ -66,6 +66,7 @@ import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
@@ -136,6 +137,7 @@ public final class JenaModelHelper
         return createJenaModel(null,
                                null,
                                null,
+                               null,
                                objects,
                                null);
     }
@@ -143,6 +145,7 @@ public final class JenaModelHelper
     static Model createJenaModel(final String              descriptionAbout,
                                  final String              responseInfoAbout,
                                  final String              nextPageAbout,
+                                 final Integer             totalCount,
                                  final Object[]            objects,
                                  final Map<String, Object> properties)
            throws DatatypeConfigurationException,
@@ -167,7 +170,7 @@ public final class JenaModelHelper
 
                 responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
                                                                       PROPERTY_TOTAL_COUNT),
-                                                 String.valueOf(objects.length));
+                                                 String.valueOf(totalCount == null ? objects.length : totalCount));
                 
                 if (nextPageAbout != null)
                 {
@@ -1244,7 +1247,7 @@ public final class JenaModelHelper
                                                final Method                 method,
                                                final OslcPropertyDefinition propertyDefinitionAnnotation,
                                                final Model                  model,
-                                               final Resource               resource,
+                                               Resource                     resource,
                                                final Object                 value,
                                                final Map<String, Object>    nestedProperties,
                                                final boolean                onlyNested)
@@ -1281,12 +1284,26 @@ public final class JenaModelHelper
         
         final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value()); 
 
-        final Property attribute = model.createProperty(propertyDefinition);
+        Property attribute = model.createProperty(propertyDefinition);
 
         final Class<?> returnType = method.getReturnType();
         
         if (returnType.isArray())
         {
+            final OslcRdfCollectionType collectionType =
+                InheritedMethodAnnotationHelper.getAnnotation(method, 
+                                                              OslcRdfCollectionType.class);
+            if (collectionType != null)
+            {
+                Resource origResource = resource;
+                
+                resource = model.createResource(model.createProperty(collectionType.namespaceURI(),
+                                                                     collectionType.collectionType()));
+                model.add(model.createStatement(origResource, attribute, resource));
+                
+                attribute = model.createProperty(OslcConstants.RDFS_NAMESPACE + "member");
+            }
+            
             // We cannot cast to Object[] in case this is an array of
             // primitives. We will use Array reflection instead.
             // Strange case about primitive arrays: they cannot be cast to
@@ -1315,6 +1332,20 @@ public final class JenaModelHelper
         }
         else if (Collection.class.isAssignableFrom(returnType))
         {
+            final OslcRdfCollectionType collectionType =
+                InheritedMethodAnnotationHelper.getAnnotation(method, 
+                                                              OslcRdfCollectionType.class);
+            if (collectionType != null)
+            {
+                Resource origResource = resource;
+                
+                resource = model.createResource(model.createProperty(collectionType.namespaceURI(),
+                                                                     collectionType.collectionType()));
+                model.add(model.createStatement(origResource, attribute, resource));
+                
+                attribute = model.createProperty(OslcConstants.RDFS_NAMESPACE + "member");
+            }
+            
             @SuppressWarnings("unchecked")
             final Collection<Object> collection = (Collection<Object>) value;
 
