@@ -97,6 +97,10 @@ final class JsonHelper
     private static final String JSON_PROPERTY_SUFFIX_FIRST         = "first";
     private static final String JSON_PROPERTY_SUFFIX_REST          = "rest";
     private static final String JSON_PROPERTY_SUFFIX_NIL           = "nil";
+    private static final String JSON_PROPERTY_SUFFIX_LIST          = "List";
+    private static final String JSON_PROPERTY_SUFFIX_ALT           = "Alt";
+    private static final String JSON_PROPERTY_SUFFIX_BAG           = "Bag";
+    private static final String JSON_PROPERTY_SUFFIX_SEQ           = "Seq";
 
     private static final String RDF_ABOUT_URI = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_ABOUT;
     private static final String RDF_TYPE_URI  = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_TYPE;
@@ -394,7 +398,7 @@ final class JsonHelper
                                                                  propertyDefinitionAnnotation);
         }
          
-        final boolean isRdfList;
+        final boolean isRdfContainer;
         
         final OslcRdfCollectionType collectionType =
             InheritedMethodAnnotationHelper.getAnnotation(method, 
@@ -402,13 +406,16 @@ final class JsonHelper
         
         if (collectionType != null &&
                 OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
-                "List".equals(collectionType.collectionType())) 
+                    (JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType())
+                     || JSON_PROPERTY_SUFFIX_ALT.equals(collectionType.collectionType())
+                     || JSON_PROPERTY_SUFFIX_BAG.equals(collectionType.collectionType())
+                     || JSON_PROPERTY_SUFFIX_SEQ.equals(collectionType.collectionType())))
         {
-           isRdfList = true;
+           isRdfContainer = true;
         }
         else
         {
-           isRdfList = false;
+           isRdfContainer = false;
         }
 
         final Object localResourceValue;
@@ -443,24 +450,11 @@ final class JsonHelper
                 }
             }
 
-            if (isRdfList)
+            if (isRdfContainer)
             {
-                JSONObject listObject = new JSONObject();
-                listObject.put("rdf" + JSON_PROPERTY_DELIMITER + "resource", OslcConstants.RDF_NAMESPACE + "nil");
-               
-                for (int i = jsonArray.size() - 1; i >= 0; i --)
-                {
-                    Object o = jsonArray.get(i);
-                   
-                    JSONObject newListObject = new JSONObject();
-                    newListObject.put("rdf" + JSON_PROPERTY_DELIMITER + "first", o);
-                    newListObject.put("rdf" + JSON_PROPERTY_DELIMITER + "rest", listObject);
-                   
-                    listObject = newListObject;
-                }
-               
-                localResourceValue = listObject;
-               
+                localResourceValue = buildContainer(namespaceMappings,
+                                                    reverseNamespaceMappings,
+                                                    collectionType, jsonArray);               
             } 
             else 
             {
@@ -496,24 +490,11 @@ final class JsonHelper
                 }
             }
 
-            if (isRdfList)
+            if (isRdfContainer)
             {
-                JSONObject listObject = new JSONObject();
-                listObject.put("rdf" + JSON_PROPERTY_DELIMITER + "resource", OslcConstants.RDF_NAMESPACE + "nil");
-               
-                for (int i = jsonArray.size() - 1; i >= 0; i --)
-                {
-                    Object o = jsonArray.get(i);
-                   
-                    JSONObject newListObject = new JSONObject();
-                    newListObject.put("rdf" + JSON_PROPERTY_DELIMITER + "first", o);
-                    newListObject.put("rdf" + JSON_PROPERTY_DELIMITER + "rest", listObject);
-                   
-                    listObject = newListObject;
-                }
-               
-                localResourceValue = listObject;
-               
+                localResourceValue = buildContainer(namespaceMappings,
+                                                    reverseNamespaceMappings,
+                                                    collectionType, jsonArray);               
             } 
             else 
             {
@@ -553,6 +534,47 @@ final class JsonHelper
             jsonObject.put(prefix + JSON_PROPERTY_DELIMITER + name,
                            localResourceValue);
         }
+    }
+    
+    private static Object buildContainer(final Map<String, String>   namespaceMappings,
+                                         final Map<String, String>   reverseNamespaceMappings,
+                                         final OslcRdfCollectionType collectionType,
+                                         final JSONArray             jsonArray)
+            throws JSONException
+    {
+        // Ensure we have an rdf prefix
+        final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+                                                       OslcConstants.RDF_NAMESPACE,
+                                                       namespaceMappings,
+                                                       reverseNamespaceMappings);
+        
+        if (JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType()))
+        {
+            JSONObject listObject = new JSONObject();
+            
+            listObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                           OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_NIL);
+           
+            for (int i = jsonArray.size() - 1; i >= 0; i --)
+            {
+                Object o = jsonArray.get(i);
+               
+                JSONObject newListObject = new JSONObject();
+                newListObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_FIRST, o);
+                newListObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_REST, listObject);
+               
+                listObject = newListObject;
+            }
+            
+            return listObject;
+        }
+            
+        JSONObject container = new JSONObject();
+        
+        container.put(rdfPrefix + JSON_PROPERTY_DELIMITER + collectionType.collectionType(),
+                      jsonArray);
+       
+        return container;
     }
 
     private static void buildResource(final Map<String, String> namespaceMappings,
@@ -1591,9 +1613,39 @@ final class JsonHelper
                    OslcCoreApplicationException,
                    URISyntaxException
     {
-        boolean isRdfListNode = isRdfListNode(rdfPrefix, beanClass, setMethod, jsonValue);
+        boolean isRdfContainerNode = isRdfListNode(rdfPrefix, beanClass, setMethod, jsonValue);
+        JSONArray container = null;
+        
+        if (! isRdfContainerNode && jsonValue instanceof JSONObject) {
+            
+            JSONObject parent = (JSONObject)jsonValue;
+            
+            try
+            {
+                container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ALT,
+                                                null);
+                
+                if (container == null)
+                {
+                    container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_BAG,
+                                                    null);
+                }
+                
+                if (container == null)
+                {
+                    container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_SEQ,
+                                                    null);
+                }
+            }
+            catch (JSONException e)
+            {
+                throw new IllegalArgumentException(e);
+            }
+            
+            isRdfContainerNode = container != null;
+        }
        
-        if (!isRdfListNode && jsonValue instanceof JSONObject)
+        if (!isRdfContainerNode && jsonValue instanceof JSONObject)
         {
             final JSONObject nestedJSONObject = (JSONObject) jsonValue;
 
@@ -1628,11 +1680,11 @@ final class JsonHelper
 
             return nestedBean;
         }
-        else if (jsonValue instanceof JSONArray || isRdfListNode)
+        else if (jsonValue instanceof JSONArray || isRdfContainerNode)
         {
             final Collection<Object> jsonArray;
            
-            if (isRdfListNode)
+            if (isRdfContainerNode && container == null)
             {
                 jsonArray = new ArrayList<Object>();
                
@@ -1649,9 +1701,19 @@ final class JsonHelper
                             rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_REST);
                 }
             }
+            else if (isRdfContainerNode)
+            {
+                @SuppressWarnings("unchecked")
+                final Collection<Object> array = container; 
+                
+                jsonArray = array;
+            }
             else
             {
-                jsonArray = (JSONArray) jsonValue;
+                @SuppressWarnings("unchecked")
+                final Collection<Object> array = (JSONArray)jsonValue; 
+                
+                jsonArray = array;
             }
 
             final ArrayList<Object> tempList = new ArrayList<Object>();
