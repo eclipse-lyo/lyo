@@ -90,9 +90,11 @@ import org.w3c.dom.Element;
 import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
+import com.hp.hpl.jena.rdf.model.Container;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -112,6 +114,11 @@ public final class JenaModelHelper
 
     private static final String RDF_TYPE_URI = OslcConstants.RDF_NAMESPACE + "type";
     private static final BaseDatatype RDF_TYPE_XMLLITERAL = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "XMLLiteral");
+    
+    private static final String RDF_LIST = "List";
+    private static final String RDF_ALT  = "Alt";
+    private static final String RDF_BAG  = "Bag";
+    private static final String RDF_SEQ  = "Seq";
 
     private static final String METHOD_NAME_START_GET = "get";
     private static final String METHOD_NAME_START_IS  = "is";
@@ -538,6 +545,25 @@ public final class JenaModelHelper
                     }
                    
                     visitedResources.put(getVisitedResourceName(object.asResource()), objects);
+                }
+                else if (multiple && object.canAs(Container.class))
+                {
+                    objects = new ArrayList<RDFNode>();
+                    NodeIterator iterator = object.as(Container.class).iterator();
+                     
+                    while (iterator.hasNext()) 
+                    {
+                        RDFNode o = iterator.nextNode();
+                         
+                        if (o.isResource())
+                        {
+                            visitedResources.put(getVisitedResourceName(o.asResource()), new Object());
+                        }
+                        
+                        objects.add(o);
+                    }
+                    
+                     visitedResources.put(getVisitedResourceName(object.asResource()), objects);
                 }
                 else
                 {
@@ -1324,7 +1350,10 @@ public final class JenaModelHelper
         
         if (collectionType != null &&
                 OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
-                "List".equals(collectionType.collectionType()))
+                  (RDF_LIST.equals(collectionType.collectionType()) 
+                   || RDF_ALT.equals(collectionType.collectionType())
+                   || RDF_BAG.equals(collectionType.collectionType())
+                   || RDF_SEQ.equals(collectionType.collectionType())))
         {
             rdfNodeContainer = new ArrayList<RDFNode>();
         }
@@ -1362,11 +1391,13 @@ public final class JenaModelHelper
                                     rdfNodeContainer);
             }
             
-            // XXX - Need to generalize to arbitrary RDF collections
             if (rdfNodeContainer != null)
             {
-                RDFList list = model.createList(rdfNodeContainer.iterator());
-                Statement s = model.createStatement(resource, attribute, list);
+                RDFNode container = createRdfContainer(collectionType,
+                                                      rdfNodeContainer,
+                                                      model);
+                Statement s = model.createStatement(resource, attribute, container);
+                
                 model.add(s);
             }
         }
@@ -1389,11 +1420,13 @@ public final class JenaModelHelper
                                     rdfNodeContainer);
             }
             
-            // XXX - Need to generalize to arbitrary RDF collections
             if (rdfNodeContainer != null)
             {
-                RDFList list = model.createList(rdfNodeContainer.iterator());
-                Statement s = model.createStatement(resource, attribute, list);
+                RDFNode container = createRdfContainer(collectionType,
+                                                       rdfNodeContainer,
+                                                       model);
+                Statement s = model.createStatement(resource, attribute, container);
+                
                 model.add(s);
             }
         }
@@ -1408,8 +1441,40 @@ public final class JenaModelHelper
                                 attribute,
                                 nestedProperties,
                                 onlyNested,
-                                rdfNodeContainer);
+                                null);
         }
+    }
+    
+    private static RDFNode createRdfContainer(final OslcRdfCollectionType collectionType,
+                                              final List<RDFNode>         rdfNodeContainer,
+                                              final Model                 model)
+    {
+        if (RDF_LIST.equals(collectionType.collectionType()))
+        {
+            return model.createList(rdfNodeContainer.iterator());
+        }
+        
+        Container container;
+        
+        if (RDF_ALT.equals(collectionType.collectionType()))
+        {
+            container = model.createAlt();
+        }
+        else if (RDF_BAG.equals(collectionType.collectionType()))
+        {
+            container = model.createBag();
+        }
+        else
+        {
+            container = model.createSeq();
+        }
+        
+        for (RDFNode node : rdfNodeContainer)
+        {
+            container.add(node);
+        }
+        
+        return container;
     }
 
     private static void handleLocalResource(final Class<?>            resourceClass,
