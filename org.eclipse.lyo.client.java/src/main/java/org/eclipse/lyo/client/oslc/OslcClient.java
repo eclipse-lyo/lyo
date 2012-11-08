@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2012 IBM Corporation and others.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -11,7 +11,8 @@
  *  
  *  Contributors:
  *  
- *     Michael Fiedler     - initial API and implementation
+ *     Michael Fiedler                 - initial API and implementation
+ *     Lars Ohlén (Tieto Corporation)  - Resolved Bugzilla 393875 
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
@@ -400,9 +401,8 @@ public class OslcClient {
 			/* Fail Silently */
 		}
 
-		SSLSocketFactory sf = new SSLSocketFactory(sc);
-		sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-		Scheme https = new Scheme("https", sf, 443);
+		SSLSocketFactory sf = new SSLSocketFactory(sc,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		Scheme https = new Scheme("https", 443, sf); //$NON-NLS-1$
 
 		schemeRegistry.register(https);
 	}
