@@ -54,9 +54,9 @@ public abstract class AbstractOslcRdfXmlProvider
     private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;
     private static final ErrorHandler ERROR_HANDLER           = new ErrorHandler();
 
-    private @Context HttpHeaders        httpHeaders;        // Available only on the server
-    private @Context HttpServletRequest httpServletRequest; // Available only on the server
-    private @Context Providers          providers;          // Available on both client and server
+    private @Context HttpHeaders          httpHeaders;        // Available only on the server
+    protected @Context HttpServletRequest httpServletRequest; // Available only on the server
+    private @Context Providers            providers;          // Available on both client and server
 
     protected AbstractOslcRdfXmlProvider()
     {
@@ -111,6 +111,67 @@ public abstract class AbstractOslcRdfXmlProvider
         }
 
         return false;
+    }
+
+    protected void writeTo(final Object[]                       objects,
+                           final MediaType                      baseMediaType,
+                           final MultivaluedMap<String, Object> map,
+                           final OutputStream                   outputStream,
+                           final Map<String, Object>            properties,
+                           final String                         descriptionURI,
+                           final String                         responseInfoURI,
+                           final String                         nextPageURI,
+                           final Integer                        totalCount)
+                throws WebApplicationException
+    {
+        // Determine whether to serialize in xml or abreviated xml based upon mediatype.
+        // application/rdf+xml yields xml
+        // applicaton/xml yields abbreviated xml
+        final String serializationLanguage;
+        if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
+        {
+            serializationLanguage = FileUtils.langXML;
+        }
+        else
+        {
+            serializationLanguage = FileUtils.langXMLAbbrev;
+        }        
+        
+        try
+        {
+            final Model model = JenaModelHelper.createJenaModel(descriptionURI,
+                                                                responseInfoURI,
+                                                                nextPageURI,
+                                                                totalCount,
+                                                                objects,
+                                                                properties);
+            RDFWriter writer = null;
+            if  (serializationLanguage.equals(FileUtils.langXMLAbbrev))
+            {
+                writer = new RdfXmlAbbreviatedWriter();
+            }
+            else
+            {
+                writer = model.getWriter(serializationLanguage);
+            }
+            writer.setProperty("showXmlDeclaration",
+                               "false");
+            writer.setErrorHandler(ERROR_HANDLER);    
+            
+            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            outputStream.write(xmlDeclaration.getBytes());
+            
+            writer.write(model,
+                         outputStream,
+                         null);
+        }
+        catch (final Exception exception)
+        {
+            throw new WebApplicationException(exception,
+                                       buildBadRequestResponse(exception,
+                                                               baseMediaType,
+                                                               map));
+        }
     }
 
     protected void writeTo(final boolean                        queryResult,
@@ -370,7 +431,7 @@ public abstract class AbstractOslcRdfXmlProvider
                                                mediaType) != null);
     }
 
-	private static boolean isOslcQuery(final String parmString)
+	protected static boolean isOslcQuery(final String parmString)
 	{
 		boolean containsOslcParm = false;
 

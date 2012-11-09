@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.Consumes;
@@ -40,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
-public final class OslcRdfXmlArrayProvider
+public class OslcRdfXmlArrayProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Object[]>,
                   MessageBodyWriter<Object[]>
