@@ -54,7 +54,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Provider
 @Produces(OslcMediaType.APPLICATION_JSON)
 @Consumes(OslcMediaType.APPLICATION_JSON)
-public final class OslcRdfJsonCollectionProvider
+public class OslcRdfJsonCollectionProvider
        extends AbstractOslcRdfJsonProvider
        implements MessageBodyReader<Collection<Object>>,
                   MessageBodyWriter<Collection<Object>>

@@ -50,13 +50,12 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
-public final class OslcRdfXmlCollectionProvider
+public class OslcRdfXmlCollectionProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Collection<Object>>,
                   MessageBodyWriter<Collection<Object>>

@@ -46,9 +46,9 @@ public abstract class AbstractOslcRdfJsonProvider
     private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
     private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;
 
-    private @Context HttpHeaders        httpHeaders;        // Available only on the server
-    private @Context HttpServletRequest httpServletRequest; // Available only on the server
-    private @Context Providers          providers;          // Available on both client and server
+    private @Context HttpHeaders          httpHeaders;        // Available only on the server
+    protected @Context HttpServletRequest httpServletRequest; // Available only on the server
+    private @Context Providers            providers;          // Available on both client and server
 
     protected AbstractOslcRdfJsonProvider()
     {
@@ -157,6 +157,38 @@ public abstract class AbstractOslcRdfJsonProvider
                                               buildBadRequestResponse(exception,
                                                                       errorMediaType,
                                                                       map));
+        }
+    }
+
+    protected void writeTo(final Object[]                       objects,
+                           final MediaType                      errorMediaType,
+                           final MultivaluedMap<String, Object> map,
+                           final OutputStream                   outputStream,
+                           final Map<String, Object>            properties,
+                           final String                         descriptionURI,
+                           final String                         responseInfoURI,
+                           final String                         nextPageURI,
+                           final Integer                        totalCount)
+                throws WebApplicationException
+    {
+        final JSONObject jsonObject;
+
+        try
+        {
+            jsonObject = JsonHelper.createJSON(descriptionURI,
+                                               responseInfoURI,
+                                               nextPageURI,
+                                               objects,
+                                               properties);
+
+            jsonObject.write(outputStream, true);
+        }
+        catch (final Exception exception)
+        {
+            throw new WebApplicationException(exception,
+                            buildBadRequestResponse(exception,
+                                                    errorMediaType,
+                                                    map));
         }
     }
 
@@ -296,7 +328,7 @@ public abstract class AbstractOslcRdfJsonProvider
                                                ANNOTATIONS_EMPTY_ARRAY,
                                                mediaType) != null);
     }
-    private static boolean isOslcQuery(final String parmString)
+    protected static boolean isOslcQuery(final String parmString)
 	{
 		boolean containsOslcParm = false;
 
