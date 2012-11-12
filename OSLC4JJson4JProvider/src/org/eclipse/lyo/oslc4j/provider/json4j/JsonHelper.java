@@ -406,10 +406,10 @@ final class JsonHelper
         
         if (collectionType != null &&
                 OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
-                    (JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType()))
+                    (JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType())
                      || JSON_PROPERTY_SUFFIX_ALT.equals(collectionType.collectionType())
                      || JSON_PROPERTY_SUFFIX_BAG.equals(collectionType.collectionType())
-                     || JSON_PROPERTY_SUFFIX_SEQ.equals(collectionType.collectionType()))
+                     || JSON_PROPERTY_SUFFIX_SEQ.equals(collectionType.collectionType())))
         {
            isRdfContainer = true;
         }
@@ -566,15 +566,15 @@ final class JsonHelper
                 listObject = newListObject;
             }
             
-            JSONObject container = new JSONObject();
-            
-            container.put(rdfPrefix + JSON_PROPERTY_DELIMITER + collectionType.collectionType(),
-                          jsonArray);
-           
-            return container;
+            return listObject;
         }
+            
+        JSONObject container = new JSONObject();
         
-        return null;        
+        container.put(rdfPrefix + JSON_PROPERTY_DELIMITER + collectionType.collectionType(),
+                      jsonArray);
+       
+        return container;
     }
 
     private static void buildResource(final Map<String, String> namespaceMappings,
