@@ -12,7 +12,7 @@
  *  Contributors:
  *  
  *     Michael Fiedler                 - initial API and implementation
- *     Lars Ohlén (Tieto Corporation)  - Resolved Bugzilla 393875 
+ *     Lars Ohlén (Tieto Corporation)  - Resolved Bugzilla 393875,389275
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
@@ -41,7 +41,6 @@ import org.apache.wink.client.ApacheHttpClientConfig;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
-
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
@@ -71,13 +70,17 @@ public class OslcClient {
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	
+	/*  List of secure socket protocols. Note: TLSv1.2 is supported from Java 7, SSL_TLS is specific for the IBM JVMs */
+	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLSv1.2","TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
+	
+	
 	/**
 	 * Initialize a new OslcClient
 	 */
 	public OslcClient()
 	{
 		httpClient = new DefaultHttpClient();
-		setupLazySSLSupport(httpClient);
+		setupLazySSLSupport();
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
@@ -370,7 +373,29 @@ public class OslcClient {
 		return retval;
 	}
 	
-	private static void setupLazySSLSupport(HttpClient httpClient) {
+	
+	/**
+	 * Looks up and select an installed security context provider
+	 *  
+	 * @return An installed SSLContext Provider
+	 * @throws NoSuchAlgorithmException when no suitable provider is installed
+	 */
+	private SSLContext findInstalledSecurityContext() throws NoSuchAlgorithmException {
+		
+		// walks through list of secure socked protocols and picks the first found
+		// the list is arranged in level of security order
+		for (String aSecuredProtocol : SECURE_SOCKET_PROTOCOL) {
+			try {
+				return SSLContext.getInstance(aSecuredProtocol);
+			} catch (NoSuchAlgorithmException e) {
+				continue;
+			}
+		}
+		
+		throw new NoSuchAlgorithmException("No suitable secured socket provider is installed"); //$NON-NLS-1$
+	} 
+	
+	private void setupLazySSLSupport()   {
 		ClientConnectionManager connManager = httpClient.getConnectionManager();
 		SchemeRegistry schemeRegistry = connManager.getSchemeRegistry();
 		schemeRegistry.unregister("https");
@@ -391,20 +416,22 @@ public class OslcClient {
 			}
 		} };
 
-		SSLContext sc = null;
+		
+	
+				
 		try {
-			sc = SSLContext.getInstance("SSL"); //$NON-NLS-1$
+			SSLContext sc = findInstalledSecurityContext();
 			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			SSLSocketFactory sf = new SSLSocketFactory(sc,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			Scheme https = new Scheme("https", 443, sf); //$NON-NLS-1$
+			schemeRegistry.register(https);
 		} catch (NoSuchAlgorithmException e) {
 			/* Fail Silently */
 		} catch (KeyManagementException e) {
 			/* Fail Silently */
 		}
 
-		SSLSocketFactory sf = new SSLSocketFactory(sc,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-		Scheme https = new Scheme("https", 443, sf); //$NON-NLS-1$
-
-		schemeRegistry.register(https);
+		
 	}
 	
 	
