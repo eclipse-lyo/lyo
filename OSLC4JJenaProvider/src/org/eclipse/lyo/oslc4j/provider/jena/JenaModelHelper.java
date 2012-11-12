@@ -94,7 +94,6 @@ import com.hp.hpl.jena.rdf.model.Container;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFList;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -104,6 +103,8 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import com.hp.hpl.jena.util.iterator.Map1;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
@@ -546,14 +547,23 @@ public final class JenaModelHelper
                    
                     visitedResources.put(getVisitedResourceName(object.asResource()), objects);
                 }
-                else if (multiple && object.canAs(Container.class))
+                else if (multiple && isRdfCollectionResource(object.getModel(), object))
                 {
                     objects = new ArrayList<RDFNode>();
-                    NodeIterator iterator = object.as(Container.class).iterator();
+                    
+                    ExtendedIterator<RDFNode> iterator =
+                            object.asResource().listProperties(RDFS.member).
+                                    mapWith(new Map1<Statement, RDFNode>()
+                        {
+                        	@Override
+                        	public RDFNode map1(Statement o) {
+                        		return o.getObject();
+                        	}
+                        });
                      
                     while (iterator.hasNext()) 
                     {
-                        RDFNode o = iterator.nextNode();
+                        RDFNode o = iterator.next();
                          
                         if (o.isResource())
                         {
@@ -841,6 +851,22 @@ public final class JenaModelHelper
                                  new Object[] {collection});
             }
         }
+    }
+
+    private static boolean isRdfCollectionResource(Model model, RDFNode object)
+    {
+        if (object.isResource())
+        {
+            Resource resource = object.asResource();
+            if (resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_ALT))
+                || resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_BAG))
+                || resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_SEQ))) 
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
 	/**
