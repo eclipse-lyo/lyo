@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -82,13 +83,45 @@ public final class OslcRdfXmlProvider
             ParameterizedType parameterizedType = (ParameterizedType)genericType;
             Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
             
-            if (actualTypeArguments.length != 1 ||
-                ! (actualTypeArguments[0] instanceof Class<?>))
+            if (actualTypeArguments.length != 1)
             {
                 return false;
             }
             
-            actualType = (Class<?>)actualTypeArguments[0];
+            if (actualTypeArguments[0] instanceof Class<?>)
+            {
+                actualType = (Class<?>)actualTypeArguments[0];
+            }
+            else if (actualTypeArguments[0] instanceof ParameterizedType)
+            {
+                parameterizedType = (ParameterizedType)actualTypeArguments[0];
+                actualTypeArguments = parameterizedType.getActualTypeArguments();
+                
+                if (actualTypeArguments.length != 1 ||
+                    ! (actualTypeArguments[0] instanceof Class<?>))
+                {
+                    return false;
+                }
+                
+                actualType = (Class<?>)actualTypeArguments[0];
+            }
+            else if (actualTypeArguments[0] instanceof GenericArrayType)
+            {
+                GenericArrayType genericArrayType =
+                    (GenericArrayType)actualTypeArguments[0];
+                Type componentType = genericArrayType.getGenericComponentType();
+                
+                if (! (componentType instanceof Class<?>))
+                {
+                    return false;
+                }
+                
+                actualType = (Class<?>)componentType;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
