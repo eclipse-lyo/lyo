@@ -15,6 +15,8 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Steve Pitschke       - Add support for FilteredResource and
+ *                            ResponseInfo
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -22,7 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -33,7 +38,12 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
@@ -64,7 +74,28 @@ public final class OslcRdfXmlProvider
                                final Annotation[] annotations,
                                final MediaType    mediaType)
     {
-        return isWriteable(type,
+        Class<?> actualType;
+        
+        if (FilteredResource.class.isAssignableFrom(type) &&
+            (genericType instanceof ParameterizedType))
+        {
+            ParameterizedType parameterizedType = (ParameterizedType)genericType;
+            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+            
+            if (actualTypeArguments.length != 1 ||
+                ! (actualTypeArguments[0] instanceof Class<?>))
+            {
+                return false;
+            }
+            
+            actualType = (Class<?>)actualTypeArguments[0];
+        }
+        else
+        {
+            actualType = type;
+        }
+        
+        return isWriteable(actualType,
                            annotations,
                            mediaType,
                            OslcMediaType.APPLICATION_RDF_XML_TYPE,
@@ -83,11 +114,80 @@ public final class OslcRdfXmlProvider
            throws IOException,
                   WebApplicationException
     {
-        writeTo(false,
-                new Object[] {object},
+        Object[]                        objects;
+        Map<String, Object>             properties = null;
+        String                          descriptionURI = null;
+        String                          responseInfoURI = null;
+        String                          nextPageURI = null;
+        Integer                         totalCount = null;
+        
+        if (object instanceof FilteredResource<?>)
+        {
+            final FilteredResource<?> filteredResource =
+                (FilteredResource<?>)object;
+            
+            properties = filteredResource.properties();
+            
+            if (filteredResource instanceof ResponseInfo<?>)
+            {
+                descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest, true);
+                responseInfoURI = descriptionURI;
+                
+                final String queryString = httpServletRequest.getQueryString();
+                
+                if ((queryString != null) &&
+                    (isOslcQuery(queryString)))
+                {
+                    responseInfoURI += "?" + queryString;
+                }
+                
+                if (filteredResource instanceof ResponseInfoArray<?>)
+                {
+                    objects = ((ResponseInfoArray<?>)filteredResource).array();
+                }
+                else
+                {
+                    Collection<?> collection =
+                        ((ResponseInfoCollection<?>)filteredResource).collection();
+                    
+                    objects = collection.toArray(new Object[collection.size()]);
+                }
+                
+                nextPageURI = ((ResponseInfo<?>)filteredResource).nextPage();
+                totalCount = ((ResponseInfo<?>)filteredResource).totalCount();
+            }
+            else
+            {
+                Object nestedObject = filteredResource.resource();
+                
+                if (nestedObject instanceof Object[])
+                {
+                    objects = (Object[])nestedObject;
+                }
+                else if (nestedObject instanceof Collection<?>)
+                {
+                    objects = ((Collection<?>)nestedObject).toArray();
+                }
+                else
+                {
+                    objects = new Object[] { object };
+                }
+            }
+        }
+        else
+        {
+            objects = new Object[] { object };
+        }
+        
+        writeTo(objects,
                 mediaType,
                 map,
-                outputStream);
+                outputStream,
+                properties,
+                descriptionURI,
+                responseInfoURI,
+                nextPageURI,
+                totalCount);
     }
 
     @Override
