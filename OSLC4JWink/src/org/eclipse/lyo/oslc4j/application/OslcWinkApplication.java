@@ -34,9 +34,9 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 public abstract class OslcWinkApplication
        extends WinkApplication
 {
-    private final Set<Object>   instances = new HashSet<Object>();
+    protected final Set<Object>   instances = new HashSet<Object>();
 
-    private final Set<Class<?>> resourceClasses;
+    protected final Set<Class<?>> resourceClasses;
 
     /**
      * @param resourceClasses The set of resource classes to be exposed via {@link Application#getClasses()}.
@@ -57,6 +57,16 @@ public abstract class OslcWinkApplication
                                                                                                   resourcePathToResourceClassMap);
 
         instances.add(oslcResourceShapeResource);
+
+        this.resourceClasses = resourceClasses;
+    }
+    
+	//Bugzilla 392780
+    // Called by OslcDynamicWinkApplication
+    public OslcWinkApplication(final Set<Class<?>> resourceClasses,
+            final String resourceShapesPath)
+            throws OslcCoreApplicationException, URISyntaxException {
+        super();
 
         this.resourceClasses = resourceClasses;
     }

@@ -21,6 +21,7 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -39,7 +40,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcResourceShape(title = "OSLC Resource Shape Resource Shape", describes = OslcConstants.TYPE_RESOURCE_SHAPE)
 public final class ResourceShape extends AbstractResource {
 	private final SortedSet<URI> describes= new TreeSet<URI>();
-	private final SortedSet<Property> properties = new TreeSet<Property>();
+	private final TreeMap<URI, Property> properties = new TreeMap<URI, Property>();
 
 	private String title;
 
@@ -56,7 +57,12 @@ public final class ResourceShape extends AbstractResource {
 	}
 
 	public void addProperty(final Property property) {
-		this.properties.add(property);
+		this.properties.put(property.getPropertyDefinition(), property);
+	}
+	
+	//Bugzilla 392780
+	public Property getProperty(URI definition) {
+	    return properties.get(definition);
 	}
 
 	@OslcDescription("Type or types of resource described by this shape")
@@ -77,8 +83,10 @@ public final class ResourceShape extends AbstractResource {
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PROPERTY)
     @OslcValueType(ValueType.LocalResource)
     public Property[] getProperties() {
-	    return properties.toArray(new Property[properties.size()]);
+	    return properties.values().toArray(new Property[properties.size()]);
 	}
+
+	
 
 	@OslcDescription("Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
@@ -96,10 +104,13 @@ public final class ResourceShape extends AbstractResource {
 	    }
 	}
 
+
 	public void setProperties(final Property[] properties) {
 	    this.properties.clear();
 	    if (properties != null) {
-	        this.properties.addAll(Arrays.asList(properties));
+	        for(Property prop :properties) {
+	            this.properties.put(prop.getPropertyDefinition(), prop);
+	        }
 	    }
 	}
 
