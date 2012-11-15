@@ -165,7 +165,10 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 		while (iter.hasNext()) {
 			Statement member = iter.next();
 			try {
-				membersUrls.add(member.getResource().getURI());
+				String fqPredicateName = member.getPredicate().getNameSpace() + member.getPredicate().getLocalName();
+				if (fqPredicateName != null && !fqPredicateName.equals(OSLCConstants.RDF_TYPE_PROP)) {
+					membersUrls.add(member.getResource().getURI());
+				}
 			} catch (Throwable t) {
 				//FIXME
 				System.err.println("Member was not a resource");
