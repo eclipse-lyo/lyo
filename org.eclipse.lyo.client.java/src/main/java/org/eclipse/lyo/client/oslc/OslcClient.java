@@ -16,7 +16,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -43,17 +43,14 @@ import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
+import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
+import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
+import org.eclipse.lyo.oslc4j.core.model.Service;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Selector;
-import com.hp.hpl.jena.rdf.model.SimpleSelector;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 /**
  * An OSLC Client.  Provides an Apache HttpClient, an Apache Wink REST ClientConfig and defines
@@ -228,26 +225,18 @@ public class OslcClient {
 	{
 		String retval = null;
 		ClientResponse response = getResource(catalogUrl,OSLCConstants.CT_RDF);
-		Model rdfModel = ModelFactory.createDefaultModel();
-
-		rdfModel.read(response.getEntity(InputStream.class),catalogUrl);
+		ServiceProviderCatalog catalog = response.getEntity(ServiceProviderCatalog.class);
 		
-		Property spPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,"serviceProvider");
-		Selector select = new SimpleSelector(null, spPredicate, (RDFNode)null); 
-		StmtIterator listStatements = rdfModel.listStatements(select);
-		
-		//check each serviceProvider's title and match it to the one passed in
-		while (listStatements.hasNext()) {
-			Statement thisSP = listStatements.nextStatement();
-			com.hp.hpl.jena.rdf.model.Resource spRes = thisSP.getResource();
-			Property titleProp = rdfModel.createProperty(OSLCConstants.DC,"title");
-			String spTitle = spRes.getProperty(titleProp).getLiteral().getString();
-			
-			if (spTitle.equals(serviceProviderTitle))
-			{
-				retval = spRes.getURI();
+		if (catalog != null) {
+			for (ServiceProvider sp:catalog.getServiceProviders()) {
+				if (sp.getTitle() != null && sp.getTitle().equalsIgnoreCase(serviceProviderTitle)) {
+					retval = sp.getAbout().toString();
+					break;
+				}
+				
 			}
 		}
+
 		if (retval == null ) {
 			throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
 		}
@@ -271,16 +260,55 @@ public class OslcClient {
 	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
-		String retval = null;
+		QueryCapability defaultQueryCapability = null;
+		QueryCapability firstQueryCapability = null;
 		
-		retval = lookupService(serviceProviderUrl, oslcDomain, oslcResourceType, "queryCapability", "queryBase");
+		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
+		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
 		
-		return retval;
+		
+		if (serviceProvider != null) {
+			for (Service service:serviceProvider.getServices()) {
+				URI domain = service.getDomain();				
+				if (domain != null  && domain.toString().equals(oslcDomain)) {
+					QueryCapability [] queryCapabilities = service.getQueryCapabilities();
+					if (queryCapabilities != null && queryCapabilities.length > 0) {
+						firstQueryCapability = queryCapabilities[0];
+						for (QueryCapability queryCapability:service.getQueryCapabilities()) {
+							for (URI resourceType:queryCapability.getResourceTypes()) {
+								
+								//return as soon as domain + resource type are matched
+								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
+									return queryCapability.getQueryBase().toString();
+								}							
+							}
+							//Check if this is the default capability
+							for (URI usage:queryCapability.getUsages()) {
+								if (usage.toString() != null && usage.toString().equals(OSLCConstants.USAGE_DEFAULT_URI)) {
+									defaultQueryCapability = queryCapability;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//If we reached this point, there was no resource type match
+		if (defaultQueryCapability != null) {
+			//return default, if present
+			return defaultQueryCapability.getQueryBase().toString();
+		} else if (firstQueryCapability != null && firstQueryCapability.getResourceTypes().length ==0) {
+			//return the first for the domain, if present
+			return firstQueryCapability.getQueryBase().toString();
+		} 
+		
+		throw new ResourceNotFoundException(serviceProviderUrl, "QueryCapability");
 	}
 	
 	/**
 	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
-	 * the default Creation Factory, if it exists.
+	 * the default Creation Factory, if it exists.  
 	 *
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
@@ -294,84 +322,51 @@ public class OslcClient {
 	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
-		String retval = null;
+		CreationFactory defaultCreationFactory = null;
+		CreationFactory firstCreationFactory = null;
 		
-		retval = lookupService(serviceProviderUrl, oslcDomain, oslcResourceType, "creationFactory", "creation");
-		
-		return retval;
-	}
-	
-	protected String lookupService(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, 
-			                    final String capability, final String serviceLocation) 
-			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
-	{
-		String retval = null;
 		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
-		
-		Model rdfModel = ModelFactory.createDefaultModel();
-		rdfModel.read(response.getEntity(InputStream.class),serviceProviderUrl);
-		
-        //First, find all services and find the one matching input oslcDomain
-		Property spPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,"service");
-		Selector select = new SimpleSelector(null, spPredicate, (RDFNode)null); 
-		StmtIterator listStatements = rdfModel.listStatements(select);
-		
-		boolean foundCapability = false;
-		
-		while (listStatements.hasNext()  && !foundCapability) {
-			Statement thisService = listStatements.nextStatement();
-			com.hp.hpl.jena.rdf.model.Resource  serviceRes = thisService.getResource();
-			Property domainProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,"domain");
-			String domainValue = serviceRes.getProperty(domainProp).getObject().toString();
-			
-			//Second, find all target capabilities this service provider has
-			if (domainValue.equals(oslcDomain)) {
-				Property capabilityPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,capability);
-				Selector selectQuery = new SimpleSelector(serviceRes, capabilityPredicate, (RDFNode) null);
-				StmtIterator capabilities = rdfModel.listStatements(selectQuery);
+		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
 				
-				//Third, find the target capability for the requested artifact type, or the default capability if no 
-				//artifact type was given.
-				
-				String searchAttribute = null;
-				String searchAttributeValue = null;
-
-				if (oslcResourceType == null || oslcResourceType.isEmpty()) {
-					searchAttribute = "usage";
-					searchAttributeValue = OSLCConstants.OSLC_V2 + "default";
-				} else {
-					searchAttribute = "resourceType";
-					searchAttributeValue = oslcResourceType;
-				}
-				
-				while (capabilities.hasNext() && !foundCapability) {
-					Statement thisQueryCap = capabilities.nextStatement();
-					com.hp.hpl.jena.rdf.model.Resource capabilityRes = thisQueryCap.getResource();
-					Property searchProp = rdfModel.createProperty(OSLCConstants.OSLC_V2,searchAttribute);
-					Selector searchPropSelector = new SimpleSelector(capabilityRes, searchProp, (RDFNode)null);
-					
-					StmtIterator matchingStatements = rdfModel.listStatements(searchPropSelector);
-					
-					while (matchingStatements.hasNext()  && !foundCapability) {
-						Statement currentStatement = matchingStatements.next();
-						String value = currentStatement.getObject().toString();
-	
-						if (value.equals(searchAttributeValue)) {
-							Property queryBaseProp = rdfModel.createProperty(OSLCConstants.OSLC_V2, serviceLocation);
-							retval = capabilityRes.getProperty(queryBaseProp).getObject().toString();
-							foundCapability = true;
+		if (serviceProvider != null) {
+			for (Service service:serviceProvider.getServices()) {
+				URI domain = service.getDomain();				
+				if (domain != null  && domain.toString().equals(oslcDomain)) {
+					CreationFactory [] creationFactories = service.getCreationFactories();
+					if (creationFactories != null && creationFactories.length > 0) {
+						firstCreationFactory = creationFactories[0];
+						for (CreationFactory creationFactory:creationFactories) {
+							for (URI resourceType:creationFactory.getResourceTypes()) {
+								
+								//return as soon as domain + resource type are matched
+								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
+									return creationFactory.getCreation().toString();
+								}							
+							}
+							//Check if this is the default factory
+							for (URI usage:creationFactory.getUsages()) {
+								if (usage.toString() != null && usage.toString().equals(OSLCConstants.USAGE_DEFAULT_URI)) {
+									defaultCreationFactory = creationFactory;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 		
-		if (retval == null)
-		{
-			throw new ResourceNotFoundException(serviceProviderUrl, capability);
-		}
-		return retval;
+		//If we reached this point, there was no resource type match
+		if (defaultCreationFactory != null) {
+			//return default, if present
+			return defaultCreationFactory.getCreation().toString();
+		} else if (firstCreationFactory != null && firstCreationFactory.getResourceTypes().length ==0) {
+			//return the first for the domain, if present
+			return firstCreationFactory.getCreation().toString();
+		} 
+		
+		throw new ResourceNotFoundException(serviceProviderUrl, "CreationFactory");
 	}
+	
 	
 	
 	/**
