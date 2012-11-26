@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.core.query</groupId>
   <artifactId>org.eclipse.lyo.core.query</artifactId>
-  <version>0.1.2-SNAPSHOT</version>
+  <version>1.1</version>
   <dependencies>
   	<dependency>
   		<groupId>org.antlr</groupId>
@@ -17,7 +17,7 @@
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
   		<artifactId>oslc4j-core</artifactId>
-  		<version>[1.0,)</version>
+  		<version>[1.1,)</version>
   	</dependency>
   </dependencies>
     <build>
