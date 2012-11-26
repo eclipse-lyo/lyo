@@ -42,6 +42,7 @@ public class OslcOAuthClient extends OslcClient {
 
 	private OAuthAccessor accessor;
 	private static Logger LOGGER = Logger.getLogger(OslcOAuthClient.class);
+	private String oauth_real_name;
 	
 	/**
 	 * Initialize an OAuthClient with the required OAuth URLs
@@ -62,8 +63,28 @@ public class OslcOAuthClient extends OslcClient {
 		accessor = new OAuthAccessor(consumer);
 		
 	}
-
-
+	
+	/**
+	 * Initialize an OAuthClient with the required OAuth URLs
+	 * @param requestTokenURL
+	 * @param authorizationTokenURL
+	 * @param accessTokenURL
+	 * @param consumerKey
+	 * @param consumerSecret
+	 */
+	public OslcOAuthClient(String requestTokenURL,
+						   String authorizationTokenURL,
+						   String accessTokenURL,
+						   String consumerKey,
+						   String consumerSecret,
+						   String oauthRealmName ) {
+		super();
+		OAuthServiceProvider provider = new OAuthServiceProvider(requestTokenURL, authorizationTokenURL, accessTokenURL);
+		OAuthConsumer consumer = new OAuthConsumer("",consumerKey,consumerSecret,provider);
+		accessor = new OAuthAccessor(consumer);
+		oauth_real_name = oauthRealmName;
+	}
+	
 	@Override
 	/**
 	 * Get an OAuth protected OSLC resource
@@ -74,6 +95,10 @@ public class OslcOAuthClient extends OslcClient {
 		OAuthMessage message = getResourceInternal(url, HttpMethod.GET, false);
 		
 		String realm = "Jazz";
+		// Change if a different name was detected
+		if ( oauth_real_name != null ) {
+			realm = oauth_real_name;
+		}
 		String authHeader = message.getAuthorizationHeader(realm);
 
 		ClientConfig config = getClientConfig();

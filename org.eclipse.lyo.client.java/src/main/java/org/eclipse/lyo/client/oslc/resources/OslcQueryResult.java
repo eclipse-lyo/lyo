@@ -52,7 +52,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	
 	private Resource infoResource, membersResource; 
 	
-	private String nextPageUrl;
+	private String nextPageUrl = "";
 	
 	private boolean rdfInitialized = false;
 	

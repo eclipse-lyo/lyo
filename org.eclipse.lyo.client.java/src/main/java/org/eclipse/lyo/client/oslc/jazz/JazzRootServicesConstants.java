@@ -34,5 +34,6 @@ public interface JazzRootServicesConstants {
 	static String OAUTH_REQUEST_TOKEN_URL = "oauthRequestTokenUrl";
 	static String OAUTH_USER_AUTH_URL     = "oauthUserAuthorizationUrl";
 	static String OAUTH_ACCESS_TOKEN_URL  = "oauthAccessTokenUrl";
+	static String OAUTH_REALM_NAME        = "oauthRealmName";
 
 }

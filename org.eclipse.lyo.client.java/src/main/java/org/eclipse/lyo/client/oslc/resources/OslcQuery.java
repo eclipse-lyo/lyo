@@ -22,6 +22,7 @@ import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.Resource;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
+import org.eclipse.lyo.client.oslc.OslcOAuthClient;
 
 /**
  * Represents an OSLC query (HTTP GET) request to be made of a remote system.
@@ -187,7 +188,20 @@ public class OslcQuery {
 	}
 	
 	ClientResponse getResponse() {
-		return queryResource.get();
+
+		ClientResponse cr = null;
+		// If using an OAuth client, redirect the call
+		if ( oslcClient instanceof OslcOAuthClient ){
+			try {
+				cr = oslcClient.getResource(getQueryUrl(), OSLCConstants.CT_RDF);
+			} catch (Exception e) {
+				// Log error or raise exception
+			}
+		} else {
+			cr = queryResource.get();
+		}
+	
+		return cr;
 	}
 
 }

@@ -55,6 +55,7 @@ public class JazzRootServicesHelper {
 	private Collection<Object []> catalogs = new ArrayList<Object[]>();
 	
 	//OAuth URLs
+	String authorizationRealm;
 	String requestTokenUrl;
 	String authorizationTokenUrl;
 	String accessTokenUrl;
@@ -130,7 +131,8 @@ public class JazzRootServicesHelper {
 								authorizationTokenUrl,
 								accessTokenUrl,
 								consumerKey,
-								secret);		
+								secret,
+								authorizationRealm );		
 	}
 	
 	/**
@@ -176,6 +178,11 @@ public class JazzRootServicesHelper {
 			this.requestTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_REQUEST_TOKEN_URL);
 			this.authorizationTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_USER_AUTH_URL);
 			this.accessTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_ACCESS_TOKEN_URL);
+			try { // Following field is optional, try to get it, if not found ignore exception because it will use the default
+				this.authorizationRealm = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_REALM_NAME);
+			} catch (ResourceNotFoundException e) {
+				// Ignore
+			}
 		} catch (Exception e) {
 			throw new RootServicesException(this.baseUrl, e);
 		}
