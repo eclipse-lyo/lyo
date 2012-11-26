@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.lyo.server</groupId>
 	<artifactId>oauth-consumer-store</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.1</version>
 
 	<dependencies>
 		<dependency>
@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.server</groupId>
 			<artifactId>oauth-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>[1.1,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>

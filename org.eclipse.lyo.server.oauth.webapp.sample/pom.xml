@@ -16,18 +16,18 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.server</groupId>
 			<artifactId>oauth-webapp</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>[0.0.1-SNAPSHOT,)</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.lyo.server</groupId>
 			<artifactId>oauth-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>[0.0.1-SNAPSHOT,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.lyo.server</groupId>
 			<artifactId>oauth-consumer-store</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>[0.0.1-SNAPSHOT,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.wink</groupId>
