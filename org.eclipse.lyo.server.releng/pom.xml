@@ -1,0 +1,12 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion> 
+	<groupId>org.eclipse.lyo.oslc4j.server</groupId> 
+	<artifactId>lyo-server-build</artifactId> 
+	<version>1.1</version> 
+	<packaging>pom</packaging> 
+	<modules> 
+		<module>../org.eclipse.lyo.server.oauth.core</module> 
+		<module>../org.eclipse.lyo.server.oauth.consumerstore</module> 
+		<module>../org.eclipse.lyo.server.oauth.webapp</module> 
+	</modules> 
+</project>
