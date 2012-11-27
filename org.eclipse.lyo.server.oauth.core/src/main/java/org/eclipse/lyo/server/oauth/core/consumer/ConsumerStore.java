@@ -105,4 +105,10 @@ public interface ConsumerStore {
 	 */
 	public LyoOAuthConsumer updateConsumer(LyoOAuthConsumer consumer)
 			throws ConsumerStoreException;
+	
+	/**
+	 * Closes the consumer store.  It is unavailable for further use.
+	 * 
+	 */
+	public void closeConsumerStore();
 }

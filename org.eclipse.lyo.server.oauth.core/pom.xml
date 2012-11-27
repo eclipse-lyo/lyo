@@ -29,11 +29,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-servlet_2.5_spec</artifactId>
-			<version>1.2</version>
-			<scope>provided</scope>
-		</dependency>
+	  		<groupId>org.glassfish</groupId>
+	  		<artifactId>javax.servlet</artifactId>
+	  		<version>3.1-b33</version>
+	  		<scope>provided</scope>
+  		</dependency>
 		<dependency>
 			<groupId>net.oauth.core</groupId>
 			<artifactId>oauth</artifactId>
@@ -48,7 +48,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>oauth-core</finalName>
 
 		<outputDirectory>target/classes</outputDirectory>
 		

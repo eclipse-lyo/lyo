@@ -5,6 +5,9 @@
 <web-app>
 	<display-name>Eclipse Lyo Sample OAuth Provider</display-name>
 	<description>An example demonstrating the Lyo OAuth provider framework.</description>
+	<listener>
+		<listener-class>org.eclipse.lyo.server.oauth.webapp.services.ServletListener</listener-class>
+    </listener>
 	<servlet>
 		<servlet-name>JAX-RS Services</servlet-name>
 		<servlet-class>

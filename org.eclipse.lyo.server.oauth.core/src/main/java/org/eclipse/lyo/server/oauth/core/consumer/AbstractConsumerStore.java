@@ -56,6 +56,8 @@ public abstract class AbstractConsumerStore implements ConsumerStore {
 		return consumerMap.get(consumerKey);
 	}
 	
+	public abstract void closeConsumerStore();
+	
 	protected LyoOAuthConsumer add(LyoOAuthConsumer consumer) {
 		return consumerMap.put(consumer.consumerKey, consumer);
 	}

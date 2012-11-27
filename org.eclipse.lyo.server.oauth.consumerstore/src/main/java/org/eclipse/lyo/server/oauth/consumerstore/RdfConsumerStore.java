@@ -11,22 +11,20 @@
  *  
  *  Contributors:
  *  
- *     IBM Corporation - initial API and implementation
+ *     Samuel Padgett  - initial API and implementation
+ *     Michael Fiedler - updates to use Jena TDB instead of Derby 
  *******************************************************************************/
 package org.eclipse.lyo.server.oauth.consumerstore;
 
-import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 
-import com.hp.hpl.jena.db.DBConnection;
-import com.hp.hpl.jena.db.IDBConnection;
+import com.hp.hpl.jena.tdb.TDBFactory;
+import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.ModelMaker;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.shared.Command;
@@ -36,10 +34,9 @@ import com.hp.hpl.jena.shared.PropertyNotFoundException;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * A simple RDF consumer store backed by an embedded Derby database.
- * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
- */
+ * A simple RDF consumer store backed by a Jena TDB native datastore
+ **/
+
 public class RdfConsumerStore extends AbstractConsumerStore {
 	protected final static String LYO_OAUTH_NAMESPACE = "http://eclipse.org/lyo/server/oauth#";
 	protected final static String CONSUMER_RESOURCE = LYO_OAUTH_NAMESPACE
@@ -56,36 +53,50 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 			+ "provisional";
 	protected final static String TRUSTED = LYO_OAUTH_NAMESPACE + "trusted";
 
-	protected final static String DB_URL = "jdbc:derby:consumerStore;create=true"; // URL of database
-	protected final static String DB_USER = ""; // database user id
-	protected final static String DB_PASSWD = ""; // database password
-	protected final static String DB = "Derby"; // database type
+	protected final static String DB = "RDFStore"; // database type
 
 	private Logger logger = Logger.getLogger(RdfConsumerStore.class);
 	
 	private Model model;
+	private Dataset dataset;
 
-	public RdfConsumerStore() throws SQLException, ConsumerStoreException,
+	public RdfConsumerStore() throws ConsumerStoreException,
 			ClassNotFoundException {
-		createModel();
+		createDataset();
+		if (this.dataset != null) {
+			createModel(this.dataset);
+			loadConsumers();
+		}
+	}
+	
+	public RdfConsumerStore(Dataset dataset) throws ConsumerStoreException {
+		this.dataset = dataset;
+		createModel(this.dataset);
 		loadConsumers();
 	}
 
 	public RdfConsumerStore(Model model) throws ConsumerStoreException {
-		this.model = model;
-		loadConsumers();
+		createDataset();
+		if (this.dataset != null) {
+			this.model = model;
+			dataset.setDefaultModel(this.model);
+			loadConsumers();
+		}
+	}
+	
+	protected void createDataset() {
+		try {
+			this.dataset = TDBFactory.createDataset(DB);
+		} catch (Exception e) {
+			logger.error("Could not create dataset for OAuth consumer store.", e);
+		}
 	}
 
-	protected void createModel() {
+	protected void createModel(Dataset dataset) {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
-
-			IDBConnection conn = new DBConnection(DB_URL, DB_USER, DB_PASSWD, DB);
-			ModelMaker maker = ModelFactory.createModelRDBMaker(conn);
-			model = maker.createDefaultModel();
-			conn.close();
+			this.model = dataset.getDefaultModel();
 		} catch (Exception e) {
-			logger.error("Could not create OAuth consumer store.", e);
+			logger.error("Could not create model for OAuth consumer store.", e);
 		}
 	}
 
@@ -178,6 +189,16 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 			throws ConsumerStoreException {
 		// addConsumer() also works for update.
 		return addConsumer(consumer);
+	}
+	
+	@Override
+	public void closeConsumerStore() {
+		if (this.model != null) {
+			model.close();
+		}
+		if (this.dataset != null) {
+			dataset.close();
+		}
 	}
 
 	/**

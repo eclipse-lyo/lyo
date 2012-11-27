@@ -174,6 +174,17 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		// addConsumer() also works for update.
 		return addConsumer(consumer);
 	}
+	
+	@Override
+	public void closeConsumerStore() {
+		try {
+			writeModel();
+		} catch (Exception e) {
+			logger.error("Error finalizing model to disk");
+		}
+		
+		this.model.close();
+	}
 
 	/**
 	 * Removes any properties previously associated with the consumer.
