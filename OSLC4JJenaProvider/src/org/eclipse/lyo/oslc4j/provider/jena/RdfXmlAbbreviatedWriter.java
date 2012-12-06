@@ -25,9 +25,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
+import java.util.Set;
 
 import com.hp.hpl.jena.rdf.model.AnonId;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -121,6 +124,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	//RDF (constants):
 	private static String RDF_CONSTANT_LITERAL = "Literal"; //$NON-NLS-1$
 	private static String RDF_CONSTANT_RESOURCE = "Resource"; //$NON-NLS-1$
+	
+	private static final Logger logger = Logger.getLogger(RdfXmlAbbreviatedWriter.class.getName());
 	
 	/**
 	 * <p>The template for the XML declaration.</p>
@@ -306,7 +311,9 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	    while (statementIterator.hasNext()) {
 
 	    	//Assumption: All statements have an URI or anonymous resource as the object. 
-	    	Resource resource =  statementIterator.next().getObject().asResource();
+	    	Statement stmt = statementIterator.next();
+	    	logger.finest("Added model object: " + stmt.getSubject().toString() + " " + stmt.getPredicate().toString() + " " + stmt.getObject().toString());
+	    	Resource resource =  stmt.getObject().asResource();
 
 	    	//Maintain uniqueness:
 	    	if(!objects.contains(resource)) {
@@ -314,7 +321,9 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	    	}
 	    }
 	    
-	    //Resolve the root resources of the model (resources that are not an object of any other statement(s) in the model):
+	    //Resolve the proposed root resources of the model.  These include:
+	    //1. Resources not the object of any other statements
+	    //2. Other non-anonymous resources
 	    List<Resource> rootResources = new ArrayList<Resource>();
 	    statementIterator = model.listStatements();
 
@@ -322,21 +331,50 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 	    	Resource subject = statementIterator.next().getSubject();
 
-	    	if(!objects.contains(subject)){
+	    	if( ! (objects.contains(subject) && subject.isAnon()) ){
 
 	    		//Maintain uniqueness:
 	    		if(!rootResources.contains(subject)) {
 	    			rootResources.add(subject);
+	    			logger.finest("Added proposed root: " + subject.getURI());
 	    		}
 	    	}
 	    }
 	    
+	    //Test the candidate root resources to see if they are the objects of other root resource candidates.
+	    //If a candidate is the object of another root resource candidate, propose it for removal from root resources.
+	    //If all candidates are proposed for removal (i.e. fully cyclic graph), keep them all try to serialize.
+	    List<Resource> removalCandidates = new ArrayList<Resource>();
+	    List<Resource> rootTestAgainst = new ArrayList<Resource>();
+	    rootTestAgainst.addAll(rootResources);
+	    rootTestAgainst.addAll(objects);
+		for (Resource rootCandidate: rootResources) {
+			logger.finest("validating root candidate: " + rootCandidate.toString());
+			for (Resource rootTest: rootTestAgainst){
+				logger.finest("testing against resource: " + rootTest.toString());
+				if (!rootTest.equals(rootCandidate)) {
+					boolean rootCandidateIsObject = model.listStatements(rootTest,null,rootCandidate).hasNext();
+					boolean objectIsReification = model.listStatements(rootTest,RDF.type,RDF.Statement).hasNext();
+					if (rootCandidateIsObject && !objectIsReification) {
+						removalCandidates.add(rootCandidate);
+						logger.finest("removed: " + rootCandidate.toString());
+					}
+				}
+			}
+		}
+		
+		//Take removal candidates out of the rootResource list only if all candidates are not proposed for removal. 
+		if (! (removalCandidates.size() == rootResources.size())) {
+			rootResources.removeAll(removalCandidates);
+		}
+
 		List<Resource> serializedResources = new ArrayList<Resource>();
-
+	
 		for(Resource rootResource : rootResources){
-
-			if(!rootResource.canAs(ReifiedStatement.class) && (serializedResources.add(rootResource))){
+			
+			if(!rootResource.canAs(ReifiedStatement.class) && (!serializedResources.contains(rootResource))){
 				
+				serializedResources.add(rootResource);
 				String rootResourceNameSpace = RDF.getURI();
 				String rootResourceName = RDF_ELEMENT_DESCRIPTION;
 
@@ -395,14 +433,16 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	private void serializeStatements(Resource resource, XMLWriter xmlWriter, List<Resource> serializedResources){
 
 		StmtIterator statementIterator = resource.getModel().listStatements(resource, null, ((RDFNode)(null)));
+		Set<Statement> visitedStatements = new HashSet<Statement> ();
 		
 		while (statementIterator.hasNext()) {
-			serializeStatement(statementIterator.next(), xmlWriter, serializedResources);
+			serializeStatement(statementIterator.next(), xmlWriter, serializedResources,visitedStatements);
 		}
 	}
 	
-	private void serializeStatement(Statement statement, XMLWriter xmlWriter, List<Resource> serializedResources) {
+	private void serializeStatement(Statement statement, XMLWriter xmlWriter, List<Resource> serializedResources, Set<Statement> visitedStatements) {
 		
+		visitedStatements.add(statement);
 		Model model = statement.getModel();
 		Property predicate = statement.getPredicate();
 
@@ -439,9 +479,18 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 				Resource resource = object.asResource();
 
 				StmtIterator statementIterator = model.listStatements(resource, null, ((RDFNode)(null)));
+				Statement firstResourceStatement = null;
+				List<Statement> statementList = null;
 				
-				if((statementIterator.hasNext()) && (serializedResources.add(resource))){
-
+				//Need to fully retrieve next statement to test if it has been visited to generate the correct XML
+				//Convert the statement iterator into a list and use it later to serialize each statement
+				if (statementIterator.hasNext()) {
+					statementList = statementIterator.toList();
+					firstResourceStatement = statementList.get(0);
+				}			
+				
+				if ((firstResourceStatement !=null) && (!visitedStatements.contains(firstResourceStatement)) && (serializedResources.add(resource))) {
+					
 					xmlWriter.closeStartTag(true);
 
 					String resourceNameSpace = RDF.getURI();
@@ -465,8 +514,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 					xmlWriter.closeStartTag(true);
 
-					while (statementIterator.hasNext()) {
-						serializeStatement(statementIterator.next(), xmlWriter, serializedResources);
+					for (Statement nextStatement : statementList) {
+						serializeStatement(nextStatement, xmlWriter, serializedResources, visitedStatements);
 					}
 
 					xmlWriter.endTag(resourceNameSpace, resourceName, true);
