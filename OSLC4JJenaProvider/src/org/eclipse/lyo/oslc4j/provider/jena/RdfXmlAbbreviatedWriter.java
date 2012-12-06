@@ -344,8 +344,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	    //Test the candidate root resources to see if they are the objects of other root resource candidates.
 	    //If a candidate is the object of another root resource candidate, propose it for removal from root resources.
 	    //If all candidates are proposed for removal (i.e. fully cyclic graph), keep them all try to serialize.
-	    List<Resource> removalCandidates = new ArrayList<Resource>();
-	    List<Resource> rootTestAgainst = new ArrayList<Resource>();
+	    Set<Resource> removalCandidates = new HashSet<Resource>();
+	    Set<Resource> rootTestAgainst = new HashSet<Resource>();
 	    rootTestAgainst.addAll(rootResources);
 	    rootTestAgainst.addAll(objects);
 		for (Resource rootCandidate: rootResources) {
