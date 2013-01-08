@@ -67,8 +67,7 @@ public class OslcClient {
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	
-	/*  List of secure socket protocols. Note: TLSv1.2 is supported from Java 7, SSL_TLS is specific for the IBM JVMs */
-	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLSv1.2","TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
+	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
 	
 	
 	/**

@@ -96,7 +96,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	
 	String getNextPageUrl() {
 		initializeRdf();
-		if (nextPageUrl == null && infoResource != null) {
+		if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
 			Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
 			Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
 			StmtIterator iter = rdfModel.listStatements(select);
