@@ -10,10 +10,6 @@
 			<id>oauth</id>
 			<url>http://oauth.googlecode.com/svn/code/maven</url>
 		</repository>
-		<repository>
-			<id>oslc4j</id>
-			<url>file:///opt/users/hudsonbuild/workspace/lyo-oslc4j-nightly/.maven/repo</url>
-		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
