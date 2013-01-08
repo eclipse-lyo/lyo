@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>net.oauth.core</groupId>
 			<artifactId>oauth-provider</artifactId>
-			<version>20100527</version>
+			<version>20090531</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
