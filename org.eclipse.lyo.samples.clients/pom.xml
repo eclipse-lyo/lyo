@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.lyo.samples.clients</groupId>
-	<artifactId>oslc-java-client</artifactId>
+	<artifactId>oslc-java-samples</artifactId>
 	<version>0.1.2-SNAPSHOT</version>
 	<name>org.eclipse.lyo.samples.clients</name>
 	<repositories>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.clients</groupId>
 			<artifactId>oslc-java-client</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
+			<version>[0.1.2-SNAPSHOT,)</version>
 		</dependency>
 
 		<dependency>
