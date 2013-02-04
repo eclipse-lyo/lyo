@@ -47,8 +47,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
+@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
+@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
 public final class OslcRdfXmlProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Object>,
@@ -133,7 +133,8 @@ public final class OslcRdfXmlProvider
                            mediaType,
                            OslcMediaType.APPLICATION_RDF_XML_TYPE,
                            OslcMediaType.APPLICATION_XML_TYPE,
-                           OslcMediaType.TEXT_XML_TYPE);
+                           OslcMediaType.TEXT_XML_TYPE,
+                           OslcMediaType.TEXT_TURTLE_TYPE);
     }
 
     @Override
@@ -233,7 +234,8 @@ public final class OslcRdfXmlProvider
                           mediaType,
                           OslcMediaType.APPLICATION_RDF_XML_TYPE,
                           OslcMediaType.APPLICATION_XML_TYPE,
-                          OslcMediaType.TEXT_XML_TYPE);
+                          OslcMediaType.TEXT_XML_TYPE, 
+                          OslcMediaType.TEXT_TURTLE_TYPE);
     }
 
     @Override

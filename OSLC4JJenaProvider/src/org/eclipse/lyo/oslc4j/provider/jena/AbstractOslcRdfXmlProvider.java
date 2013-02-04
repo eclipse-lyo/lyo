@@ -18,7 +18,9 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -128,7 +130,11 @@ public abstract class AbstractOslcRdfXmlProvider
         // application/rdf+xml yields xml
         // applicaton/xml yields abbreviated xml
         final String serializationLanguage;
-        if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
+        if (OslcMediaType.TEXT_TURTLE_TYPE.equals(baseMediaType))
+        {
+        	serializationLanguage = FileUtils.langTurtle;
+        }
+        else if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
         {
             serializationLanguage = FileUtils.langXML;
         }
@@ -158,8 +164,11 @@ public abstract class AbstractOslcRdfXmlProvider
                                "false");
             writer.setErrorHandler(ERROR_HANDLER);    
             
-            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-            outputStream.write(xmlDeclaration.getBytes());
+            if (! serializationLanguage.equals(FileUtils.langTurtle)) 
+            {
+            	String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            	outputStream.write(xmlDeclaration.getBytes());
+            }
             
             writer.write(model,
                          outputStream,
@@ -215,7 +224,11 @@ public abstract class AbstractOslcRdfXmlProvider
         // application/rdf+xml yields xml
         // applicaton/xml yields abbreviated xml
         final String serializationLanguage;
-        if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
+        if (OslcMediaType.TEXT_TURTLE_TYPE.equals(baseMediaType))
+        {
+        	serializationLanguage = FileUtils.langTurtle;
+        }
+        else if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
         {
             serializationLanguage = FileUtils.langXML;
         }
@@ -256,8 +269,11 @@ public abstract class AbstractOslcRdfXmlProvider
                     "false");
             writer.setErrorHandler(ERROR_HANDLER);    
             
-            String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-            outputStream.write(xmlDeclaration.getBytes());
+            if (! serializationLanguage.equals(FileUtils.langTurtle)) 
+            {
+            	String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            	outputStream.write(xmlDeclaration.getBytes());
+            }
 
             writer.write(model,
                          outputStream,
@@ -291,14 +307,21 @@ public abstract class AbstractOslcRdfXmlProvider
     }
 
     protected Object[] readFrom(final Class<?>                       type,
-                                final MediaType                      errorMediaType,
+                                final MediaType                      mediaType,
                                 final MultivaluedMap<String, String> map,
                                 final InputStream                    inputStream)
               throws WebApplicationException
     {
         final Model model = ModelFactory.createDefaultModel();
 
-        final RDFReader reader = model.getReader(); // Default reader handles both xml and abbreviated xml
+        RDFReader reader = null;
+        
+        if (mediaType != null && mediaType.equals(OslcMediaType.TEXT_TURTLE_TYPE))
+        {
+        	reader=model.getReader(FileUtils.langTurtle);
+        } else {
+        	reader = model.getReader(); // Default reader handles both xml and abbreviated xml
+        }
         reader.setErrorHandler(ERROR_HANDLER);
 
         try
@@ -308,6 +331,7 @@ public abstract class AbstractOslcRdfXmlProvider
         	// for OSLC link labels. See this section of the CM specification
         	// for an example:
         	// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+
         	reader.read(model,
         				inputStream,
         				"");
@@ -319,7 +343,7 @@ public abstract class AbstractOslcRdfXmlProvider
         {
             throw new WebApplicationException(exception,
                                               buildBadRequestResponse(exception,
-                                                                      errorMediaType,
+                                                                      mediaType,
                                                                       map));
         }
     }

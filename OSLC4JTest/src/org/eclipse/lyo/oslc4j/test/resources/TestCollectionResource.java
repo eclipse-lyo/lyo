@@ -63,7 +63,7 @@ public class TestCollectionResource
         usages = {Constants.USAGE_COLLECTION}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
     public List<Test> getTests()
     {
         return new ArrayList<Test>(Arrays.asList(Persistence.getTests()));

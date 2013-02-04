@@ -118,7 +118,7 @@ public class TestInvalid
             oslcRdfXmlProvider.readFrom((Class) ServiceProvider.class,
                                         null,
                                         null,
-                                        null,
+                                        OslcMediaType.APPLICATION_RDF_XML_TYPE,
                                         null,
                                         stringBufferInputStream);
 
@@ -147,7 +147,7 @@ public class TestInvalid
             oslcRdfXmlProvider.readFrom((Class) Compact.class,
                                         null,
                                         null,
-                                        null,
+                                        OslcMediaType.APPLICATION_RDF_XML_TYPE,
                                         null,
                                         stringBufferInputStream);
 
@@ -176,7 +176,7 @@ public class TestInvalid
             oslcRdfXmlProvider.readFrom((Class) Compact.class,
                                         null,
                                         null,
-                                        null,
+                                        OslcMediaType.APPLICATION_RDF_XML_TYPE,
                                         null,
                                         stringBufferInputStream);
 

@@ -64,7 +64,7 @@ public class ServiceProviderResource
          usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
     public ServiceProvider[] getServiceProviders()
     {
         return ServiceProviderCatalogSingleton.getServiceProviders();
@@ -72,7 +72,7 @@ public class ServiceProviderResource
 
     @GET
     @Path("{serviceProviderId}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
     public ServiceProvider getServiceProvider(@PathParam("serviceProviderId") final String serviceProviderId)
     {
         return ServiceProviderCatalogSingleton.getServiceProvider(serviceProviderId);
@@ -105,8 +105,8 @@ public class ServiceProviderResource
          usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @POST
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
     public Response registerServiceProvider(@Context final HttpServletRequest httpServletRequest,
                                                      final ServiceProvider    serviceProvider)
            throws URISyntaxException

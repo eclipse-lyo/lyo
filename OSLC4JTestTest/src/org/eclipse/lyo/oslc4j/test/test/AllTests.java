@@ -33,6 +33,7 @@ public class AllTests
         suite.addTestSuite(TestTypesXml.class);
         suite.addTestSuite(TestTypesTextXml.class);
         suite.addTestSuite(TestTypesJson.class);
+        suite.addTestSuite(TestTypesTextTurtle.class);
         suite.addTestSuite(TestInvalid.class);
         suite.addTestSuite(TestInvalidTypesRdfXml.class);
         suite.addTestSuite(TestInvalidTypesJson.class);

@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 public interface OslcMediaType {
 
 	public final static String APPLICATION = "application";
+	public final static String TEXT = "text";
 
 	public final static String RDF_XML = "rdf+xml";
 	public final static String APPLICATION_RDF_XML = APPLICATION + "/" + RDF_XML;
@@ -36,6 +37,10 @@ public interface OslcMediaType {
 	
 	public final static String TEXT_XML = MediaType.TEXT_XML;
 	public final static MediaType TEXT_XML_TYPE = MediaType.TEXT_XML_TYPE;
+	
+	public final static String TURTLE="turtle";
+	public final static String TEXT_TURTLE = TEXT + "/" + TURTLE;
+	public final static MediaType TEXT_TURTLE_TYPE = new MediaType(TEXT, TURTLE);
 	
 	public final static String X_OSLC_COMPACT_XML = "x-oslc-compact+xml";
     public final static String APPLICATION_X_OSLC_COMPACT_XML = APPLICATION + "/" + X_OSLC_COMPACT_XML;

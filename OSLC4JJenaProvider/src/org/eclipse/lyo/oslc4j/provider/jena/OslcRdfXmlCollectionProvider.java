@@ -53,8 +53,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
+@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
+@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
 public class OslcRdfXmlCollectionProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Collection<Object>>,
@@ -99,7 +99,8 @@ public class OslcRdfXmlCollectionProvider
                                        mediaType,
                                        OslcMediaType.APPLICATION_RDF_XML_TYPE,
                                        OslcMediaType.APPLICATION_XML_TYPE,
-                                       OslcMediaType.TEXT_XML_TYPE);
+                                       OslcMediaType.TEXT_XML_TYPE, 
+                                       OslcMediaType.TEXT_TURTLE_TYPE);
                 }
             }
         }
@@ -152,7 +153,8 @@ public class OslcRdfXmlCollectionProvider
                                       mediaType,
                                       OslcMediaType.APPLICATION_RDF_XML_TYPE,
                                       OslcMediaType.APPLICATION_XML_TYPE,
-                                      OslcMediaType.TEXT_XML_TYPE);
+                                      OslcMediaType.TEXT_XML_TYPE,
+                                      OslcMediaType.TEXT_TURTLE_TYPE);
                 }
             }
         }
