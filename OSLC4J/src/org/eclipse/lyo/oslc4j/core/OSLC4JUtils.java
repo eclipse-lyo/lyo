@@ -159,5 +159,21 @@ public class OSLC4JUtils {
 		return resolvedURI.toString();
 
 	}
-
+	
+	/**
+	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableRelativeURIs
+	 * Default is false if not set or invalid (relative URIs will be allowed)
+	 * @return
+	 */
+	public static boolean relativeURIsAreDisabled()
+	{
+		boolean retVal = false;
+		
+		String relURIsDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_RELATIVE_URIS);
+		if (relURIsDisabledProp !=null)
+		{
+			retVal = Boolean.parseBoolean(relURIsDisabledProp);
+		}
+		return retVal;
+	}
 }

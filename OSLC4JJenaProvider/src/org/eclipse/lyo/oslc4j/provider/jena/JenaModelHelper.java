@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -257,7 +258,7 @@ public final class JenaModelHelper
         final Resource mainResource;
         if (aboutURI != null)
         {
-            if (!aboutURI.isAbsolute())
+            if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
             {
                 throw new OslcCoreRelativeURIException(objectClass,
                                                        "getAbout",
@@ -1561,7 +1562,7 @@ public final class JenaModelHelper
             
             final URI uri = (URI) value;
 
-            if (!uri.isAbsolute())
+            if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
             {
                 throw new OslcCoreRelativeURIException(resourceClass,
                                                        (method == null) ? "<none>" : method.getName(),

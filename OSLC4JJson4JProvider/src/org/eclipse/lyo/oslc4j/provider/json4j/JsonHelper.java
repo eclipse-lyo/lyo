@@ -59,6 +59,7 @@ import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -1059,7 +1060,7 @@ final class JsonHelper
 			throws OslcCoreRelativeURIException,
 			       JSONException
 	{
-		if (!uri.isAbsolute())
+		if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
 		{
 		    throw new OslcCoreRelativeURIException(resourceClass,
 		                                           (method == null) ? "<none>" : method.getName(),
@@ -1132,7 +1133,7 @@ final class JsonHelper
 	{
 		if (aboutURI != null)
 		{
-		    if (!aboutURI.isAbsolute())
+		    if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
 		    {
 		        throw new OslcCoreRelativeURIException(objectClass,
 		                                               "getAbout",
