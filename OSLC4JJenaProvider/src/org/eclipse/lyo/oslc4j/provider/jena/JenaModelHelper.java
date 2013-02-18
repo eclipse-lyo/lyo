@@ -686,7 +686,7 @@ public final class JenaModelHelper
                             {
                                 final URI nestedResourceURI = new URI(nestedResourceURIString);
     
-                                if (!nestedResourceURI.isAbsolute())
+                                if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute())
                              	{
                                 	throw new OslcCoreRelativeURIException(beanClass,
                                                                            setMethod.getName(),
@@ -949,7 +949,7 @@ public final class JenaModelHelper
 		} else {
 			// It's a resource reference.
 			final URI nestedResourceURI = new URI(nestedResource.getURI());
-			if (!nestedResourceURI.isAbsolute())
+			if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute())
 			{
 				throw new OslcCoreRelativeURIException(beanClass, "<none>",
 				                                       nestedResourceURI);
@@ -1237,7 +1237,7 @@ public final class JenaModelHelper
 	    		final URI aboutURI = any.getAbout();
 	    		if (aboutURI != null)
 	    		{
-	    			if (!aboutURI.isAbsolute())
+	    			if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
 	    			{
 	    				throw new OslcCoreRelativeURIException(AnyResource.class,
 	    					"getAbout",
@@ -1600,7 +1600,7 @@ public final class JenaModelHelper
             final Resource nestedResource;
             if (aboutURI != null)
             {
-                if (!aboutURI.isAbsolute())
+                if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
                 {
                     throw new OslcCoreRelativeURIException(objectClass,
                                                            "getAbout",

@@ -167,7 +167,7 @@ public class OSLC4JUtils {
 	 */
 	public static boolean relativeURIsAreDisabled()
 	{
-		boolean retVal = false;
+		boolean retVal = true;
 		
 		String relURIsDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_RELATIVE_URIS);
 		if (relURIsDisabledProp !=null)

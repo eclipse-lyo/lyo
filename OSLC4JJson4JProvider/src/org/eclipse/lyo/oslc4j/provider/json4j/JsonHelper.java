@@ -1271,7 +1271,7 @@ final class JsonHelper
             {
                 final URI aboutURI = new URI(aboutURIObject.toString());
 
-                if (!aboutURI.isAbsolute())
+                if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
                 {
                     throw new OslcCoreRelativeURIException(beanClass,
                                                            "setAbout",
@@ -1476,7 +1476,7 @@ final class JsonHelper
 			if (resourceURIValue != null)
 			{
 				final URI uri = new URI((String) resourceURIValue); 
-				if (!uri.isAbsolute())
+				if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
 	            {
 	                throw new OslcCoreRelativeURIException(beanClass,
 	                                                       "<none>",
@@ -1659,7 +1659,7 @@ final class JsonHelper
             	{
             		final URI uri = new URI(uriObject.toString());
 
-            		if (!uri.isAbsolute())
+            		if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
             		{
             			throw new OslcCoreRelativeURIException(beanClass,
             					setMethod.getName(),
