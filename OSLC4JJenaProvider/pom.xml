@@ -16,10 +16,6 @@
   		<scope>provided</scope>
   	</dependency>
   	<dependency>
-  		<groupId>com.ibm.icu</groupId>
-  		<artifactId>icu4j</artifactId>
-  	</dependency>
-  	<dependency>
   		<groupId>xml-apis</groupId>
   		<artifactId>xml-apis</artifactId>
   	</dependency>
