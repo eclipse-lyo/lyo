@@ -162,7 +162,7 @@ public class OSLC4JUtils {
 	
 	/**
 	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableRelativeURIs
-	 * Default is false if not set or invalid (relative URIs will be allowed)
+	 * Default is true if not set or invalid (relative URIs will not be allowed)
 	 * @return
 	 */
 	public static boolean relativeURIsAreDisabled()
