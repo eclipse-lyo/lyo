@@ -53,8 +53,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
+@Produces({OslcMediaType.APPLICATION_RDF_XML})
+@Consumes({OslcMediaType.APPLICATION_RDF_XML})
 public class OslcRdfXmlCollectionProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Collection<Object>>,

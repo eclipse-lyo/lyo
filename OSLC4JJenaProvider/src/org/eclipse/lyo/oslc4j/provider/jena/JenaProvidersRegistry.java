@@ -23,7 +23,7 @@ import java.util.Set;
 
 public final class JenaProvidersRegistry
 {
-    private static final Set<Class<?>> PROVIDERS = new HashSet<Class<?>>();
+    private static Set<Class<?>> PROVIDERS = new HashSet<Class<?>>();
 
     static
     {
@@ -31,6 +31,12 @@ public final class JenaProvidersRegistry
         PROVIDERS.add(OslcRdfXmlArrayProvider.class);
         PROVIDERS.add(OslcRdfXmlCollectionProvider.class);
         PROVIDERS.add(OslcRdfXmlProvider.class);
+        PROVIDERS.add(OslcXmlArrayProvider.class);
+        PROVIDERS.add(OslcXmlCollectionProvider.class);
+        PROVIDERS.add(OslcXmlProvider.class);
+        PROVIDERS.add(OslcTurtleArrayProvider.class);
+        PROVIDERS.add(OslcTurtleCollectionProvider.class);
+        PROVIDERS.add(OslcTurtleProvider.class);
     }
 
     private JenaProvidersRegistry()
@@ -44,5 +50,24 @@ public final class JenaProvidersRegistry
     public static final Set<Class<?>> getProviders()
     {
         return new HashSet<Class<?>>(PROVIDERS);
+    }
+    
+    public static final Set<Class<?>> setProviders (Set<Class<?>> providers)
+    {
+    	if (providers != null && PROVIDERS != null)
+    	{
+    		PROVIDERS.clear();
+    		PROVIDERS.addAll(providers);
+    	}
+    	return new HashSet<Class<?>>(PROVIDERS);    	
+    }
+
+    public static final Set<Class<?>> removeProviders (Set<Class<?>> providers)
+    {
+    	if (providers != null && PROVIDERS != null)
+    	{
+    		PROVIDERS.removeAll(providers);
+    	}
+    	return new HashSet<Class<?>>(PROVIDERS);    	
     }
 }

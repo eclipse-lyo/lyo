@@ -47,9 +47,9 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.TEXT_TURTLE})
-public final class OslcRdfXmlProvider
+@Produces({OslcMediaType.APPLICATION_RDF_XML})
+@Consumes({OslcMediaType.APPLICATION_RDF_XML})
+public class OslcRdfXmlProvider
        extends AbstractOslcRdfXmlProvider
        implements MessageBodyReader<Object>,
                   MessageBodyWriter<Object>
