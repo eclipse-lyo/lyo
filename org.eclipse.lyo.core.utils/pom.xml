@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.lyo</groupId>
+	<version>0.5.0-SNAPSHOT</version>
+	<name>OSLC Utilities</name>
+	<artifactId>org.eclipse.lyo.core.utils</artifactId>
+	<description>Additional utilities such as the OSLC4J Marshaller and UnMarshaller</description>
+	
+	<repositories>
+		<repository>
+			<id>eclipse.lyo</id>
+			<url>http://gearbox-build.rtp.raleigh.ibm.com:8081/nexus/content/repositories/eclipse.lyo/</url>
+		</repository> 
+	</repositories>
+	
+	<dependencies>
+	  	<dependency>
+	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
+	  		<artifactId>oslc4j-json4j-provider</artifactId>
+	  		<version>[1.1-SNAPSHOT,)</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
+	  		<artifactId>oslc4j-jena-provider</artifactId>
+	  		<version>[1.1-SNAPSHOT,)</version>
+	    </dependency> 
+	</dependencies>
+
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>integration.sdk</id>
+	    <url>http://gearbox-build.rtp.raleigh.ibm.com:8081/nexus/content/repositories/integration.sdk</url>
+	  </snapshotRepository>
+	</distributionManagement>
+	
+	<build>
+		<finalName>org.eclipse.lyo.oslc4j.coreTemp</finalName>
+		<outputDirectory>target/classes</outputDirectory>
+		<plugins>
+
+			<!-- Compiler Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
+			<!-- Source Jar Plugin -->
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-source-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>attach-sources</id>
+			      <goals>
+			        <goal>jar</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			
+			<!-- Javadoc Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>
