@@ -7,13 +7,6 @@
 	<artifactId>org.eclipse.lyo.core.utils</artifactId>
 	<description>Additional utilities such as the OSLC4J Marshaller and UnMarshaller</description>
 	
-	<repositories>
-		<repository>
-			<id>eclipse.lyo</id>
-			<url>http://gearbox-build.rtp.raleigh.ibm.com:8081/nexus/content/repositories/eclipse.lyo/</url>
-		</repository> 
-	</repositories>
-	
 	<dependencies>
 	  	<dependency>
 	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -26,13 +19,6 @@
 	  		<version>[1.1-SNAPSHOT,)</version>
 	    </dependency> 
 	</dependencies>
-
-	<distributionManagement>
-	  <snapshotRepository>
-	    <id>integration.sdk</id>
-	    <url>http://gearbox-build.rtp.raleigh.ibm.com:8081/nexus/content/repositories/integration.sdk</url>
-	  </snapshotRepository>
-	</distributionManagement>
 	
 	<build>
 		<finalName>org.eclipse.lyo.oslc4j.coreTemp</finalName>

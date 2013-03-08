@@ -83,7 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 
-final class JsonHelper
+public final class JsonHelper
 {
     private static final String JSON_PROPERTY_DELIMITER            = ":";
     private static final String JSON_PROPERTY_PREFIXES             = "prefixes";

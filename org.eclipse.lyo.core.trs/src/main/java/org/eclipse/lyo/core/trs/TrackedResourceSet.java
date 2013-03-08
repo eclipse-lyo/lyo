@@ -31,7 +31,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
  * An HTTP GET on a Tracked Resource Set URI returns a representation structured
  * as follows (note: for exposition, the example snippets show the RDF 
  * information content using Turtle; the actual representation of these 
- * resources “on the wire" may vary): 
+ * resources "on the wire" may vary): 
 # Resource: http://cm1.example.com/trackedResourceSet
 @prefix trs: <http://jazz.net/ns/trs#> .
 
