@@ -21,7 +21,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>org.eclipse.lyo.oslc4j.coreTemp</finalName>
+		<finalName>org.eclipse.lyo.core.utils</finalName>
 		<outputDirectory>target/classes</outputDirectory>
 		<plugins>
 
