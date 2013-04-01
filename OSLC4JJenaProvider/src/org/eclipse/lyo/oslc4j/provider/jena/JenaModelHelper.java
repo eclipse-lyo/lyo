@@ -1581,10 +1581,8 @@ public final class JenaModelHelper
             
             final GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime((Date) value);
-
-            final String string = DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar).toString();
-
-            nestedNode = model.createLiteral(string);
+            
+            nestedNode = model.createTypedLiteral(calendar);
         }
         else if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {
