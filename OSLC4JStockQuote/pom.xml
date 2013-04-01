@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
   <artifactId>oslc4j-stockquote-sample</artifactId>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>war</packaging>
     <dependencies>
   	<dependency>
@@ -34,7 +34,7 @@
   	<dependency>
   		<groupId>org.eclipse.lyo.oslc4j.samples</groupId>
   		<artifactId>oslc4j-stockquote-common</artifactId>
-  		<version>1.1</version>
+  		<version>1.2-SNAPSHOT</version>
   	</dependency>
     </dependencies>
   <build>
