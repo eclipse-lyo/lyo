@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -28,6 +28,7 @@ public interface JazzRootServicesConstants {
 	static String CM_ROOTSERVICES_CATALOG_PROP = "cmServiceProviders";
 	static String QM_ROOTSERVICES_CATALOG_PROP = "qmServiceProviders";
 	static String RM_ROOTSERVICES_CATALOG_PROP = "rmServiceProviders";
+	static String AM_ROOTSERVICES_CATALOG_PROP = "amServiceProviders";
 	static String AUTO_ROOTSERVICES_CATALOG_PROP = "autoServiceProviders";
 	
 	//OAuth entries

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  * Contributors:
  *
  *    Steve Speicher - initial API and implementation
+ *    Michael Fiedler - add AM resource types
  *******************************************************************************/
 
 package org.eclipse.lyo.client.oslc;
@@ -116,6 +117,10 @@ public interface OSLCConstants {
 	
 	public static final String RM_REQUIREMENT_TYPE = OSLC_RM_V2 + "Requirement";
 	public static final String RM_REQUIREMENT_COLLECTION_TYPE = OSLC_RM_V2 + "RequirementCollection";
+	
+	//OSLC AM 2.0
+	public static final String AM_RESOURCE_TYPE = OSLC_AM_V2 + "Resource";
+	public static final String AM_LINK_TYPE_TYPE = OSLC_AM_V2 + "LinkType";
 	
 	// RDF
 	public static final String RDF_TYPE_PROP		= RDF + "type";

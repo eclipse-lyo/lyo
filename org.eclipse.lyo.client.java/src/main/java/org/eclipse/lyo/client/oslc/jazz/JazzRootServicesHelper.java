@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -97,7 +97,13 @@ public class JazzRootServicesHelper {
 			this.catalogNamespace = OSLCConstants.OSLC_RM;
 			this.catalogProperty =  JazzRootServicesConstants.RM_ROOTSERVICES_CATALOG_PROP;
 			
-		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AM_V2)) {
+			
+			this.catalogNamespace = OSLCConstants.OSLC_AM_V2;
+			this.catalogProperty =  JazzRootServicesConstants.AM_ROOTSERVICES_CATALOG_PROP;
+			
+		} 
+		else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
 			
 			this.catalogNamespace = OSLCConstants.OSLC_AUTO;
 			this.catalogProperty =  JazzRootServicesConstants.AUTO_ROOTSERVICES_CATALOG_PROP;
