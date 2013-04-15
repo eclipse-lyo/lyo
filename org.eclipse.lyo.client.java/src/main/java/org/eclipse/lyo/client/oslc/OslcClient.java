@@ -43,6 +43,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
@@ -76,11 +77,19 @@ public class OslcClient {
 	
 	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
 	
-	
 	/**
-	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration
+	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration.
 	 */
 	public OslcClient()
+	{
+		this((TrustManager[])null, (X509HostnameVerifier)null);
+	}
+	
+	/**
+	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration.
+	 * Use the provided TrustManagers and X509HostnameVerifiers instead of the defaults which do no verification;
+	 */
+	public OslcClient(TrustManager [] trustManagers, X509HostnameVerifier hostnameVerifier)
 	{
 		httpClient = new DefaultHttpClient();
 		httpClient.setRedirectStrategy(new RedirectStrategy() {
@@ -92,7 +101,7 @@ public class OslcClient {
 	            return false;
 	        }
 	    });
-		setupLazySSLSupport();
+		setupSSLSupport(trustManagers, hostnameVerifier);
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
@@ -470,7 +479,7 @@ public class OslcClient {
 		throw new NoSuchAlgorithmException("No suitable secured socket provider is installed"); //$NON-NLS-1$
 	} 
 	
-	private void setupLazySSLSupport()   {
+	private void setupSSLSupport(TrustManager[] trustManagers, X509HostnameVerifier hostnameVerifier)   {
 		ClientConnectionManager connManager = httpClient.getConnectionManager();
 		SchemeRegistry schemeRegistry = connManager.getSchemeRegistry();
 		schemeRegistry.unregister("https");
@@ -490,14 +499,17 @@ public class OslcClient {
 				return null;
 			}
 		} };
-
-		
-	
 				
 		try {
 			SSLContext sc = findInstalledSecurityContext();
-			sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			SSLSocketFactory sf = new SSLSocketFactory(sc,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			if (trustManagers == null) {
+				trustManagers = trustAllCerts;
+			}
+			if (hostnameVerifier == null) {
+				hostnameVerifier = SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+			}
+			sc.init(null, trustManagers, new java.security.SecureRandom());
+			SSLSocketFactory sf = new SSLSocketFactory(sc,hostnameVerifier);
 			Scheme https = new Scheme("https", 443, sf); //$NON-NLS-1$
 			schemeRegistry.register(https);
 		} catch (NoSuchAlgorithmException e) {
