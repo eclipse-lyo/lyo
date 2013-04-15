@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  *  Contributors:
  *  
  *     Michael Fiedler     - initial API and implementation
+ *     Michael Fiedler     - refactoring to remove un-needed GETs in formLogin()
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
@@ -20,9 +21,11 @@ import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.lyo.client.exception.JazzAuthErrorException;
 import org.eclipse.lyo.client.exception.JazzAuthFailedException;
@@ -136,32 +139,25 @@ public class JazzFormAuthClient extends OslcClient {
 		HttpResponse resp;
 		try 
 		{
-			HttpGet get1 = new HttpGet(this.authUrl + "/auth/authrequired");
-			resp = httpClient.execute(get1);
+			
+			HttpGet authenticatedIdentity = new HttpGet(this.authUrl + "/authenticated/identity");
+			
+			resp = httpClient.execute(authenticatedIdentity);
 			statusCode = resp.getStatusLine().getStatusCode();
 			location = getHeader(resp,"Location");
 			EntityUtils.consume(resp.getEntity());
-			followRedirects(statusCode,location);
+			statusCode = followRedirects(statusCode,location);
 			
 			
-			HttpGet get2= new HttpGet(this.authUrl + "/authenticated/identity");
-			
-			resp = httpClient.execute(get2);
-			statusCode = resp.getStatusLine().getStatusCode();
-			location = getHeader(resp,"Location");
-			EntityUtils.consume(resp.getEntity());
-			followRedirects(statusCode,location);
-			
-			
-			HttpPost post = new HttpPost(this.authUrl + "/j_security_check");
+			HttpPost securityCheck = new HttpPost(this.authUrl + "/j_security_check");
 			StringEntity entity = new StringEntity("j_username=" + this.user + "&j_password=" + this.password);
-			post.setHeader("Accept", "*/*");
-			post.setHeader("X-Requested-With", "XMLHttpRequest");
-			post.setEntity(entity);
-			post.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-		    post.addHeader("OSLC-Core-Version", "2.0");
+			securityCheck.setHeader("Accept", "*/*");
+			securityCheck.setHeader("X-Requested-With", "XMLHttpRequest");
+			securityCheck.setEntity(entity);
+			securityCheck.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+			securityCheck.addHeader("OSLC-Core-Version", "2.0");
 		    
-		    resp = httpClient.execute(post);
+		    resp = httpClient.execute(securityCheck);
 		    statusCode = resp.getStatusLine().getStatusCode();
 		    
 		    String jazzAuthMessage = null;
@@ -184,13 +180,7 @@ public class JazzFormAuthClient extends OslcClient {
 		    {
 		    	location = getHeader(resp,"Location");
 		    	EntityUtils.consume(resp.getEntity());
-		    	followRedirects(statusCode,location);
-		    	HttpGet get3 = new HttpGet(this.authUrl + "/service/com.ibm.team.repository.service.internal.webuiInitializer.IWebUIInitializerRestService/initializationData");
-		    	resp = httpClient.execute(get3);
-		    	statusCode = resp.getStatusLine().getStatusCode();
-		    	location = getHeader(resp,"Location");
-		    	EntityUtils.consume(resp.getEntity());
-		    	followRedirects(statusCode,location);
+		    	statusCode = followRedirects(statusCode,location);
 		    	
 		    }
 		} catch (JazzAuthFailedException jfe) {
@@ -203,7 +193,8 @@ public class JazzFormAuthClient extends OslcClient {
 		return statusCode;
 	}
 	
-	private void followRedirects(int statusCode, String location)
+	
+	private int followRedirects(int statusCode, String location)
 	{
 		
 		while ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) && (location != null))
@@ -219,6 +210,7 @@ public class JazzFormAuthClient extends OslcClient {
 			}
 
 		}
+		return statusCode;
 	}
 	
 	private String getHeader(HttpResponse resp, String headerName)

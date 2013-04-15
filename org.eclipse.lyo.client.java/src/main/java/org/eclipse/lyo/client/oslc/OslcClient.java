@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation and others.
+ * Copyright (c) 2011, 2013 IBM Corporation and others.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,7 +12,8 @@
  *  Contributors:
  *  
  *     Michael Fiedler                 - initial API and implementation
- *     Lars Ohlén (Tieto Corporation)  - Resolved Bugzilla 393875,389275
+ *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
+ *     Michael Fiedler	               - follow redirects.
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
@@ -31,16 +32,22 @@ import javax.net.ssl.X509TrustManager;
 import net.oauth.OAuthException;
 import net.oauth.client.httpclient4.HttpClientPool;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.RedirectStrategy;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.wink.client.ApacheHttpClientConfig;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
+import org.apache.wink.client.httpclient.ApacheHttpClientConfig;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
@@ -63,7 +70,7 @@ import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
 public class OslcClient {
 	
-	protected HttpClient httpClient;
+	protected DefaultHttpClient httpClient;
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	
@@ -71,11 +78,20 @@ public class OslcClient {
 	
 	
 	/**
-	 * Initialize a new OslcClient
+	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration
 	 */
 	public OslcClient()
 	{
 		httpClient = new DefaultHttpClient();
+		httpClient.setRedirectStrategy(new RedirectStrategy() {
+	        public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context)  {
+	            return null;
+	        }
+
+	        public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) {
+	            return false;
+	        }
+	    });
 		setupLazySSLSupport();
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
@@ -117,11 +133,26 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public ClientResponse getResource(final String url, final String mediaType) 
+	public ClientResponse getResource(String url, final String mediaType) 
 			throws IOException, OAuthException, URISyntaxException {
 		
+		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).accept(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").get();
+		boolean redirect = false;
+		do {
+			response = restClient.resource(url).accept(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").get();
+			
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+				url = response.getHeaders().getFirst("Location");
+				response.consumeContent();
+				redirect = true;
+			} else {
+				redirect = false;
+			}
+		} while (redirect);
+		
+		return response;
 	}
 	
 	/**
@@ -132,11 +163,28 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public ClientResponse deleteResource(final String url) 
+	public ClientResponse deleteResource(String url) 
 			throws IOException, OAuthException, URISyntaxException {
 		
+		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).delete();
+		boolean redirect = false;
+		
+		do {
+			response = restClient.resource(url).delete();
+			
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+				url = response.getHeaders().getFirst("Location");
+				response.consumeContent();
+				redirect = true;
+			} else {
+				redirect = false;
+			}
+		} while (redirect);
+		
+		return response;
+
 	}
 	
 	
@@ -147,9 +195,8 @@ public class OslcClient {
 	 * @param mediaType
 	 * @return
 	 */
-	public ClientResponse createResource(final String url, final Object artifact, String mediaType) {
-		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).contentType(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+	public ClientResponse createResource(String url, final Object artifact, String mediaType) {		
+		return createResource(url, artifact, mediaType, "*/*");
 	}
 	
 	/**
@@ -160,9 +207,26 @@ public class OslcClient {
 	 * @param acceptType
 	 * @return
 	 */
-	public ClientResponse createResource(final String url, final Object artifact, String mediaType, String acceptType) {
+	public ClientResponse createResource(String url, final Object artifact, String mediaType, String acceptType) {
+		
+		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+		boolean redirect = false;
+		
+		do {
+			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+			
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+				url = response.getHeaders().getFirst("Location");
+				response.consumeContent();
+				redirect = true;
+			} else {
+				redirect = false;
+			}
+		} while (redirect);
+		
+		return response;
 	}
 	
 	/**
@@ -172,9 +236,9 @@ public class OslcClient {
 	 * @param mediaType
 	 * @return
 	 */
-	public ClientResponse updateResource(final String url, final Object artifact, String mediaType) {
-		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).contentType(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+	public ClientResponse updateResource(String url, final Object artifact, String mediaType) {	
+		
+		return updateResource(url, artifact, mediaType, "*/*");
 	}
 	
 	/**
@@ -185,9 +249,26 @@ public class OslcClient {
 	 * @param acceptType
 	 * @return
 	 */
-	public ClientResponse updateResource(final String url, final Object artifact, String mediaType, String acceptType) {
+	public ClientResponse updateResource(String url, final Object artifact, String mediaType, String acceptType) {
+		
+		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
-		return restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+		boolean redirect = false;
+		
+		do {
+			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+			
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+				url = response.getHeaders().getFirst("Location");
+				response.consumeContent();
+				redirect = true;
+			} else {
+				redirect = false;
+			}
+		} while (redirect);
+		
+		return response;
 	}
 
 	/**
