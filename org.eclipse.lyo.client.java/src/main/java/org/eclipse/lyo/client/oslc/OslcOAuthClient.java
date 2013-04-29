@@ -31,6 +31,7 @@ import net.oauth.OAuthServiceProvider;
 import net.oauth.client.OAuthClient;
 import net.oauth.client.httpclient4.HttpClient4;
 
+import org.apache.http.HttpHeaders;
 import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
@@ -117,6 +118,76 @@ public class OslcOAuthClient extends OslcClient {
 		
 		return restClient.resource(url).accept(mediaType).header("Authorization",authHeader).header("OSLC-Core-Version", "2.0").get();
 	}
+	
+	
+	public ClientResponse updateResource(final String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, OAuthException, URISyntaxException
+	{
+		
+		OAuthMessage message = getResourceInternal(url, HttpMethod.PUT, false);
+		
+		String realm = "Jazz";
+		// Change if a different name was detected
+		if ( oauth_real_name != null ) {
+			realm = oauth_real_name;
+		}
+		String authHeader = message.getAuthorizationHeader(realm);
+
+		ClientConfig config = getClientConfig();
+
+		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
+		       public Set<Class<?>> getClasses() {
+		           Set<Class<?>> classes = new HashSet<Class<?>>();
+		           classes.addAll(JenaProvidersRegistry.getProviders());
+		           
+		           return classes;
+		       }
+		};
+		config = config.applications(app);
+
+		RestClient restClient = new RestClient(config);
+		return restClient.resource(url).contentType(mediaType).accept(acceptType).header("Authorization",authHeader).header(HttpHeaders.IF_MATCH, ifMatch).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
+	}
+	
+	/**
+	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @param acceptType
+	 * @return
+	 * @throws URISyntaxException 
+	 * @throws OAuthException 
+	 * @throws IOException 
+	 */
+	public ClientResponse createResource(final String url, final Object artifact, String mediaType, String acceptType) throws IOException, OAuthException, URISyntaxException  {
+		OAuthMessage message = getResourceInternal(url, HttpMethod.POST, false);
+		
+		String realm = "Jazz";
+		// Change if a different name was detected
+		if ( oauth_real_name != null ) {
+			realm = oauth_real_name;
+		}
+		String authHeader = message.getAuthorizationHeader(realm);
+
+		ClientConfig config = getClientConfig();
+
+		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
+		       public Set<Class<?>> getClasses() {
+		           Set<Class<?>> classes = new HashSet<Class<?>>();
+		           classes.addAll(JenaProvidersRegistry.getProviders());
+		           
+		           return classes;
+		       }
+		};
+		config = config.applications(app);
+
+		RestClient restClient = new RestClient(config);
+		
+		return restClient.resource(url).contentType(mediaType).accept(acceptType).header("Authorization",authHeader).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
+		
+		// return restClient.resource(url).accept(mediaType).header("Authorization",authHeader).header("OSLC-Core-Version", "2.0").get();
+	}
+	
 	
 	/**
 	 * Performs necessary OAuth negotiation.

@@ -35,6 +35,7 @@ import net.oauth.client.httpclient4.HttpClientPool;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.HttpHeaders;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.HttpClient;
@@ -203,8 +204,11 @@ public class OslcClient {
 	 * @param artifact
 	 * @param mediaType
 	 * @return
+	 * @throws URISyntaxException 
+	 * @throws OAuthException 
+	 * @throws IOException 
 	 */
-	public ClientResponse createResource(String url, final Object artifact, String mediaType) {		
+	public ClientResponse createResource(String url, final Object artifact, String mediaType) throws IOException, OAuthException, URISyntaxException {		
 		return createResource(url, artifact, mediaType, "*/*");
 	}
 	
@@ -215,8 +219,11 @@ public class OslcClient {
 	 * @param mediaType
 	 * @param acceptType
 	 * @return
+	 * @throws URISyntaxException 
+	 * @throws OAuthException 
+	 * @throws IOException 
 	 */
-	public ClientResponse createResource(String url, final Object artifact, String mediaType, String acceptType) {
+	public ClientResponse createResource(String url, final Object artifact, String mediaType, String acceptType) throws IOException, OAuthException, URISyntaxException {
 		
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
@@ -266,6 +273,40 @@ public class OslcClient {
 		
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
+			
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+				url = response.getHeaders().getFirst("Location");
+				response.consumeContent();
+				redirect = true;
+			} else {
+				redirect = false;
+			}
+		} while (redirect);
+		
+		return response;
+	}
+	
+	/**
+	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
+	 * @param url
+	 * @param artifact
+	 * @param mediaType
+	 * @param acceptType
+	 * @return
+	 * @throws URISyntaxException 
+	 * @throws OAuthException 
+	 * @throws IOException 
+	 */
+	public ClientResponse updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, OAuthException, URISyntaxException {
+		
+		ClientResponse response = null;
+		RestClient restClient = new RestClient(clientConfig);
+		boolean redirect = false;
+		
+		do {
+			response = restClient.resource(url).contentType(mediaType).accept(acceptType)
+					             .header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
 			
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
 			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				

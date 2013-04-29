@@ -62,6 +62,7 @@ public interface OSLCConstants {
 	
 	// Version 2 headers:
 	static String OSLC_CORE_VERSION = "OSLC-Core-Version";
+	static String ETAG = "Etag";
 	
 	static String POST = "POST";
 	static String SSL = "SSL";
