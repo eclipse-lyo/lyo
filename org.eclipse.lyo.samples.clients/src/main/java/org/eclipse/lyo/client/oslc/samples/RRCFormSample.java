@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -169,8 +169,9 @@ public class RRCFormSample {
 					requirement.setTitle("Req01");
 					
 					// Decorate the PrimaryText
-					primaryText = RmConstants.XHTML_DIV_START_TAG + "My Primary Text" + RmConstants.XHTML_DIV_END_TAG;
-					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, primaryText);
+					primaryText = "My Primary Text";
+					org.w3c.dom.Element obj = RmUtil.convertStringToHTML(primaryText);
+					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
 					
 					requirement.setDescription("Created By EclipseLyo");
 					requirement.addImplementedBy(new Link(new URI("http://google.com"), "Link in REQ01"));
@@ -267,13 +268,11 @@ public class RRCFormSample {
 					// Check with the workaround
 					 changedPrimaryText =  (String ) requirement.getExtendedProperties().get(PROPERTY_PRIMARY_TEXT_WORKAROUND);
 				}
-				if ( changedPrimaryText != null && primaryText!= null ) {
-					if ( ! changedPrimaryText.equalsIgnoreCase(primaryText)){
-						// Log an error
-						logger.log(Level.SEVERE, "Retrieved primaryText is not equals to original primaryText ");
-					}
-				}
 				
+				if ( ( changedPrimaryText != null) && (! changedPrimaryText.contains(primaryText)) ) {
+					logger.log(Level.SEVERE, "Error getting primary Text");
+				}
+
 				//QUERIES
 				// SCENARIO 01  Do a query for type= Requirements
 				OslcQueryParameters queryParams = new OslcQueryParameters();

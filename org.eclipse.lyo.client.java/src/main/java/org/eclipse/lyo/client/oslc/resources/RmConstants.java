@@ -63,9 +63,7 @@ public interface RmConstants
     public static final BaseDatatype RDF_TYPE_RESOURCE	 = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "Resource");
     public static final BaseDatatype RDF_TYPE_LOCALRESOURCE	 = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "LocalResource");
     
-    // To adapt primarytext
-	public static final String XHTML_DIV_START_TAG = "<div xmlns=\"http://www.w3.org/1999/xhtml\">";
-    public static final String XHTML_DIV_END_TAG = "</div>";
+    String NAMESPACE_URI_XHTML       = "http://www.w3.org/1999/xhtml"; //$NON-NLS-1$
     
     
 

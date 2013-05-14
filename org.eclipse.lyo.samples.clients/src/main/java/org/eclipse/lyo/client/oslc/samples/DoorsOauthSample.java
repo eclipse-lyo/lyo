@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.namespace.QName;
+
+import org.w3c.dom.Element;
 
 import net.oauth.OAuthException;
 
@@ -35,6 +40,7 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.http.Header;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.InvalidCredentialsException;
@@ -56,6 +62,15 @@ import org.eclipse.lyo.client.oslc.jazz.JazzRootServicesHelper;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
+import org.eclipse.lyo.client.oslc.resources.Requirement;
+import org.eclipse.lyo.client.oslc.resources.RmConstants;
+import org.eclipse.lyo.client.oslc.resources.RmUtil;
+import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
+import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.Service;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -144,21 +159,116 @@ public class DoorsOauthSample {
 																	  OSLCConstants.OSLC_RM_V2,
 																	  OSLCConstants.RM_REQUIREMENT_TYPE);
 				
-				//SCENARIO A: Run a query for all Requirements modified since 08/02/2010 with OSLC paging of 10 items per
-				//page turned on and list the members of the result
+				//STEP 7: Get the Creation Factory URL for default Requirements so that we can create one
+				Requirement requirement = new Requirement();
+				String requirementFactory = client.lookupCreationFactory(
+						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
+						requirement.getRdfTypes()[0].toString());
+				
+				//STEP 8 Get the default Requirement Type URL
+				ResourceShape reqInstanceShape = RmUtil.lookupRequirementsInstanceShapes(
+						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
+						requirement.getRdfTypes()[0].toString(), client, "Resource shape for a requirement in the " + projectArea);
+				
+				if (( reqInstanceShape != null ) && (requirementFactory != null ) ){
+					//STEP 9: Create a Requirement
+					requirement.setInstanceShape(reqInstanceShape.getAbout());
+					// Add a link
+					requirement.addImplementedBy(new Link(new URI("http://google.com"), "Link created by an Eclipse Lyo user"));
+					requirement.setDescription("Created By EclipseLyo");
+					
+					// Add the PrimaryText
+					String primaryText = "My Eclipse Lyo CREATED Primary Text";
+					Element obj = RmUtil.convertStringToHTML(primaryText);
+					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
+					
+					//Create the Requirement
+					ClientResponse creationResponse = client.createResource(
+							requirementFactory, requirement,
+							OslcMediaType.APPLICATION_RDF_XML,
+							OslcMediaType.APPLICATION_RDF_XML);
+					String req01URL = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
 
-				OslcQueryParameters queryParams = new OslcQueryParameters("dcterms:modified>=\"2010-08-01T21:51:40.979Z\"^^xsd:dateTime",null,null, null,"dcterms=<http://purl.org/dc/terms/>");
-
+					creationResponse.consumeContent();
+				}
+								
+				//STEP 10: Query of changed values
+				OslcQueryParameters queryParams = new OslcQueryParameters();
+				queryParams.setPrefix("oslc_rm=<http://open-services.net/ns/rm#>");
+				queryParams.setWhere("oslc_rm:implementedBy=<http://google.com>");
 				OslcQuery query = new OslcQuery(client, queryCapability, 10, queryParams);
-				
 				OslcQueryResult result = query.submit();
-				
 				boolean processAsJavaObjects = false;
+				int resultsSize = result.getMembersUrls().length;
 				processPagedQueryResults(result,client, processAsJavaObjects);
-				
 				System.out.println("\n------------------------------\n");
+				System.out.println("Number of Results for query 1 = " + resultsSize + "\n");
+
+				//STEP 11: Now get the artifact with identifier = 9 
+				queryParams = new OslcQueryParameters();
+				queryParams.setPrefix("dcterms=<http://purl.org/dc/terms/>");
+				queryParams.setWhere("dcterms:identifier=9");
+				query = new OslcQuery(client, queryCapability, 10, queryParams);
+				result = query.submit();
+				String requirementURL = null;
+				// Get the URL of returned requirement
+				if ( result != null ) {
+					String [] returnedURLS = result.getMembersUrls();
+					if (( returnedURLS != null ) && ( returnedURLS.length > 0 )) {
+						requirementURL = returnedURLS[0];
+					}
+				}
 				
-				//TODO:  Add more RRC/Requirement scenarios
+				// STEP 12 If requirement found, lets get it an modify
+				if ( requirementURL != null ) {
+					// Get the requirement
+					ClientResponse getResponse = client.getResource(requirementURL,OslcMediaType.APPLICATION_RDF_XML);
+					requirement = getResponse.getEntity(Requirement.class);
+					// Get the eTAG, we need it to update
+					String etag = getResponse.getHeaders().getFirst(OSLCConstants.ETAG);
+					getResponse.consumeContent();
+					
+					
+					// Following code is needed to workaround an issue in DWA that exposes the Heading inf as encoded XML
+					{
+						// Get the type for "Object Heading"
+						org.eclipse.lyo.oslc4j.core.model.Property[] properties = reqInstanceShape.getProperties();
+						String attrDef = null;
+						for (org.eclipse.lyo.oslc4j.core.model.Property property : properties){
+							if (property.getTitle().equalsIgnoreCase("Object Heading")){
+								attrDef = property.getPropertyDefinition().toString();
+							}
+						}
+						if ( attrDef != null ) {
+							String url = attrDef.substring(0, attrDef.lastIndexOf("/") + 1);
+							String name = attrDef.substring(attrDef.lastIndexOf("/") + 1);
+							// QName attr12Name = new QName("https://slot12.gdl.mex.ibm.com:8443/dwa/rm/urn:rational::1-514b30b9627b2a31-M-00000062/types/", "attrDef-12");
+							QName attr12Name = new QName(url, name);
+							String attr12 = (String ) requirement.getExtendedProperties().get(attr12Name);
+							attr12 = removeXMLEscape(attr12);
+							Element objattr12 = RmUtil.convertStringToHTML(attr12);
+							requirement.getExtendedProperties().put(attr12Name, objattr12);
+						}
+					}
+					
+					
+					// Change the Primary text
+					String primaryText = "My Eclipse Lyo CHANGED Primary Text";
+					// Put in the proper object ( Element for XML Strings )
+					Element obj = RmUtil.convertStringToHTML(primaryText);
+					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
+					
+					// Add a couple of links 
+					requirement.addImplementedBy(new Link(new URI("http://google.com"), "ImplementedBy example"));
+					requirement.addElaboratedBy(new Link(new URI("http://terra.com.mx"), "ElaboratedBy example"));
+					// Update the requirement with the proper etag 
+					ClientResponse updateResponse = client.updateResource(requirementURL, 
+							requirement, OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
+					
+					updateResponse.consumeContent();
+				}
+				
+				
 			}
 		} catch (RootServicesException re) {
 			logger.log(Level.SEVERE,"Unable to access the Jazz rootservices document at: " + webContextUrl + "/public/rootservices", re);
@@ -413,5 +523,76 @@ public class DoorsOauthSample {
 		
 		return retval;
 	}
+	
+	
+	/**
+	 * Find the OSLC Instance Shape URL for a given OSLC resource type.  
+	 *
+	 * @param serviceProviderUrl
+	 * @param oslcDomain
+	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
+	 * @return URL of requested Creation Factory or null if not found.
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
+	 */
+	public static ResourceShape lookupRequirementsInstanceShapesOLD(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcOAuthClient client, String requiredInstanceShape) 
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
+	{
+		
+		ClientResponse response = client.getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
+		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
+				
+		if (serviceProvider != null) {
+			for (Service service:serviceProvider.getServices()) {
+				URI domain = service.getDomain();				
+				if (domain != null  && domain.toString().equals(oslcDomain)) {
+					CreationFactory [] creationFactories = service.getCreationFactories();
+					if (creationFactories != null && creationFactories.length > 0) {
+						for (CreationFactory creationFactory:creationFactories) {
+							for (URI resourceType:creationFactory.getResourceTypes()) {
+								
+								//return as soon as domain + resource type are matched
+								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
+									URI[] instanceShapes = creationFactory.getResourceShapes();
+									if (instanceShapes != null ){
+										for ( URI typeURI : instanceShapes) {
+											response = client.getResource(typeURI.toString(),OSLCConstants.CT_RDF);
+											ResourceShape resourceShape =  response.getEntity(ResourceShape.class);
+											String typeTitle = resourceShape.getTitle();
+											if ( ( typeTitle != null) && (typeTitle.equalsIgnoreCase(requiredInstanceShape)) ) {
+												return resourceShape;	
+											}
+										}
+									}
+								}							
+							}
+						}
+					}
+				}
+			}
+		}
+		 
+		
+		throw new ResourceNotFoundException(serviceProviderUrl, "InstanceShapes");
+	}
 
+	
+	/**
+	 * Remove XML Escape indicators
+	 * 
+	 * @param content
+	 * @return String
+	 */
+	public static String removeXMLEscape(String content) {
+		content = content.replaceAll("&lt;", "<"); //$NON-NLS-1$ //$NON-NLS-2$
+		content = content.replaceAll("&gt;", ">"); //$NON-NLS-1$ //$NON-NLS-2$
+		content = content.replaceAll("&quot;", "\""); //$NON-NLS-1$ //$NON-NLS-2$
+		content = content.replaceAll("&#039;", "\'"); //$NON-NLS-1$ //$NON-NLS-2$
+		content = content.replaceAll("&amp;", "&"); //$NON-NLS-1$ //$NON-NLS-2$
+		content = content.trim();
+		return content;
+	}
+	
 }
