@@ -42,11 +42,11 @@ public class OSLC4JUnmarshaller {
 	
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(InputStream inputStream, Class<T> clazz) throws IllegalArgumentException, SecurityException, DatatypeConfigurationException, IllegalAccessException, InstantiationException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, NoSuchMethodException{
-		if (mediaType == MT_RDF_XML
-				|| mediaType == MediaType.APPLICATION_XML_TYPE
-				|| mediaType == MT_N_TRIPLES
-				|| mediaType == MT_TURTLE
-				|| mediaType == MT_N3) {
+		if (mediaType.isCompatible(MT_RDF_XML)
+				|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
+				|| mediaType.isCompatible(MT_N_TRIPLES)
+				|| mediaType.isCompatible(MT_TURTLE)
+				|| mediaType.isCompatible(MT_N3)) {
 	        final Model model = ModelFactory.createDefaultModel();
 	
 	        final RDFReader reader = model.getReader(); // Default reader handles both xml and abbreviated xml

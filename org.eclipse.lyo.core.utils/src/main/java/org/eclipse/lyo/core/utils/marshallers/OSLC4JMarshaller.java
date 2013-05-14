@@ -40,34 +40,34 @@ public class OSLC4JMarshaller {
 	public void marshal(Object[] resources, OutputStream os) throws WebApplicationException{
 
 		try {
-			if (mediaType == MT_RDF_XML
-					|| mediaType == MediaType.APPLICATION_XML_TYPE
-					|| mediaType == MT_N_TRIPLES
-					|| mediaType == MT_TURTLE
-					|| mediaType == MT_N3) {
+			if (mediaType.isCompatible(MT_RDF_XML)
+					|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
+					|| mediaType.isCompatible(MT_N_TRIPLES)
+					|| mediaType.isCompatible(MT_TURTLE)
+					|| mediaType.isCompatible(MT_N3)) {
 				Model model = JenaModelHelper.createJenaModel(resources);
 				if (model != null) {
 					String format = FileUtils.langXML;
 					// XML is the abbrivitaed format
-					if (mediaType == MediaType.APPLICATION_XML_TYPE) {
+					if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
 						format = FileUtils.langXMLAbbrev;
-					} else if (mediaType == MT_N_TRIPLES) {
+					} else if (mediaType.isCompatible(MT_N_TRIPLES)) {
 						format = FileUtils.langNTriple;
-					} else if (mediaType == MT_TURTLE) {
+					} else if (mediaType.isCompatible(MT_TURTLE)) {
 						format = FileUtils.langTurtle;
-					}else if (mediaType == MT_N3) {
+					}else if (mediaType.isCompatible(MT_N3)) {
 						format = FileUtils.langN3;
 					}
 					final RDFWriter writer = model.getWriter(format);
-					if (mediaType == MT_RDF_XML
-							|| mediaType == MediaType.APPLICATION_XML_TYPE){
+					if (mediaType.isCompatible(MT_RDF_XML)
+							|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)){
 						writer.setProperty("showXmlDeclaration", "true");
 					}
 					writer.write(model, os, null);
 
 				}
 			}
-			else if(mediaType == MediaType.APPLICATION_JSON_TYPE){
+			else if(mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)){
 				JSONObject jo = JsonHelper.createJSON(null, null, null, resources, null);
 				jo.write(os);
 			}
