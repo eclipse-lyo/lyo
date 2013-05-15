@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UnauthorizedException extends RestException {
 	public UnauthorizedException() {
 		super(HttpServletResponse.SC_UNAUTHORIZED,
-				"You must authenticate with Bugzilla for this request.");
+				"You must authenticate with your tool for this request.");
 	}
 	
 	public UnauthorizedException(String message) {

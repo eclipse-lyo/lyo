@@ -109,7 +109,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	protected static final String JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM = "invalid_expired_token";
 	protected static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
     
-    private final LRUCache<String, Connection> keyToConnectorCache = new LRUCache<String, Connection>(200);
+    private final LRUCache<String, Connection> tokenToConnectionCache = new LRUCache<String, Connection>(200);
     
     final private String displayName;
     final private String realm;
@@ -260,7 +260,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 						if (!isTwoLeggedOAuthRequest && message.getToken() != null) {
 							OAuthRequest oAuthRequest = new OAuthRequest(request);
 							oAuthRequest.validate();
-							Connection connector = keyToConnectorCache.get(message.getToken());
+							Connection connector = tokenToConnectionCache.get(message.getToken());
 							if (connector == null) {
 								throw new OAuthProblemException(
 										OAuth.Problems.TOKEN_REJECTED);
@@ -281,18 +281,18 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					throw new ServletException(e);
 				}
 				
-				// This is not an OAuth request. Check for basic access authentication.
+				// Check for Basic authentication if this is not an OAuth request
 				HttpSession session = request.getSession();
 				Connection connector = (Connection) session.getAttribute(CONNECTOR_ATTRIBUTE);
 				if (connector == null) {
 					try {
 						Credentials credentials;
 						if (isTwoLeggedOAuthRequest) {
-							connector = keyToConnectorCache.get("");
+							connector = tokenToConnectionCache.get("");
 							if (connector == null) {
 								credentials = getCredentialsForOAuth(OAUTH_EMPTY_TOKEN_KEY, twoLeggedOAuthConsumerKey);
 								connector = login(credentials, request);
-								keyToConnectorCache.put("", connector);
+								tokenToConnectionCache.put("", connector);
 							}
 							credentials = null; // TODO; Do we need to keep the credentials for this path ??
 						} else {
@@ -386,11 +386,11 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	};
 	
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig filterConfig) throws ServletException {
 		OAuthConfiguration config = OAuthConfiguration.getInstance();
 		
 		// Add session listener
-		arg0.getServletContext().addListener(listener);
+		filterConfig.getServletContext().addListener(listener);
 
 		// Validates a user's ID and password.
 		config.setApplication(new Application() {
@@ -450,7 +450,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			public void markRequestTokenAuthorized(
 					HttpServletRequest httpRequest, String requestToken)
 					throws OAuthProblemException {
-				keyToConnectorCache.put(requestToken,
+				tokenToConnectionCache.put(requestToken,
 						(Connection) httpRequest.getAttribute(CONNECTOR_ATTRIBUTE));
 				super.markRequestTokenAuthorized(httpRequest, requestToken);
 			}
@@ -459,9 +459,9 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			public void generateAccessToken(OAuthRequest oAuthRequest)
 					throws OAuthProblemException, IOException {
 				String requestToken = oAuthRequest.getMessage().getToken();
-				Connection bc = keyToConnectorCache.remove(requestToken);
+				Connection bc = tokenToConnectionCache.remove(requestToken);
 				super.generateAccessToken(oAuthRequest);
-				keyToConnectorCache.put(oAuthRequest.getAccessor().accessToken, bc);
+				tokenToConnectionCache.put(oAuthRequest.getAccessor().accessToken, bc);
 			}
 		});
 
