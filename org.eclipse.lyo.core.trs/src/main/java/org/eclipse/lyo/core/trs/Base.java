@@ -42,7 +42,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * Set at the time the Base was computed. HTTP GET on a Base URI returns an RDF
  * container with the following structure:
  * 
-@prefix oslc_trs: <http://open-services.net/ns/core/trs#> .
+@prefix oslc_trs: <http://jazz.net/ns/trs#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 <https://.../myResources> 
@@ -53,6 +53,10 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
   ...
   rdfs:member <https://.../WorkItem/199> ;
   rdfs:member <https://.../WorkItem/200> .
+  
+Note: the oslc_trs namespace will be converted to the
+http://open-services.net/ns/core/trs# in a future version of the TRS toolkit 
+once full compliance is reached.  
   
 Each Resource in the Resource Set MUST be referenced from the container using 
 an rdfs:member predicate. The Base MAY be broken into multiple pages, in which 
