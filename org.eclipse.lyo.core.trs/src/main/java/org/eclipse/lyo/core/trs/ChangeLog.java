@@ -34,10 +34,12 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
  * order, most recent first. The following example illustrates the contents of 
  * a Change Log:
  *  
+ *  <pre>
 # Resource: http://cm1.example.com/trackedResourceSet
-@prefix trs: <http://jazz.net/ns/trs#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+{@literal @prefix trs: <http://jazz.net/ns/trs#> .}
+{@literal @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .}
 
+{@code
 <http://cm1.example.com/trackedResourceSet>
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
@@ -64,18 +66,20 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
   a trs:Deletion ;
   trs:changed <http://cm1.example.com/bugs/21> ;
   trs:order "101"^^xsd:integer .
+}
+</pre>
   
-As shown, a Change Log provides a set of Change Event entries in a single-valued 
+<p>As shown, a Change Log provides a set of Change Event entries in a single-valued 
 RDF collection-type property called trs:changes. An RDF collection, i.e., a 
 linked list (reference: RDF Collections), is used in the Change Log to ensure 
 that the entries retain their correct (inverse chronological) order. 
 
-Change Events MUST have URIs (i.e., they cannot be Blank Nodes) to allow Clients
+<p>Change Events MUST have URIs (i.e., they cannot be Blank Nodes) to allow Clients
 to recognize entries they have seen before. The URI is only used to identify an 
 event (i.e., it need not be HTTP GETable) and therefore MAY be a URN, as shown 
 in the example.
 
-Each Change Event has a sequence number, trs:order; sequence numbers are 
+<p>Each Change Event has a sequence number, trs:order; sequence numbers are 
 non-negative integer values that increase over time. A Change Event entry 
 carries the URI of the changed Resource, trs:changed, and an indication, 
 via rdf:type (a.k.a. "a" in Turtle), of whether the Resource was added to the 
@@ -86,14 +90,14 @@ add new Change Events to the front of the list. The sequence number
 (i.e., trs:order) of newer entries MUST be greater than previous ones. The 
 sequence numbers MAY be consecutive numbers but need not be. 
 
-Note that the actual time of change is not included in a Change Event. Only a 
+<p>Note that the actual time of change is not included in a Change Event. Only a 
 sequence number, representing the "sequence in time" of each change is provided. 
 The URI of a Change Event MUST be guaranteed unique, even in the wake of a 
 Server roll back where sequence numbers get reused. A time stamp MAY be used to 
 generate such a URI, as in the above example, although other ways of generating 
 a unique URI are also possible. 
 
-A Change Log represents a series of changes to its corresponding Resource Set 
+<p>A Change Log represents a series of changes to its corresponding Resource Set 
 over some period of time. The Change Log MUST contain Change Events for every 
 Resource creation, deletion, and modification during that period. A Server MUST
 report a Resource modification event if a GET on it would return a semantically 
@@ -102,7 +106,7 @@ modification is anything that would affect the set of RDF triples in a
 significant way. A Server MAY safely report a modification event even in cases 
 where there would be no significant difference in response.
  
-The Server SHOULD NOT report unnecessary Change Events although it might happen,
+<p>The Server SHOULD NOT report unnecessary Change Events although it might happen,
 for example, if changes occur while the base is being computed. A Client SHOULD 
 ignore a creation event for a Resource that is already a member of the Resource 
 Set, and SHOULD ignore a deletion or modification event for a Resource that is 

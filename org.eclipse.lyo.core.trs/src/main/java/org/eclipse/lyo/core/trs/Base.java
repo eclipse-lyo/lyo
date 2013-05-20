@@ -42,9 +42,11 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * Set at the time the Base was computed. HTTP GET on a Base URI returns an RDF
  * container with the following structure:
  * 
-@prefix oslc_trs: <http://jazz.net/ns/trs#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+ * <pre>
+{@literal @prefix oslc_trs: <http://jazz.net/ns/trs#> .}
+{@literal @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .}
 
+{@code
 <https://.../myResources> 
   oslc_trs:cutoffIdentifier "2010-10-27T17:39:31.000Z#101" ;
   rdfs:member <https://.../WorkItem/1> ;
@@ -53,12 +55,14 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
   ...
   rdfs:member <https://.../WorkItem/199> ;
   rdfs:member <https://.../WorkItem/200> .
+}
+</pre>
   
-Note: the oslc_trs namespace will be converted to the
+<p>Note: the oslc_trs namespace will be converted to the
 http://open-services.net/ns/core/trs# in a future version of the TRS toolkit 
 once full compliance is reached.  
   
-Each Resource in the Resource Set MUST be referenced from the container using 
+<p>Each Resource in the Resource Set MUST be referenced from the container using 
 an rdfs:member predicate. The Base MAY be broken into multiple pages, in which 
 case the standard OSLC paging (reference: Resource Paging) mechanism is used to 
 connect one page to the next. (Note that an OSLC queryBase satisfies these 
@@ -68,7 +72,7 @@ be a queryBase.) The Tracked Resource Set protocol does not attach significance
 to the order in which a Server enumerates the resources in the Base or breaks 
 the Base up into pages.
 
-As shown above, a Base usually provides an oslc_trs:cutoffIdentifier property,
+<p>As shown above, a Base usually provides an oslc_trs:cutoffIdentifier property,
 whose value is the identifier (i.e., dcterms:identifier) of the most recent 
 Change Event in the corresponding Change Log that is already reflected in the 
 Base. This corresponds to the latest point in the Change Log from which a 
@@ -78,7 +82,7 @@ the cutoff Change Event MUST appear in the non-truncated portion of the Change
 Log. When the oslc_trs:cutoffIdentifier is omitted, the Base enumerates the 
 (possibly empty) Resource Set at the beginning of time.
 
-The Base is only an approximation of the Resource Set. A Base might omit mention
+<p>The Base is only an approximation of the Resource Set. A Base might omit mention
 of a Resource that ought to have been included or include a Resource that ought
 to have been omitted. For each erroneously reported Resource in the Base, the 
 Server MUST at some point include a corrective Change Event in the Change Log 
@@ -90,7 +94,7 @@ The Client might only see a corrective Change Event when it processes the Change
 Log resource obtained by dereferencing the Tracked Resource Set URI on later 
 occasions.
 
-A Server MUST refer to a given resource using the exact same URI in the Base 
+<p>A Server MUST refer to a given resource using the exact same URI in the Base 
 ( rdfs:member reference) and every Change Event ( oslc_trs:changed reference) 
 for that resource.
  * 

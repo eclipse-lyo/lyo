@@ -32,9 +32,11 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
  * as follows (note: for exposition, the example snippets show the RDF 
  * information content using Turtle; the actual representation of these 
  * resources "on the wire" may vary): 
+ * <pre>
 # Resource: http://cm1.example.com/trackedResourceSet
-@prefix trs: <http://jazz.net/ns/trs#> .
+{@literal @prefix trs: <http://jazz.net/ns/trs#> .}
 
+{@code
 <http://cm1.example.com/trackedResourceSet>
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
@@ -42,15 +44,17 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
     a trs:ChangeLog ; 
     trs:changes ( ... ) .
   ] .
+}
+</pre>
 
-A Tracked Resource Set MUST provide references to the Base and Change Log using
+<p>A Tracked Resource Set MUST provide references to the Base and Change Log using
 the trs:base and trs:changeLog predicates respectively. A typical Client will 
 periodically poll the Tracked Resource Set looking for recent Change Events. 
 In order to cater to this usage, the Tracked Resource Set's HTTP response MUST 
 contain the triples for the referenced Change Log (i.e., via a Blank Node, or 
 an inline named Resource). 
 
-The Server SHOULD also support etags, caching, and conditional GETs for Tracked 
+<p>The Server SHOULD also support etags, caching, and conditional GETs for Tracked 
 Resource Set resources and relegate the Base to separate resources. 
 
  * 

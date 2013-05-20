@@ -35,11 +35,12 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * A Change Log provides a list of changes organized in inverse chronological 
  * order, most recent first. The following example illustrates the contents of a 
  * Change Log:
- * 
+ * <pre>
 # Resource: http://cm1.example.com/trackedResourceSet
-@prefix trs: <http://jazz.net/ns/trs#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+{@literal @prefix trs: <http://jazz.net/ns/trs#> .}
+{@literal @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .}
 
+{@code
 <http://cm1.example.com/trackedResourceSet>
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
@@ -47,6 +48,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
     a trs:ChangeLog ;
     trs:changes <http://www.w3.org/2000/01/rdf-schema#nil> .
   ] .
+}
+</pre>
+
 As shown, an empty Change Log just provides an single trs;changes element with a value
 of "http://www.w3.org/2000/01/rdf-schema#nil".
  */
