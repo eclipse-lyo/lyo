@@ -90,7 +90,7 @@ public final class Compact extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
     @OslcReadOnly
     @OslcTitle("Title")
-    @OslcValueType(ValueType.XMLLiteral)
+    @OslcValueType(ValueType.String)
 	public String getTitle() {
 		return title;
 	}
