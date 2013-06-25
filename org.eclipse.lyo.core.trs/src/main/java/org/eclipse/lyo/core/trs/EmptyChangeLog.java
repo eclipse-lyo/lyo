@@ -16,9 +16,9 @@
 package org.eclipse.lyo.core.trs;
 
 import static org.eclipse.lyo.core.trs.TRSConstants.RDF_NIL;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CHANGES;
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CHANGE;
 import static org.eclipse.lyo.core.trs.TRSConstants.TRS_NAMESPACE;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CHANGES;
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CHANGE;
 import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TYPE_CHANGE_LOG;
 
 import java.net.URI;
@@ -37,7 +37,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * Change Log:
  * <pre>
 # Resource: http://cm1.example.com/trackedResourceSet
-{@literal @prefix trs: <http://jazz.net/ns/trs#> .}
+{@literal @prefix trs: <http://open-services.net/ns/core/trs#> .}
 {@literal @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .}
 
 {@code
@@ -59,28 +59,28 @@ of "http://www.w3.org/2000/01/rdf-schema#nil".
 @OslcName("ChangeLog")
 public class EmptyChangeLog extends AbstractChangeLog
 {
-	private URI changes;
+	private URI change;
 	
 	/**
-	 * @return the changes
+	 * @return the change
 	 * @throws URISyntaxException 
 	 */
-	@OslcName(TRS_TERM_CHANGES)
-	@OslcDescription("The list of Change Event entries, ordered by decreasing Change Event trs:order. Events that occurred later appear earlier in the list.")
-	@OslcPropertyDefinition(TRS_CHANGES)
-	@OslcTitle("Changes")
-	public URI getChanges() throws URISyntaxException {
-		if(changes == null) {
+	@OslcName(TRS_TERM_CHANGE)
+	@OslcDescription("URI references to the list of Change Event entries.")
+	@OslcPropertyDefinition(TRS_CHANGE)
+	@OslcTitle("Change")
+	public URI getChange() throws URISyntaxException {
+		if(change == null) {
 			return new URI(RDF_NIL);
 		}
 		
-		return changes;
+		return change;
 	}
 	
 	/**
 	 * @param changes the changes to set
 	 */
-	public void setChanges(URI changes) {
-		this.changes = changes;
+	public void setChange(URI change) {
+		this.change = change;
 	}
 }

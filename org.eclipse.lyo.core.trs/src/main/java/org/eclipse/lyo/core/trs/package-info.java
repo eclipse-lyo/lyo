@@ -18,7 +18,8 @@
 		@OslcNamespaceDefinition(prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX, namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
 		@OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX, namespaceURI = OslcConstants.RDF_NAMESPACE),
 		@OslcNamespaceDefinition(prefix = OslcConstants.RDFS_NAMESPACE_PREFIX, namespaceURI = OslcConstants.RDFS_NAMESPACE),
-		@OslcNamespaceDefinition(prefix = TRSConstants.TRS_NAMESPACE_PREFIX, namespaceURI = TRSConstants.TRS_NAMESPACE) })
+		@OslcNamespaceDefinition(prefix = TRSConstants.TRS_NAMESPACE_PREFIX, namespaceURI = TRSConstants.TRS_NAMESPACE),
+		@OslcNamespaceDefinition(prefix = TRSConstants.LDP_NAMESPACE_PREFIX, namespaceURI = TRSConstants.LDP_NAMESPACE)})
 package org.eclipse.lyo.core.trs;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;

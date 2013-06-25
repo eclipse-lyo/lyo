@@ -16,6 +16,7 @@
 package org.eclipse.lyo.core.trs;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
@@ -34,7 +35,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
  * resources "on the wire" may vary): 
  * <pre>
 # Resource: http://cm1.example.com/trackedResourceSet
-{@literal @prefix trs: <http://jazz.net/ns/trs#> .}
+{@literal @prefix trs: <http://open-services.net/ns/core/trs#> .}
 
 {@code
 <http://cm1.example.com/trackedResourceSet>
@@ -61,7 +62,7 @@ Resource Set resources and relegate the Base to separate resources.
  * Tracked Resource Set with non-empty change log
  */
 @OslcNamespace(TRS_NAMESPACE)
-@OslcResourceShape(title = "Tracked Resource Set  Shape", describes = TRS_TYPE_TRACKED_RESOURCE_SET)
+@OslcResourceShape(title = "Tracked Resource Set Shape", describes = TRS_TYPE_TRACKED_RESOURCE_SET)
 public class TrackedResourceSet extends AbstractResource
 {
 	private AbstractChangeLog changeLog;
@@ -80,8 +81,12 @@ public class TrackedResourceSet extends AbstractResource
 	
 	/**
 	 * @param changeLog the changeLog to set
+	 * @throws URISyntaxException 
 	 */
-	public void setChangeLog(AbstractChangeLog changeLog) {
+	public void setChangeLog(AbstractChangeLog changeLog) throws URISyntaxException {
+		// Make sure the About URI of the change log is null since it will 
+		// become a blank node in the turtle output
+		changeLog.setAbout(null);
 		this.changeLog = changeLog;
 	}
 
