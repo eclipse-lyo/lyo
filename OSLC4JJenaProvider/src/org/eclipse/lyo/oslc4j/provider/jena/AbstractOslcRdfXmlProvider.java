@@ -18,9 +18,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -52,6 +50,16 @@ import com.hp.hpl.jena.util.FileUtils;
 
 public abstract class AbstractOslcRdfXmlProvider
 {
+	/**
+	 * System property {@value} : When "true", always abbreviate RDF/XML, even
+	 * when asked for application/rdf+xml. Otherwise, abbreviated RDF/XML is
+	 * only returned when application/xml is requested. Does not affect
+	 * text/turtle responses.
+	 * 
+	 * @see RdfXmlAbbreviatedWriter
+	 */
+	public static final String OSLC4J_ALWAYS_XML_ABBREV       = "org.eclipse.lyo.oslc4j.alwaysXMLAbbrev";
+
     private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
     private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;
     private static final ErrorHandler ERROR_HANDLER           = new ErrorHandler();
@@ -126,23 +134,8 @@ public abstract class AbstractOslcRdfXmlProvider
                            final Integer                        totalCount)
                 throws WebApplicationException
     {
-        // Determine whether to serialize in xml or abreviated xml based upon mediatype.
-        // application/rdf+xml yields xml
-        // applicaton/xml yields abbreviated xml
-        final String serializationLanguage;
-        if (OslcMediaType.TEXT_TURTLE_TYPE.equals(baseMediaType))
-        {
-        	serializationLanguage = FileUtils.langTurtle;
-        }
-        else if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
-        {
-            serializationLanguage = FileUtils.langXML;
-        }
-        else
-        {
-            serializationLanguage = FileUtils.langXMLAbbrev;
-        }        
-        
+        final String serializationLanguage = getSerializationLanguage(baseMediaType);
+ 
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
@@ -220,22 +213,7 @@ public abstract class AbstractOslcRdfXmlProvider
 
         }
 
-        // Determine whether to serialize in xml or abreviated xml based upon mediatype.
-        // application/rdf+xml yields xml
-        // applicaton/xml yields abbreviated xml
-        final String serializationLanguage;
-        if (OslcMediaType.TEXT_TURTLE_TYPE.equals(baseMediaType))
-        {
-        	serializationLanguage = FileUtils.langTurtle;
-        }
-        else if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType))
-        {
-            serializationLanguage = FileUtils.langXML;
-        }
-        else
-        {
-            serializationLanguage = FileUtils.langXMLAbbrev;
-        }
+        final String serializationLanguage = getSerializationLanguage(baseMediaType);
 
         @SuppressWarnings("unchecked")
         final Map<String, Object> properties = isClientSide ?
@@ -287,6 +265,24 @@ public abstract class AbstractOslcRdfXmlProvider
                                                                       map));
         }
     }
+
+	private String getSerializationLanguage(final MediaType baseMediaType) {
+        // Determine whether to serialize in xml or abreviated xml based upon mediatype.
+        // application/rdf+xml yields xml
+        // applicaton/xml yields abbreviated xml
+        if (OslcMediaType.TEXT_TURTLE_TYPE.equals(baseMediaType))
+        {
+        	return FileUtils.langTurtle;
+        }
+
+        if (OslcMediaType.APPLICATION_RDF_XML_TYPE.isCompatible(baseMediaType) &&
+        	!"true".equals(System.getProperty(OSLC4J_ALWAYS_XML_ABBREV)))
+        {
+            return FileUtils.langXML;
+        }
+        
+        return FileUtils.langXMLAbbrev;
+	}
 
     protected static boolean isReadable(final Class<?>      type,
                                         final MediaType     actualMediaType,
