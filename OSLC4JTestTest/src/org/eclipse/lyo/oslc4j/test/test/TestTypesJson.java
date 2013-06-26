@@ -30,15 +30,16 @@ public class TestTypesJson
         super();
     }
 
+    @Override
+    public void setUp()
+    {
+        testCreate(OslcMediaType.APPLICATION_JSON);
+    }
+
     public void testResourceShape()
            throws URISyntaxException
     {
         testResourceShape(OslcMediaType.APPLICATION_JSON);
-    }
-
-    public void testCreate()
-    {
-        testCreate(OslcMediaType.APPLICATION_JSON);
     }
 
     public void testRetrieve()
@@ -82,7 +83,8 @@ public class TestTypesJson
         testUpdate(OslcMediaType.APPLICATION_JSON);
     }
 
-    public void testDelete()
+    @Override
+    public void tearDown()
     {
         testDelete(OslcMediaType.APPLICATION_JSON);
     }

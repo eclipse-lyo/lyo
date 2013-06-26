@@ -30,15 +30,16 @@ public class TestTypesRdfXml
         super();
     }
 
+    @Override
+    public void setUp()
+    {
+        testCreate(OslcMediaType.APPLICATION_RDF_XML);
+    }
+
     public void testResourceShape()
            throws URISyntaxException
     {
         testResourceShape(OslcMediaType.APPLICATION_RDF_XML);
-    }
-
-    public void testCreate()
-    {
-        testCreate(OslcMediaType.APPLICATION_RDF_XML);
     }
 
     public void testRetrieve()
@@ -82,7 +83,8 @@ public class TestTypesRdfXml
         testUpdate(OslcMediaType.APPLICATION_RDF_XML);
     }
 
-    public void testDelete()
+    @Override
+    public void tearDown()
     {
         testDelete(OslcMediaType.APPLICATION_RDF_XML);
     }
