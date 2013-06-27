@@ -1315,6 +1315,15 @@ public final class JenaModelHelper
     		
     		resource.addProperty(property, xmlString);
     	}
+    	else if (value instanceof String)
+    	{
+            if (onlyNested)
+            {
+                return;
+            }
+            
+    		resource.addProperty(property, model.createLiteral((String) value));
+    	}
     	else
     	{
             if (onlyNested)
