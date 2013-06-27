@@ -29,8 +29,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.hp.hpl.jena.rdf.model.AnonId;
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -377,15 +377,17 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 				serializedResources.add(rootResource);
 				String rootResourceNameSpace = RDF.getURI();
 				String rootResourceName = RDF_ELEMENT_DESCRIPTION;
-
-				Statement rootResourceType = rootResource.getProperty(RDF.type);
-
+				
+				Statement rootResourceType = rootResource.getProperty(RDF.type);				
+				String rootResourceTypeURI = null; 
+				
 				if (rootResourceType != null) {
 
 					Resource rootResourceTypeResource = ((Resource)(rootResourceType.getObject()));
 
 					rootResourceNameSpace = rootResourceTypeResource.getNameSpace();
-					rootResourceName = rootResourceTypeResource.getLocalName();
+					rootResourceName = rootResourceTypeResource.getLocalName();					
+					rootResourceTypeURI = rootResourceTypeResource.getURI();
 				}
 
 				xmlWriter.startTag(rootResourceNameSpace, rootResourceName, true);
@@ -395,9 +397,9 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 				}
 
 				xmlWriter.closeStartTag(true);
-
-				serializeStatements(rootResource, xmlWriter, serializedResources);
-
+				
+				serializeStatements(rootResource, xmlWriter, serializedResources, rootResourceTypeURI);
+				
 				xmlWriter.endTag(rootResourceNameSpace, rootResourceName, true);
 			}
 		}
@@ -420,7 +422,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			
 			xmlWriter.closeStartTag(true);
 			
-			serializeStatements(reifiedStatement, xmlWriter, serializedResources);
+			serializeStatements(reifiedStatement, xmlWriter, serializedResources, null);
 			
 			xmlWriter.endTag(RDF.getURI(), RDF_ELEMENT_DESCRIPTION, true);
 		}
@@ -430,28 +432,39 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		xmlWriter.end();
 	}
 
-	private void serializeStatements(Resource resource, XMLWriter xmlWriter, List<Resource> serializedResources){
+	private void serializeStatements(Resource resource, XMLWriter xmlWriter, List<Resource> serializedResources, String rootResourceTypeURI){
 
 		StmtIterator statementIterator = resource.getModel().listStatements(resource, null, ((RDFNode)(null)));
 		Set<Statement> visitedStatements = new HashSet<Statement> ();
 		
 		while (statementIterator.hasNext()) {
-			serializeStatement(statementIterator.next(), xmlWriter, serializedResources,visitedStatements);
+			serializeStatement(statementIterator.next(), xmlWriter, serializedResources,visitedStatements, rootResourceTypeURI);
 		}
 	}
 	
-	private void serializeStatement(Statement statement, XMLWriter xmlWriter, List<Resource> serializedResources, Set<Statement> visitedStatements) {
+	private void serializeStatement(Statement statement, XMLWriter xmlWriter, List<Resource> serializedResources, Set<Statement> visitedStatements, String rootResourceTypeURI) {
 		
 		visitedStatements.add(statement);
 		Model model = statement.getModel();
 		Property predicate = statement.getPredicate();
 
-		if ((!RDF.type.equals(predicate)) && (!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate))){
+		if ((!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate))){
 
 			RDFNode object = statement.getObject();
 
 			if (object.isResource()) {
 				
+			    Resource resource = object.asResource();
+			    
+			    if(RDF.type.equals(predicate)) {
+			        String resourceType = resource.getURI();
+			        if(resourceType.equals(rootResourceTypeURI)) {
+			            
+			            // Resource type has already been serialized. Skipping it
+			            return;
+			        }
+			    }
+			    
 				xmlWriter.startTag(predicate.getNameSpace(), predicate.getLocalName(), true);
 								
 				if (statement.isReified()) {
@@ -474,9 +487,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 								
 				if ((predicate.isAnon()) && (predicate.getProperty(RDF.type) == null)) {
 					xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_PARSE_TYPE, RDF_CONSTANT_RESOURCE);					
-				} 
-				
-				Resource resource = object.asResource();
+				} 				
 
 				StmtIterator statementIterator = model.listStatements(resource, null, ((RDFNode)(null)));
 				Statement firstResourceStatement = null;
@@ -495,15 +506,16 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 					String resourceNameSpace = RDF.getURI();
 					String resourceName = RDF_ELEMENT_DESCRIPTION;
-
-					Statement resourceType = resource.getProperty(RDF.type);
-
+	                
+	                Statement resourceType = resource.getProperty(RDF.type);
+	                String nestedResourceTypeURI = null;	                
 					if (resourceType != null) {
 
 						Resource resourceTypeResource = ((Resource)(resourceType.getObject()));
 
 						resourceNameSpace = resourceTypeResource.getNameSpace();
 						resourceName = resourceTypeResource.getLocalName();
+						nestedResourceTypeURI = resourceTypeResource.getURI();
 					}
 
 					xmlWriter.startTag(resourceNameSpace, resourceName, true);
@@ -515,7 +527,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 					xmlWriter.closeStartTag(true);
 
 					for (Statement nextStatement : statementList) {
-						serializeStatement(nextStatement, xmlWriter, serializedResources, visitedStatements);
+						serializeStatement(nextStatement, xmlWriter, serializedResources, visitedStatements, nestedResourceTypeURI);
 					}
 
 					xmlWriter.endTag(resourceNameSpace, resourceName, true);
@@ -618,7 +630,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			
 			//Create the namespace map that maps namespaces to namespace prefixes:
 			namespaceMap = new HashMap<String, String>();
-			
+
 			//Resolve and add the namespace map defined in the model:
 			Map<String, String> modelNamespacePrefixMap = model.getNsPrefixMap();
 
@@ -711,7 +723,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 				tab();
 			}
-		
+
 			StringBuilder buffer = new StringBuilder();
 			buffer.append('<');
 			buffer.append(namespaceMap.get(namespaceUri));
@@ -742,7 +754,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			printWriter.println();
 			
 			tabCount--;
-		}	
+		}
 		
 		public void closeStartTag(boolean isParent) {
 			
