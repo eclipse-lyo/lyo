@@ -1551,7 +1551,7 @@ public final class JenaModelHelper
                 return;
             }
             
-            nestedNode = model.createLiteral(value.toString());
+            nestedNode = model.createTypedLiteral(value);
         }
         else if (value instanceof URI)
         {
