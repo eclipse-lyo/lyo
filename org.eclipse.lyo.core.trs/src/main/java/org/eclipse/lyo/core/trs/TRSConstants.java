@@ -27,10 +27,10 @@ public interface TRSConstants extends OslcConstants {
 	public static final String TRS_NAMESPACE_PREFIX = "trs"; //$NON-NLS-1$
 	
 	//Types
-	public static final String TRS_TERM_TYPE_BASE = "base"; //$NON-NLS-1$
+	public static final String TRS_TERM_TYPE_BASE = "Base"; //$NON-NLS-1$
 	public static final String TRS__PTERM_TYPE_BASE = TRS_NAMESPACE_PREFIX+ ':' + TRS_TERM_TYPE_BASE; //$NON-NLS-1$
 	public static final String TRS_TYPE_BASE = TRS_NAMESPACE + TRS_TERM_TYPE_BASE;
-	public static final String TRS_TERM_TYPE_CHANGE_LOG = "changeLog"; //$NON-NLS-1$
+	public static final String TRS_TERM_TYPE_CHANGE_LOG = "ChangeLog"; //$NON-NLS-1$
 	public static final String TRS__PTERM_TYPE_CHANGE_LOG = TRS_NAMESPACE_PREFIX+ ':' + TRS_TERM_TYPE_CHANGE_LOG; //$NON-NLS-1$
 	public static final String TRS_TYPE_CHANGE_LOG = TRS_NAMESPACE + TRS_TERM_TYPE_CHANGE_LOG;
 	public static final String TRS_TERM_TYPE_CREATION = "Creation"; //$NON-NLS-1$
@@ -105,4 +105,7 @@ public interface TRSConstants extends OslcConstants {
 	public static final String LDP_TERM_PAGE_OF = "pageOf";
 	public static final String LDP_PAGE_OF = LDP_NAMESPACE + LDP_TERM_PAGE_OF;
 	
+	//XSD Constants
+	public static final String XSD_NAMESPACE_PREFIX = "xsd";
+	public static final String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema#";
 }

@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * <p> Each Change Event has a sequence number, trs:order; sequence numbers are
  * non-negative integer values that increase over time. A Change Event entry
  * carries the URI of the changed Resource, trs:changed, and an indication, via
- * rdf:type (a.k.a. “a” in Turtle), of whether the Resource was added to the
+ * rdf:type (a.k.a. "a" in Turtle), of whether the Resource was added to the
  * Resource Set, removed from the Resource Set, or changed state while a member
  * of the Resource Set. The entry with the highest trs:order value (i.e., 103 in
  * this example) is the most recent change. As changes continue to occur, a
@@ -89,7 +89,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * be.
  * 
  * <p> Note that the actual time of change is not included in a Change Event. Only a
- * sequence number, representing the “sequence in time” of each change is
+ * sequence number, representing the "sequence in time" of each change is
  * provided. The URI of a Change Event MUST be guaranteed unique, even in the
  * wake of a Server roll back where sequence numbers get reused. A time stamp
  * MAY be used to generate such a URI, as in the above example, although other
@@ -105,8 +105,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * cases where there would be no significant difference in response. Some cases
  * of modifications that would be considered semantically different from
  * previous or significant difference would be: inserted triple, removed triple,
- * triple replaced (new object/literal, e.g. changing boolean literal “true” to
- * “false”), replaced vocabulary term used (e.g. change from dcterms:title to
+ * triple replaced (new object/literal, e.g. changing boolean literal "true" to
+ * "false"), replaced vocabulary term used (e.g. change from dcterms:title to
  * rdfs:label).
  * 
  * <p> The Server SHOULD NOT report unnecessary Change Events although it might

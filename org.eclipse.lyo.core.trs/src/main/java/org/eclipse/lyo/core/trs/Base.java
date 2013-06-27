@@ -65,7 +65,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * Each Resource in the Resource Set MUST be referenced from the container using
  * an rdfs:member predicate. The Base MAY be broken into multiple pages in which
  * case the Server will respond with a 30x redirect message, directing the
- * Client to the first “page resource”. The representation of a page resource
+ * Client to the first "page resource". The representation of a page resource
  * will contain a subset of the Base’s rdfs:member predicates. In addition, it
  * will contain another triple, whose subject is the page resource itself (i.e.,
  * not the Base resource), with a reference to the next page:

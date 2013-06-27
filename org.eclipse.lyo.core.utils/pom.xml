@@ -11,12 +11,12 @@
 	  	<dependency>
 	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 	  		<artifactId>oslc4j-json4j-provider</artifactId>
-	  		<version>[1.1-SNAPSHOT,)</version>
+	  		<version>[1.2-SNAPSHOT,)</version>
 	  	</dependency>
 	  	<dependency>
 	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 	  		<artifactId>oslc4j-jena-provider</artifactId>
-	  		<version>[1.1-SNAPSHOT,)</version>
+	  		<version>[1.2-SNAPSHOT,)</version>
 	    </dependency> 
 	</dependencies>
 	
