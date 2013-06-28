@@ -26,7 +26,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import static org.eclipse.lyo.core.trs.TRSConstants.*;
 
 /**
- * Each entry in a trs:changes list is a Local Resource representing a Change Event with the following properties: 
+ * Each entry referenced by trs:change is a Local Resource representing a Change Event with the following properties: 
  */
 public class ChangeEvent extends AbstractResource {
 	private URI changed;
@@ -67,7 +67,7 @@ public class ChangeEvent extends AbstractResource {
 	 * @return the order
 	 */
 	@OslcName(TRS_TERM_ORDER)
-	@OslcDescription("The sequence in time of the Change Event. The order of Change Events sorted according to this property is the same as they appear in the trs:changes list.")
+	@OslcDescription("The sequence in time of the Change Event.")
 	@OslcPropertyDefinition(TRS_ORDER)
 	@OslcTitle("Order")
 	public int getOrder() {
