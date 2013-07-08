@@ -82,6 +82,7 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
 public final class JsonHelper
 {
@@ -870,6 +871,17 @@ public final class JsonHelper
             
 			return object;
 		}
+		else if (object instanceof XMLLiteral)
+		{
+			if (onlyNested)
+			{
+				return null;
+			}
+			
+			// XMLLiterals are treated as strings in the OSLC 2.0 JSON format.
+			final XMLLiteral xmlLiteral = (XMLLiteral) object;
+			return xmlLiteral.getValue();
+		}
 		else if (object instanceof Date)
 		{
 		    if (onlyNested)
@@ -903,7 +915,8 @@ public final class JsonHelper
 				                        reverseNamespaceMappings,
 				                        nestedProperties,
 				                        visitedObjects);
-		} else if (visitedObjects.containsKey(object))
+		}
+		else if (visitedObjects.containsKey(object))
 		{
 			JSONObject returnObject = visitedObjects.get(object);
 			if (!returnObject.isEmpty())

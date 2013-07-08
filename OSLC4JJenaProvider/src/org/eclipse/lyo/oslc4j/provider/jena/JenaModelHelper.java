@@ -86,11 +86,12 @@ import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
-import com.hp.hpl.jena.datatypes.BaseDatatype;
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
+import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
 import com.hp.hpl.jena.rdf.model.Container;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -115,7 +116,6 @@ public final class JenaModelHelper
     private static final String PROPERTY_NEXT_PAGE = "nextPage";
 
     private static final String RDF_TYPE_URI = OslcConstants.RDF_NAMESPACE + "type";
-    private static final BaseDatatype RDF_TYPE_XMLLITERAL = new BaseDatatype(OslcConstants.RDF_NAMESPACE + "XMLLiteral");
     
     private static final String RDF_LIST = "List";
     private static final String RDF_ALT  = "Alt";
@@ -911,13 +911,19 @@ public final class JenaModelHelper
 		{
 			try
 			{
-				final Object literalValue = object.asLiteral().getValue();
+				final Literal literal = object.asLiteral();
+				final Object literalValue = literal.getValue();
 				if (literalValue instanceof XSDDateTime)
 				{
 					final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
 					return xsdDateTime.asCalendar().getTime();
 				}
-				
+
+				if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI()))
+				{
+					return new XMLLiteral(literal.getString());
+				}
+	
 				return literalValue;
 			}
 			catch (final DatatypeFormatException e)
@@ -1298,6 +1304,13 @@ public final class JenaModelHelper
     		cal.setTime((Date) value);
     		resource.addProperty(property, model.createTypedLiteral(cal));
     	}
+    	else if (value instanceof XMLLiteral)
+    	{
+    		final XMLLiteral xmlLiteral = (XMLLiteral) value;
+    		final Literal xmlString = model.createTypedLiteral(xmlLiteral.getValue(), XMLLiteralType.theXMLLiteralType);
+    		
+    		resource.addProperty(property, xmlString);
+    	}
     	else if (value instanceof Element)
     	{
 			final StreamResult result = new StreamResult(new StringWriter());
@@ -1545,7 +1558,7 @@ public final class JenaModelHelper
         	if (xmlLiteral)
         	{
         	    nestedNode = model.createTypedLiteral(value.toString(), 
-                                                      RDF_TYPE_XMLLITERAL);
+                                                      XMLLiteralType.theXMLLiteralType);
         	}
         	else
         	{

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -102,6 +102,7 @@ public final class Test
     private Short      shortProperty;
     private String     stringProperty;
     private URI        uriProperty;
+    private String     xmlLiteralProperty;
 
     public Test()
     {
@@ -514,6 +515,14 @@ public final class Test
     public URI getUriProperty()
     {
         return uriProperty;
+    }
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "xmlLiteralProperty")
+    @OslcValueType(ValueType.XMLLiteral)
+    public String getXmlLiteralProperty()
+    {
+        return xmlLiteralProperty;
     }
 
     @OslcOccurs(Occurs.ExactlyOne)
@@ -959,5 +968,10 @@ public final class Test
     public void setUriProperty(final URI uriProperty)
     {
         this.uriProperty = uriProperty;
+    }
+
+    public void setXmlLiteralProperty(final String xmlLiteralProperty)
+    {
+        this.xmlLiteralProperty = xmlLiteralProperty;
     }
 }

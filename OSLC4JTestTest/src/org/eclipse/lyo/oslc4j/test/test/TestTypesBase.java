@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -42,6 +42,7 @@ import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.ClientWebException;
 import org.apache.wink.client.EntityType;
 import org.eclipse.lyo.oslc4j.client.OslcRestClient;
+import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ExtendedError;
@@ -49,7 +50,7 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Preview;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
-import org.eclipse.lyo.oslc4j.core.model.AnyResource;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.eclipse.lyo.oslc4j.test.Constants;
 import org.eclipse.lyo.oslc4j.test.Nested;
 import org.eclipse.lyo.oslc4j.test.Test;
@@ -95,6 +96,7 @@ public abstract class TestTypesBase
 	private static final String[]				VALUE_STRINGS					= new String[] { VALUE_STRING };
 	private static final URI					VALUE_URI;
 	private static final URI[]					VALUE_URIS;
+	private static final String					VALUE_XML_LITERAL				= "Hello <b>World</b>!";
 	private static final String                 CUSTOM_NAMESPACE                = "http://example.com/ns#";
 	private static final String                 CUSTOM_PREFIX                   = "ex";	
 	private static final Map<QName, Object>		CUSTOM_FIELDS					= new HashMap<QName, Object>();
@@ -151,6 +153,10 @@ public abstract class TestTypesBase
             final Nested nested3 = new Nested();
             nested3.setStringProperty("baz");
             CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customBlankNode", CUSTOM_PREFIX), nested3);
+            
+            // XMLLiteral
+            final XMLLiteral customXMLLiteral = new XMLLiteral("Hello <b>World!</b>");
+            CUSTOM_FIELDS.put(new QName(CUSTOM_NAMESPACE, "customXMLLiteral", CUSTOM_PREFIX), customXMLLiteral);
             
             // Custom RDF types
             CUSTOM_TYPE = new URI(CUSTOM_NAMESPACE + "CustomType");
@@ -246,7 +252,8 @@ public abstract class TestTypesBase
         test.setUriCollection(VALUE_URI_COLLECTION);
         test.setUriProperty(VALUE_URI);
         test.setUriProperties(VALUE_URIS);
-        
+        test.setXmlLiteralProperty(VALUE_XML_LITERAL);
+ 
         for (Entry<QName, Object> customField : CUSTOM_FIELDS.entrySet())
         {
         	test.getExtendedProperties().put(customField.getKey(), customField.getValue());
@@ -558,7 +565,7 @@ public abstract class TestTypesBase
 
         assertEquals(test.getAbout(), updatedTest.getAbout());
     }
-
+   
     protected static void verifyTest(final String  mediaType,
                                      final Test    test,
                                      final boolean recurse)
@@ -778,6 +785,15 @@ public abstract class TestTypesBase
     		final Number expectedNumber = (Number) expected;
     		final Number actualNumber = (Number) actual;
     		assertEquals(expectedNumber.doubleValue(), actualNumber.doubleValue()); 
+    	}
+    	else if (expected instanceof XMLLiteral && actual instanceof String)
+    	{
+			// Unfortunately, the OSLC 2.0 JSON format does not support XML
+			// literals, so the type gets lost when serialized and read back in
+			// as a custom property. There is nothing we can do here, so accept
+			// string values back.
+    		final XMLLiteral expectedXmlLiteral = (XMLLiteral) expected;
+    		assertEquals(expectedXmlLiteral.getValue(), actual);
     	}
     	else
     	{
