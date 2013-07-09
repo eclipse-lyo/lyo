@@ -90,6 +90,7 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
 import com.hp.hpl.jena.rdf.model.Container;
@@ -662,12 +663,12 @@ public final class JenaModelHelper
                         else if ((Float.class == setMethodComponentParameterClass) ||
                                  (Float.TYPE == setMethodComponentParameterClass))
                         {
-                            parameter = Float.valueOf(stringValue);
+                        	parameter = XSDDatatype.XSDfloat.parseValidated(stringValue);
                         }
                         else if ((Double.class == setMethodComponentParameterClass) ||
                                  (Double.TYPE == setMethodComponentParameterClass))
                         {
-                            parameter = Double.valueOf(stringValue);
+                        	parameter = XSDDatatype.XSDdouble.parseValidated(stringValue);
                         }
                         else if (Date.class == setMethodComponentParameterClass)
                         {
@@ -1337,6 +1338,28 @@ public final class JenaModelHelper
             
     		resource.addProperty(property, model.createLiteral((String) value));
     	}
+        else if (value instanceof Float)
+        {
+            if (onlyNested)
+            {
+                return;
+            }
+
+        	final Float f = (Float) value;
+            final Literal l = toLiteral(model, f);
+        	resource.addProperty(property, l);
+        }
+        else if (value instanceof Double)
+        {
+            if (onlyNested)
+            {
+                return;
+            }
+
+        	final Double d = (Double) value;
+            final Literal l = toLiteral(model, d);
+        	resource.addProperty(property, l);
+        }
     	else
     	{
             if (onlyNested)
@@ -1347,7 +1370,35 @@ public final class JenaModelHelper
     		resource.addProperty(property, model.createTypedLiteral(value));
     	}
     }
-    
+
+	private static Literal toLiteral(final Model model, final Float f)
+	{
+		if (f.compareTo(Float.POSITIVE_INFINITY) == 0)
+		{
+			return model.createTypedLiteral("INF", XSDDatatype.XSDfloat.getURI());
+		}
+		else if (f.compareTo(Float.NEGATIVE_INFINITY) == 0)
+		{
+			return model.createTypedLiteral("-INF", XSDDatatype.XSDfloat.getURI());
+		}
+
+	    return model.createTypedLiteral(f, XSDDatatype.XSDfloat);
+	}
+
+	private static Literal toLiteral(final Model model, final Double d)
+	{
+		if (d.compareTo(Double.POSITIVE_INFINITY) == 0)
+		{
+			return model.createTypedLiteral("INF", XSDDatatype.XSDdouble.getURI());
+		}
+		else if (d.compareTo(Double.NEGATIVE_INFINITY) == 0)
+		{
+			return model.createTypedLiteral("-INF", XSDDatatype.XSDdouble.getURI());
+		}
+
+		return model.createTypedLiteral(d, XSDDatatype.XSDdouble);
+	}
+ 
     private static void buildAttributeResource(final Class<?>               resourceClass,
                                                final Method                 method,
                                                final OslcPropertyDefinition propertyDefinitionAnnotation,
@@ -1564,6 +1615,26 @@ public final class JenaModelHelper
         	{
         	    nestedNode = model.createLiteral(value.toString());
         	}
+        }
+        // Floats need special handling for infinite values.
+        else if (value instanceof Float)
+        {
+            if (onlyNested)
+            {
+                return;
+            }
+
+        	nestedNode = toLiteral(model, (Float) value);
+        }
+        // Doubles need special handling for infinite values.
+        else if (value instanceof Double)
+        {
+            if (onlyNested)
+            {
+                return;
+            }
+
+        	nestedNode = toLiteral(model, (Double) value);
         }
         else if ((value instanceof Boolean) ||
                  (value instanceof Number))
