@@ -21,14 +21,14 @@ import java.util.Map;
 
 public interface OSLC4JConstants {
 	
-	public static String OSLC4J_PUBLIC_URI 		= "org.eclipse.lyo.oslc4j.publicURI";
-	public static String OSLC4J_DISABLE_HOST_RESOLUTION = "org.eclipse.lyo.oslc4j.disableHostResolution";
-	public static String OSLC4J_DISABLE_RELATIVE_URIS = "org.eclipse.lyo.oslc4j.disableRelativeURIs";
+	public static final String OSLC4J_PUBLIC_URI 		= "org.eclipse.lyo.oslc4j.publicURI";
+	public static final String OSLC4J_DISABLE_HOST_RESOLUTION = "org.eclipse.lyo.oslc4j.disableHostResolution";
+	public static final String OSLC4J_DISABLE_RELATIVE_URIS = "org.eclipse.lyo.oslc4j.disableRelativeURIs";
 	
     public static final Map<String, Object> OSL4J_PROPERTY_SINGLETON =
         new HashMap<String, Object>(0);
     
-    public static String OSLC4J_SELECTED_PROPERTIES = "org.eclipse.lyo.oslc4j.selected.properties";
-    public static String OSLC4J_NEXT_PAGE = "org.eclipse.lyo.oslc4j.next.page";
-    public static String OSLC4J_TOTAL_COUNT = "org.eclipse.lyo.oslc4j.total.count";
+    public static final String OSLC4J_SELECTED_PROPERTIES = "org.eclipse.lyo.oslc4j.selected.properties";
+    public static final String OSLC4J_NEXT_PAGE = "org.eclipse.lyo.oslc4j.next.page";
+    public static final String OSLC4J_TOTAL_COUNT = "org.eclipse.lyo.oslc4j.total.count";
 }
