@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="oslc-registry">
-        <wb-resource deploy-path="/" source-path="/WebContent"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="java-output-path" value="/OslcRegistry/WebContent/WEB-INF/classes"/>
-        <property name="context-root" value="OSLC4JRegistry"/>
-    </wb-module>
-</project-modules>
