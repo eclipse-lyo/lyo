@@ -1,25 +1,31 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.eclipse.lyo.core.query</groupId>
-  <artifactId>oslc-query</artifactId>
-  <version>2.0-SNAPSHOT</version>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.antlr</groupId>
-  		<artifactId>antlr-runtime</artifactId>
-  		<version>3.2</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.slf4j</groupId>
-  		<artifactId>slf4j-simple</artifactId>
-  		<version>1.6.4</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
-  		<artifactId>oslc4j-core</artifactId>
-  		<version>[1.1,)</version>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.lyo.core.query</groupId>
+    <artifactId>oslc-query</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <name>OSLC4J Query</name>
+    <description>OSLC query support for the Eclipse Lyo OSLC4J SDK.</description>
+    <scm>
+        <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr-runtime</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>oslc4j-core</artifactId>
+            <version>[1.1,)</version>
+        </dependency>
+    </dependencies>
     <build>
         <outputDirectory>target/classes</outputDirectory>
 
@@ -72,7 +78,8 @@
 
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -105,4 +112,16 @@
         </pluginManagement>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse Releases</name>
+            <url>https://repo.eclipse.org/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
