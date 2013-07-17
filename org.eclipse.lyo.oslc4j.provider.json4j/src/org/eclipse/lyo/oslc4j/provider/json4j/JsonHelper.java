@@ -86,23 +86,6 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
 public final class JsonHelper
 {
-	/**
-	 * System property {@value} : When "true", write "INF", "-INF", and "NaN"
-	 * strings for Infinity, -Infinity, and NaN number values.
-	 * 
-	 * @see #OSLC4J_READ_SPECIAL_NUMS
-	 */
-	public static final String OSLC4J_WRITE_SPECIAL_NUMS           = "org.eclipse.lyo.oslc4j.writeSpecialNumberValues";
-
-	/**
-	 * System property {@value} : When "true", read "INF", "-INF", and "NaN"
-	 * strings for Infinity, -Infinity, and NaN number values. Treat null values
-	 * as NaN for native floats and doubles.
-	 * 
-	 * @see #OSLC4J_WRITE_SPECIAL_NUMS
-	 */
-	public static final String OSLC4J_READ_SPECIAL_NUMS            = "org.eclipse.lyo.oslc4j.readSpecialNumberValues";
-
     private static final String JSON_PROPERTY_DELIMITER            = ":";
     private static final String JSON_PROPERTY_PREFIXES             = "prefixes";
     private static final String JSON_PROPERTY_SUFFIX_ABOUT         = "about";
@@ -131,6 +114,28 @@ public final class JsonHelper
 
     private static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
     private static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
+
+	private static final String POSITIVE_INF = "INF";
+	private static final String NEGATIVE_INF = "-INF";
+	private static final String NOT_A_NUMBER = "NaN";
+
+	/**
+	 * System property {@value} : When "true", write "INF", "-INF", and "NaN"
+	 * strings for Infinity, -Infinity, and NaN float and double values,
+	 * respectively. Enabled by default.
+	 * 
+	 * @see #OSLC4J_READ_SPECIAL_NUMS
+	 */
+	public static final String OSLC4J_WRITE_SPECIAL_NUMS = "org.eclipse.lyo.oslc4j.writeSpecialNumberValues";
+
+	/**
+	 * System property {@value} : When "true", read "INF", "-INF", and "NaN"
+	 * strings for Infinity, -Infinity, and NaN float and double values,
+	 * respectively. Enabled by default.
+	 * 
+	 * @see #OSLC4J_WRITE_SPECIAL_NUMS
+	 */
+	public static final String OSLC4J_READ_SPECIAL_NUMS  = "org.eclipse.lyo.oslc4j.readSpecialNumberValues";
 
     private static final Logger logger = Logger.getLogger(JsonHelper.class.getName());
 
@@ -976,6 +981,58 @@ public final class JsonHelper
                    JSONException,
                    OslcCoreApplicationException
     {
+    	// Handle special float values.
+    	if ((object instanceof Float) &&
+    	    writeSpecialNumberValues())
+    	{
+            if (onlyNested)
+            {
+                return null;
+            }
+    		
+            final Float f = (Float) object;
+			if (f.compareTo(Float.POSITIVE_INFINITY) == 0)
+			{
+				return POSITIVE_INF;
+			}
+
+			if (f.compareTo(Float.NEGATIVE_INFINITY) == 0)
+			{
+				return NEGATIVE_INF;
+			}
+			
+			if (f.isNaN())
+			{
+				return NOT_A_NUMBER;
+			}
+    	}
+
+    	// Handle special double values.
+    	if ((object instanceof Double) &&
+    	    writeSpecialNumberValues())
+    	{
+            if (onlyNested)
+            {
+                return null;
+            }
+    		
+            final Double d = (Double) object;
+			if (d.compareTo(Double.POSITIVE_INFINITY) == 0)
+			{
+				return POSITIVE_INF;
+			}
+
+			if (d.compareTo(Double.NEGATIVE_INFINITY) == 0)
+			{
+				return NEGATIVE_INF;
+			}
+			
+			if (d.isNaN())
+			{
+				return NOT_A_NUMBER;
+			}
+    	}
+ 
         if ((object instanceof String)  ||
             (object instanceof Boolean) ||
             (object instanceof Number))
@@ -1834,7 +1891,7 @@ public final class JsonHelper
  
         	if (Double.TYPE == setMethodComponentParameterClass)
         	{
-        		if ("true".equals(System.getProperty(OSLC4J_READ_SPECIAL_NUMS, "true")))
+        		if (readSpecialNumberValues())
         		{
 	        		logger.warning("Null double value treated as NaN.");
 	        		return Double.NaN;
@@ -1848,7 +1905,7 @@ public final class JsonHelper
         	
         	if (Float.TYPE == setMethodComponentParameterClass)
         	{
-        		if ("true".equals(System.getProperty(OSLC4J_READ_SPECIAL_NUMS, "true")))
+        		if (readSpecialNumberValues())
         		{
         			logger.warning("Null float value treated as NaN.");
         			return Float.NaN;
@@ -1915,35 +1972,41 @@ public final class JsonHelper
             }
             else if ((Float.class == setMethodComponentParameterClass) || (Float.TYPE == setMethodComponentParameterClass))
             {
-            	if ("INF".equals(stringValue) || "Infinity".equals(stringValue))
-            	{
-            		return Float.POSITIVE_INFINITY;
-            	}
-            	if ("-INF".equals(stringValue) || "-Infinity".equals(stringValue))
-            	{
-            		return Float.NEGATIVE_INFINITY;
-            	}
-            	if ("NaN".equals(stringValue))
-            	{
-            		return Float.NaN;
-            	}
+        		if (readSpecialNumberValues())
+        		{
+        			if (POSITIVE_INF.equals(stringValue) || "Infinity".equals(stringValue))
+        			{
+        				return Float.POSITIVE_INFINITY;
+        			}
+        			if (NEGATIVE_INF.equals(stringValue) || "-Infinity".equals(stringValue))
+        			{
+        				return Float.NEGATIVE_INFINITY;
+        			}
+        			if (NOT_A_NUMBER.equals(stringValue))
+        			{
+        				return Float.NaN;
+        			}
+        		}
 
                 return Float.valueOf(stringValue);
             }
             else if ((Double.class == setMethodComponentParameterClass) || (Double.TYPE == setMethodComponentParameterClass))
             {
-            	if ("INF".equals(stringValue) || "Infinity".equals(stringValue))
-            	{
-            		return Double.POSITIVE_INFINITY;
-            	}
-            	if ("-INF".equals(stringValue) || "-Infinity".equals(stringValue))
-            	{
-            		return Double.NEGATIVE_INFINITY;
-            	}
-            	if ("NaN".equals(stringValue))
-            	{
-            		return Double.NaN;
-            	}
+        		if (readSpecialNumberValues())
+        		{
+	            	if (POSITIVE_INF.equals(stringValue) || "Infinity".equals(stringValue))
+	            	{
+	            		return Double.POSITIVE_INFINITY;
+	            	}
+	            	if (NEGATIVE_INF.equals(stringValue) || "-Infinity".equals(stringValue))
+	            	{
+	            		return Double.NEGATIVE_INFINITY;
+	            	}
+	            	if (NOT_A_NUMBER.equals(stringValue))
+	            	{
+	            		return Double.NaN;
+	            	}
+        		}
 
                 return Double.valueOf(stringValue);
             }
@@ -1955,6 +2018,16 @@ public final class JsonHelper
 
         return null;
     }
+
+	private static boolean readSpecialNumberValues()
+	{
+		return "true".equals(System.getProperty(OSLC4J_READ_SPECIAL_NUMS, "true"));
+	}
+
+	private static boolean writeSpecialNumberValues()
+	{
+        return "true".equals(System.getProperty(OSLC4J_WRITE_SPECIAL_NUMS, "true"));
+	}
 
     private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
             throws OslcCoreApplicationException

@@ -102,7 +102,7 @@ public abstract class TestTypesBase
 	private static final Map<QName, Object>		CUSTOM_FIELDS					= new HashMap<QName, Object>();
 	private static final URI                    CUSTOM_TYPE;
 	private static final AnyResource            ANY_RESOURCE                    = new AnyResource();
-
+	
     private static URI CREATED_TEST_URI;
 
     static
@@ -258,6 +258,20 @@ public abstract class TestTypesBase
         {
         	test.getExtendedProperties().put(customField.getKey(), customField.getValue());
         }
+        
+        // Special numbers
+        test.setDoubleNaNProperty(Double.NaN);
+        test.setDoubleNegativeInfinityProperty(Double.NEGATIVE_INFINITY);
+        test.setDoublePositiveInfinityProperty(Double.POSITIVE_INFINITY);
+        test.setFloatNaNProperty(Float.NaN);
+        test.setFloatNegativeInfinityProperty(Float.NEGATIVE_INFINITY);
+        test.setFloatPositiveInfinityProperty(Float.POSITIVE_INFINITY);
+        test.setPrimitiveDoubleNaNProperty(Double.NaN);
+        test.setPrimitiveDoubleNegativeInfinityProperty(Double.NEGATIVE_INFINITY);
+        test.setPrimitiveDoublePositiveInfinityProperty(Double.POSITIVE_INFINITY);
+        test.setPrimitiveFloatNaNProperty(Float.NaN);
+        test.setPrimitiveFloatNegativeInfinityProperty(Float.NEGATIVE_INFINITY);
+        test.setPrimitiveFloatPositiveInfinityProperty(Float.NEGATIVE_INFINITY);
 
         final String creation = getCreation(mediaType,
                                             Constants.TEST_DOMAIN,

@@ -103,6 +103,20 @@ public final class Test
     private String     stringProperty;
     private URI        uriProperty;
     private String     xmlLiteralProperty;
+    
+    // Special double and float values (supported by both the Jena and JSON4J providers).
+    private double     primitiveDoublePositiveInfinityProperty;
+    private double     primitiveDoubleNegativeInfinityProperty;
+    private double     primitiveDoubleNaNProperty;
+    private float      primitiveFloatPositiveInfinityProperty;
+    private float      primitiveFloatNegativeInfinityProperty;
+    private float      primitiveFloatNaNProperty;
+    private Double     doublePositiveInfinityProperty;
+    private Double     doubleNegativeInfinityProperty;
+    private Double     doubleNaNProperty;
+    private Float      floatPositiveInfinityProperty;
+    private Float      floatNegativeInfinityProperty;
+    private Float      floatNaNProperty;
 
     public Test()
     {
@@ -539,7 +553,151 @@ public final class Test
         return primitiveBooleanProperty;
     }
 
-    public void setBigIntegerCollection(final Collection<BigInteger> bigIntegerCollection)
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveDoublePositiveInfinityProperty")
+    public double getPrimitiveDoublePositiveInfinityProperty()
+    {
+		return primitiveDoublePositiveInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveDoubleNegativeInfinityProperty")
+	public double getPrimitiveDoubleNegativeInfinityProperty()
+	{
+		return primitiveDoubleNegativeInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveDoubleNaNProperty")
+	public double getPrimitiveDoubleNaNProperty()
+	{
+		return primitiveDoubleNaNProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveFloatPositiveInfinityProperty")
+	public float getPrimitiveFloatPositiveInfinityProperty()
+	{
+		return primitiveFloatPositiveInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveFloatNegativeInfinityProperty")
+	public float getPrimitiveFloatNegativeInfinityProperty()
+	{
+		return primitiveFloatNegativeInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "primitiveFloatNaNProperty")
+	public float getPrimitiveFloatNaNProperty()
+	{
+		return primitiveFloatNaNProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "doublePositiveInfinityProperty")
+	public Double getDoublePositiveInfinityProperty()
+	{
+		return doublePositiveInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "doubleNegativeInfinityProperty")
+	public Double getDoubleNegativeInfinityProperty()
+	{
+		return doubleNegativeInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "doubleNaNProperty")
+	public Double getDoubleNaNProperty()
+	{
+		return doubleNaNProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "floatPositiveInfinityProperty")
+	public Float getFloatPositiveInfinityProperty()
+	{
+		return floatPositiveInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "floatNegativeInfinityProperty")
+	public Float getFloatNegativeInfinityProperty()
+	{
+		return floatNegativeInfinityProperty;
+	}
+
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(Constants.TEST_DOMAIN + "floatNaNProperty")
+	public Float getFloatNaNProperty()
+	{
+		return floatNaNProperty;
+	}
+
+	public void setPrimitiveDoublePositiveInfinityProperty(double primitiveDoublePositiveInfinityProperty)
+	{
+		this.primitiveDoublePositiveInfinityProperty = primitiveDoublePositiveInfinityProperty;
+	}
+
+	public void setPrimitiveDoubleNegativeInfinityProperty(double primitiveDoubleNegativeInfinityProperty)
+	{
+		this.primitiveDoubleNegativeInfinityProperty = primitiveDoubleNegativeInfinityProperty;
+	}
+
+	public void setPrimitiveDoubleNaNProperty(double primitiveDoubleNaNProperty)
+	{
+		this.primitiveDoubleNaNProperty = primitiveDoubleNaNProperty;
+	}
+
+	public void setPrimitiveFloatPositiveInfinityProperty(float primitiveFloatPositiveInfinityProperty)
+	{
+		this.primitiveFloatPositiveInfinityProperty = primitiveFloatPositiveInfinityProperty;
+	}
+
+	public void setPrimitiveFloatNegativeInfinityProperty(float primitiveFloatNegativeInfinityProperty)
+	{
+		this.primitiveFloatNegativeInfinityProperty = primitiveFloatNegativeInfinityProperty;
+	}
+
+	public void setPrimitiveFloatNaNProperty(float primitiveFloatNaNProperty)
+	{
+		this.primitiveFloatNaNProperty = primitiveFloatNaNProperty;
+	}
+
+	public void setDoublePositiveInfinityProperty(Double doublePositiveInfinityProperty)
+	{
+		this.doublePositiveInfinityProperty = doublePositiveInfinityProperty;
+	}
+
+	public void setDoubleNegativeInfinityProperty(Double doubleNegativeInfinityProperty)
+	{
+		this.doubleNegativeInfinityProperty = doubleNegativeInfinityProperty;
+	}
+
+	public void setDoubleNaNProperty(Double doubleNaNProperty)
+	{
+		this.doubleNaNProperty = doubleNaNProperty;
+	}
+
+	public void setFloatPositiveInfinityProperty(Float floatPositiveInfinityProperty)
+	{
+		this.floatPositiveInfinityProperty = floatPositiveInfinityProperty;
+	}
+
+	public void setFloatNegativeInfinityProperty(Float floatNegativeInfinityProperty)
+	{
+		this.floatNegativeInfinityProperty = floatNegativeInfinityProperty;
+	}
+
+	public void setFloatNaNProperty(Float floatNaNProperty)
+	{
+		this.floatNaNProperty = floatNaNProperty;
+	}
+
+	public void setBigIntegerCollection(final Collection<BigInteger> bigIntegerCollection)
     {
         this.bigIntegerCollection.clear();
 
