@@ -7,9 +7,11 @@
     <packaging>war</packaging>
     <name>OSLC4J Registry</name>
     <description>Eclipse Lyo OSLC4J registry application for OSLC providers.</description>
+
     <scm>
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -38,6 +40,7 @@
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
     <build>
         <sourceDirectory>${basedir}/src/</sourceDirectory>
         <testResources>
@@ -86,7 +89,6 @@
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
 
-
                 <configuration>
                     <webAppConfig>
                         <contextPath>/OSLC4JRegistry</contextPath>
@@ -103,7 +105,6 @@
                     </scanTargets>
 
                     <systemProperties>
-
                         <systemProperty>
                             <name>config.dir</name>
                             <value>${basedir}/test/resources</value>
@@ -118,11 +119,21 @@
                             <value>8080</value>
                         </systemProperty>
                     </systemProperties>
-
                 </configuration>
-
             </plugin>
         </plugins>
-
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse Lyo Releases</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse Lyo Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
