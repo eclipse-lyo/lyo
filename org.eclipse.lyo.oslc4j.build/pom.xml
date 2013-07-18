@@ -15,6 +15,7 @@
 		<module>../org.eclipse.lyo.oslc4j.wink</module>
 		<module>../org.eclipse.lyo.oslc4j.registry</module>
 		<module>../org.eclipse.lyo.core.query</module>
+		<module>../org.eclipse.lyo.core.trs</module>
 	</modules> 
     <distributionManagement>
         <repository>
