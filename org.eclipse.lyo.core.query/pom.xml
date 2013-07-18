@@ -115,13 +115,13 @@
     <distributionManagement>
         <repository>
             <id>repo.eclipse.org</id>
-            <name>Eclipse Releases</name>
-            <url>https://repo.eclipse.org/content/repositories/releases/</url>
+            <name>Eclipse Lyo Releases</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
         </repository>
         <snapshotRepository>
             <id>repo.eclipse.org</id>
-            <name>Eclipse Snapshots</name>
-            <url>https://repo.eclipse.org/content/repositories/snapshots/</url>
+            <name>Eclipse Lyo Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
