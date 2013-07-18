@@ -25,7 +25,6 @@
     </dependencies>
 
     <build>
-        <finalName>oslc-trs</finalName>
         <outputDirectory>target/classes</outputDirectory>
         <plugins>
             <!-- Compiler Plugin -->
