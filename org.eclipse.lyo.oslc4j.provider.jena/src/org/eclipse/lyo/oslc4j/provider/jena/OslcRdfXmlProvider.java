@@ -256,6 +256,11 @@ public class OslcRdfXmlProvider
         if ((objects != null) &&
             (objects.length > 0))
         {
+        	// Fix for defect 412755
+        	if (OSLC4JUtils.useBeanClassForParsing() && objects.length > 1) {
+        		throw new IOException("Object length should not be greater than 1.");
+        	} 
+        	
             return objects[0];
         }
 

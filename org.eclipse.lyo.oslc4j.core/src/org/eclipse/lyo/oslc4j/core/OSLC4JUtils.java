@@ -32,6 +32,13 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 public class OSLC4JUtils {
 	private static String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
 	
+	/**
+	 * This constant should be set to true for matching the resource rdf:type to
+	 * the describes parameter of the OslcResourceShape annotation. By default
+	 * this is set to false. This is part of the fix for defect 412755.
+	 */
+	private static String useBeanClassForParsing = System.getProperty(OSLC4JConstants.OSLC4J_USE_BEAN_CLASS_FOR_PARSING);
+	
 	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
 	 * Returns the value of org.eclipse.lyo.oslc4j.publicURI or null if not set.
@@ -58,6 +65,22 @@ public class OSLC4JUtils {
 			URL newPublicURL = new URL(newPublicURI);			
 		}
 		publicURI = newPublicURI;
+	}
+	
+	public static boolean useBeanClassForParsing() {
+		boolean result = false;
+		if (null != useBeanClassForParsing) {
+			result = Boolean.parseBoolean(useBeanClassForParsing);
+		}
+		return result;
+	}
+	
+	public static String getUseBeanClassForParsing() {		
+		return useBeanClassForParsing;
+	}
+
+	public static void setUseBeanClassForParsing(String useBeanClassForParsing) {
+		OSLC4JUtils.useBeanClassForParsing = useBeanClassForParsing;
 	}
 	
 	/**

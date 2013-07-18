@@ -104,6 +104,7 @@ import com.hp.hpl.jena.rdf.model.RSIterator;
 import com.hp.hpl.jena.rdf.model.ReifiedStatement;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
@@ -334,36 +335,75 @@ public final class JenaModelHelper
 
         if (beanClass.getAnnotation(OslcResourceShape.class) != null)
         {
-            final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
-
-            final ResIterator listSubjects = model.listSubjectsWithProperty(RDF.type,
-                                                                            model.getResource(qualifiedName));
-
-            if (listSubjects.hasNext())
-            {
-                final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
-
-                while (listSubjects.hasNext())
-                {
-                    final Resource resource    = listSubjects.next();
-                    final Object   newInstance = beanClass.newInstance();
-                    final Map<String,Object> visitedResources = new HashMap<String, Object>();
-
-                    fromResource(classPropertyDefinitionsToSetMethods,
-                                 beanClass,
-                                 newInstance,
-                                 resource,
-                                 visitedResources);
-
-                    results.add(newInstance);
-                }
-            }
+        	ResIterator listSubjects = null;
+        	
+            // Fix for defect 412755
+            // keep the same behavior, i.e. use the class name to match the resource rdf:type
+        	if (!OSLC4JUtils.useBeanClassForParsing()) {
+        	
+	            final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
+				listSubjects = model.listSubjectsWithProperty(RDF.type,
+						model.getResource(qualifiedName));
+				List<Resource> resourceList = listSubjects.toList();
+				createObjectResultList(beanClass, results, resourceList);	
+        	}
+        	else {
+        		// get the list of subjects that have rdf:type element
+        		listSubjects = model.listSubjectsWithProperty(RDF.type);
+        		
+        		List<Resource> resourceList = new ArrayList<Resource>();
+        		
+				// iterate over the list of subjects to create a list of
+				// subjects that does not contain inline resources
+        		while (listSubjects.hasNext()) {
+        			final Resource resource = listSubjects.next();
+        			
+					// check if the current resource is not an inline resource,
+					// i.e, check if it does not have a parent node
+                    SimpleSelector selector = new SimpleSelector(null, null, (RDFNode) resource);
+                    StmtIterator listStatements = model.listStatements(selector);
+                	if (!listStatements.hasNext()) {
+						// the current resource is not an inline resource, it
+						// should be considered in the list of subjects
+                		resourceList.add(resource);
+                	}
+        		}
+        		
+	            createObjectResultList(beanClass, results, resourceList);
+        	}
+        
         }
-
         return results.toArray((Object[]) Array.newInstance(beanClass,
                                                             results.size()));
     }
 
+	private static List<Object> createObjectResultList(final Class<?> beanClass,
+			List<Object> results, List<Resource> listSubjects)
+			throws IllegalAccessException, InstantiationException,
+			DatatypeConfigurationException, InvocationTargetException,
+			OslcCoreApplicationException, URISyntaxException,
+			NoSuchMethodException {
+		if (null != listSubjects) {
+			
+            final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+
+            for (final Resource resource : listSubjects) {
+                final Object   newInstance = beanClass.newInstance();
+                final Map<String,Object> visitedResources = new HashMap<String, Object>();
+
+                fromResource(classPropertyDefinitionsToSetMethods,
+                             beanClass,
+                             newInstance,
+                             resource,
+                             visitedResources);
+
+                results.add(newInstance);
+            }
+        }
+
+		return results;
+	}
+	
     @SuppressWarnings("unchecked")
 	private static void fromResource(final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
                                      final Class<?>                           beanClass,
