@@ -49,34 +49,39 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  *   trs:base <http://cm1.example.com/baseResources> ;
  *   trs:changeLog [
  *     a trs:ChangeLog ;
- *     trs:change <#3>, <#2>, <#1>.
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:33.000Z:103> ;
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:32.000Z:102> ;
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> .
  *   ] .
  * 
- * <#3> 
+ * <urn:urn-3:cm1.example.com:2010-10-27T17:39:33.000Z:103> 
  *   a trs:Creation ;
  *   trs:changed <http://cm1.example.com/bugs/23> ;
  *   trs:order "103"^^xsd:integer .
  * 
- * <#2>
+ * <urn:urn-3:cm1.example.com:2010-10-27T17:39:32.000Z:102>
  *   a trs:Modification ;
  *   trs:changed <http://cm1.example.com/bugs/22> ;
  *   trs:order "102"^^xsd:integer .
  * 
- * <#1>
+ * <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101>
  *   a trs:Deletion ;
  *   trs:changed <http://cm1.example.com/bugs/21> ;
  *   trs:order "101"^^xsd:integer .
  * }
  * </pre>
  * 
- * <p> As shown, a Change Log provides a set of Change Event entries in a
+ * <p>
+ * As shown, a Change Log provides a set of Change Event entries in a
  * multi-valued RDF property called trs:change.
  * 
- * <p> Change Events MUST have URIs (i.e., they cannot be Blank Nodes) to allow
+ * <p>
+ * Change Events MUST have URIs (i.e., they cannot be Blank Nodes) to allow
  * Clients to recognize entries they have seen before. The URI is only used to
  * identify an event (i.e., it need not be HTTP GETable).
  * 
- * <p> Each Change Event has a sequence number, trs:order; sequence numbers are
+ * <p>
+ * Each Change Event has a sequence number, trs:order; sequence numbers are
  * non-negative integer values that increase over time. A Change Event entry
  * carries the URI of the changed Resource, trs:changed, and an indication, via
  * rdf:type (a.k.a. "a" in Turtle), of whether the Resource was added to the
@@ -88,14 +93,16 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * previous ones. The sequence numbers MAY be consecutive numbers but need not
  * be.
  * 
- * <p> Note that the actual time of change is not included in a Change Event. Only a
+ * <p>
+ * Note that the actual time of change is not included in a Change Event. Only a
  * sequence number, representing the "sequence in time" of each change is
  * provided. The URI of a Change Event MUST be guaranteed unique, even in the
  * wake of a Server roll back where sequence numbers get reused. A time stamp
  * MAY be used to generate such a URI, as in the above example, although other
  * ways of generating a unique URI are also possible.
  * 
- * <p> A Change Log represents a series of changes to its corresponding Resource Set
+ * <p>
+ * A Change Log represents a series of changes to its corresponding Resource Set
  * over some period of time. The Change Log MUST contain Change Events for every
  * Resource creation, deletion, and modification during that period. A Server
  * MUST report a Resource modification event if a GET on it would return a
@@ -109,7 +116,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * "false"), replaced vocabulary term used (e.g. change from dcterms:title to
  * rdfs:label).
  * 
- * <p> The Server SHOULD NOT report unnecessary Change Events although it might
+ * <p>
+ * The Server SHOULD NOT report unnecessary Change Events although it might
  * happen, for example, if changes occur while the base is being computed. A
  * Client SHOULD ignore a creation event for a Resource that is already a member
  * of the Resource Set, and SHOULD ignore a deletion or modification event for a

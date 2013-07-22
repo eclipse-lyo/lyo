@@ -43,7 +43,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
   trs:base <http://cm1.example.com/baseResources> ;
   trs:changeLog [
     a trs:ChangeLog ; 
-    trs:changes ( ... ) .
+    trs:changes  ...  .
   ] .
 }
 </pre>

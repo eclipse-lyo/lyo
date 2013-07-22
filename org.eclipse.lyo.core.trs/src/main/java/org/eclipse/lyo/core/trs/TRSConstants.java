@@ -96,8 +96,8 @@ public interface TRSConstants extends OslcConstants {
 	//LDP Constants
 	public static final String LDP_NAMESPACE_PREFIX = "ldp";
 	public static final String LDP_NAMESPACE = "http://www.w3.org/ns/ldp#";
-	public static final String LDP_TERM_AGGREGATE_CONTAINER = "AggregateContainer";
-	public static final String LDP_AGGREGATE_CONTAINER = LDP_NAMESPACE + LDP_TERM_AGGREGATE_CONTAINER;
+	public static final String LDP_TERM_CONTAINER = "Container";
+	public static final String LDP_CONTAINER = LDP_NAMESPACE + LDP_TERM_CONTAINER;
 	public static final String LDP_TERM_PAGE = "Page";
 	public static final String LDP_PAGE = LDP_NAMESPACE + LDP_TERM_PAGE;
 	public static final String LDP_TERM_NEXT_PAGE = "nextPage"; //$NON-NLS-1$

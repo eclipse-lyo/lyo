@@ -16,9 +16,9 @@
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
-import static org.eclipse.lyo.core.trs.TRSConstants.LDP_AGGREGATE_CONTAINER;
+import static org.eclipse.lyo.core.trs.TRSConstants.LDP_CONTAINER;
 import static org.eclipse.lyo.core.trs.TRSConstants.LDP_NAMESPACE;
-import static org.eclipse.lyo.core.trs.TRSConstants.LDP_TERM_AGGREGATE_CONTAINER;
+import static org.eclipse.lyo.core.trs.TRSConstants.LDP_TERM_CONTAINER;
 import static org.eclipse.lyo.core.trs.TRSConstants.RDFS_MEMBER;
 import static org.eclipse.lyo.core.trs.TRSConstants.RDFS_TERM_MEMBER;
 import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CUTOFFEVENT;
@@ -50,14 +50,14 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * 
  * {@code
  * <https://.../baseResources>
- *   a ldp:AggregateContainer;
- *   trs:cutoffEvent <#1> ; 
- *   rdfs:member <https://.../WorkItem/1> ;
- *   rdfs:member <https://.../WorkItem/2> ;
- *   rdfs:member <https://.../WorkItem/3> ;
- *   ...
- *   rdfs:member <https://.../WorkItem/199> ;
- *   rdfs:member <https://.../WorkItem/200> .
+ *  a ldp:Container;
+ *  trs:cutoffEvent <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> ;
+ *  rdfs:member <http://cm1.example.com/bugs/1> ;
+ *  rdfs:member <http://cm1.example.com/bugs/2> ;
+ *  rdfs:member <http://cm1.example.com/bugs/3> ;
+ *  ...
+ *  rdfs:member <http://cm1.example.com/bugs/199> ;
+ *  rdfs:member <http://cm1.example.com/bugs/200> .
  * }
  * </pre>
  * 
@@ -130,8 +130,8 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * that resource.
  */
 @OslcNamespace(LDP_NAMESPACE)
-@OslcName(LDP_TERM_AGGREGATE_CONTAINER)
-@OslcResourceShape(title = "Tracked Resource Set Base Shape", describes = LDP_AGGREGATE_CONTAINER)
+@OslcName(LDP_TERM_CONTAINER)
+@OslcResourceShape(title = "Tracked Resource Set Base Shape", describes = LDP_CONTAINER)
 public class Base extends AbstractResource {
 	private List<URI> members;
 	private URI cutoffEvent;
