@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -77,8 +77,6 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
             
             String rawPName = tree.getChild(1).getText();
             
-            rawPName = rawPName.substring(1, rawPName.length() - 1);
-            
             prefixedName = new PName();
             
             int colon = rawPName.indexOf(':');
@@ -98,8 +96,8 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
             return prefixedName;
         }
         
-        return '"' + ((TypedValue)proxy).value() + "\"^^\"" +
-            ((TypedValue)proxy).prefixedName() + '"';
+        return '"' + ((TypedValue)proxy).value() + "\"^^" +
+            ((TypedValue)proxy).prefixedName();
     }
     
     private final Map<String, String> prefixMap;

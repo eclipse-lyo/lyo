@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -38,7 +38,7 @@ public class BasicWhereTest
                 "oslc:create!=\"Bob\" and qm:verified!=true",
                 "qm:state in [\"Done\",\"Open\"]",
                 "oslc:verified_by{oslc:owner=\"Steve\" and qm:duration=-47.0} and oslc:description=\"very hairy expression\"",
-                "qm:submitted<\"2011-10-10T07:00:00Z\"^^\"xs:dateTime\"",
+                "qm:submitted<\"2011-10-10T07:00:00Z\"^^xs:dateTime",
                 "oslc:label>\"The End\"@en-US",
                 "XXX"
             };
