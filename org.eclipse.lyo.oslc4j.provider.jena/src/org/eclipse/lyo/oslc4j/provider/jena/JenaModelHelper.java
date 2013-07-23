@@ -189,7 +189,7 @@ public final class JenaModelHelper
                 {
                     responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
                                                                           PROPERTY_NEXT_PAGE),
-                                                     nextPageAbout);
+                                                     model.createResource(nextPageAbout));
                 }
             }
         }
