@@ -104,9 +104,10 @@ public final class JsonHelper
     private static final String JSON_PROPERTY_SUFFIX_BAG           = "Bag";
     private static final String JSON_PROPERTY_SUFFIX_SEQ           = "Seq";
 
-    private static final String RDF_ABOUT_URI = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_ABOUT;
-    private static final String RDF_TYPE_URI  = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_TYPE;
-    private static final String RDF_NIL_URI   = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_NIL;
+    private static final String RDF_ABOUT_URI    = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_ABOUT;
+    private static final String RDF_TYPE_URI     = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_TYPE;
+    private static final String RDF_NIL_URI      = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_NIL;
+    private static final String RDF_RESOURCE_URI = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_RESOURCE;
     
     private static final String METHOD_NAME_START_GET = "get";
     private static final String METHOD_NAME_START_IS  = "is";
@@ -1350,6 +1351,8 @@ public final class JsonHelper
                                                      setMethodMap);
         }
 
+        boolean isIReifiedResource = false;
+
         if (bean instanceof IResource)
         {
             final Object aboutURIObject = jsonObject.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT);
@@ -1370,6 +1373,8 @@ public final class JsonHelper
         }
         else if (bean instanceof IReifiedResource)
     	{
+            isIReifiedResource = true;
+            
     		@SuppressWarnings("unchecked")
     		final IReifiedResource<Object> reifiedResource = (IReifiedResource<Object>) bean;
     		String resourceReference;
@@ -1443,9 +1448,11 @@ public final class JsonHelper
                 final Method setMethod = setMethodMap.get(propertyDefinition);
                 if (setMethod == null)
                 {
-                    if (RDF_ABOUT_URI.equals(propertyDefinition))
+                    if (RDF_ABOUT_URI.equals(propertyDefinition) ||
+                        (isIReifiedResource && RDF_RESOURCE_URI.equals(propertyDefinition)))
                     {
-                        // Ignore missing property definitions for rdf:about and rdf:types.
+                        // Ignore missing property definitions for rdf:about, rdf:types and
+                        // rdf:resource for IReifiedResources.
                     }
                     else if (RDF_TYPE_URI.equals(propertyDefinition))
                     {
