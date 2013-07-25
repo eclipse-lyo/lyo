@@ -62,7 +62,6 @@ public class OslcSimpleRdfXmlCollectionProvider
                 null,
                 null,
                 null,
-                null,
                 null);
     }
 }

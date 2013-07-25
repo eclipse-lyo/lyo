@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -22,7 +22,7 @@ import java.util.Map;
  * Wrapper for resources to pass in properties map to filter output
  * to a subset of the resource's properties
  */
-public class FilteredResource<T extends Object>
+public class FilteredResource<T extends Object> extends AbstractResource
 {
     public
     FilteredResource(

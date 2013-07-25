@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -149,8 +149,7 @@ public final class OslcRdfJsonProvider
         Map<String, Object>             properties = null;
         String                          descriptionURI = null;
         String                          responseInfoURI = null;
-        String                          nextPageURI = null;
-        Integer                         totalCount = null;
+        ResponseInfo<?>					responseInfo = null;
         
         if (object instanceof FilteredResource<?>)
         {
@@ -184,8 +183,7 @@ public final class OslcRdfJsonProvider
                     objects = collection.toArray(new Object[collection.size()]);
                 }
                 
-                nextPageURI = ((ResponseInfo<?>)filteredResource).nextPage();
-                totalCount = ((ResponseInfo<?>)filteredResource).totalCount();
+                responseInfo = (ResponseInfo<?>)filteredResource;
             }
             else
             {
@@ -217,8 +215,7 @@ public final class OslcRdfJsonProvider
                 properties,
                 descriptionURI,
                 responseInfoURI,
-                nextPageURI,
-                totalCount);
+                responseInfo);
     }
 
     @Override

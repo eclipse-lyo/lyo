@@ -81,6 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
@@ -147,7 +148,7 @@ public final class JsonHelper
 
     public static JSONObject createJSON(final String              descriptionAbout,
                                         final String              responseInfoAbout,
-                                        final String              nextPageAbout,
+                                        final ResponseInfo<?>		  responseInfo,
                                         final Object[]            objects,
                                         final Map<String, Object> properties)
            throws DatatypeConfigurationException,
@@ -213,29 +214,43 @@ public final class JsonHelper
                 responseInfoJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
                                            responseInfoAbout);
 
-                responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TOTAL_COUNT,
-                                           objects.length);
-
-                if (nextPageAbout != null)
-                {
-                    responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_NEXT_PAGE,
-                                               nextPageAbout);
-                }
                 
-                final JSONArray responseInfoTypesJSONArray = new JSONArray();
 
-                final JSONObject responseInfoTypeJSONObject = new JSONObject();
+                if (responseInfo != null) 
+                {
+                	
+                	responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TOTAL_COUNT,
+                    		responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount());
+                	
+                	if (responseInfo.nextPage() != null)
+                	{
+                		responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_NEXT_PAGE,
+                				responseInfo.nextPage());
+                	}
+                	
+                	final JSONArray responseInfoTypesJSONArray = new JSONArray();
+                	
+                	final JSONObject responseInfoTypeJSONObject = new JSONObject();
+                	
+                	responseInfoTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                                               	OslcConstants.TYPE_RESPONSE_INFO);
 
-                responseInfoTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-                                               OslcConstants.TYPE_RESPONSE_INFO);
-
-                responseInfoTypesJSONArray.add(responseInfoTypeJSONObject);
-
-                responseInfoJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
-                                           responseInfoTypesJSONArray);
-
-                resultJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESPONSE_INFO,
-                                     responseInfoJSONObject);
+                	responseInfoTypesJSONArray.add(responseInfoTypeJSONObject);
+                	
+                	responseInfoJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
+                                           	responseInfoTypesJSONArray);
+                	
+                	resultJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESPONSE_INFO,
+                                     	responseInfoJSONObject);
+                	
+                	Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+                	addExtendedProperties(namespaceMappings,
+        				                  reverseNamespaceMappings,
+        				                  responseInfoJSONObject,
+        				                  (IExtendedResource) responseInfo,
+        				                  properties,
+        				                  visitedObjects);
+                }
             }
         }
         else if (objects.length == 1)

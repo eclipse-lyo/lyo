@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -40,6 +40,8 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
 public abstract class AbstractOslcRdfJsonProvider
 {
@@ -139,12 +141,17 @@ public abstract class AbstractOslcRdfJsonProvider
         final String nextPageURI = isClientSide ?
                 null :
                 (String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+        final Integer totalCount = isClientSide ?
+                null :
+                (Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
+        
+        ResponseInfo<?> responseInfo = new ResponseInfoArray<Object>(null, properties, totalCount, nextPageURI);
 
         try
         {
             jsonObject = JsonHelper.createJSON(descriptionURI,
                                                responseInfoURI,
-                                               nextPageURI,
+                                               responseInfo,
                                                objects,
                                                properties);
 
@@ -167,8 +174,7 @@ public abstract class AbstractOslcRdfJsonProvider
                            final Map<String, Object>            properties,
                            final String                         descriptionURI,
                            final String                         responseInfoURI,
-                           final String                         nextPageURI,
-                           final Integer                        totalCount)
+                           final ResponseInfo<?>					responseInfo)
                 throws WebApplicationException
     {
         final JSONObject jsonObject;
@@ -177,7 +183,7 @@ public abstract class AbstractOslcRdfJsonProvider
         {
             jsonObject = JsonHelper.createJSON(descriptionURI,
                                                responseInfoURI,
-                                               nextPageURI,
+                                               responseInfo,
                                                objects,
                                                properties);
 

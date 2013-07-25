@@ -41,6 +41,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -130,8 +132,7 @@ public abstract class AbstractOslcRdfXmlProvider
                            final Map<String, Object>            properties,
                            final String                         descriptionURI,
                            final String                         responseInfoURI,
-                           final String                         nextPageURI,
-                           final Integer                        totalCount)
+                           final ResponseInfo<?>				responseInfo)
                 throws WebApplicationException
     {
         final String serializationLanguage = getSerializationLanguage(baseMediaType);
@@ -140,8 +141,7 @@ public abstract class AbstractOslcRdfXmlProvider
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
-                                                                nextPageURI,
-                                                                totalCount,
+                                                                responseInfo,
                                                                 objects,
                                                                 properties);
             RDFWriter writer = null;
@@ -226,12 +226,13 @@ public abstract class AbstractOslcRdfXmlProvider
             null :
             (Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
         
+        ResponseInfo<?> responseInfo = new ResponseInfoArray<Object>(null, properties, totalCount, nextPageURI);
+        
         try
         {
             final Model model = JenaModelHelper.createJenaModel(descriptionURI,
                                                                 responseInfoURI,
-                                                                nextPageURI,
-                                                                totalCount,
+                                                                responseInfo,
                                                                 objects,
                                                                 properties);
             RDFWriter writer = null;
