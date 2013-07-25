@@ -218,14 +218,16 @@ public final class JsonHelper
 
                 if (responseInfo != null) 
                 {
-                	
                 	responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TOTAL_COUNT,
                     		responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount());
                 	
                 	if (responseInfo.nextPage() != null)
                 	{
+                		final JSONObject nextPageJSONObject = new JSONObject();
+                		nextPageJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                				responseInfo.nextPage());                
                 		responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_NEXT_PAGE,
-                				responseInfo.nextPage());
+                				nextPageJSONObject);
                 	}
                 	
                 	final JSONArray responseInfoTypesJSONArray = new JSONArray();
