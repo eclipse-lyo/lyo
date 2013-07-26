@@ -91,6 +91,7 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
@@ -326,12 +327,14 @@ public final class JenaModelHelper
         final Object   newInstance = beanClass.newInstance();
         final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
         final Map<String,Object> visitedResources = new HashMap<String, Object>();
-
+        final HashSet<String> rdfTypes = new HashSet<String>();
+        
         fromResource(classPropertyDefinitionsToSetMethods,
                      beanClass,
                      newInstance,
                      resource,
-                     visitedResources);
+                     visitedResources,
+                     rdfTypes);
 
         return newInstance;
     }
@@ -407,12 +410,14 @@ public final class JenaModelHelper
             for (final Resource resource : listSubjects) {
                 final Object   newInstance = beanClass.newInstance();
                 final Map<String,Object> visitedResources = new HashMap<String, Object>();
-
+                final HashSet<String> rdfTypes = new HashSet<String>();
+                
                 fromResource(classPropertyDefinitionsToSetMethods,
                              beanClass,
                              newInstance,
                              resource,
-                             visitedResources);
+                             visitedResources,
+                             rdfTypes);
 
                 results.add(newInstance);
             }
@@ -426,7 +431,8 @@ public final class JenaModelHelper
                                      final Class<?>                           beanClass,
                                      final Object                             bean,
                                      final Resource                           resource,
-                                           Map<String,Object>                 visitedResources)
+                                           Map<String,Object>                 visitedResources,
+                                     HashSet<String> 					  rdfTypes)
             throws DatatypeConfigurationException,
                    IllegalAccessException,
                    IllegalArgumentException,
@@ -494,6 +500,9 @@ public final class JenaModelHelper
         	extendedProperties = null;
         }
         
+		// get the list of resource rdf type
+		rdfTypes = getTypesFromResource(resource, rdfTypes);
+		
         while (listProperties.hasNext())
         {
             final Statement statement = listProperties.next();
@@ -530,7 +539,7 @@ public final class JenaModelHelper
                 			prefix = generatePrefix(resource.getModel(), predicate.getNameSpace());
                 		}
                 		final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-                		final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources);
+                		final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes);
                 		final Object previous = extendedProperties.get(key);
                 		if (previous == null)
                 		{
@@ -762,7 +771,8 @@ public final class JenaModelHelper
                                          setMethodComponentParameterClass,
                                          nestedBean,
                                          nestedResource,
-                                         visitedResources);
+                                         visitedResources,
+                                         rdfTypes);
     
                             parameter = nestedBean;
                         }
@@ -800,7 +810,8 @@ public final class JenaModelHelper
     						    		reifiedClass,
     	                                reifiedResource,
     	                                reifiedStatement,
-    	                                visitedResources);
+    	                                visitedResources,
+    	                                rdfTypes);
     					    }
     					    
                     		parameter = reifiedResource;
@@ -912,6 +923,35 @@ public final class JenaModelHelper
         }
     }
 
+	/**
+	 * Returns a hash set of rdf:types for a given resource object. If the set
+	 * was populated before, returns the given list. This list will only be
+	 * populated if the property inferTypeFromShape is set to true.
+	 * 
+	 * @param resource
+	 * @param types
+	 * @return List of rdf:types
+	 */
+	private static HashSet<String> getTypesFromResource(final Resource resource, HashSet<String> types) {
+		// The list of rdf:types will be populated only if the property
+		// inferTypeFromShape is set and if the list was not populated before.
+		// This is necessary because for an inline resource, the retuned
+		// rdf:type is not from the parent resource, it is from the actual
+		// resource.
+		if (OSLC4JUtils.inferTypeFromShape() && types.isEmpty()) {
+			StmtIterator rdfTypesIterator = resource.listProperties(RDF.type);
+			while (rdfTypesIterator.hasNext()) {
+				Statement rdfTypeStmt = rdfTypesIterator.next();
+				RDFNode object = rdfTypeStmt.getObject();
+				if (object.isResource()) {
+					String rdfType = object.asResource().getURI();
+					types.add(rdfType);
+				}
+			}
+		}
+		return types;
+	}
+
     private static boolean isRdfCollectionResource(Model model, RDFNode object)
     {
         if (object.isResource())
@@ -954,7 +994,9 @@ public final class JenaModelHelper
 
 	private static Object handleExtendedPropertyValue(final Class<?> beanClass,
 												      final RDFNode object,
-												            Map<String,Object> visitedResources)
+												            Map<String,Object> visitedResources,
+												      final QName propertyQName,
+												      final HashSet<String> rdfTypes)
 			throws URISyntaxException,
 				   IllegalArgumentException,
 				   SecurityException,
@@ -970,6 +1012,27 @@ public final class JenaModelHelper
 			try
 			{
 				final Literal literal = object.asLiteral();
+				
+				// fix for Bug 412789
+				if (OSLC4JUtils.inferTypeFromShape()) {
+
+					// get property data type
+					RDFDatatype dataType = literal.getDatatype();
+					
+					// infer the data type from the Resource Shape only if the
+					// data type was not explicit passed in the original request
+					if (null == dataType) {
+						Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, literal.getString());
+						
+						// return the value only if the type was really inferred
+						// from the resource shape, otherwise keep the same
+						// behavior, i.e., return a String value
+						if (null != newObject) {
+							return newObject;
+						}
+					}
+				}
+				
 				final Object literalValue = literal.getValue();
 				if (literalValue instanceof XSDDateTime)
 				{
@@ -1002,7 +1065,8 @@ public final class JenaModelHelper
                          AnyResource.class,
                          any,
                          nestedResource,
-                         visitedResources);
+                         visitedResources,
+                         rdfTypes);
 
             return any;
 		}
