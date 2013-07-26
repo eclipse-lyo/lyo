@@ -53,6 +53,8 @@ public interface OslcConstants {
     public static final String TYPE_SERVICE                  = OSLC_CORE_NAMESPACE + "Service";
 	public static final String TYPE_SERVICE_PROVIDER         = OSLC_CORE_NAMESPACE + "ServiceProvider";
 	public static final String TYPE_SERVICE_PROVIDER_CATALOG = OSLC_CORE_NAMESPACE + "ServiceProviderCatalog";
+	
+	public static final String TYPE_CONTAINER                = RDFS_NAMESPACE + "Container";
 
 	public static final String PATH_RESOURCE_SHAPES = "resourceShapes";
 

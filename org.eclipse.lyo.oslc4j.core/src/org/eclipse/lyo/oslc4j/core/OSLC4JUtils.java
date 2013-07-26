@@ -199,4 +199,14 @@ public class OSLC4JUtils {
 		}
 		return retVal;
 	}
+	
+	/**
+	 * Return if the query result list type will be  
+	 * http://www.w3.org/2000/01/rdf-schema#Container or there will be no type.
+     * Default is no type.
+     */
+	public static boolean isQueryResultListAsContainer()
+	{
+		return "true".equals(System.getProperty(OSLC4JConstants.OSLC4J_QUERY_RESULT_LIST_AS_CONTAINER, "false"));
+	}
 }

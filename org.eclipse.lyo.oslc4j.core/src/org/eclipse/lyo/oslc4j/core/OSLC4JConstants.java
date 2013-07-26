@@ -33,4 +33,12 @@ public interface OSLC4JConstants {
     public static final String OSLC4J_SELECTED_PROPERTIES = "org.eclipse.lyo.oslc4j.selected.properties";
     public static final String OSLC4J_NEXT_PAGE = "org.eclipse.lyo.oslc4j.next.page";
     public static final String OSLC4J_TOTAL_COUNT = "org.eclipse.lyo.oslc4j.total.count";
+    
+    /**
+     * System property {@value} : When "true", the query result list type will be
+     * http://www.w3.org/2000/01/rdf-schema#Container, otherwise it will
+     * have no type. No type is the default.
+     * 
+     */
+    public static final String OSLC4J_QUERY_RESULT_LIST_AS_CONTAINER = "org.eclipse.lyo.oslc4j.queryResultListAsContainer";
 }

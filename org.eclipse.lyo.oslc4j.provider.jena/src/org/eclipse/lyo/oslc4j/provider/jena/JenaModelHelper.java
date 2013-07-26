@@ -173,7 +173,14 @@ public final class JenaModelHelper
         
         if (descriptionAbout != null)
         {
-            descriptionResource = model.createResource(descriptionAbout);
+        	if(OSLC4JUtils.isQueryResultListAsContainer())
+        	{
+        		descriptionResource = model.createResource(descriptionAbout, RDFS.Container);	
+        	} 
+        	else
+        	{
+        		descriptionResource = model.createResource(descriptionAbout);
+        	}
 
             if (responseInfoAbout != null)
             {

@@ -197,6 +197,24 @@ public final class JsonHelper
 
             resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
                                  descriptionAbout);
+            
+            /* Support for Container rdf:type */
+            if(OSLC4JUtils.isQueryResultListAsContainer()){
+            	final JSONArray containerTypesJSONArray = new JSONArray();
+
+            	final JSONObject containerTypeJSONObject = new JSONObject();
+
+            
+            	containerTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                		OslcConstants.TYPE_CONTAINER);	
+            
+            
+            	containerTypesJSONArray.add(containerTypeJSONObject);
+
+            	resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
+                                 containerTypesJSONArray);
+            }
+            
 
             resultJSONObject.put(rdfsPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_MEMBER,
                                  jsonArray);
