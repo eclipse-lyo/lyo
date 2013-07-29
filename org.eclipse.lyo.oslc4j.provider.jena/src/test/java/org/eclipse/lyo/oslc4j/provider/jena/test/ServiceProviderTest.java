@@ -35,7 +35,8 @@ public class ServiceProviderTest {
 	public void testUsage() throws Exception {
 		// Based on http://open-services.net/bin/view/Main/OSLCCoreSpecTurtleExamples?sortcol=table;up=#Service_Provider_Resource
 		// (oslc:usage added)
-		InputStream is = ServiceProviderTest.class.getResourceAsStream("usage.ttl");
+		InputStream is = ServiceProviderTest.class.getResourceAsStream("/usage.ttl");
+		assertNotNull("Could not read file: usage.ttl", is);
 		Model m = ModelFactory.createDefaultModel();
 		m.read(is, null, "TURTLE");
 

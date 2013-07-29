@@ -15,6 +15,8 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStream;
 
 import org.eclipse.lyo.oslc4j.provider.jena.RdfXmlAbbreviatedWriter;
@@ -27,7 +29,8 @@ public class RdfXmlAbbreviatedWriterTest {
 	@Test
 	public void testCircularReference()
 	{
-		InputStream is = RdfXmlAbbreviatedWriterTest.class.getResourceAsStream("circular.xml");
+		InputStream is = RdfXmlAbbreviatedWriterTest.class.getResourceAsStream("/circular.xml");
+		assertNotNull("Could not read file: circular.xml", is);
 		Model m = ModelFactory.createDefaultModel();
 		m.read(is, null);
 		RdfXmlAbbreviatedWriter w = new RdfXmlAbbreviatedWriter();
