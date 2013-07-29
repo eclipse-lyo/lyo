@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:oslc_cmx="http://open-services.net/ns/cm-x#" xmlns:ns1="http://jazz.net/xmlns/prod/jazz/process/1.0/"
+    xmlns:oslc="http://open-services.net/ns/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:calm="http://jazz.net/xmlns/prod/jazz/calm/1.0/">
+    <oslc:ServiceProvider rdf:about="http://test:9999/inlineResources/circular.xml">
+        <dcterms:title rdf:parseType="Literal">TEST PROJECT</dcterms:title>     
+        <oslc:service>
+            <oslc:Service>
+                <calm:home>         
+                    <calm:Home rdf:about="http://myURL1.com">
+                        <rdf:type rdf:resource="http://jazz.net/xmlns/prod/jazz/calm/1.0/HomeXXX" />                        
+                        <calm:link rdf:resource="http://myURL2.com" />
+                    </calm:Home>                    
+                </calm:home>
+                <calm:home>                 
+                    <calm:Home rdf:about="http://myURL2.com">
+                        <rdf:type rdf:resource="http://jazz.net/xmlns/prod/jazz/calm/1.0/HomeYYY" />                        
+                        <calm:link rdf:resource="http://myURL1.com" />
+                    </calm:Home>                    
+                </calm:home>
+                <oslc:domain rdf:resource="http://open-services.net/ns/cm#" />
+            </oslc:Service>
+        </oslc:service>
+    </oslc:ServiceProvider>
+</rdf:RDF>
