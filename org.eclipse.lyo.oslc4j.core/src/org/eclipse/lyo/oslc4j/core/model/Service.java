@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - add oslc:usage
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -43,6 +44,7 @@ public final class Service extends AbstractResource {
 	private final List<CreationFactory> creationFactories = new ArrayList<CreationFactory>();
 	private final List<QueryCapability> queryCapabilities = new ArrayList<QueryCapability>();
     private final List<Dialog> selectionDialogs = new ArrayList<Dialog>();
+    private final List<URI> usages = new ArrayList<URI>();
 
     private URI domain;
 
@@ -133,6 +135,18 @@ public final class Service extends AbstractResource {
 		return selectionDialogs.toArray(new Dialog[selectionDialogs.size()]);
 	}
 
+	@OslcDescription("An identifier URI for the domain specified usage of this service")
+	@OslcName("usage")
+	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")
+    @OslcReadOnly
+    @OslcRepresentation(Representation.Reference)
+    @OslcTitle("Usages")
+    @OslcValueType(ValueType.Resource)
+	@OslcOccurs(Occurs.ZeroOrMany)
+	public URI[] getUsages() {
+		return usages.toArray(new URI[usages.size()]);
+	}
+
 	public void setCreationDialogs(final Dialog[] creationDialogs) {
 		this.creationDialogs.clear();
 		if (creationDialogs != null) {
@@ -162,6 +176,13 @@ public final class Service extends AbstractResource {
 	    this.selectionDialogs.clear();
 	    if (selectionDialogs != null) {
 	        this.selectionDialogs.addAll(Arrays.asList(selectionDialogs));
+	    }
+	}
+
+	public void setUsages(final URI[] usages) {
+	    this.usages.clear();
+	    if (usages != null) {
+	        this.usages.addAll(Arrays.asList(usages));
 	    }
 	}
 }
