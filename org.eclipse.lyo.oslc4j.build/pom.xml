@@ -16,6 +16,7 @@
 		<module>../org.eclipse.lyo.oslc4j.registry</module>
 		<module>../org.eclipse.lyo.core.query</module>
 		<module>../org.eclipse.lyo.core.trs</module>
+		<module>../org.eclipse.lyo.core.utils</module>
 	</modules> 
     <distributionManagement>
         <repository>
