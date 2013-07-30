@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,41 +12,39 @@
  * Contributors:
  *
  *    Steve Pitschke - initial API and implementation
+ *    Samuel Padgett - convert to JUnit tests
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 
 import org.eclipse.lyo.core.query.ParseException;
 import org.eclipse.lyo.core.query.QueryUtils;
 import org.eclipse.lyo.core.query.SearchTermsClause;
+import org.junit.Test;
 
 /**
  * Basic tests of oslc.searchTerms clause parsing
  */
 public class BasicSearchTermsTest
 {
-    /**
-     * @param args
-     */
-    public static void main(String[] args)
-    {
-        String[] expressions = {
-                "\"foobar\"",
-                "\"foobar\",\"whatsis\\\"yousa\"",
-                ""
-            };
-        
-        for (String expression : expressions) {
-        
-            try {
-                
-                SearchTermsClause stringList =
-                    QueryUtils.parseSearchTerms(expression);
-                
-                System.out.println(stringList);
-                
-            } catch (ParseException e) {
-                e.printStackTrace(System.out);
-            }
-        }
-    }
+	@Test
+	public void testSearchTerms() throws ParseException
+	{
+		String[] expressions = {
+				"\"foobar\"",
+				"\"foobar\",\"whatsis\\\"yousa\""
+		};
+
+		for (String expression : expressions) {
+			SearchTermsClause stringList =
+					QueryUtils.parseSearchTerms(expression);
+
+			System.out.println(stringList);
+		}
+	}
+
+	@Test(expected=ParseException.class)
+	public void testBadSearchTerms() throws ParseException
+	{
+		QueryUtils.parseSearchTerms("");
+	}
 }

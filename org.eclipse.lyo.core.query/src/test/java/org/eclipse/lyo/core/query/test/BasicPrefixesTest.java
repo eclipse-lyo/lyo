@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,44 +12,30 @@
  * Contributors:
  *
  *    Steve Pitschke - initial API and implementation
+ *    Samuel Padgett - convert to JUnit tests
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 
-import java.util.Map;
-
 import org.eclipse.lyo.core.query.ParseException;
 import org.eclipse.lyo.core.query.QueryUtils;
+import org.junit.Test;
 
 /**
  * Basic tests of oslc.searchTerms clause parsing
  */
 public class BasicPrefixesTest
 {
-    /**
-     * @param args
-     */
-    public static void main(String[] args)
+	@Test
+    public void testPrefixes() throws ParseException
     {
-        String[] expressions = {
-                "qm=<http://qm.example.com/ns>," +
-                    "olsc=<http://open-services.net/ns/core#>," +
-                    "xs=<http://www.w3.org/2001/XMLSchema>",
-                "qm=<http://qm.example.com/ns>," +
-                    "XXX>"
-            };
-        
-        for (String expression : expressions) {
-        
-            try {
-                
-                Map<String, String> prefixMap =
-                    QueryUtils.parsePrefixes(expression);
-                
-                System.out.println(prefixMap);
-                
-            } catch (ParseException e) {
-                e.printStackTrace(System.out);
-            }
-        }
+		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>," +
+				"olsc=<http://open-services.net/ns/core#>," +
+				"xs=<http://www.w3.org/2001/XMLSchema>");
     }
+	
+	@Test(expected=ParseException.class)
+	public void testBadPrefixes() throws ParseException
+	{
+		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>,XXX>");
+	}
 }
