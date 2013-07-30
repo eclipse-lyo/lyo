@@ -3,6 +3,7 @@
     <wb-module deploy-name="OSLCSharepoint">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
         <property name="context-root" value="OSLCSharepoint"/>
         <property name="java-output-path" value="/OSLCSharepoint/WebContent/WEB-INF/classes"/>
     </wb-module>
