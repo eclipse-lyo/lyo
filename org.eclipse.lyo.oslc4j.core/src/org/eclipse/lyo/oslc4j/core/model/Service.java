@@ -16,6 +16,7 @@
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
  *     Samuel Padgett       - add oslc:usage
+ *     Samuel Padgett       - remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -39,7 +40,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Service Resource Shape", describes = OslcConstants.TYPE_SERVICE)
-public final class Service extends AbstractResource {
+public class Service extends AbstractResource {
 	private final List<Dialog> creationDialogs = new ArrayList<Dialog>();
 	private final List<CreationFactory> creationFactories = new ArrayList<CreationFactory>();
 	private final List<QueryCapability> queryCapabilities = new ArrayList<QueryCapability>();

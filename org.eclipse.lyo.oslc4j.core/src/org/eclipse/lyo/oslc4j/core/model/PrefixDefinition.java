@@ -15,6 +15,7 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -30,7 +31,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Prefix Definition Resource Shape", describes = OslcConstants.TYPE_PREFIX_DEFINITION)
-public final class PrefixDefinition extends AbstractResource {
+public class PrefixDefinition extends AbstractResource {
 	private String prefix;
 	private URI prefixBase;
 
