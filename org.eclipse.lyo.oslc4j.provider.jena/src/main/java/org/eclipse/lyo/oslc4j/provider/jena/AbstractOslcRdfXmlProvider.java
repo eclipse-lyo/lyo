@@ -313,7 +313,7 @@ public abstract class AbstractOslcRdfXmlProvider
 
         RDFReader reader = null;
         
-        if (mediaType != null && mediaType.equals(OslcMediaType.TEXT_TURTLE_TYPE))
+        if (mediaType != null && mediaType.isCompatible(OslcMediaType.TEXT_TURTLE_TYPE))
         {
         	reader=model.getReader(FileUtils.langTurtle);
         } else {
