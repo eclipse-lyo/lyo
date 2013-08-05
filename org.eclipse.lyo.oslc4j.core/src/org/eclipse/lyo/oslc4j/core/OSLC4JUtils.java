@@ -38,8 +38,10 @@ import javax.xml.namespace.QName;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.TypeMapper;
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
 
@@ -374,24 +376,60 @@ public class OSLC4JUtils {
 
 									// this is a literal type
 									if (null != dataTypeFromShape) {
+										try {
 
-										// special treatment for XMLLiteral
-										if (XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString())) {
-											return new XMLLiteral(originalValue.toString());
+											// special treatment for XMLLiteral
+											if (XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString())) {
+												return new XMLLiteral(originalValue.toString());
+											}
+	
+											// special treatment for Date
+											Class<?> objClass = dataTypeFromShape.getJavaClass();
+											if (objClass.getCanonicalName().equals(XSDDateTime.class.getCanonicalName())) {
+												String dateStr = originalValue.toString();
+												Calendar calendar;
+												calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateStr).toGregorianCalendar();
+												final XSDDateTime xsdDateTime = new XSDDateTime(calendar);
+												return xsdDateTime.asCalendar().getTime();
+											}
+											
+											// special treatment for Boolean
+											if (objClass.getCanonicalName().equals(Boolean.class.getCanonicalName())) {
+					                            // XML supports both 'true' and '1' for a true Boolean.
+					                            // Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
+					                            if ((Boolean.TRUE.toString().equals(originalValue.toString())) || ("1".equals(originalValue.toString()))) {
+					                               return Boolean.TRUE;
+					                            }
+					                            // XML supports both 'false' and '0' for a false Boolean.
+					                            else if ((Boolean.FALSE.toString().equals(originalValue.toString())) || ("0".equals(originalValue.toString()))) {
+					                            	return Boolean.FALSE;
+					                            }
+					                            else {
+					                                throw new IllegalArgumentException("'" + originalValue.toString() + "' has wrong format for Boolean.");
+					                            }
+											}
+											
+											// special treatment for double
+											if (objClass.getCanonicalName().equals(Double.class.getCanonicalName())) {
+												return XSDDatatype.XSDdouble.parseValidated(originalValue.toString());
+											}
+											
+											// special treatment for float
+											if (objClass.getCanonicalName().equals(Float.class.getCanonicalName())) {
+												return XSDDatatype.XSDfloat.parseValidated(originalValue.toString());
+											}
+											Constructor<?> cons = objClass.getConstructor(String.class);
+											return cons.newInstance(originalValue.toString());
+										} catch (IllegalArgumentException e) {											
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											throw new IllegalArgumentException(errorMessage, e);
+										} catch (InvocationTargetException e) {											
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											throw new IllegalArgumentException(errorMessage, e);
+										} catch (DatatypeFormatException e) {											
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											throw new IllegalArgumentException(errorMessage, e);
 										}
-
-										// special treatment for Date
-										Class<?> objClass = dataTypeFromShape.getJavaClass();
-										if (objClass.getCanonicalName().equals(XSDDateTime.class.getCanonicalName())) {
-											String dateStr = originalValue.toString();
-											Calendar calendar;
-											calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateStr).toGregorianCalendar();
-											final XSDDateTime xsdDateTime = new XSDDateTime(calendar);
-											return xsdDateTime.asCalendar().getTime();
-										}
-
-										Constructor<?> cons = objClass.getConstructor(String.class);
-										return cons.newInstance(originalValue.toString());
 									}
 								}
 							}
