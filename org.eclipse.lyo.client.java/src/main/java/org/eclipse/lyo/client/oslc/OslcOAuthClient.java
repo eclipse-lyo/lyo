@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,13 +12,13 @@
  *  Contributors:
  *  
  *     Michael Fiedler     - initial API and implementation
+ *     Samuel Padgett      - make some members protected so the class can be extended
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.ws.rs.HttpMethod;
@@ -41,7 +41,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 
 public class OslcOAuthClient extends OslcClient {
 
-	private OAuthAccessor accessor;
+	protected OAuthAccessor accessor;
 	private static Logger LOGGER = Logger.getLogger(OslcOAuthClient.class);
 	private String oauth_real_name;
 	
@@ -204,7 +204,7 @@ public class OslcOAuthClient extends OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	private OAuthMessage getResourceInternal(String url, String httpMethod, boolean restart) throws IOException, OAuthException, URISyntaxException {
+	protected OAuthMessage getResourceInternal(String url, String httpMethod, boolean restart) throws IOException, OAuthException, URISyntaxException {
 
 		OAuthClient client = new OAuthClient(new HttpClient4(this.getClientPool()));
 		//No request token yet, get the request token and throw exception to redirect for authorization.
