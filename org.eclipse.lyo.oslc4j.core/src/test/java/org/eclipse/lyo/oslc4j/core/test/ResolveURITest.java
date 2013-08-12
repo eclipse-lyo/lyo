@@ -26,6 +26,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+/**
+ * Tests URI resolution by {@link OSLC4JUtils#resolveURI}.
+ * 
+ * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @since 2.0.0
+ */
 public class ResolveURITest {
 	@Before
 	public void clearPublicURISystemProperty() {

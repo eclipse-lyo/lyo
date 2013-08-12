@@ -24,6 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -1043,6 +1044,10 @@ public final class JenaModelHelper
 				if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI()))
 				{
 					return new XMLLiteral(literal.getString());
+				}
+				
+				if (XSDDatatype.XSDdecimal.getURI().equals(literal.getDatatypeURI())) {
+					return new BigDecimal(literal.getString());
 				}
 	
 				return literalValue;
