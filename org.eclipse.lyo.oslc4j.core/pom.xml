@@ -113,14 +113,6 @@
                 <version>2.4.3</version>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include> **/*.properties</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
     <distributionManagement>
         <repository>

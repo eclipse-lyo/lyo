@@ -15,8 +15,9 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - moved from org.eclipse.lyo.oslc4j.test.test
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.test.test;
+package org.eclipse.lyo.oslc4j.core.test.resources;
 
 public class MissingResourceShapeAnnotation
 {

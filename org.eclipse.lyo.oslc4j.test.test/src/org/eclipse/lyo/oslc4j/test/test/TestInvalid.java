@@ -43,6 +43,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.test.resources.MissingResourceShapeAnnotation;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 
 import com.hp.hpl.jena.shared.JenaException;
@@ -529,24 +530,6 @@ public class TestInvalid
             fail();
         }
         catch (final OslcCoreInvalidValueTypeException exception)
-        {
-        }
-    }
-
-    public void testResourceClassMissingResourceShapeAnnotation()
-           throws OslcCoreApplicationException,
-                  URISyntaxException
-    {
-        try
-        {
-            ResourceShapeFactory.createResourceShape("http://bogus",
-                                                     OslcConstants.PATH_RESOURCE_SHAPES,
-                                                     "bogus",
-                                                     MissingResourceShapeAnnotation.class);
-
-            fail();
-        }
-        catch (final OslcCoreMissingAnnotationException exception)
         {
         }
     }
