@@ -91,7 +91,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
@@ -1010,52 +1009,45 @@ public final class JenaModelHelper
 	{
 		if (object.isLiteral())
 		{
-			try
-			{
-				final Literal literal = object.asLiteral();
-				
-				// fix for Bug 412789
-				if (OSLC4JUtils.inferTypeFromShape()) {
+			final Literal literal = object.asLiteral();
 
-					// get property data type
-					RDFDatatype dataType = literal.getDatatype();
-					
-					// infer the data type from the Resource Shape only if the
-					// data type was not explicit passed in the original request
-					if (null == dataType) {
-						Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, literal.getString());
-						
-						// return the value only if the type was really inferred
-						// from the resource shape, otherwise keep the same
-						// behavior, i.e., return a String value
-						if (null != newObject) {
-							return newObject;
-						}
+			// fix for Bug 412789
+			if (OSLC4JUtils.inferTypeFromShape()) {
+
+				// get property data type
+				RDFDatatype dataType = literal.getDatatype();
+
+				// infer the data type from the Resource Shape only if the
+				// data type was not explicit passed in the original request
+				if (null == dataType) {
+					Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, literal.getString());
+
+					// return the value only if the type was really inferred
+					// from the resource shape, otherwise keep the same
+					// behavior, i.e., return a String value
+					if (null != newObject) {
+						return newObject;
 					}
 				}
-				
-				final Object literalValue = literal.getValue();
-				if (literalValue instanceof XSDDateTime)
-				{
-					final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
-					return xsdDateTime.asCalendar().getTime();
-				}
+			}
 
-				if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI()))
-				{
-					return new XMLLiteral(literal.getString());
-				}
-				
-				if (XSDDatatype.XSDdecimal.getURI().equals(literal.getDatatypeURI())) {
-					return new BigDecimal(literal.getString());
-				}
-	
-				return literalValue;
-			}
-			catch (final DatatypeFormatException e)
+			final Object literalValue = literal.getValue();
+			if (literalValue instanceof XSDDateTime)
 			{
-				return object.asLiteral().getString();
+				final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
+				return xsdDateTime.asCalendar().getTime();
 			}
+
+			if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI()))
+			{
+				return new XMLLiteral(literal.getString());
+			}
+
+			if (XSDDatatype.XSDdecimal.getURI().equals(literal.getDatatypeURI())) {
+				return new BigDecimal(literal.getString());
+			}
+
+			return literalValue;
 		}
 		
 		final Resource nestedResource = object.asResource();

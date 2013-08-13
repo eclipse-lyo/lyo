@@ -12,6 +12,7 @@
  * Contributors:
  *
  *     Samuel Padgett - initial implementation
+ *     Samuel Padgett - add test for exception on bad boolean values in extended properties
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
@@ -24,6 +25,8 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.Test;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -31,9 +34,10 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public class TypesTest {
 	private final static String TEST_RESOURCE = "http://example.com/resources/testResource";
 	private final static String DECIMAL_PROPERTY = TestResource.TEST_NAMESPACE + "decimalProp";
+	private final static String BOOLEAN_PROPERTY = TestResource.TEST_NAMESPACE + "booleanProp";
 	
 	/**
-	 * Test that BigDecimal is always returned in extended properties for
+	 * Tests that BigDecimal is always returned in extended properties for
 	 * xsd:decimal, even for small numbers.
 	 * 
 	 * @throws Exception
@@ -55,5 +59,20 @@ public class TypesTest {
 		Object prop = any.getExtendedProperties().values().iterator().next();
 		assertTrue("Property is not a BigDecimal", prop instanceof BigDecimal);
 		assertEquals("Decimal is not expected value", testDecimalValue, prop);
+	}
+
+	/**
+	 * Tests that DatatypeFormatException is thrown for invalid literal values like
+	 * 
+	 * <pre>{@code <ex:booleanProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">invalid</ex:booleanProperty> }</pre>
+     * 
+     * in extended property values.
+	 */
+	@Test(expected = DatatypeFormatException.class)
+	public void testInvalidBoolean() throws Exception {
+		Model m = ModelFactory.createDefaultModel();
+		Resource r = m.createResource(TEST_RESOURCE, m.createResource(TestResource.TEST_RESOURCE_TYPE));
+		r.addLiteral(m.createProperty(BOOLEAN_PROPERTY), m.createTypedLiteral("invalid", XSDDatatype.XSDboolean.getURI()));
+		JenaModelHelper.fromJenaModel(m, TestResource.class);
 	}
 }
