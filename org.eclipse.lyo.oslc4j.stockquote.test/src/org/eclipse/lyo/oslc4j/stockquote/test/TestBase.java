@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - fix problems with test ordering
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.stockquote.test;
 
@@ -24,8 +25,6 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import junit.framework.TestCase;
 
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.oslc4j.client.OslcRestClient;
@@ -42,8 +41,9 @@ import org.eclipse.lyo.oslc4j.stockquote.Constants;
 import org.eclipse.lyo.oslc4j.stockquote.Exchange;
 import org.eclipse.lyo.oslc4j.stockquote.StockQuote;
 
+import static org.junit.Assert.*;
+
 public abstract class TestBase
-       extends TestCase
 {
     private static final String EXCHANGE = Exchange.NASDAQ.toString();
     private static final String SYMBOL   = "COKE";
@@ -304,7 +304,7 @@ public abstract class TestBase
                       compact);
     }
 
-    protected void testCreate(final String mediaType)
+    protected void createTestRecord(final String mediaType)
     {
         CREATED_STOCK_QUOTE_URI = null;
 
@@ -331,7 +331,7 @@ public abstract class TestBase
         CREATED_STOCK_QUOTE_URI = addedStockQuote.getAbout();
     }
 
-    protected void testDelete(final String mediaType)
+    protected void deleteTestRecord(final String mediaType)
     {
         assertNotNull(CREATED_STOCK_QUOTE_URI);
 

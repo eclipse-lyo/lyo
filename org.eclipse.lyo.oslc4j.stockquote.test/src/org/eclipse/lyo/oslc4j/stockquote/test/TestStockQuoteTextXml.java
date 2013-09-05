@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,12 +12,16 @@
  * Contributors:
  *
  *     Michael Fiedler       - initial API and implementation
+ *     Samuel Padgett        - fix problems with test ordering
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.stockquote.test;
 
 import java.net.URISyntaxException;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class TestStockQuoteTextXml
        extends TestBase
@@ -27,29 +31,34 @@ public class TestStockQuoteTextXml
         super();
     }
 
+    @Before
+    public void create()
+    {
+        createTestRecord(OslcMediaType.TEXT_XML);
+    }
+
+    @Test
     public void testResourceShape()
            throws URISyntaxException
     {
         testResourceShape(OslcMediaType.TEXT_XML);
     }
 
-    public void testCreate()
-    {
-        testCreate(OslcMediaType.TEXT_XML);
-    }
-
+    @Test
     public void testRetrieve()
     {
         testRetrieve(OslcMediaType.TEXT_XML);
     }
 
+    @Test
     public void testRetrieves()
     {
         testRetrieves(OslcMediaType.TEXT_XML);
     }
 
-    public void testDelete()
+    @After
+    public void deleteTestRecord()
     {
-        testDelete(OslcMediaType.TEXT_XML);
+        deleteTestRecord(OslcMediaType.TEXT_XML);
     }
 }

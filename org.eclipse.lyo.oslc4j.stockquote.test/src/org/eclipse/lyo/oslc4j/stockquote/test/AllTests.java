@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,23 +15,15 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - fix problems with test ordering
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.stockquote.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({ TestStockQuoteRdfXml.class, TestStockQuoteXml.class, TestStockQuoteTextXml.class, TestStockQuoteJson.class })
 public class AllTests
 {
-    public static Test suite()
-    {
-        final TestSuite suite = new TestSuite(AllTests.class.getName());
-
-        suite.addTestSuite(TestStockQuoteRdfXml.class);
-        suite.addTestSuite(TestStockQuoteXml.class);
-        suite.addTestSuite(TestStockQuoteTextXml.class);
-        suite.addTestSuite(TestStockQuoteJson.class);
-
-        return suite;
-    }
 }
