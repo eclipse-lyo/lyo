@@ -80,6 +80,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
+import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
 import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
@@ -176,13 +177,21 @@ public final class JenaModelHelper
         {
         	if(OSLC4JUtils.isQueryResultListAsContainer())
         	{
-        		descriptionResource = model.createResource(descriptionAbout, RDFS.Container);	
+        		descriptionResource = model.createResource(descriptionAbout, RDFS.Container);
         	} 
         	else
         	{
         		descriptionResource = model.createResource(descriptionAbout);
         	}
 
+            Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
+            handleExtendedProperties(FilteredResource.class, 
+                    model, 
+                    descriptionResource, 
+                    (IExtendedResource) responseInfo.getContainer(), 
+                    properties, 
+                    visitedResources);        		
+            
             if (responseInfoAbout != null)
             {
                 final Resource responseInfoResource = model.createResource(responseInfoAbout,
@@ -201,7 +210,7 @@ public final class JenaModelHelper
                                                                           	 model.createResource(responseInfo.nextPage()));
                 	}
                 
-                	Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
+                	visitedResources = new HashMap<IExtendedResource,Resource>();
                 	handleExtendedProperties(ResponseInfo.class, 
                 							model, 
                 							responseInfoResource, 
@@ -211,7 +220,7 @@ public final class JenaModelHelper
                 }
             }
         }
-
+        
         for (final Object object : objects)
         {
             handleSingleResource(descriptionResource,

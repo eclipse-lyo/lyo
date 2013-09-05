@@ -38,6 +38,7 @@ public abstract class ResponseInfo<T extends Object>
         
         this.totalCount = totalCount;
         this.nextPage = nextPage;
+        this.container = new FilteredResource<T>(resource, properties);
     }
     
     public
@@ -50,6 +51,7 @@ public abstract class ResponseInfo<T extends Object>
     {
         this(resource, properties, totalCount,
              nextPage == null ? null : nextPage.toString());
+        this.container = new FilteredResource<T>(resource, properties);
     }
     
     public Integer
@@ -60,4 +62,9 @@ public abstract class ResponseInfo<T extends Object>
     
     private final Integer totalCount;
     private final String nextPage;
+    private FilteredResource<T> container;
+    
+    public FilteredResource<T> getContainer() {
+        return container;
+    }
 }

@@ -183,7 +183,7 @@ public final class JsonHelper
                     jsonArray.add(jsonObject);
                 }
             }
-
+            
             // Ensure we have an rdf prefix
             final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
                                                            OslcConstants.RDF_NAMESPACE,
@@ -214,6 +214,14 @@ public final class JsonHelper
 
             	resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
                                  containerTypesJSONArray);
+            	
+                Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+                addExtendedProperties(namespaceMappings,
+                                      reverseNamespaceMappings,
+                                      resultJSONObject,
+                                      (IExtendedResource) responseInfo.getContainer(),
+                                      properties,
+                                      visitedObjects);             	
             }
             
 
@@ -826,6 +834,47 @@ public final class JsonHelper
 				   InvocationTargetException,
 				   OslcCoreApplicationException
 	{
+
+        // Ensure we have an rdf prefix
+        final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+                                                       OslcConstants.RDF_NAMESPACE,
+                                                       namespaceMappings,
+                                                       reverseNamespaceMappings);
+        
+        String rdfTypeKey = rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE;
+        JSONArray typesJSONArray;
+        if (jsonObject.containsKey(rdfTypeKey)) 
+        {
+            typesJSONArray = (JSONArray) jsonObject.get(rdfTypeKey);
+        } else {
+            typesJSONArray = new JSONArray();
+        }
+        
+        final JSONObject typeJSONObject = new JSONObject();
+        
+	    for (final URI type : extendedResource.getTypes())
+        {
+            final String propertyName = type.toString();
+            
+            if (properties != null &&
+                properties.get(propertyName) == null &&
+                ! (properties instanceof NestedWildcardProperties) &&
+                ! (properties instanceof SingletonWildcardProperties))
+            {
+                continue;
+            }
+            
+            typeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                    propertyName);
+        
+            typesJSONArray.add(typeJSONObject);
+        }	    
+
+        if (typesJSONArray.size() > 0) 
+        {
+            jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE, typesJSONArray);
+        }
+	    
 		for (Map.Entry<QName, Object> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
             final String namespace = extendedProperty.getKey().getNamespaceURI();
