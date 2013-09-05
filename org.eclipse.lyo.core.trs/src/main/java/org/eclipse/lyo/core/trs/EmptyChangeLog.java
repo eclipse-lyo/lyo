@@ -12,24 +12,16 @@
  * Contributors:
  * 
  *    Kevin Bauer - Initial implementation
+ *    David Terry - 2.0 implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
-import static org.eclipse.lyo.core.trs.TRSConstants.RDF_NIL;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CHANGE;
 import static org.eclipse.lyo.core.trs.TRSConstants.TRS_NAMESPACE;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CHANGE;
 import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TYPE_CHANGE_LOG;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 /**
  * A Change Log provides a list of changes organized in inverse chronological 
@@ -44,43 +36,20 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 <http://cm1.example.com/trackedResourceSet>
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
-  trs:changeLog [
-    a trs:ChangeLog ;
-    trs:changes <http://www.w3.org/2000/01/rdf-schema#nil> .
-  ] .
+  trs:changeLog
+             [ a       trs:ChangeLog
+             ] .
 }
 </pre>
 
-As shown, an empty Change Log just provides an single trs;changes element with a value
-of "http://www.w3.org/2000/01/rdf-schema#nil".
+An empty change log essentially contains nothing. This class exists to allow
+JAX-RS implementations a way to generate the empty change log in the TRS 
+resource's output. 
  */
 @OslcNamespace(TRS_NAMESPACE)
 @OslcResourceShape(title = "Change Log  Shape", describes = TRS_TYPE_CHANGE_LOG)
 @OslcName("ChangeLog")
 public class EmptyChangeLog extends AbstractChangeLog
 {
-	private URI change;
 	
-	/**
-	 * @return the change
-	 * @throws URISyntaxException 
-	 */
-	@OslcName(TRS_TERM_CHANGE)
-	@OslcDescription("URI references to the list of Change Event entries.")
-	@OslcPropertyDefinition(TRS_CHANGE)
-	@OslcTitle("Change")
-	public URI getChange() throws URISyntaxException {
-		if(change == null) {
-			return new URI(RDF_NIL);
-		}
-		
-		return change;
-	}
-	
-	/**
-	 * @param changes the changes to set
-	 */
-	public void setChange(URI change) {
-		this.change = change;
-	}
 }
