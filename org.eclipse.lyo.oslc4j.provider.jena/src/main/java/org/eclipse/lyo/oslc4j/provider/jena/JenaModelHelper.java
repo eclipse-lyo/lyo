@@ -65,6 +65,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -82,6 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
 import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
+import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
@@ -273,7 +275,7 @@ public final class JenaModelHelper
                    OslcCoreApplicationException
     {
         final Class<? extends Object> objectClass = object.getClass();
-
+        namespaceMappings.putAll(OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap());
         // Collect the namespace prefix -> namespace mappings
         recursivelyCollectNamespaceMappings(namespaceMappings,
                                             objectClass);
@@ -1929,6 +1931,26 @@ public final class JenaModelHelper
 
                 namespaceMappings.put(prefix,
                                       namespaceURI);
+            }
+            //Adding custom prefixes obtained from an implementation, if there is an implementation.
+            Class<? extends IOslcCustomNamespaceProvider> customNamespaceProvider = oslcSchemaAnnotation.customNamespaceProvider();
+            if(!customNamespaceProvider.isInterface())
+            {
+            	try {
+					IOslcCustomNamespaceProvider customNamespaceProviderImpl = customNamespaceProvider.newInstance();
+					Map<String, String> customNamespacePrefixes = customNamespaceProviderImpl.getCustomNamespacePrefixes();
+					if(null != customNamespacePrefixes)
+					{
+						namespaceMappings.putAll(customNamespacePrefixes);
+					}
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException("The custom namespace provider implementation: "+
+											   customNamespaceProvider.getClass().getName() +
+											   ", must have a public no args construtor", e);
+				} catch (InstantiationException e) {
+					throw new RuntimeException("The custom namespace provider must not be a abstract, nor interface class and " +
+											   "must have a public no args constructor", e);
+				}
             }
         }
 

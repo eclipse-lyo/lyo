@@ -61,6 +61,7 @@ import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
@@ -78,6 +79,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.AnyResource;
 import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
+import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
@@ -1273,7 +1275,12 @@ public final class JsonHelper
                    OslcCoreApplicationException
     {
         final Class<? extends Object> objectClass = object.getClass();
-
+        // Add all global namespace mappings, since they have lower precedence
+        Map<String, String> globalPrefixDefinitionMap = OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap();
+        for(Map.Entry<String, String> prefixDefinitionEntry : globalPrefixDefinitionMap.entrySet()) {
+        	namespaceMappings.put(prefixDefinitionEntry.getKey(), prefixDefinitionEntry.getValue());
+        	reverseNamespaceMappings.put(prefixDefinitionEntry.getValue(), prefixDefinitionEntry.getKey());
+        }
         // Collect the namespace prefix -> namespace mappings
         recursivelyCollectNamespaceMappings(namespaceMappings,
                                             reverseNamespaceMappings,
@@ -1394,6 +1401,30 @@ public final class JsonHelper
 
                 reverseNamespaceMappings.put(namespaceURI,
                                              prefix);
+            }
+            //Adding custom prefixes obtained from an implementation, if there is an implementation.
+            Class<? extends IOslcCustomNamespaceProvider> customNamespaceProvider = oslcSchemaAnnotation.customNamespaceProvider();
+            if(!customNamespaceProvider.isInterface())
+            {
+            	try {
+					IOslcCustomNamespaceProvider customNamespaceProviderImpl = customNamespaceProvider.newInstance();
+					Map<String, String> customNamespacePrefixes = customNamespaceProviderImpl.getCustomNamespacePrefixes();
+					if(null != customNamespacePrefixes)
+					{
+						for(Map.Entry<String, String> namespaceEntry : customNamespacePrefixes.entrySet())
+						{
+							namespaceMappings.put(namespaceEntry.getKey(), namespaceEntry.getValue());
+							reverseNamespaceMappings.put(namespaceEntry.getValue(), namespaceEntry.getKey());
+						}
+					}
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException("The custom namespace provider implementation: "+
+											   customNamespaceProvider.getClass().getName() +
+											   ", must have a public no args construtor", e);
+				} catch (InstantiationException e) {
+					throw new RuntimeException("The custom namespace provider must not be a abstract, nor interface class and " +
+											   "must have a public no args constructor", e);
+				}
             }
         }
 
@@ -2278,4 +2309,5 @@ public final class JsonHelper
 
         return result;
     }
+
 }

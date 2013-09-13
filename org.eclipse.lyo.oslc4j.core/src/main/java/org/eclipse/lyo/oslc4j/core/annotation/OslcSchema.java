@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,10 +11,11 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *     Russell Boykin       	 - initial API and implementation
+ *     Alberto Giammaria    	 - initial API and implementation
+ *     Chris Peters         	 - initial API and implementation
+ *     Gianluca Bernardini  	 - initial API and implementation
+ *     Daniel Figueiredo Caetano - custom namespace provider  
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -23,11 +24,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
+
 @Target(ElementType.PACKAGE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcSchema {
-    /**
+    
+	/**
      * The namespace mappings for the package.
      */
     OslcNamespaceDefinition[] value();
+    
+    /**
+     * Any class that implements the {@link IOslcCustomNamespaceProvider}.
+     * This must be a concrete implementation and have a public no args constructor.
+     *   
+     * @return {@link IOslcCustomNamespaceProvider} .class is the default value, 
+     * because this field must not be required and since it is not a concrete 
+     * implementation of the interface it will be ignored.
+     */
+    Class<? extends IOslcCustomNamespaceProvider> customNamespaceProvider() default IOslcCustomNamespaceProvider.class;
+    
 }
