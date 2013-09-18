@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.core.query</groupId>
     <artifactId>oslc-query</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0-SNAPSHOT</version>
     <name>OSLC4J Query</name>
     <description>OSLC query support for the Eclipse Lyo OSLC4J SDK.</description>
     <scm>
