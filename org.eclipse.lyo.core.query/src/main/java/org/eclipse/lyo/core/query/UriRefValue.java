@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  * Contributors:
  *
  *    Steve Pitschke - initial API and implementation
+ *    Sameul Padgett - fix ClassCastException calling value()
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -21,5 +22,5 @@ package org.eclipse.lyo.core.query;
  */
 public interface UriRefValue extends Value
 {
-    PName value();
+    String value();
 }

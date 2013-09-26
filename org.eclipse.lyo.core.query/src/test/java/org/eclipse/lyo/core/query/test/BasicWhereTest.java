@@ -13,15 +13,24 @@
  *
  *    Steve Pitschke - initial API and implementation
  *    Samuel Padgett - convert to JUnit tests
+ *    Samuel Padgett - add URIRef test
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.lyo.core.query.ComparisonTerm;
+import org.eclipse.lyo.core.query.PName;
 import org.eclipse.lyo.core.query.ParseException;
 import org.eclipse.lyo.core.query.QueryUtils;
+import org.eclipse.lyo.core.query.SimpleTerm;
+import org.eclipse.lyo.core.query.UriRefValue;
+import org.eclipse.lyo.core.query.Value;
 import org.eclipse.lyo.core.query.WhereClause;
 import org.junit.Test;
 
@@ -70,5 +79,29 @@ public class BasicWhereTest
 		}
 
 		QueryUtils.parseSelect("XXX", prefixMap);
+	}
+	
+	@Test
+	public void testUriRef() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		WhereClause where = QueryUtils.parseWhere(
+				"qm:testCase=<http://example.org/tests/24>", prefixMap);
+		
+		List<SimpleTerm> children = where.children();
+		assertEquals("Where clause should only have one term", 1, children.size());
+		
+		SimpleTerm simpleTerm = children.get(0);
+		PName prop = simpleTerm.property();
+		assertEquals(prop.namespace + prop.local, "http://qm.example.com/nstestCase");
+		assertTrue(simpleTerm instanceof ComparisonTerm);
+	
+		ComparisonTerm comparison = (ComparisonTerm) simpleTerm;
+		assertEquals(comparison.operator(), ComparisonTerm.Operator.EQUALS);
+		
+		Value v = comparison.operand();
+		assertTrue(v instanceof UriRefValue);
+		
+		UriRefValue uriRef = (UriRefValue) v;
+		assertEquals("http://example.org/tests/24", uriRef.value());
 	}
 }
