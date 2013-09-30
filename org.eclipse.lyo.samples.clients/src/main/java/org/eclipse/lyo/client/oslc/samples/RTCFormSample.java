@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  *  Contributors:
  *  
  *     Michael Fiedler     - initial API and implementation
+ *     Steve Pitschke      - added use of new OslcQueryResult.getMembers()
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
 
@@ -19,9 +20,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -40,6 +45,7 @@ import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
@@ -114,7 +120,8 @@ public class RTCFormSample {
 				//page turned on and list the members of the result
 				OslcQueryParameters queryParams = new OslcQueryParameters();
 				queryParams.setWhere("oslc_cm:closed=false");
-				OslcQuery query = new OslcQuery(client, queryCapability, 10, queryParams);
+                queryParams.setSelect("dcterms:identifier,dcterms:title,oslc_cm:status");
+                OslcQuery query = new OslcQuery(client, queryCapability, 10, queryParams);
 				
 				OslcQueryResult result = query.submit();
 				
@@ -203,33 +210,9 @@ public class RTCFormSample {
 	
 	private static void processCurrentPage(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
 		
-		for (String resultsUrl : result.getMembersUrls()) {
-			System.out.println(resultsUrl);
-			
-			ClientResponse response = null;
-			try {
-				
-				//Get a single artifact by its URL 
-				response = client.getResource(resultsUrl, OSLCConstants.CT_RDF);
-		
-				if (response != null) {
-					//De-serialize it as a Java object 
-					if (asJavaObjects) {
-						   ChangeRequest cr = response.getEntity(ChangeRequest.class);
-						   printChangeRequestInfo(cr);   //print a few attributes
-					} else {
-						
-						//Just print the raw RDF/XML (or process the XML as desired)
-						processRawResponse(response);
-						
-					}
-				}
-			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Unable to process artfiact at url: " + resultsUrl, e);
-			}
-			
-		}
-		
+	    for (ChangeRequest cr : result.getMembers(ChangeRequest.class)) {
+            System.out.println("id: " + cr.getIdentifier() + ", title: " + cr.getTitle() + ", status: " + cr.getStatus());           
+		}		
 	}
 	
 	private static void processRawResponse(ClientResponse response) throws IOException {
@@ -242,13 +225,6 @@ public class RTCFormSample {
 		}
 		System.out.println();
 		response.consumeContent();
-	}
-	
-	private static void printChangeRequestInfo(ChangeRequest cr) {
-		//See the OSLC4J ChangeRequest class for a full list of attributes you can access.
-		if (cr != null) {
-			System.out.println("ID: " + cr.getIdentifier() + ", Title: " + cr.getTitle() + ", Status: " + cr.getStatus());
-		}
 	}
 	
 	private static boolean validateOptions(CommandLine cmd) {
