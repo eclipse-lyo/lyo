@@ -169,10 +169,7 @@ public abstract class AbstractOslcRdfXmlProvider
         }
         catch (final Exception exception)
         {
-            throw new WebApplicationException(exception,
-                                       buildBadRequestResponse(exception,
-                                                               baseMediaType,
-                                                               map));
+            throw new WebApplicationException(exception);
         }
     }
 
@@ -260,10 +257,7 @@ public abstract class AbstractOslcRdfXmlProvider
         }
         catch (final Exception exception)
         {
-            throw new WebApplicationException(exception,
-                                              buildBadRequestResponse(exception,
-                                                                      baseMediaType,
-                                                                      map));
+            throw new WebApplicationException(exception);
         }
     }
 
