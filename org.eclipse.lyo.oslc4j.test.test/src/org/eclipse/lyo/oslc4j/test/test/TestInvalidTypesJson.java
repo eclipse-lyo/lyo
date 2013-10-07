@@ -206,8 +206,7 @@ public class TestInvalidTypesJson
         }
         catch (final WebApplicationException exception)
         {
-            verifyWebApplicationException(exception,
-                                          OslcCoreRelativeURIException.class);
+    	    assertTrue(exception.getCause() instanceof OslcCoreRelativeURIException);
         }
     }
 
@@ -241,8 +240,7 @@ public class TestInvalidTypesJson
         }
         catch (final WebApplicationException exception)
         {
-            verifyWebApplicationException(exception,
-                                          OslcCoreRelativeURIException.class);
+    	    assertTrue(exception.getCause() instanceof OslcCoreRelativeURIException);
         }
     }
 

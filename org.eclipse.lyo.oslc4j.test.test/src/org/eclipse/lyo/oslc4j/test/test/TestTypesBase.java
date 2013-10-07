@@ -447,25 +447,7 @@ public abstract class TestTypesBase
             final ClientResponse response = exception.getResponse();
 
             final int statusCode = response.getStatusCode();
-            assertEquals(HttpURLConnection.HTTP_BAD_REQUEST, statusCode);
-
-            try
-            {
-                final Error error = response.getEntity(Error.class);
-                assertNotNull(error);
-
-                final String statusCode2 = error.getStatusCode();
-                final String message     = error.getMessage();
-
-                assertNotNull(statusCode2);
-                assertNotNull(message);
-
-                assertEquals(statusCode2, String.valueOf(statusCode));
-            }
-            catch (final Throwable throwable)
-            {
-                assertNotNull(throwable);
-            }
+            assertEquals(HttpURLConnection.HTTP_INTERNAL_ERROR, statusCode);
         }
     }
 
@@ -494,25 +476,7 @@ public abstract class TestTypesBase
             final ClientResponse response = exception.getResponse();
 
             final int statusCode = response.getStatusCode();
-            assertEquals(HttpURLConnection.HTTP_BAD_REQUEST, statusCode);
-
-            try
-            {
-                final Error error = response.getEntity(Error.class);
-                assertNotNull(error);
-
-                final String statusCode2 = error.getStatusCode();
-                final String message     = error.getMessage();
-
-                assertNotNull(statusCode2);
-                assertNotNull(message);
-
-                assertEquals(statusCode2, String.valueOf(statusCode));
-            }
-            catch (final Throwable throwable)
-            {
-                assertNotNull(throwable);
-            }
+            assertEquals(HttpURLConnection.HTTP_INTERNAL_ERROR, statusCode);
         }
     }
 

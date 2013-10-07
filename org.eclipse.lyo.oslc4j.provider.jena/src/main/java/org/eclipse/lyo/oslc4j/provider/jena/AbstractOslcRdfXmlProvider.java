@@ -23,6 +23,8 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
@@ -39,6 +41,7 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
@@ -52,6 +55,8 @@ import com.hp.hpl.jena.util.FileUtils;
 
 public abstract class AbstractOslcRdfXmlProvider
 {
+    private static final Logger logger = Logger.getLogger(AbstractOslcRdfXmlProvider.class.getName());
+ 
 	/**
 	 * System property {@value} : When "true", always abbreviate RDF/XML, even
 	 * when asked for application/rdf+xml. Otherwise, abbreviated RDF/XML is
@@ -169,6 +174,7 @@ public abstract class AbstractOslcRdfXmlProvider
         }
         catch (final Exception exception)
         {
+        	logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
             throw new WebApplicationException(exception);
         }
     }
@@ -257,6 +263,7 @@ public abstract class AbstractOslcRdfXmlProvider
         }
         catch (final Exception exception)
         {
+        	logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
             throw new WebApplicationException(exception);
         }
     }

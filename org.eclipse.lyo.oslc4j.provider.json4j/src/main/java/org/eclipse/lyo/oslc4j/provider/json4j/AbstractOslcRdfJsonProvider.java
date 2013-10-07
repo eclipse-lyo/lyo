@@ -23,6 +23,8 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Produces;
@@ -39,12 +41,15 @@ import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
 public abstract class AbstractOslcRdfJsonProvider
 {
+    private static final Logger logger = Logger.getLogger(AbstractOslcRdfJsonProvider.class.getName());
+
     private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
     private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;
 
@@ -160,10 +165,8 @@ public abstract class AbstractOslcRdfJsonProvider
         }
         catch (final Exception exception)
         {
-            throw new WebApplicationException(exception,
-                                              buildBadRequestResponse(exception,
-                                                                      errorMediaType,
-                                                                      map));
+        	logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
+            throw new WebApplicationException(exception);
         }
     }
 
@@ -191,10 +194,8 @@ public abstract class AbstractOslcRdfJsonProvider
         }
         catch (final Exception exception)
         {
-            throw new WebApplicationException(exception,
-                            buildBadRequestResponse(exception,
-                                                    errorMediaType,
-                                                    map));
+        	logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
+            throw new WebApplicationException(exception);
         }
     }
 
