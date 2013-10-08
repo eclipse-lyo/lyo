@@ -11,7 +11,8 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
+ *    Kevin Bauer    - Initial implementation
+ *    Samuel Padgett - Add support for application/x-oslc-compact+xml
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.marshallers;
 
@@ -44,12 +45,14 @@ public class OSLC4JMarshaller {
 					|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
 					|| mediaType.isCompatible(MT_N_TRIPLES)
 					|| mediaType.isCompatible(MT_TURTLE)
-					|| mediaType.isCompatible(MT_N3)) {
+					|| mediaType.isCompatible(MT_N3)
+					|| mediaType.isCompatible(MT_OSLC_COMPACT)) {
 				Model model = JenaModelHelper.createJenaModel(resources);
 				if (model != null) {
 					String format = FileUtils.langXML;
-					// XML is the abbrivitaed format
-					if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+					// XML is the abbreviated format
+					if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
+							|| mediaType.isCompatible(MT_OSLC_COMPACT)) {
 						format = FileUtils.langXMLAbbrev;
 					} else if (mediaType.isCompatible(MT_N_TRIPLES)) {
 						format = FileUtils.langNTriple;
@@ -60,7 +63,8 @@ public class OSLC4JMarshaller {
 					}
 					final RDFWriter writer = model.getWriter(format);
 					if (mediaType.isCompatible(MT_RDF_XML)
-							|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)){
+							|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
+							|| mediaType.isCompatible(MT_OSLC_COMPACT)){
 						writer.setProperty("showXmlDeclaration", "true");
 					}
 					writer.write(model, os, null);
