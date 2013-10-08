@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - support allowed and default values other than string
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -22,7 +23,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -40,11 +45,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Property Resource Shape", describes = OslcConstants.TYPE_PROPERTY)
 public final class Property extends AbstractResource implements Comparable<Property> {
-	private final List<String> allowedValues = new ArrayList<String>();
+	private static final QName PROPERTY_ALLOWED_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
+	private static final QName PROPERTY_DEFAULT_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "defaultValue");
 	private final List<URI> range = new ArrayList<URI>();
 
     private URI allowedValuesRef;
-	private String defaultValue;
 	private String description;
 	private Boolean hidden;
 	private Integer maxSize;
@@ -74,10 +79,6 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		this.valueType = valueType;
 	}
 
-	public void addAllowedValue(final String allowedValue) {
-		this.allowedValues.add(allowedValue);
-	}
-
 	public void addRange(final URI range) {
 		this.range.add(range);
 	}
@@ -85,15 +86,6 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	@Override
 	public int compareTo(final Property o) {
 		return name.compareTo(o.getName());
-	}
-
-	@OslcDescription("A value allowed for property, inlined into property definition. If there are both oslc:allowedValue elements and an oslc:allowedValue resource, then the full-set of allowed values is the union of both")
-	@OslcName("allowedValue")
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "allowedValue")
-	@OslcReadOnly
-    @OslcTitle("Allowed Values")
-	public String[] getAllowedValues() {
-		return allowedValues.toArray(new String[allowedValues.size()]);
 	}
 
 	@OslcDescription("Resource with allowed values for the property being defined")
@@ -106,13 +98,20 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public URI getAllowedValuesRef() {
 	    return allowedValuesRef;
 	}
+	
+	public Object getDefaultValueObject() {
+		return getExtendedProperties().get(PROPERTY_DEFAULT_VALUE);
+	}
 
-	@OslcDescription("A default value for property, inlined into property definition")
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "defaultValue")
-	@OslcReadOnly
-    @OslcTitle("Default Value")
+	/**
+	 * @deprecated Use {@link #getDefaultValueObject()}, which supports types other than String
+	 */
+	@Deprecated
 	public String getDefaultValue() {
-		return defaultValue;
+		Object o = getExtendedProperties().get(PROPERTY_DEFAULT_VALUE);
+
+		// Backwards compatibility: Only return a value if it's a string.
+		return (o instanceof String) ? (String) o : null;
 	}
 
 	@OslcDescription("Description of the property. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
@@ -272,13 +271,6 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return readOnly;
 	}
 
-	public void setAllowedValues(final String[] allowedValues) {
-	    this.allowedValues.clear();
-	    if (allowedValues != null) {
-	        this.allowedValues.addAll(Arrays.asList(allowedValues));
-	    }
-	}
-
 	public void setAllowedValuesRef(final URI allowedValuesRef) {
 	    if (allowedValuesRef != null) {
 	        this.allowedValuesRef = allowedValuesRef;
@@ -287,8 +279,8 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	    }
 	}
 
-	public void setDefaultValue(final String defaultValue) {
-		this.defaultValue = defaultValue;
+	public void setDefaultValue(final Object defaultValue) {
+		getExtendedProperties().put(PROPERTY_DEFAULT_VALUE, defaultValue);
 	}
 
 	public void setDescription(final String description) {
@@ -369,4 +361,65 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	        this.valueType = null;
 	    }
 	}
+	
+	@SuppressWarnings("unchecked")
+    public Collection<Object> getAllowedValuesCollection() {
+		Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+		if (allowedValues == null) {
+			return Collections.emptyList();
+		}
+		
+		return allowedValues;
+	}
+	
+	public void setAllowedValuesCollection(final Collection<Object> values) {
+		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, values);
+	}
+
+	/**
+	 * @deprecated Use {@link #setAllowedValuesCollection(Collection)}, which allows for values other than String
+	 */
+	@Deprecated
+	public void addAllowedValue(final String allowedValue) {
+		ArrayList<Object> newValues = new ArrayList<Object>();
+		@SuppressWarnings("unchecked")
+        Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+		if (allowedValues != null) {
+			newValues.addAll(allowedValues);
+		}
+		
+		newValues.add(allowedValue);
+		setAllowedValuesCollection(newValues);
+	}
+
+	/**
+	 * @deprecated Use {@link #getAllowedValuesCollection()}, which allows for values other than String
+	 */
+	@Deprecated
+    public String[] getAllowedValues() {
+		// Be compatible with the old behavior and only include String values.
+		ArrayList<String> stringValues = new ArrayList<String>();
+		@SuppressWarnings("unchecked")
+        Collection<Object> values = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+		if (values == null) {
+			return new String[]{};
+		}
+
+		for (Object o : values) {
+			if (o instanceof String) {
+				stringValues.add((String) o);
+			}
+		}
+
+		return stringValues.toArray(new String[stringValues.size()]);
+    }
+
+	/**
+	 * @deprecated Use {@link #setAllowedValuesCollection(Collection)}, which allows for values other than String
+	 */
+	@Deprecated
+	public void setAllowedValues(final String[] allowedValues) {
+		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, allowedValues);
+	}
+	
 }

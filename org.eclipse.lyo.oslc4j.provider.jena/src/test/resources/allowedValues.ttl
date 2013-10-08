@@ -1,0 +1,36 @@
+@prefix oslc: <http://open-services.net/ns/core#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+
+<http://example.com/shapes/testshape> oslc:describes <http://example.com/ns#Test>;
+	oslc:name "Test";
+	oslc:property _:allowedValuesUriProperty;
+	oslc:property _:allowedValuesStringProperty;
+	oslc:property _:allowedValuesIntProperty;
+	dcterms:title "Allowed Values Test Resource";
+	a oslc:ResourceShape.
+
+_:allowedValuesUriProperty oslc:name "allowedValuesUriProperty";
+	oslc:occurs oslc:Zero-or-many;
+	oslc:propertyDefinition <http://example.com/shapes/allowedValuesUriProperty>;
+	oslc:valueType oslc:Resource;
+	oslc:allowedValue <http://example.com/ns#uri1>, <http://example.com/ns#uri2>;
+	oslc:defaultValue <http://example.com/ns#uri1>;
+	a oslc:Property.
+
+_:allowedValuesStringProperty oslc:name "allowedValuesStringProperty";
+	oslc:occurs oslc:Zero-or-many;
+	oslc:propertyDefinition <http://example.com/shapes/allowedValuesStringProperty>;
+	oslc:valueType oslc:Resource;
+	oslc:allowedValue "String 1", "String 2", "String 3";
+	oslc:defaultValue "String 1";
+	a oslc:Property.
+
+_:allowedValuesIntProperty oslc:name "allowedValuesIntProperty";
+	oslc:occurs oslc:Zero-or-many;
+	oslc:propertyDefinition <http://example.com/shapes/allowedValuesIntProperty>;
+	oslc:valueType oslc:Resource;
+	oslc:allowedValue "27"^^<http://www.w3.org/2001/XMLSchema#integer>, "32"^^<http://www.w3.org/2001/XMLSchema#integer>;
+	oslc:defaultValue "27"^^<http://www.w3.org/2001/XMLSchema#integer>;
+	a oslc:Property.

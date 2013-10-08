@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,49 +15,65 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - allow values other than String
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import javax.xml.namespace.QName;
+
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Allowed Values Resource Shape", describes = OslcConstants.TYPE_ALLOWED_VALUES)
 public final class AllowedValues extends AbstractResource {
-	private final Collection<String> allowedValues = new ArrayList<String>();
+	private static final QName PROPERTY_ALLOWED_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
 
 	public AllowedValues() {
 	    super();
 	}
+	
+	@SuppressWarnings("unchecked")
+    public Collection<Object> getValues() {
+		Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+		if (allowedValues == null) {
+			return Collections.emptyList();
+		}
+		
+		return allowedValues;
+	}
+	
+	public void setValues(final Collection<Object> values) {
+		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, values);
+	}
 
-	public void addAllowedValue(final String allowedValue) {
-        this.allowedValues.add(allowedValue);
-    }
-
-	@OslcDescription("Value allowed for a property")
-    @OslcName("allowedValue")
-    @OslcOccurs(Occurs.OneOrMany)
-    @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "allowedValue")
-    @OslcReadOnly
-    @OslcTitle("Allowed Values")
+	/**
+	 * @deprecated Use {@link #getValues()}, which allows for values other than String
+	 */
+	@Deprecated
     public String[] getAllowedValues() {
-        return allowedValues.toArray(new String[allowedValues.size()]);
+		// Be compatible with the old behavior and only include String values.
+		ArrayList<String> stringValues = new ArrayList<String>();
+		@SuppressWarnings("unchecked")
+        Collection<Object> values = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+		for (Object o : values) {
+			if (o instanceof String) {
+				stringValues.add((String) o);
+			}
+		}
+
+		return stringValues.toArray(new String[stringValues.size()]);
     }
 
+	/**
+	 * @deprecated Use {@link #setValues(Object[])}, which allows for values other than String
+	 */
+	@Deprecated
 	public void setAllowedValues(final String[] allowedValues) {
-	    this.allowedValues.clear();
-	    if (allowedValues != null) {
-	        this.allowedValues.addAll(Arrays.asList(allowedValues));
-	    }
+		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, allowedValues);
 	}
 }
