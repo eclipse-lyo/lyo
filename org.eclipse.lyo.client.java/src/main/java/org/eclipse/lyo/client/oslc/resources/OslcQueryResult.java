@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,16 +12,23 @@
  *  Contributors:
  *  
  *     Sean Kennedy     - initial API and implementation
+ *     Steve Pitschke   - added getMembers() method
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -176,4 +183,62 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 		}
 		return membersUrls.toArray(new String[membersUrls.size()]);
 	}
+	
+	/**
+	 * Return the enumeration of queried results from this page
+	 * 
+	 * @param T
+	 * @param clazz
+	 * 
+	 * @return member statements from current page.
+	 */
+    public <T> Iterable<T> getMembers(final Class<T> clazz) {
+        initializeRdf();
+
+        Selector select = new SimpleSelector(membersResource, (Property) null, (RDFNode) null);
+        final StmtIterator iter = rdfModel.listStatements(select);
+        Iterable<T> result = new Iterable<T>() {
+                public Iterator<T>
+                iterator() {
+                    return new Iterator<T>() {
+                            public boolean hasNext() {
+                                return iter.hasNext();
+                            }
+                            
+                            @SuppressWarnings("unchecked")
+                            public T next() {
+                                Statement member = iter.next();
+                                
+                                try {
+                                    return (T)JenaModelHelper.fromJenaResource((Resource)member.getObject(), clazz);
+                                } catch (IllegalArgumentException e) {
+                                   throw new IllegalStateException(e.getMessage());
+                                } catch (SecurityException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (DatatypeConfigurationException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (IllegalAccessException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (InstantiationException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (InvocationTargetException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (OslcCoreApplicationException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (URISyntaxException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                } catch (NoSuchMethodException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                }
+                            }
+                            
+                            public void remove() {
+                                iter.remove();
+                            }
+                        };
+                }
+            };
+
+        return result;
+    }
 }
