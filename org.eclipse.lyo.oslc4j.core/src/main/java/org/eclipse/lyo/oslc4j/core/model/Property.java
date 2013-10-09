@@ -280,7 +280,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	}
 
 	public void setDefaultValue(final Object defaultValue) {
-		getExtendedProperties().put(PROPERTY_DEFAULT_VALUE, defaultValue);
+		if (defaultValue == null) {
+			getExtendedProperties().remove(PROPERTY_DEFAULT_VALUE);
+		} else {
+			getExtendedProperties().put(PROPERTY_DEFAULT_VALUE, defaultValue);
+		}
 	}
 
 	public void setDescription(final String description) {
@@ -362,9 +366,8 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	    }
 	}
 	
-	@SuppressWarnings("unchecked")
-    public Collection<Object> getAllowedValuesCollection() {
-		Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+    public Collection<?> getAllowedValuesCollection() {
+        Collection<?> allowedValues = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (allowedValues == null) {
 			return Collections.emptyList();
 		}
@@ -372,8 +375,12 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return allowedValues;
 	}
 	
-	public void setAllowedValuesCollection(final Collection<Object> values) {
-		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, values);
+	public void setAllowedValuesCollection(final Collection<?> values) {
+		if (values == null) {
+			getExtendedProperties().remove(PROPERTY_ALLOWED_VALUE);
+		} else {
+			getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, values);
+		}
 	}
 
 	/**

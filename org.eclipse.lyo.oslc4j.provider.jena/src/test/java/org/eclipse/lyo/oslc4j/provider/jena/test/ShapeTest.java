@@ -44,7 +44,7 @@ public class ShapeTest {
 		Property allowedValuesUriProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesUriProperty"));
 		assertNotNull("http://example.com/shapes/allowedValuesUriProperty property not in shape", s);
 		
-		Collection<Object> uriAllowedValues = allowedValuesUriProperty.getAllowedValuesCollection();
+		Collection<?> uriAllowedValues = allowedValuesUriProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesUriProperty property", 2, uriAllowedValues.size());
 		assertTrue("uri1 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri1")));
 		assertTrue("uri2 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri2")));
@@ -54,7 +54,7 @@ public class ShapeTest {
 		Property allowedValuesStringProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesStringProperty"));
 		assertNotNull("http://example.com/shapes/allowedValuesStringProperty property not in shape", s);
 
-		Collection<Object> stringAllowedValues = allowedValuesStringProperty.getAllowedValuesCollection();
+		Collection<?> stringAllowedValues = allowedValuesStringProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesStringProperty", 3, stringAllowedValues.size());
 		assertTrue("String 1 not in allowed values", stringAllowedValues.contains("String 1"));
 		assertTrue("String 2 not in allowed values", stringAllowedValues.contains("String 2"));
@@ -65,7 +65,7 @@ public class ShapeTest {
 		Property allowedValuesIntProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesIntProperty"));
 		assertNotNull("http://example.com/shapes/allowedValuesIntProperty property not in shape", s);
 
-		Collection<Object> intAllowedValues = allowedValuesIntProperty.getAllowedValuesCollection();
+		Collection<?> intAllowedValues = allowedValuesIntProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesIntProperty", 2, intAllowedValues.size());
 		assertTrue("27 not in allowed values", intAllowedValues.contains(new Integer(27)));
 		assertTrue("32 not in allowed values", intAllowedValues.contains(new Integer(32)));
@@ -90,7 +90,7 @@ public class ShapeTest {
 	            is);
 		assertNotNull("Allowed values is null", allowedValues);
 		
-		Collection<Object> uriAllowedValues = allowedValues.getValues();
+		Collection<?> uriAllowedValues = allowedValues.getValues();
 		assertEquals("Wrong number of allowedValues for allowedValuesUriProperty property", 2, uriAllowedValues.size());
 		assertTrue("uri1 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri1")));
 		assertTrue("uri2 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri2")));

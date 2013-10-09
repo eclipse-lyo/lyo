@@ -37,9 +37,8 @@ public final class AllowedValues extends AbstractResource {
 	    super();
 	}
 	
-	@SuppressWarnings("unchecked")
-    public Collection<Object> getValues() {
-		Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+    public Collection<?> getValues() {
+        Collection<?> allowedValues = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (allowedValues == null) {
 			return Collections.emptyList();
 		}
@@ -47,7 +46,7 @@ public final class AllowedValues extends AbstractResource {
 		return allowedValues;
 	}
 	
-	public void setValues(final Collection<Object> values) {
+	public void setValues(final Collection<? extends Object> values) {
 		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, values);
 	}
 
@@ -58,8 +57,7 @@ public final class AllowedValues extends AbstractResource {
     public String[] getAllowedValues() {
 		// Be compatible with the old behavior and only include String values.
 		ArrayList<String> stringValues = new ArrayList<String>();
-		@SuppressWarnings("unchecked")
-        Collection<Object> values = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
+        Collection<?> values = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		for (Object o : values) {
 			if (o instanceof String) {
 				stringValues.add((String) o);
