@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -19,18 +19,14 @@ package org.eclipse.lyo.samples.excel.adapter.common;
 
 import java.util.List;
 
-import org.eclipse.lyo.samples.excel.changerequest.ChangeRequestDto;
-
 import com.hp.hpl.jena.query.ResultSet;
 
 public interface ResourceAdapter {
 	void setBaseUri(String uri);
 	void loadRepository();
-	ResourceSet query(String context, String prefix, String select, String where, String orderBy, String searchTerms);
+	ResourceSet query(String uri, String context, String prefix, String select, String where, String orderBy, String searchTerms);
 	ResourceSet getResource(String resourceUri);
 	List<String> getContexts();
-	void generateDefaultContents(int count);
 	ResultSet executeSparql(String context, String queryExp);
-	void addChangeRequest(ChangeRequestDto dto);
 	String getDefaultExcelAbsolutePath();
 }

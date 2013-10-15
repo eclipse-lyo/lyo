@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -31,12 +31,11 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.lyo.rio.core.IConstants;
 import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
-@Path(ICmConstants.SERVICE_SERVICES + "/compact/changerequest")
+@Path(IConstants.SERVICE_SERVICES + "/compact-rendering")
 public class ChangeRequestCompactService {
 	
 	@GET
@@ -44,12 +43,11 @@ public class ChangeRequestCompactService {
 		String baseUrl = uriInfo.getBaseUri().toString() + IConstants.SERVICE_SERVICES;
 		ResourceAdapter adapter = AdapterRegistry.getAdapter(baseUrl);
 		String query = 
-			"PREFIX dcterms:<http://purl.org/dc/elements/1.1/>\n" +
-			"SELECT ?uri ?title ?identifier ?created\n" +
+			"PREFIX dcterms:<http://purl.org/dc/terms/>\n" +
+			"SELECT ?uri ?title ?identifier\n" +
 			"WHERE {\n" +
 			"  ?uri dcterms:title ?title.\n" +
 			"  ?uri dcterms:identifier ?identifier.\n" +
-			"  ?uri dcterms:created ?created.\n" +
 			"  ?uri dcterms:identifier \"" + id + "\"\n" +
 			"}\n";
 
@@ -69,13 +67,11 @@ public class ChangeRequestCompactService {
 		String uri = "";
     	String title = "";
     	String id = "";
-    	String created = "";
 		while (resultSet.hasNext()) {
 	    	QuerySolution qs = resultSet.nextSolution();
 	    	uri = qs.get("uri").toString();
 	    	title = qs.get("title").toString();
 	    	id = qs.get("identifier").toString();
-	    	created = qs.get("created").toString();
 		}
 		
 		StringBuffer sb = new StringBuffer();
@@ -100,7 +96,6 @@ public class ChangeRequestCompactService {
 		sb.append("URI: " + uri + "<br/>");
 		sb.append("Title: " + title + "<br/>");
 		sb.append("Identifier: " + id + "<br/>");
-		sb.append("Created:" + created + "<br/>");
 		sb.append("</body>");
 		sb.append("</html>");
 

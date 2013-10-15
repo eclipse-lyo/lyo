@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -32,7 +32,7 @@ import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceSet;
 
-@Path(IConstants.SERVICE_SERVICES + "/{projectId}/query/changerequest")
+@Path(IConstants.SERVICE_SERVICES + "/{projectId}/query/{type}")
 public class QueryService {
 
 	@GET
@@ -59,7 +59,7 @@ public class QueryService {
 		String baseUrl = uriInfo.getBaseUri().toString() + IConstants.SERVICE_SERVICES;
 		ResourceAdapter adapter = AdapterRegistry.getAdapter(baseUrl);
 //		Model model = adapter.query(projectId, oslcPrefix, select);
-		ResourceSet resultSet = adapter.query(projectId, oslcPrefix, select, oslcWhere, null, null);
+		ResourceSet resultSet = adapter.query(uriInfo.getAbsolutePath().toString(), projectId, oslcPrefix, select, oslcWhere, null, null);
         return new ResourceSetWriter(resultSet);
 	}
 

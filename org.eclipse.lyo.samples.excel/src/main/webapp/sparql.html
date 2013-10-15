@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--
-   Copyright (c) 2011 IBM Corporation.
+   Copyright (c) 2011,2013 IBM Corporation.
    All rights reserved. This program and the accompanying materials
    are made available under the terms of the Eclipse Distribution License v. 1.0 
    which accompanies this distribution, and is available at 
@@ -22,7 +22,7 @@
 <h3>SPARQL</h3>
 <form action="rest/services/projectA/sparql" method="post">
 <textarea rows="15" cols="100" name="queryExp">
-PREFIX dcterms:<http://purl.org/dc/elements/1.1/>
+PREFIX dcterms:<http://purl.org/dc/terms/>
 SELECT ?title ?uri
 WHERE {
 	?uri dcterms:title ?title.

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -21,22 +21,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.lyo.samples.excel.adapter.dao.PropertyMappingConfig;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
-
+import org.eclipse.lyo.samples.excel.common.ConfigSingleton;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.DC;
 
 public class ModelGroup {
 	private String pathName;
 	private String name;
 	private String uri;
 	
-	private PropertyMappingConfig propertyMappingConfig = null;
-	private long propertyMappingConfigLastModified;
+	private long mapperTableLastModified;
+	
+	private MapperTable mapperTable = null;
 	
 	private Map<String, ModelContainer> modelMap = new HashMap<String, ModelContainer>();
 	
@@ -62,17 +59,19 @@ public class ModelGroup {
 		this.uri = uri;
 	}
 	
-	public long getPropertyMappingConfigLastModified() {
-		return propertyMappingConfigLastModified;
+	public long getMapperTableLastModified() {
+		return mapperTableLastModified;
 	}
-	public void setPropertyMappingConfigLastModified(long propertyMappingConfigLastModified) {
-		this.propertyMappingConfigLastModified = propertyMappingConfigLastModified;
+	public void setMapperTableLastModified(long mapperTableLastModified) {
+		this.mapperTableLastModified = mapperTableLastModified;
 	}
-	public void loadPropertyMappingConfig(String filename) {
-		propertyMappingConfig = new PropertyMappingConfig(filename);
+	
+	public void loadMapperTable(String fileName) {
+		mapperTable = new MapperTable();
+		mapperTable.initialize(fileName);
 	}
-	public PropertyMappingConfig getPropertyMappingConfig() {
-		return propertyMappingConfig;
+	public MapperTable getMapperTable() {
+		return mapperTable;
 	}
 	
 	public Map<String, ModelContainer> getModelMap() {
@@ -83,9 +82,7 @@ public class ModelGroup {
 		boolean merge = false;
 		if (model == null) {
 			model = ModelFactory.createDefaultModel();
-			model.setNsPrefix("oslc_cm", ICmConstants.OSLC_CM_NAMESPACE);
-			model.setNsPrefix("foaf", FOAF.NS);
-			model.setNsPrefix("dcterms", DC.getURI());
+			model.setNsPrefixes(ConfigSingleton.getInstance().getNsPrefixes());
 			merge = true;
 		} else {
 			Iterator<ModelContainer> i = modelMap.values().iterator();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -36,7 +36,7 @@ import org.eclipse.lyo.rio.services.RioServiceException;
 import org.eclipse.lyo.rio.util.XmlUtils;
 import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
+import org.eclipse.lyo.samples.excel.common.ConfigSingleton;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,7 +73,7 @@ public class CatalogService {
 			rdf.setAttribute("xmlns:" + IConstants.DCTERMS_PREFIX, IConstants.DCTERMS_NAMESPACE); //$NON-NLS-1$
 			rdf.setAttribute("xmlns:" + IConstants.OSLC_PREFIX, IConstants.OSLC_NAMESPACE); //$NON-NLS-1$
 			
-			Element sp = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_PTERM_SERVICEPROVIDERCATALOG);
+			Element sp = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_TYPE_PTERM_SERVICEPROVIDERCATALOG);
 			rdf.appendChild(sp);
 			sp.setAttributeNS(IConstants.RDF_NAMESPACE, IConstants.RDF_PTERM_ABOUT, about);
 			
@@ -92,8 +92,17 @@ public class CatalogService {
 			for (Entry<String, String> prefixMapping : entries) {
 				appendPrefixDefinition(sp, prefixMapping.getKey(), prefixMapping.getValue());
 			}
-			// append OSLC CM prefix
-			appendPrefixDefinition(sp, ICmConstants.OSLC_CM_NAMESPACE, ICmConstants.OSLC_CM_PREFIX);
+			
+			// append custom prefixes
+			ConfigSingleton config = ConfigSingleton.getInstance();
+			Map<String, String> nsPrefixes = config.getNsPrefixes();
+			entries = nsPrefixes.entrySet();
+			for (Entry<String, String> nsMapping : entries) {
+				String ns = nsMapping.getValue();
+				if(!predefinedMappings.containsKey(ns)){
+					appendPrefixDefinition(sp, ns, nsMapping.getKey());
+				}
+			}
 
 			// service resource
 			ResourceAdapter adapter = AdapterRegistry.getAdapter(getBaseUrl() + IConstants.SERVICE_SERVICES);
@@ -101,9 +110,13 @@ public class CatalogService {
 			List<String> providers = adapter.getContexts();
 			for(String providerId: providers){
 				Element service = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_PTERM_SERVICEPROVIDER);
-				String svcUri = getBaseUrl() + IConstants.SERVICE_SERVICES + '/' + ICmConstants.SERVICE_PROVIDER_CATALOG + '/' + providerId; //$NON-NLS-1$
-				//String svcUri = getBaseUrl() + IConstants.SERVICE_SERVICES + '/' + providerId; //$NON-NLS-1$
-				service.setAttributeNS(IConstants.RDF_NAMESPACE, IConstants.RDF_PTERM_RESOURCE, svcUri);
+				String svcUri = getBaseUrl() + IConstants.SERVICE_SERVICES + "/catalog/" + providerId;
+				Element serviceProvider = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_TYPE_PTERM_SERVICEPROVIDER);
+				serviceProvider.setAttributeNS(IConstants.RDF_NAMESPACE, IConstants.RDF_PTERM_ABOUT, svcUri);
+				Element ‚”itle = doc.createElementNS(IConstants.DCTERMS_NAMESPACE, IConstants.DCTERMS_PTERM_TITLE);
+				‚”itle.setTextContent("OSLC Excel Adapter");
+				serviceProvider.appendChild(‚”itle);
+				service.appendChild(serviceProvider);
 				sp.appendChild(service);
 			}
 			
@@ -145,15 +158,17 @@ public class CatalogService {
 		
 		Element elm = doc.createElementNS(IConstants.DCTERMS_NAMESPACE, IConstants.DCTERMS_PTERM_TITLE);
 		oslcPub.appendChild(elm);
-		elm.setTextContent(ICmConstants.RIO_CM_PUBLISHER_TITLE);
+		
+		ConfigSingleton config = ConfigSingleton.getInstance();
+		elm.setTextContent(config.getPublisherTitle());
 		
 		elm = doc.createElementNS(IConstants.DCTERMS_NAMESPACE, IConstants.DCTERMS_PTERM_IDENTIFIER);
 		oslcPub.appendChild(elm);
-		elm.setTextContent(ICmConstants.RIO_CM_PUBLISHER_IDENTIFIER);
+		elm.setTextContent(config.getPublisherIdentifier());
 		
 		elm = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_PTERM_ICON);
 		oslcPub.appendChild(elm);
-		String iconUrl = getBaseUrl() + ICmConstants.RIO_CM_ICON;
+		String iconUrl = getBaseUrl() + config.getPublisherIcon();
 		elm.setAttributeNS(IConstants.RDF_NAMESPACE, IConstants.RDF_PTERM_RESOURCE, iconUrl);
 	}
 }

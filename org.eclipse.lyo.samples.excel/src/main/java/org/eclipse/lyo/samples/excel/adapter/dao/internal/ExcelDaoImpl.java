@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -17,74 +17,65 @@
  *******************************************************************************/
 package org.eclipse.lyo.samples.excel.adapter.dao.internal;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.AreaReference;
+import org.apache.poi.ss.util.CellReference;
+import org.eclipse.lyo.samples.excel.adapter.MapperEntry;
+import org.eclipse.lyo.samples.excel.adapter.MapperTable;
 import org.eclipse.lyo.samples.excel.adapter.dao.ExcelDao;
-import org.eclipse.lyo.samples.excel.adapter.dao.PropertyMappingConfig;
-import org.eclipse.lyo.samples.excel.adapter.dao.PropertyMappingInfo;
-import org.eclipse.lyo.samples.excel.adapter.dao.ResourceFactory;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
+import org.eclipse.lyo.samples.excel.common.ConfigSingleton;
 
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.DC;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 public class ExcelDaoImpl implements ExcelDao {
 	//TODO 
 	private static final String DEFAULT_SHEET_NAME="defects";
 	
-	private final static Property IDENFIFIER = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://purl.org/dc/elements/1.1/", "identifier");
-	private final static Property TITLE = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://purl.org/dc/elements/1.1/", "title");
-	private final static Property DESCRIPTION = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://purl.org/dc/elements/1.1/", "description");
-	private final static Property CREATED = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://purl.org/dc/elements/1.1/", "created");
-	private final static Property CONTRIBUTER = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://purl.org/dc/elements/1.1/", "contributor");
-	private final static Property STATUS = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://open-services.net/ns/cm#", "status");
-	private final static Property RELATED_CHANGEREQUEST = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://open-services.net/ns/cm#", "relatedChangeRequest");
-	private final static Property PERSON_NAME = com.hp.hpl.jena.rdf.model.ResourceFactory.createProperty("http://xmlns.com/foaf/0.1/", "name");
-	
+	private final static String DEFAULT_OUTPUT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
 	
 	private String relationshipUri = null;
-	private ResourceFactory resourceFactory = null;
-	private PropertyMappingConfig config = null;
+	private MapperTable mapperTable = null;
 
 	public void setRelationshipUri(String relationshipUri) {
 		this.relationshipUri = relationshipUri;
 	}
-	public void setResourceFactory(ResourceFactory resourceFactory) {
-		this.resourceFactory = resourceFactory;
+	public void setMapperTable(MapperTable mapperTable) {
+		this.mapperTable = mapperTable;
 	}
-	public void setPropertyMappingConfig(PropertyMappingConfig config) {
-		this.config = config;
-	}
+	
 	public Model parseFile(String fileName) {
-		if (relationshipUri == null || config == null) {
+		if (relationshipUri == null) {
 			return null;
 		}
-		List<PropertyMappingInfo> mappingInfo = config.listPropertyInfo(new File(fileName).getName());
-		
+
 		FileInputStream in = null;
 		Workbook wb = null;
 		
@@ -102,210 +93,314 @@ public class ExcelDaoImpl implements ExcelDao {
 		}
 		
 		Model model = ModelFactory.createDefaultModel();
-		model.setNsPrefix("oslc_cm", ICmConstants.OSLC_CM_NAMESPACE);
-		model.setNsPrefix("foaf", FOAF.NS);
-		
-		Sheet sheet = wb.getSheetAt(0);
-		for (int j = sheet.getFirstRowNum(); j <= sheet.getLastRowNum(); j++) {
-			Row row = sheet.getRow(j);
-			if (row == null) {
+		model.setNsPrefixes(ConfigSingleton.getInstance().getNsPrefixes());
+
+		HashMap<Sheet, Object[]> sheetResourceMap = new HashMap<Sheet, Object[]>();
+
+		// Loop for Resources defined in Mapper file
+		for (String en : mapperTable.getNameList()) {
+			MapperEntry e = mapperTable.getEntry(en);
+			String type = e.getType();
+			String line = e.getLine();
+			String uri = e.getUri();
+			
+			// parse line definition in Mapper file
+			String[] ls = line.split(",");
+			if(ls.length < 3){
+				System.err.println("line must has at least sheet, start row, and end row information");
+				continue;
+			}
+			String ssheet = ls[0].trim();
+			String sstart = ls[1].trim();
+			String send = ls[2].trim();
+			Sheet sheet = null;
+			try{
+				sheet = wb.getSheetAt(Integer.parseInt(ssheet));
+			}catch(NumberFormatException ex){
+				sheet = wb.getSheet(ssheet);
+			}
+			if(sheet==null){
+				System.err.println("target sheet is not found");
 				continue;
 			}
 			
-			Resource changeRequest = null;
-			for (int i = 0; i < mappingInfo.size(); i++) {
-				PropertyMappingInfo info = mappingInfo.get(i);
-				if (info.getResourceName().equalsIgnoreCase(ICmConstants.OSLC_CM_CHANGEREQUEST) && 
-					info.getPropertyName().equalsIgnoreCase(DC.identifier.getURI())) {
-					String value = getCellValue(row, info);
-					if (value != null) {
-						changeRequest = resourceFactory.createResource(model, info.getResourceName(), value, info.getPropertyName());
-						break;
-					}
+			int start = Integer.parseInt(sstart);
+			int end = sheet.getLastRowNum();
+			if (!send.equals("*")) {
+				end = Integer.parseInt(send);
+			}
+			String cond_cellstring = null;
+			boolean exist = true;
+			if(ls.length > 3){
+				String scond = ls[3].trim();
+				if (scond.startsWith("exist")) {
+					cond_cellstring = scond.substring(6, scond.length() - 1).trim();
+				}else if(scond.startsWith("notexist")) {
+					exist = false;					
+					cond_cellstring = scond.substring(9, scond.length() - 1).trim();
 				}
 			}
-			if (changeRequest == null) {
-				continue;
+			
+			// map to find referenced resource later
+			Object[] resourceMap = sheetResourceMap.get(sheet);
+			if(resourceMap == null){
+				resourceMap = new Object[sheet.getLastRowNum() + 1];
+				Arrays.fill(resourceMap, null);
+				sheetResourceMap.put(sheet, resourceMap);
 			}
-			for (int i = 0; i < mappingInfo.size(); i++) {
-				PropertyMappingInfo info = mappingInfo.get(i);
-				Property property = model.createProperty(info.getPropertyName());
-				String value = getCellValue(row, info);
-				if (value == null) {
+
+			// Loop of excel table rows to find the resource 
+			for (int j = start; j <= end; j++) {
+				if (sheet.getRow(j) == null) {
 					continue;
 				}
-				if (info.getPropertyType().equalsIgnoreCase("http://open-services.net/ns/core#Resource")) { // TODO add to cm constant def
-					PropertyMappingInfo detailInfo = info.getDetailInfo();
-					String resourceClass = detailInfo.getResourceName();
-					Resource resource = resourceFactory.createResource(model, resourceClass, value, detailInfo.getPropertyName());
-					changeRequest.addProperty(property, resource);
-				} else {
-					Literal literal = model.createLiteral(value);
-					changeRequest.addLiteral(property, literal);
+				if (cond_cellstring != null) {
+					Cell cell = getCell(sheet, cond_cellstring, j);
+					String value = getCellValue(cell);
+					if (value == null && exist || value != null && !exist){
+						continue;
+					} 
+				}
+				// generate URI for this resource
+				String[] uris = uri.split(",");
+				String format = uris[0].trim();
+				String uriString = format;
+				if (uris.length == 3) {
+					Cell cell = getCell(sheet, uris[1].trim(), j);
+					String value1 = getCellValue(cell);
+					cell = getCell(sheet, uris[2].trim(), j);
+					String value2 = getCellValue(cell);
+					uriString = String.format(format, value1, value2);
+				} else if (uris.length == 2) {
+					Cell cell = getCell(sheet, uris[1].trim(), j);
+					String value = getCellValue(cell);
+					uriString = String.format(format, value);
+				}
+				
+				// create a Resource in RDF model with URI and resource type defined in Mapper file
+				Resource resource = null;
+				try {
+					resource = model.createResource(relationshipUri + URLEncoder.encode(uriString, "UTF-8"));
+
+					type = getNameUri(type.trim(), model);
+					resource.addProperty(RDF.type, model.createResource(type));
+				} catch (UnsupportedEncodingException e1) {
+					e1.printStackTrace();
+				}
+				if (resource == null) {
+					continue;
+				}
+				
+				// Keep resource map for current row which will be used to generate reference URI later
+				Map<String, Resource> curResMap = (Map<String, Resource>) resourceMap[j];
+				if (curResMap == null) {
+					curResMap = new HashMap<String, Resource>();
+					resourceMap[j] = curResMap;
+				}
+				curResMap.put(en, resource);
+				
+				// Loop for Properties for this resource defined in Mapper file
+				for (String propName: e.getPropertyNameList()) {
+					MapperEntry.Property prop = e.getProperty(propName);
+					if (prop == null) {
+						continue;
+					}
+					String propType = prop.getType();
+					if (propType == null) {
+						continue;
+					}
+					if (propType.equalsIgnoreCase("resource")) {
+						// assume that prop contains "reference" information in Mapper file
+						String reference = prop.getReference();
+						if (reference != null) {
+							processReference(model, resource, propName,	reference, resourceMap, j);
+						}
+					} else {
+						// assume that prop contains "column" information in Mapper file
+						String[] tokens = prop.getColumn().trim().split(",");
+						String fmt = null;
+						String column = tokens[0];
+						if (tokens.length > 1) {
+							fmt = tokens[0];
+							column = tokens[1];
+						}
+						Cell cell = getCell(sheet, column, j);
+						if (cell != null) {
+							String value = getCellValue(cell);
+							if (value != null) {
+								if (fmt != null) {
+									value = String.format(fmt, value);
+								}
+								String qpname = propName.trim();
+								qpname = getNameUri(qpname, model);
+								Property property = model.createProperty(qpname);
+								Literal literal = model.createLiteral(value);
+								resource.addLiteral(property, literal);
+							}
+						}
+					}
 				}
 			}
 		}
 		return model;
 	}
 	
-	public void write(String fileName, Model model, boolean append) throws IOException {
-		HSSFWorkbook workBook = new HSSFWorkbook();
-		if(append){
-			FileInputStream in = new FileInputStream(fileName);
-			try {
-				workBook = (HSSFWorkbook) WorkbookFactory.create(in);
-				in.close();
-			} catch (InvalidFormatException e) {
-				e.printStackTrace();
-			}
+	private Cell getCell(Sheet sheet, String cellRowString, int defaultRowIndex) {
+		Cell cell = getNamedCell(sheet, cellRowString, defaultRowIndex);
+		if (cell != null) {
+			return cell;
 		}
-		HSSFSheet sheet = null;
-		if(append){
-			sheet = workBook.getSheet(DEFAULT_SHEET_NAME);
-		}else{
-			sheet = workBook.createSheet(DEFAULT_SHEET_NAME);
+		int[] index = cellRowStringToIndex(cellRowString);
+		int rowIndex = (index.length > 1) ? index[1] : defaultRowIndex;
+		Row row = sheet.getRow(rowIndex);
+		if (row != null) {
+			return row.getCell(index[0]);
 		}
-		
-		int count = 0;
-		if(append){
-			count = getNewId(fileName);
-		}
-		
-		ResIterator resIter = model.listSubjects();
-		while(resIter.hasNext()){
-			HSSFRow row = null;
-			Resource resource = (Resource)resIter.nextResource();
-			
-			List<PropertyMappingInfo> mappingInfo = config.listPropertyInfo(null); //try default mapping
-			for (int j = 0; j < mappingInfo.size(); j++) {
-				PropertyMappingInfo info = mappingInfo.get(j);
-				if (info.getResourceName().equalsIgnoreCase(ICmConstants.OSLC_CM_CHANGEREQUEST) && 
-						info.getPropertyName().equalsIgnoreCase(DC.identifier.getURI())) {
-					//identifier
-					Statement idenfifier = resource.getProperty(IDENFIFIER);
-					if (idenfifier != null) {
-						if(row == null){
-							row = sheet.createRow(count++);
-						}
-						HSSFCell cell = row.createCell(info.getIndex());
-						cell.setCellValue(idenfifier.getInt());
-					}
-//				}else if (info.getPropertyType().equalsIgnoreCase("http://open-services.net/ns/core#Resource") && 
-//						info.getPropertyName().equalsIgnoreCase("http://purl.org/dc/elements/1.1/contributor")) { // TODO add to cm constant def
-//					//contributor
-//					Statement contributor = resource.getProperty(CONTRIBUTER);
-//					if (contributor != null) {
-//						if(row == null){
-//							row = sheet.createRow(count++);
-//						}
-//						 						
-//						PropertyMappingInfo detailInfo = info.getDetailInfo();
-//						if(detailInfo.getPropertyType().equalsIgnoreCase("http://xmlns.com/foaf/0.1/Person") && 
-//								detailInfo.getPropertyName().equalsIgnoreCase("http://xmlns.com/foaf/0.1/name")) { // TODO add to cm constant def
-//							
-//							Statement personName = contributor.getProperty(PERSON_NAME);
-//							//Resource person = contributor.getProperty(property);
-//							HSSFCell cell = row.createCell(info.getIndex());
-//							cell.setCellValue(personName.getString());
-//						}
-//					}
-//				}else if (info.getPropertyType().equalsIgnoreCase("http://open-services.net/ns/core#Resource") && 
-//						info.getPropertyName().equalsIgnoreCase("http://open-services.net/ns/cm#relatedChangeRequest")) { // TODO add to cm constant def
-//					//relatedChangeRequest
-//					Statement relatedChangeRequest = resource.getProperty(RELATED_CHANGEREQUEST);
-//					if (relatedChangeRequest != null) {
-//						if(row == null){
-//							row = sheet.createRow(count++);
-//						}
-//						HSSFCell cell = row.createCell(info.getIndex());
-//						cell.setCellValue(relatedChangeRequest.getInt());
-//					}
-				} else if (info.getPropertyName().equalsIgnoreCase("http://purl.org/dc/elements/1.1/title")) { // TODO add to cm constant def
-					//title
-					Statement title = resource.getProperty(TITLE);
-					if (title != null) {
-						if(row == null){
-							row = sheet.createRow(count++);
-						}
-						HSSFCell cell = row.createCell(info.getIndex());
-						cell.setCellValue(title.getString());
-					}
-				} else if (info.getPropertyName().equalsIgnoreCase("http://purl.org/dc/elements/1.1/description")) { // TODO add to cm constant def
-					//description
-					Statement description = resource.getProperty(DESCRIPTION);
-					if (description != null) {
-						if(row == null){
-							row = sheet.createRow(count++);
-						}
-						HSSFCell cell = row.createCell(info.getIndex());
-						cell.setCellValue(description.getString());
-					}
-				} else if (info.getPropertyName().equalsIgnoreCase("http://purl.org/dc/elements/1.1/created")) { // TODO add to cm constant def
-					//created
-					Statement created = resource.getProperty(CREATED);
-					if (created != null) {
-						if(row == null){
-							row = sheet.createRow(count++);
-						}
-						HSSFCell cell = row.createCell(info.getIndex());
-						cell.setCellValue(created.getString());
-					}
-				} else if (info.getPropertyName().equalsIgnoreCase("http://open-services.net/ns/cm#status")) { // TODO add to cm constant def
-					//status
-					Statement status = resource.getProperty(STATUS);
-					if (status != null) {
-						if(row == null){
-							row = sheet.createRow(count++);
-						}
-						HSSFCell cell = row.createCell(info.getIndex());
-						cell.setCellValue(status.getString());
-					}
-				}
-			}
-		}
-
-		OutputStream out = new FileOutputStream(fileName);
-        workBook.write(out);
-        out.close();
-
+		return null;
 	}
 	
-	private String getCellValue(Row row, PropertyMappingInfo info) {
-		int index = info.getIndex();
-		if (index != -1) {
-			Cell cell = row.getCell(index);
-			if (cell != null) {
-				String value = null;
-				try {
-					String type = info.getPropertyType();
-					if (type.equalsIgnoreCase(ICmConstants.XSD_DATATYPE_DATETIME)) {
-						String formatString = info.getFormatString();
-						if (formatString == null) {
-							formatString = "yyyy-MM-dd'T'HH:mm:ssz";
-						}
-						Date date = cell.getDateCellValue();
-						SimpleDateFormat f = new SimpleDateFormat(formatString);
-						value = f.format(date);
-					}
-				} catch (Exception e) {
-				}
-				if (value == null) {
-					int type = cell.getCellType();
-					if (type == Cell.CELL_TYPE_STRING) {
-						value = cell.getStringCellValue();
-					} else if (type == Cell.CELL_TYPE_NUMERIC) {
-						double d = cell.getNumericCellValue();
-						if (d == Math.floor(d)) { // need to consider when d is negative
-							value = "" + (int) d;
-						} else {
-							value = "" + cell.getNumericCellValue();
-						}
-					}
-				}
-				return value;
+	private Cell getNamedCell(Sheet sheet, String cellRowString, int defaultRowIndex) {
+		Name name = sheet.getWorkbook().getName(cellRowString);
+		if (name != null) {
+			AreaReference areaRef = new AreaReference(name.getRefersToFormula());
+			CellReference firstCell = areaRef.getFirstCell();
+			CellReference lastCell = areaRef.getLastCell();
+			int rowIndex = defaultRowIndex;
+			if (rowIndex < firstCell.getRow() || lastCell.getRow() < rowIndex) {
+				rowIndex = firstCell.getRow();
+			}
+			Row row = sheet.getRow(rowIndex);
+			if (row != null) {
+				return row.getCell(firstCell.getCol());
 			}
 		}
 		return null;
+	}
+	
+	private int[] cellRowStringToIndex(String cellRowString) {
+		int index = -1;
+		for (int i = 0; i < cellRowString.length(); i++) {
+			char c = cellRowString.charAt(i);
+			if (Character.isDigit(c)) {
+				 index = i;
+				 break;
+			}
+		}
+		if (index <= 0) {
+			// No digit, or digit only.
+			// The string only has a cell index in this case.
+			return new int[] { cellStringToIndex(cellRowString) };
+		}
+		// The string has both cell and row indices.
+		String cellString = cellRowString.substring(0, index);
+		String rowString = cellRowString.substring(index);
+		return new int[] { cellStringToIndex(cellString), Integer.parseInt(rowString) }; 
+	}
+	
+	private int cellStringToIndex(String cellString){
+		try {
+			return Integer.parseInt(cellString);
+		}catch(NumberFormatException ex){
+			return CellReference.convertColStringToIndex(cellString);
+		}
+	}
+	
+	private void processReference(Model model, Resource resource, String propName, String referenceDef, Object[] resourceMaps, int currentRow) {
+		referenceDef = referenceDef.trim();
+		int suffixIndex;
+
+		// sameLine
+		suffixIndex = referenceDef.toLowerCase().indexOf("[sameline]");
+		if (suffixIndex > 0) {
+			String targetResourceName = referenceDef.substring(0, suffixIndex);
+			Map<String, Resource> resMap = (Map<String, Resource>) resourceMaps[currentRow];
+			addReferenceProperty(model, resource, resMap, propName, targetResourceName);
+		}
+
+		// mostRecent
+		suffixIndex = referenceDef.toLowerCase().indexOf("[mostrecent]");
+		if (suffixIndex > 0)  {
+			String targetResourceName = referenceDef.substring(0, suffixIndex);
+			for (int i = currentRow; i >= 0; i--) { // mostrecent includes sameline
+				Map<String, Resource> resMap = (Map<String, Resource>) resourceMaps[i];
+				if(addReferenceProperty(model, resource, resMap, propName, targetResourceName))
+					break;
+			}
+		}
+	}
+
+	private boolean addReferenceProperty(Model model, Resource resource, Map<String, Resource> resourceMap, String propName, String target) {
+		if(resourceMap != null){
+			Resource targetResource = resourceMap.get(target);
+			if (targetResource != null) {
+				String qpname = propName.trim();
+				qpname = getNameUri(qpname, model);
+				Property property = model.createProperty(qpname);
+				resource.addProperty(property, targetResource);
+
+				String backLinkUri = ConfigSingleton.getInstance().getBacklinks().get(qpname);
+				if(backLinkUri != null){
+					Property backLinkProperty = model.createProperty(backLinkUri);
+					targetResource.addProperty(backLinkProperty, resource);					
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private String getCellValue(Cell cell) {
+		if (cell != null) {
+			String value = null;
+			int type = cell.getCellType();
+			if (type == Cell.CELL_TYPE_STRING) {
+				value = cell.getStringCellValue();
+			} else if (type == Cell.CELL_TYPE_NUMERIC) {
+				if (DateUtil.isCellDateFormatted(cell)) {
+					Date date = cell.getDateCellValue();
+					value = FastDateFormat.getInstance(DEFAULT_OUTPUT_DATE_FORMAT).format(date);
+				} else {
+					double d = cell.getNumericCellValue();
+					if (d == Math.floor(d)) { // need to consider when d is negative
+						value = "" + (int) d;
+					} else {
+						value = "" + cell.getNumericCellValue();
+					}
+				}
+			} else if (type == Cell.CELL_TYPE_FORMULA){
+				// get calculated value if the cell type is formula 
+				Workbook wb = cell.getSheet().getWorkbook();
+				CreationHelper crateHelper = wb.getCreationHelper();
+				FormulaEvaluator evaluator = crateHelper.createFormulaEvaluator();
+				// get recursively if the value is still formula 
+				value = getCellValue(evaluator.evaluateInCell(cell));
+			}
+			return value;
+		}
+		return null;
+	}
+	private String getNameUri(String name, Model model) {
+		Map<String, String> prefixMapping = model.getNsPrefixMap();
+		Set<String> keys = prefixMapping.keySet();
+		Iterator<String> ite = keys.iterator();
+		String prefix = null;
+		while (ite.hasNext()) {
+			String key = ite.next();
+			if (name.startsWith(key + ":")) {
+				prefix = key;
+			}
+		}
+		if (prefix != null) {
+			String uri = model.getNsPrefixURI(prefix);
+			return name.replaceFirst(prefix + ":", uri);
+		}
+		if (name.startsWith("dcterms:")) {
+			return name.replaceFirst("dcterms:", "http://purl.org/dc/terms/");
+		}
+		if (name.startsWith("dc:")) {
+			return name.replaceFirst("dc:", "http://purl.org/dc/terms/");
+		}
+		return name;
 	}
 	
 	@Override

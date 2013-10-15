@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -29,7 +29,6 @@ import org.eclipse.lyo.samples.excel.changerequest.ChangeRequestListService;
 import org.eclipse.lyo.samples.excel.changerequest.ChangeRequestReader;
 import org.eclipse.lyo.samples.excel.services.common.CatalogService;
 import org.eclipse.lyo.samples.excel.services.common.CreationFactoryService;
-import org.eclipse.lyo.samples.excel.services.common.DownloadService;
 import org.eclipse.lyo.samples.excel.services.common.QueryService;
 import org.eclipse.lyo.samples.excel.services.common.ResourceService;
 import org.eclipse.lyo.samples.excel.services.common.ServiceProviderService;
@@ -52,7 +51,6 @@ public class OslcApplication extends Application {
         serviceClasses.add(ChangeRequestListService.class);
         serviceClasses.add(ChangeRequestCompactService.class);
         serviceClasses.add(ChangeRequestCreatorService.class);
-        serviceClasses.add(DownloadService.class);
         
         return serviceClasses;
     }

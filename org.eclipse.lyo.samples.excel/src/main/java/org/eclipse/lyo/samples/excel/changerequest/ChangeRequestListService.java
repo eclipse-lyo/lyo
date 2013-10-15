@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -31,12 +31,11 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.lyo.rio.core.IConstants;
 import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
-@Path(ICmConstants.SERVICE_SERVICES + "/{projectId}/list")
+@Path(IConstants.SERVICE_SERVICES + "/{projectId}/list")
 public class ChangeRequestListService  {
 	
 	@GET
@@ -45,7 +44,7 @@ public class ChangeRequestListService  {
 		ResourceAdapter adapter = AdapterRegistry.getAdapter(baseUrl);
 		
 		String query = 
-			"PREFIX dcterms:<http://purl.org/dc/elements/1.1/>\n" +
+			"PREFIX dcterms:<http://purl.org/dc/terms/>\n" +
 			"SELECT ?uri ?title ?identifier\n" +
 			"WHERE {\n" +
 			"  ?uri dcterms:title ?title.\n" +
@@ -59,7 +58,7 @@ public class ChangeRequestListService  {
 		
 		return new StreamingOutput() {
 	            public void write(OutputStream output) throws IOException, WebApplicationException {
-	                byte[] out = html.getBytes();
+	                byte[] out = html.getBytes(IConstants.TEXT_ENCODING);
 	                output.write(out);
 	            }
 	        };
@@ -80,7 +79,7 @@ public class ChangeRequestListService  {
 		sb.append(" -->");		
 		sb.append("<html>");
 		sb.append("<head>");
-		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">");
+		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + IConstants.TEXT_ENCODING + "\">");
 		sb.append("<link rel=\"SHORTCUT ICON\" href=\"../oslc.png\">");
 		sb.append("<title>RIO OSLC CM Resource Listing</title>");
 		sb.append("<script type=\"text/javascript\" src=\"" + contextRoot + "/smallpreview.js\">");

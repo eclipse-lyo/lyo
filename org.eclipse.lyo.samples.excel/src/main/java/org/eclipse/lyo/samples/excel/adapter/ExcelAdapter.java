@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceSet;
-import org.eclipse.lyo.samples.excel.changerequest.ChangeRequestDto;
 
 import com.hp.hpl.jena.query.ResultSet;
 
@@ -50,11 +49,6 @@ public class ExcelAdapter implements ResourceAdapter {
 		return uriList;
 	}
 	
-	public void generateDefaultContents(int count) {
-		modelManager.generateDefaultContents(count);
-	}
-
-	
 	private String getUri(String context) {
 		Collection<ModelGroup> groups = modelManager.getModelGroups();
 		for(ModelGroup g: groups){
@@ -65,10 +59,10 @@ public class ExcelAdapter implements ResourceAdapter {
 		return null;
 	}
 	
-	public ResourceSet query(String context, String prefix, String select, String where, String orderBy, String searchTerms) {
+	public ResourceSet query(String uri, String context, String prefix, String select, String where, String orderBy, String searchTerms) {
 		modelManager.scanRepository();
 		
-		return new ModelQuery().query(getUri(context), modelManager, prefix, select, where, orderBy, searchTerms);
+		return new ModelQuery().query(uri, getUri(context), modelManager, prefix, select, where, orderBy, searchTerms);
 	}
 	
 	public ResourceSet getResource(String resourceUri) {
@@ -81,11 +75,6 @@ public class ExcelAdapter implements ResourceAdapter {
 		modelManager.scanRepository();
 		
 		return new ModelQuery().executeSparql(getUri(context), modelManager, queryExp);
-	}
-	@Override
-	public void addChangeRequest(ChangeRequestDto dto) {
-		modelManager.scanRepository();
-		modelManager.addChangeRequest(dto);
 	}
 	@Override
 	public String getDefaultExcelAbsolutePath() {

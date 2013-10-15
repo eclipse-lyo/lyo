@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -36,19 +36,18 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.lyo.rio.core.IConstants;
 import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
-@Path(ICmConstants.SERVICE_SERVICES + "/{projectId}/sparql")
+@Path(IConstants.SERVICE_SERVICES + "/{projectId}/sparql")
 public class SparqlQueryService  {
 
 	@POST
 	public StreamingOutput doPost(@PathParam("projectId") String projectId, @Context UriInfo uriInfo, MultivaluedMap<String, String> formData){
 		String queryExp = null;
 		try{	
-			queryExp = URLDecoder.decode( formData.getFirst("queryExp"), "utf-8" );
+			queryExp = URLDecoder.decode( formData.getFirst("queryExp"), IConstants.TEXT_ENCODING );
 		}catch(UnsupportedEncodingException e){
 			e.printStackTrace();
 		}
@@ -60,7 +59,7 @@ public class SparqlQueryService  {
 		
 		return new StreamingOutput() {
 	            public void write(OutputStream output) throws IOException, WebApplicationException {
-	                byte[] out = html.getBytes();
+	                byte[] out = html.getBytes(IConstants.TEXT_ENCODING);
 	                output.write(out);
 	            }
 	        };
@@ -81,7 +80,7 @@ public class SparqlQueryService  {
 		sb.append(" -->");		
 		sb.append("<html>");
 		sb.append("<head>");
-		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">");
+		sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + IConstants.TEXT_ENCODING + "\">");
 		sb.append("<link rel=\"SHORTCUT ICON\" href=\"oslc.png\">");
 		sb.append("<title>RDF Store SPARQL</title>");
 		sb.append("</head>");

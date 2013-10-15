@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 IBM Corporation.
+ * Copyright (c) 2011,2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -34,9 +33,6 @@ import org.eclipse.lyo.rio.core.IConstants;
 import org.eclipse.lyo.samples.excel.adapter.common.AdapterRegistry;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceAdapter;
 import org.eclipse.lyo.samples.excel.adapter.common.ResourceSet;
-import org.eclipse.lyo.samples.excel.common.ICmConstants;
-
-import com.hp.hpl.jena.rdf.model.Model;
 
 //@Path(IConstants.SERVICE_SERVICES + "/{path:.+}")
 @Path(IConstants.SERVICE_SERVICES + "/{projectId}/{excelfilename}/{id}")
@@ -53,15 +49,6 @@ public class ResourceService {
         return new ResourceSetWriter(resultSet);
 	}
 	
-	@PUT
-	//@Produces ({"application/rdf+xml", "application/xml"})
-	public StreamingOutput updateResource (@Context UriInfo uriInfo, Model changeRequest){
-		String baseUrl = uriInfo.getBaseUri().toString() + IConstants.SERVICE_SERVICES;
-		ResourceAdapter adapter = AdapterRegistry.getAdapter(baseUrl);
-		ResourceSet resultSet = adapter.getResource(uriInfo.getAbsolutePath().toString());
-        return new ResourceSetWriter(resultSet);
-	}
-	
 	@GET
 	@Produces ({"application/x-oslc-compact+xml"})
 	public StreamingOutput doGet(@PathParam("projectId") String projectId, @PathParam("id") String id, @Context UriInfo uriInfo) {
@@ -69,8 +56,8 @@ public class ResourceService {
 		String shortTitle = "ChangeRequest " + id;
 		String resourceUri = uriInfo.getAbsolutePath().toString();
 
-		String smUrl = uriInfo.getBaseUri() + "services/compact/" + ICmConstants.SERVICE_CHANGEREQUEST + "?uri=" + uriInfo.getAbsolutePath().toString() + "&amp;type=small&amp;projectId=" + projectId + "&amp;id=" + id;
-		String lgUrl = uriInfo.getBaseUri() + "services/compact/" + ICmConstants.SERVICE_CHANGEREQUEST + "?uri=" + uriInfo.getAbsolutePath().toString() + "&amp;type=large&amp;projectId=" + projectId + "&amp;id=" + id;
+		String smUrl = uriInfo.getBaseUri() + "services/compact-rendering?uri=" + uriInfo.getAbsolutePath().toString() + "&amp;type=small&amp;projectId=" + projectId + "&amp;id=" + id;
+		String lgUrl = uriInfo.getBaseUri() + "services/compact-rendering?uri=" + uriInfo.getAbsolutePath().toString() + "&amp;type=large&amp;projectId=" + projectId + "&amp;id=" + id;
 		
         StringBuffer sb = new StringBuffer();
 		 
