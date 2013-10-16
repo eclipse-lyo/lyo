@@ -113,9 +113,9 @@ public class CatalogService {
 				String svcUri = getBaseUrl() + IConstants.SERVICE_SERVICES + "/catalog/" + providerId;
 				Element serviceProvider = doc.createElementNS(IConstants.OSLC_NAMESPACE, IConstants.OSLC_TYPE_PTERM_SERVICEPROVIDER);
 				serviceProvider.setAttributeNS(IConstants.RDF_NAMESPACE, IConstants.RDF_PTERM_ABOUT, svcUri);
-				Element ‚”itle = doc.createElementNS(IConstants.DCTERMS_NAMESPACE, IConstants.DCTERMS_PTERM_TITLE);
-				‚”itle.setTextContent("OSLC Excel Adapter");
-				serviceProvider.appendChild(‚”itle);
+				Element title = doc.createElementNS(IConstants.DCTERMS_NAMESPACE, IConstants.DCTERMS_PTERM_TITLE);
+				title.setTextContent("OSLC Excel Adapter");
+				serviceProvider.appendChild(title);
 				service.appendChild(serviceProvider);
 				sp.appendChild(service);
 			}
