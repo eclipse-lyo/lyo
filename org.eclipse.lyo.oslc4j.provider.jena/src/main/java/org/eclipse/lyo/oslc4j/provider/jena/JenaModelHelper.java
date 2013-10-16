@@ -50,6 +50,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -1844,6 +1845,26 @@ public final class JenaModelHelper
                           nestedProperties);
 
             nestedNode = nestedResource;
+        }
+        else if (logger.isLoggable(Level.WARNING))
+        {
+        	// Warn that one of the properties could not be serialized because it does not have the right annotations.
+        	String subjectClassName = resourceClass.getSimpleName();
+        	if ("".equals(subjectClassName))
+        	{
+        		subjectClassName = resourceClass.getName();
+        	}
+
+        	String objectClassName = objectClass.getSimpleName();
+        	if ("".equals(objectClassName))
+        	{
+        		objectClassName = objectClass.getName();
+        	}
+
+			logger.warning("Could not serialize "
+			        + objectClassName
+			        + " because it does not have an OslcResourceShape annotation (class: "
+			        + subjectClassName + ", method: " + method.getName() + ")");
         }
 
         if (nestedNode != null)
