@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -179,6 +179,8 @@ public class OAuthService {
 			httpRequest.setAttribute("applicationName",
 					config.getApplication().getName());
 
+			httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
+					HTTPConstants.NO_CACHE);
 			if (config.getApplication().isAuthenticated(httpRequest)) {
 				// Show the grant access page.
 				httpRequest.getRequestDispatcher("/oauth/authorize.jsp").forward(
@@ -396,7 +398,9 @@ public class OAuthService {
 			JSONObject response = new JSONObject();
 			response.put("key", key);
 			
-			return Response.ok(response.write()).build();
+			return Response.ok(response.write())
+			        .header(HTTPConstants.HDR_CACHE_CONTROL,
+			                HTTPConstants.NO_CACHE).build();
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return Response.status(Status.BAD_REQUEST).build();
@@ -446,6 +450,8 @@ public class OAuthService {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
 
+			httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
+			        HTTPConstants.NO_CACHE);
 			httpRequest.setAttribute("consumerName",
 					provisionalConsumer.getName());
 			httpRequest.setAttribute("consumerKey",
@@ -492,6 +498,8 @@ public class OAuthService {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
 
+		httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
+				HTTPConstants.NO_CACHE);
 		httpRequest.getRequestDispatcher("/oauth/manage.jsp").forward(
 				httpRequest, httpResponse);
 		return null;
@@ -573,7 +581,9 @@ public class OAuthService {
 		
 		String responseBody = OAuth.formEncode(oAuthParameters);
 		return Response.ok(responseBody)
-				.type(MediaType.APPLICATION_FORM_URLENCODED).build();
+				.type(MediaType.APPLICATION_FORM_URLENCODED)
+				.header(HTTPConstants.HDR_CACHE_CONTROL,
+						HTTPConstants.NO_CACHE).build();
 	}
 
 	protected Response respondWithOAuthProblem(OAuthException e)
@@ -604,6 +614,7 @@ public class OAuthService {
 	}
 
 	private Response showAdminLogin() throws ServletException, IOException {
+		httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL, HTTPConstants.NO_CACHE);
 		StringBuffer callback = httpRequest.getRequestURL();
 		String query = httpRequest.getQueryString();
 		if (query != null) {

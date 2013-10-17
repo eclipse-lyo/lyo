@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -81,8 +81,11 @@ public class ConsumersService {
 			response.put("provisional", provisionalConsumers);
 			response.put("approved", approvedConsumers);
 
-			return Response.ok(response.write()).type(MediaType.APPLICATION_JSON)
-					.build();
+			return Response
+			        .ok(response.write())
+			        .type(MediaType.APPLICATION_JSON)
+			        .header(HTTPConstants.HDR_CACHE_CONTROL,
+			                HTTPConstants.NO_CACHE).build();
 		} catch (ConsumerStoreException e) {
 			return handleConsumerStoreException(e);
 		} catch (OAuthProblemException e) {
