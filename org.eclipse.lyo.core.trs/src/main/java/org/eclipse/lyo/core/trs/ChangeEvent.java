@@ -26,9 +26,14 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import static org.eclipse.lyo.core.trs.TRSConstants.*;
 
 /**
- * Each entry referenced by trs:change is a Local Resource representing a Change Event with the following properties: 
+ * Each entry referenced by trs:change is a Local Resource representing a 
+ * Change Event consisting of the properties contained in this class.
+ * 
+ * Note: This class cannot be instantiated directly.  Instead create an instance
+ * of one of the child classes depending on the type of event taking place.  The
+ * child classes are: Creation, Modification, and Deletion.
  */
-public class ChangeEvent extends AbstractResource {
+public abstract class ChangeEvent extends AbstractResource {
 	private URI changed;
 	private int order;
 	
