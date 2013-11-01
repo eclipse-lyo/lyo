@@ -11,7 +11,8 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
+ *    Kevin Bauer    - Initial implementation
+ *    Samuel Padgett - Properly read in media types other than XML
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.marshallers;
 
@@ -33,6 +34,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFReader;
+import com.hp.hpl.jena.util.FileUtils;
 
 public class OSLC4JUnmarshaller {
 	
@@ -42,50 +44,60 @@ public class OSLC4JUnmarshaller {
 	
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(InputStream inputStream, Class<T> clazz) throws IllegalArgumentException, SecurityException, DatatypeConfigurationException, IllegalAccessException, InstantiationException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, NoSuchMethodException{
-		if (mediaType.isCompatible(MT_RDF_XML)
-				|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
-				|| mediaType.isCompatible(MT_N_TRIPLES)
-				|| mediaType.isCompatible(MT_TURTLE)
-				|| mediaType.isCompatible(MT_N3)) {
-	        final Model model = ModelFactory.createDefaultModel();
-	
-	        final RDFReader reader = model.getReader(); // Default reader handles both xml and abbreviated xml
-	        
-	    	// Pass the empty string as the base URI. This allows Jena to
-	    	// resolve relative URIs commonly used to in reified statements
-	    	// for OSLC link labels. See this section of the CM specification
-	    	// for an example:
-	    	// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
-	    	reader.read(model,
-	    				inputStream,
-	    				"");
-	
-	        Object[] result = JenaModelHelper.fromJenaModel(model, clazz);
-	        
-	        T ret = null;
-	        
-	        if(result != null && result.length > 0){
-	        	ret = (T)result[0];
-	        }
-	        
-	        return ret;
+		final Model model = ModelFactory.createDefaultModel();
+		final RDFReader reader = getReader(model);
+		if (reader == null) { // unsupported media type
+			return null;
+		}
+
+		// Pass the empty string as the base URI. This allows Jena to
+		// resolve relative URIs commonly used to in reified statements
+		// for OSLC link labels. See this section of the CM specification
+		// for an example:
+		// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+		reader.read(model,
+				inputStream,
+				"");
+
+		Object[] result = JenaModelHelper.fromJenaModel(model, clazz);
+
+		T ret = null;
+
+		if(result != null && result.length > 0){
+			ret = (T)result[0];
+		}
+
+		return ret;
+	}
+
+	private RDFReader getReader(final Model model) {
+		if (mediaType.isCompatible(MT_RDF_XML) || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+			return model.getReader(); // Default reader handles both xml and abbreviated xml
 		}
 		
-		return null;
-        
-	}
-	
-	/**
-	 * @return the mediaType
-	 */
+		if (mediaType.isCompatible(MT_N_TRIPLES)) {
+			return model.getReader(FileUtils.langNTriple);
+		} 
+		
+		if (mediaType.isCompatible(MT_N3)) {
+			return model.getReader(FileUtils.langN3);
+		} 
+		
+		if (mediaType.isCompatible(MT_TURTLE)) {
+			return model.getReader(FileUtils.langN3);
+		} 
+		
+		if (mediaType.isCompatible(MT_TURTLE)) {
+			return model.getReader(FileUtils.langTurtle);
+		}
+
+	    return null;
+    }
+
 	public MediaType getMediaType() {
 		return mediaType;
 	}
 
-	/**
-	 * @param mediaType
-	 *            the mediaType to set
-	 */
 	public void setMediaType(MediaType mediaType) {
 		this.mediaType = mediaType;
 	}
