@@ -84,10 +84,6 @@ public class OSLC4JUnmarshaller {
 		} 
 		
 		if (mediaType.isCompatible(MT_TURTLE)) {
-			return model.getReader(FileUtils.langN3);
-		} 
-		
-		if (mediaType.isCompatible(MT_TURTLE)) {
 			return model.getReader(FileUtils.langTurtle);
 		}
 
