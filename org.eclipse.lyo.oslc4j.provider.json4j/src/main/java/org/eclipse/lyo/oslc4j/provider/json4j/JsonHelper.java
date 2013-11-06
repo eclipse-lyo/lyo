@@ -690,10 +690,13 @@ public final class JsonHelper
             final String qualifiedName;
             if (objectClass.getAnnotation(OslcResourceShape.class) != null)
             {
-            	qualifiedName = TypeFactory.getQualifiedName(objectClass);
-            	addType(rdfPrefix,
-            			rdfTypesJSONArray,
-            			qualifiedName);
+                qualifiedName = TypeFactory.getQualifiedName(objectClass);
+                if (qualifiedName != null)
+                {
+                    addType(rdfPrefix,
+                            rdfTypesJSONArray,
+                            qualifiedName);
+                }
             }
             else
             {

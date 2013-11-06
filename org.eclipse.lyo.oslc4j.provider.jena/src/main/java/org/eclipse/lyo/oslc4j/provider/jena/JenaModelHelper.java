@@ -306,9 +306,11 @@ public final class JenaModelHelper
         
         if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {
-            final String namespace = TypeFactory.getNamespace(objectClass);
-            final String name      = TypeFactory.getName(objectClass);
-            mainResource.addProperty(RDF.type, model.createResource(namespace + name));
+            String qualifiedName = TypeFactory.getQualifiedName(objectClass);
+            if (qualifiedName != null)
+            {
+                mainResource.addProperty(RDF.type, model.createResource(qualifiedName));
+            }
         }
         
         buildResource(object,

@@ -28,10 +28,18 @@ public final class TypeFactory
         super();
     }
 
+    /**
+     * Returns the qualified name if the unqualified name is not null, otherwise
+     * returns null.
+     * 
+     * @param objectClass
+     *            object class.
+     * @return the qualified name.
+     */
     public static String getQualifiedName(final Class<?> objectClass)
     {
-        return getNamespace(objectClass) +
-               getName(objectClass);
+        String name = getName(objectClass);
+        return name != null ? getNamespace(objectClass) + name : null; 
     }
 
     public static String getNamespace(final Class<?> objectClass)
@@ -41,10 +49,30 @@ public final class TypeFactory
         return oslcNamespaceAnnotation != null ? oslcNamespaceAnnotation.value() : OslcConstants.OSLC_DATA_NAMESPACE;
     }
 
+    /**
+     * If the annotation {@linkplain OslcName} is defined and it is different
+     * from empty string, returns it. Otherwise returns the class simple name.
+     * If the value of the annotation is an empty string, returns null.
+     * 
+     * @param objectClass
+     *            object class.
+     * @return the Oslc name.
+     */
     public static String getName(final Class<?> objectClass)
     {
         final OslcName oslcNameAnnotation = objectClass.getAnnotation(OslcName.class);
-
-        return oslcNameAnnotation != null ? oslcNameAnnotation.value() : objectClass.getSimpleName();
+        String name = null;
+        if (oslcNameAnnotation != null)
+        {
+            String annotationValue = oslcNameAnnotation.value();
+            if (!"".equals(annotationValue))
+            {
+                name = annotationValue;
+            }
+        } 
+        else {
+            name = objectClass.getSimpleName();
+        }
+        return name;
     }
 }
