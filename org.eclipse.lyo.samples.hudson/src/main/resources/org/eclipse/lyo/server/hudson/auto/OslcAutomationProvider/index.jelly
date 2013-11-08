@@ -1,0 +1,24 @@
+<!--
+Copyright (c) 2013 IBM Corporation.
+ 
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+   
+The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+and the Eclipse Distribution License is available at
+http://www.eclipse.org/org/documents/edl-v10.php.
+ 
+Contributors:
+ 
+    Samuel Padgett - initial implementation
+-->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+  <l:layout title="${it.displayName}${not empty it.parent.fullDisplayName?' ['+it.parent.fullDisplayName+']':''}">
+    <l:main-panel>
+      <h1>OSLC Automation Provider for Hudson and Jenkins</h1>
+      <p>Learn more at <a href="http://open-services.net">http://open-services.net</a>.</p>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

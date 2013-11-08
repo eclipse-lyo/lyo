@@ -1,0 +1,42 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+<l:oslcLayout>
+	<t:buildCaption>
+	   Build ${it.displayName} (<i:formatDate value="${it.timestamp.time}" type="both" dateStyle="medium" timeStyle="medium"/>)
+	</t:buildCaption>
+	 
+	<div style="margin-top:1em">
+	  Started ${it.timestampString} ago
+	  </div><div>
+	  <j:if test="${it.building}">
+	  Build has been executing for ${it.executor.timestampString}
+	  </j:if>
+	  <j:if test="${!it.building}">
+	    Took <a href="${rootURL}/${it.parent.url}buildTimeTrend">${it.durationString}</a>
+	  </j:if>
+	  <j:if test="${!empty(app.slaves) or (it.builtOnStr != null and it.builtOnStr != '')}">
+	    On <t:node value="${it.builtOn}" valueStr="${it.builtOnStr}"/>
+	  </j:if>
+	</div>
+	
+	<j:if test="${it.cause!=null}">
+	<div>Cause: ${it.cause.shortDescription}</div>
+	</j:if>
+
+    <table style="margin-top: 1em; margin-left:1em;">
+      <t:artifactList build="${it}" caption="${%Build Artifacts}" permission="${it.ARTIFACTS}" />
+
+      <j:set var="set" value="${it.changeSet}" />
+
+      <t:summary icon="notepad.png">
+        <st:include it="${set}" page="digest.jelly" />
+      </t:summary>
+
+      <j:forEach var="a" items="${it.actions}">
+        <st:include page="summary.jelly" from="${a}" optional="true" it="${a}" />
+      </j:forEach>
+    </table>
+
+    <st:include page="main.jelly" optional="true" />
+</l:oslcLayout>
+</j:jelly>

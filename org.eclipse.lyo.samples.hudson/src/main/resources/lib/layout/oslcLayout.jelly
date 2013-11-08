@@ -1,0 +1,46 @@
+<!--
+Copyright (c) 2013 IBM Corporation.
+ 
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+   
+The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+and the Eclipse Distribution License is available at
+http://www.eclipse.org/org/documents/edl-v10.php.
+ 
+Contributors:
+ 
+    Samuel Padgett - initial implementation
+-->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local" xmlns:x="jelly:xml">
+
+<st:setHeader name="Expires" value="0" />
+<st:setHeader name="Cache-Control" value="no-cache,must-revalidate" />
+<st:setHeader name="X-Hudson-Theme" value="default" />
+<st:contentType value="text/html;charset=UTF-8" />
+
+<x:doctype name="html" />
+<!-- Use l:ajax so ${resURL}, etc., work -->
+<l:ajax>
+<html>
+<head>
+<title>${it.displayName}</title>
+<link rel="stylesheet" href="${resURL}/css/style.css" type="text/css" />
+<link rel="stylesheet" href="${resURL}/css/color.css" type="text/css" />
+<j:if test="${attrs.css!=null}">
+  <link rel="stylesheet" href="${resURL}${attrs.css}" type="text/css" />
+</j:if>
+<link rel="shortcut icon" href="${resURL}/favicon.ico" type="image/vnd.microsoft.icon" />
+<script src="${resURL}/scripts/prototype.js" type="text/javascript"/>
+</head>
+
+<body style="margin: 1em;">
+<div>
+      <d:invokeBody/>
+</div>
+</body>
+</html>
+</l:ajax>
+</j:jelly>
