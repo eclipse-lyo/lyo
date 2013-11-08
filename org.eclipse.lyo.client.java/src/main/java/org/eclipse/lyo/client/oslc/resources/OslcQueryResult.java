@@ -13,6 +13,7 @@
  *  
  *     Sean Kennedy     - initial API and implementation
  *     Steve Pitschke   - added getMembers() method
+ *     Samuel Padgett   - support setting member property
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
@@ -40,6 +41,7 @@ import com.hp.hpl.jena.rdf.model.Selector;
 import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 
 /**
@@ -48,12 +50,44 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * This class is not currently thread safe.
  */
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
+	/**
+	 * The default member property to look for in OSLC query results
+	 * (rdfs:member). Can be changed using {@link #setMemberProperty(Property)}.
+	 */
+	public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
+
+	/**
+	 * If system property {@value} is set to true, find any member in the 
+	 */
+	public final static String SELECT_ANY_MEMBER = "org.eclipse.lyo.client.oslc.query.selectAnyMember";
+
+	/**
+	 * Treat any resource in the members resource as a query result (except rdf:type).
+	 * 
+	 * @see OslcQueryResult#SELECT_ANY_MEMBER
+	 */
+	private final class AnyMemberSelector extends SimpleSelector {
+	    private AnyMemberSelector(Resource subject) {
+		    super(subject, null, (RDFNode) null);
+	    }
+
+	    public boolean selects(Statement s) {
+	    	String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
+	    	if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
+	    		return false;
+	    	}
+
+	    	return s.getObject().isResource();
+	    }
+    }
 
 	private final OslcQuery query;
-
+	
 	private final ClientResponse response;
 	
 	private final int pageNumber;
+
+	private Property memberProperty = DEFAULT_MEMBER_PROPERTY;
 	
 	private Model rdfModel;
 	
@@ -144,6 +178,19 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	}
 	
 	/**
+	 * Sets the predicate to use to find query result resources. If unset,
+	 * defaults to {@code http://www.w3.org/2000/01/rdf-schema#member}.
+	 * 
+	 * @param memberPredicate
+	 *            the RDF predicate for member resources from the provider's
+	 *            query shape
+	 * @see <a href="http://open-services.net/bin/view/Main/OSLCCoreSpecRDFXMLExamples?sortcol=table;up=#Specifying_the_shape_of_a_query">Specifying the sahpe of a query</a>
+	 */
+	public void setMemberProperty(String memberPredicate) {
+		this.memberProperty = ModelFactory.createDefaultModel().createProperty(memberPredicate);
+	}
+	
+	/**
 	 * Get the raw Wink client response to a query.  
 	 * 
 	 * NOTE:  Using this method and consuming the response will make other methods
@@ -154,6 +201,14 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	 */
 	public ClientResponse getRawResponse() {
 		return response;
+	}
+
+	private Selector getMemberSelector() {
+		if ("true".equalsIgnoreCase(System.getProperty(SELECT_ANY_MEMBER))) {
+			return new AnyMemberSelector(membersResource);
+		}
+		
+		return new SimpleSelector(membersResource, memberProperty, (RDFNode) null);
 	}
 
 	/**
@@ -167,19 +222,11 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	public String[] getMembersUrls() {
 		initializeRdf();
 		ArrayList<String> membersUrls = new ArrayList<String>();
-		Selector select = new SimpleSelector(membersResource, (Property) null, (RDFNode) null);
+        Selector select = getMemberSelector();
 		StmtIterator iter = rdfModel.listStatements(select);
 		while (iter.hasNext()) {
 			Statement member = iter.next();
-			try {
-				String fqPredicateName = member.getPredicate().getNameSpace() + member.getPredicate().getLocalName();
-				if (fqPredicateName != null && !fqPredicateName.equals(OSLCConstants.RDF_TYPE_PROP)) {
-					membersUrls.add(member.getResource().getURI());
-				}
-			} catch (Throwable t) {
-				//FIXME
-				System.err.println("Member was not a resource");
-			}
+			membersUrls.add(member.getResource().getURI());
 		}
 		return membersUrls.toArray(new String[membersUrls.size()]);
 	}
@@ -195,7 +242,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     public <T> Iterable<T> getMembers(final Class<T> clazz) {
         initializeRdf();
 
-        Selector select = new SimpleSelector(membersResource, (Property) null, (RDFNode) null);
+        Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
         Iterable<T> result = new Iterable<T>() {
                 public Iterator<T>

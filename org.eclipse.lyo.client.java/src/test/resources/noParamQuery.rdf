@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:oslc="http://open-services.net/ns/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+	<oslc:ResponseInfo rdf:about="http://example.com/provider/query">
+		<oslc:totalCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</oslc:totalCount>
+		<rdfs:member rdf:resource="http://example.com/resources/1"/>
+		<rdfs:member rdf:resource="http://example.com/resources/3"/>
+	</oslc:ResponseInfo>
+</rdf:RDF>
