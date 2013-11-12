@@ -10,7 +10,7 @@
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
     <properties>
-        <powermock.version>1.5.1</powermock.version>
+        <powermock.version>1.4.9</powermock.version>
     </properties>
     <dependencies>
         <dependency>
