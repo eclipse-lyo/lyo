@@ -12,6 +12,7 @@
  *  Contributors:
  *  
  *     Michael Fiedler     - initial API and implementation
+ *     Gabriel Ruelas      - Fix handling of Rich text, include parsing extended properties
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
 
@@ -20,13 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import net.oauth.OAuthException;
 import javax.xml.namespace.QName;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -35,7 +33,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.wink.client.ClientResponse;
-import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
@@ -48,21 +45,13 @@ import org.eclipse.lyo.client.oslc.resources.Requirement;
 import org.eclipse.lyo.client.oslc.resources.RequirementCollection;
 import org.eclipse.lyo.client.oslc.resources.RmConstants;
 import org.eclipse.lyo.client.oslc.resources.RmUtil;
-import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.Link;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.Property;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
-import org.eclipse.lyo.oslc4j.core.model.Service;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import com.hp.hpl.jena.datatypes.BaseDatatype;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.rdf.model.impl.LiteralImpl;
+
+
 
 /**
  * Samples of logging in to Rational Requirements Composer and running OSLC operations
@@ -138,22 +127,24 @@ public class RRCFormSample {
 																	  OSLCConstants.RM_REQUIREMENT_TYPE);
 				//STEP 7: Create base requirements
 				//Get the Creation Factory URL for change requests so that we can create one
-				Requirement requirement = new Requirement();
+
 				String requirementFactory = client.lookupCreationFactory(
 						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
-						requirement.getRdfTypes()[0].toString());
+						OSLCConstants.RM_REQUIREMENT_TYPE);
 				
 				//Get Feature Requirement Type URL
 				ResourceShape featureInstanceShape = RmUtil.lookupRequirementsInstanceShapes(
 						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
-						requirement.getRdfTypes()[0].toString(), client, "Feature");
+						OSLCConstants.RM_REQUIREMENT_TYPE, client, "Feature");
 				
-				URI rootFolder = null;
-				//Get Collection Type URL
-				RequirementCollection collection = new RequirementCollection();
+
 				ResourceShape collectionInstanceShape = RmUtil.lookupRequirementsInstanceShapes(
 						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
-						collection.getRdfTypes()[0].toString(), client, "Personal Collection");
+						OSLCConstants.RM_REQUIREMENT_COLLECTION_TYPE, client, "Personal Collection");
+				
+				Requirement requirement = null;
+				RequirementCollection collection = null;
+				URI rootFolder = null;
 				
 				String req01URL=null;
 				String req02URL=null;
@@ -165,6 +156,7 @@ public class RRCFormSample {
 				if (( featureInstanceShape != null ) && (requirementFactory != null ) ){
 					
 					// Create REQ01
+					requirement = new Requirement();
 					requirement.setInstanceShape(featureInstanceShape.getAbout());
 					requirement.setTitle("Req01");
 					
@@ -175,7 +167,7 @@ public class RRCFormSample {
 					
 					requirement.setDescription("Created By EclipseLyo");
 					requirement.addImplementedBy(new Link(new URI("http://google.com"), "Link in REQ01"));
-					//Create the change request
+					//Create the Requirement
 					ClientResponse creationResponse = client.createResource(
 							requirementFactory, requirement,
 							OslcMediaType.APPLICATION_RDF_XML,
@@ -259,17 +251,34 @@ public class RRCFormSample {
 				ClientResponse getResponse = client.getResource(req01URL,OslcMediaType.APPLICATION_RDF_XML);
 				requirement = getResponse.getEntity(Requirement.class);
 				String etag1 = getResponse.getHeaders().getFirst(OSLCConstants.ETAG);
-				// May not be needed getResponse.consumeContent();
+				
+				// Display attributes based on the Resource shape
+				Map<QName, Object> requestExtProperties = requirement.getExtendedProperties();
+				for ( QName qname : requestExtProperties.keySet() ){
+					Property attr = featureInstanceShape.getProperty(new URI (qname.getNamespaceURI() + qname.getLocalPart()));
+					String name = null;
+					if ( attr != null){
+						name = attr.getTitle();
+						if ( name != null ) {
+							System.out.println(name  + " = " + requirement.getExtendedProperties().get(qname));
+						}
+					}
+				}
+
+				
 				//Save the URI of the root folder in order to used it easily 
 				rootFolder = (URI) requirement.getExtendedProperties().get(RmConstants.PROPERTY_PARENT_FOLDER);
-				
-				String changedPrimaryText =  (String ) requirement.getExtendedProperties().get(RmConstants.PROPERTY_PRIMARY_TEXT);
+				Object changedPrimaryText =  (Object ) requirement.getExtendedProperties().get(RmConstants.PROPERTY_PRIMARY_TEXT);
 				if ( changedPrimaryText == null ){
 					// Check with the workaround
-					 changedPrimaryText =  (String ) requirement.getExtendedProperties().get(PROPERTY_PRIMARY_TEXT_WORKAROUND);
+					 changedPrimaryText =  (Object ) requirement.getExtendedProperties().get(PROPERTY_PRIMARY_TEXT_WORKAROUND);
+				}
+				String primarytextString = null;
+				if (changedPrimaryText != null ) {
+					primarytextString = changedPrimaryText.toString(); // Handle the case where Primary Text is returned as XMLLiteral
 				}
 				
-				if ( ( changedPrimaryText != null) && (! changedPrimaryText.contains(primaryText)) ) {
+				if ( ( primarytextString != null) && (! primarytextString.contains(primaryText)) ) {
 					logger.log(Level.SEVERE, "Error getting primary Text");
 				}
 
