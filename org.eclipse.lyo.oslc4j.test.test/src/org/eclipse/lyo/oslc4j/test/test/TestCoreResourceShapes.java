@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -36,12 +36,6 @@ public class TestCoreResourceShapes
        extends TestCase
 {
     private static final Set<Class<?>> PROVIDERS = JenaProvidersRegistry.getProviders();
-
-    public void testAllowedValuesResourceShape()
-           throws URISyntaxException
-    {
-        testResourceShape(OslcConstants.TYPE_ALLOWED_VALUES, OslcConstants.PATH_ALLOWED_VALUES);
-    }
 
     public void testCompactResourceShape()
            throws URISyntaxException
