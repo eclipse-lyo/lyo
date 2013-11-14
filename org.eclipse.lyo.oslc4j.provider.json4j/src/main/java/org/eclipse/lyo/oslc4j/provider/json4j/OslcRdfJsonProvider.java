@@ -27,6 +27,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 
@@ -159,9 +160,25 @@ public final class OslcRdfJsonProvider
             properties = filteredResource.properties();
             
             if (filteredResource instanceof ResponseInfo<?>)
-            {
-                descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest, true);
-                responseInfoURI = descriptionURI;
+            {                
+                responseInfo = (ResponseInfo<?>)filteredResource;
+                
+                String requestURI = OSLC4JUtils.resolveURI(httpServletRequest, true);
+                responseInfoURI = requestURI;
+                
+                FilteredResource<?> container = responseInfo.getContainer();
+                if (container != null)
+                {
+                    URI containerAboutURI = container.getAbout();
+                    if (containerAboutURI != null) 
+                    {
+                        descriptionURI = containerAboutURI.toString();
+                    }
+                }                
+                if (null == descriptionURI)
+                {
+                    descriptionURI = requestURI;
+                }
                 
                 final String queryString = httpServletRequest.getQueryString();
                 
@@ -182,8 +199,6 @@ public final class OslcRdfJsonProvider
                     
                     objects = collection.toArray(new Object[collection.size()]);
                 }
-                
-                responseInfo = (ResponseInfo<?>)filteredResource;
             }
             else
             {
