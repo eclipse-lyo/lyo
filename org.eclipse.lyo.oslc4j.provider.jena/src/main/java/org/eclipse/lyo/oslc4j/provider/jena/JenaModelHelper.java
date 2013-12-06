@@ -100,6 +100,7 @@ import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
+import com.hp.hpl.jena.datatypes.xsd.impl.XSDDateType;
 import com.hp.hpl.jena.rdf.model.Container;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -1484,7 +1485,28 @@ public final class JenaModelHelper
     	    
     		final Calendar cal = Calendar.getInstance();
     		cal.setTime((Date) value);
-    		resource.addProperty(property, model.createTypedLiteral(cal));
+    		RDFDatatype dataType = null;
+    		
+    		// Check if it is a Date field
+    		if ( OSLC4JUtils.inferTypeFromShape() ) {
+    			// get the list of resource rdf type
+        		HashSet<String> rdfTypes = new HashSet<String>();
+        		rdfTypes = getTypesFromResource(resource, rdfTypes);
+        		dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, property);
+    		}
+    		
+    		if ( dataType != null && dataType instanceof XSDDateType) {
+    			XSDDateTime valuec = new XSDDateTime( cal);
+        		valuec.narrowType(XSDDatatype.XSDdate);
+        		String valueDate = valuec.toString();
+        		if ( valueDate != null && valueDate.endsWith("Z")){
+        			valueDate = valueDate.replaceAll("Z","");
+        		} 
+    			resource.addProperty(property, model.createTypedLiteral(valueDate, XSDDatatype.XSDdate));
+    		} else {
+    			resource.addProperty(property, model.createTypedLiteral(cal));
+    		}
+    	    
     	}
     	else if (value instanceof XMLLiteral)
     	{
@@ -1855,8 +1877,27 @@ public final class JenaModelHelper
             
             final GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime((Date) value);
-            
-            nestedNode = model.createTypedLiteral(calendar);
+            RDFDatatype dataType = null;
+    		
+    		// Check if it is a Date field
+    		if ( OSLC4JUtils.inferTypeFromShape() ) {
+    			// get the list of resource rdf type
+        		HashSet<String> rdfTypes = new HashSet<String>();
+        		rdfTypes = getTypesFromResource(resource, rdfTypes);
+        		dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, attribute);
+    		}
+    		
+    		if ( dataType != null && dataType instanceof XSDDateType) {
+    			XSDDateTime valuec = new XSDDateTime( calendar);
+        		valuec.narrowType(XSDDatatype.XSDdate);
+        		String valueDate = valuec.toString();
+        		if ( valueDate != null && valueDate.endsWith("Z")){
+        			valueDate = valueDate.replaceAll("Z","");
+        		} 
+        		nestedNode = model.createTypedLiteral(valueDate, XSDDatatype.XSDdate);
+    		} else {
+    			nestedNode = model.createTypedLiteral(calendar);
+    		}
         }
         else if (objectClass.getAnnotation(OslcResourceShape.class) != null)
         {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -44,6 +44,7 @@ import com.hp.hpl.jena.datatypes.TypeMapper;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
 import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
+import com.hp.hpl.jena.rdf.model.Property;
 
 
 public class OSLC4JUtils {
@@ -451,6 +452,73 @@ public class OSLC4JUtils {
 			}
 		}
 
+		return null;
+    }
+	
+	/**
+	 * This method receives the property name and the property value and tries
+	 * to infer the property Data Type from the pre-defined list of Resource Shapes.
+	 * Returns a null object when it was not possible to infer the property Data Type
+	 * from the list of Resource Shapes.
+	 * 
+	 * @param rdfTypesList
+	 * @param propertyQName
+	 *            Property information
+	 * @param originalValue
+	 *            Property value
+	 * @return Java object related to the Resource Shape type.
+	 * @throws DatatypeConfigurationException
+	 *             , IllegalArgumentException, InstantiationException,
+	 *             InvocationTargetException
+	 on 
+	 * 
+	 */
+	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
+														  final Property property )
+    {
+		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != property )
+		{
+			try {
+				// get the pre-defined list of ResourceShapes
+				List<ResourceShape> shapes = OSLC4JUtils.getShapes();
+
+				if (null != shapes && !shapes.isEmpty()) {
+
+					// try to find the attribute type in the list of
+					// resource shapes
+					String propertyName = property.getURI();
+
+					TypeMapper typeMapper = TypeMapper.getInstance();
+
+					for (ResourceShape shape : shapes) {
+
+						// ensure that the current resource shape matches the resource rdf:type
+						if (doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
+
+							org.eclipse.lyo.oslc4j.core.model.Property[] props = shape.getProperties();
+
+							for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
+								URI propDefinition = prop.getPropertyDefinition();
+
+								if (propertyName.equals(propDefinition.toString())) {
+									URI propValueType = prop.getValueType();
+
+									if (null == propValueType) {
+										continue;
+									}
+									RDFDatatype dataTypeFromShape = typeMapper.getTypeByName(propValueType.toString());
+									return dataTypeFromShape;
+								}
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				// if there is any error, return null,
+				logger.warning("Could not find Data Type <" + property + " +> based on shape: " + e.getLocalizedMessage());
+				return null;
+			}
+		}
 		return null;
     }
 }
