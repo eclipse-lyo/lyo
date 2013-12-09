@@ -75,7 +75,24 @@ public class OslcClient {
 	protected DefaultHttpClient httpClient;
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
+	private String configuredSecureSocketProtocol;
 	
+	/**
+	 * Sets the Secure Socket Protocol to be used, valid values "TLS","SSL","SSL_TLS".
+	 */
+	public String getConfiguredSecureSocketProtocol() {
+		return configuredSecureSocketProtocol;
+	}
+
+	/**
+	 * Returns theSecure Sockect Protocol associated with this OSLC Client
+	 * @return the user configured Secure Socket Protocol
+	 */
+	public void setConfiguredSecureSocketProtocol(
+			String configuredSecureSocketProtocol) {
+		this.configuredSecureSocketProtocol = configuredSecureSocketProtocol;
+	}
+
 	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
 	
 	/**
@@ -506,6 +523,19 @@ public class OslcClient {
 	 * @throws NoSuchAlgorithmException when no suitable provider is installed
 	 */
 	private SSLContext findInstalledSecurityContext() throws NoSuchAlgorithmException {
+		
+		if ( configuredSecureSocketProtocol != null ) {
+			SSLContext sslContext = null;
+			try {
+				sslContext = SSLContext.getInstance(configuredSecureSocketProtocol);
+			}
+			catch (NoSuchAlgorithmException e) {
+					// Ignore Exception, we will try other default values below
+			}
+			if ( sslContext != null ){
+				return sslContext; 
+			}
+		}
 		
 		// walks through list of secure socked protocols and picks the first found
 		// the list is arranged in level of security order
