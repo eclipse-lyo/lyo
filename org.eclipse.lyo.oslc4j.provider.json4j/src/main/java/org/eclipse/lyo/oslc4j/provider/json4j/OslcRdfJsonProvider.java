@@ -123,6 +123,13 @@ public final class OslcRdfJsonProvider
             {
                 return false;
             }
+
+            Type rawType = parameterizedType.getRawType();
+            if (URI.class.equals(actualType)
+                    && (ResponseInfoCollection.class.equals(rawType) || ResponseInfoArray.class.equals(rawType)))
+            {
+                return true;
+            }            
         }
         else
         {

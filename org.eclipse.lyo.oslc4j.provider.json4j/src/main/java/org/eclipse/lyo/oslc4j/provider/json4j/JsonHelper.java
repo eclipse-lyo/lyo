@@ -166,6 +166,13 @@ public final class JsonHelper
         final Map<String, String> namespaceMappings        = new TreeMap<String, String>();
         final Map<String, String> reverseNamespaceMappings = new HashMap<String, String>();
 
+        // Add all global namespace mappings, since they have lower precedence
+        Map<String, String> globalPrefixDefinitionMap = OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap();
+        for(Map.Entry<String, String> prefixDefinitionEntry : globalPrefixDefinitionMap.entrySet()) {
+            namespaceMappings.put(prefixDefinitionEntry.getKey(), prefixDefinitionEntry.getValue());
+            reverseNamespaceMappings.put(prefixDefinitionEntry.getValue(), prefixDefinitionEntry.getKey());
+        }
+        
         if (descriptionAbout != null)
         {
             final JSONArray jsonArray = new JSONArray();
@@ -1278,34 +1285,46 @@ public final class JsonHelper
                    OslcCoreApplicationException
     {
         final Class<? extends Object> objectClass = object.getClass();
-        // Add all global namespace mappings, since they have lower precedence
-        Map<String, String> globalPrefixDefinitionMap = OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap();
-        for(Map.Entry<String, String> prefixDefinitionEntry : globalPrefixDefinitionMap.entrySet()) {
-        	namespaceMappings.put(prefixDefinitionEntry.getKey(), prefixDefinitionEntry.getValue());
-        	reverseNamespaceMappings.put(prefixDefinitionEntry.getValue(), prefixDefinitionEntry.getKey());
+        
+        if (object instanceof URI) {
+            
+            // Ensure we have an rdf prefix
+            final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
+                                                           OslcConstants.RDF_NAMESPACE,
+                                                           namespaceMappings,
+                                                           reverseNamespaceMappings);
+            
+            jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
+                    ((URI) object).toASCIIString());
+            
+            visitedObjects.put(object, jsonObject);
+            
+        } 
+        else {
+            
+            // Collect the namespace prefix -> namespace mappings
+            recursivelyCollectNamespaceMappings(namespaceMappings,
+                                                reverseNamespaceMappings,
+                                                objectClass);
+    
+            if (object instanceof IResource)
+            {
+                final URI aboutURI = ((IResource) object).getAbout();
+                addAboutURI(jsonObject,
+    				        namespaceMappings,
+    				        reverseNamespaceMappings,
+    				        objectClass,
+    				        aboutURI);
+            }
+          
+            buildResource(namespaceMappings,
+                          reverseNamespaceMappings,
+                          object,
+                          objectClass,
+                          jsonObject,
+                          properties,
+                          visitedObjects);
         }
-        // Collect the namespace prefix -> namespace mappings
-        recursivelyCollectNamespaceMappings(namespaceMappings,
-                                            reverseNamespaceMappings,
-                                            objectClass);
-
-        if (object instanceof IResource)
-        {
-            final URI aboutURI = ((IResource) object).getAbout();
-            addAboutURI(jsonObject,
-				        namespaceMappings,
-				        reverseNamespaceMappings,
-				        objectClass,
-				        aboutURI);
-        }
-      
-        buildResource(namespaceMappings,
-                      reverseNamespaceMappings,
-                      object,
-                      objectClass,
-                      jsonObject,
-                      properties,
-                      visitedObjects);
 
         return jsonObject;
     }

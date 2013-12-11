@@ -224,6 +224,9 @@ public final class JenaModelHelper
             }
         }
         
+        // add global namespace mappings
+        namespaceMappings.putAll(OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap());
+        
         for (final Object object : objects)
         {
             handleSingleResource(descriptionResource,
@@ -276,49 +279,57 @@ public final class JenaModelHelper
                    OslcCoreApplicationException
     {
         final Class<? extends Object> objectClass = object.getClass();
-        namespaceMappings.putAll(OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap());
+        
         // Collect the namespace prefix -> namespace mappings
         recursivelyCollectNamespaceMappings(namespaceMappings,
                                             objectClass);
-
-        URI aboutURI = null;
-        if (object instanceof IResource)
-        {
-            aboutURI = ((IResource) object).getAbout();
-        }
         
         final Resource mainResource;
-        if (aboutURI != null)
+        
+        if (object instanceof URI) 
         {
-            if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
-            {
-                throw new OslcCoreRelativeURIException(objectClass,
-                                                       "getAbout",
-                                                       aboutURI);
-            }
-
-            mainResource = model.createResource(aboutURI.toString());
+            mainResource = model.createResource(((URI) object).toASCIIString());
         }
-        else
+        else 
         {
-            mainResource = model.createResource();
+            URI aboutURI = null;
+            if (object instanceof IResource)
+            {
+                aboutURI = ((IResource) object).getAbout();
+            }
+            
+            if (aboutURI != null)
+            {
+                if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
+                {
+                    throw new OslcCoreRelativeURIException(objectClass,
+                                                           "getAbout",
+                                                           aboutURI);
+                }
+    
+                mainResource = model.createResource(aboutURI.toString());
+            }
+            else
+            {
+                mainResource = model.createResource();
+            }
+            
+            if (objectClass.getAnnotation(OslcResourceShape.class) != null)
+            {
+                String qualifiedName = TypeFactory.getQualifiedName(objectClass);
+                if (qualifiedName != null)
+                {
+                    mainResource.addProperty(RDF.type, model.createResource(qualifiedName));
+                }
+            }
+            
+            buildResource(object,
+                          objectClass,
+                          model,
+                          mainResource,
+                          properties);
         }
         
-        if (objectClass.getAnnotation(OslcResourceShape.class) != null)
-        {
-            String qualifiedName = TypeFactory.getQualifiedName(objectClass);
-            if (qualifiedName != null)
-            {
-                mainResource.addProperty(RDF.type, model.createResource(qualifiedName));
-            }
-        }
-        
-        buildResource(object,
-                      objectClass,
-                      model,
-                      mainResource,
-                      properties);
-
         if (descriptionResource != null)
         {
             descriptionResource.addProperty(RDFS.member,
