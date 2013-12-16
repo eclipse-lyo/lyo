@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
@@ -147,7 +148,18 @@ public class OslcRdfXmlCollectionProvider
             {
                 final Type actualTypeArgument = actualTypeArguments[0];
 
-                if (actualTypeArgument instanceof Class)
+                if (URI.class.equals((Class<?>) actualTypeArgument)) 
+                {
+                    if (isCompatible(mediaType,
+                            OslcMediaType.APPLICATION_RDF_XML_TYPE,
+                            OslcMediaType.APPLICATION_XML_TYPE,
+                            OslcMediaType.TEXT_XML_TYPE,
+                            OslcMediaType.TEXT_TURTLE_TYPE))
+                    {
+                        return true;
+                    }                    
+                } 
+                else if (actualTypeArgument instanceof Class)
                 {
                     return isReadable((Class<?>) actualTypeArgument,
                                       mediaType,

@@ -118,12 +118,9 @@ public abstract class AbstractOslcRdfXmlProvider
             }
 
             // We do not have annotations when running from the non-web client.
-            for (final MediaType requiredMediaType : requiredMediaTypes)
+            if (isCompatible(actualMediaType, requiredMediaTypes)) 
             {
-                if (requiredMediaType.isCompatible(actualMediaType))
-                {
-                    return true;
-                }
+                return true;
             }
         }
 
@@ -292,6 +289,18 @@ public abstract class AbstractOslcRdfXmlProvider
     {
         if (type.getAnnotation(OslcResourceShape.class) != null)
         {
+            if (isCompatible(actualMediaType, requiredMediaTypes))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected static boolean isCompatible(final MediaType actualMediaType,
+            final MediaType... requiredMediaTypes) 
+    {
             for (final MediaType requiredMediaType : requiredMediaTypes)
             {
                 if (requiredMediaType.isCompatible(actualMediaType))
@@ -299,7 +308,6 @@ public abstract class AbstractOslcRdfXmlProvider
                     return true;
                 }
             }
-        }
 
         return false;
     }

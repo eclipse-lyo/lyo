@@ -407,18 +407,27 @@ public final class JsonHelper
                 {
                     final JSONObject resourceJSONObject = (JSONObject) object;
 
-                    final Object bean = beanClass.newInstance();
-                    HashSet<String> rdfTypes = new HashSet<String>();
-                    
-                    fromJSON(rdfPrefix,
-                             namespaceMappings,
-                             classPropertyDefinitionsToSetMethods,
-                             resourceJSONObject,
-                             beanClass,
-                             bean,
-                             rdfTypes);
+                    if (URI.class.equals(beanClass)) {
+                        String uri = resourceJSONObject.optString(rdfPrefix + JSON_PROPERTY_DELIMITER
+                                + JSON_PROPERTY_SUFFIX_RESOURCE);
 
-                    beans.add(bean);
+                        beans.add(URI.create(uri));
+                    } 
+                    else 
+                    {
+                        final Object bean = beanClass.newInstance();
+                        HashSet<String> rdfTypes = new HashSet<String>();
+                        
+                        fromJSON(rdfPrefix,
+                                 namespaceMappings,
+                                 classPropertyDefinitionsToSetMethods,
+                                 resourceJSONObject,
+                                 beanClass,
+                                 bean,
+                                 rdfTypes);
+    
+                        beans.add(bean);
+                    }
                 }
             }
         }

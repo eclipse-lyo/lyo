@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
@@ -139,7 +140,12 @@ public class OslcRdfJsonCollectionProvider
             {
                 final Type actualTypeArgument = actualTypeArguments[0];
 
-                if (actualTypeArgument instanceof Class)
+                if (URI.class.equals((Class<?>) actualTypeArgument)
+                        && (OslcMediaType.APPLICATION_JSON_TYPE.isCompatible(mediaType))) 
+                {
+                    return true;
+                }
+                else 
                 {
                     return isReadable((Class<?>) actualTypeArgument,
                                       OslcMediaType.APPLICATION_JSON_TYPE,
