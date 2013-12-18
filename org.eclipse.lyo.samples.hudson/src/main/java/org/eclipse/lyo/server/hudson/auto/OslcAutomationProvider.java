@@ -222,20 +222,22 @@ public class OslcAutomationProvider implements RootAction {
 		queryRuns.addResourceType(new URI(AutomationConstants.TYPE_AUTOMATION_RESULT));
 		service.addQueryCapability(queryRuns);
 		
+		UriBuilder creationFactoryUriBuilder = getBaseUriBuilder().path("scheduleBuild");
+
 		/*
 		 * Hudson uses crumbs to prevent CSRF attacks on POST requests. OSLC
 		 * interfaces cannot support this, however. To workaround -- for now at
 		 * least -- bake the crumb into the URL. Then we can use OAuth or
 		 * another authentication mechanism to avoid CSRF problems.
 		 */
-
-		// FIXME: Is there a better way?
 		CrumbIssuer issuer = Hudson.getInstance().getCrumbIssuer();
-		String crumbName = issuer.getDescriptor().getCrumbRequestField();
-		String crumb = issuer.getCrumb(null);
+		if (issuer != null) {
+			String crumbName = issuer.getDescriptor().getCrumbRequestField();
+			String crumb = issuer.getCrumb(null);
+			creationFactoryUriBuilder.queryParam(crumbName, crumb);
+		}
  
-		CreationFactory scheduleBuild = new CreationFactory("Schedule Build",
-		        getBaseUriBuilder().path("scheduleBuild").queryParam(crumbName, crumb).build());
+		CreationFactory scheduleBuild = new CreationFactory("Schedule Build", creationFactoryUriBuilder.build());
 		scheduleBuild.addResourceType(new URI(AutomationConstants.TYPE_AUTOMATION_REQUEST));
 		service.addCreationFactory(scheduleBuild);
 		
