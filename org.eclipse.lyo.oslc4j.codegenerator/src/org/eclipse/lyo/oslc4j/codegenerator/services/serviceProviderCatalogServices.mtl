@@ -1,0 +1,62 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module serviceProviderCatalogServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[query public containingServiceProviderCatalog(obj : OclAny) : ServiceProviderCatalog =
+obj.eContainer(ServiceProviderCatalog)
+/]
+
+[comment Services for serviceProviderCatalogSingleton /]
+[query public javaClassPackageNameForSingleton(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaClassBaseNamespace(containingAdaptorInterface(aServiceProviderCatalog)).concat('.servlet')
+/]
+
+[query public javaClassNameForSingleton(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+'ServiceProviderCatalogSingleton'
+/]
+
+[query public javaClassFullNameForSingleton(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaClassPackageNameForSingleton(aServiceProviderCatalog).concat('.').concat(javaClassNameForSingleton(aServiceProviderCatalog))
+/]
+
+[query public javaClassFullFileNameForSingleton(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concat(javaClassPackageNameForSingleton(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForSingleton(aServiceProviderCatalog)).concat('.java')
+/]
+
+[comment Services for serviceProviderCatalogService /]
+[query public javaClassPackageNameForService(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaClassBaseNamespace(containingAdaptorInterface(aServiceProviderCatalog)).concat('.services')
+/]
+
+[query public javaClassNameForService(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+'ServiceProviderCatalogService'
+/]
+
+[query public javaClassFullNameForService(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaClassPackageNameForService(aServiceProviderCatalog).concat('.').concat(javaClassNameForService(aServiceProviderCatalog))
+/]
+
+[query public javaClassFullFileNameForService(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concat(javaClassPackageNameForService(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProviderCatalog)).concat('.java')
+/]

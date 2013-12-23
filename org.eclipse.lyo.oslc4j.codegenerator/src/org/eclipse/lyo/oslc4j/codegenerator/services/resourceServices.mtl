@@ -1,0 +1,74 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module resourceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+
+[query public definingDomainSpecification(aResource: Resource) : DomainSpecification =
+aResource.eContainer(DomainSpecification)
+/]
+
+[query public adaptorInterface(aResource: Resource) : AdaptorInterface = 
+aResource.eContainer(AdaptorInterface)
+/]
+
+[query public allProperties(aResource: Resource) : Set(ResourceProperty) = 
+aResource.resourceProperties->union(inheritedProperties(aResource))
+/]
+
+[query public inheritedProperties(aResource: Resource) : Set(ResourceProperty) = 
+    (if (not aResource.extends.oclIsUndefined()) then 
+        aResource.extends.resourceProperties->union(inheritedProperties(aResource.extends))
+    else
+        Set{}
+    endif)
+/]
+
+[query public prefixedName(aResource: Resource) : String = 
+aResource.definingDomainSpecification().namespacePrefix.name.concat(':').concat(aResource.name)
+/]
+
+[comment TODO: in the Constants file, I generate constants that SHOULD match the URI developed here. But this code is not related to the way I generated the constants.
+Make sure this query and the Constants generation are based on the same set of base functions. THat is, make sure both functions produce matching URI values in the end. /]
+[query public typeURI(aResource: Resource) : String = 
+aResource.definingDomainSpecification().namespaceURI.concat('#').concat(aResource.name)
+/]
+
+[query public javaClassPackageName(aResource: Resource) : String = 
+javaClassBaseNamespace(adaptorInterface(aResource)).concat('.resources')
+/]
+
+[query public javaClassName(aResource: Resource) : String = 
+aResource.name.toUpperFirst()
+/]
+
+[query public javaClassFullName(aResource: Resource) : String = 
+javaClassPackageName(aResource).concat('.').concat(javaClassName(aResource))
+/]
+
+[query public javaClassFullFileName(aResource: Resource) : String = 
+javaFilesBasePath(adaptorInterface(aResource)).concat(javaClassPackageName(aResource).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
+/]
+
+[template public parentJavaClassName(aResource: Resource)] 
+[if (aResource.extends.oclIsUndefined())]AbstractResource[else][javaClassName(aResource.extends) /][/if]
+
+[/template]

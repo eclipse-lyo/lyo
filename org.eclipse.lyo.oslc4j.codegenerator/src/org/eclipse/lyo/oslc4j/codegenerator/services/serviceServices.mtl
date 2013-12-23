@@ -1,0 +1,57 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module serviceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[comment Services for service /]
+
+
+[query public managedResources(aService: Service) : Set(Resource) = 
+aService.creationFactories.resourceTypes->asSet()
+					->union(aService.queryCapabilities.resourceTypes->asSet())
+					->union(aService.creationDialogs.resourceTypes->asSet())
+					->union(aService.selectionDialogs.resourceTypes->asSet())
+/]
+
+[comment TODO: this service code-generation assumes that all ResourceTypes of all factories/queries/dialogs in the same are the same, and there is a single resourceType.
+Change, so that a service class is generated for each resourceType value specified. Of course, Only factories/queries/dialogs that specify that particular resourceType get generated./]
+[query public coveredResource(aService: Service) : Resource = 
+managedResources(aService)->any(true)
+/]
+
+[query public javaClassPackageName(aService : Service) : String = 
+javaClassBaseNamespace(containingAdaptorInterface(aService)).concat('.services')
+/]
+
+[query public javaClassName(aService : Service) : String = 
+coveredResource(aService).name.toUpperFirst().concat('Service')
+/]
+
+[query public javaClassFullName(aService : Service) : String = 
+javaClassPackageName(aService).concat('.').concat(javaClassName(aService))
+/]
+
+[query public javaClassFullFileName(aService : Service) : String = 
+javaFilesBasePath(containingAdaptorInterface(aService)).concat(javaClassPackageName(aService).substituteAll('.', '/')).concat('/').concat(javaClassName(aService)).concat('.java')
+/]
+

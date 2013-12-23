@@ -1,0 +1,173 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module adaptorInterfaceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+
+[query public containingAdaptorInterface(obj : OclAny) : AdaptorInterface =
+obj.eContainer(AdaptorInterface)
+/]
+
+[query public relevantResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
+relevantDomainSpecifications(anAdaptorInterface)->collectNested(aDomainSpecification : DomainSpecification | aDomainSpecification.resources)->flatten()->asSet()
+/]
+
+[query public relevantDomainSpecifications(anAdaptorInterface : AdaptorInterface) : Set(DomainSpecification) =
+anAdaptorInterface.specification.domainSpecifications
+/]
+
+[comment Services for AdaptorPackageInfo /]
+[query public javaClassPackageNameForAdaptorPackageInfo(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
+/]
+
+[query public javaClassFullFileNameForAdaptorPackageInfo(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorPackageInfo(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat('package-info').concat('.java')
+/]
+
+[comment Services for AdaptorApplication /]
+[query public javaClassPackageNameForAdaptorApplication(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.servlet')
+/]
+
+[query public javaClassNameForAdaptorApplication(anAdaptorInterface : AdaptorInterface) : String = 
+'Application'
+/]
+
+[query public javaClassFullNameForAdaptorApplication(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForAdaptorApplication(anAdaptorInterface).concat('.').concat(javaClassNameForAdaptorApplication(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForAdaptorApplication(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorApplication(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorApplication(anAdaptorInterface)).concat('.java')
+/]
+
+[comment Services for AdaptorServletListener /]
+[query public javaClassPackageNameForAdaptorServletListener(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.servlet')
+/]
+
+[query public javaClassNameForAdaptorServletListener(anAdaptorInterface : AdaptorInterface) : String = 
+'ServletListener'
+/]
+
+[query public javaClassFullNameForAdaptorServletListener(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).concat('.').concat(javaClassNameForAdaptorServletListener(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForAdaptorServletListener(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorServletListener(anAdaptorInterface)).concat('.java')
+/]
+
+[comment Services for ServiceProviderInfo /]
+[query public javaClassPackageNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface)
+/]
+
+[query public javaClassNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
+'ServiceProviderInfo'
+/]
+
+[query public javaClassFullNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForServiceProviderInfo(anAdaptorInterface).concat('.').concat(javaClassNameForServiceProviderInfo(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForServiceProviderInfo(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderInfo(anAdaptorInterface)).concat('.java')
+/]
+
+[comment Services for AdaptorManager /]
+[query public javaClassPackageNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface)
+/]
+
+[query public javaClassNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
+anAdaptorInterface.name.toUpperFirst().concat('Manager')
+/]
+
+[query public javaClassFullNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForAdaptorManager(anAdaptorInterface).concat('.').concat(javaClassNameForAdaptorManager(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorManager(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorManager(anAdaptorInterface)).concat('.java')
+/]
+
+[comment Services for AdaptorConstants /]
+[query public javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface)
+/]
+
+[query public javaInterfaceNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
+anAdaptorInterface.name.toUpperFirst().concat('Constants')
+/]
+
+[query public javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
+javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).concat('.').concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface))
+/]
+
+[query public javaInterfaceFullFileNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.java')
+/]
+
+
+[query public domainSpecificationConstantName(aDomainSpecification : DomainSpecification) : String = 
+aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_DOMAIN')
+/]
+
+[query public domainSpecificationNamespaceConstantName(aDomainSpecification : DomainSpecification) : String = 
+aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_NAMSPACE')
+/]
+
+[query public domainSpecificationNamespacePrefixConstantName(aDomainSpecification : DomainSpecification) : String = 
+aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_NAMSPACE_PREFIX')
+/]
+
+[query public resourceConstantName(aResource : Resource) : String = 
+aResource.name.toUpperCase().substituteAll(' ', '_')
+/]
+
+[query public resourcePathConstantName(aResource : Resource) : String = 
+'PATH_'.concat(aResource.name.toUpperCase().substituteAll(' ', '_'))
+/]
+
+[query public resourceTypeConstantName(aResource : Resource) : String = 
+'TYPE_'.concat(aResource.name.toUpperCase().substituteAll(' ', '_'))
+/]
+
+[comment Services for AdaptorServiceProviderFactory /]
+[query public javaClassPackageNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.servlet')
+/]
+
+[query public javaClassNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
+anAdaptorInterface.name.toUpperFirst().concat('ServiceProviderFactory')
+/]
+
+[query public javaClassFullNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForServiceProviderFactory(anAdaptorInterface).concat('.').concat(javaClassNameForServiceProviderFactory(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForServiceProviderFactory(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderFactory(anAdaptorInterface)).concat('.java')
+/]
+

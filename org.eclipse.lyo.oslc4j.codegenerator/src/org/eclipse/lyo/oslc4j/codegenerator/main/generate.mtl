@@ -1,0 +1,79 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module generate('org.eclipse.lyo.oslc4j.adaptorInterface')]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderCatalogService/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderCatalogSingleton/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorServiceProviderFactory/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorManager/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorServletListener/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateDelegatedUIJavaScripts/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorApplication/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorPackageInfo/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorConstants/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderCatalogHTML/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderHTML/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderService/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderInfo/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResource/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateService/]
+[import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateLicenseFiles/]
+
+[template public generate(anAdaptorInterface : AdaptorInterface)]
+[comment @main/]
+
+[comment TODO: Produce "package-info.java" under the Resources package. See the original instructions on how to setup a OSLC4J project for details./]
+[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]
+[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogSingleton() /]
+
+[anAdaptorInterface.generateLicenseFiles() /]
+[anAdaptorInterface.generateAdaptorApplication() /]
+[anAdaptorInterface.generateAdaptorPackageInfo() /]
+[anAdaptorInterface.generateAdaptorServletListener() /]
+[anAdaptorInterface.generateAdaptorManager() /]
+[anAdaptorInterface.generateAdaptorConstants() /]
+[anAdaptorInterface.generateDelegatedUIJavaScripts() /]
+[anAdaptorInterface.generateAdaptorServiceProviderFactory() /]
+[anAdaptorInterface.generateServiceProviderInfo() /]
+
+[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogHTML() /]
+
+[for (aResource: Resource | relevantResources(anAdaptorInterface))]
+	[aResource.generateResource() /]
+[/for]
+
+[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
+	[aServiceProvider.generateServiceProviderService()/]
+	[aServiceProvider.generateServiceProviderHTML() /]
+	[for (aService: Service | aServiceProvider.services)]
+		[aService.generateService()/]
+	[/for]
+
+[/for]
+
+
+
+[/template]
