@@ -33,7 +33,8 @@ Contributors:
   <link rel="stylesheet" href="${resURL}${attrs.css}" type="text/css" />
 </j:if>
 <link rel="shortcut icon" href="${resURL}/favicon.ico" type="image/vnd.microsoft.icon" />
-<script src="${resURL}/scripts/prototype.js" type="text/javascript"/>
+<!-- TODO: Remove this dependency since it might cause problems with older Hudson versions. -->
+<script src="${resURL}/scripts/prototype-1.7.js" type="text/javascript"/>
 </head>
 
 <body style="margin: 1em;">

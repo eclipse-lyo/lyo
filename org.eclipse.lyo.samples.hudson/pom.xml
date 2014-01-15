@@ -4,9 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jvnet.hudson.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>1.395</version>
+        <groupId>org.eclipse.hudson.plugins</groupId>
+        <artifactId>hudson-plugin-parent</artifactId>
+        <!-- which version of Hudson is this plugin built against? -->
+        <version>3.0.1</version>
     </parent>
  
     <groupId>org.eclipse.lyo.server</groupId>

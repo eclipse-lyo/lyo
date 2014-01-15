@@ -72,7 +72,7 @@ Contributors:
 	  </div>
 	</form>
 
-<script type="text/javascript" src="${rootURL}/plugin/hudson-oslc-auto/js/dialog.js" />
+<script type="text/javascript" src="${app.rootUrl}/plugin/hudson-oslc-auto/js/dialog.js" />
 <script>
 function ok() {
 	var results = [];
@@ -80,7 +80,7 @@ function ok() {
     for(var i=0; inputElements[i]; ++i){
       if(inputElements[i].checked){
            var jobName = inputElements[i].value;
-           var uri = "${rootURL}/auto/job/" + encodeURIComponent(jobName);
+           var uri = "${app.rootURL}/auto/job/" + encodeURIComponent(jobName);
            results.push({
              'oslc:label': jobName,
              'rdf:resource': uri
