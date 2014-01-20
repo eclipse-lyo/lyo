@@ -13,6 +13,7 @@
  *  
  *     Michael Fiedler     - initial API and implementation
  *     Samuel Padgett      - handle test case creation errors
+ *     Samuel Padgett      - update command line example to use correct context
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
 
@@ -81,7 +82,7 @@ public class RQMFormSample {
 		
 		if (!validateOptions(cmd)) {		
 			logger.severe("Syntax:  java <class_name> -url https://<server>:port/<context>/ -user <user> -password <password> -project \"<project_area>\"");
-			logger.severe("Example: java RQMFormSample -url https://exmple.com:9443/ccm -user ADMIN -password ADMIN -project \"JKE Banking (Quality Management)\"");
+			logger.severe("Example: java RQMFormSample -url https://exmple.com:9443/qm -user ADMIN -password ADMIN -project \"JKE Banking (Quality Management)\"");
 			return;
 		}
 			
