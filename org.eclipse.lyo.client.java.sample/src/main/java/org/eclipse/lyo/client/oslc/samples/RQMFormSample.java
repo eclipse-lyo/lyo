@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  *  Contributors:
  *  
  *     Michael Fiedler     - initial API and implementation
+ *     Samuel Padgett      - handle test case creation errors
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
 
@@ -22,6 +23,8 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -151,6 +154,12 @@ public class RQMFormSample {
 				ClientResponse creationResponse = client.createResource(
 						testcaseCreation, testcase,
 						OslcMediaType.APPLICATION_RDF_XML);
+				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+					System.err.println("ERROR: Could not create the test case (status " + creationResponse.getStatusCode() + ")\n");
+					System.err.println(creationResponse.getEntity(String.class));
+					System.exit(1);
+				}
+
 				creationResponse.consumeContent();
 				String testcaseLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
 				System.out.println("Test Case created a location " + testcaseLocation);
