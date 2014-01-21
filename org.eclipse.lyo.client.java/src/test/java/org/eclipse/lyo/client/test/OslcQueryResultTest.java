@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 IBM Corporation and others.
+ * Copyright (c) 2013, 2014 IBM Corporation and others.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -11,7 +11,8 @@
  *  
  *  Contributors:
  *  
- *     Samuel Padgett                  - initial API and implementation
+ *     Samuel Padgett - initial API and implementation
+ *     Samuel Padgett - test member property on call to OslcQueryResult.getNext()
  *******************************************************************************/
 package org.eclipse.lyo.client.test;
 
@@ -80,6 +81,20 @@ public class OslcQueryResultTest {
 		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
 		 result.setMemberProperty("http://open-services.net/ns/bogus/blogs#comment");
 		 assertEquals(5, result.getMembersUrls().length);
+	}
+
+	@Test
+	public void testBlogQueryNext() {
+		 ClientResponse mockedResponse = mockClientResponse("/blogQuery.rdf");
+
+		 OslcQueryParameters params = new OslcQueryParameters();
+		 params.setSelect("dcterms:title");
+		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
+		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+		 result.setMemberProperty("http://open-services.net/ns/bogus/blogs#comment");
+		 
+		 OslcQueryResult nextResult = result.next();
+		 assertEquals("http://open-services.net/ns/bogus/blogs#comment", nextResult.getMemberProperty());
 	}
 	
 	@Test

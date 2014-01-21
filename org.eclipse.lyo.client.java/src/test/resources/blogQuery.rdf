@@ -6,6 +6,7 @@
 
      <oslc:ResponseInfo rdf:about="http://example.com/query?oslc.select=dcterms:title">
          <dcterms:title>Blog Service Query Results for term [remote]</dcterms:title>
+         <oslc:nextPage rdf:resource="http://example.com/query?oslc.select=dcterms:title&amp;page=2"/>
      </oslc:ResponseInfo>
      
      <oslc_blog:BlogQuery rdf:about="http://example.com/query">

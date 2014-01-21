@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -14,6 +14,7 @@
  *     Sean Kennedy     - initial API and implementation
  *     Steve Pitschke   - added getMembers() method
  *     Samuel Padgett   - support setting member property
+ *     Samuel Padgett   - preserve member property on call to getNext()
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
@@ -109,6 +110,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	private OslcQueryResult(OslcQueryResult prev) {
 		this.query = new OslcQuery(prev);
 		this.response = this.query.getResponse();
+		this.membersResource = prev.membersResource;
+		this.memberProperty = prev.memberProperty;
 		
 		this.pageNumber = prev.pageNumber + 1;
 		
@@ -175,6 +178,16 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	
 	public OslcQuery getQuery() {
 		return query;
+	}
+	
+	/**
+	 * Returns the member property to find query result resources.
+	 * 
+	 * @return the member property URI
+	 * @see #setMemberProperty(String)
+	 */
+	public String getMemberProperty() {
+		return this.memberProperty.getURI();
 	}
 	
 	/**
