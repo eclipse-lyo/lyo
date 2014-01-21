@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -66,6 +66,13 @@ public abstract class AbstractOslcRdfXmlProvider
 	 * @see RdfXmlAbbreviatedWriter
 	 */
 	public static final String OSLC4J_ALWAYS_XML_ABBREV       = "org.eclipse.lyo.oslc4j.alwaysXMLAbbrev";
+	
+	/**
+	 * System property {@value} : When "true" (default), fail on when reading a
+	 * property value that is not a legal instance of a datatype. When "false",
+	 * skip over invalid values in extended properties.
+	 */
+	public static final String OSLC4J_STRICT_DATATYPES       = "org.eclipse.lyo.oslc4j.strictDatatypes";
 
     private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
     private static final Class<Error> CLASS_OSLC_ERROR        = Error.class;

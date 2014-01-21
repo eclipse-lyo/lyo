@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -95,6 +95,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
 import com.hp.hpl.jena.datatypes.RDFDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
@@ -1071,7 +1072,29 @@ public final class JenaModelHelper
 				}
 			}
 
-			final Object literalValue = literal.getValue();
+			final Object literalValue;
+			try
+			{
+				literalValue = literal.getValue();
+			}
+			catch (DatatypeFormatException e)
+			{
+				if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES))) {
+					if (logger.isLoggable(Level.WARNING))
+					{
+						logger.log(Level.WARNING,
+								"Property " + propertyQName.getNamespaceURI()
+								+ propertyQName.getLocalPart()
+								+ " could not be parsed as datatype "
+								+ literal.getDatatypeURI(), e);
+					}
+
+					return "";
+				}
+
+				throw e;
+			}
+
 			if (literalValue instanceof XSDDateTime)
 			{
 				final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
