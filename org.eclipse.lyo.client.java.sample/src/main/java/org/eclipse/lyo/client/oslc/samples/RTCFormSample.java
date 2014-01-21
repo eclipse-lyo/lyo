@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -13,6 +13,8 @@
  *  
  *     Michael Fiedler     - initial API and implementation
  *     Steve Pitschke      - added use of new OslcQueryResult.getMembers()
+ *     Samuel Padgett      - examine oslc:usage to find the right creation factory,
+ *                           use resource shapes to discover allowed values for Filed Against
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
 
@@ -20,13 +22,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.datatype.DatatypeConfigurationException;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -45,9 +46,13 @@ import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.AllowedValues;
+import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.Property;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.provider.jena.AbstractOslcRdfXmlProvider;
 
 /**
  * Samples of logging in to Rational Team Concert and running OSLC operations
@@ -61,6 +66,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
  */
 public class RTCFormSample {
 
+	private static final String RTC_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/";
+	private static final String RTC_FILED_AGAINST = "filedAgainst";
 	private static final Logger logger = Logger.getLogger(RTCFormSample.class.getName());
 
 	/**
@@ -87,7 +94,12 @@ public class RTCFormSample {
 			logger.severe("Example: java RTCFormSample -url https://exmple.com:9443/ccm -user ADMIN -password ADMIN -project \"JKE Banking (Change Management)\"");
 			return;
 		}
-			
+		
+		// RTC sometimes will declare a property's type, but leave the value
+		// empty, which causes errors when parsed by OSLC4J. Set a system property
+		// to tell OSLC4J to skip these invalid values.
+		System.setProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES, "false");
+	
 		String webContextUrl = cmd.getOptionValue("url");
 		String user = cmd.getOptionValue("user");
 		String passwd = cmd.getOptionValue("password");
@@ -143,46 +155,94 @@ public class RTCFormSample {
 				processRawResponse(rawResponse);
 				rawResponse.consumeContent();
 				
-				//SCENARIO C:  RTC Workitem creation and update
-				ChangeRequest changeRequest = new ChangeRequest();
-				changeRequest.setTitle("Implement accessibility in Pet Store application");
-				changeRequest.setDescription("Image elements must provide a description in the 'alt' attribute for consumption by screen readers.");
-				changeRequest.addTestedByTestCase(new Link(new URI("http://qmprovider/testcase/1"), "Accessibility verification using a screen reader"));
-				changeRequest.addDctermsType("task");
+				//SCENARIO C:  RTC task creation and update
+				ChangeRequest task = new ChangeRequest();
+				task.setTitle("Implement accessibility in Pet Store application");
+				task.setDescription("Image elements must provide a description in the 'alt' attribute for consumption by screen readers.");
+				task.addTestedByTestCase(new Link(new URI("http://qmprovider/testcase/1"), "Accessibility verification using a screen reader"));
+				task.addDctermsType("task");
 				
 				//Get the Creation Factory URL for change requests so that we can create one
-				String changeRequestCreation = client.lookupCreationFactory(
+				String taskCreation = client.lookupCreationFactory(
 						serviceProviderUrl, OSLCConstants.OSLC_CM_V2,
-						changeRequest.getRdfTypes()[0].toString());
+						task.getRdfTypes()[0].toString(), OSLCConstants.OSLC_CM_V2 + "task");
 
 				//Create the change request
 				ClientResponse creationResponse = client.createResource(
-						changeRequestCreation, changeRequest,
+						taskCreation, task,
 						OslcMediaType.APPLICATION_RDF_XML,
 						OslcMediaType.APPLICATION_RDF_XML);
 				String changeRequestLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
+				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+					System.err.println("ERROR: Could not create the task (status " + creationResponse.getStatusCode() + ")\n");
+					System.err.println(creationResponse.getEntity(String.class));
+					System.exit(1);
+				}
 				creationResponse.consumeContent();
-				System.out.println("Change Request created a location " + changeRequestLocation);
-				
-				
+				System.out.println("Task created at location " + changeRequestLocation);
+	
 				//Get the change request from the service provider and update its title property 
-				changeRequest = client.getResource(changeRequestLocation,
+				task = client.getResource(changeRequestLocation,
 						OslcMediaType.APPLICATION_RDF_XML).getEntity(
 								ChangeRequest.class);
-				changeRequest.setTitle(changeRequest.getTitle() + " (updated)");
+				task.setTitle(task.getTitle() + " (updated)");
 
 				//Create a partial update URL so that only the title will be updated.
 				//Assuming (for readability) that the change request URL does not already contain a '?'
-				String updateUrl = changeRequest.getAbout() + "?oslc.properties=dcterms:title";
+				String updateUrl = task.getAbout() + "?oslc.properties=dcterms:title";
 				
 				//Update the change request at the service provider
 				ClientResponse updateResponse = client.updateResource(
-						updateUrl, changeRequest,
+						updateUrl, task,
 						OslcMediaType.APPLICATION_RDF_XML,
 						OslcMediaType.APPLICATION_RDF_XML);
 				
 				updateResponse.consumeContent();
-							
+
+				//SCENARIO D:  RTC defect creation
+				ChangeRequest defect = new ChangeRequest();
+				defect.setTitle("Error logging in");
+				defect.setDescription("An error occurred when I tried to log in with a user ID that contained the '@' symbol.");
+				defect.addTestedByTestCase(new Link(new URI("http://qmprovider/testcase/3"), "Global Verifcation Test"));
+				defect.addDctermsType("defect");
+		
+				//Get the Creation Factory URL for change requests so that we can create one
+				CreationFactory defectCreation = client.lookupCreationFactoryResource(
+						serviceProviderUrl, OSLCConstants.OSLC_CM_V2,
+						defect.getRdfTypes()[0].toString(), OSLCConstants.OSLC_CM_V2 + "defect");
+				String factoryUrl = defectCreation.getCreation().toString();
+
+				//Determine what to use for the Filed Against attribute by requesting the resource shape for the creation factory.
+				String shapeUrl = defectCreation.getResourceShapes()[0].toString();
+				ClientResponse shapeResponse = client.getResource(shapeUrl, OslcMediaType.APPLICATION_RDF_XML);
+				ResourceShape shape = shapeResponse.getEntity(ResourceShape.class);
+				
+				//Look at the allowed values for Filed Against. This is generally a required field for defects.
+				Property filedAgainstProperty = shape.getProperty(new URI(RTC_NAMESPACE + RTC_FILED_AGAINST));
+				if (filedAgainstProperty != null) {
+					URI allowedValuesRef = filedAgainstProperty.getAllowedValuesRef();
+					ClientResponse allowedValuesResponse = client.getResource(allowedValuesRef.toString(), OslcMediaType.APPLICATION_RDF_XML);
+					AllowedValues allowedValues = allowedValuesResponse.getEntity(AllowedValues.class);
+					Object[] values = allowedValues.getValues().toArray();
+					
+					// Pick a value from the array. (Avoid the first value, which is usually "Unassigned.")
+					URI lastValue = (URI) values[values.length - 1];
+					defect.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), lastValue);
+				}
+
+				//Create the change request
+				creationResponse = client.createResource(
+						factoryUrl, defect,
+						OslcMediaType.APPLICATION_RDF_XML,
+						OslcMediaType.APPLICATION_RDF_XML);
+				String defectLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
+				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+					System.err.println("ERROR: Could not create the defect (status " + creationResponse.getStatusCode() + ")\n");
+					System.err.println(creationResponse.getEntity(String.class));
+					System.exit(1);
+				}
+				creationResponse.consumeContent();
+				System.out.println("Defect created at location " + defectLocation);
 			}
 		} catch (RootServicesException re) {
 			logger.log(Level.SEVERE,"Unable to access the Jazz rootservices document at: " + webContextUrl + "/rootservices", re);

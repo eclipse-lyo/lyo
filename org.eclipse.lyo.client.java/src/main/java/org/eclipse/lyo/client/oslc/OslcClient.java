@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation and others.
+ * Copyright (c) 2011, 2014 IBM Corporation and others.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -14,6 +14,8 @@
  *     Michael Fiedler                 - initial API and implementation
  *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
  *     Michael Fiedler	               - follow redirects.
+ *     Samuel Padgett 	               - support oslc:usage and discovering
+ *                                       full creation factory resources
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
@@ -453,20 +455,13 @@ public class OslcClient {
 		throw new ResourceNotFoundException(serviceProviderUrl, "QueryCapability");
 	}
 	
-	/**
-	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
-	 * the default Creation Factory, if it exists.  
-	 *
-	 * @param serviceProviderUrl
-	 * @param oslcDomain
-	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
-	 * @return URL of requested Creation Factory or null if not found.
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
-	 */
-	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
+	{	
+		return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, null);
+	}
+
+	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage) 
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		CreationFactory defaultCreationFactory = null;
@@ -487,7 +482,16 @@ public class OslcClient {
 								
 								//return as soon as domain + resource type are matched
 								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
-									return creationFactory.getCreation().toString();
+									//...but check oslc:usage if requested
+									if (oslcUsage != null) {
+										for (URI factoryUsage : creationFactory.getUsages()) {
+											if (oslcUsage.equals(factoryUsage.toString())) {
+												return creationFactory;
+											}
+										}
+									} else {
+										return creationFactory;
+									}
 								}							
 							}
 							//Check if this is the default factory
@@ -505,16 +509,52 @@ public class OslcClient {
 		//If we reached this point, there was no resource type match
 		if (defaultCreationFactory != null) {
 			//return default, if present
-			return defaultCreationFactory.getCreation().toString();
+			return defaultCreationFactory;
 		} else if (firstCreationFactory != null && firstCreationFactory.getResourceTypes().length ==0) {
 			//return the first for the domain, if present
-			return firstCreationFactory.getCreation().toString();
+			return firstCreationFactory;
 		} 
 		
 		throw new ResourceNotFoundException(serviceProviderUrl, "CreationFactory");
 	}
 	
+	/**
+	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
+	 * the default Creation Factory, if it exists.  
+	 *
+	 * @param serviceProviderUrl
+	 * @param oslcDomain
+	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
+	 * @return URL of requested Creation Factory or null if not found.
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
+	 */
+	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
+	{
+		return lookupCreationFactory(serviceProviderUrl, oslcDomain, oslcResourceType, null);
+	}
 	
+	/**
+	 * Find the OSLC Creation Factory URL for a given OSLC resource type and OSLC usage.  If no resource type is given, returns
+	 * the default Creation Factory, if it exists.  
+	 *
+	 * @param serviceProviderUrl
+	 * @param oslcDomain
+	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
+	 * @return URL of requested Creation Factory or null if not found.
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 * @throws ResourceNotFoundException 
+	 */
+	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage) 
+			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
+	{
+		return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, oslcUsage).getCreation().toString();
+	}
 	
 	/**
 	 * Looks up and select an installed security context provider
