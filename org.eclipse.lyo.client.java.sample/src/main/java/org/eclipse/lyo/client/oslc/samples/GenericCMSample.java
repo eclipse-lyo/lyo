@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -109,7 +109,7 @@ public class GenericCMSample {
 			//SCENARIO B:  Run a query for a specific ChangeRequest and then print it as raw XML.  
 			//Change the URL below to match a real ChangeRequest
 			
-			ClientResponse rawResponse = client.getResource("http://localhost:8080/OSLC4JChangeManagement/changeRequests/1",
+			ClientResponse rawResponse = client.getResource("http://localhost:8080/OSLC4JChangeManagement/services/changeRequests/1",
 									 					     OSLCConstants.CT_XML);
 			processRawResponse(rawResponse);
 			rawResponse.consumeContent();
