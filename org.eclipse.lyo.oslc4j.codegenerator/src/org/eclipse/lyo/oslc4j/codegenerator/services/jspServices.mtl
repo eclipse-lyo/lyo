@@ -1,0 +1,83 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2014 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     
+ *******************************************************************************/
+/]
+
+[module jspServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[query public filteredResourceCollectionJspRelativeFileName(aResource: Resource) : String = 
+jspFilesWebappPath(aResource.eContainer(AdaptorInterface)).concat('/').concat(aResource.name.toLower()).concat('filteredcollection_json').concat('.jsp')
+/]
+[query public filteredResourceCollectionJspFullFileName(aResource: Resource) : String = 
+jspFilesBasePath(aResource.eContainer(AdaptorInterface)).concat(filteredResourceCollectionJspRelativeFileName(aResource))
+/]
+
+[query public resourceCollectionJspRelativeFileName(aResource: Resource) : String = 
+jspFilesWebappPath(aResource.eContainer(AdaptorInterface)).concat('/').concat(aResource.name.toLower()).concat('collection_html').concat('.jsp')
+/]
+[query public resourceCollectionJspFullFileName(aResource: Resource) : String = 
+jspFilesBasePath(aResource.eContainer(AdaptorInterface)).concat(resourceCollectionJspRelativeFileName(aResource))
+/]
+
+[query public getResourceJspRelativeFileName(aResource: Resource) : String = 
+jspFilesWebappPath(aResource.eContainer(AdaptorInterface)).concat('/').concat(aResource.name.toLower()).concat('_html').concat('.jsp')
+/]
+[query public getResourceJspFullFileName(aResource: Resource) : String = 
+jspFilesBasePath(aResource.eContainer(AdaptorInterface)).concat(getResourceJspRelativeFileName(aResource))
+/]
+
+[query public resourceCreatorJspRelativeFileName(aResource: Resource) : String = 
+jspFilesWebappPath(aResource.eContainer(AdaptorInterface)).concat('/').concat(aResource.name.toLower()).concat('creator_html').concat('.jsp')
+/]
+[query public resourceCreatorJspFullFileName(aResource: Resource) : String = 
+jspFilesBasePath(aResource.eContainer(AdaptorInterface)).concat(resourceCreatorJspRelativeFileName(aResource))
+/]
+
+[query public resourceSelectorJspRelativeFileName(aResource: Resource) : String = 
+jspFilesWebappPath(aResource.eContainer(AdaptorInterface)).concat('/').concat(aResource.name.toLower()).concat('selector_html').concat('.jsp')
+/]
+[query public resourceSelectorJspFullFileName(aResource: Resource) : String = 
+jspFilesBasePath(aResource.eContainer(AdaptorInterface)).concat(resourceSelectorJspRelativeFileName(aResource))
+/]
+
+[query public serviceProviderCatalogJspRelativeFileName(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+jspFilesWebappPath(containingAdaptorInterface(aServiceProviderCatalog)).concat('/').concat('serviceProviderCatalog_html').concat('.jsp')
+/]
+[query public serviceProviderCatalogJspFullFileName(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
+jspFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concat(serviceProviderCatalogJspRelativeFileName(aServiceProviderCatalog))
+/]
+
+[query public serviceProviderJspRelativeFileName(aServiceProvider : ServiceProvider) : String = 
+jspFilesWebappPath(aServiceProvider.eContainer(AdaptorInterface)).concat('/').concat('serviceProvider_html').concat('.jsp')
+/]
+[query public serviceProviderJspFullFileName(aServiceProvider : ServiceProvider) : String = 
+jspFilesBasePath(aServiceProvider.eContainer(AdaptorInterface)).concat(serviceProviderJspRelativeFileName())
+/]
+
+[comment TODO: I need to work out how to properly set hte javascript path. This is hard-coded :-)/]
+[query public delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface : AdaptorInterface) : String = 
+'delegatedUI'.concat('.js')
+/]
+[query public delegatedUIJavaScriptsFullFileName(anAdaptorInterface : AdaptorInterface) : String = 
+javascriptFilesBasePath(anAdaptorInterface).concat('/').concat(delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface))
+/]
+
+

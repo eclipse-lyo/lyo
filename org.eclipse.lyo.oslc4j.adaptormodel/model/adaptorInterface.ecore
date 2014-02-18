@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="adaptorInterface" nsURI="org.eclipse.lyo.oslc4j.adaptorInterface"
+    nsPrefix="ai">
+  <eClassifiers xsi:type="ecore:EClass" name="AdaptorInterface">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceProviderCatalog"
+        lowerBound="1" eType="#//ServiceProviderCatalog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClassBaseNamespace"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specification" lowerBound="1"
+        eType="#//Specification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaFilesBasePath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jspFilesBasePath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javascriptFilesBasePath"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domainSpecifications" upperBound="-1"
+        eType="#//DomainSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domainPrefixes" upperBound="-1"
+        eType="#//NamespacePrefix" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainSpecification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespaceURI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="namespacePrefix" lowerBound="1"
+        eType="#//NamespacePrefix"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
+        eType="#//Resource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceProperties" upperBound="-1"
+        eType="#//ResourceProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamespacePrefix">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceProviderCatalog">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisher" eType="#//Publisher"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serviceProviders" upperBound="-1"
+        eType="#//ServiceProvider" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceProvider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="publisher" eType="#//Publisher"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="services" lowerBound="1"
+        upperBound="-1" eType="#//Service" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domainSpecification" lowerBound="1"
+        eType="#//DomainSpecification"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creationFactories" upperBound="-1"
+        eType="#//CreationFactory" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="queryCapabilities" upperBound="-1"
+        eType="#//QueryCapability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="selectionDialogs" upperBound="-1"
+        eType="#//Dialog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="creationDialogs" upperBound="-1"
+        eType="#//Dialog" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Resource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extends" eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceProperties" upperBound="-1"
+        eType="#//ResourceProperty"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="occurs" eType="#//ResourcePropertyOccurs"
+        defaultValueLiteral="exactlyOne"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="readOnly" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueType" eType="#//ResourcePropertyValueType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="representation" eType="#//ResourcePropertyRepresentation"
+        defaultValueLiteral="n/a"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyOccurs">
+    <eLiterals name="exactlyOne" literal="exactlyOne"/>
+    <eLiterals name="zeroOrOne" value="1" literal="zeroOrOne"/>
+    <eLiterals name="zeroOrMany" value="2" literal="zeroOrMany"/>
+    <eLiterals name="oneOrMany" value="3" literal="oneOrMany"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyValueType">
+    <eLiterals name="Boolean" literal="Boolean"/>
+    <eLiterals name="String" value="1" literal="String"/>
+    <eLiterals name="DateTime" value="2" literal="DateTime"/>
+    <eLiterals name="XMLLiteral" value="3" literal="XMLLiteral"/>
+    <eLiterals name="Resource" value="4" literal="Resource"/>
+    <eLiterals name="LocalResource" value="5" literal="LocalResource"/>
+    <eLiterals name="URI" value="6" literal="URI"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyRepresentation">
+    <eLiterals name="reference" literal="reference"/>
+    <eLiterals name="inline" value="1" literal="inline"/>
+    <eLiterals name="either" value="2" literal="either"/>
+    <eLiterals name="n/a" value="3" literal="n/a"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CreationFactory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationURI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" upperBound="-1"
+        eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QueryCapability">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="queryBaseURI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" upperBound="-1"
+        eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dialog">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dialogURI" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hintHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EShort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" upperBound="-1"
+        eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Publisher">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>
