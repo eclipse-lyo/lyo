@@ -13,6 +13,7 @@
  *  
  *     Samuel Padgett - initial API and implementation
  *     Samuel Padgett - test member property on call to OslcQueryResult.getNext()
+ *     Samuel Padgett - remove previous test as it causes problems in our Hudson builds
  *******************************************************************************/
 package org.eclipse.lyo.client.test;
 
@@ -83,20 +84,6 @@ public class OslcQueryResultTest {
 		 assertEquals(5, result.getMembersUrls().length);
 	}
 
-	@Test
-	public void testBlogQueryNext() {
-		 ClientResponse mockedResponse = mockClientResponse("/blogQuery.rdf");
-
-		 OslcQueryParameters params = new OslcQueryParameters();
-		 params.setSelect("dcterms:title");
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 result.setMemberProperty("http://open-services.net/ns/bogus/blogs#comment");
-		 
-		 OslcQueryResult nextResult = result.next();
-		 assertEquals("http://open-services.net/ns/bogus/blogs#comment", nextResult.getMemberProperty());
-	}
-	
 	@Test
 	public void testAnyMember() {
 		System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "true");
