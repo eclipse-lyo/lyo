@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.lyo.oslc4j.core</groupId>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>2.1.0</version>
 	<name>OSLC4J Utilities</name>
 	<artifactId>oslc4j-utils</artifactId>
 	<description>Additional utilities such as the OSLC4J Marshaller and Unmarshaller</description>
@@ -19,12 +19,12 @@
 	  	<dependency>
 	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 	  		<artifactId>oslc4j-json4j-provider</artifactId>
-	  		<version>2.1.0-SNAPSHOT</version>
+	  		<version>2.1.0</version>
 	  	</dependency>
 	  	<dependency>
 	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 	  		<artifactId>oslc4j-jena-provider</artifactId>
-	  		<version>2.1.0-SNAPSHOT</version>
+	  		<version>2.1.0</version>
 	    </dependency> 
         <dependency>
             <groupId>junit</groupId>
