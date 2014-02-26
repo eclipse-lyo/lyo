@@ -22,11 +22,12 @@
  *******************************************************************************/
 /]
 
-[module generateAdaptorConstants('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateAdaptorConstants('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [query public generateDomainSpecificationConstants(aDomainSpecification : DomainSpecification) : String = 
 'public static String '.concat(domainSpecificationConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespaceURI).concat('#";').concat(lineSeparator()).concat('public static String ').concat(domainSpecificationNamespaceConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespaceURI).concat('#";').concat(lineSeparator()).concat('public static String ').concat(domainSpecificationNamespacePrefixConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespacePrefix.name).concat('";').concat(lineSeparator())

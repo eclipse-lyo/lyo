@@ -19,13 +19,13 @@
 --%>
 /]
 
-[module generateServiceProviderHTML('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateServiceProviderHTML('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateServiceProviderHTML(aServiceProvider : ServiceProvider)]
-[file (serviceProviderJspFullFileName(aServiceProvider), false, 'UTF-8')]
+[template public generateServiceProviderHTML(aServiceProvider : ServiceProvider, anAdaptorInterface : AdaptorInterface)]
+[file (serviceProviderJspFullFileName(aServiceProvider, anAdaptorInterface), false, 'UTF-8')]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.

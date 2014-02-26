@@ -18,7 +18,7 @@
  *******************************************************************************/
 /]
 
-[module generate('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generate('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
@@ -62,14 +62,14 @@
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogHTML() /]
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface))]
-	[aResource.generateResource() /]
+	[aResource.generateResource(anAdaptorInterface) /]
 [/for]
 
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
-	[aServiceProvider.generateServiceProviderService()/]
-	[aServiceProvider.generateServiceProviderHTML() /]
+	[aServiceProvider.generateServiceProviderService(anAdaptorInterface)/]
+	[aServiceProvider.generateServiceProviderHTML(anAdaptorInterface) /]
 	[for (aService: Service | aServiceProvider.services)]
-		[aService.generateService()/]
+		[aService.generateService(anAdaptorInterface)/]
 	[/for]
 
 [/for]

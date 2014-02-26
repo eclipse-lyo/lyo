@@ -18,13 +18,15 @@
  *******************************************************************************/
 /]
 
-[module serviceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module serviceServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
-[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[query public containingAdaptorInterface(aService: Service) : AdaptorInterface =
+aService.eContainer(AdaptorInterface)
+/]
 
 [comment Services for service /]
-
 
 [query public managedResources(aService: Service) : Set(Resource) = 
 aService.creationFactories.resourceTypes->asSet()

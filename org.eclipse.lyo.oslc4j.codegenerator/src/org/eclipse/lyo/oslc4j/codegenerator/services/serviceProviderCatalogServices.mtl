@@ -18,7 +18,7 @@
  *******************************************************************************/
 /]
 
-[module serviceProviderCatalogServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module serviceProviderCatalogServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]

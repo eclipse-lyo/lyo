@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xsi:schemaLocation="http://org.eclipse.lyo/oslc4j/adaptorInterface adaptorInterface.ecore">
+  <domainSpecifications name="Change_Management" namespaceURI="http://open-services.net/ns/cm" namespacePrefix="//@domainPrefixes.0">
+    <resources name="ChangeRequest">
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.0"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.1"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.2"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.3"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.4"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.0"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.1"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.2"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.5"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.6"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.7"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.8"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.9"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.10"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.3"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.11"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.12"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.13"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.3/@resourceProperties.0"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.14"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.15"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.16"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.4"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.5"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.0"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.17"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.6"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.18"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.1"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.7"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.19"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.2"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.3"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.20"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.8"/>
+      <resourceProperties href="#//@domainSpecifications.0/@resourceProperties.21"/>
+    </resources>
+    <resourceProperties title="" name="affectedByDefect" occurs="zeroOrMany" valueType="Resource" description="Change request is affected by a reported defect. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case."/>
+    <resourceProperties title="" name="affectsPlanItem" occurs="zeroOrMany" valueType="Resource" description="Change request affects a plan item. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case."/>
+    <resourceProperties title="" name="affectsRequirement" occurs="zeroOrMany" valueType="Resource" description="Change request affecting a Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case."/>
+    <resourceProperties title="" name="affectsTestResult" occurs="zeroOrMany" valueType="Resource" description="Associated QM resource that is affected by this Change Request. It is likely that the target resource will be an oslc_qm:TestResult but that is not necessarily the case."/>
+    <resourceProperties title="" name="blocksTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" description="Associated QM resource that is blocked by this Change Request. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case."/>
+    <resourceProperties title="" name="implementsRequirement" occurs="zeroOrMany" valueType="Resource" description="Implements associated Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case."/>
+    <resourceProperties title="" name="relatedChangeRequest" occurs="zeroOrMany" valueType="Resource" description="This relationship is loosely coupled and has no specific meaning. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case."/>
+    <resourceProperties title="" name="relatedTestCase" occurs="zeroOrMany" valueType="Resource" description="Related QM test case resource. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case."/>
+    <resourceProperties title="" name="relatedTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" description="Related to a QM test execution resource. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case."/>
+    <resourceProperties title="" name="relatedTestPlan" occurs="zeroOrMany" valueType="Resource" description="Related QM test plan resource. It is likely that the target resource will be an oslc_qm:TestPlan but that is not necessarily the case."/>
+    <resourceProperties title="" name="relatedTestScript" occurs="zeroOrMany" valueType="Resource" description="Related QM test script resource. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case."/>
+    <resourceProperties title="" name="testedByTestCase" occurs="zeroOrMany" valueType="Resource" description="Test case by which this change request is tested. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case."/>
+    <resourceProperties title="" name="tracksChangeSet" occurs="zeroOrMany" valueType="Resource" description="Tracks SCM change set resource. It is likely that the target resource will be an oslc_scm:ChangeSet but that is not necessarily the case."/>
+    <resourceProperties title="" name="tracksRequirement" occurs="zeroOrMany" valueType="Resource" description="Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case."/>
+    <resourceProperties title="" name="approved" occurs="zeroOrOne" readOnly="true" description="Whether or not the Change Request has been approved."/>
+    <resourceProperties title="" name="closed" occurs="zeroOrOne" readOnly="true" description="Whether or not the Change Request is completely done, no further fixes or fix verification is needed."/>
+    <resourceProperties title="" name="closeDate" occurs="zeroOrOne" readOnly="true" valueType="DateTime" description="The date at which no further activity or work is intended to be conducted."/>
+    <resourceProperties title="" name="fixed" occurs="zeroOrOne" readOnly="true" description="Whether or not the Change Request has been fixed."/>
+    <resourceProperties title="" name="inprogress" occurs="zeroOrOne" readOnly="true" description="Whether or not the Change Request in a state indicating that active work is occurring. If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false"/>
+    <resourceProperties title="" name="reviewed" occurs="zeroOrOne" readOnly="true" description="Whether or not the Change Request has been reviewed."/>
+    <resourceProperties title="" name="status" occurs="zeroOrOne" valueType="String" description="Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc."/>
+    <resourceProperties title="" name="verified" occurs="zeroOrOne" readOnly="true" description="Whether or not the resolution or fix of the Change Request has been verified."/>
+  </domainSpecifications>
+  <domainPrefixes name="oslc_cm"/>
+</oslc4j_ai:Specification>

@@ -23,15 +23,16 @@
  *******************************************************************************/
 /]
 
-[module generateResource('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateResource('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
-[template public generateResource(aResource : Resource)]
-[file (javaClassFullFileName(aResource), false, 'UTF-8')]
+[template public generateResource(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
+[file (javaClassFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation and others.
  *
@@ -57,7 +58,7 @@
  *******************************************************************************/
 
 
-package [javaClassPackageName(aResource) /];
+package [javaClassPackageName(aResource, anAdaptorInterface) /];
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -93,12 +94,12 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import [javaClassFullNameForAdaptorServletListener(aResource.eContainer(AdaptorInterface)) /]; 
-import [javaInterfaceFullNameForAdaptorConstants(aResource.eContainer(AdaptorInterface)) /];
-[for (aProperty: ResourceProperty | allProperties(aResource))]
+import [javaClassFullNameForAdaptorServletListener(anAdaptorInterface) /]; 
+import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
+[for (aProperty: ResourceProperty | allProperties(aResource)->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]
 [if (not aProperty.range.oclIsUndefined())]
-import [javaClassFullName(aProperty.range) /];	
+import [javaClassFullName(aProperty.range, anAdaptorInterface) /];	
 [/if]
 [/if]
 [/for]
@@ -106,9 +107,9 @@ import [javaClassFullName(aProperty.range) /];
 // [protected ('imports')]
 // [/protected]
 
-@OslcNamespace([javaInterfaceNameForAdaptorConstants(aResource.eContainer(AdaptorInterface)) /].[domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification()) /])
-@OslcName([javaInterfaceNameForAdaptorConstants(aResource.eContainer(AdaptorInterface)) /].[resourceConstantName(aResource) /]) 
-@OslcResourceShape(title = "[aResource.name /] Resource Shape", describes = [javaInterfaceNameForAdaptorConstants(aResource.eContainer(AdaptorInterface)) /].[resourceTypeConstantName(aResource) /])
+@OslcNamespace([javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /].[domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification()) /])
+@OslcName([javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /].[resourceConstantName(aResource) /]) 
+@OslcResourceShape(title = "[aResource.name /] Resource Shape", describes = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /].[resourceTypeConstantName(aResource) /])
 public class [javaClassName(aResource) /]
        extends [parentJavaClassName(aResource) /]
 {
@@ -140,7 +141,7 @@ public static URI constructURI(String serviceProviderId, String [aResource.name.
 	[comment TODO: The URI below should be constructed using the same methods that construct the "@Path" of the services.
 	These are currently hard coded as well. Change that, so that both use the same source. THis way, if there is a coder-define  
 	customisation of the method, the rest of the code will work fine./]
-	return new URI([javaClassNameForAdaptorServletListener(aResource.eContainer(AdaptorInterface))/].getServicesBase() + "/" + serviceProviderId + "/[aResource.name.toLowerFirst() /]s/"+ [aResource.name.toLowerFirst() /]Id);
+	return new URI([javaClassNameForAdaptorServletListener(anAdaptorInterface)/].getServicesBase() + "/" + serviceProviderId + "/[aResource.name.toLowerFirst() /]s/"+ [aResource.name.toLowerFirst() /]Id);
 }
 
 public String toString()
@@ -183,12 +184,12 @@ public String toHtml()
 
 [for (aProperty: ResourceProperty | aResource.resourceProperties)]
    	[nameAnnotation(aProperty) /]
-   	[propertyDefinitionAnnotation(aProperty, aResource) /]
+   	[propertyDefinitionAnnotation(aProperty, aResource, anAdaptorInterface) /]
 	[descriptionAnnotation(aProperty) /]
 	[occursAnnotation(aProperty) /]
 	[valueTypeAnnotation(aProperty) /]
 	[representationAnnotation(aProperty) /]
-	[rangeAnnotation(aProperty, aResource) /]
+	[rangeAnnotation(aProperty, aResource, anAdaptorInterface) /]
 	[readOnlyAnnotation(aProperty) /]
 	[titleAnnotation(aProperty) /]
     public [javaAttributeTypeDeclaration(aProperty) /] [if (aProperty.valueType.toString() = 'Boolean')]is[else]get[/if][javaAttributeName(aProperty, aResource).toUpperFirst() /]()

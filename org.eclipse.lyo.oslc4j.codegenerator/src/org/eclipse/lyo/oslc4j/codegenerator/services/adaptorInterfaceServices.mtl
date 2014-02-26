@@ -18,21 +18,33 @@
  *******************************************************************************/
 /]
 
-[module adaptorInterfaceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module adaptorInterfaceServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
+[comment TODO: we should avoid relying on "eContainer", since objects that come from a composing emf file, will not have the eContainer relationship setup as expected.
+This method should be able to work even for objects that come from a differnet emf file than that containing the AdaptorInterface. 
+You should also question any other use of "eContainer" in this whole project /]
 [query public containingAdaptorInterface(obj : OclAny) : AdaptorInterface =
 obj.eContainer(AdaptorInterface)
 /]
 
 [query public relevantResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
-relevantDomainSpecifications(anAdaptorInterface)->collectNested(aDomainSpecification : DomainSpecification | aDomainSpecification.resources)->flatten()->asSet()
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
+	managedResources(aService)
+	->union(managedResources(aService).extends->select(aResource : Resource | not aResource.oclIsUndefined()))
+	->union(managedResources(aService)->collectNested(aResource : Resource | aResource.allProperties()->select(aProperty : ResourceProperty | not aProperty.range.oclIsUndefined()).range)->flatten())
+)->flatten()->asSet()
 /]
 
 [query public relevantDomainSpecifications(anAdaptorInterface : AdaptorInterface) : Set(DomainSpecification) =
-anAdaptorInterface.specification.domainSpecifications
+relevantResources(anAdaptorInterface)->collectNested(aResource : Resource | 
+	definingDomainSpecification(aResource)
+	->union(aResource.allProperties()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
+)->flatten()->asSet()
 /]
 
 [comment Services for AdaptorPackageInfo /]

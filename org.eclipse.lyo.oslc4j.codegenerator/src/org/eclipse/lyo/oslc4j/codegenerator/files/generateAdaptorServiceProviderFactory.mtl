@@ -22,7 +22,7 @@
  *******************************************************************************/
 /]
 
-[module generateAdaptorServiceProviderFactory('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateAdaptorServiceProviderFactory('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
@@ -69,7 +69,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderFactory;
 
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
-[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services)]
+[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassFullName(x)))]
 import [javaClassFullName(aService) /];	
 [/for]
 
@@ -81,7 +81,7 @@ public class [javaClassNameForServiceProviderFactory(anAdaptorInterface) /]
 {
     private static Class<?>[ '[' ']' /] RESOURCE_CLASSES =
     {
-		[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services) separator(', ')]
+		[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassName(x))) separator(', ')]
 		[javaClassName(aService)/].class	
 		[/for]
     };
@@ -120,7 +120,7 @@ public class [javaClassNameForServiceProviderFactory(anAdaptorInterface) /]
             new PrefixDefinition(OslcConstants.OSLC_DATA_NAMESPACE_PREFIX, new URI(OslcConstants.OSLC_DATA_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDF_NAMESPACE_PREFIX, new URI(OslcConstants.RDF_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDFS_NAMESPACE_PREFIX, new URI(OslcConstants.RDFS_NAMESPACE)),
-			[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)) separator(','.concat(lineSeparator()))]
+			[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name)) separator(','.concat(lineSeparator()))]
 			new PrefixDefinition([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespacePrefixConstantName(aDomainSpecification) /], new URI([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespaceConstantName(aDomainSpecification) /]))
 			[/for]
         };

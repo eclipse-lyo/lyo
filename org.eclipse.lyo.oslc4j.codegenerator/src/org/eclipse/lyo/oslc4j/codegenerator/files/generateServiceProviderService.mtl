@@ -22,7 +22,7 @@
  *******************************************************************************/
 /]
 
-[module generateServiceProviderService('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateServiceProviderService('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
@@ -30,7 +30,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderCatalogServices/]
 
-[template public generateServiceProviderService(aServiceProvider : ServiceProvider)]
+[template public generateServiceProviderService(aServiceProvider : ServiceProvider, anAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileNameForService(aServiceProvider), false, 'UTF-8')]
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation and others.
@@ -165,7 +165,7 @@ public class [javaClassNameForService(aServiceProvider) /]
 		// [protected ('getHtmlServiceProvider_setAttributes')]
 		// [/protected]
 
-        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[serviceProviderJspRelativeFileName(aServiceProvider) /]");
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[serviceProviderJspRelativeFileName(aServiceProvider, anAdaptorInterface) /]");
 		try {
 			rd.forward(httpServletRequest, httpServletResponse);
 		} catch (Exception e) {				

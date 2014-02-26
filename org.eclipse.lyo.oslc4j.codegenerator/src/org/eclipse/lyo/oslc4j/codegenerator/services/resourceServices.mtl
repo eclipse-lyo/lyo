@@ -18,17 +18,10 @@
  *******************************************************************************/
 /]
 
-[module resourceServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module resourceServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
-
-[query public definingDomainSpecification(aResource: Resource) : DomainSpecification =
-aResource.eContainer(DomainSpecification)
-/]
-
-[query public adaptorInterface(aResource: Resource) : AdaptorInterface = 
-aResource.eContainer(AdaptorInterface)
-/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [query public allProperties(aResource: Resource) : Set(ResourceProperty) = 
 aResource.resourceProperties->union(inheritedProperties(aResource))
@@ -52,20 +45,20 @@ Make sure this query and the Constants generation are based on the same set of b
 aResource.definingDomainSpecification().namespaceURI.concat('#').concat(aResource.name)
 /]
 
-[query public javaClassPackageName(aResource: Resource) : String = 
-javaClassBaseNamespace(adaptorInterface(aResource)).concat('.resources')
+[query public javaClassPackageName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
 /]
 
 [query public javaClassName(aResource: Resource) : String = 
 aResource.name.toUpperFirst()
 /]
 
-[query public javaClassFullName(aResource: Resource) : String = 
-javaClassPackageName(aResource).concat('.').concat(javaClassName(aResource))
+[query public javaClassFullName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageName(aResource, anAdaptorInterface).concat('.').concat(javaClassName(aResource))
 /]
 
-[query public javaClassFullFileName(aResource: Resource) : String = 
-javaFilesBasePath(adaptorInterface(aResource)).concat(javaClassPackageName(aResource).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
+[query public javaClassFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
 /]
 
 [template public parentJavaClassName(aResource: Resource)] 
