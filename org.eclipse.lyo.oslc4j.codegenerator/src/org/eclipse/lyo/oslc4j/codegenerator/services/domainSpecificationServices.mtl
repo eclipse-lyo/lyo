@@ -18,15 +18,13 @@
  *******************************************************************************/
 /]
 
-[module generateLicenseFiles('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
+[module domainSpecificationServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
-[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
-[import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateNoticeHTML/]
-[import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateEDLV10HTML/]
-[import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateEPLV10HTML/]
+[query public definingDomainSpecification(aProperty: ResourceProperty) : DomainSpecification =
+aProperty.eContainer(DomainSpecification)
+/]
 
-[template public generateLicenseFiles(anAdaptorInterface : AdaptorInterface)]
-[anAdaptorInterface.generateNoticeHTML() /]
-[anAdaptorInterface.generateEDLV10HTML() /]
-[anAdaptorInterface.generateEPLV10HTML() /]
-[/template]
+[query public definingDomainSpecification(aResource: Resource) : DomainSpecification =
+aResource.eContainer(DomainSpecification)
+/]
+

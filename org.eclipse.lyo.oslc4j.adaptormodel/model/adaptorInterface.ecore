@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="adaptorInterface" nsURI="org.eclipse.lyo.oslc4j.adaptorInterface"
-    nsPrefix="ai">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="adaptorinterface" nsURI="http://org.eclipse.lyo/oslc4j/adaptorInterface"
+    nsPrefix="oslc4j_ai">
   <eClassifiers xsi:type="ecore:EClass" name="AdaptorInterface">
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceProviderCatalog"
         lowerBound="1" eType="#//ServiceProviderCatalog" containment="true"/>

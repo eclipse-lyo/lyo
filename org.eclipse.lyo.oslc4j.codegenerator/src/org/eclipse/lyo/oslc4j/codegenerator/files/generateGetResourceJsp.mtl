@@ -19,15 +19,15 @@
 --%>
 /]
 
-[module generateGetResourceJsp('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateGetResourceJsp('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateGetResourceJsp(aResource : Resource)]
-[file (getResourceJspFullFileName(aResource), false, 'UTF-8')]
+[template public generateGetResourceJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
+[file (getResourceJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.
@@ -51,7 +51,7 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="java.util.List" %>
-<%@page import="[javaClassFullName(aResource) /]"%>
+<%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
 <%--
 [protected ('imports')]
 --%>

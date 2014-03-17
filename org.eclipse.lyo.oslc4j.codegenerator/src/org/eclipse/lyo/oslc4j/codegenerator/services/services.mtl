@@ -18,7 +18,7 @@
  *******************************************************************************/
 /]
 
-[module services('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module services('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [query public javaClassBaseNamespace(anAdaptorInterface : AdaptorInterface) : String = 
 anAdaptorInterface.javaClassBaseNamespace

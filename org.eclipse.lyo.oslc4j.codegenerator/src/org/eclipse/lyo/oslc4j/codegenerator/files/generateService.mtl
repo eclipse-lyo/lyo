@@ -19,7 +19,7 @@
  *******************************************************************************/
 /]
 
-[module generateService('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateService('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
@@ -35,7 +35,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorJsp/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorJsp/]
 
-[template public generateService(aService : Service)]
+[template public generateService(aService : Service, anAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileName(aService), false, 'UTF-8')]
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation and others.
@@ -108,12 +108,13 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import [javaClassFullNameForAdaptorManager(containingAdaptorInterface(aService)) /];
 import [javaInterfaceFullNameForAdaptorConstants(containingAdaptorInterface(aService)) /];
 import [javaClassFullNameForSingleton(containingServiceProviderCatalog(aService)) /];
-import [javaClassFullName(coveredResource(aService)) /];
+import [javaClassFullName(coveredResource(aService), anAdaptorInterface) /];
 
-[for (aProperty: ResourceProperty | allProperties(coveredResource(aService)))]
+[for (aProperty: ResourceProperty | allProperties(coveredResource(aService))->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]
 [if (not aProperty.range.oclIsUndefined())]
-import [javaClassFullName(aProperty.range) /];	
+
+import [javaClassFullName(aProperty.range, anAdaptorInterface) /];	
 [/if]
 [/if]
 [/for]
@@ -246,8 +247,8 @@ public class [javaClassName(aService) /]
         	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aService)) /].getServiceProvider(httpServletRequest, serviceProviderId);
         	httpServletRequest.setAttribute("serviceProvider", serviceProvider);
 
-        	RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceCollectionJspRelativeFileName(coveredResource(aService)) /]");
-			[coveredResource(aService).generateResourceCollectionJsp() /]
+        	RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceCollectionJspRelativeFileName(coveredResource(aService), anAdaptorInterface) /]");
+			[coveredResource(aService).generateResourceCollectionJsp(anAdaptorInterface) /]
         	rd.forward(httpServletRequest,httpServletResponse);
         }
 		
@@ -326,8 +327,8 @@ public class [javaClassName(aService) /]
          	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aService)) /].getServiceProvider(httpServletRequest, serviceProviderId);
         	httpServletRequest.setAttribute("serviceProvider", serviceProvider);
 
-        	RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[getResourceJspRelativeFileName(coveredResource(aService)) /]");
-			[coveredResource(aService).generateGetResourceJsp() /]
+        	RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[getResourceJspRelativeFileName(coveredResource(aService), anAdaptorInterface) /]");
+			[coveredResource(aService).generateGetResourceJsp(anAdaptorInterface) /]
         	rd.forward(httpServletRequest,httpServletResponse);
 
 
@@ -374,8 +375,8 @@ public class [javaClassName(aService) /]
 				final List<[javaClassName(coveredResource(aService)) /]> resources = [javaClassNameForAdaptorManager(containingAdaptorInterface(aService)) /].search[coveredResource(aService).name.toUpperFirst() /]s(httpServletRequest, serviceProviderId, terms);      
 				if (resources!= null) {
 							httpServletRequest.setAttribute("resources", resources);
-							RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[filteredResourceCollectionJspRelativeFileName(coveredResource(aService)) /]"); 
-							[coveredResource(aService).generateFilteredResourceCollectionJsp() /]
+							RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[filteredResourceCollectionJspRelativeFileName(coveredResource(aService), anAdaptorInterface) /]"); 
+							[coveredResource(aService).generateFilteredResourceCollectionJsp(anAdaptorInterface) /]
 							rd.forward(httpServletRequest, httpServletResponse);
 				}
 				//a empty search should return an empty list and not NULL!
@@ -383,8 +384,8 @@ public class [javaClassName(aService) /]
 			
 			} else {
 				try {	
-					RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceSelectorJspRelativeFileName(coveredResource(aService)) /]"); 
-					[coveredResource(aService).generateResourceSelectorJsp() /]
+					RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceSelectorJspRelativeFileName(coveredResource(aService), anAdaptorInterface) /]"); 
+					[coveredResource(aService).generateResourceSelectorJsp(anAdaptorInterface) /]
 					rd.forward(httpServletRequest, httpServletResponse);
 					
 				} catch (Exception e) {
@@ -419,8 +420,8 @@ public class [javaClassName(aService) /]
 		ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aService)) /].getServiceProvider(httpServletRequest, serviceProviderId);
 		httpServletRequest.setAttribute("serviceProvider", serviceProvider);
 
-		RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceCreatorJspRelativeFileName(coveredResource(aService)) /]");
-		[coveredResource(aService).generateResourceCreatorJsp() /]
+		RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceCreatorJspRelativeFileName(coveredResource(aService), anAdaptorInterface) /]");
+		[coveredResource(aService).generateResourceCreatorJsp(anAdaptorInterface) /]
 		rd.forward(httpServletRequest, httpServletResponse);
     }
 	
@@ -529,9 +530,7 @@ public class [javaClassName(aService) /]
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Response addChangeRequest(@PathParam("productId") final String productId,
                                                              final [javaClassName(coveredResource(aService)) /] a[coveredResource(aService).name.toUpperFirst() /]) throws IOException, ServletException
-
     {
-    	
     	return null; // See LAB 5 of the Lyo workshop for implementation
     }
 

@@ -18,14 +18,11 @@
  *******************************************************************************/
 /]
 
-[module resourcePropertyServices('org.eclipse.lyo.oslc4j.adaptorInterface')/]
+[module resourcePropertyServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
-
-[query public definingDomainSpecification(aProperty: ResourceProperty) : DomainSpecification =
-aProperty.eContainer(DomainSpecification)
-/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [comment TODO: "URI" should actually not be a valueType since it is not OSLC-standard. However, this is one way to allow user to specify a URI as a type.
 Another approach would be to have a valueType as String, and the Range being set to "URI", hence creating a URI (local) resource? 
@@ -38,8 +35,8 @@ not (Sequence{'URI'}->includes(aProperty.valueType.toString()))
 '@OslcName("'.concat(aProperty.name). concat('")')
 /]
 
-[query public propertyDefinitionAnnotation(aProperty: ResourceProperty, aResource: Resource) : String = 
-'@OslcPropertyDefinition('.concat(javaInterfaceNameForAdaptorConstants(aResource.eContainer(AdaptorInterface))).concat('.').concat(domainSpecificationNamespaceConstantName(aProperty.definingDomainSpecification())) . concat(' + "').concat(aProperty.name).concat('")')
+[query public propertyDefinitionAnnotation(aProperty: ResourceProperty, aResource: Resource, anAdaptorInterface: AdaptorInterface) : String = 
+'@OslcPropertyDefinition('.concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.').concat(domainSpecificationNamespaceConstantName(aProperty.definingDomainSpecification())) . concat(' + "').concat(aProperty.name).concat('")')
 /]
 
 [query public descriptionAnnotation(aProperty: ResourceProperty) : String = 
@@ -98,9 +95,9 @@ else
 endif)
 /]
 
-[query public rangeAnnotation(aProperty: ResourceProperty, aResource: Resource) : String = 
+[query public rangeAnnotation(aProperty: ResourceProperty, aResource: Resource, anAdaptorInterface: AdaptorInterface) : String = 
 (if (not aProperty.range.oclIsUndefined()) then
-	'@OslcRange('.concat(javaInterfaceNameForAdaptorConstants(aResource.eContainer(AdaptorInterface))).concat('.').concat(resourceTypeConstantName(aProperty.range)).concat(')')
+	'@OslcRange('.concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.').concat(resourceTypeConstantName(aProperty.range)).concat(')')
 else
 	''
 endif)

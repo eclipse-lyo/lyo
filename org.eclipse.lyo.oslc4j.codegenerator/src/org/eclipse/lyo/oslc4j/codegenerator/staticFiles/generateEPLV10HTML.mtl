@@ -18,7 +18,7 @@
  *******************************************************************************/
 /]
 
-[module generateEPLV10HTML('org.eclipse.lyo.oslc4j.adaptorInterface')]
+[module generateEPLV10HTML('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 
