@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion> 
 	<groupId>org.eclipse.lyo.oslc4j.core</groupId> 
 	<artifactId>oslc4j-test-build</artifactId> 
-	<version>2.1.0</version> 
+	<version>3.0.0-SNAPSHOT</version> 
 	<packaging>pom</packaging>
     <name>OSLC4J Build (Test Projects)</name>
     <scm>
