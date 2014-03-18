@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xsi:schemaLocation="http://org.eclipse.lyo/oslc4j/adaptorInterface adaptorInterface.ecore">
+  <domainSpecifications name="Architecture_Management" namespaceURI="http://open-services.net/ns/am#" namespacePrefix="//@domainPrefixes.0">
+    <resources name="ArchitectureManagementResource">
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.8"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.2"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.6"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.5"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.3/@resourceProperties.0"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.9"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.1"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.0"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.4"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.7"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.2"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.1"/>
+    </resources>
+    <resources name="LinkTypeResource">
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.3/@resourceProperties.1"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.3/@resourceProperties.2"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.6"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.1"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.0"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.4"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.2/@resourceProperties.7"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.2"/>
+      <resourceProperties href="OSLCCoreSpecificationsSet.xmi#//@domainSpecifications.0/@resourceProperties.1"/>
+    </resources>
+  </domainSpecifications>
+  <domainPrefixes name="oslc_am"/>
+</oslc4j_ai:Specification>

@@ -39,7 +39,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderService/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateServiceProviderInfo/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResource/]
-[import org::eclipse::lyo::oslc4j::codegenerator::files::generateService/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceService/]
 [import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateLicenseFiles/]
 
 [template public generate(anAdaptorInterface : AdaptorInterface)]
@@ -65,15 +65,13 @@
 	[aResource.generateResource(anAdaptorInterface) /]
 [/for]
 
+[for (aResource: Resource | servicedResources(anAdaptorInterface))]
+	[aResource.generateResourceService(anAdaptorInterface) /]
+[/for]
+
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
 	[aServiceProvider.generateServiceProviderService(anAdaptorInterface)/]
 	[aServiceProvider.generateServiceProviderHTML(anAdaptorInterface) /]
-	[for (aService: Service | aServiceProvider.services)]
-		[aService.generateService(anAdaptorInterface)/]
-	[/for]
-
 [/for]
-
-
 
 [/template]

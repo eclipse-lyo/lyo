@@ -87,7 +87,8 @@ import [javaClassFullNameForService(anAdaptorInterface.serviceProviderCatalog) /
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]import [javaClassFullName(aResource, anAdaptorInterface) /];[/for]
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
-[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassFullName(x))) separator(lineSeparator())]import [javaClassFullName(aService) /];[/for]
+[for (aResource: Resource | servicedResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]import [javaClassFullNameForService(aResource, anAdaptorInterface) /];[/for]
+
 
 public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends OslcWinkApplication {
 
@@ -100,7 +101,7 @@ public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends 
     	{
     		RESOURCE_CLASSES.addAll(JenaProvidersRegistry.getProviders());
     		RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
-			[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassName(x))) separator(lineSeparator())]RESOURCE_CLASSES.add([javaClassName(aService)/].class);[/for]
+			[for (aResource: Resource | servicedResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]RESOURCE_CLASSES.add([javaClassNameForService(aResource, anAdaptorInterface)/].class);[/for]
 			[for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]RESOURCE_CLASSES.add([javaClassName(aResource)/].class);[/for]
     		RESOURCE_CLASSES.add(Class.forName("org.eclipse.lyo.server.oauth.webapp.services.ConsumersService"));
     		RESOURCE_CLASSES.add(Class.forName("org.eclipse.lyo.server.oauth.webapp.services.OAuthService"));

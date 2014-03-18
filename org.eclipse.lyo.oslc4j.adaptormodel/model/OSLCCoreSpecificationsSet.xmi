@@ -23,9 +23,12 @@
     <resourceProperties title="" name="identifier" readOnly="true" valueType="String" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."/>
     <resourceProperties title="" name="modified" occurs="zeroOrOne" readOnly="true" valueType="DateTime" description="Timestamp last latest resource modification"/>
     <resourceProperties title="" name="title" valueType="XMLLiteral" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element. "/>
+    <resourceProperties title="" name="source" occurs="zeroOrOne" valueType="Resource" representation="reference" description="A related resource from which the described resource is derived. "/>
   </domainSpecifications>
   <domainSpecifications name="RDF" namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns" namespacePrefix="//@domainPrefixes.3">
     <resourceProperties title="" name="type" occurs="zeroOrMany" valueType="URI" description="The resource type URIs."/>
+    <resourceProperties title="" name="label" valueType="String" description=" Is an instance of rdf:Property that may be used to provide a human-readable version of a resource's name"/>
+    <resourceProperties name="comment" occurs="zeroOrOne" valueType="String" description="A description of the subject resource"/>
   </domainSpecifications>
   <domainSpecifications name="RDFS" namespaceURI="http://www.w3.org/2000/01/rdf-schema" namespacePrefix="//@domainPrefixes.4"/>
   <domainPrefixes name="oslc"/>

@@ -32,6 +32,12 @@ You should also question any other use of "eContainer" in this whole project /]
 obj.eContainer(AdaptorInterface)
 /]
 
+[query public servicedResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
+	managedResources(aService)
+)->flatten()->asSet()
+/]
+
 [query public relevantResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
 anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
 	managedResources(aService)

@@ -115,43 +115,37 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		return serviceProviderInfos;
     }
 
-	[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services)]
-	[comment TODO: I am looping through services. This code will cause problems if 2 services have the same coveredResource
-	since I will be producing the same functions twice.
-	Fix, so that I first work out the set of coveredResources of all services, and then
-	produce the functions for them.
-	The reason I don't loop through all resources, is that I only want to produce functions for the resources
-	that are needed in the services. Resources with no rol in a service should not be produced. /]
-    public static [javaClassName(coveredResource(aService)) /] get[coveredResource(aService).name.toUpperFirst() /](HttpServletRequest httpServletRequest, String [coveredResource(aService).name.toLowerFirst() /]Id, String serviceProviderId)
+	[for (aResource: Resource | servicedResources(anAdaptorInterface))]
+    public static [javaClassName(aResource) /] get[aResource.name.toUpperFirst() /](HttpServletRequest httpServletRequest, String [aResource.name.toLowerFirst() /]Id, String serviceProviderId)
     {
-		[javaClassName(coveredResource(aService)) /] a[coveredResource(aService).name.toUpperFirst() /] = null;
+		[javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = null;
 		// [protected ('(MUST_FILL_IN) getResource userCode')]
 		// [/protected]
-		return a[coveredResource(aService).name.toUpperFirst() /];
+		return a[aResource.name.toUpperFirst() /];
     }
 
-    public static List<[javaClassName(coveredResource(aService)) /]> get[coveredResource(aService).name.toUpperFirst() /]s(HttpServletRequest httpServletRequest, String serviceProviderId, int page, int limit)
+    public static List<[javaClassName(aResource) /]> get[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest, String serviceProviderId, int page, int limit)
     {
-		List<[javaClassName(coveredResource(aService)) /]> [coveredResource(aService).name.toLowerFirst() /]s = null;
+		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
 		// [protected ('(MUST_FILL_IN) getResources userCode')]
 		// [/protected]
-		return [coveredResource(aService).name.toLowerFirst() /]s;
+		return [aResource.name.toLowerFirst() /]s;
     }
 
-    public static List<[javaClassName(coveredResource(aService)) /]> search[coveredResource(aService).name.toUpperFirst() /]s(HttpServletRequest httpServletRequest, String serviceProviderId, String terms)
+    public static List<[javaClassName(aResource) /]> search[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest, String serviceProviderId, String terms)
     {
-		List<[javaClassName(coveredResource(aService)) /]> [coveredResource(aService).name.toLowerFirst() /]s = null;
+		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
 		// [protected ('(MUST_FILL_IN) searchResources userCode')]
 		// [/protected]
-		return [coveredResource(aService).name.toLowerFirst() /]s;
+		return [aResource.name.toLowerFirst() /]s;
     }
 
-    public static [javaClassName(coveredResource(aService)) /] create[coveredResource(aService).name.toUpperFirst() /](HttpServletRequest httpServletRequest, final [javaClassName(coveredResource(aService)) /] a[coveredResource(aService).name.toUpperFirst() /], final String serviceProviderId)
+    public static [javaClassName(aResource) /] create[aResource.name.toUpperFirst() /](HttpServletRequest httpServletRequest, final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /], final String serviceProviderId)
     {
-		[javaClassName(coveredResource(aService)) /] new[coveredResource(aService).name.toUpperFirst() /] = null;
+		[javaClassName(aResource) /] new[aResource.name.toUpperFirst() /] = null;
 		// [protected ('(MUST_FILL_IN) createResource userCode')]
 		// [/protected]
-		return new[coveredResource(aService).name.toUpperFirst() /];
+		return new[aResource.name.toUpperFirst() /];
     }
 	[/for]
 

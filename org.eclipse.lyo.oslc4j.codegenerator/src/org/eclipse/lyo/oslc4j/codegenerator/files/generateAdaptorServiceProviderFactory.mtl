@@ -27,6 +27,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 
 [template public generateAdaptorServiceProviderFactory(anAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileNameForServiceProviderFactory(anAdaptorInterface), false, 'UTF-8')]
@@ -69,10 +70,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderFactory;
 
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
-[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassFullName(x)))]
-import [javaClassFullName(aService) /];	
-[/for]
-
+[for (aResource: Resource | servicedResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]import [javaClassFullNameForService(aResource, anAdaptorInterface) /];[/for]
 
 // [protected ('imports')]
 // [/protected]
@@ -81,9 +79,7 @@ public class [javaClassNameForServiceProviderFactory(anAdaptorInterface) /]
 {
     private static Class<?>[ '[' ']' /] RESOURCE_CLASSES =
     {
-		[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->sortedBy(x: Service | javaClassName(x))) separator(', ')]
-		[javaClassName(aService)/].class	
-		[/for]
+		[for (aResource: Resource | servicedResources(anAdaptorInterface)->sortedBy(name)) separator(', ')][javaClassNameForService(aResource, anAdaptorInterface)/].class[/for]
     };
 
     private [javaClassNameForServiceProviderFactory(anAdaptorInterface) /]()

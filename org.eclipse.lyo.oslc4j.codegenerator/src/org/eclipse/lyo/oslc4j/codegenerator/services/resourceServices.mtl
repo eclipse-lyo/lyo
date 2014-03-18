@@ -23,6 +23,22 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
+[query public queryCapabilities(aResource: Resource, anAdaptorInterface : AdaptorInterface) : Set(QueryCapability) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.queryCapabilities->select(aQueryCapability : QueryCapability | aQueryCapability.resourceTypes->includes(aResource))->asSet()
+/]
+
+[query public creationFactories(aResource: Resource, anAdaptorInterface : AdaptorInterface) : Set(CreationFactory) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationFactories->select(aCreationFactory : CreationFactory | aCreationFactory.resourceTypes->includes(aResource))->asSet()
+/]
+
+[query public selectionDialogs(aResource: Resource, anAdaptorInterface : AdaptorInterface) : Set(Dialog) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.selectionDialogs->select(aDialog : Dialog | aDialog.resourceTypes->includes(aResource))->asSet()
+/]
+
+[query public creationDialogs(aResource: Resource, anAdaptorInterface : AdaptorInterface) : Set(Dialog) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDialogs->select(aDialog : Dialog | aDialog.resourceTypes->includes(aResource))->asSet()
+/]
+
 [query public allProperties(aResource: Resource) : Set(ResourceProperty) = 
 aResource.resourceProperties->union(inheritedProperties(aResource))
 /]
@@ -50,7 +66,7 @@ javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
 /]
 
 [query public javaClassName(aResource: Resource) : String = 
-aResource.name.toUpperFirst()
+aResource.name.substituteAll(' ', '').toUpperFirst()
 /]
 
 [query public javaClassFullName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
@@ -59,6 +75,22 @@ javaClassPackageName(aResource, anAdaptorInterface).concat('.').concat(javaClass
 
 [query public javaClassFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
 javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
+/]
+
+[query public javaClassPackageNameForService(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.services')
+/]
+
+[query public javaClassNameForService(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+aResource.name.substituteAll(' ', '').toUpperFirst().concat('Service')
+/]
+
+[query public javaClassFullNameForService(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForService(aResource, anAdaptorInterface).concat('.').concat(javaClassNameForService(aResource, anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForService(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForService(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aResource, anAdaptorInterface)).concat('.java')
 /]
 
 [template public parentJavaClassName(aResource: Resource)] 

@@ -35,25 +35,4 @@ aService.creationFactories.resourceTypes->asSet()
 					->union(aService.selectionDialogs.resourceTypes->asSet())
 /]
 
-[comment TODO: this service code-generation assumes that all ResourceTypes of all factories/queries/dialogs in the same are the same, and there is a single resourceType.
-Change, so that a service class is generated for each resourceType value specified. Of course, Only factories/queries/dialogs that specify that particular resourceType get generated./]
-[query public coveredResource(aService: Service) : Resource = 
-managedResources(aService)->any(true)
-/]
-
-[query public javaClassPackageName(aService : Service) : String = 
-javaClassBaseNamespace(containingAdaptorInterface(aService)).concat('.services')
-/]
-
-[query public javaClassName(aService : Service) : String = 
-coveredResource(aService).name.toUpperFirst().concat('Service')
-/]
-
-[query public javaClassFullName(aService : Service) : String = 
-javaClassPackageName(aService).concat('.').concat(javaClassName(aService))
-/]
-
-[query public javaClassFullFileName(aService : Service) : String = 
-javaFilesBasePath(containingAdaptorInterface(aService)).concat(javaClassPackageName(aService).substituteAll('.', '/')).concat('/').concat(javaClassName(aService)).concat('.java')
-/]
 
