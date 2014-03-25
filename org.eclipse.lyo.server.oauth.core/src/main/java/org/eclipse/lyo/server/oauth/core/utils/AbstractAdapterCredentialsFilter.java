@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -103,11 +103,11 @@ import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> implements Filter {
 	
 	private static final String ATTRIBUTE_BASE = "org.eclipse.lyo.server.oauth.core.utils.";
-	protected static final String CONNECTOR_ATTRIBUTE = ATTRIBUTE_BASE + "Connector";
-	protected static final String CREDENTIALS_ATTRIBUTE = ATTRIBUTE_BASE + "Credentials";
-	protected static final String ADMIN_SESSION_ATTRIBUTE = ATTRIBUTE_BASE + "AdminSession";
-	protected static final String JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM = "invalid_expired_token";
-	protected static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
+	public static final String CONNECTOR_ATTRIBUTE = ATTRIBUTE_BASE + "Connector";
+	public static final String CREDENTIALS_ATTRIBUTE = ATTRIBUTE_BASE + "Credentials";
+	public static final String ADMIN_SESSION_ATTRIBUTE = ATTRIBUTE_BASE + "AdminSession";
+	public static final String JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM = "invalid_expired_token";
+	public static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
     
     private final LRUCache<String, Connection> tokenToConnectionCache = new LRUCache<String, Connection>(200);
     
