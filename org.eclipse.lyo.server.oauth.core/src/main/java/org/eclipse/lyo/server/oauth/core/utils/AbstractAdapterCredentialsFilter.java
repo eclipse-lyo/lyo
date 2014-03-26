@@ -13,7 +13,7 @@
  *
  *     Michael Fiedler     - initial API and implementation for Bugzilla adapter
  *     Susumu Fukuda       - extracted this class from Bugzilla adapter CredentialsFilter
- *     
+ *     Samuel Padgett      - fix NPEx when Exception.getCause() returns null in Application.login()
  *******************************************************************************/
 package org.eclipse.lyo.server.oauth.core.utils;
 
@@ -401,13 +401,17 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					Credentials creds = getCredentialsForOAuth(id, password);
 					request.getSession().setAttribute(CREDENTIALS_ATTRIBUTE, creds);
 					
-					Connection bc = AbstractAdapterCredentialsFilter.this.login(creds, request);
-					request.setAttribute(CONNECTOR_ATTRIBUTE, bc);
+					Connection c = AbstractAdapterCredentialsFilter.this.login(creds, request);
+					request.setAttribute(CONNECTOR_ATTRIBUTE, c);
 					
-					boolean isAdmin = AbstractAdapterCredentialsFilter.this.isAdminSession(id, bc, request);
+					boolean isAdmin = AbstractAdapterCredentialsFilter.this.isAdminSession(id, c, request);
 					request.getSession().setAttribute(ADMIN_SESSION_ATTRIBUTE, isAdmin);
 				} catch (Exception e) {
-					throw new AuthenticationException(e.getCause().getMessage(), e);
+					if (e.getCause() != null) {
+						throw new AuthenticationException(e.getCause().getMessage(), e);
+					} else {
+						throw new AuthenticationException(e);
+					}
 				}
 			}
 
