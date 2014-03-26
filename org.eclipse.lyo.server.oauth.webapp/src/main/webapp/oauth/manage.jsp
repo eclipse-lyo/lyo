@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%--
- Copyright (c) 2011, 2012 IBM Corporation.
+ Copyright (c) 2011, 2014 IBM Corporation.
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
@@ -13,6 +13,7 @@
  Contributors:
  
     Sam Padgett	  	- initial API and implementation
+    Sam Padgett	  	- remove non-existent stylesheet
 --%>
 <%@ page language="java" contentType="text/html; UTF-8"
 	pageEncoding="UTF-8"%>
@@ -29,7 +30,6 @@
 	href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet"></link>
 <link type="text/css"
 	href="<%=request.getContextPath()%>/oauth/stylesheets/admin.css" rel="stylesheet"></link>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/theme/jazz/view.css">
 <jsp:include page="/oauth/common.jsp"/>
 <script data-dojo-config="async: true" type="text/javascript"
 	src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
