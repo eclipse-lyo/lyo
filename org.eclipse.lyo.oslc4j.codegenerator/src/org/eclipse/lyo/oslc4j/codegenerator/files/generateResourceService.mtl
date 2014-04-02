@@ -441,7 +441,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
     @POST
     @Path("creator") 
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void create[aResource.name.toUpperFirst() /](@PathParam("serviceProviderId")   final String serviceProviderId)
+    public void create[aResource.name.toUpperFirst() /]FromHtml(@PathParam("serviceProviderId")   final String serviceProviderId)
     {
     	try {
     		[javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = new [javaClassName(aResource) /]();
@@ -528,10 +528,16 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
     @POST
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public Response addChangeRequest(@PathParam("productId") final String productId,
-                                                             final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /]) throws IOException, ServletException
+    public Response create[aResource.name.toUpperFirst() /](@PathParam("serviceProviderId")   final String serviceProviderId, final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /]) throws IOException, ServletException
     {
-    	return null; // See LAB 5 of the Lyo workshop for implementation
+		try {
+    		[javaClassName(aResource) /] new[aResource.name.toUpperFirst() /] = [javaClassNameForAdaptorManager(anAdaptorInterface) /].create[aResource.name.toUpperFirst() /](httpServletRequest, a[aResource.name.toUpperFirst() /], serviceProviderId);
+			httpServletResponse.setHeader("ETag", [javaClassNameForAdaptorManager(anAdaptorInterface) /].getETagFrom[aResource.name.toUpperFirst() /](new[aResource.name.toUpperFirst() /]));
+	        return Response.created(new[aResource.name.toUpperFirst() /].getAbout()).entity(a[aResource.name.toUpperFirst() /]).build();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		throw new WebApplicationException(e);
+    	}
     }
 
 	// [protected ('(RECOMMENDED) functions')]

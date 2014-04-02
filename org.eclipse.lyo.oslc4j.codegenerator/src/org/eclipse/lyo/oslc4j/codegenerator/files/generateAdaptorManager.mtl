@@ -147,6 +147,14 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		// [/protected]
 		return new[aResource.name.toUpperFirst() /];
     }
+
+    public static String getETagFrom[aResource.name.toUpperFirst() /](final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /])
+    {
+		String eTag = null;
+		// [protected ('(MUST_FILL_IN) getETagFromResource userCode')]
+		// [/protected]
+		return eTag;
+    }
 	[/for]
 
 }

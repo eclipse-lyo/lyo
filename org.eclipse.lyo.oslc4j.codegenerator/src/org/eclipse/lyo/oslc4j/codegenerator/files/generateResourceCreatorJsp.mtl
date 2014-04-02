@@ -98,7 +98,7 @@
 					best possibility to modify the generated stuff. (hiding fields, changing the format, removing fields, etc.)/]
 					[for (aProperty: ResourceProperty | allProperties(aResource))]
 						<tr>
-							<td><%= [javaClassName(aResource)/].[javaAttributeName(aProperty, aResource) /]AsHtmlForCreation(request, serviceProvider.getIdentifier())%></td>
+							<td><%= [javaClassName(aResource)/].[javaAttributeName(aProperty, aResource) /]ToHtmlForCreation(request, serviceProvider.getIdentifier())%></td>
 						</tr>
 					[/for]
 
