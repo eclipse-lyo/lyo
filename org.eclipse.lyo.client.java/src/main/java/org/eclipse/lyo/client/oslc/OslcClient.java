@@ -14,8 +14,8 @@
  *     Michael Fiedler                 - initial API and implementation
  *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
  *     Michael Fiedler	               - follow redirects.
- *     Samuel Padgett 	               - support oslc:usage and discovering
- *                                       full creation factory resources
+ *     Samuel Padgett 	               - support oslc:usage and discovering full creation factory resources
+ *     Samuel Padgett                  - use correct trust managers and hostname verifier when updating secure socket protocol
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 import java.io.IOException;
@@ -78,6 +78,8 @@ public class OslcClient {
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	private String configuredSecureSocketProtocol;
+	private TrustManager[] trustManagers;
+	X509HostnameVerifier hostnameVerifier;
 	
 	/**
 	 * Sets the Secure Socket Protocol to be used, valid values "TLS","SSL","SSL_TLS".
@@ -93,6 +95,9 @@ public class OslcClient {
 	public void setConfiguredSecureSocketProtocol(
 			String configuredSecureSocketProtocol) {
 		this.configuredSecureSocketProtocol = configuredSecureSocketProtocol;
+		
+		// Make sure to update the trust managers and hostname verifier for the new protocol.
+		setupSSLSupport();
 	}
 
 	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
@@ -121,7 +126,9 @@ public class OslcClient {
 	            return false;
 	        }
 	    });
-		setupSSLSupport(trustManagers, hostnameVerifier);
+		this.trustManagers = trustManagers;
+		this.hostnameVerifier = hostnameVerifier;
+		setupSSLSupport();
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
@@ -590,7 +597,7 @@ public class OslcClient {
 		throw new NoSuchAlgorithmException("No suitable secured socket provider is installed"); //$NON-NLS-1$
 	} 
 	
-	private void setupSSLSupport(TrustManager[] trustManagers, X509HostnameVerifier hostnameVerifier)   {
+	private void setupSSLSupport()   {
 		ClientConnectionManager connManager = httpClient.getConnectionManager();
 		SchemeRegistry schemeRegistry = connManager.getSchemeRegistry();
 		schemeRegistry.unregister("https");
