@@ -63,7 +63,9 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
 <%
-	ServiceProvider serviceProvider = (ServiceProvider) request.getAttribute("serviceProvider");
+    [for (collectionCompositeID: String | aResource.collectionCompositeID(anAdaptorInterface)) separator(lineSeparator())]
+    String [collectionCompositeID /] = (String) request.getAttribute("[collectionCompositeID /]");
+    [/for]
 %>
 <%--
 [protected ('getRequestAttributes')]
@@ -98,7 +100,7 @@
 					best possibility to modify the generated stuff. (hiding fields, changing the format, removing fields, etc.)/]
 					[for (aProperty: ResourceProperty | allProperties(aResource))]
 						<tr>
-							<td><%= [javaClassName(aResource)/].[javaAttributeName(aProperty, aResource) /]ToHtmlForCreation(request, serviceProvider.getIdentifier())%></td>
+							<td><%= [javaClassName(aResource)/].[javaAttributeName(aProperty, aResource) /]ToHtmlForCreation(request[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/])%></td>
 						</tr>
 					[/for]
 

@@ -40,3 +40,61 @@ anAdaptorInterface.javascriptFilesBasePath
 [query public jspFilesWebappPath(anAdaptorInterface : AdaptorInterface) : String = 
 '/'.concat(javaClassBaseNamespace(anAdaptorInterface)).substituteAll('.', '/')
 /]
+
+[query public JAXRSPathAnnotation(pathAnnotation : String) : String = 
+    (if (pathAnnotation.size() >= 1) then 
+        '@Path("'.concat(pathAnnotation).concat('")')
+    else 
+        ''
+    endif)
+/]
+
+[query public JAXRSPathParameters(uriSegment : String) : Sequence(String) = 
+uriSegment.tokenize('}')
+    ->select(token : String | token.index('{') <> -1)
+    ->collect(token : String | token.substring(token.index('{')+1))
+/]
+
+[query private stripURISegmentEnd(URISegment : String) : String = 
+(if (URISegment.size() = 0) then 
+     URISegment
+else 
+    (if (URISegment.size() = 1) then 
+         (if (URISegment.endsWith('/')) then '' else URISegment endif)
+    else 
+        URISegment.substring(1, URISegment.size()-(if (URISegment.endsWith('/')) then 1 else 0 endif))
+    endif)
+endif)
+/]
+
+[query private stripURISegmentStart(URISegment : String) : String = 
+(if (URISegment.size() = 0) then 
+     URISegment
+else 
+    (if (URISegment.size() = 1) then 
+         (if (URISegment.startsWith('/')) then '' else URISegment endif)
+    else 
+        URISegment.substring((if (URISegment.startsWith('/')) then 2 else 1 endif), URISegment.size())
+    endif)
+endif)
+/]
+
+[query public JAXRSConcatURISegments(leftURISegment : String, rightURISegment : String) : String = 
+(if (stripURISegmentEnd(leftURISegment).size() = 0) then 
+    stripURISegmentStart(rightURISegment) 
+else 
+    (if (stripURISegmentStart(rightURISegment).size() = 0) then 
+        stripURISegmentEnd(leftURISegment) 
+    else 
+        stripURISegmentEnd(leftURISegment).concat('/').concat(stripURISegmentStart(rightURISegment)) 
+    endif)
+endif)
+/]
+
+[query public commaSeparate(commaSeparatedString : String, prependIfNotEmpty : Boolean, appendIfNotEmpty : Boolean) : String = 
+(if prependIfNotEmpty._and(commaSeparatedString.size() > 0) then ', ' else ''endif)
+.concat(commaSeparatedString)
+.concat(
+(if appendIfNotEmpty._and(commaSeparatedString.size() > 0) then ' ,' else ''endif)
+)
+/]

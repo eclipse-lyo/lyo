@@ -25,6 +25,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 
 [template public generateResourceSelectorJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
 [file (resourceSelectorJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
@@ -51,6 +52,7 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+<%@page import="[javaClassFullNameForAdaptorServletListener(anAdaptorInterface) /]"%>
 <%--
 [protected ('imports')]
 --%>
@@ -62,7 +64,6 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
 <%
-	ServiceProvider serviceProvider = (ServiceProvider) request.getAttribute("serviceProvider");
 	String selectionUri = (String) request.getAttribute("selectionUri");
 
 %>
@@ -83,8 +84,7 @@
 		<%-- 
 		[/protected] 
 		--%>
-		[comment TODO: I need to work out how to properly set hte javascript path. This is hard-coded :-)/]
-		<script type="text/javascript" src="../../../[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface) /]"></script>
+		<script type="text/javascript" src="<%=[javaClassNameForAdaptorServletListener(anAdaptorInterface) /].getServletBase() %>/[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface) /]"></script>
 	</head>
 	[comment TODO: make a more powerfull/flexible search form, by allowing user to entry values on each resource property, and not just "summary" as is expected here./]
 	<body style="padding: 10px;">

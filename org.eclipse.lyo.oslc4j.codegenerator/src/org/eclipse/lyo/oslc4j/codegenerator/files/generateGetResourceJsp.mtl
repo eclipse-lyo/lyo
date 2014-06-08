@@ -63,7 +63,6 @@
 
 <%
     [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = ([javaClassName(aResource) /]) request.getAttribute("a[aResource.name.toUpperFirst() /]");
-	ServiceProvider serviceProvider = (ServiceProvider) request.getAttribute("serviceProvider");
 %>
 <%--
 [protected ('getRequestAttributes')]
@@ -75,7 +74,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title><%= serviceProvider.getTitle() %></title>
+		<title><%= a[aResource.name.toUpperFirst() /].toHtml() %></title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -90,7 +89,7 @@
 				<tr>
 					<td id="title">
 						<p>
-							<%= serviceProvider.getTitle() %>
+							<%= a[aResource.name.toUpperFirst() /].toHtml() %>
 						</p>
 					</td>
 					<td id="information">

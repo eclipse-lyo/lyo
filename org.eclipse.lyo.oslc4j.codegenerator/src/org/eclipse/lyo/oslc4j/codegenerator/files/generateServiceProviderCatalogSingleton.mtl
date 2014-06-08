@@ -27,6 +27,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderCatalogServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 
 [template public generateServiceProviderCatalogSingleton(aServiceProviderCatalog : ServiceProviderCatalog)]
 [file (javaClassFullFileNameForSingleton(aServiceProviderCatalog), false, 'UTF-8')]
@@ -68,6 +69,7 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.client.ServiceProviderRegistryURIs;
 import org.eclipse.lyo.oslc4j.core.model.Publisher;
@@ -76,7 +78,9 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
 import [javaClassFullNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /];
-import [javaClassFullNameForServiceProviderInfo(containingAdaptorInterface(aServiceProviderCatalog)) /];
+[for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
+import [javaClassFullNameForServiceProviderInfo(aServiceProvider) /];
+[/for]
 
 // [protected ('imports')]
 // [/protected]
@@ -151,19 +155,41 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
         }
     }
 
-    public static ServiceProvider getServiceProvider(HttpServletRequest httpServletRequest, final String serviceProviderId) 
+    [for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
+
+    private static URI constructServiceProviderURI([aServiceProvider.instanceMethodSignature() /])
+    {
+        String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
+        Map<String, Object> pathParameters = new HashMap<String, Object>();
+        [for (instanceCompositeID: String | aServiceProvider.instanceCompositeID()) separator(lineSeparator())]
+        pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
+        [/for]
+        String instanceURI = "[aServiceProvider.instanceURI() /]";
+      
+        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        return builder.path(instanceURI).buildFromMap(pathParameters);
+    }
+
+    private static String serviceProviderIdentifier([aServiceProvider.instanceMethodSignature() /])
+    {
+        String identifier = [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator('+')]"/" + [instanceCompositeID /][/for];
+        return identifier;
+    }
+
+    public static ServiceProvider getServiceProvider(HttpServletRequest httpServletRequest, [aServiceProvider.instanceMethodSignature() /]) 
     {
         ServiceProvider serviceProvider;
 
         synchronized(serviceProviders)
         {     	
-            serviceProvider = serviceProviders.get(serviceProviderId);
+            String identifier = serviceProviderIdentifier([aServiceProvider.instanceMethodParameterList() /]);
+            serviceProvider = serviceProviders.get(identifier);
             
             //One retry refreshing the service providers
             if (serviceProvider == null)
             {
             	getServiceProviders(httpServletRequest);
-            	serviceProvider = serviceProviders.get(serviceProviderId);
+            	serviceProvider = serviceProviders.get(identifier);
             }
         }
 
@@ -175,31 +201,21 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-[comment TODO: should be able to simply replace productId with serviceProviderId. In the method "getServiceProvider" above
-they simply use serviceProviderId, which seems to also be the key in the "serviceProviders" set. /]
     public static ServiceProvider registerServiceProvider(final HttpServletRequest httpServletRequest,
                                                           final ServiceProvider    serviceProvider,
-                                                          final String productId) throws URISyntaxException
+                                                          [aServiceProvider.instanceMethodSignature() /]) 
+                                                throws URISyntaxException
     {
         synchronized(serviceProviders)
         {
-            final URI serviceProviderURI = new URI(httpServletRequest.getScheme(),
-                                                   null,
-                                                   httpServletRequest.getServerName(),
-                                                   httpServletRequest.getServerPort(),
-                                                   httpServletRequest.getContextPath() + "/serviceProviders/" + productId,
-                                                   null,
-                                                   null);
-
+            final URI serviceProviderURI = constructServiceProviderURI([aServiceProvider.instanceMethodParameterList() /]);
             return registerServiceProviderNoSync(serviceProviderURI,
                                                  serviceProvider,
-                                                 productId);
+                                                 [aServiceProvider.instanceMethodParameterList() /]);
         }
     }
 
 
-[comment TODO: should be able to simply replace productId with serviceProviderId. In the method "getServiceProvider" above
-they simply use serviceProviderId, which seems to also be the key in the "serviceProviders" set. /]
 /**
  * Register a service provider with the OSLC catalog
  * 
@@ -209,49 +225,42 @@ they simply use serviceProviderId, which seems to also be the key in the "servic
  * @return
  */
     private static ServiceProvider registerServiceProviderNoSync(final URI             serviceProviderURI,
-                                                                 final ServiceProvider serviceProvider,
-                                                                 final String productId)
+                                                                 final ServiceProvider serviceProvider
+                                                                 [commaSeparate(aServiceProvider.instanceMethodSignature(), true, false)/])
     {
         final SortedSet<URI> serviceProviderDomains = getServiceProviderDomains(serviceProvider);
 
+        String identifier = serviceProviderIdentifier([aServiceProvider.instanceMethodParameterList()/]);
         serviceProvider.setAbout(serviceProviderURI);
-        serviceProvider.setIdentifier(productId);
+        serviceProvider.setIdentifier(identifier);
         serviceProvider.setCreated(new Date());
         serviceProvider.setDetails(new URI[ '[' ']' /] {serviceProviderURI});
 
         serviceProviderCatalog.addServiceProvider(serviceProvider);
         serviceProviderCatalog.addDomains(serviceProviderDomains);
 
-        serviceProviders.put(productId,
-                             serviceProvider);
-
+        serviceProviders.put(identifier, serviceProvider);
 
         return serviceProvider;
     }
     
-[comment TODO: should be able to simply replace productId with serviceProviderId. In the method "getServiceProvider" above
-they simply use serviceProviderId, which seems to also be the key in the "serviceProviders" set. /]
     // This version is for self-registration and thus package-protected
-    static ServiceProvider registerServiceProvider(final String          baseURI,
-                                                   final ServiceProvider serviceProvider,
-                                                   final String productId)
-           throws URISyntaxException
+    static ServiceProvider registerServiceProvider(final ServiceProvider serviceProvider[commaSeparate(aServiceProvider.instanceMethodSignature(), true, false)/])
+                                            throws URISyntaxException
     {
         synchronized(serviceProviders)
         {
-            final URI serviceProviderURI = new URI(baseURI + "/serviceProviders/" + productId);
+            final URI serviceProviderURI = constructServiceProviderURI([aServiceProvider.instanceMethodParameterList()/]);
 
-            return registerServiceProviderNoSync(serviceProviderURI,
-                                                 serviceProvider,
-                                                 productId);
+            return registerServiceProviderNoSync(serviceProviderURI, serviceProvider[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
         }
     }
 
-    public static void deregisterServiceProvider(final String serviceProviderId)
+    public static void deregisterServiceProvider([aServiceProvider.instanceMethodSignature()/])
     {
         synchronized(serviceProviders)
         {
-            final ServiceProvider deregisteredServiceProvider = serviceProviders.remove(serviceProviderId);
+            final ServiceProvider deregisteredServiceProvider = serviceProviders.remove(serviceProviderIdentifier([aServiceProvider.instanceMethodParameterList()/]));
 
             if (deregisteredServiceProvider != null)
             {
@@ -274,6 +283,7 @@ they simply use serviceProviderId, which seems to also be the key in the "servic
             }
         }
     }
+    [/for] 
 
     private static SortedSet<URI> getServiceProviderDomains(final ServiceProvider serviceProvider)
     {
@@ -308,22 +318,26 @@ they simply use serviceProviderId, which seems to also be the key in the "servic
 			// [/protected]
 
 	        String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
-	        [javaClassNameForServiceProviderInfo(containingAdaptorInterface(aServiceProviderCatalog)) /] [ '[' ']' /] serviceProviderInfos = [javaClassNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /].getServiceProviderInfos(httpServletRequest);
-	        
-	        //Register a service provider for each serviceProviderId
-	        for ([javaClassNameForServiceProviderInfo(containingAdaptorInterface(aServiceProviderCatalog)) /] serviceProviderInfo : serviceProviderInfos) {
-				String serviceProviderId = serviceProviderInfo.serviceProviderId;
-		        if (! serviceProviders.containsKey(serviceProviderId)) {
+
+            [for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
+	        [javaClassNameForServiceProviderInfo(aServiceProvider) /] [ '[' ']' /] serviceProviderInfos = [javaClassNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /].getServiceProviderInfos(httpServletRequest);
+	        //Register a service provider for each serviceProviderInfo
+	        for ([javaClassNameForServiceProviderInfo(aServiceProvider) /] serviceProviderInfo : serviceProviderInfos) {
+				String identifier = serviceProviderIdentifier([for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
+		        if (! serviceProviders.containsKey(identifier)) {
 					String serviceProviderName = serviceProviderInfo.name;
-					String title = "[aServiceProviderCatalog.serviceProviders.title.concat(': ') /]" + serviceProviderName + "(" + serviceProviderId + ")";
-					String description = "[aServiceProviderCatalog.serviceProviders.description.concat(': ') /]" + serviceProviderName + "(" + serviceProviderId + ")";
+					String title = "[aServiceProviderCatalog.serviceProviders.title.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
+					String description = "[aServiceProviderCatalog.serviceProviders.description.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
 					Publisher publisher = new Publisher("[aServiceProviderCatalog.serviceProviders.publisher.title /]", "[aServiceProviderCatalog.serviceProviders.publisher.identifier /]");
 		        	Map<String, Object> parameterMap = new HashMap<String, Object>();
-		        	parameterMap.put("serviceProviderId",serviceProviderId);
+                    [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(lineSeparator())]
+                    parameterMap.put("[instanceCompositeID /]", serviceProviderInfo.[instanceCompositeID /]);
+                    [/for]
 		        	final ServiceProvider aServiceProvider = [javaClassNameForServiceProviderFactory(containingAdaptorInterface(aServiceProviderCatalog)) /].createServiceProvider(basePath, title, description, publisher, parameterMap);
-		            registerServiceProvider(basePath,aServiceProvider,serviceProviderId);
+		            registerServiceProvider(aServiceProvider, [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
 	        	}
 	        }
+            [/for]
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new WebApplicationException(e,Status.INTERNAL_SERVER_ERROR);

@@ -96,23 +96,6 @@ javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).concat('.').co
 javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorServletListener(anAdaptorInterface)).concat('.java')
 /]
 
-[comment Services for ServiceProviderInfo /]
-[query public javaClassPackageNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
-javaClassBaseNamespace(anAdaptorInterface)
-/]
-
-[query public javaClassNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
-'ServiceProviderInfo'
-/]
-
-[query public javaClassFullNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
-javaClassPackageNameForServiceProviderInfo(anAdaptorInterface).concat('.').concat(javaClassNameForServiceProviderInfo(anAdaptorInterface))
-/]
-
-[query public javaClassFullFileNameForServiceProviderInfo(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForServiceProviderInfo(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderInfo(anAdaptorInterface)).concat('.java')
-/]
-
 [comment Services for AdaptorManager /]
 [query public javaClassPackageNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
 javaClassBaseNamespace(anAdaptorInterface)

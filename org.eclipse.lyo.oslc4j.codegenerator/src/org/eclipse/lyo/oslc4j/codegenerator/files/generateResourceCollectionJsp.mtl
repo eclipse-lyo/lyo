@@ -62,7 +62,6 @@
 
 <%
     List<[javaClassName(aResource) /]> resources = (List<[javaClassName(aResource) /]>) request.getAttribute("resources");
-	ServiceProvider serviceProvider = (ServiceProvider) request.getAttribute("serviceProvider");
 	String queryUri = (String)request.getAttribute("queryUri");
 	String nextPageUri = (String)request.getAttribute("nextPageUri");
 %>
@@ -76,7 +75,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title><%= serviceProvider.getTitle() %></title>
+		<title>[javaClassName(aResource) /] Query</title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -91,7 +90,7 @@
 				<tr>
 					<td id="title">
 						<p>
-							<%= serviceProvider.getTitle() %>
+							[javaClassName(aResource) /] Query
 						</p>
 					</td>
 					<td id="information">

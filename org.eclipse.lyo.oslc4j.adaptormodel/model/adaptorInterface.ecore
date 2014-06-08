@@ -52,6 +52,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="services" lowerBound="1"
         upperBound="-1" eType="#//Service" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Service">
     <eStructuralFeatures xsi:type="ecore:EReference" name="domainSpecification" lowerBound="1"
@@ -64,6 +66,8 @@
         eType="#//Dialog" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="creationDialogs" upperBound="-1"
         eType="#//Dialog" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="basicCapabilities" upperBound="-1"
+        eType="#//BasicCapability" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Resource">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -120,6 +124,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" upperBound="-1"
         eType="#//Resource"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BasicCapability">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" upperBound="-1"
+        eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceNamespace" lowerBound="1"
+        eType="#//ResourceServiceNamespace" defaultValueLiteral="relativeToServiceProvider"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dialog">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -136,5 +147,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="icon" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceServiceNamespace">
+    <eLiterals name="relativeToServiceProvider" literal="relativeToServiceProvider"/>
+    <eLiterals name="independantOfServiceProvider" value="1" literal="independantOfServiceProvider"/>
   </eClassifiers>
 </ecore:EPackage>

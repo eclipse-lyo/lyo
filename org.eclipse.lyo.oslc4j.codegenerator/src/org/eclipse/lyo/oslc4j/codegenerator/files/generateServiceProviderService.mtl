@@ -84,9 +84,8 @@ import [javaClassFullNameForSingleton(containingServiceProviderCatalog(aServiceP
 // [protected ('imports')]
 // [/protected]
 
-
 @OslcService(OslcConstants.OSLC_CORE_DOMAIN)
-@Path("serviceProviders")
+[JAXRSPathAnnotation(aServiceProvider.serviceBaseURI())/]
 public class [javaClassNameForService(aServiceProvider) /]
 {
 	@Context private HttpServletRequest httpServletRequest;
@@ -118,6 +117,7 @@ public class [javaClassNameForService(aServiceProvider) /]
          usages = {OslcConstants.OSLC_USAGE_DEFAULT}
     )
     @GET
+    [JAXRSPathAnnotation(aServiceProvider.collectionURISegment()) /]
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ServiceProvider[ '[' /][ ']' /] getServiceProviders()
     {
@@ -135,15 +135,15 @@ public class [javaClassNameForService(aServiceProvider) /]
 
 	 
     @GET
-    @Path("{serviceProviderId}")
+    [JAXRSPathAnnotation(aServiceProvider.instanceURISegment()) /]
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public ServiceProvider getServiceProvider(@PathParam("serviceProviderId") final String serviceProviderId)
+    public ServiceProvider getServiceProvider([commaSeparate(aServiceProvider.instanceJAXRSMethodSignature(), false, false)/])
     {
     	httpServletResponse.addHeader("Oslc-Core-Version","2.0");
-        return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest, serviceProviderId);
+        return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
     }
     
-  
+ 
     
     /**
      * HTML representation of a single OSLC Service Provider
@@ -153,11 +153,11 @@ public class [javaClassNameForService(aServiceProvider) /]
      * @param serviceProviderId
      */
     @GET
-    @Path("{serviceProviderId}")
+    [JAXRSPathAnnotation(aServiceProvider.instanceURISegment()) /]
     @Produces(MediaType.TEXT_HTML)
-    public void getHtmlServiceProvider(@PathParam("serviceProviderId") final String serviceProviderId)
+    public void getHtmlServiceProvider([commaSeparate(instanceJAXRSMethodSignature(aServiceProvider), false, false)/])
     {
-    	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest, serviceProviderId);
+    	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
     	Service [ '[' /][ ']' /] services = serviceProvider.getServices();
 
         httpServletRequest.setAttribute("serviceProvider", serviceProvider);

@@ -65,6 +65,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
@@ -74,6 +76,7 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -136,12 +139,17 @@ public [javaClassName(aResource) /](final URI about)
 	// [/protected]
 }
 
-public static URI constructURI(String serviceProviderId, String [aResource.name.toLowerFirst() /]Id) throws URISyntaxException, UnsupportedEncodingException
+public static URI constructURI([commaSeparate(aResource.instanceMethodSignature(anAdaptorInterface), false, false)/])
 {
-	[comment TODO: The URI below should be constructed using the same methods that construct the "@Path" of the services.
-	These are currently hard coded as well. Change that, so that both use the same source. THis way, if there is a coder-define  
-	customisation of the method, the rest of the code will work fine./]
-	return new URI([javaClassNameForAdaptorServletListener(anAdaptorInterface)/].getServicesBase() + "/" + serviceProviderId + "/[aResource.name.toLowerFirst() /]s/"+ [aResource.name.toLowerFirst() /]Id);
+    String basePath = [javaClassNameForAdaptorServletListener(anAdaptorInterface) /].getServicesBase();
+    Map<String, Object> pathParameters = new HashMap<String, Object>();
+    [for (instanceCompositeID: String | aResource.instanceCompositeID(anAdaptorInterface)) separator(lineSeparator())]
+    pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
+    [/for]
+    String instanceURI = "[aResource.instanceURI(anAdaptorInterface) /]";
+  
+    final UriBuilder builder = UriBuilder.fromUri(basePath);
+    return builder.path(instanceURI).buildFromMap(pathParameters);
 }
 
 public String toString()
@@ -216,7 +224,7 @@ public String toHtml()
 [/for]
 
 [for (aProperty: ResourceProperty | aResource.resourceProperties)]
-    static public String [javaAttributeName(aProperty, aResource) /]ToHtmlForCreation (final HttpServletRequest httpServletRequest, final String serviceProviderId)
+    static public String [javaAttributeName(aProperty, aResource) /]ToHtmlForCreation (final HttpServletRequest httpServletRequest[commaSeparate(aResource.collectionMethodSignature(anAdaptorInterface), true, false)/])
     {
 		String s = "";
 
@@ -297,7 +305,12 @@ I am getting to many if/else-ses. I think I need to rethink calmely to have a cl
 							s = s + (new [javaClassName(aProperty.range) /] (itr.next().getValue())).toHtml();
 						[else]
 							[comment just print the Link's URI as a String /]
-							s = s + itr.next().getValue().toString();
+                            if (itr.next().getValue() == null) {
+                                s= s + "<em>null</em>";             
+                            }
+                            else {
+                                s = s + itr.next().getValue().toString();
+                            }
 					    [/if]
 					[else]
 						[comment itr refers to direct Resource class, and hence can simply call toHtml() on /]
@@ -314,7 +327,12 @@ I am getting to many if/else-ses. I think I need to rethink calmely to have a cl
 						s = s + (new [javaClassName(aProperty.range) /] ([javaAttributeName(aProperty, aResource)/].getValue())).toHtml();
 					[else]
 						[comment just print the Link's URI as a String /]
-					s = s + [javaAttributeName(aProperty, aResource)/].getValue().toString();
+                    if ([javaAttributeName(aProperty, aResource)/].getValue() == null) {
+                        s = s + "<em>null</em>";             
+                    }
+                    else {
+                        s = s + [javaAttributeName(aProperty, aResource)/].getValue().toString();                
+                    }
 				    [/if]
 
 				[else]

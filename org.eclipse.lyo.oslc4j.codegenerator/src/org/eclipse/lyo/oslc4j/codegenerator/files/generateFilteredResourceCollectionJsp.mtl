@@ -62,7 +62,6 @@
 
 {
 <%
-	ServiceProvider serviceProvider = (ServiceProvider) request.getAttribute("serviceProvider");
 	String selectionUri = (String) request.getAttribute("selectionUri");
     List<[javaClassName(aResource) /]> resources = (List<[javaClassName(aResource) /]>) request.getAttribute("resources");
 	String terms = (String) request.getAttribute("terms");

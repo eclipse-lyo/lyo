@@ -21,7 +21,14 @@
 [module serviceProviderServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
-[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+
+[comment TODO: we should avoid relying on "eContainer", since objects that come from a composing emf file, will not have the eContainer relationship setup as expected.
+This method should be able to work even for objects that come from a differnet emf file than that containing the AdaptorInterface. 
+You should also question any other use of "eContainer" in this whole project /]
+[query public containingAdaptorInterface(aServiceProvider : ServiceProvider) : AdaptorInterface =
+aServiceProvider.eContainer(AdaptorInterface)
+/]
+
 
 [comment Services for serviceProviderService /]
 [query public javaClassPackageNameForService(aServiceProvider : ServiceProvider) : String = 
@@ -40,3 +47,63 @@ javaClassPackageNameForService(aServiceProvider).concat('.').concat(javaClassNam
 javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForService(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProvider)).concat('.java')
 /]
 
+[comment Services for ServiceProviderInfo /]
+[query public javaClassPackageNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
+javaClassBaseNamespace(containingAdaptorInterface(aServiceProvider))
+/]
+
+[query public javaClassNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
+'ServiceProviderInfo'
+/]
+
+[query public javaClassFullNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
+javaClassPackageNameForServiceProviderInfo(aServiceProvider).concat('.').concat(javaClassNameForServiceProviderInfo(aServiceProvider))
+/]
+
+[query public javaClassFullFileNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForServiceProviderInfo(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderInfo(aServiceProvider)).concat('.java')
+/]
+
+[query public serviceBaseURI (aServiceProvider : ServiceProvider) : String = 
+(if (not aServiceProvider.serviceNamespace.oclIsUndefined())._and(not aServiceProvider.serviceNamespace.equalsIgnoreCase('')) then
+    aServiceProvider.serviceNamespace
+else
+    'serviceProviders'
+endif)
+/]
+
+[query public collectionURISegment (aServiceProvider : ServiceProvider) : String = 
+    ''
+/]
+
+[query public collectionURI (aServiceProvider : ServiceProvider) : String = 
+    JAXRSConcatURISegments(serviceBaseURI (aServiceProvider), collectionURISegment (aServiceProvider))
+/]
+
+[query public instanceURISegment (aServiceProvider : ServiceProvider) : String = 
+    (if (not aServiceProvider.instanceID.oclIsUndefined())._and(not aServiceProvider.instanceID.equalsIgnoreCase('')) then
+        aServiceProvider.instanceID
+    else
+        '{serviceProviderId}'
+    endif)
+/]
+
+[query public instanceURI (aServiceProvider : ServiceProvider) : String = 
+    JAXRSConcatURISegments(serviceBaseURI (aServiceProvider), instanceURISegment (aServiceProvider))
+/]
+
+[query public instanceCompositeID (aServiceProvider : ServiceProvider) : Sequence(String) = 
+    JAXRSPathParameters(instanceURI (aServiceProvider))
+/]
+
+[template public instanceJAXRSMethodSignature(aServiceProvider : ServiceProvider)] 
+[for (aPathParameter: String | JAXRSPathParameters(aServiceProvider.instanceURI())) separator(', ')]@PathParam("[aPathParameter /]") final String [aPathParameter /][/for]
+[/template]
+
+[template public instanceMethodSignature(aServiceProvider : ServiceProvider)] 
+[for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]final String [instanceCompositeID /][/for]
+[/template]
+
+[template public instanceMethodParameterList(aServiceProvider : ServiceProvider)] 
+[for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')][instanceCompositeID /][/for]
+[/template]
