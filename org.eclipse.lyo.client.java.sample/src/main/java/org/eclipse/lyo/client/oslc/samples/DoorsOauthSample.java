@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -27,10 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.namespace.QName;
-
-import org.w3c.dom.Element;
 
 import net.oauth.OAuthException;
 
@@ -71,6 +68,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -134,7 +132,7 @@ public class DoorsOauthSample {
 			
 			//STEP 2: Create a new OSLC OAuth capable client, the parameter of following call should be provided
 			// by the system administrator of the DOORs Web Access server
-			OslcOAuthClient client = helper.initOAuthClient("1234567890", "123");
+			OslcOAuthClient client = helper.initOAuthClient("lyo", "lyo");
 			
 			if ( client != null ) {
 				
@@ -204,10 +202,10 @@ public class DoorsOauthSample {
 				System.out.println("\n------------------------------\n");
 				System.out.println("Number of Results for query 1 = " + resultsSize + "\n");
 
-				//STEP 11: Now get the artifact with identifier = 9 
+				//STEP 11: Now get the artifact with identifier = 1 
 				queryParams = new OslcQueryParameters();
 				queryParams.setPrefix("dcterms=<http://purl.org/dc/terms/>");
-				queryParams.setWhere("dcterms:identifier=9");
+				queryParams.setWhere("dcterms:identifier=1");
 				query = new OslcQuery(client, queryCapability, 10, queryParams);
 				result = query.submit();
 				String requirementURL = null;
@@ -223,13 +221,48 @@ public class DoorsOauthSample {
 				if ( requirementURL != null ) {
 					// Get the requirement
 					ClientResponse getResponse = client.getResource(requirementURL,OslcMediaType.APPLICATION_RDF_XML);
-					requirement = getResponse.getEntity(Requirement.class);
+					// normal way but impossible in DOORS now - bug 438163
+						//requirement = getResponse.getEntity(Requirement.class);
+						// Change the Primary text
+						//String primaryText = "My Eclipse Lyo CHANGED Primary Text";
+						// Put in the proper object ( Element for XML Strings )
+						//Element obj = RmUtil.convertStringToHTML(primaryText);
+						//requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
+						
+						// Add a couple of links 
+						//requirement.addImplementedBy(new Link(new URI("http://google.com"), "ImplementedBy example"));
+						//requirement.addElaboratedBy(new Link(new URI("http://terra.com.mx"), "ElaboratedBy example"));					
+					
+					//use Jena directly to update requirement
+					InputStream is = getResponse.getEntity(InputStream.class);
+					Model m = ModelFactory.createDefaultModel();
+					m.read(is, requirementURL, "RDF/XML");
+					Resource requirementR = m.getResource(requirementURL);
+					StringWriter w = new StringWriter();
+					// Change the Primary text			
+					Property primaryText = m.createProperty("http://jazz.net/ns/rm#primaryText");
+					requirementR.removeAll(primaryText);
+					requirementR.addProperty(primaryText, "My Eclipse Lyo CHANGED Primary text");
+					
+					//add a couple of external links
+					//first link : -> www.google.com
+					Resource googleLink = m.createResource("http://www.google.com");
+					Property refProp = m.createProperty("http://purl.org/dc/terms/references");
+					Statement link = m.createStatement(requirementR, refProp, googleLink); 
+					m.add(link);
+					//second link : -> www.ibm.com
+					Resource ibmLink = m.createResource("http://www.ibm.com");
+					//Property refProp2 = m.createProperty("http://open-services.net/ns/rm#validatedBy");
+					Statement link2 = m.createStatement(requirementR, refProp, ibmLink); 
+					m.add(link2);
+					m.write(w, "RDF/XML");
 					// Get the eTAG, we need it to update
 					String etag = getResponse.getHeaders().getFirst(OSLCConstants.ETAG);
 					getResponse.consumeContent();
 					
-					
+					/*
 					// Following code is needed to workaround an issue in DWA that exposes the Heading inf as encoded XML
+					 * No need with DWA 9.6
 					{
 						// Get the type for "Object Heading"
 						org.eclipse.lyo.oslc4j.core.model.Property[] properties = reqInstanceShape.getProperties();
@@ -250,20 +283,15 @@ public class DoorsOauthSample {
 							requirement.getExtendedProperties().put(attr12Name, objattr12);
 						}
 					}
+					*/
 					
 					
-					// Change the Primary text
-					String primaryText = "My Eclipse Lyo CHANGED Primary Text";
-					// Put in the proper object ( Element for XML Strings )
-					Element obj = RmUtil.convertStringToHTML(primaryText);
-					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
 					
-					// Add a couple of links 
-					requirement.addImplementedBy(new Link(new URI("http://google.com"), "ImplementedBy example"));
-					requirement.addElaboratedBy(new Link(new URI("http://terra.com.mx"), "ElaboratedBy example"));
 					// Update the requirement with the proper etag 
+					//ClientResponse updateResponse = client.updateResource(requirementURL, 
+					//		requirement, OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
 					ClientResponse updateResponse = client.updateResource(requirementURL, 
-							requirement, OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
+							w.toString(), OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
 					
 					updateResponse.consumeContent();
 				}
