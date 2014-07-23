@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  * Contributors:
  *
  *     Paul McMahan <pmcmahan@us.ibm.com>        - initial implementation
+ *     Samuel Padgett <spadgett@us.ibm.com>      - fix getParameterDefinitions annotations
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
@@ -205,11 +206,12 @@ extends AbstractResource
     {
         return title;
     }
-    
+   
     @OslcDescription("The parameter definitions for the automation plan.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcName("parameterDefinition")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "parameterDefinition")
+    @OslcValueType(ValueType.LocalResource)
     @OslcTitle("Parameter Definitions")
     public Property[] getParameterDefinitions()
     {
