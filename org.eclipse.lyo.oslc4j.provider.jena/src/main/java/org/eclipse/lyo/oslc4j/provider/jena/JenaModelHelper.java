@@ -15,6 +15,7 @@
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
+ *     Samuel Padgett       - oslc:totalCount should be a typed literal
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -204,14 +205,14 @@ public final class JenaModelHelper
 
                 if (responseInfo != null) 
                 {
-                	responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
-                                                                      	PROPERTY_TOTAL_COUNT),
-                                                                      String.valueOf(responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount()));
+                	final int totalCount = responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount();
+                	responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, PROPERTY_TOTAL_COUNT),
+                								     model.createTypedLiteral(totalCount));
                 
                 	if (responseInfo.nextPage() != null)
                 	{
                 		responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
-                                                                          	PROPERTY_NEXT_PAGE),
+                                                                           	 PROPERTY_NEXT_PAGE),
                                                                           	 model.createResource(responseInfo.nextPage()));
                 	}
                 
