@@ -35,7 +35,6 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Property;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcResourceShape(title = "Automation Plan Resource Shape", describes = AutomationConstants.TYPE_AUTOMATION_PLAN)
