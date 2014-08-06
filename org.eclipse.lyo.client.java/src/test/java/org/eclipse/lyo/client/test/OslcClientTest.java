@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 IBM Corporation and others.
+ * Copyright (c) 2013, 2014 IBM Corporation and others.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,6 +12,7 @@
  *  Contributors:
  *  
  *     Samuel Padgett                  - initial API and implementation
+ *     Samuel Padgett                  - set timeout on postInvalidOslcResource()
  *******************************************************************************/
 package org.eclipse.lyo.client.test;
 
@@ -33,7 +34,7 @@ public class OslcClientTest {
 	 * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
 	 * given bad data on the client (Bug 417749). ClientRuntimeException expected.
 	 */
-	@Test(expected = ClientRuntimeException.class)
+	@Test(expected = ClientRuntimeException.class, timeout = 5000)
 	public void postInvalidOlscResource() throws IOException, OAuthException, URISyntaxException {
 		final OslcClient client = new OslcClient();
 		final AutomationRequest request = new AutomationRequest();
