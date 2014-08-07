@@ -35,7 +35,8 @@ public class OslcClientTest {
 	 * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
 	 * given bad data on the client (Bug 417749). ClientRuntimeException expected.
 	 */
-	@Ignore // ignore this test because it actually connects to example.com, which fails in our Hudson environment
+	@Ignore("Unit test actually POSTs data to example.com, which we shouldn't do as we " +
+			"don't own that domain. It also fails in our Hudson build environment.")
 	@Test(expected = ClientRuntimeException.class, timeout = 5000)
 	public void postInvalidOlscResource() throws IOException, OAuthException, URISyntaxException {
 		final OslcClient client = new OslcClient();
