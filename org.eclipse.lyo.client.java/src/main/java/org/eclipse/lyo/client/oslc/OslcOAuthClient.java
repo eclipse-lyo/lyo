@@ -65,23 +65,26 @@ public class OslcOAuthClient extends OslcClient {
 		
 	}
 	
-	/**
-	 * Initialize an OAuthClient with the required OAuth URLs
-	 * @param requestTokenURL
-	 * @param authorizationTokenURL
-	 * @param accessTokenURL
-	 * @param consumerKey
-	 * @param consumerSecret
-	 */
 	public OslcOAuthClient(String requestTokenURL,
 						   String authorizationTokenURL,
 						   String accessTokenURL,
 						   String consumerKey,
 						   String consumerSecret,
-						   String oauthRealmName ) {
+						   String oauthRealmName) {
+		this(requestTokenURL, authorizationTokenURL, accessTokenURL, consumerKey, consumerSecret);
+		oauth_real_name = oauthRealmName;
+	}
+	
+	public OslcOAuthClient(String requestTokenURL,
+						   String authorizationTokenURL,
+						   String accessTokenURL,
+						   String consumerKey,
+						   String consumerSecret,
+						   String oauthRealmName,
+						   String callback) {
 		super();
 		OAuthServiceProvider provider = new OAuthServiceProvider(requestTokenURL, authorizationTokenURL, accessTokenURL);
-		OAuthConsumer consumer = new OAuthConsumer("",consumerKey,consumerSecret,provider);
+		OAuthConsumer consumer = new OAuthConsumer(callback,consumerKey,consumerSecret,provider);
 		accessor = new OAuthAccessor(consumer);
 		oauth_real_name = oauthRealmName;
 	}
