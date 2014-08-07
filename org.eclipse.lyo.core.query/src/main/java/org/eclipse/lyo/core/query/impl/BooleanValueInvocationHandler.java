@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
@@ -27,41 +27,41 @@ import org.eclipse.lyo.core.query.Value.Type;
  */
 class BooleanValueInvocationHandler extends ValueInvocationHandler
 {
-    public
-    BooleanValueInvocationHandler(CommonTree tree)
-    {
-        super(tree, Type.BOOLEAN);
-    }
+	public
+	BooleanValueInvocationHandler(CommonTree tree)
+	{
+		super(tree, Type.BOOLEAN);
+	}
 
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        String methodName = method.getName();
-        boolean isValue = methodName.equals("value");
-        
-        if (! isValue &&
-            ! methodName.equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        if (value == null) {
-            value = Boolean.valueOf(tree.getText());
-        }
-        
-        if (isValue) {
-            return value;
-        }
-        
-        return value.toString();
-    }
-    
-    private Boolean value = null;
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		String methodName = method.getName();
+		boolean isValue = methodName.equals("value");
+		
+		if (! isValue &&
+			! methodName.equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		if (value == null) {
+			value = Boolean.valueOf(tree.getText());
+		}
+		
+		if (isValue) {
+			return value;
+		}
+		
+		return value.toString();
+	}
+	
+	private Boolean value = null;
 }

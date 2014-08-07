@@ -11,7 +11,7 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation 
+ *	  Kevin Bauer - Initial implementation 
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -30,7 +30,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
  * Change Event consisting of the properties contained in this class.
  * 
  * Note: This class cannot be instantiated directly.  Instead create an instance
- * of one of the child classes depending on the type of event taking place.  The
+ * of one of the child classes depending on the type of event taking place.	 The
  * child classes are: Creation, Modification, and Deletion.
  */
 public abstract class ChangeEvent extends AbstractResource {

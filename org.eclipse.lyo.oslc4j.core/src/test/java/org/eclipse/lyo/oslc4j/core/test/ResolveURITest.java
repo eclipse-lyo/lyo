@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial implementation
- *     Samuel Padgett - fix test problems from cached public URI root
+ *	   Samuel Padgett - initial implementation
+ *	   Samuel Padgett - fix test problems from cached public URI root
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.test;
 
@@ -44,7 +44,7 @@ public class ResolveURITest {
 
 	@Test
 	public void testPublicURI() throws MalformedURLException {
-		 HttpServletRequest  mockedRequest = Mockito.mock(HttpServletRequest.class);
+		 HttpServletRequest	 mockedRequest = Mockito.mock(HttpServletRequest.class);
 		 when(mockedRequest.getServletPath()).thenReturn("/resources");
 		 when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
 		 OSLC4JUtils.setPublicURI("http://hostname.example.com:12357/myapp/");
@@ -54,7 +54,7 @@ public class ResolveURITest {
 
 	@Test
 	public void testDisableHostResolution() {
-		 HttpServletRequest  mockedRequest = Mockito.mock(HttpServletRequest.class);
+		 HttpServletRequest	 mockedRequest = Mockito.mock(HttpServletRequest.class);
 		 when(mockedRequest.getScheme()).thenReturn("https");
 		 when(mockedRequest.getServerName()).thenReturn("hostname.example.com");
 		 when(mockedRequest.getServerPort()).thenReturn(12357);

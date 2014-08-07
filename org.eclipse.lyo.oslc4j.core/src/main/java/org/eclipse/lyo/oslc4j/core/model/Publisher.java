@@ -4,18 +4,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - remove final from class
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -33,17 +33,17 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Publisher Resource Shape", describes = OslcConstants.TYPE_PUBLISHER)
 public class Publisher extends AbstractResource {
-	private URI    icon;
+	private URI	   icon;
 	private String identifier;
 	private String label;
 	private String title;
 
 	public Publisher() {
-	    super();
+		super();
 	}
 
 	public Publisher(final String title, final String identifier) {
-	    this();
+		this();
 
 		this.title = title;
 		this.identifier = identifier;
@@ -52,9 +52,9 @@ public class Publisher extends AbstractResource {
 	@OslcDescription("URL to an icon file that represents the provider. This icon should be a favicon format and 16x16 pixels in size")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "icon")
 	@OslcReadOnly
-    @OslcTitle("Icon")
-    public URI getIcon() {
-	    return icon;
+	@OslcTitle("Icon")
+	public URI getIcon() {
+		return icon;
 	}
 
 	@OslcDescription("A URN that uniquely identifies the implementation")
@@ -69,23 +69,23 @@ public class Publisher extends AbstractResource {
 	@OslcDescription("Very short label for use in menu items")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "label")
 	@OslcReadOnly
-    @OslcTitle("Label")
+	@OslcTitle("Label")
 	public String getLabel() {
 		return label;
 	}
 
 	@OslcDescription("Title string that could be used for display")
-    @OslcOccurs(Occurs.ExactlyOne)
+	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
-    @OslcTitle("Title")
-    @OslcValueType(ValueType.XMLLiteral)
+	@OslcTitle("Title")
+	@OslcValueType(ValueType.XMLLiteral)
 	public String getTitle() {
 		return title;
 	}
 
 	public void setIcon(final URI icon) {
-	    this.icon = icon;
+		this.icon = icon;
 	}
 
 	public void setIdentifier(final String identifier) {

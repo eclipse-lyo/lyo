@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial implementation
- *     Samuel Padgett - add test for exception on bad boolean values in extended properties
+ *	   Samuel Padgett - initial implementation
+ *	   Samuel Padgett - add test for exception on bad boolean values in extended properties
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
@@ -41,7 +41,7 @@ public class TypesTest {
 	 * xsd:decimal, even for small numbers.
 	 * 
 	 * @throws Exception
-	 *             on test errors
+	 *			   on test errors
 	 */
 	@Test
 	public void testNoDecimalCannonicolization() throws Exception {
@@ -65,8 +65,8 @@ public class TypesTest {
 	 * Tests that DatatypeFormatException is thrown for invalid literal values like
 	 * 
 	 * <pre>{@code <ex:booleanProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">invalid</ex:booleanProperty> }</pre>
-     * 
-     * in extended property values.
+	 * 
+	 * in extended property values.
 	 */
 	@Test(expected = DatatypeFormatException.class)
 	public void testInvalidBoolean() throws Exception {

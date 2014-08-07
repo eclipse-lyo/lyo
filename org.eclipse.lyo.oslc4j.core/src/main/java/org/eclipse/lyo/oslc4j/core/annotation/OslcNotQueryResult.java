@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Steve Pitschke       - initial API and implementation
- *     Samuel Padgett       - add @Documented
+ *	   Steve Pitschke		- initial API and implementation
+ *	   Samuel Padgett		- add @Documented
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -33,9 +33,9 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcNotQueryResult
 {
-    /**
-     * True if the now ResponseInfo is to be generated for array or
-     * collection of elements with this annotation
-     */
-    boolean value() default true;
+	/**
+	 * True if the now ResponseInfo is to be generated for array or
+	 * collection of elements with this annotation
+	 */
+	boolean value() default true;
 }

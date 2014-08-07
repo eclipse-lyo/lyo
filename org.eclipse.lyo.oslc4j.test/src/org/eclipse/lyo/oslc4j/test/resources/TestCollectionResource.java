@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.test.resources;
 
@@ -39,33 +39,33 @@ import org.eclipse.lyo.oslc4j.test.Test;
 @Path("tests2")
 public class TestCollectionResource
 {
-    public TestCollectionResource()
-    {
-        super();
-    }
+	public TestCollectionResource()
+	{
+		super();
+	}
 
-    @OslcDialog
-    (
-        title = "Test Collection Selection Dialog",
-        label = "Test Collection Selection Dialog",
-        uri = "",
-        hintWidth = "1000px",
-        hintHeight = "600px",
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {Constants.USAGE_COLLECTION}
-    )
-    @OslcQueryCapability
-    (
-        title = "Test Collection Query Capability",
-        label = "Test Collection Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {Constants.USAGE_COLLECTION}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public List<Test> getTests()
-    {
-        return new ArrayList<Test>(Arrays.asList(Persistence.getTests()));
-    }
+	@OslcDialog
+	(
+		title = "Test Collection Selection Dialog",
+		label = "Test Collection Selection Dialog",
+		uri = "",
+		hintWidth = "1000px",
+		hintHeight = "600px",
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {Constants.USAGE_COLLECTION}
+	)
+	@OslcQueryCapability
+	(
+		title = "Test Collection Query Capability",
+		label = "Test Collection Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {Constants.USAGE_COLLECTION}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public List<Test> getTests()
+	{
+		return new ArrayList<Test>(Arrays.asList(Persistence.getTests()));
+	}
 }

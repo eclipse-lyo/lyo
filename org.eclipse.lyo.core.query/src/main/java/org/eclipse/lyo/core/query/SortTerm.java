@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -20,13 +20,13 @@ package org.eclipse.lyo.core.query;
  */
 public interface SortTerm
 {
-    enum Type
-    {
-        SIMPLE,
-        SCOPED
-    }
-    
-    Type type();
-    
-    PName identifier();
+	enum Type
+	{
+		SIMPLE,
+		SCOPED
+	}
+	
+	Type type();
+	
+	PName identifier();
 }

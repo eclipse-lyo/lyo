@@ -11,7 +11,7 @@
  * 
  * * Contributors:
  * 
- *    David Terry - Initial implementation
+ *	  David Terry - Initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -34,7 +34,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 /**
  * In TRS, the Base Resource is paginated using the W3C Linked Data Platform 
- * (LDP) Container pagination.  This class defines a LDP resource.
+ * (LDP) Container pagination.	This class defines a LDP resource.
  */
 @OslcNamespace(LDP_NAMESPACE)
 @OslcResourceShape(title = "A Page in the Base Resource", describes = LDP_PAGE)

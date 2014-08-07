@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -20,15 +20,15 @@ package org.eclipse.lyo.core.query;
  */
 public interface Property
 {
-    enum Type
-    {
-        IDENTIFIER,
-        NESTED_PROPERTY
-    }
-    
-    Type type();
-    
-    boolean isWildcard();
-    
-    PName identifier();
+	enum Type
+	{
+		IDENTIFIER,
+		NESTED_PROPERTY
+	}
+	
+	Type type();
+	
+	boolean isWildcard();
+	
+	PName identifier();
 }

@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -40,94 +40,94 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Produces(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
 @Consumes(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
 public final class OslcCompactRdfProvider
-       extends AbstractOslcRdfXmlProvider
-       implements MessageBodyReader<Compact>,
-                  MessageBodyWriter<Compact>
+	   extends AbstractOslcRdfXmlProvider
+	   implements MessageBodyReader<Compact>,
+				  MessageBodyWriter<Compact>
 {
-    public OslcCompactRdfProvider()
-    {
-        super();
-    }
+	public OslcCompactRdfProvider()
+	{
+		super();
+	}
 
-    @Override
-    public long getSize(final Compact      compact,
-                        final Class<?>     type,
-                        final Type         genericType,
-                        final Annotation[] annotation,
-                        final MediaType    mediaType)
-    {
-        return -1;
-    }
+	@Override
+	public long getSize(final Compact	   compact,
+						final Class<?>	   type,
+						final Type		   genericType,
+						final Annotation[] annotation,
+						final MediaType	   mediaType)
+	{
+		return -1;
+	}
 
-    @Override
-    public boolean isWriteable(final Class<?>     type,
-                               final Type         genericType,
-                               final Annotation[] annotations,
-                               final MediaType    mediaType)
-    {
-        return (Compact.class.isAssignableFrom(type)) &&
-               (isWriteable(type,
-                            annotations,
-                            mediaType,
-                            OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML_TYPE));
-    }
+	@Override
+	public boolean isWriteable(final Class<?>	  type,
+							   final Type		  genericType,
+							   final Annotation[] annotations,
+							   final MediaType	  mediaType)
+	{
+		return (Compact.class.isAssignableFrom(type)) &&
+			   (isWriteable(type,
+							annotations,
+							mediaType,
+							OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML_TYPE));
+	}
 
-    @Override
-    public void writeTo(final Compact                        compact,
-                        final Class<?>                       type,
-                        final Type                           genericType,
-                        final Annotation[]                   annotations,
-                        final MediaType                      mediaType,
-                        final MultivaluedMap<String, Object> map,
-                        final OutputStream                   outputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        writeTo(false,
-                new Compact[] {compact},
-                OslcMediaType.APPLICATION_XML_TYPE,
-                map,
-                outputStream);
-    }
+	@Override
+	public void writeTo(final Compact						 compact,
+						final Class<?>						 type,
+						final Type							 genericType,
+						final Annotation[]					 annotations,
+						final MediaType						 mediaType,
+						final MultivaluedMap<String, Object> map,
+						final OutputStream					 outputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		writeTo(false,
+				new Compact[] {compact},
+				OslcMediaType.APPLICATION_XML_TYPE,
+				map,
+				outputStream);
+	}
 
-    @Override
-    public boolean isReadable(final Class<?>     type,
-                              final Type         genericType,
-                              final Annotation[] annotations,
-                              final MediaType    mediaType)
-    {
-        return (Compact.class.isAssignableFrom(type)) &&
-               (isReadable(type,
-                           mediaType,
-                           OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML_TYPE));
-    }
+	@Override
+	public boolean isReadable(final Class<?>	 type,
+							  final Type		 genericType,
+							  final Annotation[] annotations,
+							  final MediaType	 mediaType)
+	{
+		return (Compact.class.isAssignableFrom(type)) &&
+			   (isReadable(type,
+						   mediaType,
+						   OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML_TYPE));
+	}
 
-    @Override
-    public Compact readFrom(final Class<Compact>                 type,
-                            final Type                           genericType,
-                            final Annotation[]                   annotations,
-                            final MediaType                      mediaType,
-                            final MultivaluedMap<String, String> map,
-                            final InputStream                    inputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        final Object[] objects = readFrom(type,
-                                          OslcMediaType.APPLICATION_XML_TYPE,
-                                          map,
-                                          inputStream);
+	@Override
+	public Compact readFrom(final Class<Compact>				 type,
+							final Type							 genericType,
+							final Annotation[]					 annotations,
+							final MediaType						 mediaType,
+							final MultivaluedMap<String, String> map,
+							final InputStream					 inputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		final Object[] objects = readFrom(type,
+										  OslcMediaType.APPLICATION_XML_TYPE,
+										  map,
+										  inputStream);
 
-        if ((objects != null) &&
-            (objects.length > 0))
-        {
-            final Object object = objects[0];
+		if ((objects != null) &&
+			(objects.length > 0))
+		{
+			final Object object = objects[0];
 
-            if (object instanceof Compact)
-            {
-                return (Compact) object;
-            }
-        }
+			if (object instanceof Compact)
+			{
+				return (Compact) object;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

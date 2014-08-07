@@ -11,11 +11,11 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - add @Documented
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- add @Documented
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcDescription {
 	/**
-	 *  Description of the element.
+	 *	Description of the element.
 	 */
 	String value();
 }

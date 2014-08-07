@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
@@ -30,61 +30,61 @@ import org.eclipse.lyo.core.query.SimpleTerm.Type;;
  */
 abstract class SimpleTermInvocationHandler implements InvocationHandler
 {
-    protected
-    SimpleTermInvocationHandler(
-        CommonTree tree,
-        Type type,
-        Map<String, String> prefixMap
-    )
-    {
-        this.tree = tree;
-        this.type = type;
-        this.prefixMap = prefixMap;
-    }
+	protected
+	SimpleTermInvocationHandler(
+		CommonTree tree,
+		Type type,
+		Map<String, String> prefixMap
+	)
+	{
+		this.tree = tree;
+		this.type = type;
+		this.prefixMap = prefixMap;
+	}
 
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        if (method.getName().equals("type")) {
-            return type;
-        }
-        
-        if (property != null) {
-            return property;
-        }
-        
-        if (tree == null) {
-            return null;
-        }
-        
-        String rawProperty = tree.getChild(0).toString();
-        
-        property = new PName();
-        
-        int colon = rawProperty.indexOf(':');
-        
-        if (colon < 0) {
-            property.local = rawProperty;
-        } else { 
-            if (colon > 0) {
-                property.prefix = rawProperty.substring(0, colon);
-                property.namespace = prefixMap.get(property.prefix);
-            }
-            property.local = rawProperty.substring(colon + 1);
-        }
-        
-        return property;
-    }
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		if (method.getName().equals("type")) {
+			return type;
+		}
+		
+		if (property != null) {
+			return property;
+		}
+		
+		if (tree == null) {
+			return null;
+		}
+		
+		String rawProperty = tree.getChild(0).toString();
+		
+		property = new PName();
+		
+		int colon = rawProperty.indexOf(':');
+		
+		if (colon < 0) {
+			property.local = rawProperty;
+		} else { 
+			if (colon > 0) {
+				property.prefix = rawProperty.substring(0, colon);
+				property.namespace = prefixMap.get(property.prefix);
+			}
+			property.local = rawProperty.substring(colon + 1);
+		}
+		
+		return property;
+	}
 
-    protected final CommonTree tree;
-    protected final Map<String, String> prefixMap;
-    private final Type type;
-    private PName property = null;
+	protected final CommonTree tree;
+	protected final Map<String, String> prefixMap;
+	private final Type type;
+	private PName property = null;
 }

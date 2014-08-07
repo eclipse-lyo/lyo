@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
- *    Samuel Padgett - convert to JUnit tests
+ *	  Steve Pitschke - initial API and implementation
+ *	  Samuel Padgett - convert to JUnit tests
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 

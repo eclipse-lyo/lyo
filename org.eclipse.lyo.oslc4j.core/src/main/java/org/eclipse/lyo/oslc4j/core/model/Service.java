@@ -4,19 +4,19 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - add oslc:usage
- *     Samuel Padgett       - remove final from class
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- add oslc:usage
+ *	   Samuel Padgett		- remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -44,13 +44,13 @@ public class Service extends AbstractResource {
 	private final List<Dialog> creationDialogs = new ArrayList<Dialog>();
 	private final List<CreationFactory> creationFactories = new ArrayList<CreationFactory>();
 	private final List<QueryCapability> queryCapabilities = new ArrayList<QueryCapability>();
-    private final List<Dialog> selectionDialogs = new ArrayList<Dialog>();
-    private final List<URI> usages = new ArrayList<URI>();
+	private final List<Dialog> selectionDialogs = new ArrayList<Dialog>();
+	private final List<URI> usages = new ArrayList<URI>();
 
-    private URI domain;
+	private URI domain;
 
 	public Service() {
-	    super();
+		super();
 	}
 
 	public Service(final URI domain) {
@@ -59,9 +59,9 @@ public class Service extends AbstractResource {
 		this.domain = domain;
 	}
 
-    public void addCreationDialog(final Dialog dialog) {
-        this.creationDialogs.add(dialog);
-    }
+	public void addCreationDialog(final Dialog dialog) {
+		this.creationDialogs.add(dialog);
+	}
 
 	public void addCreationFactory(final CreationFactory creationFactory) {
 		this.creationFactories.add(creationFactory);
@@ -71,20 +71,20 @@ public class Service extends AbstractResource {
 		this.queryCapabilities.add(queryCapability);
 	}
 
-    public void addSelectionDialog(final Dialog dialog) {
-        this.selectionDialogs.add(dialog);
-    }
+	public void addSelectionDialog(final Dialog dialog) {
+		this.selectionDialogs.add(dialog);
+	}
 
 	@OslcDescription("Enables clients to create a resource via UI")
 	@OslcName("creationDialog")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "creationDialog")
 	@OslcRange(OslcConstants.TYPE_DIALOG)
-    @OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
-    @OslcTitle("Creation Dialogs")
-    @OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_DIALOG)
-    @OslcValueType(ValueType.LocalResource)
-    public Dialog[] getCreationDialogs() {
+	@OslcReadOnly
+	@OslcRepresentation(Representation.Inline)
+	@OslcTitle("Creation Dialogs")
+	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_DIALOG)
+	@OslcValueType(ValueType.LocalResource)
+	public Dialog[] getCreationDialogs() {
 		return creationDialogs.toArray(new Dialog[creationDialogs.size()]);
 	}
 
@@ -93,11 +93,11 @@ public class Service extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "creationFactory")
 	@OslcRange(OslcConstants.TYPE_CREATION_FACTORY)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("Creation Factories")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_CREATION_FACTORY)
-    @OslcValueType(ValueType.LocalResource)
-    public CreationFactory[] getCreationFactories() {
+	@OslcValueType(ValueType.LocalResource)
+	public CreationFactory[] getCreationFactories() {
 		return creationFactories.toArray(new CreationFactory[creationFactories.size()]);
 	}
 
@@ -105,21 +105,21 @@ public class Service extends AbstractResource {
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "domain")
 	@OslcReadOnly
-    @OslcTitle("Domain")
+	@OslcTitle("Domain")
 	public URI getDomain() {
 		return domain;
 	}
 
 	@OslcDescription("Enables clients query across a collection of resources")
-    @OslcName("queryCapability")
+	@OslcName("queryCapability")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "queryCapability")
 	@OslcRange(OslcConstants.TYPE_QUERY_CAPABILITY)
-    @OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
-    @OslcTitle("Query Capabilities")
-    @OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_QUERY_CAPABILITY)
-    @OslcValueType(ValueType.LocalResource)
-    public QueryCapability[] getQueryCapabilities() {
+	@OslcReadOnly
+	@OslcRepresentation(Representation.Inline)
+	@OslcTitle("Query Capabilities")
+	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_QUERY_CAPABILITY)
+	@OslcValueType(ValueType.LocalResource)
+	public QueryCapability[] getQueryCapabilities() {
 		return queryCapabilities.toArray(new QueryCapability[queryCapabilities.size()]);
 	}
 
@@ -127,11 +127,11 @@ public class Service extends AbstractResource {
 	@OslcName("selectionDialog")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "selectionDialog")
 	@OslcRange(OslcConstants.TYPE_DIALOG)
-    @OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
-    @OslcTitle("Selection Dialogs")
-    @OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_DIALOG)
-    @OslcValueType(ValueType.LocalResource)
+	@OslcReadOnly
+	@OslcRepresentation(Representation.Inline)
+	@OslcTitle("Selection Dialogs")
+	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_DIALOG)
+	@OslcValueType(ValueType.LocalResource)
 	public Dialog[] getSelectionDialogs() {
 		return selectionDialogs.toArray(new Dialog[selectionDialogs.size()]);
 	}
@@ -139,10 +139,10 @@ public class Service extends AbstractResource {
 	@OslcDescription("An identifier URI for the domain specified usage of this service")
 	@OslcName("usage")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")
-    @OslcReadOnly
-    @OslcRepresentation(Representation.Reference)
-    @OslcTitle("Usages")
-    @OslcValueType(ValueType.Resource)
+	@OslcReadOnly
+	@OslcRepresentation(Representation.Reference)
+	@OslcTitle("Usages")
+	@OslcValueType(ValueType.Resource)
 	@OslcOccurs(Occurs.ZeroOrMany)
 	public URI[] getUsages() {
 		return usages.toArray(new URI[usages.size()]);
@@ -151,39 +151,39 @@ public class Service extends AbstractResource {
 	public void setCreationDialogs(final Dialog[] creationDialogs) {
 		this.creationDialogs.clear();
 		if (creationDialogs != null) {
-		    this.creationDialogs.addAll(Arrays.asList(creationDialogs));
+			this.creationDialogs.addAll(Arrays.asList(creationDialogs));
 		}
 	}
 
 	public void setCreationFactories(final CreationFactory[] creationFactories) {
-	    this.creationFactories.clear();
-	    if (creationFactories != null) {
-	        this.creationFactories.addAll(Arrays.asList(creationFactories));
-	    }
+		this.creationFactories.clear();
+		if (creationFactories != null) {
+			this.creationFactories.addAll(Arrays.asList(creationFactories));
+		}
 	}
 
 	public void setDomain(final URI domain) {
-	    this.domain = domain;
+		this.domain = domain;
 	}
 
 	public void setQueryCapabilities(final QueryCapability[] queryCapabilities) {
-	    this.queryCapabilities.clear();
-	    if (queryCapabilities != null) {
-	        this.queryCapabilities.addAll(Arrays.asList(queryCapabilities));
-	    }
+		this.queryCapabilities.clear();
+		if (queryCapabilities != null) {
+			this.queryCapabilities.addAll(Arrays.asList(queryCapabilities));
+		}
 	}
 
 	public void setSelectionDialogs(final Dialog[] selectionDialogs) {
-	    this.selectionDialogs.clear();
-	    if (selectionDialogs != null) {
-	        this.selectionDialogs.addAll(Arrays.asList(selectionDialogs));
-	    }
+		this.selectionDialogs.clear();
+		if (selectionDialogs != null) {
+			this.selectionDialogs.addAll(Arrays.asList(selectionDialogs));
+		}
 	}
 
 	public void setUsages(final URI[] usages) {
-	    this.usages.clear();
-	    if (usages != null) {
-	        this.usages.addAll(Arrays.asList(usages));
-	    }
+		this.usages.clear();
+		if (usages != null) {
+			this.usages.addAll(Arrays.asList(usages));
+		}
 	}
 }

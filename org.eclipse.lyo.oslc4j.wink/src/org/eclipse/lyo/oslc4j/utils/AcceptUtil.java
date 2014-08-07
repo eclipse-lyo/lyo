@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Samuel Padgett       - initial API and implementation
- *     David Terry		    - initial API and implementation
+ *	   Samuel Padgett		- initial API and implementation
+ *	   David Terry			- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.utils;
 
@@ -43,10 +43,10 @@ public class AcceptUtil {
 	 * Matches requested media types against {@link #OSLC_ACCEPTABLE} media types.
 	 * 
 	 * @param request
-	 *            the HTTP request
+	 *			  the HTTP request
 	 * @return A matching media type, or null if none match. If there is no
-	 *         Accept header, returns
-	 *         {@link OslcMediaType#APPLICATION_RDF_XML_TYPE}.
+	 *		   Accept header, returns
+	 *		   {@link OslcMediaType#APPLICATION_RDF_XML_TYPE}.
 	 */
 	public static MediaType matchMediaType(HttpServletRequest request) {
 		return matchMediaType(request, OSLC_ACCEPTABLE);
@@ -56,11 +56,11 @@ public class AcceptUtil {
 	 * Matches requested media types against a list of acceptable media types.
 	 * 
 	 * @param request
-	 *            the HTTP request
+	 *			  the HTTP request
 	 * @param acceptable
-	 *            a list of acceptable media types in order of preference
+	 *			  a list of acceptable media types in order of preference
 	 * @return A matching media type, or null if none match. If there is no
-	 *         Accept header, returns the first media type in {@code acceptable}.
+	 *		   Accept header, returns the first media type in {@code acceptable}.
 	 */
 	public static MediaType matchMediaType(HttpServletRequest request, MediaType[] acceptable) {
 		if (acceptable == null || acceptable.length == 0) {

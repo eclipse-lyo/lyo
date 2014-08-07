@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -40,89 +40,89 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
 public class OslcRdfXmlArrayProvider
-       extends AbstractOslcRdfXmlProvider
-       implements MessageBodyReader<Object[]>,
-                  MessageBodyWriter<Object[]>
+	   extends AbstractOslcRdfXmlProvider
+	   implements MessageBodyReader<Object[]>,
+				  MessageBodyWriter<Object[]>
 {
-    public OslcRdfXmlArrayProvider()
-    {
-        super();
-    }
+	public OslcRdfXmlArrayProvider()
+	{
+		super();
+	}
 
-    @Override
-    public long getSize(final Object[]     objects,
-                        final Class<?>     type,
-                        final Type         genericType,
-                        final Annotation[] annotations,
-                        final MediaType    mediaType)
-    {
-        return -1;
-    }
+	@Override
+	public long getSize(final Object[]	   objects,
+						final Class<?>	   type,
+						final Type		   genericType,
+						final Annotation[] annotations,
+						final MediaType	   mediaType)
+	{
+		return -1;
+	}
 
-    @Override
-    public boolean isWriteable(final Class<?>     type,
-                               final Type         genericType,
-                               final Annotation[] annotations,
-                               final MediaType    mediaType)
-    {
-        return (type.isArray()) &&
-               (isWriteable(type.getComponentType(),
-                            annotations,
-                            mediaType,
-                            OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                            OslcMediaType.APPLICATION_XML_TYPE,
-                            OslcMediaType.TEXT_XML_TYPE, 
-                            OslcMediaType.TEXT_TURTLE_TYPE));
-    }
+	@Override
+	public boolean isWriteable(final Class<?>	  type,
+							   final Type		  genericType,
+							   final Annotation[] annotations,
+							   final MediaType	  mediaType)
+	{
+		return (type.isArray()) &&
+			   (isWriteable(type.getComponentType(),
+							annotations,
+							mediaType,
+							OslcMediaType.APPLICATION_RDF_XML_TYPE,
+							OslcMediaType.APPLICATION_XML_TYPE,
+							OslcMediaType.TEXT_XML_TYPE, 
+							OslcMediaType.TEXT_TURTLE_TYPE));
+	}
 
-    @Override
-    public void writeTo(final Object[]                       objects,
-                        final Class<?>                       type,
-                        final Type                           genericType,
-                        final Annotation[]                   annotations,
-                        final MediaType                      mediaType,
-                        final MultivaluedMap<String, Object> map,
-                        final OutputStream                   outputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        OslcNotQueryResult notQueryResult = type.getComponentType().getAnnotation(OslcNotQueryResult.class);
-        
-        writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
-                objects,
-                mediaType,
-                map,
-                outputStream);
-    }
+	@Override
+	public void writeTo(final Object[]						 objects,
+						final Class<?>						 type,
+						final Type							 genericType,
+						final Annotation[]					 annotations,
+						final MediaType						 mediaType,
+						final MultivaluedMap<String, Object> map,
+						final OutputStream					 outputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		OslcNotQueryResult notQueryResult = type.getComponentType().getAnnotation(OslcNotQueryResult.class);
+		
+		writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
+				objects,
+				mediaType,
+				map,
+				outputStream);
+	}
 
-    @Override
-    public boolean isReadable(final Class<?>     type,
-                              final Type         genericType,
-                              final Annotation[] annotations,
-                              final MediaType    mediaType)
-    {
-        return (type.isArray()) &&
-               (isReadable(type.getComponentType(),
-                           mediaType,
-                           OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                           OslcMediaType.APPLICATION_XML_TYPE,
-                           OslcMediaType.TEXT_XML_TYPE, 
-                           OslcMediaType.TEXT_TURTLE_TYPE));
-    }
+	@Override
+	public boolean isReadable(final Class<?>	 type,
+							  final Type		 genericType,
+							  final Annotation[] annotations,
+							  final MediaType	 mediaType)
+	{
+		return (type.isArray()) &&
+			   (isReadable(type.getComponentType(),
+						   mediaType,
+						   OslcMediaType.APPLICATION_RDF_XML_TYPE,
+						   OslcMediaType.APPLICATION_XML_TYPE,
+						   OslcMediaType.TEXT_XML_TYPE, 
+						   OslcMediaType.TEXT_TURTLE_TYPE));
+	}
 
-    @Override
-    public Object[] readFrom(final Class<Object[]>                type,
-                             final Type                           genericType,
-                             final Annotation[]                   annotations,
-                             final MediaType                      mediaType,
-                             final MultivaluedMap<String, String> map,
-                             final InputStream                    inputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        return readFrom(type.getComponentType(),
-                        mediaType,
-                        map,
-                        inputStream);
-    }
+	@Override
+	public Object[] readFrom(final Class<Object[]>				  type,
+							 final Type							  genericType,
+							 final Annotation[]					  annotations,
+							 final MediaType					  mediaType,
+							 final MultivaluedMap<String, String> map,
+							 final InputStream					  inputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		return readFrom(type.getComponentType(),
+						mediaType,
+						map,
+						inputStream);
+	}
 }

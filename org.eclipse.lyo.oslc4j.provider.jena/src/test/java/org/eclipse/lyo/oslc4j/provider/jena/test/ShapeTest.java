@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial implementation
+ *	   Samuel Padgett - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
@@ -36,7 +36,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcTurtleProvider;
 import org.junit.Test;
 
 public class ShapeTest {
-    @Test
+	@Test
 	public void allowedAndDefaultValuesTest() throws Exception {
 		ResourceShape s = readResourceShape("/allowedValues.ttl");
 		assertNotNull("Shape is null", s);
@@ -73,21 +73,21 @@ public class ShapeTest {
 		assertEquals("Default values should be 27", new Integer(27), allowedValuesIntProperty.getDefaultValueObject());
 	}
 
-    @SuppressWarnings("deprecation")
-    @Test
+	@SuppressWarnings("deprecation")
+	@Test
 	public void allowedValuesResourceTest() throws Exception {
-	    OslcTurtleProvider provider = new OslcTurtleProvider();
+		OslcTurtleProvider provider = new OslcTurtleProvider();
 		InputStream is = ServiceProviderTest.class.getResourceAsStream("/allowedValuesResource.ttl");
 		assertNotNull("Could not read file: /allowedValuesResource.ttl", is);
 		
 		// Make sure the content is properly interpreted as Turtle if the media type is "text/turtle;charset=UTF-8"
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-        AllowedValues allowedValues = (AllowedValues) provider.readFrom((Class) AllowedValues.class,
-	            null,
-	            AllowedValues.class.getAnnotations(),
-	            MediaType.valueOf("text/turtle;charset=UTF-8"),
-	            null,
-	            is);
+		AllowedValues allowedValues = (AllowedValues) provider.readFrom((Class) AllowedValues.class,
+				null,
+				AllowedValues.class.getAnnotations(),
+				MediaType.valueOf("text/turtle;charset=UTF-8"),
+				null,
+				is);
 		assertNotNull("Allowed values is null", allowedValues);
 		
 		Collection<?> uriAllowedValues = allowedValues.getValues();
@@ -100,7 +100,7 @@ public class ShapeTest {
 
 
 	@SuppressWarnings("deprecation")
-    @Test
+	@Test
 	public void testAllowedValuesBackwardsCompatibility() throws Exception {
 		ResourceShape s = readResourceShape("/allowedValues.ttl");
 		assertNotNull("Shape is null", s);
@@ -132,19 +132,19 @@ public class ShapeTest {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ResourceShape readResourceShape(String turtleFile) throws IOException {
-	    OslcTurtleProvider provider = new OslcTurtleProvider();
+		OslcTurtleProvider provider = new OslcTurtleProvider();
 		InputStream is = ServiceProviderTest.class.getResourceAsStream(turtleFile);
 		assertNotNull("Could not read file: " + turtleFile, is);
 		
 		// Make sure the content is properly interpreted as Turtle if the media type is "text/turtle;charset=UTF-8"
-        ResourceShape s = (ResourceShape) provider.readFrom((Class) ResourceShape.class,
-	            null,
-	            ResourceShape.class.getAnnotations(),
-	            MediaType.valueOf("text/turtle;charset=UTF-8"),
-	            null,
-	            is);
+		ResourceShape s = (ResourceShape) provider.readFrom((Class) ResourceShape.class,
+				null,
+				ResourceShape.class.getAnnotations(),
+				MediaType.valueOf("text/turtle;charset=UTF-8"),
+				null,
+				is);
 		assertNotNull("Shape was not read", s);
 
-	    return s;
-    }
+		return s;
+	}
 }

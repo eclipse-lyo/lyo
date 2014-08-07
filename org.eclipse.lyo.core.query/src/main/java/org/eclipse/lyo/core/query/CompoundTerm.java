@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -26,8 +26,8 @@ import java.util.List;
  */
 public interface CompoundTerm extends SimpleTerm
 {
-    /**
-     * @return immutable list of child simple terms
-     */
-    List<SimpleTerm> children();
+	/**
+	 * @return immutable list of child simple terms
+	 */
+	List<SimpleTerm> children();
 }

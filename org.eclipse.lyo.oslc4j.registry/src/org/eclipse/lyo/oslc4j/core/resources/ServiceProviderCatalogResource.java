@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.resources;
 
@@ -35,54 +35,54 @@ import org.eclipse.lyo.oslc4j.core.servlet.ServiceProviderCatalogSingleton;
 @Path("catalog")
 public class ServiceProviderCatalogResource
 {
-    @OslcDialog
-    (
-         title = "Service Provider Catalog Selection Dialog",
-         label = "Service Provider Catalog Selection Dialog",
-         uri = "",
-         hintWidth = "1000px",
-         hintHeight = "600px",
-         resourceTypes = {OslcConstants.TYPE_SERVICE_PROVIDER_CATALOG},
-         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @OslcQueryCapability
-    (
-        title = "Service Provider Catalog Query Capability",
-        label = "Service Provider Catalog Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_SERVICE_PROVIDER_CATALOG,
-        resourceTypes = {OslcConstants.TYPE_SERVICE_PROVIDER_CATALOG},
-        usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public ServiceProviderCatalog[] getServiceProviderCatalogs()
-    {
-        return new ServiceProviderCatalog[] {ServiceProviderCatalogSingleton.getServiceProviderCatalog()};
-    }
+	@OslcDialog
+	(
+		 title = "Service Provider Catalog Selection Dialog",
+		 label = "Service Provider Catalog Selection Dialog",
+		 uri = "",
+		 hintWidth = "1000px",
+		 hintHeight = "600px",
+		 resourceTypes = {OslcConstants.TYPE_SERVICE_PROVIDER_CATALOG},
+		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@OslcQueryCapability
+	(
+		title = "Service Provider Catalog Query Capability",
+		label = "Service Provider Catalog Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_SERVICE_PROVIDER_CATALOG,
+		resourceTypes = {OslcConstants.TYPE_SERVICE_PROVIDER_CATALOG},
+		usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public ServiceProviderCatalog[] getServiceProviderCatalogs()
+	{
+		return new ServiceProviderCatalog[] {ServiceProviderCatalogSingleton.getServiceProviderCatalog()};
+	}
 
-    @GET
-    @Path("{serviceProviderCatalogId}") // Required to distinguish from array result.  But, ignored.
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public ServiceProviderCatalog getServiceProviderCatalog()
-    {
-        return ServiceProviderCatalogSingleton.getServiceProviderCatalog();
-    }
+	@GET
+	@Path("{serviceProviderCatalogId}") // Required to distinguish from array result.  But, ignored.
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public ServiceProviderCatalog getServiceProviderCatalog()
+	{
+		return ServiceProviderCatalogSingleton.getServiceProviderCatalog();
+	}
 
-    @GET
-    @Path("{serviceProviderCatalogId}") // Required to distinguish from array result.  But, ignored.
-    @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
-    public Compact getCompact()
-    {
-        final ServiceProviderCatalog serviceProviderCatalog = ServiceProviderCatalogSingleton.getServiceProviderCatalog();
+	@GET
+	@Path("{serviceProviderCatalogId}") // Required to distinguish from array result.  But, ignored.
+	@Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
+	public Compact getCompact()
+	{
+		final ServiceProviderCatalog serviceProviderCatalog = ServiceProviderCatalogSingleton.getServiceProviderCatalog();
 
-        final Compact compact = new Compact();
+		final Compact compact = new Compact();
 
-        compact.setAbout(serviceProviderCatalog.getAbout());
-        compact.setShortTitle(serviceProviderCatalog.getTitle());
-        compact.setTitle(serviceProviderCatalog.getTitle());
+		compact.setAbout(serviceProviderCatalog.getAbout());
+		compact.setShortTitle(serviceProviderCatalog.getTitle());
+		compact.setTitle(serviceProviderCatalog.getTitle());
 
-        // TODO - Need icon for ServiceProviderCatalog compact.
+		// TODO - Need icon for ServiceProviderCatalog compact.
 
-        return compact;
-    }
+		return compact;
+	}
 }

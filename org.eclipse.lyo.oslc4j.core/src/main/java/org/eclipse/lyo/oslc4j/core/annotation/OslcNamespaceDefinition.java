@@ -11,11 +11,11 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - add @Documented
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- add @Documented
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -28,13 +28,13 @@ import java.lang.annotation.Target;
 @Target({}) // Only used within OslcSchema
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcNamespaceDefinition {
-    /**
-     * Namespace URI.
-     */
-    String namespaceURI();
+	/**
+	 * Namespace URI.
+	 */
+	String namespaceURI();
 
-    /**
-     * Prefix for the namespace.
-     */
-    String prefix();
+	/**
+	 * Prefix for the namespace.
+	 */
+	String prefix();
 }

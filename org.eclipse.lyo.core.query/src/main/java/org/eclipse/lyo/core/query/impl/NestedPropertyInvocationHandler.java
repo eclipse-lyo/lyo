@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query.impl;
 
@@ -30,62 +30,62 @@ import org.eclipse.lyo.core.query.Property.Type;
  */
 class NestedPropertyInvocationHandler extends PropertyInvocationHandler
 {
-    public
-    NestedPropertyInvocationHandler(
-        CommonTree tree,
-        Map<String, String> prefixMap
-    )
-    {
-        super((CommonTree)tree.getChild(0).getChild(0), Type.NESTED_PROPERTY,
-              prefixMap, tree.getChild(0).getType() == OslcSelectParser.WILDCARD);
-        
-        this.tree = tree;
-    }
+	public
+	NestedPropertyInvocationHandler(
+		CommonTree tree,
+		Map<String, String> prefixMap
+	)
+	{
+		super((CommonTree)tree.getChild(0).getChild(0), Type.NESTED_PROPERTY,
+			  prefixMap, tree.getChild(0).getType() == OslcSelectParser.WILDCARD);
+		
+		this.tree = tree;
+	}
 
-    /**
-     * @see org.eclipse.lyo.core.query.impl.PropertyInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        String methodName = method.getName();
-        boolean isChildren = methodName.equals("children");
-        
-        if (! isChildren &&
-            ! methodName.equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        if (isChildren && children != null) {
-            return children;            
-        }
-        
-        children = PropertiesInvocationHandler.createChildren(
-                (CommonTree)tree.getChild(1), prefixMap);        
-        
-        if (isChildren) {
-            return children;
-        }
-        
-        NestedProperty nestedProperty = ((NestedProperty)proxy);
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append(nestedProperty.isWildcard() ?
-                            "*" :
-                            nestedProperty.identifier().toString());
-        buffer.append('{');
-        
-        PropertiesInvocationHandler.childrenToString(buffer, children);
-        
-        buffer.append('}');
-        
-        return buffer.toString();
-    }
-    
-    private final CommonTree tree;
-    private List<Property> children = null;
+	/**
+	 * @see org.eclipse.lyo.core.query.impl.PropertyInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		String methodName = method.getName();
+		boolean isChildren = methodName.equals("children");
+		
+		if (! isChildren &&
+			! methodName.equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		if (isChildren && children != null) {
+			return children;			
+		}
+		
+		children = PropertiesInvocationHandler.createChildren(
+				(CommonTree)tree.getChild(1), prefixMap);		 
+		
+		if (isChildren) {
+			return children;
+		}
+		
+		NestedProperty nestedProperty = ((NestedProperty)proxy);
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append(nestedProperty.isWildcard() ?
+							"*" :
+							nestedProperty.identifier().toString());
+		buffer.append('{');
+		
+		PropertiesInvocationHandler.childrenToString(buffer, children);
+		
+		buffer.append('}');
+		
+		return buffer.toString();
+	}
+	
+	private final CommonTree tree;
+	private List<Property> children = null;
 }

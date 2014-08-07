@@ -11,7 +11,7 @@
  * 
  * Contributors:
  * 
- *    Samuel Padgett - Initial implementation
+ *	  Samuel Padgett - Initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.test;
 

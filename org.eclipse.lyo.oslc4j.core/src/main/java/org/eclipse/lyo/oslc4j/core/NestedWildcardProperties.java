@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
@@ -25,9 +25,9 @@ import java.util.Map;
  */
 public interface NestedWildcardProperties
 {
-    /**
-     * @return map of all member properties of nested resources to be
-     * output
-     */
-    Map<String, Object> commonNestedProperties();
+	/**
+	 * @return map of all member properties of nested resources to be
+	 * output
+	 */
+	Map<String, Object> commonNestedProperties();
 }

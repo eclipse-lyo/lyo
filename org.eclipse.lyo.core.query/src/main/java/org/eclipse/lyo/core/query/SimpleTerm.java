@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -21,19 +21,19 @@ package org.eclipse.lyo.core.query;
  */
 public interface SimpleTerm
 {
-    enum Type
-    {
-        COMPARISON,
-        IN_TERM,
-        NESTED,
-        TOP_LEVEL;
-    }
-    
-    Type type();
-    
-    /**
-     * @return type of simple term.  When {@link CompoundTerm}
-     * return <code>null</code>.
-     */
-    PName property();
+	enum Type
+	{
+		COMPARISON,
+		IN_TERM,
+		NESTED,
+		TOP_LEVEL;
+	}
+	
+	Type type();
+	
+	/**
+	 * @return type of simple term.	 When {@link CompoundTerm}
+	 * return <code>null</code>.
+	 */
+	PName property();
 }

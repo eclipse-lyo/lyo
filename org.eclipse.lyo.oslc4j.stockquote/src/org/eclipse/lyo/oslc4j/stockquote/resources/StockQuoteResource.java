@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.stockquote.resources;
 
@@ -67,299 +67,299 @@ import org.eclipse.lyo.oslc4j.stockquote.servlet.ServiceProviderSingleton;
 @Path("stockQuotes")
 public class StockQuoteResource
 {
-    private static final Logger logger = Logger.getLogger(StockQuoteResource.class.getName());
+	private static final Logger logger = Logger.getLogger(StockQuoteResource.class.getName());
 
-    public StockQuoteResource()
-    {
-        super();
-    }
+	public StockQuoteResource()
+	{
+		super();
+	}
 
-    @OslcDialog
-    (
-         title = "Stock Quote Selection Dialog",
-         label = "Stock Quote Selection Dialog",
-         uri = "",
-         hintWidth = "1000px",
-         hintHeight = "600px",
-          resourceTypes = {Constants.TYPE_STOCK_QUOTE},
-         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @OslcQueryCapability
-    (
-        title = "Stock Quote Query Capability",
-        label = "Stock Quote Catalog Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_STOCK_QUOTE,
-        resourceTypes = {Constants.TYPE_STOCK_QUOTE},
-        usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
-    public StockQuote[] getStockQuotes()
-           throws JSONException
-    {
-        final StockQuote[] stockQuotes = Persistence.getStockQuotes();
+	@OslcDialog
+	(
+		 title = "Stock Quote Selection Dialog",
+		 label = "Stock Quote Selection Dialog",
+		 uri = "",
+		 hintWidth = "1000px",
+		 hintHeight = "600px",
+		  resourceTypes = {Constants.TYPE_STOCK_QUOTE},
+		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@OslcQueryCapability
+	(
+		title = "Stock Quote Query Capability",
+		label = "Stock Quote Catalog Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_STOCK_QUOTE,
+		resourceTypes = {Constants.TYPE_STOCK_QUOTE},
+		usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+	public StockQuote[] getStockQuotes()
+		   throws JSONException
+	{
+		final StockQuote[] stockQuotes = Persistence.getStockQuotes();
 
-        retrieveStockQuoteInformation(stockQuotes);
+		retrieveStockQuoteInformation(stockQuotes);
 
-        for (final StockQuote stockQuote : stockQuotes)
-        {
-            stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
-        }
+		for (final StockQuote stockQuote : stockQuotes)
+		{
+			stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
+		}
 
-        return stockQuotes;
-    }
+		return stockQuotes;
+	}
 
-    @GET
-    @Path("{stockQuoteId}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
-    public StockQuote getStockQuote(@PathParam("stockQuoteId") final String stockQuoteId)
-           throws JSONException
-    {
-        final StockQuote stockQuote = Persistence.getStockQuote(stockQuoteId);
+	@GET
+	@Path("{stockQuoteId}")
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+	public StockQuote getStockQuote(@PathParam("stockQuoteId") final String stockQuoteId)
+		   throws JSONException
+	{
+		final StockQuote stockQuote = Persistence.getStockQuote(stockQuoteId);
 
-        if (stockQuote != null)
-        {
-            retrieveStockQuoteInformation(stockQuote);
+		if (stockQuote != null)
+		{
+			retrieveStockQuoteInformation(stockQuote);
 
-            stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
+			stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
 
-            return stockQuote;
-        }
+			return stockQuote;
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    @GET
-    @Path("{stockQuoteId}")
-    @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
-    public Compact getCompact(@PathParam("stockQuoteId") final String stockQuoteId)
-    {
-        final StockQuote stockQuote = Persistence.getStockQuote(stockQuoteId);
+	@GET
+	@Path("{stockQuoteId}")
+	@Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
+	public Compact getCompact(@PathParam("stockQuoteId") final String stockQuoteId)
+	{
+		final StockQuote stockQuote = Persistence.getStockQuote(stockQuoteId);
 
-        if (stockQuote != null)
-        {
-            final Compact compact = new Compact();
+		if (stockQuote != null)
+		{
+			final Compact compact = new Compact();
 
-            compact.setAbout(stockQuote.getAbout());
-            compact.setShortTitle(stockQuote.getTitle());
-            compact.setTitle(stockQuote.getTitle());
+			compact.setAbout(stockQuote.getAbout());
+			compact.setShortTitle(stockQuote.getTitle());
+			compact.setTitle(stockQuote.getTitle());
 
-            // TODO - Need icon for stock quote compact
+			// TODO - Need icon for stock quote compact
 
-            return compact;
-        }
+			return compact;
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    @OslcCreationFactory
-    (
-         title = "Stock Quote Creation Factory",
-         label = "Stock Quote Creation",
-         resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_STOCK_QUOTE},
-         resourceTypes = {Constants.TYPE_STOCK_QUOTE},
-         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @POST
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
-    public Response addStockQuote(@Context final HttpServletRequest httpServletRequest,
-                                           final StockQuote         stockQuote)
-           throws URISyntaxException
-    {
-        final String identifier = Utilities.createStockQuoteIdentifier(stockQuote);
+	@OslcCreationFactory
+	(
+		 title = "Stock Quote Creation Factory",
+		 label = "Stock Quote Creation",
+		 resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_STOCK_QUOTE},
+		 resourceTypes = {Constants.TYPE_STOCK_QUOTE},
+		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@POST
+	@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON})
+	public Response addStockQuote(@Context final HttpServletRequest httpServletRequest,
+										   final StockQuote			stockQuote)
+		   throws URISyntaxException
+	{
+		final String identifier = Utilities.createStockQuoteIdentifier(stockQuote);
 
-        final URI about = new URI(httpServletRequest.getScheme(),
-                                  null,
-                                  httpServletRequest.getServerName(),
-                                  httpServletRequest.getServerPort(),
-                                  httpServletRequest.getContextPath() + "/stockQuotes/" + identifier,
-                                  null,
-                                  null);
+		final URI about = new URI(httpServletRequest.getScheme(),
+								  null,
+								  httpServletRequest.getServerName(),
+								  httpServletRequest.getServerPort(),
+								  httpServletRequest.getContextPath() + "/stockQuotes/" + identifier,
+								  null,
+								  null);
 
-        stockQuote.setAbout(about);
-        stockQuote.setIdentifier(identifier);
-        stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
+		stockQuote.setAbout(about);
+		stockQuote.setIdentifier(identifier);
+		stockQuote.setServiceProvider(ServiceProviderSingleton.getServiceProviderURI());
 
-        Persistence.addStockQuote(stockQuote);
+		Persistence.addStockQuote(stockQuote);
 
-        return Response.created(about).entity(stockQuote).build();
-    }
+		return Response.created(about).entity(stockQuote).build();
+	}
 
-    @DELETE
-    @Path("{stockQuoteId}")
-    public Response deleteStockQuote(@PathParam("stockQuoteId") final String stockQuoteId)
-    {
-        final StockQuote stockQuote = Persistence.deleteStockQuote(stockQuoteId);
+	@DELETE
+	@Path("{stockQuoteId}")
+	public Response deleteStockQuote(@PathParam("stockQuoteId") final String stockQuoteId)
+	{
+		final StockQuote stockQuote = Persistence.deleteStockQuote(stockQuoteId);
 
-        if (stockQuote != null)
-        {
-            return Response.noContent().build();
-        }
+		if (stockQuote != null)
+		{
+			return Response.noContent().build();
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    private static void retrieveStockQuoteInformation(final StockQuote ... stockQuotes)
-            throws JSONException
-    {
-        // We will use the google stock api
-        // Example:  http://www.google.com/finance/info?infotype=infoquoteall&q=IBM,Goog
+	private static void retrieveStockQuoteInformation(final StockQuote ... stockQuotes)
+			throws JSONException
+	{
+		// We will use the google stock api
+		// Example:	 http://www.google.com/finance/info?infotype=infoquoteall&q=IBM,Goog
 
-        final Map<String, StockQuote> map = new HashMap<String, StockQuote>();
+		final Map<String, StockQuote> map = new HashMap<String, StockQuote>();
 
-        String uri = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
+		String uri = "http://www.google.com/finance/info?infotype=infoquoteall&q=";
 
-        boolean first = true;
-        for (final StockQuote stockQuote : stockQuotes)
-        {
-            final String requestedExchange = stockQuote.getExchange();
-            final String requestedSymbol   = stockQuote.getSymbol();
+		boolean first = true;
+		for (final StockQuote stockQuote : stockQuotes)
+		{
+			final String requestedExchange = stockQuote.getExchange();
+			final String requestedSymbol   = stockQuote.getSymbol();
 
-            final String googleKey = requestedExchange + ":" + requestedSymbol;
+			final String googleKey = requestedExchange + ":" + requestedSymbol;
 
-            if (first)
-            {
-                first = false;
-            }
-            else
-            {
-                uri += ",";
-            }
+			if (first)
+			{
+				first = false;
+			}
+			else
+			{
+				uri += ",";
+			}
 
-            uri += googleKey;
+			uri += googleKey;
 
-            map.put(stockQuote.getIdentifier(),
-                    stockQuote);
-        }
+			map.put(stockQuote.getIdentifier(),
+					stockQuote);
+		}
 
-        final ClientConfig clientConfig = new ClientConfig();
+		final ClientConfig clientConfig = new ClientConfig();
 
-        final RestClient restClient = new RestClient(clientConfig);
+		final RestClient restClient = new RestClient(clientConfig);
 
-        final Resource resource = restClient.resource(uri);
+		final Resource resource = restClient.resource(uri);
 
-        final ClientResponse clientResponse = resource.accept(MediaType.APPLICATION_JSON).get();
+		final ClientResponse clientResponse = resource.accept(MediaType.APPLICATION_JSON).get();
 
-        if (HttpServletResponse.SC_OK == clientResponse.getStatusCode())
-        {
-            final String result = clientResponse.getEntity(String.class);
+		if (HttpServletResponse.SC_OK == clientResponse.getStatusCode())
+		{
+			final String result = clientResponse.getEntity(String.class);
 
-            // We have to strip off leading // in Google response
+			// We have to strip off leading // in Google response
 
-            int indexOf = result.indexOf('[');
+			int indexOf = result.indexOf('[');
 
-            if (indexOf < 0)
-            {
-                indexOf = 0;
-            }
+			if (indexOf < 0)
+			{
+				indexOf = 0;
+			}
 
-            final JSONArray jsonArray = new JSONArray(result.substring(indexOf));
+			final JSONArray jsonArray = new JSONArray(result.substring(indexOf));
 
-            // Dec 9, 11:34AM EST
-            final DateFormat dateFormat = new SimpleDateFormat("MMM dd, hh:mma z");
+			// Dec 9, 11:34AM EST
+			final DateFormat dateFormat = new SimpleDateFormat("MMM dd, hh:mma z");
 
-            for (final Object object : jsonArray)
-            {
-                if (object instanceof JSONObject)
-                {
-                    final JSONObject jsonObject = (JSONObject) object;
+			for (final Object object : jsonArray)
+			{
+				if (object instanceof JSONObject)
+				{
+					final JSONObject jsonObject = (JSONObject) object;
 
-                    final Object exchange = jsonObject.opt("e");
-                    final Object ticker   = jsonObject.opt("t");
+					final Object exchange = jsonObject.opt("e");
+					final Object ticker	  = jsonObject.opt("t");
 
-                    if (!(exchange instanceof String))
-                    {
-                        logger.warning("Exchange not String.  Value is " + String.valueOf(exchange));
-                    }
-                    else if (!(ticker instanceof String))
-                    {
-                        logger.warning("Ticker not String.  Value is " + String.valueOf(ticker));
-                    }
-                    else
-                    {
-                        final String mapKey = Utilities.createStockQuoteIdentifier(exchange.toString(),
-                                                                                   ticker.toString());
+					if (!(exchange instanceof String))
+					{
+						logger.warning("Exchange not String.  Value is " + String.valueOf(exchange));
+					}
+					else if (!(ticker instanceof String))
+					{
+						logger.warning("Ticker not String.	Value is " + String.valueOf(ticker));
+					}
+					else
+					{
+						final String mapKey = Utilities.createStockQuoteIdentifier(exchange.toString(),
+																				   ticker.toString());
 
-                        final StockQuote stockQuote = map.get(mapKey);
+						final StockQuote stockQuote = map.get(mapKey);
 
-                        if (stockQuote == null)
-                        {
-                            logger.warning("Stock quote resource not found for exchange " + exchange + ", symbol " + ticker);
-                        }
-                        else
-                        {
-                            final Object change        = jsonObject.opt("c");
-                            final Object changePercent = jsonObject.opt("cp");
-                            final Object hi            = jsonObject.opt("hi");
-                            final Object hi52          = jsonObject.opt("hi52");
-                            final Object last          = jsonObject.opt("l");
-                            final Object lo            = jsonObject.opt("lo");
-                            final Object lo52          = jsonObject.opt("lo52");
-                            final Object lastTrade     = jsonObject.opt("lt");
-                            final Object name          = jsonObject.opt("name");
-                            final Object open          = jsonObject.opt("op");
+						if (stockQuote == null)
+						{
+							logger.warning("Stock quote resource not found for exchange " + exchange + ", symbol " + ticker);
+						}
+						else
+						{
+							final Object change		   = jsonObject.opt("c");
+							final Object changePercent = jsonObject.opt("cp");
+							final Object hi			   = jsonObject.opt("hi");
+							final Object hi52		   = jsonObject.opt("hi52");
+							final Object last		   = jsonObject.opt("l");
+							final Object lo			   = jsonObject.opt("lo");
+							final Object lo52		   = jsonObject.opt("lo52");
+							final Object lastTrade	   = jsonObject.opt("lt");
+							final Object name		   = jsonObject.opt("name");
+							final Object open		   = jsonObject.opt("op");
 
-                            stockQuote.setChangePrice(toFloat(change));
-                            stockQuote.setChangePricePercentage(toFloat(changePercent));
-                            stockQuote.setHighPrice(toFloat(hi));
-                            stockQuote.setHigh52WeekPrice(toFloat(hi52));
-                            stockQuote.setLastTradedPrice(toFloat(last));
-                            stockQuote.setLastTradedDate(toDate(dateFormat, lastTrade));
-                            stockQuote.setLowPrice(toFloat(lo));
-                            stockQuote.setLow52WeekPrice(toFloat(lo52));
-                            stockQuote.setTitle(toString(name));
-                            stockQuote.setOpenPrice(toFloat(open));
-                        }
-                    }
-                }
-            }
-        }
-    }
+							stockQuote.setChangePrice(toFloat(change));
+							stockQuote.setChangePricePercentage(toFloat(changePercent));
+							stockQuote.setHighPrice(toFloat(hi));
+							stockQuote.setHigh52WeekPrice(toFloat(hi52));
+							stockQuote.setLastTradedPrice(toFloat(last));
+							stockQuote.setLastTradedDate(toDate(dateFormat, lastTrade));
+							stockQuote.setLowPrice(toFloat(lo));
+							stockQuote.setLow52WeekPrice(toFloat(lo52));
+							stockQuote.setTitle(toString(name));
+							stockQuote.setOpenPrice(toFloat(open));
+						}
+					}
+				}
+			}
+		}
+	}
 
-    private static String toString(final Object object)
-    {
-        if (object != null)
-        {
-            return object.toString();
-        }
+	private static String toString(final Object object)
+	{
+		if (object != null)
+		{
+			return object.toString();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private static Float toFloat(final Object object)
-    {
-        if (object != null)
-        {
-            try
-            {
-                return Float.valueOf(object.toString());
-            }
-            catch (final NumberFormatException exception)
-            {
-                logger.warning("Unable to parse '" + object + "' as float");
-            }
-        }
+	private static Float toFloat(final Object object)
+	{
+		if (object != null)
+		{
+			try
+			{
+				return Float.valueOf(object.toString());
+			}
+			catch (final NumberFormatException exception)
+			{
+				logger.warning("Unable to parse '" + object + "' as float");
+			}
+		}
 
-        return null;
+		return null;
 
-    }
+	}
 
-    private static Date toDate(final DateFormat dateFormat,
-                               final Object     object)
-    {
-        if (object != null)
-        {
-            try
-            {
-                return dateFormat.parse(object.toString());
-            }
-            catch (final ParseException exception)
-            {
-                logger.warning("Unable to parse '" + object + "' as date");
-            }
-        }
+	private static Date toDate(final DateFormat dateFormat,
+							   final Object		object)
+	{
+		if (object != null)
+		{
+			try
+			{
+				return dateFormat.parse(object.toString());
+			}
+			catch (final ParseException exception)
+			{
+				logger.warning("Unable to parse '" + object + "' as date");
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

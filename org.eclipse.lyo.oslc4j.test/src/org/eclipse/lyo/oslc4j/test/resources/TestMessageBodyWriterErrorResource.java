@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.test.resources;
 
@@ -38,42 +38,42 @@ import org.eclipse.lyo.oslc4j.test.Test;
 @Path("tests4")
 public class TestMessageBodyWriterErrorResource
 {
-    public TestMessageBodyWriterErrorResource()
-    {
-        super();
-    }
+	public TestMessageBodyWriterErrorResource()
+	{
+		super();
+	}
 
-    @OslcQueryCapability
-    (
-        title = "Test MessageBodyWriter Error Query Capability",
-        label = "Test MessageBodyWriter Error Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {Constants.USAGE_MESSAGE_BODY_WRITER_ERROR}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public Test[] getTests()
-           throws URISyntaxException
-    {
-        final Test test = new Test();
+	@OslcQueryCapability
+	(
+		title = "Test MessageBodyWriter Error Query Capability",
+		label = "Test MessageBodyWriter Error Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {Constants.USAGE_MESSAGE_BODY_WRITER_ERROR}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public Test[] getTests()
+		   throws URISyntaxException
+	{
+		final Test test = new Test();
 
-        test.setUriProperty(new URI("relative"));
+		test.setUriProperty(new URI("relative"));
 
-        return new Test[] {test};
-    }
+		return new Test[] {test};
+	}
 
-    @SuppressWarnings("unused")
-    @GET
-    @Path("{testId}")
-    @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
-    public Compact getCompact(@PathParam("testId") final String testId)
-           throws URISyntaxException
-    {
-        final Compact compact = new Compact();
+	@SuppressWarnings("unused")
+	@GET
+	@Path("{testId}")
+	@Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
+	public Compact getCompact(@PathParam("testId") final String testId)
+		   throws URISyntaxException
+	{
+		final Compact compact = new Compact();
 
-        compact.setAbout(new URI("relative"));
+		compact.setAbout(new URI("relative"));
 
-        return compact;
-    }
+		return compact;
+	}
 }

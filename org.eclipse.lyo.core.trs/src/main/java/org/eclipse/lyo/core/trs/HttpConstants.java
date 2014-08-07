@@ -11,7 +11,7 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation 
+ *	  Kevin Bauer - Initial implementation 
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -1004,10 +1004,10 @@ public class HttpConstants {
 		 * differs from {@link #valueOf(String)} in that method expects the
 		 * declarative name (i.e the result of {@link #name()}).
 		 * @param name
-		 *            The name of the HttpMethod to search for. May be <code>null</code>. If
-		 *            <code>null</code>, <code>null</code> is returned.
+		 *			  The name of the HttpMethod to search for. May be <code>null</code>. If
+		 *			  <code>null</code>, <code>null</code> is returned.
 		 * @return The MediaType whose {@link #toString()} value equals that of <code>name</code>,
-		 *         else <code>null</code>.
+		 *		   else <code>null</code>.
 		 */
 		static public HttpMethod fromString(String name) {
 			if (name == null)

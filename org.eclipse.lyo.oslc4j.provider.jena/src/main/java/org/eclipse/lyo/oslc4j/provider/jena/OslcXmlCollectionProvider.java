@@ -11,7 +11,7 @@
  *
  * Contributors:
  * 
- * 	Michael Fiedler - Initial API and implementation
+ *	Michael Fiedler - Initial API and implementation
  */
 
 package org.eclipse.lyo.oslc4j.provider.jena;

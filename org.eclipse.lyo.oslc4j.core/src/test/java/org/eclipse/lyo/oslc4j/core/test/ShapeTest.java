@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial implementation
+ *	   Samuel Padgett - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.test;
 
@@ -26,13 +26,13 @@ import org.junit.Test;
 
 public class ShapeTest {
 	@Test(expected = OslcCoreMissingAnnotationException.class)
-    public void testResourceClassMissingResourceShapeAnnotation()
-           throws OslcCoreApplicationException,
-                  URISyntaxException
-    {
-        ResourceShapeFactory.createResourceShape("http://bogus",
-                                                 OslcConstants.PATH_RESOURCE_SHAPES,
-                                                 "bogus",
-                                                 MissingResourceShapeAnnotation.class);
-    }
+	public void testResourceClassMissingResourceShapeAnnotation()
+		   throws OslcCoreApplicationException,
+				  URISyntaxException
+	{
+		ResourceShapeFactory.createResourceShape("http://bogus",
+												 OslcConstants.PATH_RESOURCE_SHAPES,
+												 "bogus",
+												 MissingResourceShapeAnnotation.class);
+	}
 }

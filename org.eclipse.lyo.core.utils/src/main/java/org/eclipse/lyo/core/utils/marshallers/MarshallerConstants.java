@@ -11,7 +11,7 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
+ *	  Kevin Bauer - Initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.marshallers;
 

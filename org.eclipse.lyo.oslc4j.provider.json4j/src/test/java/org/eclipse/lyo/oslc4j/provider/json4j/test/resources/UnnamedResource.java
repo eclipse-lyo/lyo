@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Fabio Negrello - initial implementation
+ *	   Fabio Negrello - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.json4j.test.resources;
 

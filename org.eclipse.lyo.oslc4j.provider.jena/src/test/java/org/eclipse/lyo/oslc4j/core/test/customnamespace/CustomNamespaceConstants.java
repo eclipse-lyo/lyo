@@ -11,13 +11,13 @@
  *
  * Contributors:
  *
- *     Daniel Figueiredo Caetano - initial implementation
+ *	   Daniel Figueiredo Caetano - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.test.customnamespace;
 
 /**
  * Common constants used to the test the global and custom namespace.
- *  
+ *	
  * @author Daniel Figueiredo Caetano
  *
  */
@@ -26,8 +26,8 @@ public interface CustomNamespaceConstants {
 	/*
 	 * Test prefixes
 	 */
-	String TEST1_PREFIX  = "test1";
-	String TEST2_PREFIX  = "test2";
+	String TEST1_PREFIX	 = "test1";
+	String TEST2_PREFIX	 = "test2";
 	String CUSTOM_PREFIX = "custom";
 	String GLOBAL_PREFIX = "global";
 

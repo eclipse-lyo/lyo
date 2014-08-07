@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -37,31 +37,31 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
 public class OslcSimpleRdfXmlCollectionProvider
-       extends OslcRdfXmlCollectionProvider
+	   extends OslcRdfXmlCollectionProvider
 {
-    public OslcSimpleRdfXmlCollectionProvider()
-    {
-        super();
-    }
+	public OslcSimpleRdfXmlCollectionProvider()
+	{
+		super();
+	}
 
-    @Override
-    public void writeTo(final Collection<Object>             collection,
-                        final Class<?>                       type,
-                        final Type                           genericType,
-                        final Annotation[]                   annotations,
-                        final MediaType                      mediaType,
-                        final MultivaluedMap<String, Object> map,
-                        final OutputStream outputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        writeTo(collection.toArray(new Object[collection.size()]),
-                mediaType,
-                map,
-                outputStream,
-                null,
-                null,
-                null,
-                null);
-    }
+	@Override
+	public void writeTo(final Collection<Object>			 collection,
+						final Class<?>						 type,
+						final Type							 genericType,
+						final Annotation[]					 annotations,
+						final MediaType						 mediaType,
+						final MultivaluedMap<String, Object> map,
+						final OutputStream outputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		writeTo(collection.toArray(new Object[collection.size()]),
+				mediaType,
+				map,
+				outputStream,
+				null,
+				null,
+				null,
+				null);
+	}
 }

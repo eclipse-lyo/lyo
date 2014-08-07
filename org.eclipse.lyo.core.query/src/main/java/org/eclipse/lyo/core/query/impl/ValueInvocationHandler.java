@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
@@ -28,29 +28,29 @@ import org.eclipse.lyo.core.query.Value.Type;
  */
 abstract class ValueInvocationHandler implements InvocationHandler
 {
-    protected
-    ValueInvocationHandler(
-        CommonTree tree,
-        Type type
-    )
-    {
-        this.tree = tree;
-        this.type = type;
-    }
-    
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        return type;
-    }
-    
-    protected final CommonTree tree;
-    private final Type type;
+	protected
+	ValueInvocationHandler(
+		CommonTree tree,
+		Type type
+	)
+	{
+		this.tree = tree;
+		this.type = type;
+	}
+	
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		return type;
+	}
+	
+	protected final CommonTree tree;
+	private final Type type;
 }

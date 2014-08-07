@@ -4,17 +4,17 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.application;
 
@@ -42,55 +42,55 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
  * by {@link OslcWinkApplication}.
  */
 public class OslcResourceShapeResource
-       extends AbstractDynamicResource
+	   extends AbstractDynamicResource
 {
-    private static final String BASE_URI = "http://localhost/validatingResourceShapes";
+	private static final String BASE_URI = "http://localhost/validatingResourceShapes";
 
-    private final String                resourceShapesPath;
-    private final Map<String, Class<?>> resourcePathToResourceClassMap;
+	private final String				resourceShapesPath;
+	private final Map<String, Class<?>> resourcePathToResourceClassMap;
 
-    public OslcResourceShapeResource(final String                resourceShapesPath,
-                                     final Map<String, Class<?>> resourcePathToResourceClassMap)
-           throws OslcCoreApplicationException,
-                  URISyntaxException
-    {
-        super();
+	public OslcResourceShapeResource(final String				 resourceShapesPath,
+									 final Map<String, Class<?>> resourcePathToResourceClassMap)
+		   throws OslcCoreApplicationException,
+				  URISyntaxException
+	{
+		super();
 
-        this.resourceShapesPath             = resourceShapesPath;
-        this.resourcePathToResourceClassMap = resourcePathToResourceClassMap;
+		this.resourceShapesPath				= resourceShapesPath;
+		this.resourcePathToResourceClassMap = resourcePathToResourceClassMap;
 
-        setPath(resourceShapesPath);
+		setPath(resourceShapesPath);
 
-        // Verify each of the resource shapes provided is valid
-        for (final Map.Entry<String, Class<?>> entry : resourcePathToResourceClassMap.entrySet())
-        {
-            ResourceShapeFactory.createResourceShape(BASE_URI,
-                                                     resourceShapesPath,
-                                                     entry.getKey(),
-                                                     entry.getValue());
-        }
-    }
+		// Verify each of the resource shapes provided is valid
+		for (final Map.Entry<String, Class<?>> entry : resourcePathToResourceClassMap.entrySet())
+		{
+			ResourceShapeFactory.createResourceShape(BASE_URI,
+													 resourceShapesPath,
+													 entry.getKey(),
+													 entry.getValue());
+		}
+	}
 
-    @GET
-    @Path("{resourceShapePath}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public ResourceShape getResourceShape(@Context                        final HttpServletRequest httpServletRequest,
-                                          @PathParam("resourceShapePath") final String             resourceShapePath)
-           throws OslcCoreApplicationException,
-                  URISyntaxException
-    {
-    	final String baseURI = OSLC4JUtils.resolveURI(httpServletRequest,false);
+	@GET
+	@Path("{resourceShapePath}")
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public ResourceShape getResourceShape(@Context						  final HttpServletRequest httpServletRequest,
+										  @PathParam("resourceShapePath") final String			   resourceShapePath)
+		   throws OslcCoreApplicationException,
+				  URISyntaxException
+	{
+		final String baseURI = OSLC4JUtils.resolveURI(httpServletRequest,false);
 
-        final Class<?> resourceClass = resourcePathToResourceClassMap.get(resourceShapePath);
+		final Class<?> resourceClass = resourcePathToResourceClassMap.get(resourceShapePath);
 
-        if (resourceClass != null)
-        {
-            return ResourceShapeFactory.createResourceShape(baseURI,
-                                                            resourceShapesPath,
-                                                            resourceShapePath,
-                                                            resourceClass);
-        }
+		if (resourceClass != null)
+		{
+			return ResourceShapeFactory.createResourceShape(baseURI,
+															resourceShapesPath,
+															resourceShapePath,
+															resourceClass);
+		}
 
-        throw new WebApplicationException(Response.Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Response.Status.NOT_FOUND);
+	}
 }

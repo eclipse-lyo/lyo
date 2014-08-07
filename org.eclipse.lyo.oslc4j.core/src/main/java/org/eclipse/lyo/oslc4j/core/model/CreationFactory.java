@@ -4,18 +4,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - remove final from class
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -39,16 +39,16 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Creation Factory Resource Shape", describes = OslcConstants.TYPE_CREATION_FACTORY)
 public class CreationFactory extends AbstractResource {
-    private final SortedSet<URI> resourceShapes = new TreeSet<URI>();
-    private final SortedSet<URI> resourceTypes = new TreeSet<URI>();
-    private final SortedSet<URI> usages = new TreeSet<URI>();
+	private final SortedSet<URI> resourceShapes = new TreeSet<URI>();
+	private final SortedSet<URI> resourceTypes = new TreeSet<URI>();
+	private final SortedSet<URI> usages = new TreeSet<URI>();
 
-    private URI creation;
+	private URI creation;
 	private String label;
 	private String title;
 
 	public CreationFactory() {
-	    super();
+		super();
 	}
 
 	public CreationFactory(final String title, final URI creation) {
@@ -59,30 +59,30 @@ public class CreationFactory extends AbstractResource {
 	}
 
 	public void addResourceShape(final URI resourceShape) {
-	    this.resourceShapes.add(resourceShape);
+		this.resourceShapes.add(resourceShape);
 	}
 
 	public void addResourceType(final URI resourceType) {
-	    this.resourceTypes.add(resourceType);
+		this.resourceTypes.add(resourceType);
 	}
 
 	public void addUsage(final URI usage) {
-	    this.usages.add(usage);
+		this.usages.add(usage);
 	}
 
 	@OslcDescription("To create a new resource via the factory, post it to this URI")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "creation")
 	@OslcReadOnly
-    @OslcTitle("Creation")
+	@OslcTitle("Creation")
 	public URI getCreation() {
-	    return creation;
+		return creation;
 	}
 
 	@OslcDescription("Very short label for use in menu items")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "label")
 	@OslcReadOnly
-    @OslcTitle("Label")
+	@OslcTitle("Label")
 	public String getLabel() {
 		return label;
 	}
@@ -92,27 +92,27 @@ public class CreationFactory extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "resourceShape")
 	@OslcRange(OslcConstants.TYPE_RESOURCE_SHAPE)
 	@OslcReadOnly
-    @OslcTitle("Resource Shapes")
+	@OslcTitle("Resource Shapes")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_RESOURCE_SHAPE)
-    public URI[] getResourceShapes() {
-	    return resourceShapes.toArray(new URI[resourceShapes.size()]);
+	public URI[] getResourceShapes() {
+		return resourceShapes.toArray(new URI[resourceShapes.size()]);
 	}
 
 	@OslcDescription("The expected resource type URI of the resource that will be created using this creation factory. These would be the URIs found in the result resource's rdf:type property")
 	@OslcName("resourceType")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "resourceType")
 	@OslcReadOnly
-    @OslcTitle("Resource Types")
+	@OslcTitle("Resource Types")
 	public URI[] getResourceTypes() {
-	    return resourceTypes.toArray(new URI[resourceTypes.size()]);
+		return resourceTypes.toArray(new URI[resourceTypes.size()]);
 	}
 
 	@OslcDescription("Title string that could be used for display")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
-    @OslcTitle("Title")
-    @OslcValueType(ValueType.XMLLiteral)
+	@OslcTitle("Title")
+	@OslcValueType(ValueType.XMLLiteral)
 	public String getTitle() {
 		return title;
 	}
@@ -121,41 +121,41 @@ public class CreationFactory extends AbstractResource {
 	@OslcName("usage")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")
 	@OslcReadOnly
-    @OslcTitle("Usages")
+	@OslcTitle("Usages")
 	public URI[] getUsages() {
-	    return usages.toArray(new URI[usages.size()]);
+		return usages.toArray(new URI[usages.size()]);
 	}
 
-    public void setCreation(final URI creation) {
-	    this.creation = creation;
+	public void setCreation(final URI creation) {
+		this.creation = creation;
 	}
 
-    public void setLabel(final String label) {
+	public void setLabel(final String label) {
 		this.label = label;
 	}
 
-    public void setResourceShapes(final URI[] resourceShapes) {
-        this.resourceShapes.clear();
-        if (resourceShapes != null) {
-            this.resourceShapes.addAll(Arrays.asList(resourceShapes));
-        }
-    }
+	public void setResourceShapes(final URI[] resourceShapes) {
+		this.resourceShapes.clear();
+		if (resourceShapes != null) {
+			this.resourceShapes.addAll(Arrays.asList(resourceShapes));
+		}
+	}
 
 	public void setResourceTypes(final URI[] resourceTypes) {
-        this.resourceTypes.clear();
-        if (resourceTypes != null) {
-            this.resourceTypes.addAll(Arrays.asList(resourceTypes));
-        }
-    }
+		this.resourceTypes.clear();
+		if (resourceTypes != null) {
+			this.resourceTypes.addAll(Arrays.asList(resourceTypes));
+		}
+	}
 
 	public void setTitle(final String title) {
 		this.title = title;
 	}
 
 	public void setUsages(final URI[] usages) {
-        this.usages.clear();
-        if (usages != null) {
-            this.usages.addAll(Arrays.asList(usages));
-        }
-    }
+		this.usages.clear();
+		if (usages != null) {
+			this.usages.addAll(Arrays.asList(usages));
+		}
+	}
 }

@@ -11,11 +11,11 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - add @Documented
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- add @Documented
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -40,17 +40,17 @@ public @interface OslcQueryCapability {
 	String label() default "";
 
 	/**
-     * Resource shapes
-     */
-    String resourceShape() default "";
+	 * Resource shapes
+	 */
+	String resourceShape() default "";
 
-    /**
-     * Resource types
-     */
-    String[] resourceTypes() default {};
+	/**
+	 * Resource types
+	 */
+	String[] resourceTypes() default {};
 
-    /**
-     * Usages
-     */
-    String[] usages() default {};
+	/**
+	 * Usages
+	 */
+	String[] usages() default {};
 }

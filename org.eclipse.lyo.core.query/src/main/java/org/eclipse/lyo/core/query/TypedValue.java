@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -20,7 +20,7 @@ package org.eclipse.lyo.core.query;
  */
 public interface TypedValue extends Value
 {
-    String value();
-    
-    PName prefixedName();
+	String value();
+	
+	PName prefixedName();
 }

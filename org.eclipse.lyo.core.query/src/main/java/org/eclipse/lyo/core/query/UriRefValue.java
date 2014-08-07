@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
- *    Sameul Padgett - fix ClassCastException calling value()
+ *	  Steve Pitschke - initial API and implementation
+ *	  Sameul Padgett - fix ClassCastException calling value()
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -22,5 +22,5 @@ package org.eclipse.lyo.core.query;
  */
 public interface UriRefValue extends Value
 {
-    String value();
+	String value();
 }

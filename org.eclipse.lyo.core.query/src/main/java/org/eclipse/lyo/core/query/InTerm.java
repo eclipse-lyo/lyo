@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -23,8 +23,8 @@ import java.util.List;
  */
 public interface InTerm extends SimpleTerm
 {
-    /**
-     * @return immutable list of values
-     */
-    List<Value> values();
+	/**
+	 * @return immutable list of values
+	 */
+	List<Value> values();
 }

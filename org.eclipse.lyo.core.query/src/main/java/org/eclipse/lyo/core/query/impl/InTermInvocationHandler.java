@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
@@ -32,81 +32,81 @@ import org.eclipse.lyo.core.query.Value;
  */
 class InTermInvocationHandler extends SimpleTermInvocationHandler
 {
-    public
-    InTermInvocationHandler(
-        CommonTree tree,
-        Map<String, String> prefixMap
+	public
+	InTermInvocationHandler(
+		CommonTree tree,
+		Map<String, String> prefixMap
    )
-    {
-        super(tree, Type.IN_TERM, prefixMap);
-    }
-    
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        String methodName = method.getName();
-        boolean isValues = methodName.equals("values");
-        
-        if (! isValues &&
-            ! methodName.equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        if (values == null) {
-            
-            @SuppressWarnings("unchecked")
-            List<CommonTree> treeValues =
-                ((CommonTree)tree.getChild(1)).getChildren();
-            
-            values = new ArrayList<Value>(treeValues.size() - 1);
-            
-            for (CommonTree treeValue : treeValues) {
-                
-                Value value =
-                    ComparisonTermInvocationHandler.createValue(
-                            treeValue, "unspported literal value type",
-                            prefixMap);
-                
-                values.add(value);
-            }
-            
-            values = Collections.unmodifiableList(values);
-        }
-        
-        if (isValues) {
-            return values;
-        }
-        
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append(((InTerm)proxy).property().toString());
-        buffer.append(" in [");
-        
-        boolean first = true;
-        
-        for (Value value : values) {
-            
-            if (first) {
-                first = false;
-            } else {
-                buffer.append(',');
-            }
-            
-            buffer.append(value.toString());
-        }
-        
-        buffer.append(']');
-        
-        return buffer.toString();
-    }
-    
-    private List<Value> values = null;
+	{
+		super(tree, Type.IN_TERM, prefixMap);
+	}
+	
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		String methodName = method.getName();
+		boolean isValues = methodName.equals("values");
+		
+		if (! isValues &&
+			! methodName.equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		if (values == null) {
+			
+			@SuppressWarnings("unchecked")
+			List<CommonTree> treeValues =
+				((CommonTree)tree.getChild(1)).getChildren();
+			
+			values = new ArrayList<Value>(treeValues.size() - 1);
+			
+			for (CommonTree treeValue : treeValues) {
+				
+				Value value =
+					ComparisonTermInvocationHandler.createValue(
+							treeValue, "unspported literal value type",
+							prefixMap);
+				
+				values.add(value);
+			}
+			
+			values = Collections.unmodifiableList(values);
+		}
+		
+		if (isValues) {
+			return values;
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append(((InTerm)proxy).property().toString());
+		buffer.append(" in [");
+		
+		boolean first = true;
+		
+		for (Value value : values) {
+			
+			if (first) {
+				first = false;
+			} else {
+				buffer.append(',');
+			}
+			
+			buffer.append(value.toString());
+		}
+		
+		buffer.append(']');
+		
+		return buffer.toString();
+	}
+	
+	private List<Value> values = null;
 }

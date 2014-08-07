@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -20,5 +20,5 @@ package org.eclipse.lyo.core.query;
  */
 public interface SimpleSortTerm extends SortTerm
 {
-    boolean ascending();
+	boolean ascending();
 }

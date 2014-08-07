@@ -11,8 +11,8 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer    - Initial implementation
- *    Samuel Padgett - Properly read in media types other than XML
+ *	  Kevin Bauer	 - Initial implementation
+ *	  Samuel Padgett - Properly read in media types other than XML
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.marshallers;
 
@@ -87,8 +87,8 @@ public class OSLC4JUnmarshaller {
 			return model.getReader(FileUtils.langTurtle);
 		}
 
-	    return null;
-    }
+		return null;
+	}
 
 	public MediaType getMediaType() {
 		return mediaType;

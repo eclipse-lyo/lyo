@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Steve Pitschke       - initial API and implementation
- *     Samuel Padgett       - add @Documented
+ *	   Steve Pitschke		- initial API and implementation
+ *	   Samuel Padgett		- add @Documented
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.annotation;
 
@@ -33,13 +33,13 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcRdfCollectionType
 {
-    /**
-     * Namespace URI.
-     */
-    String namespaceURI() default OslcConstants.RDF_NAMESPACE;
+	/**
+	 * Namespace URI.
+	 */
+	String namespaceURI() default OslcConstants.RDF_NAMESPACE;
 
-    /**
-     * Prefix for the namespace.
-     */
-    String collectionType() default "List";
+	/**
+	 * Prefix for the namespace.
+	 */
+	String collectionType() default "List";
 }
