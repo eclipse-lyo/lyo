@@ -19,8 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +27,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.exception.RootServicesException;
@@ -38,12 +35,9 @@ import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
 import org.eclipse.lyo.client.oslc.jazz.JazzRootServicesHelper;
 import org.eclipse.lyo.client.oslc.resources.ArchitectureResource;
-import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
-import org.eclipse.lyo.oslc4j.core.model.Link;
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * Samples of logging in to Rational Design Manager and running OSLC operations

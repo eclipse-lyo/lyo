@@ -264,7 +264,6 @@ public class RRCFormSample {
 				// GET the root folder based on First requirement created
 				ClientResponse getResponse = client.getResource(req01URL,OslcMediaType.APPLICATION_RDF_XML);
 				requirement = getResponse.getEntity(Requirement.class);
-				String etag1 = getResponse.getHeaders().getFirst(OSLCConstants.ETAG);
 
 				// Display attributes based on the Resource shape
 				Map<QName, Object> requestExtProperties = requirement.getExtendedProperties();
