@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -352,7 +352,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public void setValueType(final ValueType valueType) {
 	    this.valueType = valueType;
 	}
-	
+
 	public void setValueType(final URI valueType) {
 	    if (valueType != null) {
 	        this.valueType = ValueType.fromString(valueType.toString());
@@ -360,16 +360,16 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	        this.valueType = null;
 	    }
 	}
-	
+
     public Collection<?> getAllowedValuesCollection() {
         Collection<?> allowedValues = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (allowedValues == null) {
 			return Collections.emptyList();
 		}
-		
+
 		return allowedValues;
 	}
-	
+
 	public void setAllowedValuesCollection(final Collection<?> values) {
 		if (values == null) {
 			getExtendedProperties().remove(PROPERTY_ALLOWED_VALUE);
@@ -389,7 +389,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		if (allowedValues != null) {
 			newValues.addAll(allowedValues);
 		}
-		
+
 		newValues.add(allowedValue);
 		setAllowedValuesCollection(newValues);
 	}
@@ -423,5 +423,5 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public void setAllowedValues(final String[] allowedValues) {
 		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, allowedValues);
 	}
-	
+
 }

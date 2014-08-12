@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -60,7 +60,7 @@ public final class TestCase
     protected URI getRdfType() {
     	return URI.create(QmConstants.TYPE_TEST_CASE);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -85,7 +85,7 @@ public final class TestCase
     {
         this.testsChangeRequests.add(changeRequest);
     }
-    
+
     public void addUsesTestScript(final Link testscript)
     {
         this.usesTestScripts.add(testscript);
@@ -95,7 +95,7 @@ public final class TestCase
     {
         this.validatesRequirements.add(requirement);
     }
-    
+
     @OslcDescription("The person(s) who are responsible for the work needed to complete the test case.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
@@ -156,7 +156,7 @@ public final class TestCase
     {
         return testsChangeRequests.toArray(new Link[testsChangeRequests.size()]);
     }
-    
+
     @OslcDescription("Test Script used by the Test Case.")
     @OslcName("usesTestScript")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "usesTestScript")
@@ -167,7 +167,7 @@ public final class TestCase
     {
         return usesTestScripts.toArray(new Link[usesTestScripts.size()]);
     }
- 
+
     @OslcDescription("Requirement that is validated by the Test Case.")
     @OslcName("validatesRequirement")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "validatesRequirement")
@@ -233,7 +233,7 @@ public final class TestCase
             this.testsChangeRequests.addAll(Arrays.asList(testsChangeRequests));
         }
     }
-    
+
     public void setUsesTestScripts(final Link[] usesTestScripts)
     {
         this.usesTestScripts.clear();

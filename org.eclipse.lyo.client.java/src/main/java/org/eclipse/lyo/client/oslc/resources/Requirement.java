@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -46,7 +46,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public class Requirement
        extends AbstractResource
 {
-	
+
 	private String title;
 	private String description;
 	private String identifier;
@@ -59,29 +59,29 @@ public class Requirement
     private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
 	private URI      serviceProvider;
 	private URI      instanceShape;
-    
-    
+
+
     // OSLC Links
     private final Set<Link>     elaboratedBy	            = new HashSet<Link>();
     private final Set<Link>     elaborates         			= new HashSet<Link>();
-    
+
     private final Set<Link>     specifiedBy           		= new HashSet<Link>();
     private final Set<Link>     specifies  					= new HashSet<Link>();
-    
+
     private final Set<Link>     affectedBy		        	= new HashSet<Link>();
-    
+
     private final Set<Link>     trackedBy		      	  	= new HashSet<Link>();
-    
+
     private final Set<Link>     implementedBy		        = new HashSet<Link>();
-    
+
     private final Set<Link>     validatedBy		        	= new HashSet<Link>();
-    
+
     private final Set<Link>     satisfiedBy		        	= new HashSet<Link>();
     private final Set<Link>     satisfies		        	= new HashSet<Link>();
-    
+
     private final Set<Link>     decomposedBy		        = new HashSet<Link>();
     private final Set<Link>     decomposes		        	= new HashSet<Link>();
-    
+
     private final Set<Link>     constrainedBy		        = new HashSet<Link>();
     private final Set<Link>     constrains		        	= new HashSet<Link>();
 
@@ -107,57 +107,57 @@ public class Requirement
         	rdfTypes.add(new URI(RmConstants.TYPE_REQUIREMENT));
         }
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subjects.add(subject);
     }
-    
+
     public void addConstrains(final Link constrains)
     {
         this.constrains.add(constrains);
     }
-    
+
     public void addConstrainedBy(final Link constrainedBy)
     {
         this.constrainedBy.add(constrainedBy);
     }
-    
+
     public void addDecomposes(final Link decomposes)
     {
         this.decomposes.add(decomposes);
     }
-    
+
     public void addDecomposedBy(final Link decomposedBy)
     {
         this.decomposedBy.add(decomposedBy);
     }
-    
+
     public void addSatisfies(final Link satisfies)
     {
         this.satisfies.add(satisfies);
     }
-    
+
     public void addSatisfiedBy(final Link satisfiedBy)
     {
         this.satisfiedBy.add(satisfiedBy);
     }
-    
+
     public void addValidatedBy(final Link validatedBy)
     {
         this.validatedBy.add(validatedBy);
     }
-    
+
     public void addTrackedBy(final Link trackedBy)
     {
         this.trackedBy.add(trackedBy);
     }
-    
+
     public void addImplementedBy(final Link implementedBy)
     {
         this.implementedBy.add(implementedBy);
     }
-    
+
     public void addAffectedBy(final Link affectedBy)
     {
         this.affectedBy.add(affectedBy);
@@ -229,7 +229,7 @@ public class Requirement
     {
         return elaborates.toArray(new Link[elaborates.size()]);
     }
-    
+
     @OslcDescription("The subject is specified by the object.")
     @OslcName("specifiedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "specifiedBy")
@@ -251,8 +251,8 @@ public class Requirement
     {
         return specifies.toArray(new Link[specifies.size()]);
     }
-    
-    
+
+
     @OslcDescription("Resource, such as a change request, which implements this requirement.")
     @OslcName("implementedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "implementedBy")
@@ -263,7 +263,7 @@ public class Requirement
     {
         return implementedBy.toArray(new Link[implementedBy.size()]);
     }
-    
+
     @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
     @OslcName("affectedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "affectedBy")
@@ -274,7 +274,7 @@ public class Requirement
     {
         return affectedBy.toArray(new Link[affectedBy.size()]);
     }
-    
+
     @OslcDescription("Resource, such as a change request, which tracks this requirement.")
     @OslcName("trackedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "trackedBy")
@@ -285,7 +285,7 @@ public class Requirement
     {
         return trackedBy.toArray(new Link[trackedBy.size()]);
     }
-    
+
     @OslcDescription("Resource, such as a test case, which validates this requirement.")
     @OslcName("validatedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "validatedBy")
@@ -296,7 +296,7 @@ public class Requirement
     {
         return validatedBy.toArray(new Link[validatedBy.size()]);
     }
-    
+
     @OslcDescription("The subject is satisfied by the object.")
     @OslcName("satisfiedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "satisfiedBy")
@@ -307,7 +307,7 @@ public class Requirement
     {
         return satisfiedBy.toArray(new Link[satisfiedBy.size()]);
     }
-    
+
     @OslcDescription("The object is satisfied by the subject.")
     @OslcName("satisfies")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "satisfies")
@@ -318,7 +318,7 @@ public class Requirement
     {
         return satisfies.toArray(new Link[satisfies.size()]);
     }
-    
+
     @OslcDescription("The subject is decomposed by the object.")
     @OslcName("decomposedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "decomposedBy")
@@ -329,7 +329,7 @@ public class Requirement
     {
         return decomposedBy.toArray(new Link[decomposedBy.size()]);
     }
-    
+
     @OslcDescription("The object is decomposed by the subject.")
     @OslcName("decomposes")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "decomposes")
@@ -340,7 +340,7 @@ public class Requirement
     {
         return decomposes.toArray(new Link[decomposes.size()]);
     }
-    
+
     @OslcDescription("The subject is constrained by the object.")
     @OslcName("constrainedBy")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "constrainedBy")
@@ -351,7 +351,7 @@ public class Requirement
     {
         return constrainedBy.toArray(new Link[constrainedBy.size()]);
     }
-    
+
     @OslcDescription("The object is constrained by the subject.")
     @OslcName("constrains")
     @OslcPropertyDefinition(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE + "constrains")
@@ -362,7 +362,7 @@ public class Requirement
     {
         return constrains.toArray(new Link[constrains.size()]);
     }
-    
+
     @OslcDescription("The person(s) who are responsible for the work needed to complete the change request.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
@@ -460,7 +460,7 @@ public class Requirement
         return shortTitle;
     }
 
-    
+
     @OslcDescription("Title (reference: Dublin Core) or often a single line summary of the resource represented as rich text in XHTML content.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
@@ -470,7 +470,7 @@ public class Requirement
     {
         return title;
     }
-    
+
     public void setConstrains(final Link[] constrains)
     {
         this.constrains.clear();
@@ -480,7 +480,7 @@ public class Requirement
             this.constrains.addAll(Arrays.asList(constrains));
         }
     }
-    
+
     public void setConstrainedBy(final Link[] constrainedBy)
     {
         this.constrainedBy.clear();
@@ -490,7 +490,7 @@ public class Requirement
             this.constrainedBy.addAll(Arrays.asList(constrainedBy));
         }
     }
-    
+
     public void setDecomposes(final Link[] decomposes)
     {
         this.affectedBy.clear();
@@ -500,7 +500,7 @@ public class Requirement
             this.decomposes.addAll(Arrays.asList(decomposes));
         }
     }
-    
+
     public void setDecomposedBy(final Link[] decomposedBy)
     {
         this.decomposedBy.clear();
@@ -510,7 +510,7 @@ public class Requirement
             this.decomposedBy.addAll(Arrays.asList(decomposedBy));
         }
     }
-    
+
     public void setSatisfies(final Link[] satisfies)
     {
         this.satisfies.clear();
@@ -520,7 +520,7 @@ public class Requirement
             this.satisfies.addAll(Arrays.asList(satisfies));
         }
     }
-    
+
     public void setSatisfiedBy(final Link[] satisfiedBy)
     {
         this.satisfiedBy.clear();
@@ -530,7 +530,7 @@ public class Requirement
             this.satisfiedBy.addAll(Arrays.asList(satisfiedBy));
         }
     }
-    
+
     public void setValidatedBy(final Link[] validatedBy)
     {
         this.validatedBy.clear();
@@ -540,7 +540,7 @@ public class Requirement
             this.validatedBy.addAll(Arrays.asList(validatedBy));
         }
     }
-    
+
     public void setTrackedBy(final Link[] trackedBy)
     {
         this.trackedBy.clear();
@@ -550,7 +550,7 @@ public class Requirement
             this.trackedBy.addAll(Arrays.asList(trackedBy));
         }
     }
-    
+
     public void setAffectedBy(final Link[] affectedBy)
     {
         this.affectedBy.clear();
@@ -675,7 +675,7 @@ public class Requirement
     {
         this.serviceProvider = serviceProvider;
     }
-    
+
     public void setShortTitle(final String shortTitle)
     {
         this.shortTitle = shortTitle;
@@ -687,7 +687,7 @@ public class Requirement
         this.title = title;
     }
 
-   
+
     public void setSubjects(final String[] subjects)
     {
         this.subjects.clear();

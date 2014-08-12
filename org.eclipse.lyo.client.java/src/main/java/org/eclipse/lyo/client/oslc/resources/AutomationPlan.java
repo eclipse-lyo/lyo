@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -50,7 +50,7 @@ extends AbstractResource
     private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
     private final Set<String>   subjects                    = new TreeSet<String>();
     private final Set<Property> parameterDefinitions        = new TreeSet<Property>();
-    
+
     private Date     created;
     private String   description;
     private String   identifier;
@@ -62,10 +62,10 @@ extends AbstractResource
 	public AutomationPlan()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(AutomationConstants.TYPE_AUTOMATION_PLAN));
 	}
-	
+
     public AutomationPlan(final URI about)
      {
          super(about);
@@ -76,7 +76,7 @@ extends AbstractResource
     protected URI getRdfType() {
     	return URI.create(AutomationConstants.TYPE_AUTOMATION_PLAN);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -86,7 +86,7 @@ extends AbstractResource
     {
         this.creators.add(creator);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
@@ -205,7 +205,7 @@ extends AbstractResource
     {
         return title;
     }
-   
+
     @OslcDescription("The parameter definitions for the automation plan.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcName("parameterDefinition")
@@ -217,7 +217,7 @@ extends AbstractResource
         return parameterDefinitions.toArray(new Property[parameterDefinitions.size()]);
     }
 
-    
+
     public void setContributors(final URI[] contributors)
     {
         this.contributors.clear();
@@ -252,7 +252,7 @@ extends AbstractResource
     {
         this.identifier = identifier;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;

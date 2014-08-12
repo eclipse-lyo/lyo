@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -49,7 +49,7 @@ extends AbstractResource
     private final Set<URI>      creators                    = new TreeSet<URI>();
     private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
 
-    
+
     private Date     created;
     private String   comment;
     private String   label;
@@ -57,15 +57,15 @@ extends AbstractResource
     private URI      instanceShape;
     private Date     modified;
     private URI      serviceProvider;
-    
+
 
 	public ArchitectureLinkType()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE));
 	}
-	
+
     public ArchitectureLinkType(final URI about)
      {
          super(about);
@@ -76,7 +76,7 @@ extends AbstractResource
     protected URI getRdfType() {
     	return URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -86,7 +86,7 @@ extends AbstractResource
     {
         this.creators.add(creator);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
@@ -129,7 +129,7 @@ extends AbstractResource
     {
         return label;
     }
-    
+
     @OslcDescription("Descriptive text about link type. ")
     @OslcPropertyDefinition(OslcConstants.RDFS_NAMESPACE + "comment")
     @OslcTitle("Comment")
@@ -184,7 +184,7 @@ extends AbstractResource
     {
         return serviceProvider;
     }
-   
+
     public void setContributors(final URI[] contributors)
     {
         this.contributors.clear();
@@ -214,7 +214,7 @@ extends AbstractResource
     {
         this.label = label;
     }
-    
+
     public void setComment(final String comment)
     {
         this.comment = comment;
@@ -224,7 +224,7 @@ extends AbstractResource
     {
         this.identifier = identifier;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;
@@ -244,7 +244,7 @@ extends AbstractResource
             this.rdfTypes.addAll(Arrays.asList(rdfTypes));
         }
     }
-    
+
     public void setServiceProvider(final URI serviceProvider)
     {
         this.serviceProvider = serviceProvider;

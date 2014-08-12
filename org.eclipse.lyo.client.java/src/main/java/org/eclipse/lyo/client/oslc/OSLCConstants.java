@@ -3,10 +3,10 @@
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
- * and Eclipse Distribution License v. 1.0 which accompanies this distribution. 
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at 
+ * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
@@ -37,14 +37,14 @@ public interface OSLCConstants {
 	static String OSLC_QM_V2 = "http://open-services.net/ns/qm#";
 	static String OSLC_RM_V2 = "http://open-services.net/ns/rm#";
 	static String OSLC_AUTO = "http://open-services.net/ns/auto#";
-	
+
 	// Version 1.0 namespace definitions
 	static String OSLC_DISC = "http://open-services.net/xmlns/discovery/1.0/";
 	static String OSLC_CM   = "http://open-services.net/xmlns/cm/1.0/";
 	static String OSLC_QM   = "http://open-services.net/xmlns/qm/1.0/";
 	static String OSLC_RM   = "http://open-services.net/xmlns/rm/1.0/";
-	
-	
+
+
 	//--------------------------------------------------------------------------
 	// Content-types for Accept header requests
 	// Standard headers:
@@ -52,26 +52,26 @@ public interface OSLCConstants {
 	static String CT_RDF = "application/rdf+xml";
 	static String CT_JSON = "application/json";
 	static String CT_ATOM = "application/atom+xml";
-	
+
 	// Version 1 headers:
 	static String CT_CR_XML = "application/x-oslc-cm-change-request+xml";
 	static String CT_CR_JSON = "application/x-oslc-cm-change-request+json";
 	static String CT_CR_QUERY = "application/x-oslc-cm-change-request+xml";
-	static String CT_DISC_CAT_XML = "application/x-oslc-disc-service-provider-catalog+xml"; 
+	static String CT_DISC_CAT_XML = "application/x-oslc-disc-service-provider-catalog+xml";
 	static String CT_DISC_DESC_XML = "application/x-oslc-cm-service-description+xml";
-	
+
 	// Version 2 headers:
 	static String OSLC_CORE_VERSION = "OSLC-Core-Version";
 	static String ETAG = "Etag";
-	
+
 	static String POST = "POST";
 	static String SSL = "SSL";
 
 	public static final String JENA_RDF_XML = "RDF/XML";
-	
+
 	//--------------------------------------------------------------------------
 	// Property URIs
-	
+
 	// OSLC Core
 	public static final String SERVICE_PROVIDER_PROP = OSLC_V2 + "serviceProvider";
 	public static final String SERVICE_PROVIDER_TYPE = OSLC_V2 + "ServiceProvider";
@@ -107,26 +107,26 @@ public interface OSLCConstants {
 	public static final String QM_TEST_SCRIPT = OSLC_QM_V2 + "testScript";
 	public static final String QM_TEST_RESULT = OSLC_QM_V2 + "testResult";
 	public static final String QM_TEST_EXECUTION_RECORD = OSLC_QM_V2 + "testExecutionRecord";
-	
+
 	public static final String QM_TEST_PLAN_QUERY = OSLC_QM_V2 + "TestPlanQuery";
 	public static final String QM_TEST_CASE_QUERY = OSLC_QM_V2 + "TestCaseQuery";
 	public static final String QM_TEST_SCRIPT_QUERY = OSLC_QM_V2 + "TestScriptQuery";
 	public static final String QM_TEST_RESULT_QUERY = OSLC_QM_V2 + "TestResultQuery";
 	public static final String QM_TEST_EXECUTION_RECORD_QUERY = OSLC_QM_V2 + "TestExecutionRecordQuery";
-	
+
 	//OSLC RM 2.0
-	
+
 	public static final String RM_REQUIREMENT_TYPE = OSLC_RM_V2 + "Requirement";
 	public static final String RM_REQUIREMENT_COLLECTION_TYPE = OSLC_RM_V2 + "RequirementCollection";
-	
+
 	//OSLC AM 2.0
 	public static final String AM_RESOURCE_TYPE = OSLC_AM_V2 + "Resource";
 	public static final String AM_LINK_TYPE_TYPE = OSLC_AM_V2 + "LinkType";
-	
+
 	// RDF
 	public static final String RDF_TYPE_PROP		= RDF + "type";
 	public static final String RDFS_MEMBER 			= RDFS + "member";
-	
+
 	// DCTERMS URIs
 	public static final String DC_TITLE_PROP 		= DC + "title";
 	public static final String DC_DESC_PROP 		= DC + "description";
@@ -146,5 +146,5 @@ public interface OSLCConstants {
 	public static final String DCTERMS_NAME 		= DCTERMS + "name";
 	public static final String DCTERMS_CREATED		= DCTERMS + "created";
 	public static final String DCTERMS_MODIFIED		= DCTERMS + "modified";
-	
+
 }

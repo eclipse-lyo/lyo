@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -53,11 +53,11 @@ public final class TestExecutionRecord
     {
         super();
     }
-    
+
     protected URI getRdfType() {
     	return URI.create(QmConstants.TYPE_TEST_EXECUTION_RECORD);
     }
-    
+
     public void addBlockedByChangeRequest(final Link blockingChangeRequest)
     {
         this.blockedByChangeRequests.add(blockingChangeRequest);
@@ -108,7 +108,7 @@ public final class TestExecutionRecord
     {
         return blockedByChangeRequests.toArray(new Link[blockedByChangeRequests.size()]);
     }
-    
+
     @OslcDescription("This relationship is loosely coupled and has no specific meaning.")
     @OslcName("relatedChangeRequest")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "relatedChangeRequest")
@@ -130,7 +130,7 @@ public final class TestExecutionRecord
     {
         return reportsOnTestPlan;
     }
-    
+
     @OslcDescription("Indicates the environment details of the test case for this execution record.")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "runsOnTestEnvironment")
     @OslcTitle("Runs On Test Environment")
@@ -138,7 +138,7 @@ public final class TestExecutionRecord
     {
         return runsOnTestEnvironment;
     }
-    
+
     @OslcDescription("Test Case run by the Test Execution Record.")
     @OslcName("runsTestCase")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "runsTestCase")
@@ -149,7 +149,7 @@ public final class TestExecutionRecord
     {
         return runsTestCase;
     }
-    
+
     public void setBlockedByChangeRequests(final Link[] blockedByChangeRequests)
     {
         this.blockedByChangeRequests.clear();
@@ -159,7 +159,7 @@ public final class TestExecutionRecord
             this.blockedByChangeRequests.addAll(Arrays.asList(blockedByChangeRequests));
         }
     }
-    
+
     public void setContributors(final URI[] contributors)
     {
         this.contributors.clear();
@@ -194,7 +194,7 @@ public final class TestExecutionRecord
     {
         this.reportsOnTestPlan = reportsOnTestPlan;
     }
-    
+
     public void setRunsOnTestEnvironment(final URI runsOnTestEnvironment)
     {
         this.runsOnTestEnvironment = runsOnTestEnvironment;
@@ -204,5 +204,5 @@ public final class TestExecutionRecord
     {
         this.runsTestCase = runsTestCase;
     }
-    
+
 }

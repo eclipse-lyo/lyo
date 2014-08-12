@@ -4,13 +4,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *     Paul McMahan <pmcmahan@us.ibm.com>     - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples.automation;
@@ -177,7 +177,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		if (capabilities != null) {
 			setCapabilities(capabilities.split(","));
 		}
-		
+
 		String aboutStr = properties.getProperty(PROPERTY_ABOUT);
 		if (aboutStr != null) {
 			setAbout(URI.create(aboutStr));
@@ -463,17 +463,17 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * interface. The AutomationResult returned by the IAutomationRequestHandler
 	 * will be sent back to the Automation Service Provider, and polling will
 	 * resume.
-	 * 
+	 *
 	 * Before calling this method the adapter needs to be logged in and
 	 * registered with the Automation Service Provider.
-	 * 
+	 *
 	 * @param requestHandler
 	 * @throws AutomationException
 	 * @throws InterruptedException
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 * @see {@link IAutomationRequestHandler}
 	 * @see #login()
 	 * @see #registerWithServiceProvider()
@@ -488,7 +488,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
@@ -544,13 +544,13 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Send the Automation Result to the Automation Service Provider
-	 * 
+	 *
 	 * @param result
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 * @throws AutomationException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
 	private void saveResult(AutomationResult result) throws IOException,
 			OAuthException, URISyntaxException, AutomationException,
@@ -592,24 +592,24 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Set the Automation Request's properties as complete and update the
 	 * Automation Service Provider
-	 * 
+	 *
 	 * @param request
 	 * @throws URISyntaxException
 	 * @throws AutomationException
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	private void completeRequest(AutomationRequest request)
 			throws AutomationException, IOException, OAuthException,
 			URISyntaxException {
-		
+
 		assertNotCanceled(request);
 
 		request.setStates(new URI[] { URI.create(
 				AutomationConstants.STATE_COMPLETE) });
 
 		request.getExtendedProperties().remove(PROPERTY_RQM_PROGRESS);
-		
+
 		request.getExtendedProperties().put(PROPERTY_RQM_PROGRESS,
 				new Integer(100));
 
@@ -641,7 +641,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Check for any queued Automation Requests at the Automation Service
 	 * Provider. If an AutomationRequest is queued then return its URL.
-	 * 
+	 *
 	 * @return
 	 * @throws AutomationException
 	 * @throws IOException
@@ -688,7 +688,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Notify the Automation Service Provider that the request has been taken by
 	 * this adapter.
-	 * 
+	 *
 	 * @param requestUrl
 	 * @return
 	 * @throws IOException
@@ -743,16 +743,16 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * Register with the Automation Service Provider if necessary. Before
 	 * calling this method the adapter needs to be logged in to the Automation
 	 * Service Provider.
-	 * 
+	 *
 	 * If the adapter's <code>about</code> property is not null then it is
 	 * assumed that the adapter is already created and its properties will be
 	 * refreshed from the service provider instead of recreating it again.
-	 * 
+	 *
 	 * @throws AutomationException
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 * @see #login()
 	 */
 	public void register() throws AutomationException, IOException,
@@ -807,15 +807,15 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		}
 
 		reloadPropertiesFromServiceProvider();
-		
+
 	}
-	
+
 	/**
 	 * Reload the adapter's properties from the service Provider. This ensures
 	 * that the adapter has the properties it needs such as the URL to poll for
 	 * assigned work. Before calling this method the adapter needs to be logged
 	 * in and registered with the Automation Service Provider.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
@@ -824,7 +824,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 */
 	public void reloadPropertiesFromServiceProvider() throws IOException,
 			OAuthException, URISyntaxException, AutomationException {
-		
+
 		if (client == null) {
 
 			throw new AutomationException(
@@ -838,21 +838,21 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"Adapter is not registered with the Automation Service Provider.");
 
 		}
-		
+
 		AutomationAdapter registeredAdapter;
-		
+
 		synchronized (client) {
-			
+
 			ClientResponse response = client.getResource(getAbout().toString(),
 					OslcMediaType.APPLICATION_RDF_XML);
-			
+
 			if (response.getStatusCode() != HttpStatus.SC_OK) {
-				
+
 				response.consumeContent();
-				
+
 				throw new AutomationException(
 						"The Adapter has an 'about' property that it is not acknowledged by the Automation Service Provider. The Adapter may have been deleted.");
-			}			
+			}
 
 			registeredAdapter = response.getEntity(AutomationAdapter.class);
 
@@ -867,7 +867,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * Unregister with the Automation Service Provider. Before calling this
 	 * method the adapter needs to be logged in and registered with the
 	 * Service Provider.
-	 * 
+	 *
 	 * @throws AutomationException
 	 * @throws IOException
 	 * @throws OAuthException
@@ -883,7 +883,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
@@ -920,7 +920,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Copy the server-side properties from a registered adapter into this
 	 * adapter
-	 * 
+	 *
 	 * @param registeredAdapter
 	 */
 	private void copyServerProperties(AutomationAdapter registeredAdapter) {
@@ -940,10 +940,10 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Login to the Automation Service Provider with the username, password, and
 	 * project area currently set on this adapter
-	 * 
+	 *
 	 * @throws RootServicesException
-	 * @throws JazzAuthErrorException 
-	 * @throws JazzAuthFailedException 
+	 * @throws JazzAuthErrorException
+	 * @throws JazzAuthFailedException
 	 */
 	public void login() throws RootServicesException, JazzAuthFailedException,
 			JazzAuthErrorException {
@@ -954,14 +954,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Login to the Automation Service Provider
-	 * 
+	 *
 	 * @param serverUrl
 	 * @param username
 	 * @param password
 	 * @param projectArea
 	 * @throws RootServicesException
-	 * @throws JazzAuthErrorException 
-	 * @throws JazzAuthFailedException 
+	 * @throws JazzAuthErrorException
+	 * @throws JazzAuthFailedException
 	 */
 	public void login(String serverUrl, String username, String password,
 			String projectArea) throws RootServicesException,
@@ -980,7 +980,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		client = rootServicesHelper.initFormClient(username, password);
 
 		synchronized (client) {
-			
+
 			client.formLogin();
 
 		}
@@ -989,7 +989,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Logout of the Automation Service Provider
-	 * 
+	 *
 	 * <strong>NOT IMPLEMENTED</strong>
 	 */
 	public void logout() {
@@ -998,7 +998,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			// TODO implement when logout support is added to OSLC client
 			// client.logout();
 		}
-		
+
 		client = null;
 
 	}
@@ -1006,9 +1006,9 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Get the Test Script document associated with the Automation Request's
 	 * oslc_qm:executesTestScript property.
-	 * 
+	 *
 	 * Before calling this method the adapter must be logged into the server.
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 * @throws IOException
@@ -1027,18 +1027,18 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"The adapter has not logged into the server.");
 
 		}
-		
+
 		assertNotCanceled(request);
 
 		URI scriptURI = (URI) request.getExtendedProperties().get(
 				PROPERTY_QM_EXECUTES_TEST_SCRIPT);
-		
+
 		if (scriptURI == null) {
-			
+
 			throw new AutomationException(
 					"The AutomationRequest does not have a value for the property : "
 							+ PROPERTY_QM_EXECUTES_TEST_SCRIPT);
-			
+
 		}
 
 		scriptURI = appendOslcProperties(scriptURI, "dcterms:relation");
@@ -1066,7 +1066,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Utility method to add the oslc.properties request parameter onto a URI
-	 * 
+	 *
 	 * @param uri
 	 * @param properties
 	 * @return
@@ -1098,7 +1098,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 	/**
 	 * Populate the AutomationResult's properties from the Automation Request
-	 * 
+	 *
 	 * @param request
 	 * @param result
 	 * @throws AutomationException
@@ -1110,8 +1110,8 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 			AutomationResult result) throws AutomationException, IOException,
 			OAuthException, URISyntaxException {
 
-		
-		
+
+
 		result.setProducedByAutomationRequest(new Link(request.getAbout()));
 
 		Link automationPlan = request.getExecutesAutomationPlan();
@@ -1153,7 +1153,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Send a heartbeat to the AutomationProvider to let it know that the
 	 * adapter is still available for work.
-	 * 
+	 *
 	 * @throws URISyntaxException
 	 * @throws AutomationException
 	 */
@@ -1165,14 +1165,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
 
 		}
-		
+
 		URI updateUrl = appendOslcProperties(getAbout(),
 				"rqm_auto:pollingInterval");
 
@@ -1202,17 +1202,17 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * Upload a File to the Automation Service Provider using the
 	 * rqm_auto:uploadAttachmentUrl property in the Automation Request.
-	 * 
+	 *
 	 * Before calling this method the adapter needs to be logged into the
 	 * Automation Service Provider.
-	 * 
+	 *
 	 * @param file
 	 * @param request
 	 * @return
 	 * @throws AutomationException
 	 * @throws URISyntaxException
 	 * @throws IOException
-	 * @throws OAuthException 
+	 * @throws OAuthException
 	 */
 	public URI uploadAttachment(File file, AutomationRequest request)
 			throws AutomationException, URISyntaxException, IOException,
@@ -1224,7 +1224,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"The adapter has not logged into the server.");
 
 		}
-		
+
 		assertNotCanceled(request);
 
 		URI attachmentUploadUrl = (URI) request.getExtendedProperties().get(
@@ -1233,7 +1233,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		String fileName = file.getName();
 
 		byte[] bytes = FileUtils.readFileToByteArray(file);
-		
+
 		OutPart outPart = new OutPart();
 		outPart.setContentType("application/octet-stream; name=" + fileName);
 		outPart.addHeader("Content-Transfer-Encoding", "binary");
@@ -1280,17 +1280,17 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * the progress should not reach 100 until the
 	 * {@link IAutomationRequestHandler} has finished processing the request and
 	 * returned control back to this Adapter.
-	 * 
+	 *
 	 * Before calling this method the adapter needs to be logged in and
 	 * registered with the automation service provider.
-	 * 
+	 *
 	 * @param i
 	 *            An integer less than 100
 	 * @param request
 	 * @throws URISyntaxException
 	 * @throws AutomationException
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	public void sendProgressForRequest(int i, AutomationRequest request)
 			throws URISyntaxException, AutomationException, IOException,
@@ -1302,14 +1302,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
 
 		}
-		
+
 		assertNotCanceled(request);
 
 		// don't allow progress to surpass 99 until the request has completed
@@ -1347,41 +1347,41 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		}
 
 	}
-	
+
 	/**
 	 * Send a status for the Automation Request. Before calling this method the
 	 * adapter needs to be logged in and registered with the automation service
 	 * provider.
-	 * 
+	 *
 	 * @param statusResponse
 	 * @param request
 	 * @throws URISyntaxException
 	 * @throws AutomationException
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	public void sendStatusForRequest(StatusResponse statusResponse,
 			AutomationRequest request) throws AutomationException, IOException,
 			OAuthException, URISyntaxException {
-		
+
 		if (client == null) {
 
 			throw new AutomationException(
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
 
 		}
-		
+
 		assertNotCanceled(request);
-		
+
 		AutomationRequest requestCopy = new AutomationRequest(request.getAbout());
-		
+
 		requestCopy.getExtendedProperties().put(PROPERTY_RQM_STATUS_RESPONSE,
 				statusResponse);
 
@@ -1408,41 +1408,41 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 							+ response.getMessage());
 
 		}
-		
+
 	}
-	
+
 	/**
 	 * Send a message update to the Automation Request. Before calling this
 	 * method the adapter needs to be logged in and registered with the
 	 * automation service provider.
-	 * 
+	 *
 	 * @param message
 	 * @param request
 	 * @throws URISyntaxException
 	 * @throws AutomationException
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	public void sendMessageForRequest(Message message, AutomationRequest request)
 			throws AutomationException, IOException, OAuthException,
 			URISyntaxException {
-		
+
 		if (client == null) {
 
 			throw new AutomationException(
 					"Adapter is not logged into the Automation Service Provider.");
 
 		}
-		
+
 		if (getAbout() == null) {
 
 			throw new AutomationException(
 					"Adapter is not registered with the Automation Service Provider");
 
 		}
-		
+
 		assertNotCanceled(request);
-		
+
 		AutomationRequest requestCopy = new AutomationRequest(request.getAbout());
 
 		requestCopy.getExtendedProperties().put(PROPERTY_RQM_MESSAGE,
@@ -1471,17 +1471,17 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 							+ response.getMessage());
 
 		}
-		
+
 	}
-	
+
 
 	/**
 	 * Cancel an Automation Request by updating its desiredState property to
 	 * Canceled.
-	 * 
+	 *
 	 * Before calling this method the adapter needs to be logged into the
 	 * Automation Service Provider.
-	 * 
+	 *
 	 * @param request
 	 * @throws AutomationException
 	 * @see http://open-services.net/wiki/automation/OSLC-Automation-Specification-Version-2.0/#Canceling-the-execution-of-an-automation
@@ -1496,8 +1496,8 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		}
 
 		request.setDesiredState(URI.create(AutomationConstants.STATE_CANCELED));
-		
-		// Some automation providers require the client to set the state to canceled 
+
+		// Some automation providers require the client to set the state to canceled
 		request.setStates(new URI[] { URI
 				.create(AutomationConstants.STATE_CANCELED) });
 
@@ -1525,11 +1525,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 		}
 	}
-	
+
 	/**
 	 * Checks to see if the AutomationRequest's current state at the Service
 	 * Provider indicates that the request has been canceled.
-	 * 
+	 *
 	 * @param request
 	 * @throws AutomationRequestCanceledException
 	 *   if the Request has been canceled.
@@ -1553,14 +1553,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 					.getEntity(AutomationRequest.class);
 
 		}
-		
+
 		// oslc_auto:state is defined as one-or-many in the specification
 		URI stateUri = requestAtServiceProvider.getStates()[0];
-		
+
 		if (URI.create(AutomationConstants.STATE_CANCELED).equals(stateUri)) {
-			
+
 			throw new AutomationRequestCanceledException(request);
-			
+
 		}
 
 	}
@@ -1568,14 +1568,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	/**
 	 * A runnable which can be used by a Thread created by the program
 	 * controlling the adapter.
-	 * 
+	 *
 	 * The runnable will send heart beats to the Automation Service Provider at
 	 * the polling interval.
-	 * 
+	 *
 	 * Stopping the adapter will also stop this runnable.
-	 * 
+	 *
 	 * @see AutomationAdapter#stop()
-	 * 
+	 *
 	 */
 	public class HeartbeatRunnable implements Runnable {
 

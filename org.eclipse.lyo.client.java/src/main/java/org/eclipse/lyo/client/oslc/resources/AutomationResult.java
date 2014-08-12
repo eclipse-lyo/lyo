@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -55,7 +55,7 @@ extends AbstractResource
     private final Set<URI>      contributions               = new TreeSet<URI>();
     private final Set<ParameterInstance> inputParameters    = new TreeSet<ParameterInstance>();
     private final Set<ParameterInstance> outputParameters   = new TreeSet<ParameterInstance>();
-    
+
     private Date     created;
     private String   identifier;
     private URI      instanceShape;
@@ -69,10 +69,10 @@ extends AbstractResource
 	public AutomationResult()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(AutomationConstants.TYPE_AUTOMATION_RESULT));
 	}
-	
+
     public AutomationResult(final URI about)
      {
          super(about);
@@ -83,7 +83,7 @@ extends AbstractResource
     protected URI getRdfType() {
     	return URI.create(AutomationConstants.TYPE_AUTOMATION_RESULT);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -93,7 +93,7 @@ extends AbstractResource
     {
         this.creators.add(creator);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
@@ -108,27 +108,27 @@ extends AbstractResource
     {
         this.states.add(state);
     }
-    
+
     public void addVerdict(final URI verdict)
     {
         this.verdicts.add(verdict);
     }
-    
+
     public void addContribution(final URI contribution)
     {
         this.contributions.add(contribution);
     }
-    
+
     public void addInputParameter(final ParameterInstance parameter)
     {
         this.inputParameters.add(parameter);
     }
-    
+
     public void addOutputParameter(final ParameterInstance parameter)
     {
         this.outputParameters.add(parameter);
     }
-    
+
     @OslcDescription("The person(s) who are responsible for the work needed to complete the automation result.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
@@ -223,7 +223,7 @@ extends AbstractResource
     {
         return title;
     }
-    
+
     @OslcDescription("Used to indicate the state of the automation result based on values defined by the service provider.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcReadOnly(true)
@@ -241,7 +241,7 @@ extends AbstractResource
     {
         return states.toArray(new URI[states.size()]);
     }
-    
+
     @OslcDescription("A result contribution associated with this automation result.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcName("contribution")
@@ -251,7 +251,7 @@ extends AbstractResource
     {
         return contributions.toArray(new URI[contributions.size()]);
     }
-    
+
     @OslcDescription("Used to indicate the verdict of the automation result based on values defined by the service provider.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcName("verdict")
@@ -267,7 +267,7 @@ extends AbstractResource
     {
         return verdicts.toArray(new URI[verdicts.size()]);
     }
-    
+
     @OslcDescription("Used to indicate the desired state of the Automation Request based on values defined by the service provider.")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "desiredState")
     @OslcName("desiredState")
@@ -284,7 +284,7 @@ extends AbstractResource
     {
         return desiredState;
     }
-    
+
     @OslcDescription("Automation Request which produced the Automation Result.")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "producedByAutomationRequest")
     @OslcName("producedByAutomationRequest")
@@ -294,7 +294,7 @@ extends AbstractResource
     {
         return producedByAutomationRequest;
     }
-    
+
     @OslcDescription("Automation Plan which the Automation Result reports on.")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "reportsOnAutomationPlan")
     @OslcName("reportsOnAutomationPlan")
@@ -304,7 +304,7 @@ extends AbstractResource
     {
         return reportsOnAutomationPlan;
     }
-    
+
     @OslcDescription("A copy of the parameters provided during creation of the Automation Request which produced this Automation Result.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcName("inputParameter")
@@ -325,7 +325,7 @@ extends AbstractResource
     {
         return outputParameters.toArray(new ParameterInstance[outputParameters.size()]);
     }
-    
+
     public void setContributors(final URI[] contributors)
     {
         this.contributors.clear();
@@ -355,7 +355,7 @@ extends AbstractResource
     {
         this.identifier = identifier;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;
@@ -405,7 +405,7 @@ extends AbstractResource
             this.states.addAll(Arrays.asList(states));
         }
     }
-    
+
     public void setVerdicts(final URI[] verdicts)
     {
         this.verdicts.clear();
@@ -415,7 +415,7 @@ extends AbstractResource
             this.verdicts.addAll(Arrays.asList(verdicts));
         }
     }
-    
+
     public void setContributions(final URI[] contributions)
     {
         this.contributions.clear();
@@ -425,7 +425,7 @@ extends AbstractResource
             this.contributions.addAll(Arrays.asList(contributions));
         }
     }
-    
+
     public void setDesiredState(final URI desiredState)
     {
         this.desiredState = desiredState;
@@ -435,12 +435,12 @@ extends AbstractResource
     {
         this.producedByAutomationRequest = producedByAutomationRequest;
     }
-    
+
     public void setReportsOnAutomationPlan(final Link reportsOnAutomationPlan)
     {
         this.reportsOnAutomationPlan = reportsOnAutomationPlan;
     }
-    
+
     public void setInputParameters(final ParameterInstance[] parameters)
     {
         this.inputParameters.clear();
@@ -450,7 +450,7 @@ extends AbstractResource
             this.inputParameters.addAll(Arrays.asList(parameters));
         }
     }
-    
+
     public void setOutputParameters(final ParameterInstance[] parameters)
     {
         this.outputParameters.clear();
@@ -460,6 +460,6 @@ extends AbstractResource
             this.outputParameters.addAll(Arrays.asList(parameters));
         }
     }
-    
+
 
 }

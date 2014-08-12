@@ -4,13 +4,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *     Gabriel Ruelas     - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.samples;
@@ -84,8 +84,8 @@ import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * Samples of logging in to Doors Web Access and running OSLC operations
- * 
- * 
+ *
+ *
  * - run an OLSC Requirement query and retrieve OSLC Requirements and de-serialize them as Java objects
  * - TODO:  Add more requirement sample scenarios
  *
@@ -97,45 +97,45 @@ public class DoorsOauthSample {
 	/**
 	 * Login to the DWA server and perform some OSLC actions
 	 * @param args
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public static void main(String[] args) throws ParseException {
 
 		Options options=new Options();
-		
+
 		options.addOption("url", true, "url");
 		options.addOption("user", true, "user ID");
 		options.addOption("password", true, "password");
 		options.addOption("project",true,"project area");
 
-		CommandLineParser cliParser = new GnuParser();			
-		
+		CommandLineParser cliParser = new GnuParser();
+
 		//Parse the command line
 		CommandLine cmd = cliParser.parse(options, args);
-		
-		if (!validateOptions(cmd)) {		
+
+		if (!validateOptions(cmd)) {
 			logger.severe("Syntax:  java <class_name> -url https://<server>:port/<context>/ -user <user> -password <password> -project \"<project_area>\"");
 			logger.severe("Example: java DoorsOauthSample -url https://exmple.com:9443/dwa -user ADMIN -password ADMIN -project \"JKE Banking (Requirements Management)\"");
 			return;
 		}
-			
+
 		String webContextUrl = cmd.getOptionValue("url");
 		String user = cmd.getOptionValue("user");
 		String passwd = cmd.getOptionValue("password");
 		String projectArea = cmd.getOptionValue("project");
-		
+
 		try {
-			
+
 			//STEP 1: Initialize a Jazz rootservices helper and indicate we're looking for the RequirementManagement catalog
 			// The root services for DOORs is found at /public level
 			JazzRootServicesHelper helper = new JazzRootServicesHelper(webContextUrl + "/public",OSLCConstants.OSLC_RM_V2);
-			
+
 			//STEP 2: Create a new OSLC OAuth capable client, the parameter of following call should be provided
 			// by the system administrator of the DOORs Web Access server
 			OslcOAuthClient client = helper.initOAuthClient("lyo", "lyo");
-			
+
 			if ( client != null ) {
-				
+
 				//STEP 3: Try to access the context URL to trigger the OAuth dance and login
 				try {
 					client.getResource(webContextUrl,OSLCConstants.CT_RDF);
@@ -145,10 +145,10 @@ public class DoorsOauthSample {
 					ClientResponse response = client.getResource(webContextUrl,OSLCConstants.CT_RDF);
 					response.getEntity(InputStream.class).close();
 				}
-								
+
 				//STEP 4: Get the URL of the OSLC catalog
 				String catalogUrl = helper.getCatalogUrl();
-				
+
 				//STEP 5: Find the OSLC Service Provider for the project area we want to work with
 				String serviceProviderUrl = lookupServiceProviderUrl(catalogUrl, "Services for " + projectArea, client);
 
@@ -156,30 +156,30 @@ public class DoorsOauthSample {
 				String queryCapability = client.lookupQueryCapability(serviceProviderUrl,
 																	  OSLCConstants.OSLC_RM_V2,
 																	  OSLCConstants.RM_REQUIREMENT_TYPE);
-				
+
 				//STEP 7: Get the Creation Factory URL for default Requirements so that we can create one
 				Requirement requirement = new Requirement();
 				String requirementFactory = client.lookupCreationFactory(
 						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
 						requirement.getRdfTypes()[0].toString());
-				
+
 				//STEP 8 Get the default Requirement Type URL
 				ResourceShape reqInstanceShape = RmUtil.lookupRequirementsInstanceShapes(
 						serviceProviderUrl, OSLCConstants.OSLC_RM_V2,
 						requirement.getRdfTypes()[0].toString(), client, "Resource shape for a requirement in the " + projectArea);
-				
+
 				if (( reqInstanceShape != null ) && (requirementFactory != null ) ){
 					//STEP 9: Create a Requirement
 					requirement.setInstanceShape(reqInstanceShape.getAbout());
 					// Add a link
 					requirement.addImplementedBy(new Link(new URI("http://google.com"), "Link created by an Eclipse Lyo user"));
 					requirement.setDescription("Created By EclipseLyo");
-					
+
 					// Add the PrimaryText
 					String primaryText = "My Eclipse Lyo CREATED Primary Text";
 					Element obj = RmUtil.convertStringToHTML(primaryText);
 					requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
-					
+
 					//Create the Requirement
 					ClientResponse creationResponse = client.createResource(
 							requirementFactory, requirement,
@@ -189,7 +189,7 @@ public class DoorsOauthSample {
 
 					creationResponse.consumeContent();
 				}
-								
+
 				//STEP 10: Query of changed values
 				OslcQueryParameters queryParams = new OslcQueryParameters();
 				queryParams.setPrefix("oslc_rm=<http://open-services.net/ns/rm#>");
@@ -202,7 +202,7 @@ public class DoorsOauthSample {
 				System.out.println("\n------------------------------\n");
 				System.out.println("Number of Results for query 1 = " + resultsSize + "\n");
 
-				//STEP 11: Now get the artifact with identifier = 1 
+				//STEP 11: Now get the artifact with identifier = 1
 				queryParams = new OslcQueryParameters();
 				queryParams.setPrefix("dcterms=<http://purl.org/dc/terms/>");
 				queryParams.setWhere("dcterms:identifier=1");
@@ -216,7 +216,7 @@ public class DoorsOauthSample {
 						requirementURL = returnedURLS[0];
 					}
 				}
-				
+
 				// STEP 12 If requirement found, lets get it an modify
 				if ( requirementURL != null ) {
 					// Get the requirement
@@ -228,38 +228,38 @@ public class DoorsOauthSample {
 						// Put in the proper object ( Element for XML Strings )
 						//Element obj = RmUtil.convertStringToHTML(primaryText);
 						//requirement.getExtendedProperties().put(RmConstants.PROPERTY_PRIMARY_TEXT, obj);
-						
-						// Add a couple of links 
+
+						// Add a couple of links
 						//requirement.addImplementedBy(new Link(new URI("http://google.com"), "ImplementedBy example"));
-						//requirement.addElaboratedBy(new Link(new URI("http://terra.com.mx"), "ElaboratedBy example"));					
-					
+						//requirement.addElaboratedBy(new Link(new URI("http://terra.com.mx"), "ElaboratedBy example"));
+
 					//use Jena directly to update requirement
 					InputStream is = getResponse.getEntity(InputStream.class);
 					Model m = ModelFactory.createDefaultModel();
 					m.read(is, requirementURL, "RDF/XML");
 					Resource requirementR = m.getResource(requirementURL);
 					StringWriter w = new StringWriter();
-					// Change the Primary text			
+					// Change the Primary text
 					Property primaryText = m.createProperty("http://jazz.net/ns/rm#primaryText");
 					requirementR.removeAll(primaryText);
 					requirementR.addProperty(primaryText, "My Eclipse Lyo CHANGED Primary text");
-					
+
 					//add a couple of external links
 					//first link : -> www.google.com
 					Resource googleLink = m.createResource("http://www.google.com");
 					Property refProp = m.createProperty("http://purl.org/dc/terms/references");
-					Statement link = m.createStatement(requirementR, refProp, googleLink); 
+					Statement link = m.createStatement(requirementR, refProp, googleLink);
 					m.add(link);
 					//second link : -> www.ibm.com
 					Resource ibmLink = m.createResource("http://www.ibm.com");
 					//Property refProp2 = m.createProperty("http://open-services.net/ns/rm#validatedBy");
-					Statement link2 = m.createStatement(requirementR, refProp, ibmLink); 
+					Statement link2 = m.createStatement(requirementR, refProp, ibmLink);
 					m.add(link2);
 					m.write(w, "RDF/XML");
 					// Get the eTAG, we need it to update
 					String etag = getResponse.getHeaders().getFirst(OSLCConstants.ETAG);
 					getResponse.consumeContent();
-					
+
 					/*
 					// Following code is needed to workaround an issue in DWA that exposes the Heading inf as encoded XML
 					 * No need with DWA 9.6
@@ -284,31 +284,31 @@ public class DoorsOauthSample {
 						}
 					}
 					*/
-					
-					
-					
-					// Update the requirement with the proper etag 
-					//ClientResponse updateResponse = client.updateResource(requirementURL, 
+
+
+
+					// Update the requirement with the proper etag
+					//ClientResponse updateResponse = client.updateResource(requirementURL,
 					//		requirement, OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
-					ClientResponse updateResponse = client.updateResource(requirementURL, 
+					ClientResponse updateResponse = client.updateResource(requirementURL,
 							w.toString(), OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_RDF_XML, etag);
-					
+
 					updateResponse.consumeContent();
 				}
-				
-				
+
+
 			}
 		} catch (RootServicesException re) {
 			logger.log(Level.SEVERE,"Unable to access the Jazz rootservices document at: " + webContextUrl + "/public/rootservices", re);
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,e.getMessage(),e);
 		}
-		
-		
+
+
 
 
 	}
-	
+
 	private static void processPagedQueryResults(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
 		int page = 1;
 		//For now, just show first 5 pages
@@ -323,43 +323,43 @@ public class DoorsOauthSample {
 			}
 		} while(true);
 	}
-	
+
 	private static OslcQueryResult processCurrentPage(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
-		
+
 		for (String resultsUrl : result.getMembersUrls()) {
 			System.out.println(resultsUrl);
-			
+
 			ClientResponse response = null;
 			try {
-				
-				//Get a single artifact by its URL 
+
+				//Get a single artifact by its URL
 				response = client.getResource(resultsUrl, OSLCConstants.CT_RDF);
-		
+
 				if (response != null) {
-					//De-serialize it as a Java object 
+					//De-serialize it as a Java object
 					if (asJavaObjects) {
 						   //Requirement req = response.getEntity(Requirement.class);
 						   //printRequirementInfo(req);   //print a few attributes
 					} else {
-						
+
 						//Just print the raw RDF/XML (or process the XML as desired)
 						processRawResponse(response);
-						
+
 					}
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Unable to process artfiact at url: " + resultsUrl, e);
 			}
-			
+
 		}
 		return result;
-		
+
 	}
-	
+
 	private static void processRawResponse(ClientResponse response) throws IOException {
 		InputStream is = response.getEntity(InputStream.class);
 		BufferedReader in = new BufferedReader(new InputStreamReader(is));
-		
+
 		String line = null;
 		while((line = in.readLine()) != null) {
 		  System.out.println(line);
@@ -368,20 +368,20 @@ public class DoorsOauthSample {
 		response.consumeContent();
 	}
 
-	
+
 	private static boolean validateOptions(CommandLine cmd) {
 		boolean isValid = true;
-		
+
 		if (! (cmd.hasOption("url") &&
 			   cmd.hasOption("user") &&
 			   cmd.hasOption("password") &&
 			   cmd.hasOption("project"))) {
-			  
+
 			isValid = false;
 		}
-		return isValid;		
+		return isValid;
 	}
-	
+
 	/**
 	 * Print out the HTTPResponse headers
 	 */
@@ -391,7 +391,7 @@ public class DoorsOauthSample {
 			System.out.println("\t- " + headers[i].getName() + ": " + headers[i].getValue());
 		}
 	}
-	
+
 	public static Map<String, String> getQueryMap(String query) {
 		Map<String, String> map = new HashMap<String, String>();
 		String[] params = query.split("&"); //$NON-NLS-1$
@@ -403,22 +403,22 @@ public class DoorsOauthSample {
 		}
 
 		return map;
-	} 
-	
+	}
+
 	private static void validateTokens(OslcOAuthClient client, String redirect, String user, String password, String authURL) throws Exception {
-		
+
 		HttpGet request2 = new HttpGet(redirect);
 		HttpClientParams.setRedirecting(request2.getParams(), false);
 		HttpResponse response = client.getHttpClient().execute(request2);
 		EntityUtils.consume(response.getEntity());
-		
+
 		// Get the location
 		Header location = response.getFirstHeader("Location");
 		HttpGet request3 = new HttpGet(location.getValue());
-		HttpClientParams.setRedirecting(request3.getParams(), false);	
+		HttpClientParams.setRedirecting(request3.getParams(), false);
 		response = client.getHttpClient().execute(request3);
 		EntityUtils.consume(response.getEntity());
-		
+
 		//POST to login form
 		// The server requires an authentication: Create the login form
 		// Following line should be like : "https://server:port/dwa/j_acegi_security_check"
@@ -427,31 +427,31 @@ public class DoorsOauthSample {
 		nvps.add(new BasicNameValuePair("j_username", user));
 		nvps.add(new BasicNameValuePair("j_password", password));
 		formPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-				
+
 		HttpResponse formResponse = client.getHttpClient().execute(formPost);
 		EntityUtils.consume(formResponse.getEntity());
-		
+
 		location = formResponse.getFirstHeader("Location");
 		//Third GET
 		HttpGet request4 = new HttpGet(location.getValue());
 		HttpClientParams.setRedirecting(request4.getParams(), false);
 		response = client.getHttpClient().execute(request4);
 		EntityUtils.consume(response.getEntity());
-	    
+
 		Map<String,String> oAuthMap = getQueryMap(location.getValue());
 		String oauthToken = oAuthMap.get("oauth_token");
 		String oauthverifier = oAuthMap.get("oauth_verifier");
-		
+
 		// The server requires an authentication: Create the login form
 		HttpPost formPost2 = new HttpPost(authURL);
 		formPost2.getParams().setParameter("oauth_token", oauthToken);
 		formPost2.getParams().setParameter("oauth_verifier", oauthverifier);
 		formPost2.getParams().setParameter("authorize", "true");
 		formPost2.addHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		
+
 		formResponse = client.getHttpClient().execute(formPost2);
 		EntityUtils.consume(formResponse.getEntity());
-		
+
 		Header header = formResponse.getFirstHeader("Content-Length");
 		if ((header!=null) && (!("0".equals(header.getValue())))) {
 			// The login failed
@@ -462,19 +462,19 @@ public class DoorsOauthSample {
 			EntityUtils.consume(formResponse.getEntity());
 		}
 	}
-	
+
 	/**
 	 * Lookup the URL of a specific OSLC Service Provider in an OSLC Catalog using the service provider's title
-	 * 
+	 *
 	 * @param catalogUrl
 	 * @param serviceProviderTitle
 	 * @return
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public static String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle, final OslcOAuthClient client) 
+	public static String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle, final OslcOAuthClient client)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
@@ -482,8 +482,8 @@ public class DoorsOauthSample {
 		Model rdfModel = ModelFactory.createDefaultModel();
 
 		rdfModel.read(response.getEntity(InputStream.class),catalogUrl);
-		
-		// Step 1 Check if it is the service provider we are looking for by comparing the name		
+
+		// Step 1 Check if it is the service provider we are looking for by comparing the name
 		ResIterator listResources = rdfModel.listResourcesWithProperty(RDF.type,rdfModel.createResource("http://open-services.net/ns/core#ServiceProvider"));
 		Property titleProp = rdfModel.createProperty(OSLCConstants.DC,"title");
 		//check each serviceProvider's title and match it to the one passed in
@@ -503,9 +503,9 @@ public class DoorsOauthSample {
 		// Step 2 Check if there are Service providers properties to recursively look in them
 		if ( retval == null) {
 			Property spPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,"serviceProvider");
-			Selector select = new SimpleSelector(null, spPredicate, (RDFNode)null); 
+			Selector select = new SimpleSelector(null, spPredicate, (RDFNode)null);
 			StmtIterator listStatements = rdfModel.listStatements(select);
-			
+
 			//check each serviceProvider's title and match it to the one passed in
 			while (listStatements.hasNext()) {
 				Statement thisSP = listStatements.nextStatement();
@@ -516,19 +516,19 @@ public class DoorsOauthSample {
 					try {
 						return lookupServiceProviderUrl(newURL, serviceProviderTitle, client);
 					} catch (ResourceNotFoundException nf){
-						
+
 					}
 				}
 			}
-			
+
 		}
-		
+
 		// Step 3 Check if there are ServiceProvider catalog and recursively look in them
 		if ( retval == null) {
 			Property spcPredicate = rdfModel.createProperty(OSLCConstants.OSLC_V2,"serviceProviderCatalog");
-			Selector select = new SimpleSelector(null, spcPredicate, (RDFNode)null); 
+			Selector select = new SimpleSelector(null, spcPredicate, (RDFNode)null);
 			StmtIterator listStatements = rdfModel.listStatements(select);
-			
+
 			//check each serviceProvider's title and match it to the one passed in
 			while (listStatements.hasNext()) {
 				Statement thisSP = listStatements.nextStatement();
@@ -539,22 +539,22 @@ public class DoorsOauthSample {
 					try {
 						return lookupServiceProviderUrl(newURL, serviceProviderTitle, client);
 					} catch (ResourceNotFoundException nf){
-						
+
 					}
-				} 
+				}
 			}
 		}
-		
+
 		if (retval == null ) {
 			throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
 		}
-		
+
 		return retval;
 	}
-	
-	
+
+
 	/**
-	 * Find the OSLC Instance Shape URL for a given OSLC resource type.  
+	 * Find the OSLC Instance Shape URL for a given OSLC resource type.
 	 *
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
@@ -563,24 +563,24 @@ public class DoorsOauthSample {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public static ResourceShape lookupRequirementsInstanceShapesOLD(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcOAuthClient client, String requiredInstanceShape) 
+	public static ResourceShape lookupRequirementsInstanceShapesOLD(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcOAuthClient client, String requiredInstanceShape)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
-		
+
 		ClientResponse response = client.getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
 		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
-				
+
 		if (serviceProvider != null) {
 			for (Service service:serviceProvider.getServices()) {
-				URI domain = service.getDomain();				
+				URI domain = service.getDomain();
 				if (domain != null  && domain.toString().equals(oslcDomain)) {
 					CreationFactory [] creationFactories = service.getCreationFactories();
 					if (creationFactories != null && creationFactories.length > 0) {
 						for (CreationFactory creationFactory:creationFactories) {
 							for (URI resourceType:creationFactory.getResourceTypes()) {
-								
+
 								//return as soon as domain + resource type are matched
 								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
 									URI[] instanceShapes = creationFactory.getResourceShapes();
@@ -590,26 +590,26 @@ public class DoorsOauthSample {
 											ResourceShape resourceShape =  response.getEntity(ResourceShape.class);
 											String typeTitle = resourceShape.getTitle();
 											if ( ( typeTitle != null) && (typeTitle.equalsIgnoreCase(requiredInstanceShape)) ) {
-												return resourceShape;	
+												return resourceShape;
 											}
 										}
 									}
-								}							
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-		 
-		
+
+
 		throw new ResourceNotFoundException(serviceProviderUrl, "InstanceShapes");
 	}
 
-	
+
 	/**
 	 * Remove XML Escape indicators
-	 * 
+	 *
 	 * @param content
 	 * @return String
 	 */
@@ -622,5 +622,5 @@ public class DoorsOauthSample {
 		content = content.trim();
 		return content;
 	}
-	
+
 }

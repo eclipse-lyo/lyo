@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -50,7 +50,7 @@ extends AbstractResource
     private final Set<String>   dctermsTypes                = new TreeSet<String>();
     private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
 
-    
+
     private Date     created;
     private String   description;
     private String   identifier;
@@ -63,10 +63,10 @@ extends AbstractResource
 	public ArchitectureResource()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_RESOURCE));
 	}
-	
+
     public ArchitectureResource(final URI about)
      {
          super(about);
@@ -77,7 +77,7 @@ extends AbstractResource
     protected URI getRdfType() {
     	return URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_RESOURCE);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -87,12 +87,12 @@ extends AbstractResource
     {
         this.creators.add(creator);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
     }
-    
+
     public void addDctermsType(final String dctermsType)
     {
         this.dctermsTypes.add(dctermsType);
@@ -173,7 +173,7 @@ extends AbstractResource
     {
         return rdfTypes.toArray(new URI[rdfTypes.size()]);
     }
-    
+
     @OslcDescription("A short string representation for the type, example 'Defect'.")
     @OslcName("type")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "type")
@@ -190,7 +190,7 @@ extends AbstractResource
     {
         return source;
     }
-    
+
     @OslcDescription("The scope of a resource is a URI for the resource's OSLC Service Provider.")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "serviceProvider")
     @OslcRange(OslcConstants.TYPE_SERVICE_PROVIDER)
@@ -211,7 +211,7 @@ extends AbstractResource
         return title;
     }
 
-    
+
     public void setContributors(final URI[] contributors)
     {
         this.contributors.clear();
@@ -246,7 +246,7 @@ extends AbstractResource
     {
         this.identifier = identifier;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;
@@ -266,7 +266,7 @@ extends AbstractResource
             this.rdfTypes.addAll(Arrays.asList(rdfTypes));
         }
     }
-    
+
     public void setDctermsTypes(final String[] dctermsTypes)
     {
         this.dctermsTypes.clear();
@@ -281,7 +281,7 @@ extends AbstractResource
     {
         this.source = source;
     }
-    
+
     public void setServiceProvider(final URI serviceProvider)
     {
         this.serviceProvider = serviceProvider;

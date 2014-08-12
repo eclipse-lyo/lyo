@@ -4,13 +4,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *     Michael Fiedler                 - initial API and implementation
  *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
  *     Michael Fiedler	               - follow redirects.
@@ -66,21 +66,21 @@ import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 /**
  * An OSLC Client.  Provides an Apache HttpClient, an Apache Wink REST ClientConfig and defines
  * a getResource method which returns an Apache Wink ClientResponse.
- * 
+ *
  * This class is not currently thread safe.
  *
  */
 
 
 public class OslcClient {
-	
+
 	protected DefaultHttpClient httpClient;
 	private HttpClientPool clientPool;
 	private ClientConfig clientConfig;
 	private String configuredSecureSocketProtocol;
 	private TrustManager[] trustManagers;
 	X509HostnameVerifier hostnameVerifier;
-	
+
 	/**
 	 * Sets the Secure Socket Protocol to be used, valid values "TLS","SSL","SSL_TLS".
 	 */
@@ -95,13 +95,13 @@ public class OslcClient {
 	public void setConfiguredSecureSocketProtocol(
 			String configuredSecureSocketProtocol) {
 		this.configuredSecureSocketProtocol = configuredSecureSocketProtocol;
-		
+
 		// Make sure to update the trust managers and hostname verifier for the new protocol.
 		setupSSLSupport();
 	}
 
 	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
-	
+
 	/**
 	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration.
 	 */
@@ -109,7 +109,7 @@ public class OslcClient {
 	{
 		this((TrustManager[])null, (X509HostnameVerifier)null);
 	}
-	
+
 	/**
 	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration.
 	 * Use the provided TrustManagers and X509HostnameVerifiers instead of the defaults which do no verification;
@@ -140,9 +140,9 @@ public class OslcClient {
 		       }
 		};
 		clientConfig = clientConfig.applications(app);
-		
+
 	}
-	
+
 	/**
 	 * Returns the HTTP client associated with this OSLC Client
 	 * @return the HTTP client
@@ -169,17 +169,17 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public ClientResponse getResource(String url, final String mediaType) 
+	public ClientResponse getResource(String url, final String mediaType)
 			throws IOException, OAuthException, URISyntaxException {
-		
+
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
 		do {
 			response = restClient.resource(url).accept(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").get();
-			
+
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -187,10 +187,10 @@ public class OslcClient {
 				redirect = false;
 			}
 		} while (redirect);
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Delete an OSLC resource and return a Wink ClientResponse
 	 * @param url
@@ -199,18 +199,18 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public ClientResponse deleteResource(String url) 
+	public ClientResponse deleteResource(String url)
 			throws IOException, OAuthException, URISyntaxException {
-		
+
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
-		
+
 		do {
 			response = restClient.resource(url).delete();
-			
+
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -218,26 +218,26 @@ public class OslcClient {
 				redirect = false;
 			}
 		} while (redirect);
-		
+
 		return response;
 
 	}
-	
-	
+
+
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
 	 * @param url
 	 * @param artifact
 	 * @param mediaType
 	 * @return
-	 * @throws URISyntaxException 
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws URISyntaxException
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
-	public ClientResponse createResource(String url, final Object artifact, String mediaType) throws IOException, OAuthException, URISyntaxException {		
+	public ClientResponse createResource(String url, final Object artifact, String mediaType) throws IOException, OAuthException, URISyntaxException {
 		return createResource(url, artifact, mediaType, "*/*");
 	}
-	
+
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
 	 * @param url
@@ -245,21 +245,21 @@ public class OslcClient {
 	 * @param mediaType
 	 * @param acceptType
 	 * @return
-	 * @throws URISyntaxException 
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws URISyntaxException
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	public ClientResponse createResource(String url, final Object artifact, String mediaType, String acceptType) throws IOException, OAuthException, URISyntaxException {
-		
+
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
-		
+
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
-			
+
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -267,10 +267,10 @@ public class OslcClient {
 				redirect = false;
 			}
 		} while (redirect);
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 * @param url
@@ -278,11 +278,11 @@ public class OslcClient {
 	 * @param mediaType
 	 * @return
 	 */
-	public ClientResponse updateResource(String url, final Object artifact, String mediaType) {	
-		
+	public ClientResponse updateResource(String url, final Object artifact, String mediaType) {
+
 		return updateResource(url, artifact, mediaType, "*/*");
 	}
-	
+
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 * @param url
@@ -292,16 +292,16 @@ public class OslcClient {
 	 * @return
 	 */
 	public ClientResponse updateResource(String url, final Object artifact, String mediaType, String acceptType) {
-		
+
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
-		
+
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
-			
+
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -309,10 +309,10 @@ public class OslcClient {
 				redirect = false;
 			}
 		} while (redirect);
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 * @param url
@@ -320,22 +320,22 @@ public class OslcClient {
 	 * @param mediaType
 	 * @param acceptType
 	 * @return
-	 * @throws URISyntaxException 
-	 * @throws OAuthException 
-	 * @throws IOException 
+	 * @throws URISyntaxException
+	 * @throws OAuthException
+	 * @throws IOException
 	 */
 	public ClientResponse updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, OAuthException, URISyntaxException {
-		
+
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
-		
+
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType)
 					             .header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
-			
+
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {				
+			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -343,7 +343,7 @@ public class OslcClient {
 				redirect = false;
 			}
 		} while (redirect);
-		
+
 		return response;
 	}
 
@@ -357,49 +357,49 @@ public class OslcClient {
 		org.apache.wink.client.Resource resource = restClient.resource(query.getCapabilityUrl());
 		return resource;
 	}
-	
+
 	protected class OAuthHttpPool implements HttpClientPool {
 		public HttpClient getHttpClient(URL url) {
 			return httpClient;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Lookup the URL of a specific OSLC Service Provider in an OSLC Catalog using the service provider's title
-	 * 
+	 *
 	 * @param catalogUrl
 	 * @param serviceProviderTitle
 	 * @return
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle) 
+	public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		String retval = null;
 		ClientResponse response = getResource(catalogUrl,OSLCConstants.CT_RDF);
 		ServiceProviderCatalog catalog = response.getEntity(ServiceProviderCatalog.class);
-		
+
 		if (catalog != null) {
 			for (ServiceProvider sp:catalog.getServiceProviders()) {
 				if (sp.getTitle() != null && sp.getTitle().equalsIgnoreCase(serviceProviderTitle)) {
 					retval = sp.getAbout().toString();
 					break;
 				}
-				
+
 			}
 		}
 
 		if (retval == null ) {
 			throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
 		}
-		
+
 		return retval;
 	}
-	
+
 	/**
 	 * Find the OSLC Query Capability URL for a given OSLC resource type.  If no resource type is given, returns
 	 * the default Query Capability, if it exists.
@@ -411,32 +411,32 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		QueryCapability defaultQueryCapability = null;
 		QueryCapability firstQueryCapability = null;
-		
+
 		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
 		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
-		
-		
+
+
 		if (serviceProvider != null) {
 			for (Service service:serviceProvider.getServices()) {
-				URI domain = service.getDomain();				
+				URI domain = service.getDomain();
 				if (domain != null  && domain.toString().equals(oslcDomain)) {
 					QueryCapability [] queryCapabilities = service.getQueryCapabilities();
 					if (queryCapabilities != null && queryCapabilities.length > 0) {
 						firstQueryCapability = queryCapabilities[0];
 						for (QueryCapability queryCapability:service.getQueryCapabilities()) {
 							for (URI resourceType:queryCapability.getResourceTypes()) {
-								
+
 								//return as soon as domain + resource type are matched
 								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
 									return queryCapability.getQueryBase().toString();
-								}							
+								}
 							}
 							//Check if this is the default capability
 							for (URI usage:queryCapability.getUsages()) {
@@ -449,7 +449,7 @@ public class OslcClient {
 				}
 			}
 		}
-		
+
 		//If we reached this point, there was no resource type match
 		if (defaultQueryCapability != null) {
 			//return default, if present
@@ -457,36 +457,36 @@ public class OslcClient {
 		} else if (firstQueryCapability != null && firstQueryCapability.getResourceTypes().length ==0) {
 			//return the first for the domain, if present
 			return firstQueryCapability.getQueryBase().toString();
-		} 
-		
+		}
+
 		throw new ResourceNotFoundException(serviceProviderUrl, "QueryCapability");
 	}
-	
-	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+
+	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
-	{	
+	{
 		return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, null);
 	}
 
-	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage) 
+	public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		CreationFactory defaultCreationFactory = null;
 		CreationFactory firstCreationFactory = null;
-		
+
 		ClientResponse response = getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
 		ServiceProvider serviceProvider = response.getEntity(ServiceProvider.class);
-				
+
 		if (serviceProvider != null) {
 			for (Service service:serviceProvider.getServices()) {
-				URI domain = service.getDomain();				
+				URI domain = service.getDomain();
 				if (domain != null  && domain.toString().equals(oslcDomain)) {
 					CreationFactory [] creationFactories = service.getCreationFactories();
 					if (creationFactories != null && creationFactories.length > 0) {
 						firstCreationFactory = creationFactories[0];
 						for (CreationFactory creationFactory:creationFactories) {
 							for (URI resourceType:creationFactory.getResourceTypes()) {
-								
+
 								//return as soon as domain + resource type are matched
 								if (resourceType.toString() != null && resourceType.toString().equals(oslcResourceType)) {
 									//...but check oslc:usage if requested
@@ -499,7 +499,7 @@ public class OslcClient {
 									} else {
 										return creationFactory;
 									}
-								}							
+								}
 							}
 							//Check if this is the default factory
 							for (URI usage:creationFactory.getUsages()) {
@@ -512,7 +512,7 @@ public class OslcClient {
 				}
 			}
 		}
-		
+
 		//If we reached this point, there was no resource type match
 		if (defaultCreationFactory != null) {
 			//return default, if present
@@ -520,14 +520,14 @@ public class OslcClient {
 		} else if (firstCreationFactory != null && firstCreationFactory.getResourceTypes().length ==0) {
 			//return the first for the domain, if present
 			return firstCreationFactory;
-		} 
-		
+		}
+
 		throw new ResourceNotFoundException(serviceProviderUrl, "CreationFactory");
 	}
-	
+
 	/**
 	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
-	 * the default Creation Factory, if it exists.  
+	 * the default Creation Factory, if it exists.
 	 *
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
@@ -536,17 +536,17 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType) 
+	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		return lookupCreationFactory(serviceProviderUrl, oslcDomain, oslcResourceType, null);
 	}
-	
+
 	/**
 	 * Find the OSLC Creation Factory URL for a given OSLC resource type and OSLC usage.  If no resource type is given, returns
-	 * the default Creation Factory, if it exists.  
+	 * the default Creation Factory, if it exists.
 	 *
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
@@ -555,22 +555,22 @@ public class OslcClient {
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException 
+	 * @throws ResourceNotFoundException
 	 */
-	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage) 
+	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage)
 			throws IOException, OAuthException, URISyntaxException, ResourceNotFoundException
 	{
 		return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, oslcUsage).getCreation().toString();
 	}
-	
+
 	/**
 	 * Looks up and select an installed security context provider
-	 *  
+	 *
 	 * @return An installed SSLContext Provider
 	 * @throws NoSuchAlgorithmException when no suitable provider is installed
 	 */
 	private SSLContext findInstalledSecurityContext() throws NoSuchAlgorithmException {
-		
+
 		if ( configuredSecureSocketProtocol != null ) {
 			SSLContext sslContext = null;
 			try {
@@ -580,10 +580,10 @@ public class OslcClient {
 					// Ignore Exception, we will try other default values below
 			}
 			if ( sslContext != null ){
-				return sslContext; 
+				return sslContext;
 			}
 		}
-		
+
 		// walks through list of secure socked protocols and picks the first found
 		// the list is arranged in level of security order
 		for (String aSecuredProtocol : SECURE_SOCKET_PROTOCOL) {
@@ -593,10 +593,10 @@ public class OslcClient {
 				continue;
 			}
 		}
-		
+
 		throw new NoSuchAlgorithmException("No suitable secured socket provider is installed"); //$NON-NLS-1$
-	} 
-	
+	}
+
 	private void setupSSLSupport()   {
 		ClientConnectionManager connManager = httpClient.getConnectionManager();
 		SchemeRegistry schemeRegistry = connManager.getSchemeRegistry();
@@ -617,7 +617,7 @@ public class OslcClient {
 				return null;
 			}
 		} };
-				
+
 		try {
 			SSLContext sc = findInstalledSecurityContext();
 			if (trustManagers == null) {
@@ -636,8 +636,8 @@ public class OslcClient {
 			/* Fail Silently */
 		}
 
-		
+
 	}
-	
-	
+
+
 }

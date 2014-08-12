@@ -4,13 +4,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
@@ -22,28 +22,28 @@ import java.util.logging.Logger;
 
 /**
  * A container for OSLC Query parameters which can be associated with an OslcQuery object.
- * 
+ *
  * @see OslcQuery
  *
  */
 public class OslcQueryParameters {
-	
+
 	private String where;
 	private String select;
 	private String searchTerms;
 	private String orderBy;
 	private String prefix;
-	
+
 	private static final Logger logger = Logger.getLogger(OslcQuery.class.getName());
 
 	public OslcQueryParameters()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Initialize an OSLC Parameter using the supplied terms
-	 * 
+	 *
 	 * @param where
 	 * @param select
 	 * @param searchTerms
@@ -58,7 +58,7 @@ public class OslcQueryParameters {
 		this.prefix      = prefix;
 	}
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getWhere() {
@@ -66,7 +66,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param where
 	 */
 	public void setWhere(String where) {
@@ -74,7 +74,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getSelect() {
@@ -82,7 +82,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param select
 	 */
 	public void setSelect(String select) {
@@ -90,7 +90,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getSearchTerms() {
@@ -98,7 +98,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param searchTerms
 	 */
 	public void setSearchTerms(String searchTerms) {
@@ -106,7 +106,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getOrderBy() {
@@ -114,7 +114,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param orderBy
 	 */
 	public void setOrderBy(String orderBy) {
@@ -122,7 +122,7 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getPrefix() {
@@ -130,13 +130,13 @@ public class OslcQueryParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param prefix
 	 */
 	public void setPrefix(String prefix) {
 		this.prefix = encodeQueryParams(prefix);
 	}
-	
+
 	private String encodeQueryParams(String oslcQueryParam) {
 		String encodedQueryParms = null;
 		try {
@@ -144,8 +144,8 @@ public class OslcQueryParameters {
 		} catch (UnsupportedEncodingException e) {
 			//Should not occur
 			logger.log(Level.SEVERE, "Could not UTF-8 encode query parameters: " + oslcQueryParam, e);
-		} 
-		
+		}
+
 		return encodedQueryParms;
 	}
 }
