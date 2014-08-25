@@ -1,0 +1,9 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix oslc_cm: <http://open-services.net/ns/cm#> .
+@prefix ex: <http://example.com/ns#> .
+
+<http://example.com/bugs/876>
+    a                   ex:Test ;
+    dcterms:identifier  "thirteen"^^<http://www.w3.org/2001/XMLSchema#int> ;
+    ex:age              ""^^<http://www.w3.org/2001/XMLSchema#long> ;
+    dcterms:modified    "yesterday"^^<http://www.w3.org/2001/XMLSchema#dateTime> .

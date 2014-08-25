@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *	
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -16,6 +16,7 @@
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
  *	   Samuel Padgett		- oslc:totalCount should be a typed literal
+ *	   Romain Barth			- unparseable literal
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -69,6 +70,7 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
@@ -127,7 +129,7 @@ public final class JenaModelHelper
 	private static final String PROPERTY_NEXT_PAGE = "nextPage";
 
 	private static final String RDF_TYPE_URI = OslcConstants.RDF_NAMESPACE + "type";
-	
+
 	private static final String RDF_LIST = "List";
 	private static final String RDF_ALT	 = "Alt";
 	private static final String RDF_BAG	 = "Bag";
@@ -139,7 +141,7 @@ public final class JenaModelHelper
 
 	private static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
 	private static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
-	
+
 	private static final String GENERATED_PREFIX_START = "j.";
 
 	private static final Logger logger = Logger.getLogger(JenaModelHelper.class.getName());
@@ -178,58 +180,58 @@ public final class JenaModelHelper
 		final Map<String, String> namespaceMappings = new HashMap<String, String>();
 
 		Resource descriptionResource = null;
-		
+
 		if (descriptionAbout != null)
 		{
 			if(OSLC4JUtils.isQueryResultListAsContainer())
 			{
 				descriptionResource = model.createResource(descriptionAbout, RDFS.Container);
-			} 
+			}
 			else
 			{
 				descriptionResource = model.createResource(descriptionAbout);
 			}
 
 			Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
-			handleExtendedProperties(FilteredResource.class, 
-					model, 
-					descriptionResource, 
-					(IExtendedResource) responseInfo.getContainer(), 
-					properties, 
-					visitedResources);				
-			
+			handleExtendedProperties(FilteredResource.class,
+					model,
+					descriptionResource,
+					(IExtendedResource) responseInfo.getContainer(),
+					properties,
+					visitedResources);
+
 			if (responseInfoAbout != null)
 			{
 				final Resource responseInfoResource = model.createResource(responseInfoAbout,
 																		   model.createProperty(OslcConstants.TYPE_RESPONSE_INFO));
 
-				if (responseInfo != null) 
+				if (responseInfo != null)
 				{
 					final int totalCount = responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount();
 					responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, PROPERTY_TOTAL_COUNT),
 													 model.createTypedLiteral(totalCount));
-				
+
 					if (responseInfo.nextPage() != null)
 					{
 						responseInfoResource.addProperty(model.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
 																			 PROPERTY_NEXT_PAGE),
 																			 model.createResource(responseInfo.nextPage()));
 					}
-				
+
 					visitedResources = new HashMap<IExtendedResource,Resource>();
-					handleExtendedProperties(ResponseInfo.class, 
-											model, 
-											responseInfoResource, 
-											(IExtendedResource) responseInfo, 
-											properties, 
+					handleExtendedProperties(ResponseInfo.class,
+											model,
+											responseInfoResource,
+											(IExtendedResource) responseInfo,
+											properties,
 											visitedResources);
 				}
 			}
 		}
-		
+
 		// add global namespace mappings
 		namespaceMappings.putAll(OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap());
-		
+
 		for (final Object object : objects)
 		{
 			handleSingleResource(descriptionResource,
@@ -282,25 +284,25 @@ public final class JenaModelHelper
 				   OslcCoreApplicationException
 	{
 		final Class<? extends Object> objectClass = object.getClass();
-		
+
 		// Collect the namespace prefix -> namespace mappings
 		recursivelyCollectNamespaceMappings(namespaceMappings,
 											objectClass);
-		
+
 		final Resource mainResource;
-		
-		if (object instanceof URI) 
+
+		if (object instanceof URI)
 		{
 			mainResource = model.createResource(((URI) object).toASCIIString());
 		}
-		else 
+		else
 		{
 			URI aboutURI = null;
 			if (object instanceof IResource)
 			{
 				aboutURI = ((IResource) object).getAbout();
 			}
-			
+
 			if (aboutURI != null)
 			{
 				if (OSLC4JUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute())
@@ -309,14 +311,14 @@ public final class JenaModelHelper
 														   "getAbout",
 														   aboutURI);
 				}
-	
+
 				mainResource = model.createResource(aboutURI.toString());
 			}
 			else
 			{
 				mainResource = model.createResource();
 			}
-			
+
 			if (objectClass.getAnnotation(OslcResourceShape.class) != null)
 			{
 				String qualifiedName = TypeFactory.getQualifiedName(objectClass);
@@ -325,14 +327,14 @@ public final class JenaModelHelper
 					mainResource.addProperty(RDF.type, model.createResource(qualifiedName));
 				}
 			}
-			
+
 			buildResource(object,
 						  objectClass,
 						  model,
 						  mainResource,
 						  properties);
 		}
-		
+
 		if (descriptionResource != null)
 		{
 			descriptionResource.addProperty(RDFS.member,
@@ -356,7 +358,7 @@ public final class JenaModelHelper
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
 		final Map<String,Object> visitedResources = new HashMap<String, Object>();
 		final HashSet<String> rdfTypes = new HashSet<String>();
-		
+
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
 					 newInstance,
@@ -384,28 +386,29 @@ public final class JenaModelHelper
 		if (beanClass.getAnnotation(OslcResourceShape.class) != null)
 		{
 			ResIterator listSubjects = null;
-			
+
 			// Fix for defect 412755
 			// keep the same behavior, i.e. use the class name to match the resource rdf:type
 			if (!OSLC4JUtils.useBeanClassForParsing()) {
-			
+
 				final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
 				listSubjects = model.listSubjectsWithProperty(RDF.type,
 						model.getResource(qualifiedName));
 				List<Resource> resourceList = listSubjects.toList();
-				createObjectResultList(beanClass, results, resourceList);	
+
+				createObjectResultList(beanClass, results, resourceList);
 			}
 			else {
 				// get the list of subjects that have rdf:type element
 				listSubjects = model.listSubjectsWithProperty(RDF.type);
-				
+
 				List<Resource> resourceList = new ArrayList<Resource>();
-				
+
 				// iterate over the list of subjects to create a list of
 				// subjects that does not contain inline resources
 				while (listSubjects.hasNext()) {
 					final Resource resource = listSubjects.next();
-					
+
 					// check if the current resource is not an inline resource,
 					// i.e, check if it does not have a parent node
 					SimpleSelector selector = new SimpleSelector(null, null, (RDFNode) resource);
@@ -416,26 +419,26 @@ public final class JenaModelHelper
 						resourceList.add(resource);
 					}
 				}
-				
+
 				createObjectResultList(beanClass, results, resourceList);
 			}
-		
+
 		}
-		else if (URI.class.equals(beanClass)) 
+		else if (URI.class.equals(beanClass))
 		{
 			StmtIterator memberIterator = model.listStatements(null, RDFS.member, (RDFNode) null);
-			while (memberIterator.hasNext()) 
+			while (memberIterator.hasNext())
 			{
 				Statement memberStatement = memberIterator.next();
 				RDFNode memberObject = memberStatement.getObject();
-				if (memberObject.isURIResource()) 
+				if (memberObject.isURIResource())
 				{
 					URI memberURI = URI.create(memberObject.asResource().getURI());
 					results.add(memberURI);
 				}
-			}				 
+			}
 		}
-		
+
 		return results.toArray((Object[]) Array.newInstance(beanClass,
 															results.size()));
 	}
@@ -447,14 +450,14 @@ public final class JenaModelHelper
 			OslcCoreApplicationException, URISyntaxException,
 			NoSuchMethodException {
 		if (null != listSubjects) {
-			
+
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
 
 			for (final Resource resource : listSubjects) {
 				final Object   newInstance = beanClass.newInstance();
 				final Map<String,Object> visitedResources = new HashMap<String, Object>();
 				final HashSet<String> rdfTypes = new HashSet<String>();
-				
+
 				fromResource(classPropertyDefinitionsToSetMethods,
 							 beanClass,
 							 newInstance,
@@ -468,7 +471,7 @@ public final class JenaModelHelper
 
 		return results;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static void fromResource(final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
 									 final Class<?>							  beanClass,
@@ -516,7 +519,7 @@ public final class JenaModelHelper
 														   aboutURI);
 				}
 
-				
+
 			}
 		}
 
@@ -542,18 +545,19 @@ public final class JenaModelHelper
 			extendedResource = null;
 			extendedProperties = null;
 		}
-		
+
 		// get the list of resource rdf type
 		rdfTypes = getTypesFromResource(resource, rdfTypes);
-		
+
 		while (listProperties.hasNext())
 		{
+
 			final Statement statement = listProperties.next();
 			final Property	predicate = statement.getPredicate();
 			final RDFNode	object	  = statement.getObject();
-
 			final String uri	   = predicate.getURI();
 			final Method setMethod = setMethodMap.get(uri);
+
 			if (setMethod == null)
 			{
 				if (RDF_TYPE_URI.equals(uri))
@@ -564,6 +568,7 @@ public final class JenaModelHelper
 						extendedResource.addType(type);
 					}
 					// Otherwise ignore missing propertyDefinition for rdf:type.
+
 				}
 				else
 				{
@@ -576,6 +581,7 @@ public final class JenaModelHelper
 					}
 					else
 					{
+
 						String prefix = resource.getModel().getNsURIPrefix(predicate.getNameSpace());
 						if (prefix == null)
 						{
@@ -584,6 +590,7 @@ public final class JenaModelHelper
 						final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
 						final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes);
 						final Object previous = extendedProperties.get(key);
+
 						if (previous == null)
 						{
 							extendedProperties.put(key, value);
@@ -601,7 +608,6 @@ public final class JenaModelHelper
 								collection.add(previous);
 								extendedProperties.put(key, collection);
 							}
-
 							collection.add(value);
 						}
 					}
@@ -609,9 +615,11 @@ public final class JenaModelHelper
 			}
 			else
 			{
+
 				Class<?> setMethodComponentParameterClass = setMethod.getParameterTypes()[0];
-				
+
 				boolean multiple = setMethodComponentParameterClass.isArray();
+
 				if (multiple)
 				{
 					setMethodComponentParameterClass = setMethodComponentParameterClass.getComponentType();
@@ -636,32 +644,32 @@ public final class JenaModelHelper
 						}
 					}
 				}
-				
+
 				final List<RDFNode> objects;
 				if (multiple && object.isResource() && (
-					   (object.asResource().hasProperty(RDF.first) 
+					   (object.asResource().hasProperty(RDF.first)
 						   && object.asResource().hasProperty(RDF.rest))
 					   || (RDF.nil.equals(object))
 					   || object.canAs(RDFList.class)))
 				{
 					objects = new ArrayList<RDFNode>();
 					Resource listNode = object.asResource();
-					while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI())) 
+					while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI()))
 					{
 						visitedResources.put(getVisitedResourceName(listNode), new Object());
-					   
+
 						RDFNode o = listNode.getPropertyResourceValue(RDF.first);
 						objects.add(o);
-					   
+
 						listNode = listNode.getPropertyResourceValue(RDF.rest);
 					}
-				   
+
 					visitedResources.put(getVisitedResourceName(object.asResource()), objects);
 				}
 				else if (multiple && isRdfCollectionResource(object.getModel(), object))
 				{
 					objects = new ArrayList<RDFNode>();
-					
+
 					ExtendedIterator<RDFNode> iterator =
 							object.asResource().listProperties(RDFS.member).
 									mapWith(new Map1<Statement, RDFNode>()
@@ -671,26 +679,26 @@ public final class JenaModelHelper
 								return o.getObject();
 							}
 						});
-					 
-					while (iterator.hasNext()) 
+
+					while (iterator.hasNext())
 					{
 						RDFNode o = iterator.next();
-						 
+
 						if (o.isResource())
 						{
 							visitedResources.put(getVisitedResourceName(o.asResource()), new Object());
 						}
-						
+
 						objects.add(o);
 					}
-					
+
 					 visitedResources.put(getVisitedResourceName(object.asResource()), objects);
 				}
 				else
 				{
 				   objects = Collections.singletonList(object);
 				}
-				
+
 				Class<?> reifiedClass = null;
 				if (IReifiedResource.class.isAssignableFrom(setMethodComponentParameterClass))
 				{
@@ -711,7 +719,7 @@ public final class JenaModelHelper
 						}
 					}
 				}
-				
+
 				for (RDFNode o : objects)
 				{
 					Object parameter = null;
@@ -719,7 +727,7 @@ public final class JenaModelHelper
 					{
 						final Literal literal	 = o.asLiteral();
 						final String stringValue = literal.getString();
-	
+
 						if (String.class == setMethodComponentParameterClass)
 						{
 							parameter = stringValue;
@@ -787,40 +795,40 @@ public final class JenaModelHelper
 					else if (o.isResource())
 					{
 						final Resource nestedResource = o.asResource();
-	
+
 						if (URI.class == setMethodComponentParameterClass)
 						{
 							final String nestedResourceURIString = nestedResource.getURI();
-	
+
 							if (nestedResourceURIString != null)
 							{
 								final URI nestedResourceURI = new URI(nestedResourceURIString);
-	
+
 								if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute())
 								{
 									throw new OslcCoreRelativeURIException(beanClass,
 																		   setMethod.getName(),
 																		   nestedResourceURI);
 								}
-	
+
 								parameter = nestedResourceURI;
 							}
 						}
 						else
 						{
 							final Object nestedBean = setMethodComponentParameterClass.newInstance();
-	
+
 							fromResource(classPropertyDefinitionsToSetMethods,
 										 setMethodComponentParameterClass,
 										 nestedBean,
 										 nestedResource,
 										 visitedResources,
 										 rdfTypes);
-	
+
 							parameter = nestedBean;
 						}
 					}
-	
+
 					if (parameter != null)
 					{
 						if (reifiedClass != null)
@@ -828,7 +836,7 @@ public final class JenaModelHelper
 							// This property supports reified statements. Create the
 							// new resource to hold the value and any metadata.
 							final Object reifiedResource = reifiedClass.newInstance();
-							
+
 							// Find a setter for the actual value.
 							for (Method method : reifiedClass.getMethods())
 							{
@@ -839,11 +847,11 @@ public final class JenaModelHelper
 								final Class<?>[] parameterTypes = method.getParameterTypes();
 								if (parameterTypes.length == 1 && parameterTypes[0].isAssignableFrom(setMethodComponentParameterClass))
 								{
-									method.invoke(reifiedResource, parameter);		
+									method.invoke(reifiedResource, parameter);
 									break;
 								}
 							}
-	
+
 							// Fill in any reified statements.
 							RSIterator rsIter = statement.listReifiedStatements();
 							while (rsIter.hasNext())
@@ -856,21 +864,21 @@ public final class JenaModelHelper
 										visitedResources,
 										rdfTypes);
 							}
-							
+
 							parameter = reifiedResource;
 						}
-						
+
 						if (multiple)
 						{
 							List<Object> values = propertyDefinitionsToArrayValues.get(uri);
 							if (values == null)
 							{
 								values = new ArrayList<Object>();
-	
+
 								propertyDefinitionsToArrayValues.put(uri,
 																	 values);
 							}
-	
+
 							values.add(parameter);
 						}
 						else
@@ -880,11 +888,11 @@ public final class JenaModelHelper
 								throw new OslcCoreMisusedOccursException(beanClass,
 																		 setMethod);
 							}
-	
-	
+
+
 							setMethod.invoke(bean,
 											 new Object[] {parameter});
-	
+
 							singleValueMethodsUsed.add(setMethod);
 						}
 					}
@@ -970,7 +978,7 @@ public final class JenaModelHelper
 	 * Returns a hash set of rdf:types for a given resource object. If the set
 	 * was populated before, returns the given list. This list will only be
 	 * populated if the property inferTypeFromShape is set to true.
-	 * 
+	 *
 	 * @param resource
 	 * @param types
 	 * @return List of rdf:types
@@ -1002,19 +1010,19 @@ public final class JenaModelHelper
 			Resource resource = object.asResource();
 			if (resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_ALT))
 				|| resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_BAG))
-				|| resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_SEQ))) 
+				|| resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_SEQ)))
 			{
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * Generates a prefix for unrecognized namespaces when reading in unknown
 	 * properties and content.
-	 * 
+	 *
 	 * @param model
 	 *			  the model
 	 * @param namespace
@@ -1030,7 +1038,7 @@ public final class JenaModelHelper
 			candidatePrefix = GENERATED_PREFIX_START + i;
 			++i;
 		} while (map.containsKey(candidatePrefix));
-		
+
 		model.setNsPrefix(candidatePrefix, namespace);
 		return candidatePrefix;
 	}
@@ -1049,11 +1057,12 @@ public final class JenaModelHelper
 				   InvocationTargetException,
 				   OslcCoreApplicationException,
 				   NoSuchMethodException
+
 	{
 		if (object.isLiteral())
 		{
-			final Literal literal = object.asLiteral();
 
+			final Literal literal = object.asLiteral();
 			// fix for Bug 412789
 			if (OSLC4JUtils.inferTypeFromShape()) {
 
@@ -1073,15 +1082,19 @@ public final class JenaModelHelper
 					}
 				}
 			}
-
 			final Object literalValue;
 			try
 			{
 				literalValue = literal.getValue();
+
 			}
 			catch (DatatypeFormatException e)
 			{
-				if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES))) {
+				String rawValue = literal.getString();
+				String datatype = literal.getDatatypeURI();
+
+				if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES)))
+			   	{
 					if (logger.isLoggable(Level.WARNING))
 					{
 						logger.log(Level.WARNING,
@@ -1091,10 +1104,12 @@ public final class JenaModelHelper
 								+ literal.getDatatypeURI(), e);
 					}
 
-					return "";
+					return new UnparseableLiteral(rawValue,datatype);
 				}
-
-				throw e;
+				else
+			   	{
+					throw e;
+				}
 			}
 
 			if (literalValue instanceof XSDDateTime)
@@ -1114,11 +1129,11 @@ public final class JenaModelHelper
 
 			return literalValue;
 		}
-		
+
 		final Resource nestedResource = object.asResource();
-		
+
 		// Is this an inline resource? AND we have not visited it yet?
-		if ((nestedResource.getURI() == null || nestedResource.listProperties().hasNext()) && 
+		if ((nestedResource.getURI() == null || nestedResource.listProperties().hasNext()) &&
 			(!visitedResources.containsKey(getVisitedResourceName(nestedResource))))
 		{
 			final AbstractResource any = new AnyResource();
@@ -1148,7 +1163,7 @@ public final class JenaModelHelper
 			return nestedResourceURI;
 		}
 	}
-	
+
 	private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
 			throws OslcCoreApplicationException
 	{
@@ -1224,7 +1239,7 @@ public final class JenaModelHelper
 		{
 			return;
 		}
-		
+
 		for (final Method method : resourceClass.getMethods())
 		{
 			if (method.getParameterTypes().length == 0)
@@ -1242,17 +1257,17 @@ public final class JenaModelHelper
 					if (oslcPropertyDefinitionAnnotation != null)
 					{
 						final Object value = method.invoke(object);
-						
+
 						if (value != null)
 						{
 							Map<String, Object> nestedProperties = null;
 							boolean onlyNested = false;
-							
+
 							if (properties != null)
 							{
 								@SuppressWarnings("unchecked")
 								final Map<String, Object> map = (Map<String, Object>)properties.get(oslcPropertyDefinitionAnnotation.value());
-								
+
 								if (map != null)
 								{
 									nestedProperties = map;
@@ -1266,7 +1281,7 @@ public final class JenaModelHelper
 								{
 									nestedProperties = ((NestedWildcardProperties)properties).commonNestedProperties();
 									onlyNested = ! (properties instanceof SingletonWildcardProperties);
-								}								 
+								}
 								else
 								{
 									continue;
@@ -1286,7 +1301,7 @@ public final class JenaModelHelper
 				}
 			}
 		}
-		
+
 		// Handle any extended properties.
 		if (object instanceof IExtendedResource)
 		{
@@ -1316,7 +1331,7 @@ public final class JenaModelHelper
 		for (final URI type : extendedResource.getTypes())
 		{
 			final String propertyName = type.toString();
-			
+
 			if (properties != null &&
 				properties.get(propertyName) == null &&
 				! (properties instanceof NestedWildcardProperties) &&
@@ -1324,29 +1339,29 @@ public final class JenaModelHelper
 			{
 				continue;
 			}
-			
+
 			final Resource typeResource = model.createResource(propertyName);
-			
+
 			if (!mainResource.hasProperty(RDF.type, typeResource))
 			{
 				mainResource.addProperty(RDF.type, typeResource);
 			}
 		}
-		
+
 		final Transformer transformer = createTransformer();
-		
+
 		for (final Map.Entry<QName, ?> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
 			final QName qName = extendedProperty.getKey();
 			final String propertyName = qName.getNamespaceURI() + qName.getLocalPart();
 			Map<String, Object> nestedProperties = null;
 			boolean onlyNested = false;
-			
+
 			if (properties != null)
 			{
 				@SuppressWarnings("unchecked")
 				final Map<String, Object> map = (Map<String, Object>)properties.get(propertyName);
-				
+
 				if (map != null)
 				{
 					nestedProperties = map;
@@ -1360,16 +1375,16 @@ public final class JenaModelHelper
 				{
 					nestedProperties = ((NestedWildcardProperties)properties).commonNestedProperties();
 					onlyNested = ! (properties instanceof SingletonWildcardProperties);
-				}				 
+				}
 				else
 				{
 					continue;
 				}
 			}
-			
+
 			final Property property = model.createProperty(propertyName);
 			final Object value = extendedProperty.getValue();
-			
+
 			if (value instanceof Collection)
 			{
 				final Collection<?> collection = (Collection<?>) value;
@@ -1400,7 +1415,7 @@ public final class JenaModelHelper
 			}
 		}
 	}
-	
+
 	private static void handleExtendedValue(final Class<?> objectClass,
 											final Object value,
 											final Model model,
@@ -1416,10 +1431,20 @@ public final class JenaModelHelper
 			   InvocationTargetException,
 			   OslcCoreApplicationException
 	{
-		if (value instanceof AnyResource)
+		if (value instanceof UnparseableLiteral)
+	   	{
+			if (onlyNested)
+			{
+				return;
+			}
+
+			final UnparseableLiteral unparseable = (UnparseableLiteral) value;
+			resource.addProperty(property, model.createLiteral(unparseable.getRawValue()));
+		}
+		else if (value instanceof AnyResource)
 		{
 			final AbstractResource any = (AbstractResource) value;
-			
+
 			//create a new resource in the model if we have not visited it yet
 			if (!visitedResources.containsKey(any))
 			{
@@ -1433,18 +1458,18 @@ public final class JenaModelHelper
 							"getAbout",
 							aboutURI);
 					}
-	
+
 					nestedResource = model.createResource(aboutURI.toString());
 				}
 				else
 				{
 					nestedResource = model.createResource();
 				}
-	
+
 				for (final URI type : any.getTypes())
 				{
 					final String propertyName = type.toString();
-					
+
 					if (nestedProperties == null ||
 						nestedProperties.get(propertyName) != null ||
 						nestedProperties instanceof NestedWildcardProperties ||
@@ -1460,19 +1485,19 @@ public final class JenaModelHelper
 				//We've already added the inline resource, add a reference to it for this property
 				resource.addProperty(property, visitedResources.get(any));
 			}
-		   
+
 		}
 		else if (value.getClass().getAnnotation(OslcResourceShape.class) != null || value instanceof URI)
-		{ 
+		{
 			//TODO:	 Until we handle XMLLiteral for incoming unknown resources, need to assume it is not XMLLiteral
 			boolean xmlliteral = false;
 			handleLocalResource(objectClass,
 								null,
 								xmlliteral,
 								value,
-								model, 
-								resource, 
-								property, 
+								model,
+								resource,
+								property,
 								nestedProperties,
 								onlyNested,
 								null);
@@ -1483,11 +1508,11 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			final Calendar cal = Calendar.getInstance();
 			cal.setTime((Date) value);
 			RDFDatatype dataType = null;
-			
+
 			// Check if it is a Date field
 			if ( OSLC4JUtils.inferTypeFromShape() ) {
 				// get the list of resource rdf type
@@ -1495,42 +1520,42 @@ public final class JenaModelHelper
 				rdfTypes = getTypesFromResource(resource, rdfTypes);
 				dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, property);
 			}
-			
+
 			if ( dataType != null && dataType instanceof XSDDateType) {
 				XSDDateTime valuec = new XSDDateTime( cal);
 				valuec.narrowType(XSDDatatype.XSDdate);
 				String valueDate = valuec.toString();
 				if ( valueDate != null && valueDate.endsWith("Z")){
 					valueDate = valueDate.replaceAll("Z","");
-				} 
+				}
 				resource.addProperty(property, model.createTypedLiteral(valueDate, XSDDatatype.XSDdate));
 			} else {
 				resource.addProperty(property, model.createTypedLiteral(cal));
 			}
-			
+
 		}
 		else if (value instanceof XMLLiteral)
 		{
 			final XMLLiteral xmlLiteral = (XMLLiteral) value;
 			final Literal xmlString = model.createTypedLiteral(xmlLiteral.getValue(), XMLLiteralType.theXMLLiteralType);
-			
+
 			resource.addProperty(property, xmlString);
 		}
 		else if (value instanceof Element)
 		{
 			final StreamResult result = new StreamResult(new StringWriter());
-			
+
 			final DOMSource source = new DOMSource((Element)value);
-			
+
 			try
 			{
 				transformer.transform(source, result);
 			} catch (TransformerException e) {
 				throw new RuntimeException(e);
 			}
-			
+
 			final Literal xmlString = model.createLiteral(result.getWriter().toString(), true);
-			
+
 			resource.addProperty(property, xmlString);
 		}
 		else if (value instanceof String)
@@ -1539,7 +1564,7 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			resource.addProperty(property, model.createLiteral((String) value));
 		}
 		else if (value instanceof Float)
@@ -1570,7 +1595,7 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			resource.addProperty(property, model.createTypedLiteral(value));
 		}
 	}
@@ -1602,7 +1627,7 @@ public final class JenaModelHelper
 
 		return model.createTypedLiteral(d, XSDDatatype.XSDdouble);
 	}
- 
+
 	private static void buildAttributeResource(final Class<?>				resourceClass,
 											   final Method					method,
 											   final OslcPropertyDefinition propertyDefinitionAnnotation,
@@ -1639,22 +1664,22 @@ public final class JenaModelHelper
 																 propertyDefinitionAnnotation);
 		}
 
-		final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, 
+		final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method,
 																								OslcValueType.class);
-		
-		final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value()); 
+
+		final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value());
 
 		final Property attribute = model.createProperty(propertyDefinition);
 
 		final Class<?> returnType = method.getReturnType();
 		final OslcRdfCollectionType collectionType =
-			InheritedMethodAnnotationHelper.getAnnotation(method, 
+			InheritedMethodAnnotationHelper.getAnnotation(method,
 														  OslcRdfCollectionType.class);
 		final List<RDFNode> rdfNodeContainer;
-		
+
 		if (collectionType != null &&
 				OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
-				  (RDF_LIST.equals(collectionType.collectionType()) 
+				  (RDF_LIST.equals(collectionType.collectionType())
 				   || RDF_ALT.equals(collectionType.collectionType())
 				   || RDF_BAG.equals(collectionType.collectionType())
 				   || RDF_SEQ.equals(collectionType.collectionType())))
@@ -1665,7 +1690,7 @@ public final class JenaModelHelper
 		{
 			rdfNodeContainer = null;
 		}
-		
+
 		if (returnType.isArray())
 		{
 			// We cannot cast to Object[] in case this is an array of
@@ -1694,14 +1719,14 @@ public final class JenaModelHelper
 									onlyNested,
 									rdfNodeContainer);
 			}
-			
+
 			if (rdfNodeContainer != null)
 			{
 				RDFNode container = createRdfContainer(collectionType,
 													  rdfNodeContainer,
 													  model);
 				Statement s = model.createStatement(resource, attribute, container);
-				
+
 				model.add(s);
 			}
 		}
@@ -1723,14 +1748,14 @@ public final class JenaModelHelper
 									onlyNested,
 									rdfNodeContainer);
 			}
-			
+
 			if (rdfNodeContainer != null)
 			{
 				RDFNode container = createRdfContainer(collectionType,
 													   rdfNodeContainer,
 													   model);
 				Statement s = model.createStatement(resource, attribute, container);
-				
+
 				model.add(s);
 			}
 		}
@@ -1748,7 +1773,7 @@ public final class JenaModelHelper
 								null);
 		}
 	}
-	
+
 	private static RDFNode createRdfContainer(final OslcRdfCollectionType collectionType,
 											  final List<RDFNode>		  rdfNodeContainer,
 											  final Model				  model)
@@ -1757,9 +1782,9 @@ public final class JenaModelHelper
 		{
 			return model.createList(rdfNodeContainer.iterator());
 		}
-		
+
 		Container container;
-		
+
 		if (RDF_ALT.equals(collectionType.collectionType()))
 		{
 			container = model.createAlt();
@@ -1772,12 +1797,12 @@ public final class JenaModelHelper
 		{
 			container = model.createSeq();
 		}
-		
+
 		for (RDFNode node : rdfNodeContainer)
 		{
 			container.add(node);
 		}
-		
+
 		return container;
 	}
 
@@ -1802,17 +1827,17 @@ public final class JenaModelHelper
 		RDFNode nestedNode = null;
 		final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
 		final Object value = (reifiedResource == null) ? object : reifiedResource.getValue();
-		
+
 		if (value instanceof String)
 		{
 			if (onlyNested)
 			{
 				return;
 			}
-			
+
 			if (xmlLiteral)
 			{
-				nestedNode = model.createTypedLiteral(value.toString(), 
+				nestedNode = model.createTypedLiteral(value.toString(),
 													  XMLLiteralType.theXMLLiteralType);
 			}
 			else
@@ -1847,7 +1872,7 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			nestedNode = model.createTypedLiteral(value);
 		}
 		else if (value instanceof URI)
@@ -1856,7 +1881,7 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			final URI uri = (URI) value;
 
 			if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
@@ -1875,11 +1900,11 @@ public final class JenaModelHelper
 			{
 				return;
 			}
-			
+
 			final GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime((Date) value);
 			RDFDatatype dataType = null;
-			
+
 			// Check if it is a Date field
 			if ( OSLC4JUtils.inferTypeFromShape() ) {
 				// get the list of resource rdf type
@@ -1887,14 +1912,14 @@ public final class JenaModelHelper
 				rdfTypes = getTypesFromResource(resource, rdfTypes);
 				dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, attribute);
 			}
-			
+
 			if ( dataType != null && dataType instanceof XSDDateType) {
 				XSDDateTime valuec = new XSDDateTime( calendar);
 				valuec.narrowType(XSDDatatype.XSDdate);
 				String valueDate = valuec.toString();
 				if ( valueDate != null && valueDate.endsWith("Z")){
 					valueDate = valueDate.replaceAll("Z","");
-				} 
+				}
 				nestedNode = model.createTypedLiteral(valueDate, XSDDatatype.XSDdate);
 			} else {
 				nestedNode = model.createTypedLiteral(calendar);
@@ -1930,7 +1955,7 @@ public final class JenaModelHelper
 				nestedResource = model.createResource(model.createProperty(namespace,
 																		   name));
 			}
-			
+
 			buildResource(value,
 						  objectClass,
 						  model,
@@ -1971,20 +1996,20 @@ public final class JenaModelHelper
 																		 method,
 																		 null);
 				}
-				
+
 				// Instead of adding a nested node to model, add it to a list
 				rdfNodeContainer.add(nestedNode);
 			}
 			else
 			{
 				Statement statement = model.createStatement(resource, attribute, nestedNode);
-				
+
 				if (reifiedResource != null &&
 					nestedProperties != OSLC4JConstants.OSL4J_PROPERTY_SINGLETON)
 				{
 					addReifiedStatements(model, statement, reifiedResource, nestedProperties);
 				}
-	
+
 				// Finally, add the statement to the model.
 				model.add(statement);
 			}
@@ -2002,7 +2027,7 @@ public final class JenaModelHelper
 				   OslcCoreApplicationException
 	{
 		ReifiedStatement reifiedStatement = statement.createReifiedStatement();
-		
+
 		buildResource(reifiedResource,
 					  reifiedResource.getClass(),
 					  model,
@@ -2122,11 +2147,11 @@ public final class JenaModelHelper
 			}
 		}
 	}
-	
+
 	private static String getVisitedResourceName(Resource resource)
 	{
 		String visitedResourceName = null;
-		
+
 		if (resource.getURI() != null)
 		{
 			visitedResourceName = resource.getURI();
@@ -2135,25 +2160,25 @@ public final class JenaModelHelper
 		{
 			visitedResourceName = resource.getId().toString();
 		}
-		
+
 		return visitedResourceName;
 	}
-	
+
 	private static Transformer createTransformer()
 	{
 		try
 		{
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			
+
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			
+
 			return transformer;
-			
+
 		} catch (TransformerException e) {
-			
+
 			throw new RuntimeException(e);
-			
+
 		}
 	}
-	
+
 }
