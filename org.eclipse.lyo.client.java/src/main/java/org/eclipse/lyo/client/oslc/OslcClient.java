@@ -48,6 +48,7 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
@@ -116,7 +117,7 @@ public class OslcClient {
 	 */
 	public OslcClient(TrustManager [] trustManagers, X509HostnameVerifier hostnameVerifier)
 	{
-		httpClient = new DefaultHttpClient();
+		httpClient = new DefaultHttpClient(new ThreadSafeClientConnManager());
 		httpClient.setRedirectStrategy(new RedirectStrategy() {
 	        public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context)  {
 	            return null;
