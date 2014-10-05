@@ -237,7 +237,7 @@ public String toHtml()
 		// [/protected]
 
 		[let valueType : String = aProperty.valueType.toString()]
-			[if (Sequence{'String', 'XMLLiteral', 'DateTime', 'URI'}->includes(valueType))]
+			[if (Sequence{'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(valueType))]
 				s= s + [resourcePropertyAsTextInputForCreation(aProperty) /];
 			[elseif(valueType = 'Boolean')]
 				s= s + "<input name=\"[aProperty.name/]\" type=\"radio\" value=\"true\">True<br><input name=\"[aProperty.name/]\" type=\"radio\" value=\"false\">False";
@@ -271,7 +271,7 @@ I am getting to many if/else-ses. I think I need to rethink calmely to have a cl
 
 		try {
 		[comment For these basic valueTypes, one can simply call toString on the attribte /]
-		[if (Sequence{'Boolean', 'String', 'XMLLiteral', 'DateTime', 'URI'}->includes(aProperty.valueType.toString()))]
+		[if (Sequence{'Boolean', 'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(aProperty.valueType.toString()))]
 		    [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
 		        s = s + "<ul>";
 				Iterator<[javaAttributeBaseType(aProperty) /]> itr = [javaAttributeName(aProperty, aResource) /].iterator();

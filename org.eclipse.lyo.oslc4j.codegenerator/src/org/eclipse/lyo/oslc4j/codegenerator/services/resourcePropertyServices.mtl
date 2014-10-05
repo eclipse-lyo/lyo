@@ -147,17 +147,29 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 					if(aProperty.valueType.toString() = 'Boolean') then
 						'new Boolean(' + variable + ')'
 					else
-						if(aProperty.valueType.toString() = 'Resource') then
-							'new Link(new URI(' + variable + '))'
+						if(aProperty.valueType.toString() = 'Double') then
+							'Double.valueOf(' + variable + ')'
 						else
-							if(aProperty.valueType.toString() = 'LocalResource') then
-								if (not aProperty.range.oclIsUndefined()) then
-									'new ' + javaClassName(aProperty.range) + '(new URI(' + variable + '))'
-								else
-									'new Link(new URI(' + variable + '))'
-								endif
+							if(aProperty.valueType.toString() = 'Float') then
+								'Float.valueOf(' + variable + ')'
 							else
-								''
+								if(aProperty.valueType.toString() = 'Integer') then
+									'Integer.valueOf(' + variable + ')'
+								else
+									if(aProperty.valueType.toString() = 'Resource') then
+										'new Link(new URI(' + variable + '))'
+									else
+										if(aProperty.valueType.toString() = 'LocalResource') then
+											if (not aProperty.range.oclIsUndefined()) then
+												'new ' + javaClassName(aProperty.range) + '(new URI(' + variable + '))'
+											else
+												'new Link(new URI(' + variable + '))'
+											endif
+										else
+											''
+										endif
+									endif
+								endif
 							endif
 						endif
 					endif
@@ -201,17 +213,29 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 					if(aProperty.valueType.toString() = 'Boolean') then
 						'Boolean'
 					else
-						if(aProperty.valueType.toString() = 'Resource') then
-								'Link'
+						if(aProperty.valueType.toString() = 'Double') then
+							'Double'
 						else
-							if(aProperty.valueType.toString() = 'LocalResource') then
-								if (not aProperty.range.oclIsUndefined()) then
-									javaClassName(aProperty.range)
-								else
-									'Link'
-								endif
+							if(aProperty.valueType.toString() = 'Float') then
+								'Float'
 							else
-								''
+								if(aProperty.valueType.toString() = 'Integer') then
+									'Integer'
+								else
+									if(aProperty.valueType.toString() = 'Resource') then
+											'Link'
+									else
+										if(aProperty.valueType.toString() = 'LocalResource') then
+											if (not aProperty.range.oclIsUndefined()) then
+												javaClassName(aProperty.range)
+											else
+												'Link'
+											endif
+										else
+											''
+										endif
+									endif
+								endif
 							endif
 						endif
 					endif

@@ -101,6 +101,9 @@
     <eLiterals name="Resource" value="4" literal="Resource"/>
     <eLiterals name="LocalResource" value="5" literal="LocalResource"/>
     <eLiterals name="URI" value="6" literal="URI"/>
+    <eLiterals name="Double" value="7" literal="Double"/>
+    <eLiterals name="Float" value="8" literal="Float"/>
+    <eLiterals name="Integer" value="9" literal="Integer"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyRepresentation">
     <eLiterals name="reference" literal="reference"/>
