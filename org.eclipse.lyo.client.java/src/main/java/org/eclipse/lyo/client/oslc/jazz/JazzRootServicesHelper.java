@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation.
+ * Copyright (c) 2011, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -12,30 +12,25 @@
  *  Contributors:
  *
  *     Michael Fiedler     - initial API and implementation
+ *     Samuel Padgett      - add getter for RDF model so clients can read other services
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
+import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.OslcOAuthClient;
-import org.eclipse.lyo.client.oslc.OSLCConstants;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Selector;
-import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 /**
  * Helper class to assist in retrieval of attributes from the IBM Rational
@@ -52,7 +47,7 @@ public class JazzRootServicesHelper {
 	private String catalogNamespace;
 	private String catalogProperty;
 	private String catalogUrl;
-	private Collection<Object []> catalogs = new ArrayList<Object[]>();
+	private Model rdfModel;
 
 	//OAuth URLs
 	String authorizationRealm;
@@ -60,8 +55,8 @@ public class JazzRootServicesHelper {
 	String authorizationTokenUrl;
 	String accessTokenUrl;
 
-	private static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
-	private static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
+	public static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
+	public static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
 
 	private static final Logger logger = Logger.getLogger(JazzRootServicesHelper.class.getName());
 
@@ -118,19 +113,14 @@ public class JazzRootServicesHelper {
 
 	/**
 	 * Get the OSLC Catalog URL
-	 * @return
+	 *
+	 * @return the catalog URL
 	 */
 	public String getCatalogUrl()
 	{
 		return catalogUrl;
 	}
 
-	/**
-	 *
-	 * @param consumerKey
-	 * @param secret
-	 * @return
-	 */
 	public OslcOAuthClient initOAuthClient(String consumerKey, String secret) {
 		return new OslcOAuthClient (
 								requestTokenUrl,
@@ -141,12 +131,6 @@ public class JazzRootServicesHelper {
 								authorizationRealm );
 	}
 
-	/**
-	 *
-	 * @param userid
-	 * @param password
-	 * @return
-	 */
 	public JazzFormAuthClient initFormClient(String userid, String password)
 	{
 		return new JazzFormAuthClient(baseUrl, userid, password);
@@ -154,13 +138,18 @@ public class JazzRootServicesHelper {
 	}
 
 	/**
+	 * Creates a form auth client for authenticating with the Jazz server.
 	 *
 	 * @param userid
+	 *            the Jazz user ID
 	 * @param password
-	 * @param authUrl - the base URL to use for authentication.  This is normally the
-	 * application base URL for RQM and RTC and is the JTS application URL for fronting
-	 * applications like RRC and DM.
-	 * @return
+	 *            the Jazz user password or form-based authentication
+	 * @param authUrl
+	 *            - the base URL to use for authentication. This is normally the
+	 *            application base URL for RQM and RTC and is the JTS
+	 *            application URL for fronting applications like RRC and DM.
+	 * 
+	 * @return the form auth client
 	 */
 	public JazzFormAuthClient initFormClient(String userid, String password, String authUrl)
 	{
@@ -174,7 +163,7 @@ public class JazzRootServicesHelper {
 			OslcClient rootServicesClient = new OslcClient();
 			ClientResponse response = rootServicesClient.getResource(rootServicesUrl,OSLCConstants.CT_RDF);
 			InputStream is = response.getEntity(InputStream.class);
-			Model rdfModel = ModelFactory.createDefaultModel();
+			rdfModel = ModelFactory.createDefaultModel();
 			rdfModel.read(is,rootServicesUrl);
 
 			//get the catalog URL
@@ -210,6 +199,14 @@ public class JazzRootServicesHelper {
 		return returnVal;
 	}
 
-
-
+	/**
+	 * Returns the underlying RDF model for the rootservices document. This
+	 * allows clients to read other service URLs not directly supported by this
+	 * class.
+	 *
+	 * @return the RDF model
+	 */
+	public Model getRdfModel() {
+		return rdfModel;
+	}
 }
