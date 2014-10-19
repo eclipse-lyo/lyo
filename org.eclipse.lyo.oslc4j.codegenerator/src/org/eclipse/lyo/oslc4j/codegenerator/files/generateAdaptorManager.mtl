@@ -57,6 +57,7 @@ import javax.servlet.ServletContextEvent;
 import java.util.List;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import [javaClassFullNameForSingleton(anAdaptorInterface.serviceProviderCatalog) /];
 
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
 import [javaClassFullNameForServiceProviderInfo(aServiceProvider) /];
@@ -93,14 +94,14 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		Such tools are used to handle multiple connections from different users at the same time.
 		The model for how to establish such session-based connections can be borrowed from the Lyo CM Workshop.
 		/]
-		// Establish connection to data backbone etc ...
+		// TODO Implement code to establish connection to data backbone etc ...
 		// [protected ('contextInitializeServletListener')]
 		// [/protected]
     }
 
 	public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
 	{
-		// Shutdown connections to data backbone etc...
+		// TODO Implement code to shutdown connections to data backbone etc...
 		// [protected ('contextDestroyed')]
 		// [/protected]
 	}
@@ -117,7 +118,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static [javaClassNameForServiceProviderInfo(aServiceProvider) /] [ '[' ']' /] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
 		[javaClassNameForServiceProviderInfo(aServiceProvider) /] [ '[' ']' /] serviceProviderInfos = {};
-		// [protected ('(MUST_FILL_IN) getServiceProviderInfos userCode')]
+		// TODO Implement code to return the set of ServiceProviders
+		// [protected ('getServiceProviderInfos userCode')]
 		// [/protected]
 		return serviceProviderInfos;
     }
@@ -127,7 +129,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static [javaClassName(aResource) /] get[aResource.name.toUpperFirst() /](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, anAdaptorInterface), true, false)/])
     {
 		[javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = null;
-		// [protected ('(MUST_FILL_IN) get'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
+		// TODO Implement code to return a resource
+		// [protected ('get'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
 		// [/protected]
 		return a[aResource.name.toUpperFirst() /];
     }
@@ -135,7 +138,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static List<[javaClassName(aResource) /]> get[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest[commaSeparate(collectionMethodSignature(aResource, anAdaptorInterface), true, false)/], int page, int limit)
     {
 		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
-		// [protected ('(MUST_FILL_IN) get'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
+		// TODO Implement code to return a set of resources
+		// [protected ('get'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
 		// [/protected]
 		return [aResource.name.toLowerFirst() /]s;
     }
@@ -143,7 +147,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static List<[javaClassName(aResource) /]> search[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest[commaSeparate(collectionMethodSignature(aResource, anAdaptorInterface), true, false)/], String terms)
     {
 		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
-		// [protected ('(MUST_FILL_IN) search'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
+		// TODO Implement code to return a set of resources, based on search criteria 
+		// [protected ('search'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
 		// [/protected]
 		return [aResource.name.toLowerFirst() /]s;
     }
@@ -151,7 +156,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static [javaClassName(aResource) /] create[aResource.name.toUpperFirst() /](HttpServletRequest httpServletRequest, final [javaClassName(aResource) /] a[aResource.name.toUpperFirst()/][commaSeparate(collectionMethodSignature(aResource, anAdaptorInterface), true, false)/])
     {
 		[javaClassName(aResource) /] new[aResource.name.toUpperFirst() /] = null;
-		// [protected ('(MUST_FILL_IN) create'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
+		// TODO Implement code to create a resource
+		// [protected ('create'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
 		// [/protected]
 		return new[aResource.name.toUpperFirst() /];
     }
@@ -159,7 +165,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     public static String getETagFrom[aResource.name.toUpperFirst() /](final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /])
     {
 		String eTag = null;
-		// [protected ('(MUST_FILL_IN) getETagFrom'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
+		// TODO Implement code to return an ETag for a particular resource
+		// [protected ('getETagFrom'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
 		// [/protected]
 		return eTag;
     }
@@ -171,7 +178,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
         //aServiceProvider can be deduced automatically, since the resource's id is relative to that of its serviceProvider.
         aServiceProvider = [javaClassNameForSingleton(anAdaptorInterface.serviceProviderCatalog) /].getServiceProvider(httpServletRequest[commaSeparate(instanceMethodParameterList(managingServiceProviders(aResource, anAdaptorInterface)->any(true)), true, false)/]);
         [/if]
-        // [protected ('(MUST_FILL_IN) get'.concat(aResource.name.toUpperFirst()).concat('sManagingServiceProvider userCode'))]
+		// TODO Implement code to return a resource's serviceProvider
+        // [protected ('get'.concat(aResource.name.toUpperFirst()).concat('sManagingServiceProvider userCode'))]
         // [/protected]
         return aServiceProvider;
     }

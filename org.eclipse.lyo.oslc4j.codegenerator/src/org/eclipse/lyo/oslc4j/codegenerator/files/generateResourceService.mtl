@@ -146,7 +146,8 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
      * @throws IOException
      * @throws ServletException
      */
-    
+
+    [if (selectionDialogs(aResource, anAdaptorInterface)->isEmpty()._not())]
     @OslcDialogs(
     {
 	    [for (aSelectionDialog: Dialog | selectionDialogs(aResource, anAdaptorInterface)) separator(','.concat(lineSeparator()))]
@@ -161,7 +162,8 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
              usages = {OslcConstants.OSLC_USAGE_DEFAULT}
         )
 	    [/for]
-    })   
+    })
+	[/if] 
 	[for (aQueryCapability: QueryCapability | queryCapabilities(aResource, anAdaptorInterface))]
     @OslcQueryCapability
     (
@@ -183,7 +185,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
     	int page=0;  
     	int limit=999;
         
-		// [protected ('(MUST_FILL_IN) getResourceCollection_init')]
+		// [protected ('getResourceCollection_init')]
 		// [/protected]
 
         final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], page, limit);      
@@ -220,7 +222,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 			page = Integer.parseInt(pageString);
 		}
 
-		// [protected ('(MUST_FILL_IN) getResourceCollectionAsHTML_init')]
+		// [protected ('getResourceCollectionAsHTML_init')]
 		// [/protected]
 
         final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], page, limit);
@@ -266,7 +268,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
                 [commaSeparate(aResource.instanceJAXRSMethodSignature(anAdaptorInterface), false, false)/]
         ) throws IOException, ServletException, URISyntaxException
     {
-		// [protected ('(MUST_FILL_IN) getResource_init')]
+		// [protected ('getResource_init')]
 		// [/protected]
 
         final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /](httpServletRequest[commaSeparate(instanceMethodParameterList(aResource, anAdaptorInterface), true, false)/]);
@@ -304,7 +306,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
         [commaSeparate(instanceJAXRSMethodSignature(aResource, anAdaptorInterface), false, false)/]
         ) throws ServletException, IOException, URISyntaxException
 	{	
-		// [protected ('(MUST_FILL_IN) getResourceAsHTML_init')]
+		// [protected ('getResourceAsHTML_init')]
 		// [/protected]
 
         final [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /](httpServletRequest[commaSeparate(instanceMethodParameterList(aResource, anAdaptorInterface), true, false)/]);
@@ -325,6 +327,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 	}
 
 	
+	[if (selectionDialogs(aResource, anAdaptorInterface)->isEmpty()._not())]
 	/**
 	 * OSLC delegated selection dialog for change requests
 	 * 
@@ -350,7 +353,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
         ) throws ServletException, IOException
 	{
 		try {
-			// [protected ('(MUST_FILL_IN) resourceSelector_init')]
+			// [protected ('resourceSelector_init')]
 			// [/protected]
 
 			httpServletRequest.setAttribute("selectionUri",uriInfo.getAbsolutePath().toString());
@@ -382,10 +385,10 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
 		}
-
 	}
-	
+	[/if]
     
+	[if (creationDialogs(aResource, anAdaptorInterface)->isEmpty()._not())]
     /**
      * OSLC delegated creation dialog for a single change request
      * 
@@ -403,7 +406,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
                 [commaSeparate(aResource.collectionJAXRSMethodSignature(anAdaptorInterface), false, false)/]
         ) throws IOException, ServletException
     {
-		// [protected ('(MUST_FILL_IN) resourceCreatorAsHTML_init')]
+		// [protected ('resourceCreatorAsHTML_init')]
 		// [/protected]
 
         [for (collectionCompositeID: String | aResource.collectionCompositeID(anAdaptorInterface)) separator(lineSeparator())]
@@ -414,7 +417,6 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 		[aResource.generateResourceCreatorJsp(anAdaptorInterface) /]
 		rd.forward(httpServletRequest, httpServletResponse);
     }
-	
 
     /**
      * Backend creator for the OSLC delegated creation dialog. 
@@ -482,6 +484,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
     	}
 
     }
+	[/if]
 
 	/**
 	 * Create a single BugzillaChangeRequest via RDF/XML, XML or JSON POST
@@ -492,6 +495,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 	 * @throws ServletException
 	 */
 
+	[if (creationDialogs(aResource, anAdaptorInterface)->isEmpty()._not())]
     @OslcDialogs(
     {
 		[for (aCreationDialog: Dialog | creationDialogs(aResource, anAdaptorInterface)) separator(','.concat(lineSeparator()))]
@@ -507,6 +511,7 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 		)
         [/for]
     })
+	[/if]
 	[for (aCreationFactory: CreationFactory | creationFactories(aResource, anAdaptorInterface))]
 	@OslcCreationFactory
 	(
@@ -539,7 +544,6 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 	// [/protected]
 
 }
-
 
 [/file]
 [/template]

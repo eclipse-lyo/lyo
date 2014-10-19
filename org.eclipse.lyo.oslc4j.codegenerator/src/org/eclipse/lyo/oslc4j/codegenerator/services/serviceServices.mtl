@@ -31,6 +31,7 @@ aService.eContainer(AdaptorInterface)
 [query public managedResources(aService: Service) : Set(Resource) = 
 aService.creationFactories.resourceTypes->asSet()
 					->union(aService.queryCapabilities.resourceTypes->asSet())
+					->union(aService.basicCapabilities.resourceTypes->asSet())
 					->union(aService.creationDialogs.resourceTypes->asSet())
 					->union(aService.selectionDialogs.resourceTypes->asSet())
 /]

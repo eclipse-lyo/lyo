@@ -314,7 +314,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
     {
 		try {
 
-			// [protected ('(MUST_FILL_IN) initServiceProviders')]
+			// [protected ('initServiceProviders')]
 			// [/protected]
 
 	        String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
