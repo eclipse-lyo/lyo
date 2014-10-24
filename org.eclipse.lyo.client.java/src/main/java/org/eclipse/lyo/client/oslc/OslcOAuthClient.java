@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation.
+ * Copyright (c) 2011, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -13,13 +13,12 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *     Samuel Padgett      - make some members protected so the class can be extended
+ *     Samuel Padgett      - don't re-register JAX-RS applications for every request
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.ws.rs.HttpMethod;
 
@@ -36,7 +35,6 @@ import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 
 
 public class OslcOAuthClient extends OslcClient {
@@ -106,17 +104,6 @@ public class OslcOAuthClient extends OslcClient {
 		String authHeader = message.getAuthorizationHeader(realm);
 
 		ClientConfig config = getClientConfig();
-
-		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
-		       public Set<Class<?>> getClasses() {
-		           Set<Class<?>> classes = new HashSet<Class<?>>();
-		           classes.addAll(JenaProvidersRegistry.getProviders());
-
-		           return classes;
-		       }
-		};
-		config = config.applications(app);
-
 		RestClient restClient = new RestClient(config);
 
 		return restClient.resource(url).accept(mediaType).header("Authorization",authHeader).header("OSLC-Core-Version", "2.0").get();
@@ -136,16 +123,6 @@ public class OslcOAuthClient extends OslcClient {
 		String authHeader = message.getAuthorizationHeader(realm);
 
 		ClientConfig config = getClientConfig();
-
-		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
-		       public Set<Class<?>> getClasses() {
-		           Set<Class<?>> classes = new HashSet<Class<?>>();
-		           classes.addAll(JenaProvidersRegistry.getProviders());
-
-		           return classes;
-		       }
-		};
-		config = config.applications(app);
 
 		RestClient restClient = new RestClient(config);
 		return restClient.resource(url).contentType(mediaType).accept(acceptType).header("Authorization",authHeader).header(HttpHeaders.IF_MATCH, ifMatch).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
@@ -173,17 +150,6 @@ public class OslcOAuthClient extends OslcClient {
 		String authHeader = message.getAuthorizationHeader(realm);
 
 		ClientConfig config = getClientConfig();
-
-		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
-		       public Set<Class<?>> getClasses() {
-		           Set<Class<?>> classes = new HashSet<Class<?>>();
-		           classes.addAll(JenaProvidersRegistry.getProviders());
-
-		           return classes;
-		       }
-		};
-		config = config.applications(app);
-
 		RestClient restClient = new RestClient(config);
 
 		return restClient.resource(url).contentType(mediaType).accept(acceptType).header("Authorization",authHeader).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
@@ -237,7 +203,7 @@ public class OslcOAuthClient extends OslcClient {
 			}
 		}
 
-	    OAuthMessage message = accessor.newRequestMessage(httpMethod, url, null);
+		OAuthMessage message = accessor.newRequestMessage(httpMethod, url, null);
 
 
 		return message;

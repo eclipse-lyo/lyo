@@ -16,8 +16,10 @@
  *     Michael Fiedler	               - follow redirects.
  *     Samuel Padgett 	               - support oslc:usage and discovering full creation factory resources
  *     Samuel Padgett                  - use correct trust managers and hostname verifier when updating secure socket protocol
+ *     Samuel Padgett                  - don't re-register JAX-RS applications for every request
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -128,12 +130,12 @@ public class OslcClient {
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
-		       public Set<Class<?>> getClasses() {
-		           Set<Class<?>> classes = new HashSet<Class<?>>();
-		           classes.addAll(JenaProvidersRegistry.getProviders());
-		           classes.addAll(Json4JProvidersRegistry.getProviders());
-		           return classes;
-		       }
+			public Set<Class<?>> getClasses() {
+				Set<Class<?>> classes = new HashSet<Class<?>>();
+				classes.addAll(JenaProvidersRegistry.getProviders());
+				classes.addAll(Json4JProvidersRegistry.getProviders());
+				return classes;
+			}
 		};
 		clientConfig = clientConfig.applications(app);
 
