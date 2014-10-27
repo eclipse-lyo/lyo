@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@
  *	   Alberto Giammaria	- initial API and implementation
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- remove missing dialog
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.resources;
 
@@ -32,7 +33,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcQueryCapability;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
@@ -45,16 +45,6 @@ import org.eclipse.lyo.oslc4j.core.servlet.ServiceProviderCatalogSingleton;
 @Path("serviceProviders")
 public class ServiceProviderResource
 {
-	@OslcDialog
-	(
-		 title = "Service Provider Selection Dialog",
-		 label = "Service Provider Selection Dialog",
-		 uri = "",
-		 hintWidth = "1000px",
-		 hintHeight = "600px",
-		 resourceTypes = {OslcConstants.TYPE_SERVICE_PROVIDER},
-		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-	)
 	@OslcQueryCapability
 	(
 		 title = "Service Provider Query Capability",
