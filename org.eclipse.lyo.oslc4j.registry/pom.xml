@@ -113,8 +113,9 @@
             <!-- ********************************************** -->
             <!-- Jetty 7 plugin See also: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin -->
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
+                <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.1.5.v20140505</version>
 
                 <configuration>
                     <webAppConfig>
