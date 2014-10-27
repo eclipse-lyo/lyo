@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@
  *	   Alberto Giammaria	- initial API and implementation
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- remove missing dialog
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.stockquote.resources;
 
@@ -51,7 +52,6 @@ import org.apache.wink.json4j.JSONArray;
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcQueryCapability;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
@@ -74,16 +74,6 @@ public class StockQuoteResource
 		super();
 	}
 
-	@OslcDialog
-	(
-		 title = "Stock Quote Selection Dialog",
-		 label = "Stock Quote Selection Dialog",
-		 uri = "",
-		 hintWidth = "1000px",
-		 hintHeight = "600px",
-		  resourceTypes = {Constants.TYPE_STOCK_QUOTE},
-		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-	)
 	@OslcQueryCapability
 	(
 		title = "Stock Quote Query Capability",
