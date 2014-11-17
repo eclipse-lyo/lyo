@@ -205,7 +205,7 @@ public class OslcClient {
 		boolean redirect = false;
 
 		do {
-			response = restClient.resource(url).delete();
+			response = restClient.resource(url).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").delete();
 
 			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
 			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
