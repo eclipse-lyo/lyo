@@ -95,7 +95,7 @@ public class DMFormSample {
 			JazzFormAuthClient client = helper.initFormClient(user, passwd, authUrl);
 
 			//STEP 3: Login in to Jazz Server
-			if (client.formLogin() == HttpStatus.SC_OK) {
+			if (client.login() == HttpStatus.SC_OK) {
 
 				//STEP 4: Get the URL of the OSLC ChangeManagement catalog
 				String catalogUrl = helper.getCatalogUrl();

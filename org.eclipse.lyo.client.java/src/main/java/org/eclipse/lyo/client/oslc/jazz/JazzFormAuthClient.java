@@ -11,8 +11,9 @@
  *
  *  Contributors:
  *
- *     Michael Fiedler     - initial API and implementation
- *     Michael Fiedler     - refactoring to remove un-needed GETs in formLogin()
+ *	 Michael Fiedler	 - initial API and implementation
+ *	 Michael Fiedler	 - refactoring to remove un-needed GETs in formLogin()
+ *	 Samuel Padgett 	 - improve error handling
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
@@ -25,11 +26,10 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.lyo.client.exception.JazzAuthErrorException;
 import org.eclipse.lyo.client.exception.JazzAuthFailedException;
-import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 
 /**
@@ -40,6 +40,8 @@ import org.eclipse.lyo.client.oslc.OslcClient;
  *
  */
 public class JazzFormAuthClient extends OslcClient {
+
+	private static Logger logger = Logger.getLogger(JazzFormAuthClient.class);
 
 	private String url;
 	private String authUrl;
@@ -125,91 +127,105 @@ public class JazzFormAuthClient extends OslcClient {
 	}
 
 	/**
-	 * Execute the sequence of HTTP requests to perform a form login to a Jazz server
+	 * Executes the sequence of HTTP requests to perform a form login to a Jazz server
+	 *
 	 * @throws JazzAuthFailedException
 	 * @throws JazzAuthErrorException
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 *
-	 * @returns The HTTP status code of the final request to verify login is successful
+	 * @return The HTTP status code of the final request to verify login is successful
 	 **/
-	public  int formLogin() throws JazzAuthFailedException, JazzAuthErrorException {
+	public int login()
+			throws JazzAuthFailedException, JazzAuthErrorException, ClientProtocolException, IOException {
 
 		int statusCode = -1;
 		String location = null;
-
 		HttpResponse resp;
-		try
+
+		HttpGet authenticatedIdentity = new HttpGet(this.authUrl + "/authenticated/identity");
+
+		resp = httpClient.execute(authenticatedIdentity);
+		statusCode = resp.getStatusLine().getStatusCode();
+		location = getHeader(resp,"Location");
+		EntityUtils.consume(resp.getEntity());
+		statusCode = followRedirects(statusCode,location);
+
+
+		HttpPost securityCheck = new HttpPost(this.authUrl + "/j_security_check");
+		StringEntity entity = new StringEntity("j_username=" + this.user + "&j_password=" + this.password);
+		securityCheck.setHeader("Accept", "*/*");
+		securityCheck.setHeader("X-Requested-With", "XMLHttpRequest");
+		securityCheck.setEntity(entity);
+		securityCheck.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		securityCheck.addHeader("OSLC-Core-Version", "2.0");
+
+		resp = httpClient.execute(securityCheck);
+		statusCode = resp.getStatusLine().getStatusCode();
+
+		String jazzAuthMessage = null;
+		Header jazzAuthMessageHeader = resp.getLastHeader(JAZZ_AUTH_MESSAGE_HEADER);
+		if (jazzAuthMessageHeader != null) {
+			jazzAuthMessage = jazzAuthMessageHeader.getValue();
+		}
+
+		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED))
 		{
-
-			HttpGet authenticatedIdentity = new HttpGet(this.authUrl + "/authenticated/identity");
-
-			resp = httpClient.execute(authenticatedIdentity);
-			statusCode = resp.getStatusLine().getStatusCode();
+			EntityUtils.consume(resp.getEntity());
+			throw new JazzAuthFailedException(this.user,this.url);
+		}
+		else if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
+		{
+			EntityUtils.consume(resp.getEntity());
+			throw new JazzAuthErrorException(statusCode, this.url);
+		}
+		else //success
+		{
 			location = getHeader(resp,"Location");
 			EntityUtils.consume(resp.getEntity());
 			statusCode = followRedirects(statusCode,location);
-
-
-			HttpPost securityCheck = new HttpPost(this.authUrl + "/j_security_check");
-			StringEntity entity = new StringEntity("j_username=" + this.user + "&j_password=" + this.password);
-			securityCheck.setHeader("Accept", "*/*");
-			securityCheck.setHeader("X-Requested-With", "XMLHttpRequest");
-			securityCheck.setEntity(entity);
-			securityCheck.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-			securityCheck.addHeader("OSLC-Core-Version", "2.0");
-
-		    resp = httpClient.execute(securityCheck);
-		    statusCode = resp.getStatusLine().getStatusCode();
-
-		    String jazzAuthMessage = null;
-		    Header jazzAuthMessageHeader = resp.getLastHeader(JAZZ_AUTH_MESSAGE_HEADER);
-		    if (jazzAuthMessageHeader != null) {
-		    	jazzAuthMessage = jazzAuthMessageHeader.getValue();
-		    }
-
-		    if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED))
-		    {
-		    	EntityUtils.consume(resp.getEntity());
-		    	throw new JazzAuthFailedException(this.user,this.url);
-		    }
-		    else if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
-		    {
-		    	EntityUtils.consume(resp.getEntity());
-		    	throw new JazzAuthErrorException(statusCode, this.url);
-		    }
-		    else //success
-		    {
-		    	location = getHeader(resp,"Location");
-		    	EntityUtils.consume(resp.getEntity());
-		    	statusCode = followRedirects(statusCode,location);
-
-		    }
-		} catch (JazzAuthFailedException jfe) {
-			throw jfe;
-	    } catch (JazzAuthErrorException jee) {
-	    	throw jee;
-	    }catch (Exception e) {
-			e.printStackTrace();
 		}
+
 		return statusCode;
 	}
 
 
-	private int followRedirects(int statusCode, String location)
-	{
+	/**
+	 * Executes the sequence of HTTP requests to perform a form login to a Jazz server
+	 * @throws JazzAuthFailedException
+	 * @throws JazzAuthErrorException
+	 *
+	 * @return The HTTP status code of the final request to verify login is successful
+	 *
+	 * @deprecated Use {@link #login()}.
+	 */
+	@Deprecated
+	public  int formLogin() throws JazzAuthFailedException, JazzAuthErrorException {
+		try
+		{
+			return login();
+		} catch (JazzAuthFailedException jfe) {
+			throw jfe;
+		} catch (JazzAuthErrorException jee) {
+			throw jee;
+		}catch (Exception e) {
+			logger.error(e);
+			return -1;
+		}
+	}
 
+
+	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
+	{
 		while ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) && (location != null))
 		{
 			HttpGet get = new HttpGet(location);
-			try {
-				HttpResponse newResp = this.httpClient.execute(get);
-				statusCode = newResp.getStatusLine().getStatusCode();
-				location = getHeader(newResp,"Location");
-				EntityUtils.consume(newResp.getEntity());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			HttpResponse newResp = this.httpClient.execute(get);
+			statusCode = newResp.getStatusLine().getStatusCode();
+			location = getHeader(newResp,"Location");
+			EntityUtils.consume(newResp.getEntity());
 		}
+
 		return statusCode;
 	}
 
@@ -221,25 +237,4 @@ public class JazzFormAuthClient extends OslcClient {
 			retval = header.getValue();
 		return retval;
 	}
-
-
-	private HttpResponse getArtifactFeed(String feedUrl)
-	{
-		HttpResponse resp = null;
-		try {
-			HttpGet feedGet = new HttpGet(feedUrl);
-			feedGet.addHeader("Accept", OSLCConstants.ATOM);
-			resp = httpClient.execute(feedGet);
-			int statusCode = resp.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK)
-			   System.out.println("Status code from feed retrieval: " + statusCode);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return resp;
-	}
-
-
 }

@@ -38,6 +38,7 @@ import net.oauth.OAuthException;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.common.model.multipart.BufferedOutMultiPart;
 import org.apache.wink.common.model.multipart.OutPart;
@@ -944,9 +945,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * @throws RootServicesException
 	 * @throws JazzAuthErrorException
 	 * @throws JazzAuthFailedException
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
 	 */
 	public void login() throws RootServicesException, JazzAuthFailedException,
-			JazzAuthErrorException {
+			JazzAuthErrorException, ClientProtocolException, IOException {
 
 		login(getServerUrl(), getUsername(), getPassword(), getProjectArea());
 
@@ -962,10 +965,12 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * @throws RootServicesException
 	 * @throws JazzAuthErrorException
 	 * @throws JazzAuthFailedException
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
 	 */
 	public void login(String serverUrl, String username, String password,
 			String projectArea) throws RootServicesException,
-			JazzAuthFailedException, JazzAuthErrorException {
+			JazzAuthFailedException, JazzAuthErrorException, ClientProtocolException, IOException {
 
 		assert serverUrl != null;
 		assert username != null;
@@ -981,7 +986,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 		synchronized (client) {
 
-			client.formLogin();
+			client.login();
 
 		}
 
