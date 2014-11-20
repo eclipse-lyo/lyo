@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation.
+ * Copyright (c) 2011, 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -13,6 +13,7 @@
  *
  *    Steve Speicher - initial API and implementation
  *    Michael Fiedler - add AM resource types
+ *    Samuel Padgett  - deprecate constants for non-existent terms
  *******************************************************************************/
 
 package org.eclipse.lyo.client.oslc;
@@ -108,10 +109,34 @@ public interface OSLCConstants {
 	public static final String QM_TEST_RESULT = OSLC_QM_V2 + "testResult";
 	public static final String QM_TEST_EXECUTION_RECORD = OSLC_QM_V2 + "testExecutionRecord";
 
+	/**
+	 * @deprecated This is not part of the OSLC-QM 2.0 vocabulary.
+	 */
+	@Deprecated
 	public static final String QM_TEST_PLAN_QUERY = OSLC_QM_V2 + "TestPlanQuery";
+
+	/**
+	 * @deprecated This is not part of the OSLC-QM 2.0 vocabulary.
+	 */
+	@Deprecated
 	public static final String QM_TEST_CASE_QUERY = OSLC_QM_V2 + "TestCaseQuery";
+
+	/**
+	 * @deprecated This is not part of the OSLC-QM 2.0 vocabulary.
+	 */
+	@Deprecated
 	public static final String QM_TEST_SCRIPT_QUERY = OSLC_QM_V2 + "TestScriptQuery";
+
+	/**
+	 * @deprecated This is not part of the OSLC-QM 2.0 vocabulary.
+	 */
+	@Deprecated
 	public static final String QM_TEST_RESULT_QUERY = OSLC_QM_V2 + "TestResultQuery";
+
+	/**
+	 * @deprecated This is not part of the OSLC-QM 2.0 vocabulary.
+	 */
+	@Deprecated
 	public static final String QM_TEST_EXECUTION_RECORD_QUERY = OSLC_QM_V2 + "TestExecutionRecordQuery";
 
 	//OSLC RM 2.0
