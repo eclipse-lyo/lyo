@@ -245,8 +245,10 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 	endif)
 /]
 
-[template public javaAttributeName(aProperty: ResourceProperty, aResource: Resource)] 
-[if (allProperties(aResource).name->count(aProperty.name) = 1)][aProperty.name /][else][aProperty.definingDomainSpecification().namespacePrefix.name.concat(aProperty.name.toUpperFirst()) /][/if][if (aProperty.occurs.toString() = 'zeroOrMany')]s[/if]
-[/template]
-
-
+[query public javaAttributeName(aProperty: ResourceProperty, aResource: Resource) : String = 
+    (if (allProperties(aResource).name->count(aProperty.name) = 1) then
+        aProperty.name
+    else
+        aProperty.definingDomainSpecification().namespacePrefix.name.concat(aProperty.name.toUpperFirst())
+    endif)
+/]
