@@ -182,9 +182,7 @@ public class RTCFormSample {
 				System.out.println("Task created at location " + changeRequestLocation);
 
 				//Get the change request from the service provider and update its title property
-				task = client.getResource(changeRequestLocation,
-						OslcMediaType.APPLICATION_RDF_XML).getEntity(
-								ChangeRequest.class);
+				task = client.getResource(changeRequestLocation).getEntity(ChangeRequest.class);
 				task.setTitle(task.getTitle() + " (updated)");
 
 				//Create a partial update URL so that only the title will be updated.
@@ -214,20 +212,20 @@ public class RTCFormSample {
 
 				//Determine what to use for the Filed Against attribute by requesting the resource shape for the creation factory.
 				String shapeUrl = defectCreation.getResourceShapes()[0].toString();
-				ClientResponse shapeResponse = client.getResource(shapeUrl, OslcMediaType.APPLICATION_RDF_XML);
+				ClientResponse shapeResponse = client.getResource(shapeUrl);
 				ResourceShape shape = shapeResponse.getEntity(ResourceShape.class);
 
 				//Look at the allowed values for Filed Against. This is generally a required field for defects.
 				Property filedAgainstProperty = shape.getProperty(new URI(RTC_NAMESPACE + RTC_FILED_AGAINST));
 				if (filedAgainstProperty != null) {
 					URI allowedValuesRef = filedAgainstProperty.getAllowedValuesRef();
-					ClientResponse allowedValuesResponse = client.getResource(allowedValuesRef.toString(), OslcMediaType.APPLICATION_RDF_XML);
+					ClientResponse allowedValuesResponse = client.getResource(allowedValuesRef.toString());
 					AllowedValues allowedValues = allowedValuesResponse.getEntity(AllowedValues.class);
 					Object[] values = allowedValues.getValues().toArray();
-
-					// Pick a value from the array. (Avoid the first value, which is usually "Unassigned.")
-					URI lastValue = (URI) values[values.length - 1];
-					defect.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), lastValue);
+					//If this fails, you might need to check that the value is
+					//not "Unassigned", which is an allowed value in some RTC
+					//project areas.
+					defect.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), (URI) values[0]);
 				}
 
 				//Create the change request
