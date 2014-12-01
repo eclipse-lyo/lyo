@@ -27,6 +27,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.net.ssl.SSLContext;
@@ -36,14 +37,13 @@ import javax.net.ssl.X509TrustManager;
 import net.oauth.OAuthException;
 import net.oauth.client.httpclient4.HttpClientPool;
 
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.HttpHeaders;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.RedirectStrategy;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -51,8 +51,10 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.protocol.HttpContext;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
+import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 import org.apache.wink.client.httpclient.ApacheHttpClientConfig;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
@@ -116,11 +118,13 @@ public class OslcClient {
 	{
 		httpClient = new DefaultHttpClient(new ThreadSafeClientConnManager());
 		httpClient.setRedirectStrategy(new RedirectStrategy() {
-	        public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context)  {
+	        @Override
+			public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context)  {
 	            return null;
 	        }
 
-	        public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) {
+	        @Override
+			public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) {
 	            return false;
 	        }
 	    });
@@ -130,6 +134,7 @@ public class OslcClient {
 		clientPool = new OAuthHttpPool();
 		clientConfig = new ApacheHttpClientConfig(httpClient);
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
+			@Override
 			public Set<Class<?>> getClasses() {
 				Set<Class<?>> classes = new HashSet<Class<?>>();
 				classes.addAll(JenaProvidersRegistry.getProviders());
@@ -158,26 +163,111 @@ public class OslcClient {
 	}
 
 	/**
-	 * Abstract method get an OSLC resource and return a Wink ClientResponse
+	 * Gets an OSLC resource using <code>application/rdf+xml</code>. Use
+	 * {@link #getResource(String, String)} to specify the media type or
+	 * {@link #getResource(String, Map)} to add other request headers. Call
+	 * {@link ClientResponse#getEntity(Class)} on the response to get the
+	 * OSLC4J-annotated Java object.
+	 *
 	 * @param url
-	 * @param method
+	 *            the resource URL
+	 * @return the Apache Wink ClientResponse
+	 *
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 */
+	public ClientResponse getResource(String url) throws IOException,
+			OAuthException, URISyntaxException {
+		return getResource(url, null, OSLCConstants.CT_RDF);
+	}
+
+	/**
+	 * Gets an OSLC resource. Use {@link #getResource(String, Map)} instead to
+	 * add other request headers. Call {@link ClientResponse#getEntity(Class)}
+	 * on the response to get the OSLC4J-annotated Java object.
+	 *
+	 * @param url
+	 *            the resource URL
 	 * @param mediaType
-	 * @return a Wink ClientResponse
+	 *            the requested media type to use in the HTTP Accept request
+	 *            header
+	 * @return the Apache Wink ClientResponse
+	 *
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
 	public ClientResponse getResource(String url, final String mediaType)
 			throws IOException, OAuthException, URISyntaxException {
+		return getResource(url, null, mediaType);
+	}
 
+	/**
+	 * Gets an OSLC resource. Call {@link ClientResponse#getEntity(Class)} on
+	 * the response to get the OSLC4J-annotated Java object.
+	 *
+	 * @param url
+	 *            the resource URL
+	 * @param requestHeaders
+	 *            the HTTP request headers to use. If the <code>Accept</code>
+	 *            header is not in the map, it defaults to
+	 *            <code>application/rdf+xml</code>. If
+	 *            <code>OSLC-Core-Version</code> is not in the map, it defaults
+	 *            to <code>2.0</code>.
+	 * @return the Apache Wink ClientResponse
+	 *
+	 * @throws IOException
+	 * @throws OAuthException
+	 * @throws URISyntaxException
+	 */
+	public ClientResponse getResource(String url, Map<String, String> requestHeaders) {
+		return getResource(url, requestHeaders, OSLCConstants.CT_RDF);
+	}
+
+	protected ClientResponse getResource(String url, Map<String, String> requestHeaders, String defaultMediaType) {
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
 		do {
-			response = restClient.resource(url).accept(mediaType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").get();
+			Resource resource = restClient.resource(url);
+			boolean acceptSet = false;
+			boolean versionSet = false;
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
+			// Add in any request headers.
+			if (requestHeaders != null) {
+				for (Map.Entry<String, String> entry : requestHeaders
+						.entrySet()) {
+					// Add the header.
+					resource.header(entry.getKey(), entry.getValue());
+
+					// Remember if we've already set Accept or
+					// OSLC-Core-Version.
+					if ("accept".equalsIgnoreCase(entry.getKey())) {
+						acceptSet = true;
+					}
+
+					if (OSLCConstants.OSLC_CORE_VERSION.equalsIgnoreCase(entry
+							.getKey())) {
+						versionSet = true;
+					}
+				}
+			}
+
+			// Make sure both the Accept and OSLC-Core-Version headers have been
+			// set.
+			if (!acceptSet) {
+				resource.accept(defaultMediaType);
+			}
+
+			if (!versionSet) {
+				resource.header(OSLCConstants.OSLC_CORE_VERSION, "2.0");
+			}
+
+			response = resource.get();
+
+			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY)
+					|| (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
 				url = response.getHeaders().getFirst("Location");
 				response.consumeContent();
 				redirect = true;
@@ -188,6 +278,7 @@ public class OslcClient {
 
 		return response;
 	}
+
 
 	/**
 	 * Delete an OSLC resource and return a Wink ClientResponse
@@ -357,6 +448,7 @@ public class OslcClient {
 	}
 
 	protected class OAuthHttpPool implements HttpClientPool {
+		@Override
 		public HttpClient getHttpClient(URL url) {
 			return httpClient;
 		}
@@ -601,16 +693,19 @@ public class OslcClient {
 		schemeRegistry.unregister("https");
 		/** Create a trust manager that does not validate certificate chains */
 		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			@Override
 			public void checkClientTrusted(
 					java.security.cert.X509Certificate[] certs, String authType) {
 				/** Ignore Method Call */
 			}
 
+			@Override
 			public void checkServerTrusted(
 					java.security.cert.X509Certificate[] certs, String authType) {
 				/** Ignore Method Call */
 			}
 
+			@Override
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 				return null;
 			}
