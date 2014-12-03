@@ -13,12 +13,13 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *     Samuel Padgett      - add getter for RDF model so clients can read other services
+ *     Samuel Padgett      - add request consumer key and OAuth approval module URLs
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
 import java.io.InputStream;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
@@ -37,10 +38,8 @@ import com.hp.hpl.jena.rdf.model.Statement;
  * Jazz rootservices document
  *
  * This class is not currently thread safe.
- *
  */
 public class JazzRootServicesHelper {
-
 	private String baseUrl;
 	private String rootServicesUrl;
 	private String catalogDomain;
@@ -54,6 +53,8 @@ public class JazzRootServicesHelper {
 	String requestTokenUrl;
 	String authorizationTokenUrl;
 	String accessTokenUrl;
+	String requestConsumerKeyUrl;
+	String consumerApprovalUrl;
 
 	public static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
 	public static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
@@ -105,7 +106,7 @@ public class JazzRootServicesHelper {
 
 		}
 		else {
-			logger.severe("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
+			logger.fatal("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
 		}
 
 		processRootServices();
@@ -148,7 +149,7 @@ public class JazzRootServicesHelper {
 	 *            - the base URL to use for authentication. This is normally the
 	 *            application base URL for RQM and RTC and is the JTS
 	 *            application URL for fronting applications like RRC and DM.
-	 * 
+	 *
 	 * @return the form auth client
 	 */
 	public JazzFormAuthClient initFormClient(String userid, String password, String authUrl)
@@ -176,7 +177,19 @@ public class JazzRootServicesHelper {
 			try { // Following field is optional, try to get it, if not found ignore exception because it will use the default
 				this.authorizationRealm = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_REALM_NAME);
 			} catch (ResourceNotFoundException e) {
-				// Ignore
+				logger.debug(String.format("OAuth authorization realm not found in rootservices <%s>", rootServicesUrl));
+			}
+
+			try {
+				this.requestConsumerKeyUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_REQUEST_CONSUMER_KEY_URL);
+			} catch (ResourceNotFoundException e) {
+				logger.debug(String.format("OAuth request consumer key URL not found in rootservices <%s>", rootServicesUrl));
+			}
+
+			try {
+				this.consumerApprovalUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, JazzRootServicesConstants.OAUTH_APPROVAL_MODULE_URL);
+			} catch (ResourceNotFoundException e) {
+				logger.debug(String.format("OAuth approval module URL not found in rootservices <%s>", rootServicesUrl));
 			}
 		} catch (Exception e) {
 			throw new RootServicesException(this.baseUrl, e);
@@ -208,5 +221,25 @@ public class JazzRootServicesHelper {
 	 */
 	public Model getRdfModel() {
 		return rdfModel;
+	}
+
+	/**
+	 * Gets the URL for requesting an OAuth consumer key.
+	 *
+	 * @return the request consumer key URL
+	 * @see <a href="https://jazz.net/wiki/bin/view/Main/RootServicesSpecAddendum2">RootServicesSpecAddendum2</a>
+	 */
+	public String getRequestConsumerKeyUrl() {
+		return requestConsumerKeyUrl;
+	}
+
+	/**
+	 * Gets the URL for approving an OAuth consumer
+	 *
+	 * @return the approval URL
+	 * @see <a href="https://jazz.net/wiki/bin/view/Main/RootServicesSpecAddendum2">RootServicesSpecAddendum2</a>
+	 */
+	public String getConsumerApprovalUrl() {
+		return consumerApprovalUrl;
 	}
 }

@@ -37,4 +37,7 @@ public interface JazzRootServicesConstants {
 	static String OAUTH_ACCESS_TOKEN_URL  = "oauthAccessTokenUrl";
 	static String OAUTH_REALM_NAME        = "oauthRealmName";
 
+	//https://jazz.net/wiki/bin/view/Main/RootServicesSpecAddendum2
+	static String OAUTH_REQUEST_CONSUMER_KEY_URL = "oauthRequestConsumerKeyUrl";
+	static String OAUTH_APPROVAL_MODULE_URL = "oauthApprovalModuleUrl";
 }

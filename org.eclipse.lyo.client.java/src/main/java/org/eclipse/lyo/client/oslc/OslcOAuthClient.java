@@ -14,6 +14,7 @@
  *     Michael Fiedler     - initial API and implementation
  *     Samuel Padgett      - make some members protected so the class can be extended
  *     Samuel Padgett      - don't re-register JAX-RS applications for every request
+ *     Samuel Padgett      - add two-legged OAuth support
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 
@@ -87,6 +88,21 @@ public class OslcOAuthClient extends OslcClient {
 		oauth_real_name = oauthRealmName;
 	}
 
+	/**
+	 * Creates a two-legged OAuth client. This will only work if the server
+	 * supports two-legged OAuth and a functional user has been assigned for
+	 * this OAuth consumer.
+	 *
+	 * @param consumerKey the OAuth consumer key
+	 * @param consumerSecret the OAuth consumer secret
+	 */
+	public OslcOAuthClient(String consumerKey, String consumerSecret) {
+		OAuthServiceProvider provider = new OAuthServiceProvider(null, null, null);
+		OAuthConsumer consumer = new OAuthConsumer("", consumerKey, consumerSecret, provider);
+		accessor = new OAuthAccessor(consumer);
+		accessor.accessToken = "";
+	}
+
 	@Override
 	/**
 	 * Get an OAuth protected OSLC resource
@@ -110,6 +126,7 @@ public class OslcOAuthClient extends OslcClient {
 	}
 
 
+	@Override
 	public ClientResponse updateResource(final String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, OAuthException, URISyntaxException
 	{
 
@@ -139,6 +156,7 @@ public class OslcOAuthClient extends OslcClient {
 	 * @throws OAuthException
 	 * @throws IOException
 	 */
+	@Override
 	public ClientResponse createResource(final String url, final Object artifact, String mediaType, String acceptType) throws IOException, OAuthException, URISyntaxException  {
 		OAuthMessage message = getResourceInternal(url, HttpMethod.POST, false);
 
@@ -176,29 +194,31 @@ public class OslcOAuthClient extends OslcClient {
 	protected OAuthMessage getResourceInternal(String url, String httpMethod, boolean restart) throws IOException, OAuthException, URISyntaxException {
 
 		OAuthClient client = new OAuthClient(new HttpClient4(this.getClientPool()));
-		//No request token yet, get the request token and throw exception to redirect for authorization.
-		if (accessor.requestToken == null) {
-			client.getRequestToken(accessor);
-			System.out.println("Enter this URL in a browser and run again: "+ accessor.consumer.serviceProvider.userAuthorizationURL +
-					           "?oauth_token=" + accessor.requestToken);  // for command line use
-			throw new OAuthRedirectException(accessor.consumer.serviceProvider.userAuthorizationURL, accessor);
-		}
+		if (!isTwoLegged()) {
+			//No request token yet, get the request token and throw exception to redirect for authorization.
+			if (accessor.requestToken == null) {
+				client.getRequestToken(accessor);
+				System.out.println("Enter this URL in a browser and run again: "+ accessor.consumer.serviceProvider.userAuthorizationURL +
+								   "?oauth_token=" + accessor.requestToken);  // for command line use
+				throw new OAuthRedirectException(accessor.consumer.serviceProvider.userAuthorizationURL, accessor);
+			}
 
-		//Exchange request token for access token.
-		if (accessor.accessToken == null) {
-			try {
-			   client.getAccessToken(accessor, OAuthMessage.POST, null);
-			} catch (OAuthException e) {
-				LOGGER.debug("OAuthException caught: " + e.getMessage());
-				if (restart)
-				{
-					LOGGER.error("Failed to get access key.");
-					e.printStackTrace();
-				} else {
-					//restart the dance
-					accessor.accessToken = null;
-					accessor.requestToken = null;
-					return getResourceInternal(url, httpMethod, true);
+			//Exchange request token for access token.
+			if (accessor.accessToken == null) {
+				try {
+				   client.getAccessToken(accessor, OAuthMessage.POST, null);
+				} catch (OAuthException e) {
+					LOGGER.debug("OAuthException caught: " + e.getMessage());
+					if (restart)
+					{
+						LOGGER.error("Failed to get access key.");
+						e.printStackTrace();
+					} else {
+						//restart the dance
+						accessor.accessToken = null;
+						accessor.requestToken = null;
+						return getResourceInternal(url, httpMethod, true);
+					}
 				}
 			}
 		}
@@ -209,7 +229,12 @@ public class OslcOAuthClient extends OslcClient {
 		return message;
 	}
 
-
-
-
+	/**
+	 * Are we using two-legged OAuth?
+	 *
+	 * @return true if this is a two-legged OAuth consumer
+	 */
+	protected boolean isTwoLegged() {
+		return "".equals(accessor.accessToken);
+	}
 }
