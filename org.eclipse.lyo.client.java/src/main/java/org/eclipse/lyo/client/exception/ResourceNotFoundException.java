@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 IBM Corporation.
+ * Copyright (c) 2011, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -20,6 +20,7 @@ package org.eclipse.lyo.client.exception;
  * Exception indicating a Jazz authentication or credentials problem
  *
  */
+@SuppressWarnings("serial")
 public class ResourceNotFoundException extends OslcClientApplicationException {
 
 	private static final String MESSAGE_KEY = "ResourceNotFoundException";
