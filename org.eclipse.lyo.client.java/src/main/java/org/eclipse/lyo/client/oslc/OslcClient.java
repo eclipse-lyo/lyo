@@ -17,6 +17,7 @@
  *     Samuel Padgett 	               - support oslc:usage and discovering full creation factory resources
  *     Samuel Padgett                  - use correct trust managers and hostname verifier when updating secure socket protocol
  *     Samuel Padgett                  - don't re-register JAX-RS applications for every request
+ *     Samuel Padgett                  - handle any redirect status code
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc;
 
@@ -33,6 +34,7 @@ import java.util.Set;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.ws.rs.core.Response.Status;
 
 import net.oauth.OAuthException;
 import net.oauth.client.httpclient4.HttpClientPool;
@@ -40,7 +42,6 @@ import net.oauth.client.httpclient4.HttpClientPool;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.RedirectStrategy;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -266,9 +267,8 @@ public class OslcClient {
 
 			response = resource.get();
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY)
-					|| (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
-				url = response.getHeaders().getFirst("Location");
+			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
+				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
 				response.consumeContent();
 				redirect = true;
 			} else {
@@ -298,9 +298,8 @@ public class OslcClient {
 		do {
 			response = restClient.resource(url).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").delete();
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
-				url = response.getHeaders().getFirst("Location");
+			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
+				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
 				response.consumeContent();
 				redirect = true;
 			} else {
@@ -347,9 +346,8 @@ public class OslcClient {
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
-				url = response.getHeaders().getFirst("Location");
+			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
+				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
 				response.consumeContent();
 				redirect = true;
 			} else {
@@ -389,9 +387,8 @@ public class OslcClient {
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").put(artifact);
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
-				url = response.getHeaders().getFirst("Location");
+			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
+				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
 				response.consumeContent();
 				redirect = true;
 			} else {
@@ -423,9 +420,8 @@ public class OslcClient {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType)
 					             .header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
 
-			if ((response.getStatusCode() == HttpStatus.SC_MOVED_PERMANENTLY) ||
-			    (response.getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY)) {
-				url = response.getHeaders().getFirst("Location");
+			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
+				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
 				response.consumeContent();
 				redirect = true;
 			} else {
