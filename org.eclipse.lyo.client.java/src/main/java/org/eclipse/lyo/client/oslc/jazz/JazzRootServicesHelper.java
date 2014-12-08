@@ -73,7 +73,9 @@ public class JazzRootServicesHelper {
 	public JazzRootServicesHelper (String url, String catalogDomain) throws RootServicesException {
 		this.baseUrl = url;
 		this.rootServicesUrl = this.baseUrl + "/rootservices";
+		logger.debug(String.format("Fetching rootservices document at URL <%s>", this.rootServicesUrl));
 		this.catalogDomain = catalogDomain;
+		logger.debug(String.format("Using catalog domain <%s>", this.catalogDomain));
 
 		if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_CM) ||
 		    this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_CM_V2)) {
