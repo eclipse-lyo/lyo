@@ -14,10 +14,13 @@
  *     Michael Fiedler     - initial API and implementation
  *     Samuel Padgett      - add getter for RDF model so clients can read other services
  *     Samuel Padgett      - add request consumer key and OAuth approval module URLs
+ *     Samuel Padgett      - handle trailing '/' in baseUrl
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
 import java.io.InputStream;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientResponse;
@@ -72,7 +75,7 @@ public class JazzRootServicesHelper {
 	 */
 	public JazzRootServicesHelper (String url, String catalogDomain) throws RootServicesException {
 		this.baseUrl = url;
-		this.rootServicesUrl = this.baseUrl + "/rootservices";
+		this.rootServicesUrl = UriBuilder.fromUri(this.baseUrl).path("rootservices").build().toString();
 		logger.debug(String.format("Fetching rootservices document at URL <%s>", this.rootServicesUrl));
 		this.catalogDomain = catalogDomain;
 		logger.debug(String.format("Using catalog domain <%s>", this.catalogDomain));
