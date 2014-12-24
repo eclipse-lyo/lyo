@@ -21,6 +21,7 @@
 [module serviceServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 
 [query public containingAdaptorInterface(aService: Service) : AdaptorInterface =
 aService.eContainer(AdaptorInterface)
@@ -28,7 +29,7 @@ aService.eContainer(AdaptorInterface)
 
 [comment Services for service /]
 
-[query public managedResources(aService: Service) : Set(Resource) = 
+[query public servicedResources(aService: Service) : Set(Resource) = 
 aService.creationFactories.resourceTypes->asSet()
 					->union(aService.queryCapabilities.resourceTypes->asSet())
 					->union(aService.basicCapabilities.resourceTypes->asSet())
@@ -36,4 +37,8 @@ aService.creationFactories.resourceTypes->asSet()
 					->union(aService.selectionDialogs.resourceTypes->asSet())
 /]
 
+[query public relevantResources(aService: Service) : Set(Resource) =
+	(servicedResources(aService)
+	->union(servicedResources(aService).allRelatedResources()))->flatten()->asSet()
+/]
 

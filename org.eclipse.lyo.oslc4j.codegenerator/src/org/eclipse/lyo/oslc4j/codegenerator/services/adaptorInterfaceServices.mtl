@@ -34,15 +34,13 @@ obj.eContainer(AdaptorInterface)
 
 [query public servicedResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
 anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
-	managedResources(aService)
+	servicedResources(aService)
 )->flatten()->asSet()
 /]
 
 [query public relevantResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
 anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
-	managedResources(aService)
-	->union(managedResources(aService).extends->select(aResource : Resource | not aResource.oclIsUndefined()))
-	->union(managedResources(aService)->collectNested(aResource : Resource | aResource.allProperties()->select(aProperty : ResourceProperty | not aProperty.range.oclIsUndefined()).range)->flatten())
+	relevantResources(aService)
 )->flatten()->asSet()
 /]
 

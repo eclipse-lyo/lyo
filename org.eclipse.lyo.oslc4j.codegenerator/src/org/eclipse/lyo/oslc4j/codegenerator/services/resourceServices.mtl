@@ -24,6 +24,29 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
+[query public directlyRelatedResources(aResource: Resource) : Set(Resource) =
+	(aResource.resourceProperties->select(aProperty : ResourceProperty | not aProperty.range.oclIsUndefined()).range)->asSet()
+	->union(
+		(if (not aResource.extends.oclIsUndefined()) then Set{aResource.extends} else Set{} endif)
+	)->flatten()->asSet()
+/]
+
+[query private allRelatedResources(aResource: Resource, stopAt : Set(Resource)) : Set(Resource) =
+	directlyRelatedResources(aResource)
+	->union(
+		directlyRelatedResources(aResource)->symmetricDifference(directlyRelatedResources(aResource)->intersection(stopAt))
+		->collectNested(
+			drr : Resource | allRelatedResources(drr, stopAt->union(Set{drr}))
+		)
+		->flatten()->asSet()
+	)->flatten()->asSet()
+/]
+
+
+[query public allRelatedResources(aResource: Resource) : Set(Resource) =
+	allRelatedResources(aResource, Set{})
+/]
+
 [query public managingServiceProviders(aResource: Resource, anAdaptorInterface : AdaptorInterface) : Set(ServiceProvider) = 
 anAdaptorInterface.serviceProviderCatalog.serviceProviders->select(aServiceProvider : ServiceProvider | 
             aServiceProvider.services.queryCapabilities->exists(aQueryCapability : QueryCapability | aQueryCapability.resourceTypes->includes(aResource))
