@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013 IBM Corporation.
+ * Copyright (c) 2013, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -13,11 +13,11 @@
  *
  *     Gabriel Ruelas       - initial API and implementation
  *     Carlos A Arreola     - initial API and implementation
+ *     Samuel Padgett       - avoid unnecessary URISyntaxException
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
@@ -40,19 +40,17 @@ public final class RequirementCollection
 	private final Set<URI>      uses	 = new TreeSet<URI>();
 
     public RequirementCollection()
-           throws URISyntaxException
     {
         super();
 
-        addRdfType(new URI(RmConstants.TYPE_REQUIREMENT_COLLECTION));
+        addRdfType(URI.create(RmConstants.TYPE_REQUIREMENT_COLLECTION));
     }
 
     public RequirementCollection(final URI about)
-           throws URISyntaxException
     {
         super(about);
 
-        addRdfType(new URI(RmConstants.TYPE_REQUIREMENT_COLLECTION));
+        addRdfType(URI.create(RmConstants.TYPE_REQUIREMENT_COLLECTION));
     }
 
     public void addUses(final URI uses)
