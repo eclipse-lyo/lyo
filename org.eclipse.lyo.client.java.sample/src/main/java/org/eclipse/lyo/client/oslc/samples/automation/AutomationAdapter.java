@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -519,7 +519,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 
 					populateResultFromRequest(request, result);
 
-					saveResult(result);
+					saveResult(result, request);
 
 					completeRequest(request);
 
@@ -547,13 +547,14 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	 * Send the Automation Result to the Automation Service Provider
 	 *
 	 * @param result
+	 * @param request
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 * @throws AutomationException
 	 * @throws ResourceNotFoundException
 	 */
-	private void saveResult(AutomationResult result) throws IOException,
+	private void saveResult(AutomationResult result, AutomationRequest request) throws IOException,
 			OAuthException, URISyntaxException, AutomationException,
 			ResourceNotFoundException {
 
@@ -561,15 +562,22 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		String resultCreationFactoryUrl;
 
 		synchronized (client) {
+			Object resultLink = request.getExtendedProperties().get(PROPERTY_QM_PRODUCES_TEST_RESULT);
+			if(resultLink != null){
+				URI resultUri = (URI) resultLink;
+				resultCreationFactoryUrl = resultUri.toString();
+			}else{
 
-			// Find the OSLC Service Provider for the project area we want to
-			// work with
-			String serviceProviderUrl = client.lookupServiceProviderUrl(
-					rootServicesHelper.getCatalogUrl(), projectArea);
-
-			resultCreationFactoryUrl = client.lookupCreationFactory(
-					serviceProviderUrl, AutomationConstants.AUTOMATION_DOMAIN,
-					AutomationConstants.TYPE_AUTOMATION_RESULT);
+				// Find the OSLC Service Provider for the project area we want to
+				// work with
+				String serviceProviderUrl = client.lookupServiceProviderUrl(
+						rootServicesHelper.getCatalogUrl(), projectArea);
+				
+	
+				resultCreationFactoryUrl = client.lookupCreationFactory(
+						serviceProviderUrl, AutomationConstants.AUTOMATION_DOMAIN,
+						AutomationConstants.TYPE_AUTOMATION_RESULT);
+			}
 
 			response = client.createResource(resultCreationFactoryUrl, result,
 					OslcMediaType.APPLICATION_RDF_XML);

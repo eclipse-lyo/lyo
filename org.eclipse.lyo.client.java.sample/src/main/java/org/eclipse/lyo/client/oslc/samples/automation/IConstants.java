@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -35,6 +35,7 @@ public interface IConstants {
 	QName PROPERTY_QM_RUNS_TEST_CASE         = new QName(OSLCConstants.OSLC_QM_V2, "runsTestCase");
 	QName PROPERTY_QM_EXECUTES_TEST_SCRIPT   = new QName(OSLCConstants.OSLC_QM_V2, "executesTestScript");
 	QName PROPERTY_QM_REPORTS_ON_TEST_PLAN   = new QName(OSLCConstants.OSLC_QM_V2, "reportsOnTestPlan");
+	QName PROPERTY_QM_PRODUCES_TEST_RESULT   = new QName(OSLCConstants.OSLC_QM_V2, "producesTestResult");
 
 	QName PROPERTY_RQM_TAKEN                 = new QName(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM, "taken");
 	QName PROPERTY_RQM_PROGRESS              = new QName(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM, "progress");
