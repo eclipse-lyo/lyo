@@ -95,11 +95,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 	public static final String PROPERTY_TITLE = "title";
 	public static final String PROPERTY_DESCRIPTION = "description";
 	public static final String PROPERTY_TYPE = "type";
-	public static final String PROPERTY_HOSTNAME = "hostname";
-	public static final String PROPERTY_IP_ADDRESS = "ipAddress";
 	public static final String PROPERTY_POLLING_INTERVAL = "pollingInterval";
-	public static final String PROPERTY_MAC_ADDRESSS = "macAddress";
-	public static final String PROPERTY_FULLY_QUALIFIED_DOMAIN_NAME = "fullyQualifiedDomainName";
 	public static final String PROPERTY_CAPABIILTY = "capability";
 	public static final String PROPERTY_ABOUT = "about";
 
@@ -161,11 +157,7 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		title = properties.getProperty(PROPERTY_TITLE);
 		description = properties.getProperty(PROPERTY_DESCRIPTION);
 		type = properties.getProperty(PROPERTY_TYPE);
-		hostname = properties.getProperty(PROPERTY_HOSTNAME);
-		ipAddress = properties.getProperty(PROPERTY_IP_ADDRESS);
-		macAddress = properties.getProperty(PROPERTY_MAC_ADDRESSS);
-		fullyQualifiedDomainName = properties.getProperty(PROPERTY_FULLY_QUALIFIED_DOMAIN_NAME);
-
+		
 		String pollingIntervalStr = properties
 				.getProperty(PROPERTY_POLLING_INTERVAL);
 		if (pollingIntervalStr != null) {
@@ -183,6 +175,11 @@ public class AutomationAdapter extends AbstractResource implements IConstants {
 		if (aboutStr != null) {
 			setAbout(URI.create(aboutStr));
 		}
+		MachineInformation machine = new MachineInformation();
+		hostname = machine.getHostname();
+		ipAddress = machine.getIpAddress();
+		macAddress = machine.getMacAddress();
+		fullyQualifiedDomainName = machine.getFQDN();
 	}
 
 	public String getServerUrl() {
