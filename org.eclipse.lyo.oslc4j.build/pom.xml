@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion> 
-	<groupId>org.eclipse.lyo.oslc4j.core</groupId> 
-	<artifactId>oslc4j-core-build</artifactId> 
-	<version>3.0.0-SNAPSHOT</version> 
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.lyo.oslc4j.core</groupId>
+	<artifactId>oslc4j-core-build</artifactId>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
     <name>OSLC4J Build</name>
     <scm>
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
-	<modules> 
-		<module>../org.eclipse.lyo.oslc4j.core</module> 
+	<modules>
+		<module>../org.eclipse.lyo.oslc4j.core</module>
 		<module>../org.eclipse.lyo.oslc4j.provider.jena</module>
 		<module>../org.eclipse.lyo.oslc4j.provider.json4j</module>
 		<module>../org.eclipse.lyo.oslc4j.wink</module>
@@ -17,7 +17,7 @@
 		<module>../org.eclipse.lyo.core.query</module>
 		<module>../org.eclipse.lyo.core.trs</module>
 		<module>../org.eclipse.lyo.core.utils</module>
-	</modules> 
+	</modules>
     <distributionManagement>
         <repository>
             <id>repo.eclipse.org</id>
