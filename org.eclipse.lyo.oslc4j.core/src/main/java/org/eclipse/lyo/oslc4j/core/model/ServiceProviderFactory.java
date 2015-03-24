@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -16,6 +16,7 @@
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
  *	   Michael Fiedler		- path parameter substitution
+ *	   Samuel Padgett 		- resolve method path parameters for creation factories
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -165,7 +166,9 @@ public final class ServiceProviderFactory {
 		String creation = resolvePathParameters(basePath, classPathAnnotation.value(), pathParameterValues);
 		final Path methodPathAnnotation = method.getAnnotation(Path.class);
 		if (methodPathAnnotation != null) {
-			creation = creation + '/' + methodPathAnnotation.value();
+			final String methodPath =
+					resolvePathParameters(basePath, methodPathAnnotation.value(), pathParameterValues);
+			creation = creation + '/' + methodPath;
 		}
 
 		CreationFactory creationFactory = null;
@@ -364,7 +367,6 @@ public final class ServiceProviderFactory {
 			{
 				returnUri = resolvedUri.toString();
 			}
-			
 		} 
 		else
 		{
