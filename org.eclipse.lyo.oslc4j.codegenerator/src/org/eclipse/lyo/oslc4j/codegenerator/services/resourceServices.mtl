@@ -24,10 +24,51 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
+[query public directParentResource(aResource: Resource) : Resource =
+    (if (aResource.extends->notEmpty()) then 
+        aResource.extends->first()
+    else
+        null
+    endif)
+/]
+
+[query public parentResources(aResource: Resource) : Set(Resource) =
+    (if (directParentResource(aResource)->notEmpty()) then 
+        directParentResource(aResource)->union(parentResources(directParentResource(aResource)))
+    else
+        Set{}
+    endif)
+/]
+
+[query public allExtendingResources(aResource: Resource) : OrderedSet(Resource) =
+	aResource.extends
+	->union(
+			aResource.extends->collectNested(r:Resource | allExtendingResources(r))->flatten()->asOrderedSet()
+			)
+	->asOrderedSet()
+/]
+
+[query public interfaceResources(aResource: Resource) : OrderedSet(Resource) =
+	directInterfaceResources(aResource)
+	->union(
+			directInterfaceResources(aResource)->collectNested(r:Resource | allExtendingResources(r))->flatten()->asOrderedSet()
+			)
+	->asOrderedSet()
+/]
+
+[query private directInterfaceResources(aResource: Resource) : OrderedSet(Resource) =
+	(if (aResource.extends->size() > 1) then 
+        aResource.extends->subOrderedSet(2, aResource.extends->size())
+    else
+        OrderedSet{}
+    endif)
+
+/]
+
 [query public directlyRelatedResources(aResource: Resource) : Set(Resource) =
 	(aResource.resourceProperties->select(aProperty : ResourceProperty | not aProperty.range.oclIsUndefined()).range)->asSet()
 	->union(
-		(if (not aResource.extends.oclIsUndefined()) then Set{aResource.extends} else Set{} endif)
+		aResource.extends
 	)->flatten()->asSet()
 /]
 
@@ -77,16 +118,23 @@ anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.selectionDia
 anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDialogs->select(aDialog : Dialog | aDialog.resourceTypes->includes(aResource))->asSet()
 /]
 
-[query public allProperties(aResource: Resource) : Set(ResourceProperty) = 
-aResource.resourceProperties->union(inheritedProperties(aResource))
+[query public allProperties(aResource: Resource) : Sequence(ResourceProperty) = 
+((aResource.resourceProperties->asSequence())
+	->union(inheritedProperties(aResource))
+	->union(interfaceProperties(aResource))
+)
 /]
 
-[query public inheritedProperties(aResource: Resource) : Set(ResourceProperty) = 
-    (if (not aResource.extends.oclIsUndefined()) then 
-        aResource.extends.resourceProperties->union(inheritedProperties(aResource.extends))
+[query private inheritedProperties(aResource: Resource) : Sequence(ResourceProperty) = 
+    (if (not aResource.directParentResource().oclIsUndefined()) then 
+        (aResource.directParentResource().resourceProperties->asSequence())->union(inheritedProperties(aResource.directParentResource()))
     else
-        Set{}
+        Sequence{}
     endif)
+/]
+
+[query public interfaceProperties(aResource: Resource) : Sequence(ResourceProperty) =
+	aResource.interfaceResources().resourceProperties
 /]
 
 [query public prefixedName(aResource: Resource) : String = 
@@ -113,6 +161,22 @@ javaClassPackageName(aResource, anAdaptorInterface).concat('.').concat(javaClass
 
 [query public javaClassFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
 javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
+/]
+
+[query public javaInterfacePackageName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
+/]
+
+[query public javaInterfaceName(aResource: Resource) : String = 
+'I'.concat(aResource.name.substituteAll(' ', '').toUpperFirst())
+/]
+
+[query public javaInterfaceFullName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaInterfacePackageName(aResource, anAdaptorInterface).concat('.').concat(javaInterfaceName(aResource))
+/]
+
+[query public javaInterfaceFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concat(javaInterfacePackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceName(aResource)).concat('.java')
 /]
 
 [query public javaClassPackageNameForService(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
@@ -214,9 +278,4 @@ JAXRSPathParameters(aResource.instanceURI(anAdaptorInterface))
 
 [template public instanceMethodParameterList(aResource: Resource, anAdaptorInterface : AdaptorInterface)] 
 [for (instanceCompositeID: String | instanceCompositeID(aResource, anAdaptorInterface)) separator(', ')][instanceCompositeID /][/for]
-[/template]
-
-[template public parentJavaClassName(aResource: Resource)] 
-[if (aResource.extends.oclIsUndefined())]AbstractResource[else][javaClassName(aResource.extends) /][/if]
-
 [/template]

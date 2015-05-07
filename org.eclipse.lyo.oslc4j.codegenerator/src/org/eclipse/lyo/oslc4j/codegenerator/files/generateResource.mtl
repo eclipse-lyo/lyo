@@ -114,10 +114,11 @@ import [javaClassFullName(aProperty.range, anAdaptorInterface) /];
 @OslcName([javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /].[resourceConstantName(aResource) /]) 
 @OslcResourceShape(title = "[aResource.name /] Resource Shape", describes = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /].[resourceTypeConstantName(aResource) /])
 public class [javaClassName(aResource) /]
-       extends [parentJavaClassName(aResource) /]
+	extends [if (aResource.directParentResource().oclIsUndefined())]AbstractResource[else][javaClassName(aResource.directParentResource()) /][/if]
+	implements [for (aResourceToInterface: Resource | OrderedSet{aResource}->union(aResource.interfaceResources())) separator(', ')][javaInterfaceName(aResourceToInterface) /][/for]
 {
 
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
 private [javaAttributeTypeDeclaration(aProperty) /] [javaAttributeName(aProperty, aResource)/][if javaAttributeTypeNeedsConstruction(aProperty)] = new [javaAttributeTypeDeclaration(aProperty)/]()[/if];  
 [/for]
 
@@ -222,7 +223,7 @@ public String toHtml(boolean asLocalResource)
 		return result;
 }
 
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
     public void add[aProperty.name.toUpperFirst() /](final [javaAttributeBaseType(aProperty) /] [aProperty.name /] )
     {
@@ -231,7 +232,7 @@ public String toHtml(boolean asLocalResource)
 	[/if]
 [/for]
 
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
    	[nameAnnotation(aProperty) /]
    	[propertyDefinitionAnnotation(aProperty, aResource, anAdaptorInterface) /]
 	[descriptionAnnotation(aProperty) /]
@@ -248,7 +249,7 @@ public String toHtml(boolean asLocalResource)
 
 [/for]
 
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     public void set[javaAttributeName(aProperty, aResource).toUpperFirst() /](final [javaAttributeTypeDeclaration(aProperty) /] [aProperty.name /] )
     {
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
@@ -264,7 +265,7 @@ public String toHtml(boolean asLocalResource)
     }
 [/for]
 
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     static public String [javaAttributeName(aProperty, aResource) /]ToHtmlForCreation (final HttpServletRequest httpServletRequest[commaSeparate(aResource.collectionMethodSignature(anAdaptorInterface), true, false)/])
     {
 		String s = "";
@@ -297,7 +298,7 @@ public String toHtml(boolean asLocalResource)
 
 [comment TODO: This ToHTML is quite complicated. At the moment, I get expections because some of the properties are null.
 I am getting to many if/else-ses. I think I need to rethink calmely to have a cleaner structure. Good enough for now I hope. /]
-[for (aProperty: ResourceProperty | aResource.resourceProperties)]
+[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     public String [javaAttributeName(aProperty, aResource) /]ToHtml()
     {
 		String s = "";
