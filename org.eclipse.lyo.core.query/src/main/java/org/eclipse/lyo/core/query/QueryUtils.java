@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -295,10 +295,10 @@ public class QueryUtils
 	 * values of the map are:<p>
 	 * 
 	 * <ul>
-	 * <li> {@link OSLC4JConstants.OSL4J_PROPERTY_WILDCARD} - if all
+	 * <li> Wildcard, if all
 	 * properties at this level are to be output.  No recursion
 	 * below this level is to be done.</li>
-	 * <li> {@link OSLC4JConstants.OSL4J_PROPERTY_SINGLETON} - if only
+	 * <li> {@link org.eclipse.lyo.oslc4j.core.OSLC4JConstants#OSL4J_PROPERTY_SINGLETON OSLC4JConstants.OSL4J_PROPERTY_SINGLETON} - if only
 	 * the named property is to be output, without recursion</li>
 	 * <li> a nested property list to recurse through</li>
 	 * </ul>
