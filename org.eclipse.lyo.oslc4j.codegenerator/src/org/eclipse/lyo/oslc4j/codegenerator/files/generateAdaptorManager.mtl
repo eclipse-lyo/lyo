@@ -135,7 +135,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		return a[aResource.name.toUpperFirst() /];
     }
 
-    public static List<[javaClassName(aResource) /]> get[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest[commaSeparate(collectionMethodSignature(aResource, anAdaptorInterface), true, false)/], int page, int limit)
+    public static List<[javaClassName(aResource) /]> get[aResource.name.toUpperFirst() /]s(HttpServletRequest httpServletRequest[commaSeparate(collectionMethodSignature(aResource, anAdaptorInterface), true, false)/], String where, int page, int limit)
     {
 		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
 		// TODO Implement code to return a set of resources

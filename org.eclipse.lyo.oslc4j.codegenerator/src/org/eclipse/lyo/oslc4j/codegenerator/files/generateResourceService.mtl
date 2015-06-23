@@ -180,15 +180,22 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
     public [javaClassName(aResource) /] [ '[]' /] get[aResource.name.toUpperFirst() /]s(
 													[commaSeparate(aResource.collectionJAXRSMethodSignature(anAdaptorInterface), false, true) /]
     		                                 		@QueryParam("oslc.where") final String where,
-													@QueryParam("page")       final String pageString) throws IOException, ServletException 
+    		                                 		@QueryParam("page") final String pageString,
+													@QueryParam("limit") final String limitString) throws IOException, ServletException 
     {
-    	int page=0;  
-    	int limit=999;
+		int page=0;
+		int limit=20;
+		if (null != pageString) {
+			page = Integer.parseInt(pageString);
+		}
+		if (null != limitString) {
+			limit = Integer.parseInt(limitString);
+		}
         
 		// [protected ('getResourceCollection_init')]
 		// [/protected]
 
-        final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], page, limit);      
+        final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], where, page, limit);
         return resources.toArray(new [javaClassName(aResource) /] [ '[' /]resources.size()[ ']' /]);
         
 
@@ -213,19 +220,23 @@ public class [javaClassNameForService(aResource, anAdaptorInterface) /]
 	@Produces({ MediaType.TEXT_HTML })
 	public Response get[aResource.name.toUpperFirst() /]sAsHtml(
 									[commaSeparate(aResource.collectionJAXRSMethodSignature(anAdaptorInterface), false, true)/]
-			                        @QueryParam("page") final String pageString) throws ServletException, IOException
+                               		@QueryParam("oslc.where") final String where,
+                               		@QueryParam("page") final String pageString,
+			                        @QueryParam("limit") final String limitString) throws ServletException, IOException
 	{
 		int page=0;
 		int limit=20;
-		
 		if (null != pageString) {
 			page = Integer.parseInt(pageString);
+		}
+		if (null != limitString) {
+			limit = Integer.parseInt(limitString);
 		}
 
 		// [protected ('getResourceCollectionAsHTML_init')]
 		// [/protected]
 
-        final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], page, limit);
+        final List<[javaClassName(aResource) /]> resources = [javaClassNameForAdaptorManager(anAdaptorInterface) /].get[aResource.name.toUpperFirst() /]s(httpServletRequest[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/], where, page, limit);
 		
         if (resources!= null) {
         	httpServletRequest.setAttribute("resources", resources);
