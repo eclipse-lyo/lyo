@@ -72,17 +72,20 @@
 	)->flatten()->asSet()
 /]
 
-[query private allRelatedResources(aResource: Resource, stopAt : Set(Resource)) : Set(Resource) =
-	directlyRelatedResources(aResource)
-	->union(
-		directlyRelatedResources(aResource)->symmetricDifference(directlyRelatedResources(aResource)->intersection(stopAt))
-		->collectNested(
-			drr : Resource | allRelatedResources(drr, stopAt->union(Set{drr}))
+[query private allRelatedResources(aResource: Resource, alreadyAnalysed : Set(Resource)) : Set(Resource) =
+let drr : Set(Resource) = directlyRelatedResources(aResource) in 
+	drr->collectNested(r : Resource | 
+		Set{r}
+		->union(directlyRelatedResources(r))
+		->union(
+			(if (alreadyAnalysed->includes(r)) then 
+		        Set{}
+		    else
+				allRelatedResources(r, (Set{aResource}->union(drr))->union(alreadyAnalysed))
+		    endif)
 		)
-		->flatten()->asSet()
 	)->flatten()->asSet()
 /]
-
 
 [query public allRelatedResources(aResource: Resource) : Set(Resource) =
 	allRelatedResources(aResource, Set{})
@@ -141,10 +144,18 @@ anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDial
 aResource.definingDomainSpecification().namespacePrefix.name.concat(':').concat(aResource.name)
 /]
 
+[query public javaName(aResource: Resource, toUpperFirst : Boolean) : String = 
+javaString(aResource.name, toUpperFirst)
+/]
+
 [comment TODO: in the Constants file, I generate constants that SHOULD match the URI developed here. But this code is not related to the way I generated the constants.
 Make sure this query and the Constants generation are based on the same set of base functions. THat is, make sure both functions produce matching URI values in the end. /]
 [query public typeURI(aResource: Resource) : String = 
 aResource.definingDomainSpecification().namespaceURI.concat('#').concat(aResource.name)
+/]
+
+[query public javaInstanceName(aResource: Resource) : String = 
+javaName(aResource, false)
 /]
 
 [query public javaClassPackageName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
@@ -152,7 +163,7 @@ javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
 /]
 
 [query public javaClassName(aResource: Resource) : String = 
-aResource.name.substituteAll(' ', '').toUpperFirst()
+javaName(aResource, true)
 /]
 
 [query public javaClassFullName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 

@@ -98,3 +98,31 @@ endif)
 (if appendIfNotEmpty._and(commaSeparatedString.size() > 0) then ' ,' else ''endif)
 )
 /]
+
+[query public javaString (aString : String, toUpperFirst : Boolean) : String = 
+if (toUpperFirst) then 
+	(aString.substituteAll('/', ' ').tokenize(' ')->collect(toUpperFirst())->concatenate()).toUpperFirst()
+else 
+	(aString.substituteAll('/', ' ').tokenize(' ')->collect(toUpperFirst())->concatenate()).toLowerFirst()
+endif
+/]
+
+[query private concatenate (aStringSequence : Sequence(String)) : String = 
+(if (aStringSequence->size() = 0) then 
+    '' 
+else 
+    (if (aStringSequence->size() = 1) then 
+		aStringSequence->at(1)
+    else 
+	    (if (aStringSequence->size() = 2) then 
+			aStringSequence->at(1).concat(aStringSequence->at(2))
+	    else 
+			aStringSequence->at(1).concat(aStringSequence->at(2)).concat(concatenate(aStringSequence->subSequence(3, aStringSequence->size())))
+	    endif)
+    endif)
+endif)
+/]
+
+
+
+

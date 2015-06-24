@@ -28,6 +28,32 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderCatalogServices/]
 
+[query public backendCode(backendCodeTemplate : String, aResource : Resource) : String = 
+(if (not backendCodeTemplate.oclIsUndefined()) then
+	backendCodeTemplate
+		.substituteAll('[ResourceClassName/]', javaClassName(aResource))
+		.substituteAll('[ResourceInstanceName/]', javaInstanceName(aResource))
+else
+    ''
+endif)
+/]
+
+[query public getResourceBackendCode(anAdaptorInterface : AdaptorInterface, aResource : Resource) : String = 
+backendCode(anAdaptorInterface.backendCodeTemplate_getResource, aResource)
+/]
+
+[query public getResourcesBackendCode(anAdaptorInterface : AdaptorInterface, aResource : Resource) : String = 
+backendCode(anAdaptorInterface.backendCodeTemplate_getResources, aResource)
+/]
+
+[query public searchResourcesBackendCode(anAdaptorInterface : AdaptorInterface, aResource : Resource) : String = 
+backendCode(anAdaptorInterface.backendCodeTemplate_searchResources, aResource)
+/]
+
+[query public createResourceBackendCode(anAdaptorInterface : AdaptorInterface, aResource : Resource) : String = 
+backendCode(anAdaptorInterface.backendCodeTemplate_createResource, aResource)
+/]
+
 [template public generateAdaptorManager(anAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileNameForAdaptorManager(anAdaptorInterface), false, 'UTF-8')]
 /*******************************************************************************
@@ -130,6 +156,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = null;
 		// TODO Implement code to return a resource
+		[anAdaptorInterface.getResourceBackendCode(aResource) /]
 		// [protected ('get'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
 		// [/protected]
 		return a[aResource.name.toUpperFirst() /];
@@ -139,6 +166,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
 		// TODO Implement code to return a set of resources
+		[anAdaptorInterface.getResourcesBackendCode(aResource) /]
 		// [protected ('get'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
 		// [/protected]
 		return [aResource.name.toLowerFirst() /]s;
@@ -148,6 +176,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		List<[javaClassName(aResource) /]> [aResource.name.toLowerFirst() /]s = null;
 		// TODO Implement code to return a set of resources, based on search criteria 
+		[anAdaptorInterface.searchResourcesBackendCode(aResource) /]
 		// [protected ('search'.concat(aResource.name.toUpperFirst()).concat('s userCode'))]
 		// [/protected]
 		return [aResource.name.toLowerFirst() /]s;
@@ -157,6 +186,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[javaClassName(aResource) /] new[aResource.name.toUpperFirst() /] = null;
 		// TODO Implement code to create a resource
+		[anAdaptorInterface.createResourceBackendCode(aResource) /]
 		// [protected ('create'.concat(aResource.name.toUpperFirst()).concat(' userCode'))]
 		// [/protected]
 		return new[aResource.name.toUpperFirst() /];
