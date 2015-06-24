@@ -47,7 +47,7 @@ anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNest
 [query public relevantDomainSpecifications(anAdaptorInterface : AdaptorInterface) : Set(DomainSpecification) =
 relevantResources(anAdaptorInterface)->collectNested(aResource : Resource | 
 	definingDomainSpecification(aResource)
-	->union(aResource.allProperties()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
+	->union(aResource.allProperties()->asSet()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
 )->flatten()->asSet()
 /]
 
