@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -30,7 +30,7 @@ import org.eclipse.lyo.core.query.SimpleSortTerm;
 import org.eclipse.lyo.core.query.SortTerm;
 
 /**
- * Proxy implementation of {@link SortTerms}
+ * Proxy implementation of {@link org.eclipse.lyo.core.query.SortTerms SortTerms}
  */
 public class SortTermsInvocationHandler implements InvocationHandler
 {
