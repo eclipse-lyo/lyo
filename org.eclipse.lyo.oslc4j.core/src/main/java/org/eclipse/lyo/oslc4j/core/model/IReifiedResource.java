@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  *	All rights reserved. This program and the accompanying materials
  *	are made available under the terms of the Eclipse Public License v1.0
@@ -15,18 +15,16 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-
 /**
  * This interface helps model RDF reified statements in plain old Java objects.
  * OSLC commonly uses reification to describe metadata on links, such as labels.
  * The {@link #getValue()} and {@link #setValue(Object)} methods allow you to
  * set the actual object of the triple. All other properties in implementing
  * classes are statements about the statement. These additional properties
- * should have {@link OslcName} and {@link OslcPropertyDefinition} annotations.
+ * should have {@link org.eclipse.lyo.oslc4j.core.annotation.OslcName OslcName} and {@link org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition OSLCPropertyDefinition} annotations.
  * See {@link Link} for an example.
  * <p>
- * Note: The parameterized type T must be an {@link URI} to serialize to JSON due
+ * Note: The parameterized type T must be a {@link java.net.URI URI} to serialize to JSON due
  * to current limitations in the OSLC JSON format.
  * 
  * @see AbstractReifiedResource

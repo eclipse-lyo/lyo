@@ -78,7 +78,7 @@ public class OSLC4JUtils {
 	 * Returns the value of org.eclipse.lyo.oslc4j.publicURI or null if not set.
 	 * 
 	 * 
-	 * @return
+	 * @return Public URI, or null if not set
 	 */
 	public static String getPublicURI()
 	{
@@ -87,7 +87,8 @@ public class OSLC4JUtils {
 	
 	/**
 	 * Sets the value of org.eclipse.lyo.oslc4j.publicURI
-	 * @param publicURI
+	 * @param newPublicURI
+	 * 		The new public URI to use.
 	 */
 	@SuppressWarnings("unused")
 	public static void setPublicURI(String newPublicURI) throws MalformedURLException
@@ -159,7 +160,7 @@ public class OSLC4JUtils {
 	/**
 	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableHostResolution
 	 * Default is false if not set or invalid (hostname resolution will take place)
-	 * @return
+	 * @return true if host resolution is disabled, false if not set or invalid
 	 */
 	public static boolean isHostResolutionDisabled()
 	{
@@ -194,7 +195,7 @@ public class OSLC4JUtils {
 	 * 
 	 * @param request - request to base resolved URI on
 	 * @param includePath - if the path (after the context root) should be included in the resolved URI
-	 * @return
+	 * @return String containing the resolved URI
 	 */
 	public static String resolveURI(HttpServletRequest request, boolean includePath)
 	{
@@ -259,7 +260,7 @@ public class OSLC4JUtils {
 	/**
 	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableRelativeURIs
 	 * Default is true if not set or invalid (relative URIs will not be allowed)
-	 * @return
+	 * @return true if relative URIs are disabled, or if the property is not set or invalid.
 	 */
 	public static boolean relativeURIsAreDisabled()
 	{
@@ -462,15 +463,13 @@ public class OSLC4JUtils {
 	 * from the list of Resource Shapes.
 	 * 
 	 * @param rdfTypesList
-	 * @param propertyQName
+	 * 		List of rdf:types
+	 * @param property
 	 *			  Property information
-	 * @param originalValue
-	 *			  Property value
 	 * @return Java object related to the Resource Shape type.
 	 * @throws DatatypeConfigurationException
 	 *			   , IllegalArgumentException, InstantiationException,
 	 *			   InvocationTargetException
-	 on 
 	 * 
 	 */
 	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,

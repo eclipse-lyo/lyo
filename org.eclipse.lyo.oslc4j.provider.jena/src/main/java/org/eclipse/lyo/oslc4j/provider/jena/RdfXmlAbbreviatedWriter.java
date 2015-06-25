@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+ * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -53,12 +53,11 @@ import com.hp.hpl.jena.util.iterator.Filter;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
- * <p>RDF writer or serializer in the abbreviated XML (see {@link #RDF_XML_ABBREVIATED}) syntax.</p>
+ * <p>RDF writer or serializer in the abbreviated XML syntax.</p>
  * 
  * <p>Supported features include:</p>
  * 
  * <ul>
- * <li>{@link #RDF_XML_ABBREVIATED} serialization language.</li>
  * <li>Reification serialization compliant with the <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Labels_for_Relationships">OSLC Quality Management V 2.0 Specification (Labels for Relationships)</a>
  * guidance.</li>
  * <li>Properties:
