@@ -17,12 +17,10 @@ package org.eclipse.lyo.oslc4j.provider.jena.test;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -30,27 +28,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
@@ -170,7 +151,9 @@ public class RdfXmlAbbreviatedWriterTest {
 		System.out.println(baos.toString());
 
 		OslcRdfXmlCollectionProvider ocp = new OslcRdfXmlCollectionProvider();
-		Collection col = ocp.readFrom((Class) List.class, paramType, null, MediaType.APPLICATION_XML_TYPE, null,
+		
+		@SuppressWarnings({"rawtypes", "unchecked"}) // The warning for (Class)List.class can't be resolved in the code but will work at run time.
+		Collection col = ocp.readFrom((Class)List.class, paramType, null, MediaType.APPLICATION_XML_TYPE, null,
 				new ByteArrayInputStream(baos.toByteArray()));
 
 		Assert.assertEquals("Unable to read a collection with cyclic reference", 1, col.size());
