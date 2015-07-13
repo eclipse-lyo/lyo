@@ -39,12 +39,10 @@ public class InvalidDuplicatePropertyDefinition
 		return null;
 	}
 
-	@SuppressWarnings("unused")
 	public void setName(final String name)
 	{
 	}
 
-	@SuppressWarnings("unused")
 	public void setName2(final String name)
 	{
 	}
