@@ -11,7 +11,7 @@
     </scm>
     <properties>
         <powermock.version>1.4.9</powermock.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>      	
     </properties>
     <!-- Disable doclint for Java 1.8 (for now) -->
     <profiles>
@@ -24,6 +24,17 @@
                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
             </properties>
         </profile>
+         <profile> 
+            <id>mac</id> 
+            <activation> 
+                <os> 
+                    <family>mac</family> 
+                </os> 
+            </activation> 
+            <properties> 
+            		<javadocExecutable>${mac_local_javadoc_exe}</javadocExecutable>
+            </properties> 
+        </profile> 
     </profiles>
     <dependencies>
         <dependency>

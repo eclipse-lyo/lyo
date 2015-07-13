@@ -26,6 +26,17 @@
                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
             </properties>
         </profile>
+                 <profile> 
+            <id>mac</id> 
+            <activation> 
+                <os> 
+                    <family>mac</family> 
+                </os> 
+            </activation> 
+            <properties> 
+            		<javadocExecutable>${mac_local_javadoc_exe}</javadocExecutable>
+            </properties> 
+        </profile>
     </profiles>
 
     <dependencies>
