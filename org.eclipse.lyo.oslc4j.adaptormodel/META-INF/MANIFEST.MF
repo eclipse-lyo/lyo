@@ -4,3 +4,4 @@ Bundle-Name: org.eclipse.lyo.oslc4j.adaptor_model
 Bundle-SymbolicName: org.eclipse.lyo.oslc4j.adaptormodel;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -198,7 +198,7 @@ public class HttpConstants {
 	 * origin server doesn't include an Expires header or cache validators.
 	 * Response lifetime value precedence: max_age_value expires_value -
 	 * date_value x-jfs-default-lifetime
-	 * Cache-Control: x-jfs-default-lifetime=<seconds>
+	 * Cache-Control: x-jfs-default-lifetime=&lt;seconds&gt;
 	 * See <a
 	 * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.4"
 	 * >RFC2616 Section 13.2.4</a>

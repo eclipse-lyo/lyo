@@ -63,7 +63,6 @@ public class TestMessageBodyWriterErrorResource
 		return new Test[] {test};
 	}
 
-	@SuppressWarnings("unused")
 	@GET
 	@Path("{testId}")
 	@Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})

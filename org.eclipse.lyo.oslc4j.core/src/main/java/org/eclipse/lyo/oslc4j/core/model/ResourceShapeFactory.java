@@ -162,7 +162,7 @@ public final class ResourceShapeFactory {
 		return resourceShape;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("rawtypes") // supress warning when casting Arrays.asList() to a Collection
 	private static Property createProperty(final String baseURI, final Class<?> resourceClass, final Method method, final OslcPropertyDefinition propertyDefinitionAnnotation, final Set<Class<?>> verifiedClasses) throws OslcCoreApplicationException, URISyntaxException {
 		final String name;
 		final OslcName nameAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcName.class);
@@ -250,8 +250,10 @@ public final class ResourceShapeFactory {
 				property.setRepresentation(new URI(defaultRepresentation.toString()));
 			}
 		}
+		
 
 		final OslcAllowedValue allowedValueAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcAllowedValue.class);
+
 		if (allowedValueAnnotation != null) {
 			property.setAllowedValuesCollection((Collection) Arrays.asList(allowedValueAnnotation.value()));
 		}
