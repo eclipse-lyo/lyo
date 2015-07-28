@@ -21,33 +21,63 @@
 [module adaptorInterfaceServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
-[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [comment TODO: we should avoid relying on "eContainer", since objects that come from a composing emf file, will not have the eContainer relationship setup as expected.
 This method should be able to work even for objects that come from a differnet emf file than that containing the AdaptorInterface. 
 You should also question any other use of "eContainer" in this whole project /]
 [query public containingAdaptorInterface(obj : OclAny) : AdaptorInterface =
-obj.eContainer(AdaptorInterface)
+obj.eContainer(AdaptorInterface).oclAsType(AdaptorInterface)
+/]
+
+[query public managingServiceProviders(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Set(ServiceProvider) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders->select(aServiceProvider : ServiceProvider | 
+            aServiceProvider.services.queryCapabilities->exists(aQueryCapability : QueryCapability | aQueryCapability.resourceTypes->includes(aResource))
+                ._or(aServiceProvider.services.basicCapabilities->exists(aBasicCapability : BasicCapability | aBasicCapability.resourceTypes->includes(aResource)))
+                ._or(aServiceProvider.services.creationFactories->exists(aCreationFactory : CreationFactory | aCreationFactory.resourceTypes->includes(aResource)))
+                ._or(aServiceProvider.services.selectionDialogs->exists(aDialog : Dialog | aDialog.resourceTypes->includes(aResource)))
+                ._or(aServiceProvider.services.creationDialogs->exists(aDialog : Dialog | aDialog.resourceTypes->includes(aResource)))
+            )->asSet()
+/]
+
+[query public queryCapabilities(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Sequence(QueryCapability) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.queryCapabilities->select(aQueryCapability : QueryCapability | aQueryCapability.resourceTypes->includes(aResource))
+/]
+
+[query public basicCapabilities(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Sequence(BasicCapability) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.basicCapabilities->select(aBasicCapability : BasicCapability | aBasicCapability.resourceTypes->includes(aResource))
+/]
+
+[query public creationFactories(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Sequence(CreationFactory) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationFactories->select(aCreationFactory : CreationFactory | aCreationFactory.resourceTypes->includes(aResource))
+/]
+
+[query public selectionDialogs(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Sequence(Dialog) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.selectionDialogs->select(aDialog : Dialog | aDialog.resourceTypes->includes(aResource))
+/]
+
+[query public creationDialogs(anAdaptorInterface : AdaptorInterface, aResource: Resource) : Sequence(Dialog) = 
+anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDialogs->select(aDialog : Dialog | aDialog.resourceTypes->includes(aResource))
 /]
 
 [query public servicedResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
-anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
-	servicedResources(aService)
+anAdaptorInterface.serviceProviderCatalog.serviceProviders->collectNested(aServiceProvider : ServiceProvider | 
+	servicedResources(aServiceProvider)
 )->flatten()->asSet()
 /]
 
 [query public relevantResources(anAdaptorInterface : AdaptorInterface) : Set(Resource) =
-anAdaptorInterface.serviceProviderCatalog.serviceProviders.services->collectNested(aService : Service | 
-	relevantResources(aService)
+anAdaptorInterface.serviceProviderCatalog.serviceProviders->collectNested(aServiceProvider : ServiceProvider | 
+	relevantResources(aServiceProvider)
 )->flatten()->asSet()
 /]
 
 [query public relevantDomainSpecifications(anAdaptorInterface : AdaptorInterface) : Set(DomainSpecification) =
-relevantResources(anAdaptorInterface)->collectNested(aResource : Resource | 
-	definingDomainSpecification(aResource)
-	->union(aResource.allProperties()->asSet()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
+anAdaptorInterface.serviceProviderCatalog.serviceProviders->collectNested(aServiceProvider : ServiceProvider | 
+	relevantDomainSpecifications(aServiceProvider)
 )->flatten()->asSet()
 /]
 
@@ -142,31 +172,13 @@ aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_NAMSPAC
 /]
 
 [query public resourceConstantName(aResource : Resource) : String = 
-aResource.name.toUpperCase().substituteAll(' ', '_')
+aResource.javaName(true).toUpperCase()
 /]
 
 [query public resourcePathConstantName(aResource : Resource) : String = 
-'PATH_'.concat(aResource.name.toUpperCase().substituteAll(' ', '_'))
+'PATH_'.concat(aResource.javaName(true).toUpperCase())
 /]
 
 [query public resourceTypeConstantName(aResource : Resource) : String = 
-'TYPE_'.concat(aResource.name.toUpperCase().substituteAll(' ', '_'))
+'TYPE_'.concat(aResource.javaName(true).toUpperCase())
 /]
-
-[comment Services for AdaptorServiceProviderFactory /]
-[query public javaClassPackageNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
-javaClassBaseNamespace(anAdaptorInterface).concat('.servlet')
-/]
-
-[query public javaClassNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
-anAdaptorInterface.name.toUpperFirst().concat('ServiceProviderFactory')
-/]
-
-[query public javaClassFullNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
-javaClassPackageNameForServiceProviderFactory(anAdaptorInterface).concat('.').concat(javaClassNameForServiceProviderFactory(anAdaptorInterface))
-/]
-
-[query public javaClassFullFileNameForServiceProviderFactory(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForServiceProviderFactory(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderFactory(anAdaptorInterface)).concat('.java')
-/]
-

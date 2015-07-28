@@ -14,6 +14,8 @@
  * Contributors:
  *
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
+ *     Matthieu Helleboid   - Support for multiple Service Providers.
+ *     Anass Radouani       - Support for multiple Service Providers.
  *     
  *******************************************************************************/
 /]
@@ -21,6 +23,8 @@
 [module serviceProviderServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [comment TODO: we should avoid relying on "eContainer", since objects that come from a composing emf file, will not have the eContainer relationship setup as expected.
 This method should be able to work even for objects that come from a differnet emf file than that containing the AdaptorInterface. 
@@ -29,6 +33,53 @@ You should also question any other use of "eContainer" in this whole project /]
 aServiceProvider.eContainer(AdaptorInterface)
 /]
 
+[query public javaName(aServiceProvider : ServiceProvider, toUpperFirst : Boolean) : String = 
+let name : String = 
+	(if (containingAdaptorInterface(aServiceProvider).serviceProviderCatalog.serviceProviders->size() = 1) then
+	    'ServiceProvider'
+	else
+		(if (not aServiceProvider.serviceNamespace.oclIsUndefined())._and(not aServiceProvider.serviceNamespace.equalsIgnoreCase('')) then
+		    javaString(aServiceProvider.serviceNamespace, true).concat('ServiceProvider')
+		else
+			concatenate(aServiceProvider.servicedResources().javaName(true)->sep('', 'And', '').oclAsType(String))
+			.concat('ServiceProvider')
+		endif)
+	endif)
+in 
+if (toUpperFirst) then name.toUpperFirst() else name.toLowerFirst() endif
+/]
+
+[query public servicedResources(aServiceProvider : ServiceProvider) : Set(Resource) =
+aServiceProvider.services->collectNested(aService : Service | servicedResources(aService))->flatten()->asSet()
+/]
+
+[query public relevantResources(aServiceProvider : ServiceProvider) : Set(Resource) =
+aServiceProvider.services->collectNested(aService : Service | relevantResources(aService))->flatten()->asSet()
+/]
+
+[query public relevantDomainSpecifications(aServiceProvider : ServiceProvider) : Set(DomainSpecification) =
+aServiceProvider.services->collectNested(aService : Service | relevantDomainSpecifications(aService))->flatten()->asSet()
+/]
+
+[query public servicedResources(aService: Service) : Set(Resource) = 
+aService.creationFactories.resourceTypes->asSet()
+					->union(aService.queryCapabilities.resourceTypes->asSet())
+					->union(aService.basicCapabilities.resourceTypes->asSet())
+					->union(aService.creationDialogs.resourceTypes->asSet())
+					->union(aService.selectionDialogs.resourceTypes->asSet())
+/]
+
+[query public relevantResources(aService: Service) : Set(Resource) =
+	(servicedResources(aService)
+	->union(servicedResources(aService).allRelatedResources()))->flatten()->asSet()
+/]
+
+[query public relevantDomainSpecifications(aService: Service) : Set(DomainSpecification) =
+relevantResources(aService)->collectNested(aResource : Resource | 
+	definingDomainSpecification(aResource)
+	->union(aResource.allProperties()->asSet()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
+)->flatten()->asSet()
+/]
 
 [comment Services for serviceProviderService /]
 [query public javaClassPackageNameForService(aServiceProvider : ServiceProvider) : String = 
@@ -36,7 +87,7 @@ javaClassBaseNamespace(containingAdaptorInterface(aServiceProvider)).concat('.se
 /]
 
 [query public javaClassNameForService(aServiceProvider : ServiceProvider) : String = 
-'ServiceProviderService'
+aServiceProvider.javaName(true).concat('Service')
 /]
 
 [query public javaClassFullNameForService(aServiceProvider : ServiceProvider) : String = 
@@ -48,27 +99,49 @@ javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClass
 /]
 
 [comment Services for ServiceProviderInfo /]
-[query public javaClassPackageNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
+[query public javaClassPackageName(aServiceProvider : ServiceProvider) : String = 
 javaClassBaseNamespace(containingAdaptorInterface(aServiceProvider))
 /]
 
-[query public javaClassNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
-'ServiceProviderInfo'
+[query public javaClassName(aServiceProvider : ServiceProvider) : String = 
+aServiceProvider.javaName(true).concat('Info')
 /]
 
-[query public javaClassFullNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
-javaClassPackageNameForServiceProviderInfo(aServiceProvider).concat('.').concat(javaClassNameForServiceProviderInfo(aServiceProvider))
+[query public javaClassFullName(aServiceProvider : ServiceProvider) : String = 
+javaClassPackageName(aServiceProvider).concat('.').concat(javaClassName(aServiceProvider))
 /]
 
-[query public javaClassFullFileNameForServiceProviderInfo(aServiceProvider : ServiceProvider) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForServiceProviderInfo(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForServiceProviderInfo(aServiceProvider)).concat('.java')
+[query public javaClassFullFileName(aServiceProvider : ServiceProvider) : String = 
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageName(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassName(aServiceProvider)).concat('.java')
+/]
+
+[comment Services for ServiceProviderFactory /]
+[query public javaClassPackageNameForFactory(aServiceProvider : ServiceProvider) : String = 
+javaClassBaseNamespace(containingAdaptorInterface(aServiceProvider)).concat('.servlet')
+/]
+
+[query public javaClassNameForFactory(aServiceProvider : ServiceProvider) : String = 
+aServiceProvider.javaName(true).concat('sFactory')
+/]
+
+[query public javaClassFullNameForFactory(aServiceProvider : ServiceProvider) : String = 
+javaClassPackageNameForFactory(aServiceProvider).concat('.').concat(javaClassNameForFactory(aServiceProvider))
+/]
+
+[query public javaClassFullFileNameForFactory(aServiceProvider : ServiceProvider) : String = 
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForFactory(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForFactory(aServiceProvider)).concat('.java')
 /]
 
 [query public serviceBaseURI (aServiceProvider : ServiceProvider) : String = 
 (if (not aServiceProvider.serviceNamespace.oclIsUndefined())._and(not aServiceProvider.serviceNamespace.equalsIgnoreCase('')) then
     aServiceProvider.serviceNamespace
 else
-    'serviceProviders'
+	(if (containingAdaptorInterface(aServiceProvider).serviceProviderCatalog.serviceProviders->size() = 1) then
+	    'serviceProviders'
+	else
+	    'serviceProviders'
+		.concat(containingAdaptorInterface(aServiceProvider).serviceProviderCatalog.serviceProviders->indexOf(aServiceProvider).toString())
+	endif)
 endif)
 /]
 

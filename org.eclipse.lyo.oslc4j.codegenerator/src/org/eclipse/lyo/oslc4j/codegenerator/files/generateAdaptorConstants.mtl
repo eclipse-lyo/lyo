@@ -35,7 +35,7 @@
 /]
 
 [query public generateResourceConstants(aResource : Resource) : String = 
-'public static String '.concat(resourceConstantName(aResource)).concat(' = "').concat(aResource.name.toLowerFirst()).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourcePathConstantName(aResource)).concat(' = "').concat(aResource.name.toLowerFirst()).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourceTypeConstantName(aResource)).concat(' = ').concat(domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification())).concat(' + "').concat(aResource.name).concat('";')
+'public static String '.concat(resourceConstantName(aResource)).concat(' = "').concat(aResource.javaName(false)).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourcePathConstantName(aResource)).concat(' = "').concat(aResource.javaName(false)).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourceTypeConstantName(aResource)).concat(' = ').concat(domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification())).concat(' + "').concat(aResource.javaName(false)).concat('";')
 /]
 
 [template public generateAdaptorConstants(anAdaptorInterface : AdaptorInterface)]
@@ -76,11 +76,11 @@ public interface [javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /]
 	// [/protected]
 
 	[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name))]
-		[generateDomainSpecificationConstants(aDomainSpecification) /]
+	[generateDomainSpecificationConstants(aDomainSpecification) /]
 	[/for]
 
 	[for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name))]
-	    [generateResourceConstants(aResource) /]
+	[generateResourceConstants(aResource) /]
 	[/for]
 
     public static final String HDR_OSLC_VERSION = "OSLC-Core-Version";

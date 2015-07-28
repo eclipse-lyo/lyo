@@ -22,11 +22,13 @@
 [module generateFilteredResourceCollectionJsp('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateFilteredResourceCollectionJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
-[file (filteredResourceCollectionJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
+[template public generateFilteredResourceCollectionJsp(aSelectionDialog : Dialog)]
+[file (resourceSelectorResultsJspFullFileName(aSelectionDialog), false, 'UTF-8')]
+[let anAdaptorInterface: AdaptorInterface = containingAdaptorInterface(aSelectionDialog)]
 <%-- 
  Copyright (c) 2011, 2012 IBM Corporation and others.
 
@@ -50,7 +52,10 @@
 <%@ page import="java.net.*" %> 
 <%@ page import="java.util.*" %>
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.model.AbstractResource"%>
+[for (aResource: Resource | aSelectionDialog.resourceTypes)]
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+[/for]
 <%--
 [protected ('imports')]
 --%>
@@ -63,7 +68,7 @@
 {
 <%
 	String selectionUri = (String) request.getAttribute("selectionUri");
-    List<[javaClassName(aResource) /]> resources = (List<[javaClassName(aResource) /]>) request.getAttribute("resources");
+    List<[dialogMethodResourceType(aSelectionDialog)/]> resources = (List<[dialogMethodResourceType(aSelectionDialog)/]>) request.getAttribute("resources");
 	String terms = (String) request.getAttribute("terms");
 %>
 <%--
@@ -73,7 +78,7 @@
 [/protected]
 --%>
 results: ['['/]
-<% int i = 0; for ([javaClassName(aResource) /] r : resources) { %>
+<% int i = 0; for ([dialogMethodResourceType(aSelectionDialog)/] r : resources) { %>
    <% if (i > 0) { %>,<% } %>
    {  "label" : "<%= r.toString() %>",
       "resourceUrl" : "<%= r.getAbout() %>"
@@ -81,5 +86,6 @@ results: ['['/]
 <% i++; } %>
 [']'/]
 }
+[/let]
 [/file]
 [/template]

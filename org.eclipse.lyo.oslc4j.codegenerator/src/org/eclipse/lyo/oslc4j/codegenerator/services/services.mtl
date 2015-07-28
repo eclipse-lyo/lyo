@@ -41,6 +41,21 @@ anAdaptorInterface.javascriptFilesBasePath
 '/'.concat(javaClassBaseNamespace(anAdaptorInterface)).substituteAll('.', '/')
 /]
 
+[query public methodSignature(parameters: Sequence(String), forJAXRSMethod : Boolean) : String =  
+concatenate(
+	parameters->collect(aParameter: String |
+					    (if (forJAXRSMethod) then 
+					        '@PathParam("'.concat(aParameter).concat('") final String ').concat(aParameter)
+					    else 
+					        'final String '.concat(aParameter)
+					    endif)
+	)->sep(', ').oclAsType(String))
+/]
+
+[query public methodParameterList(parameters: Sequence(String)) : String =  
+concatenate(parameters->sep(', ').oclAsType(String))
+/]
+
 [query public JAXRSPathAnnotation(pathAnnotation : String) : String = 
     (if (pathAnnotation.size() >= 1) then 
         '@Path("'.concat(pathAnnotation).concat('")')
@@ -100,14 +115,13 @@ endif)
 /]
 
 [query public javaString (aString : String, toUpperFirst : Boolean) : String = 
-if (toUpperFirst) then 
-	(aString.substituteAll('/', ' ').tokenize(' ')->collect(toUpperFirst())->concatenate()).toUpperFirst()
-else 
-	(aString.substituteAll('/', ' ').tokenize(' ')->collect(toUpperFirst())->concatenate()).toLowerFirst()
-endif
+let name : String = 
+	concatenate((aString.substituteAll('/', ' ').substituteAll('{', ' ').substituteAll('}', '').tokenize(' ')->collect(s : String  | s.toUpperFirst())))
+in 
+	if (toUpperFirst) then name.toUpperFirst() else name.toLowerFirst() endif
 /]
 
-[query private concatenate (aStringSequence : Sequence(String)) : String = 
+[query public concatenate (aStringSequence : Sequence(String)) : String = 
 (if (aStringSequence->size() = 0) then 
     '' 
 else 

@@ -14,7 +14,8 @@
  * Contributors:
  *
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
- *     
+ *     Matthieu Helleboid   - Support for multiple Service Providers.
+ *     Anass Radouani       - Support for multiple Service Providers.
  *******************************************************************************/
 /]
 
@@ -43,38 +44,77 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceService/]
 [import org::eclipse::lyo::oslc4j::codegenerator::staticFiles::generateLicenseFiles/]
 
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCollectionJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateFilteredResourceCollectionJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateGetResourceJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorJsp/]
+
 [template public generate(anAdaptorInterface : AdaptorInterface)]
 [comment @main/]
 
-[comment TODO: Produce "package-info.java" under the Resources package. See the original instructions on how to setup a OSLC4J project for details./]
-[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]
-[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogSingleton() /]
-
 [anAdaptorInterface.generateLicenseFiles() /]
 [anAdaptorInterface.generateAdaptorApplication() /]
+[anAdaptorInterface.generateAdaptorConstants() /]
 [anAdaptorInterface.generateAdaptorPackageInfo() /]
 [anAdaptorInterface.generateAdaptorServletListener() /]
 [anAdaptorInterface.generateAdaptorManager() /]
-[anAdaptorInterface.generateAdaptorConstants() /]
 [anAdaptorInterface.generateDelegatedUIJavaScripts() /]
-[anAdaptorInterface.generateAdaptorServiceProviderFactory() /]
 
+[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]
+[anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogSingleton() /]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogHTML() /]
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface))]
-	[aResource.generateResource(anAdaptorInterface) /]
-	[aResource.generateResourceInterface(anAdaptorInterface) /]
-[/for]
-
-[for (aResource: Resource | servicedResources(anAdaptorInterface))]
-	[aResource.generateResourceService(anAdaptorInterface) /]
+	[aResource.generateResource(anAdaptorInterface, anAdaptorInterface) /]
+	[aResource.generateResourceInterface(anAdaptorInterface, anAdaptorInterface) /]
+	[if (not basicCapabilities(anAdaptorInterface, aResource)->isEmpty())]
+		[aResource.generateGetResourceJsp(anAdaptorInterface, anAdaptorInterface) /]
+	[/if]
 [/for]
 
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
-	[aServiceProvider.generateServiceProviderService(anAdaptorInterface)/]
-	[aServiceProvider.generateServiceProviderHTML(anAdaptorInterface) /]
-    [aServiceProvider.generateServiceProviderInfo(anAdaptorInterface) /]
+    [aServiceProvider.generateServiceProviderInfo() /]
+	[aServiceProvider.generateServiceProviderService()/]
+	[aServiceProvider.generateAdaptorServiceProviderFactory() /]
+	[aServiceProvider.generateServiceProviderHTML() /]
 
+	[for (aService: Service | aServiceProvider.services)]
+		[aService.generateResourceService()/]
+
+		[for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
+		[comment Produce one only jsp-file for each set of QueryCapabilities that have the same Sequence (not Set) of ResourceTypes. /]
+		[let allQueryCapabilities: Sequence(QueryCapability) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.queryCapabilities]
+			[if not (allQueryCapabilities->excluding(aQueryCapability)->exists(anotherQueryCapability: QueryCapability | 
+					(anotherQueryCapability.resourceTypes = aQueryCapability.resourceTypes).
+					_and(allQueryCapabilities->indexOf(anotherQueryCapability) > allQueryCapabilities->indexOf(aQueryCapability))))]
+				[aQueryCapability.generateResourceCollectionJsp() /]
+			[/if]
+		[/let]
+		[/for]
+	
+		[for (aSelectionDialog: Dialog | aService.selectionDialogs)]
+		[comment Produce one only set of jsp-files for each set of selectionDialogs that have the same Sequence (not Set) of ResourceTypes. /]
+		[let allSelectionDialogs: Sequence(Dialog) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.selectionDialogs]
+			[if not (allSelectionDialogs->excluding(aSelectionDialog)->exists(anotherSelectionDialog: Dialog | 
+					(anotherSelectionDialog.resourceTypes = aSelectionDialog.resourceTypes).
+					_and(allSelectionDialogs->indexOf(anotherSelectionDialog) > allSelectionDialogs->indexOf(aSelectionDialog))))]
+				[aSelectionDialog.generateFilteredResourceCollectionJsp() /]
+				[aSelectionDialog.generateResourceSelectorJsp() /]
+			[/if]
+		[/let]
+		[/for]
+	
+		[for (aCreationDialog: Dialog | aService.creationDialogs)]
+		[comment Produce one only jsp-file for each set of creationDialogs that have the same Sequence (not Set) of ResourceTypes. /]
+		[let allCreationDialogs: Sequence(Dialog) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDialogs]
+			[if not (allCreationDialogs->excluding(aCreationDialog)->exists(anotherCreationDialog: Dialog | 
+					(anotherCreationDialog.resourceTypes = aCreationDialog.resourceTypes).
+					_and(allCreationDialogs->indexOf(anotherCreationDialog) > allCreationDialogs->indexOf(aCreationDialog))))]
+				[aCreationDialog.generateResourceCreatorJsp() /]
+			[/if]
+		[/let]
+		[/for]
+	[/for]
 [/for]
-
 [/template]

@@ -252,3 +252,15 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
         aProperty.definingDomainSpecification().namespacePrefix.name.concat(aProperty.name.toUpperFirst())
     endif)
 /]
+
+[query public propertyToHtmlForCreationMethodName(aProperty: ResourceProperty, aResource: Resource, aCreationDialog: Dialog) : String = 
+javaAttributeName(aProperty, aResource).concat('ToHtmlForCreation')
+.concat(
+	(if (aCreationDialog.oclIsUndefined()) 
+		then 
+			'' 
+		else 
+			creationDialogs(containingAdaptorInterface(aCreationDialog), aResource)->indexOf(aCreationDialog).toString()
+	endif)
+)
+/]

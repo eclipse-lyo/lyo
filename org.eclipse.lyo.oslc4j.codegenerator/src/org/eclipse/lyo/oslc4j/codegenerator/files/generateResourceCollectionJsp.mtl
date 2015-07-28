@@ -22,11 +22,13 @@
 [module generateResourceCollectionJsp('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateResourceCollectionJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
-[file (resourceCollectionJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
+[template public generateResourceCollectionJsp(aQueryCapability: QueryCapability)]
+[file (resourceCollectionJspFullFileName(aQueryCapability), false, 'UTF-8')]
+[let anAdaptorInterface: AdaptorInterface = containingAdaptorInterface(aQueryCapability)]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.
@@ -49,8 +51,11 @@
 --%>
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.model.AbstractResource"%>
 <%@page import="java.util.List" %>
+[for (aResource: Resource | aQueryCapability.resourceTypes)]
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+[/for]
 <%--
 [protected ('imports')]
 --%>
@@ -61,7 +66,7 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
 <%
-    List<[javaClassName(aResource) /]> resources = (List<[javaClassName(aResource) /]>) request.getAttribute("resources");
+    List<[queryMethodResourceType(aQueryCapability)/]> resources = (List<[queryMethodResourceType(aQueryCapability)/]>) request.getAttribute("resources");
 	String queryUri = (String)request.getAttribute("queryUri");
 	String nextPageUri = (String)request.getAttribute("nextPageUri");
 %>
@@ -75,7 +80,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>[javaClassName(aResource) /] Query</title>
+		<title>[aQueryCapability.title/]</title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -90,7 +95,7 @@
 				<tr>
 					<td id="title">
 						<p>
-							[javaClassName(aResource) /] Query
+							[aQueryCapability.title/]
 						</p>
 					</td>
 					<td id="information">
@@ -113,8 +118,12 @@
 	
 				<h1>Query Results</h1>
 
-                <% for ([aResource.name.toUpperFirst() /] a[aResource.name.toUpperFirst() /] : resources) { %>                
-                <p>Summary: <%= a[aResource.name.toUpperFirst() /].toHtml() %><br /></p>
+                <% for ([queryMethodResourceType(aQueryCapability)/] aResource : resources) { %>
+				[if (queryMethodResourceType(aQueryCapability) = 'AbstractResource')]
+	            <p>Summary: <a href="<%= aResource.getAbout() %>"><%=aResource.getAbout().toString()%></a><br /></p>
+				[else]
+	            <p>Summary: <%= aResource.toHtml() %><br /></p>
+				[/if]
 			    <% } %>
             	<% if (nextPageUri != null) { %><a href="<%= nextPageUri %>">Next Page</a><% } %>
 
@@ -131,6 +140,6 @@
 		</div>
 	</body>
 </html>
-
+[/let]
 [/file]
 [/template]

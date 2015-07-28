@@ -22,12 +22,14 @@
 [module generateResourceCreatorJsp('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateResourceCreatorJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
-[file (resourceCreatorJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
+[template public generateResourceCreatorJsp(aCreationDialog: Dialog)]
+[file (resourceCreatorJspFullFileName(aCreationDialog), false, 'UTF-8')]
+[let anAdaptorInterface: AdaptorInterface = containingAdaptorInterface(aCreationDialog)]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.
@@ -51,7 +53,9 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="java.util.List" %>
+[for (aResource: Resource | aCreationDialog.resourceTypes)]
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+[/for]
 <%--
 [protected ('imports')]
 --%>
@@ -63,8 +67,8 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
 <%
-    [for (collectionCompositeID: String | aResource.collectionCompositeID(anAdaptorInterface)) separator(lineSeparator())]
-    String [collectionCompositeID /] = (String) request.getAttribute("[collectionCompositeID /]");
+    [for (aPathParameter: String | JAXRSPathParameters(aCreationDialog.URI(false)))]
+    String [aPathParameter/] = (String) request.getAttribute("[aPathParameter/]");
     [/for]
 %>
 <%--
@@ -77,7 +81,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Resource Creator</title>
+		<title>[aCreationDialog.title/]</title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -95,16 +99,30 @@
 		[/protected] 
 		--%>
 				<table style="clear: both;">
-
-					[comment TODO: This whole way of producing the form should be rethought. Which approach gives the programmer 
-					best possibility to modify the generated stuff. (hiding fields, changing the format, removing fields, etc.)/]
-					[for (aProperty: ResourceProperty | allProperties(aResource))]
-						<tr>
-							<td><%= [javaClassName(aResource)/].[javaAttributeName(aProperty, aResource) /]ToHtmlForCreation(request[commaSeparate(aResource.collectionMethodParameterList(anAdaptorInterface), true, false)/])%></td>
-						</tr>
-					[/for]
-
-					
+				[if not (aCreationDialog.resourceTypes->size() = 1)]
+				// TODO Implement code to create the creation form. This method seems to be expected to handle more than a single type of resources.
+				<%--
+				[protected ('creationForm')]
+				--%>
+				<%--
+				[/protected]
+				--%>
+				[else]
+				[let aResource : Resource = aCreationDialog.resourceTypes->first()]
+				[comment TODO: This whole way of producing the form should be rethought. Which approach gives the programmer 
+				best possibility to modify the generated stuff. (hiding fields, changing the format, removing fields, etc.)/]
+				[for (aProperty: ResourceProperty | (aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource)))]
+					<tr>
+						<td><%= [javaClassName(aResource)/].[propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)/](request[commaSeparate(dialogMethodParameterList(aCreationDialog, false), true, false)/])%></td>
+					</tr>
+				[/for]
+				[for (aProperty: ResourceProperty | inheritedProperties(aResource))]
+					<tr>
+						<td><%= [javaClassName(aResource)/].[propertyToHtmlForCreationMethodName(aProperty, aResource, null)/](request)%></td>
+					</tr>
+				[/for]
+				[/let]
+				[/if]
 					<tr>
 						<td></td>
 						<td>
@@ -113,20 +131,14 @@
 						</td>
 					</tr>
 				</table>
-				
-
 				<div style="width: 500px;">
-					
 				</div>
-				
 			</form>
 
 			<div style="clear: both;"></div>
 		</div>
 	</body>
 </html>
-
-
-
+[/let]
 [/file]
 [/template]

@@ -22,12 +22,13 @@
 [module generateGetResourceJsp('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::serviceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 
-[template public generateGetResourceJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
-[file (getResourceJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
+[template public generateGetResourceJsp(aResource : Resource, contextAdaptorInterface : AdaptorInterface, managingAdaptorInterface: AdaptorInterface)]
+[file (getResourceJspFullFileName(aResource, contextAdaptorInterface), false, 'UTF-8')]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.
@@ -51,7 +52,7 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="java.util.List" %>
-<%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+<%@page import="[javaClassFullName(aResource, contextAdaptorInterface) /]"%>
 <%--
 [protected ('imports')]
 --%>
@@ -62,7 +63,7 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
 <%
-    [javaClassName(aResource) /] a[aResource.name.toUpperFirst() /] = ([javaClassName(aResource) /]) request.getAttribute("a[aResource.name.toUpperFirst() /]");
+    [javaClassName(aResource)/] a[javaName(aResource, true)/] = ([javaClassName(aResource)/]) request.getAttribute("a[javaName(aResource, true)/]");
 %>
 <%--
 [protected ('getRequestAttributes')]
@@ -74,7 +75,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title><%= a[aResource.name.toUpperFirst() /].toHtml() %></title>
+		<title><%= a[javaName(aResource, true)/].toHtml() %></title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -89,7 +90,7 @@
 				<tr>
 					<td id="title">
 						<p>
-							<%= a[aResource.name.toUpperFirst() /].toHtml() %>
+							<%= a[javaName(aResource, true)/].toHtml() %>
 						</p>
 					</td>
 					<td id="information">
@@ -111,12 +112,12 @@
 				--%>
 
 				<h1>Resource Presentation</h1>
-                <p>Summary: <%= a[aResource.name.toUpperFirst() /].toHtml() %><br /></p>
+                <p>Summary: <%= a[javaName(aResource, true)/].toHtml() %><br /></p>
 				<h2>Properties</h2>
 				<table style="clear: both;">
 				[for (aProperty: ResourceProperty | allProperties(aResource))]
 					<tr>
-						<td><%= a[aResource.name.toUpperFirst() /].[javaAttributeName(aProperty, aResource) /]ToHtml()%></td>
+						<td><%= a[javaName(aResource, true)/].[javaAttributeName(aProperty, aResource) /]ToHtml()%></td>
 					</tr>
 				[/for]
 				</table>
@@ -137,9 +138,5 @@
 		
 	</body>
 </html>
-
-
-
-
 [/file]
 [/template]

@@ -30,8 +30,9 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderCatalogServices/]
 
-[template public generateServiceProviderService(aServiceProvider : ServiceProvider, anAdaptorInterface : AdaptorInterface)]
+[template public generateServiceProviderService(aServiceProvider : ServiceProvider)]
 [file (javaClassFullFileNameForService(aServiceProvider), false, 'UTF-8')]
+[let anAdaptorInterface: AdaptorInterface = containingAdaptorInterface(aServiceProvider)]
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation and others.
  *
@@ -140,7 +141,7 @@ public class [javaClassNameForService(aServiceProvider) /]
     public ServiceProvider getServiceProvider([commaSeparate(aServiceProvider.instanceJAXRSMethodSignature(), false, false)/])
     {
     	httpServletResponse.addHeader("Oslc-Core-Version","2.0");
-        return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
+        return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].get[aServiceProvider.javaName(true)/](httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
     }
     
  
@@ -157,7 +158,7 @@ public class [javaClassNameForService(aServiceProvider) /]
     @Produces(MediaType.TEXT_HTML)
     public void getHtmlServiceProvider([commaSeparate(instanceJAXRSMethodSignature(aServiceProvider), false, false)/])
     {
-    	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProvider(httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
+    	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].get[aServiceProvider.javaName(true)/](httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
     	Service [ '[' /][ ']' /] services = serviceProvider.getServices();
 
         httpServletRequest.setAttribute("serviceProvider", serviceProvider);
@@ -165,7 +166,7 @@ public class [javaClassNameForService(aServiceProvider) /]
 		// [protected ('getHtmlServiceProvider_setAttributes')]
 		// [/protected]
 
-        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[serviceProviderJspRelativeFileName(aServiceProvider, anAdaptorInterface) /]");
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[serviceProviderJspRelativeFileName(aServiceProvider) /]");
 		try {
 			rd.forward(httpServletRequest, httpServletResponse);
 		} catch (Exception e) {				
@@ -177,5 +178,6 @@ public class [javaClassNameForService(aServiceProvider) /]
 
 
 }
+[/let]
 [/file]
 [/template]

@@ -27,8 +27,9 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 
-[template public generateResourceSelectorJsp(aResource : Resource, anAdaptorInterface : AdaptorInterface)]
-[file (resourceSelectorJspFullFileName(aResource, anAdaptorInterface), false, 'UTF-8')]
+[template public generateResourceSelectorJsp(aSelectionDialog: Dialog)]
+[file (resourceSelectorJspFullFileName(aSelectionDialog), false, 'UTF-8')]
+[let anAdaptorInterface: AdaptorInterface = containingAdaptorInterface(aSelectionDialog)]
 <!DOCTYPE html>
 <%--
  Copyright (c) 2011, 2012 IBM Corporation and others.
@@ -51,7 +52,9 @@
 --%>
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
+[for (aResource: Resource | aSelectionDialog.resourceTypes)]
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
+[/for]
 <%@page import="[javaClassFullNameForAdaptorServletListener(anAdaptorInterface) /]"%>
 <%--
 [protected ('imports')]
@@ -77,7 +80,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>[aResource.name /] Resource Selector</title>
+		<title>[aSelectionDialog.title/]</title>
 		<%-- 
 		[protected ('(RECOMMENDED) headStuff')] 
 		--%>
@@ -113,5 +116,6 @@
 
 	</body>
 </html>
+[/let]
 [/file]
 [/template]

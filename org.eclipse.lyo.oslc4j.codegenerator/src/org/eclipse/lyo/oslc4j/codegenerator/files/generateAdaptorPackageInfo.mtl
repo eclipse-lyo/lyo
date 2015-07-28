@@ -60,9 +60,7 @@
 	@OslcNamespaceDefinition(prefix = OslcConstants.OSLC_DATA_NAMESPACE_PREFIX,           namespaceURI = OslcConstants.OSLC_DATA_NAMESPACE),
 	@OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX,                 namespaceURI = OslcConstants.RDF_NAMESPACE),
 	@OslcNamespaceDefinition(prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,                namespaceURI = OslcConstants.RDFS_NAMESPACE),
-	[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name)) separator(','.concat(lineSeparator()))]
-		@OslcNamespaceDefinition(prefix = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespacePrefixConstantName(aDomainSpecification) /], namespaceURI = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespaceConstantName(aDomainSpecification) /])
-	[/for]
+[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name)) separator(','.concat(lineSeparator()))]	@OslcNamespaceDefinition(prefix = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespacePrefixConstantName(aDomainSpecification) /], namespaceURI = [javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespaceConstantName(aDomainSpecification) /])[/for]
 })
 package [javaClassPackageNameForAdaptorPackageInfo(anAdaptorInterface) /];
 
