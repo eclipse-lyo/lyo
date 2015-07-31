@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.PName;
 import org.eclipse.lyo.core.query.TypedValue;
 import org.eclipse.lyo.core.query.Value.Type;
@@ -31,7 +32,7 @@ class TypedValueInvocationHandler extends ValueInvocationHandler
 {
 	public
 	TypedValueInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{

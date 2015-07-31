@@ -18,7 +18,7 @@ package org.eclipse.lyo.core.query.impl;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.SimpleSortTerm;
 import org.eclipse.lyo.core.query.SortTerm.Type;
 
@@ -30,7 +30,7 @@ public class SimpleSortTermInvocationHandler extends SortTermInvocationHandler
 {
 	public
 	SimpleSortTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{

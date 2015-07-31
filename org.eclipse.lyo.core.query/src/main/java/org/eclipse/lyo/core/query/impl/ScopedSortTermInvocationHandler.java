@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.ScopedSortTerm;
 import org.eclipse.lyo.core.query.SortTerm.Type;
 import org.eclipse.lyo.core.query.SortTerms;
@@ -31,7 +31,7 @@ class ScopedSortTermInvocationHandler extends SortTermInvocationHandler
 {
 	public
 	ScopedSortTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{
@@ -62,7 +62,7 @@ class ScopedSortTermInvocationHandler extends SortTermInvocationHandler
 				Proxy.newProxyInstance(SortTerms.class.getClassLoader(), 
 						new Class<?>[] { SortTerms.class },
 						new SortTermsInvocationHandler(
-								(CommonTree)tree.getChild(1), prefixMap));
+								tree.getChild(1), prefixMap));
 			
 		}
 		

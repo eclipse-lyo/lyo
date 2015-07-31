@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.OslcOrderByParser;
 import org.eclipse.lyo.core.query.ScopedSortTerm;
 import org.eclipse.lyo.core.query.SimpleSortTerm;
@@ -36,7 +36,7 @@ public class SortTermsInvocationHandler implements InvocationHandler
 {
 	public
 	SortTermsInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{
@@ -57,16 +57,15 @@ public class SortTermsInvocationHandler implements InvocationHandler
 	{
 		if (children == null) {
 			
-			@SuppressWarnings("unchecked")
-			List<CommonTree> rawChildren = tree.getChildren();
+			children = new ArrayList<SortTerm>(tree.getChildCount());
 			
-			children = new ArrayList<SortTerm>(rawChildren.size());
-			
-			for (CommonTree child : rawChildren) {
+			for (int index = 0; index < tree.getChildCount(); index++) {
+				
+				Tree child = tree.getChild(index);
 				
 				Object simpleTerm;
 				
-				switch(child.getToken().getType()) {
+				switch(child.getType()) {
 				case OslcOrderByParser.SIMPLE_TERM:
 					simpleTerm = 
 						Proxy.newProxyInstance(SimpleSortTerm.class.getClassLoader(), 
@@ -82,7 +81,7 @@ public class SortTermsInvocationHandler implements InvocationHandler
 										child, prefixMap));
 					break;
 				default:
-					throw new IllegalStateException("unimplemented type of sort term: " + child.getToken().getText());
+					throw new IllegalStateException("unimplemented type of sort term: " + child.getText());
 				}
 				
 				children.add((SortTerm)simpleTerm);
@@ -112,7 +111,7 @@ public class SortTermsInvocationHandler implements InvocationHandler
 		return buffer.toString();
 	}
 
-	private final CommonTree tree;
+	private final Tree tree;
 	private final Map<String, String> prefixMap;
 	private List<SortTerm> children = null;
 }

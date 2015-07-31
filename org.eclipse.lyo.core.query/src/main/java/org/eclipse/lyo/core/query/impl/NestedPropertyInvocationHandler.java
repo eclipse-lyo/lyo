@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.NestedProperty;
 import org.eclipse.lyo.core.query.OslcSelectParser;
 import org.eclipse.lyo.core.query.Property;
@@ -32,7 +33,7 @@ class NestedPropertyInvocationHandler extends PropertyInvocationHandler
 {
 	public
 	NestedPropertyInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{
@@ -86,6 +87,6 @@ class NestedPropertyInvocationHandler extends PropertyInvocationHandler
 		return buffer.toString();
 	}
 	
-	private final CommonTree tree;
+	private final Tree tree;
 	private List<Property> children = null;
 }

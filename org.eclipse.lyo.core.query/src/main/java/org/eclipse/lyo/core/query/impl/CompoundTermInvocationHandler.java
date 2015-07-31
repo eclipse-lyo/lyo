@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.ComparisonTerm;
 import org.eclipse.lyo.core.query.CompoundTerm;
 import org.eclipse.lyo.core.query.InTerm;
@@ -38,7 +38,7 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
 {
 	public
 	CompoundTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		boolean isTopLevel,
 		Map<String, String> prefixMap
 	)
@@ -74,21 +74,22 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
 			return children;
 		}
 		
-		@SuppressWarnings("unchecked")
-		List<CommonTree> treeChildren =
+		Tree currentTree =
 			isTopLevel ?
-				tree.getChildren() :
-				((CommonTree)tree.getChild(1)).getChildren();
+				tree :
+				tree.getChild(1);
 		
 		children =
 			new ArrayList<SimpleTerm>(
-					treeChildren.size() - (isTopLevel ? 0 : 1));
+					currentTree.getChildCount() - (isTopLevel ? 0 : 1));
 		
-		for (CommonTree child : treeChildren) {
+		for (int index = 0; index < currentTree.getChildCount(); index++) {
+			
+			Tree child = currentTree.getChild(index);
 			
 			Object simpleTerm;
 			
-			switch(child.getToken().getType()) {
+			switch(child.getType()) {
 			case OslcWhereParser.SIMPLE_TERM:
 				simpleTerm = 
 					Proxy.newProxyInstance(ComparisonTerm.class.getClassLoader(), 
@@ -111,7 +112,7 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
 									child, false, prefixMap));
 				break;
 			default:
-				throw new IllegalStateException("unimplemented type of simple term: " + child.getToken().getText());
+				throw new IllegalStateException("unimplemented type of simple term: " + child.getText());
 			}
 			
 			children.add((SimpleTerm)simpleTerm);
@@ -150,7 +151,7 @@ public class CompoundTermInvocationHandler extends SimpleTermInvocationHandler
 		return buffer.toString();
 	}
 	
-	private final CommonTree tree;
+	private final Tree tree;
 	private final boolean isTopLevel;
 	private List<SimpleTerm> children = null;
 }

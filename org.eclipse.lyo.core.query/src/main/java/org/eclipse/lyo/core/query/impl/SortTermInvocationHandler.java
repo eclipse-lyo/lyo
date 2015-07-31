@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.PName;
 import org.eclipse.lyo.core.query.SortTerm;
 import org.eclipse.lyo.core.query.SortTerm.Type;
@@ -32,7 +32,7 @@ class SortTermInvocationHandler implements InvocationHandler
 	public
 	SortTermInvocationHandler(
 		Type type,
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{
@@ -79,7 +79,7 @@ class SortTermInvocationHandler implements InvocationHandler
 	}
 
 	private final Type type;
-	protected final CommonTree tree;
+	protected final Tree tree;
 	protected final Map<String, String> prefixMap;
 	private PName identifier = null;
 }

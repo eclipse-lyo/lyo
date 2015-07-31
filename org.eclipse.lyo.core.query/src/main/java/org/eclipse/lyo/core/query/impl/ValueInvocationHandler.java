@@ -19,7 +19,7 @@ package org.eclipse.lyo.core.query.impl;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.Value;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -30,7 +30,7 @@ abstract class ValueInvocationHandler implements InvocationHandler
 {
 	protected
 	ValueInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Type type
 	)
 	{
@@ -51,6 +51,6 @@ abstract class ValueInvocationHandler implements InvocationHandler
 		return type;
 	}
 	
-	protected final CommonTree tree;
+	protected final Tree tree;
 	private final Type type;
 }

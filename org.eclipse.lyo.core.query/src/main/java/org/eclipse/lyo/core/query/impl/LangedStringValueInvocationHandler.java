@@ -18,7 +18,7 @@ package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.LangedStringValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -28,7 +28,7 @@ import org.eclipse.lyo.core.query.Value.Type;
 class LangedStringValueInvocationHandler extends ValueInvocationHandler
 {
 	public
-	LangedStringValueInvocationHandler(CommonTree tree)
+	LangedStringValueInvocationHandler(Tree tree)
 	{
 		super(tree, Type.LANGED_STRING);
 	}
@@ -57,7 +57,7 @@ class LangedStringValueInvocationHandler extends ValueInvocationHandler
 			
 			if (value == null) {
 				
-				String rawValue = ((CommonTree)tree.getChild(0)).getText();
+				String rawValue = tree.getChild(0).getText();
 				
 				// XXX - determine if need to unescape
 				value = rawValue.substring(1, rawValue.length() - 1);
@@ -67,7 +67,7 @@ class LangedStringValueInvocationHandler extends ValueInvocationHandler
 		}
 		
 		if (langTag == null) {
-			langTag = ((CommonTree)tree.getChild(1)).getText().substring(1);
+			langTag = tree.getChild(1).getText().substring(1);
 		}
 	
 		if (methodName.equals("langTag")) {

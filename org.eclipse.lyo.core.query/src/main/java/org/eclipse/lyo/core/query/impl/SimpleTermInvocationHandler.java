@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.PName;
 import org.eclipse.lyo.core.query.SimpleTerm;
 import org.eclipse.lyo.core.query.SimpleTerm.Type;;
@@ -32,7 +32,7 @@ abstract class SimpleTermInvocationHandler implements InvocationHandler
 {
 	protected
 	SimpleTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Type type,
 		Map<String, String> prefixMap
 	)
@@ -83,7 +83,7 @@ abstract class SimpleTermInvocationHandler implements InvocationHandler
 		return property;
 	}
 
-	protected final CommonTree tree;
+	protected final Tree tree;
 	protected final Map<String, String> prefixMap;
 	private final Type type;
 	private PName property = null;

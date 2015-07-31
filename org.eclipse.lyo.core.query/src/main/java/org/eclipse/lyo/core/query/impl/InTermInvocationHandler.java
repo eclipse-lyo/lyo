@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.InTerm;
 import org.eclipse.lyo.core.query.SimpleTerm.Type;
 import org.eclipse.lyo.core.query.Value;
@@ -34,7 +34,7 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
 {
 	public
 	InTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
    )
 	{
@@ -62,13 +62,13 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
 		
 		if (values == null) {
 			
-			@SuppressWarnings("unchecked")
-			List<CommonTree> treeValues =
-				((CommonTree)tree.getChild(1)).getChildren();
+			Tree currentTree = tree.getChild(1);
 			
-			values = new ArrayList<Value>(treeValues.size() - 1);
+			values = new ArrayList<Value>(currentTree.getChildCount() - 1);
 			
-			for (CommonTree treeValue : treeValues) {
+			for (int index = 0; index < currentTree.getChildCount(); index++) {
+				
+				Tree treeValue = currentTree.getChild(index);
 				
 				Value value =
 					ComparisonTermInvocationHandler.createValue(

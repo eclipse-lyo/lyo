@@ -18,7 +18,7 @@ package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.BooleanValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -28,7 +28,7 @@ import org.eclipse.lyo.core.query.Value.Type;
 class BooleanValueInvocationHandler extends ValueInvocationHandler
 {
 	public
-	BooleanValueInvocationHandler(CommonTree tree)
+	BooleanValueInvocationHandler(Tree tree)
 	{
 		super(tree, Type.BOOLEAN);
 	}

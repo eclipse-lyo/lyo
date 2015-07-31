@@ -74,17 +74,16 @@ public class QueryUtils
 		
 		try {
 			
-			CommonTree rawTree =
-				(CommonTree)parser.oslc_prefixes().getTree();			 
+			CommonTree rawTree = parser.oslc_prefixes().getTree();			 
 
 			checkErrors(parser.getErrors());;
 			
-			@SuppressWarnings("unchecked")
-			List<CommonTree> rawPrefixes = rawTree.getChildren();
 			PrefixMap prefixMap =
-				new PrefixMap(rawPrefixes.size());
+				new PrefixMap(rawTree.getChildCount());
 			
-			for (CommonTree rawPrefix : rawPrefixes) {
+			for (int index = 0; index < rawTree.getChildCount(); index++) {
+				
+				Tree rawPrefix = rawTree.getChild(index);
 				
 				if (rawPrefix.getType() == Token.INVALID_TOKEN_TYPE) {
 					throw ((CommonErrorNode)rawPrefix).trappedException;
@@ -439,11 +438,11 @@ public class QueryUtils
 				throw ((CommonErrorNode)child).trappedException;
 			}
 			
-			@SuppressWarnings("unchecked")
-			List<CommonTree> rawList = rawTree.getChildren();
-			StringList stringList = new StringList(rawList.size());
+			StringList stringList = new StringList(rawTree.getChildCount());
 			
-			for (CommonTree string : rawList) {
+			for (int index = 0; index < rawTree.getChildCount(); index++) {
+				
+				Tree string = rawTree.getChild(index);
 				
 				String rawString = string.getText();
 				

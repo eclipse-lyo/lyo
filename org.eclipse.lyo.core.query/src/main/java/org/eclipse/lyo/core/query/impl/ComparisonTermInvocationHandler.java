@@ -21,6 +21,7 @@ import java.lang.reflect.Proxy;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.BooleanValue;
 import org.eclipse.lyo.core.query.ComparisonTerm;
 import org.eclipse.lyo.core.query.ComparisonTerm.Operator;
@@ -40,7 +41,7 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
 {
 	public
 	ComparisonTermInvocationHandler(
-		CommonTree tree,
+		Tree tree,
 		Map<String, String> prefixMap
 	)
 	{
@@ -111,12 +112,12 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
 	
 	static Value
 	createValue(
-		CommonTree treeOperand,
+		Tree treeOperand,
 		String errorPrefix,
 		Map<String, String> prefixMap
 	)
 	{
-		switch (treeOperand.getToken().getType()) {
+		switch (treeOperand.getType()) {
 		case OslcWhereParser.IRI_REF:
 			return
 				(Value)Proxy.newProxyInstance(
@@ -162,7 +163,7 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
 		default:
 			throw new IllegalStateException(
 					errorPrefix + ": " +
-						treeOperand.getToken().getText());
+						treeOperand.getText());
 		}		
 	}
 	

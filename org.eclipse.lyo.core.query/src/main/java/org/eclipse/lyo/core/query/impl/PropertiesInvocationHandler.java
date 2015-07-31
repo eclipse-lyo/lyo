@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.Identifier;
 import org.eclipse.lyo.core.query.NestedProperty;
 import org.eclipse.lyo.core.query.OslcSelectParser;
@@ -106,11 +107,11 @@ public class PropertiesInvocationHandler implements InvocationHandler
 		Map<String, String> prefixMap
 	)
 	{
-		@SuppressWarnings("unchecked")
-		List<CommonTree> treeChildren = tree.getChildren();		   
-		List<Property> children = new ArrayList<Property>(treeChildren.size());
+		List<Property> children = new ArrayList<Property>(tree.getChildCount());
 		
-		for (CommonTree treeChild : treeChildren) {
+		for (int index = 0; index < tree.getChildCount(); index++) {
+
+			Tree treeChild = tree.getChild(index);
 			
 			Property property;
 			
