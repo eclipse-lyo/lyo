@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2014 IBM Corporation.
+ * Copyright (c) 2011, 2015 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -17,7 +17,10 @@ package org.eclipse.lyo.client.exception;
 
 
 /**
- * Exception indicating a Jazz authentication or credentials problem
+ * Thrown when an HTTP response comes back from the Jazz server with an HTTP response header 
+ * X-com-ibm-team-repository-web-auth-msg with a value of "authfailed". The server sends this
+ * when the user could not be authenticated. The exception will contain
+ * the username and the URL of the server.
  *
  */
 @SuppressWarnings("serial")
