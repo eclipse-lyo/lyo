@@ -65,7 +65,7 @@
 /]
 
 [query public directlyRelatedResources(aResource: Resource) : Set(Resource) =
-	(aResource.resourceProperties->select(aProperty : ResourceProperty | not aProperty.range.oclIsUndefined()).range)->asSet()
+	(aResource.resourceProperties->collect(p : ResourceProperty | p.range))->flatten()->asSet()
 	->union(
 		aResource.extends
 	)->flatten()->asSet()

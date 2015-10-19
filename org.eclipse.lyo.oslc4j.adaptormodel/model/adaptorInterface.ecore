@@ -95,8 +95,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueType" eType="#//ResourcePropertyValueType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="representation" eType="#//ResourcePropertyRepresentation"
         defaultValueLiteral="n/a"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" upperBound="-1"
+        eType="#//Resource"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowedValue" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isMemberProperty" eType="#//ResourcePropertyIsMemberProperty"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyOccurs">
     <eLiterals name="exactlyOne" literal="exactlyOne"/>
@@ -121,6 +126,11 @@
     <eLiterals name="inline" value="1" literal="inline"/>
     <eLiterals name="either" value="2" literal="either"/>
     <eLiterals name="n/a" value="3" literal="n/a"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourcePropertyIsMemberProperty">
+    <eLiterals name="n/a" value="-1" literal="n/a"/>
+    <eLiterals name="false" literal="false"/>
+    <eLiterals name="true" value="1" literal="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CreationFactory">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

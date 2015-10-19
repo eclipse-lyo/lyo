@@ -20,6 +20,7 @@
 
 [module resourcePropertyServices('http://org.eclipse.lyo/oslc4j/adaptorInterface')/]
 
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
@@ -96,8 +97,10 @@ endif)
 /]
 
 [query public rangeAnnotation(aProperty: ResourceProperty, aResource: Resource, anAdaptorInterface: AdaptorInterface) : String = 
-(if (not aProperty.range.oclIsUndefined()) then
-	'@OslcRange('.concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.').concat(resourceTypeConstantName(aProperty.range)).concat(')')
+(if (aProperty.range->size() > 0) then
+	'@OslcRange({'
+		.concat(concatenate(aProperty.range->collect(aRange : Resource | javaInterfaceNameForAdaptorConstants(anAdaptorInterface).concat('.').concat(resourceTypeConstantName(aRange))), ', '))
+		.concat('})')
 else
 	''
 endif)
@@ -114,6 +117,27 @@ endif)
 [query public titleAnnotation(aProperty: ResourceProperty) : String = 
 (if (not aProperty.title.oclIsUndefined()) then
 	'@OslcTitle("'.concat(aProperty.title).concat('")')
+else
+	''
+endif)
+/]
+
+[comment: It is not possible to have a boolean property which the user can leave undefined. Hence, we need to create an enum with a third option of "n/a"./]
+[query public isMemberPropertyAnnotation(aProperty: ResourceProperty) : String = 
+if (aProperty.isMemberProperty.toString().equalsIgnoreCase('true')) then
+	'@OslcMemberProperty(true)'
+else
+	if (aProperty.isMemberProperty.toString().equalsIgnoreCase('false')) then
+		'@OslcMemberProperty(false)'
+	else
+		''
+	endif
+endif
+/]
+
+[query public allowedValueAnnotation(aProperty: ResourceProperty) : String = 
+(if (aProperty.allowedValue->size() > 0) then
+	'@OslcAllowedValue({"'.concat(concatenate((aProperty.allowedValue)->asSequence(), '", "')).concat('"})')
 else
 	''
 endif)
@@ -160,8 +184,8 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 										'new Link(new URI(' + variable + '))'
 									else
 										if(aProperty.valueType.toString() = 'LocalResource') then
-											if (not aProperty.range.oclIsUndefined()) then
-												'new ' + javaClassName(aProperty.range) + '(new URI(' + variable + '))'
+											if (aProperty.range->size() = 1) then
+												'new ' + javaClassName(aProperty.range->first()) + '(new URI(' + variable + '))'
 											else
 												'new Link(new URI(' + variable + '))'
 											endif
@@ -226,8 +250,8 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 											'Link'
 									else
 										if(aProperty.valueType.toString() = 'LocalResource') then
-											if (not aProperty.range.oclIsUndefined()) then
-												javaClassName(aProperty.range)
+											if (aProperty.range->size() = 1) then
+												javaClassName(aProperty.range->first())
 											else
 												'Link'
 											endif

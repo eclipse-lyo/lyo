@@ -137,6 +137,8 @@ else
 endif)
 /]
 
-
+[query public concatenate (aStringSequence : Sequence(String), separatorString : String) : String = 
+	concatenate(aStringSequence->sep(separatorString).oclAsType(String))
+/]
 
 

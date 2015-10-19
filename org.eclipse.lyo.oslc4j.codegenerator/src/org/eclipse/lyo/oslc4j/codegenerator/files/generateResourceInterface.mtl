@@ -79,6 +79,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
@@ -100,9 +101,9 @@ import [javaClassFullNameForAdaptorServletListener(contextAdaptorInterface) /];
 import [javaInterfaceFullNameForAdaptorConstants(contextAdaptorInterface) /];
 [for (aProperty: ResourceProperty | allProperties(aResource)->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]
-[if (not aProperty.range.oclIsUndefined())]
-import [javaInterfaceFullName(aProperty.range, contextAdaptorInterface) /];	
-[/if]
+[for (r: Resource | aProperty.range)]
+import [javaInterfaceFullName(r, contextAdaptorInterface) /];	
+[/for]
 [/if]
 [/for]
 
@@ -122,15 +123,39 @@ public interface [javaInterfaceName(aResource) /]
 [/for]
 
 [for (aProperty: ResourceProperty | aResource.resourceProperties)]
-   	[nameAnnotation(aProperty) /]
-   	[propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface) /]
-	[descriptionAnnotation(aProperty) /]
-	[occursAnnotation(aProperty) /]
-	[valueTypeAnnotation(aProperty) /]
-	[representationAnnotation(aProperty) /]
-	[rangeAnnotation(aProperty, aResource, contextAdaptorInterface) /]
-	[readOnlyAnnotation(aProperty) /]
-	[titleAnnotation(aProperty) /]
+   	[if (not (nameAnnotation(aProperty) = ''))]
+	[nameAnnotation(aProperty)/]
+	[/if]
+	[if (not (propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface) = ''))]
+	[propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface)/]
+	[/if]
+	[if (not (descriptionAnnotation(aProperty) = ''))]
+	[descriptionAnnotation(aProperty)/]
+	[/if]
+	[if (not (occursAnnotation(aProperty) = ''))]
+	[occursAnnotation(aProperty)/]
+	[/if]
+	[if (not (valueTypeAnnotation(aProperty) = ''))]
+	[valueTypeAnnotation(aProperty)/]
+	[/if]
+	[if (not (representationAnnotation(aProperty) = ''))]
+	[representationAnnotation(aProperty)/]
+	[/if]
+	[if (not (rangeAnnotation(aProperty, aResource, contextAdaptorInterface)= ''))]
+	[rangeAnnotation(aProperty, aResource, contextAdaptorInterface)/]
+	[/if]
+	[if (not (readOnlyAnnotation(aProperty) = ''))]
+	[readOnlyAnnotation(aProperty)/]
+	[/if]
+	[if (not (titleAnnotation(aProperty)= ''))]
+	[titleAnnotation(aProperty)/]
+	[/if]
+	[if (not (isMemberPropertyAnnotation(aProperty)= ''))]
+	[isMemberPropertyAnnotation(aProperty)/]
+	[/if]
+	[if (not (allowedValueAnnotation(aProperty)= ''))]
+	[allowedValueAnnotation(aProperty)/]
+	[/if]
     public [javaAttributeTypeDeclaration(aProperty) /] [if (aProperty.valueType.toString() = 'Boolean')]is[else]get[/if][javaAttributeName(aProperty, aResource).toUpperFirst() /]();
 
 [/for]
