@@ -84,10 +84,15 @@ else
 endif)
 /]
 
+[comment  Either not supported by OSLC4J /]
 [query public representationAnnotation(aProperty: ResourceProperty) : String = 
 (if (not aProperty.representation.oclIsUndefined()) then
-	if (aProperty.representation.toString().equalsIgnoreCase('representation.n/a')) then
-		'@OslcRepresentation(Representation.'.concat(aProperty.representation.toString().toUpperFirst()).concat(')')
+	if (not aProperty.representation.toString().equalsIgnoreCase('n_a')) then
+		if (not aProperty.representation.toString().equalsIgnoreCase('either')) then
+			'@OslcRepresentation(Representation.'.concat(aProperty.representation.toString().toUpperFirst()).concat(')')
+		else
+			''
+		endif
 	else
 		''
 	endif
@@ -122,7 +127,7 @@ else
 endif)
 /]
 
-[comment: It is not possible to have a boolean property which the user can leave undefined. Hence, we need to create an enum with a third option of "n/a"./]
+[comment: It is not possible to have a boolean property which the user can leave undefined. Hence, we need to create an enum with a third option of "n_a"./]
 [query public isMemberPropertyAnnotation(aProperty: ResourceProperty) : String = 
 if (aProperty.isMemberProperty.toString().equalsIgnoreCase('true')) then
 	'@OslcMemberProperty(true)'

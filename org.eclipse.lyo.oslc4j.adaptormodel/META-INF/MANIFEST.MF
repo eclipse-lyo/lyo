@@ -1,7 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.eclipse.lyo.oslc4j.adaptor_model
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.lyo.oslc4j.adaptormodel;singleton:=true
 Bundle-Version: 0.1.0.qualifier
-Require-Bundle: org.eclipse.emf.ecore
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: adaptorinterface,
+ adaptorinterface.impl,
+ adaptorinterface.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy
