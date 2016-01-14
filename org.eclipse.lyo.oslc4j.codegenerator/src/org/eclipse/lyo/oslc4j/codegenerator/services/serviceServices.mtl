@@ -62,7 +62,7 @@ javaClassPackageName(aService).concat('.').concat(javaClassName(aService))
 /]
 
 [query public javaClassFullFileName(aService: Service) : String = 
-javaFilesBasePath(containingAdaptorInterface(aService)).concat(javaClassPackageName(aService).substituteAll('.', '/')).concat('/').concat(javaClassName(aService)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aService)).concatenatePaths(javaClassPackageName(aService).substituteAll('.', '/')).concat('/').concat(javaClassName(aService)).concat('.java')
 /]
 
 [comment default to true if the property is not explicitly defined /]

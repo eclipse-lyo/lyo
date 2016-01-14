@@ -95,7 +95,7 @@ javaClassPackageNameForService(aServiceProvider).concat('.').concat(javaClassNam
 /]
 
 [query public javaClassFullFileNameForService(aServiceProvider : ServiceProvider) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForService(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProvider)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concatenatePaths(javaClassPackageNameForService(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProvider)).concat('.java')
 /]
 
 [comment Services for ServiceProviderInfo /]
@@ -112,7 +112,7 @@ javaClassPackageName(aServiceProvider).concat('.').concat(javaClassName(aService
 /]
 
 [query public javaClassFullFileName(aServiceProvider : ServiceProvider) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageName(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassName(aServiceProvider)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concatenatePaths(javaClassPackageName(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassName(aServiceProvider)).concat('.java')
 /]
 
 [comment Services for ServiceProviderFactory /]
@@ -129,7 +129,7 @@ javaClassPackageNameForFactory(aServiceProvider).concat('.').concat(javaClassNam
 /]
 
 [query public javaClassFullFileNameForFactory(aServiceProvider : ServiceProvider) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concat(javaClassPackageNameForFactory(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForFactory(aServiceProvider)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aServiceProvider)).concatenatePaths(javaClassPackageNameForFactory(aServiceProvider).substituteAll('.', '/')).concat('/').concat(javaClassNameForFactory(aServiceProvider)).concat('.java')
 /]
 
 [query public serviceBaseURI (aServiceProvider : ServiceProvider) : String = 

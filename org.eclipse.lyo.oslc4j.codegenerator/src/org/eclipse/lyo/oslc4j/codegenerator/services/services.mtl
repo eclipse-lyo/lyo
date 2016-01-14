@@ -95,13 +95,17 @@ endif)
 /]
 
 [query public JAXRSConcatURISegments(leftURISegment : String, rightURISegment : String) : String = 
-(if (stripURISegmentEnd(leftURISegment).size() = 0) then 
-    stripURISegmentStart(rightURISegment) 
+	concatenatePaths(leftURISegment, rightURISegment) 
+/]
+
+[query public concatenatePaths (leftSegment : String, rightSegment : String) : String = 
+(if (stripURISegmentEnd(leftSegment).size() = 0) then 
+    stripURISegmentStart(rightSegment) 
 else 
-    (if (stripURISegmentStart(rightURISegment).size() = 0) then 
-        stripURISegmentEnd(leftURISegment) 
+    (if (stripURISegmentStart(rightSegment).size() = 0) then 
+        stripURISegmentEnd(leftSegment) 
     else 
-        stripURISegmentEnd(leftURISegment).concat('/').concat(stripURISegmentStart(rightURISegment)) 
+        stripURISegmentEnd(leftSegment).concat('/').concat(stripURISegmentStart(rightSegment)) 
     endif)
 endif)
 /]

@@ -87,7 +87,7 @@ javaClassBaseNamespace(anAdaptorInterface).concat('.resources')
 /]
 
 [query public javaClassFullFileNameForAdaptorPackageInfo(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorPackageInfo(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat('package-info').concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForAdaptorPackageInfo(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat('package-info').concat('.java')
 /]
 
 [comment Services for AdaptorApplication /]
@@ -104,7 +104,7 @@ javaClassPackageNameForAdaptorApplication(anAdaptorInterface).concat('.').concat
 /]
 
 [query public javaClassFullFileNameForAdaptorApplication(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorApplication(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorApplication(anAdaptorInterface)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForAdaptorApplication(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorApplication(anAdaptorInterface)).concat('.java')
 /]
 
 [comment Services for AdaptorServletListener /]
@@ -121,7 +121,7 @@ javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).concat('.').co
 /]
 
 [query public javaClassFullFileNameForAdaptorServletListener(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorServletListener(anAdaptorInterface)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForAdaptorServletListener(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorServletListener(anAdaptorInterface)).concat('.java')
 /]
 
 [comment Services for AdaptorManager /]
@@ -138,7 +138,7 @@ javaClassPackageNameForAdaptorManager(anAdaptorInterface).concat('.').concat(jav
 /]
 
 [query public javaClassFullFileNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageNameForAdaptorManager(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorManager(anAdaptorInterface)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForAdaptorManager(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorManager(anAdaptorInterface)).concat('.java')
 /]
 
 [comment Services for AdaptorConstants /]
@@ -155,7 +155,7 @@ javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).concat('.').conc
 /]
 
 [query public javaInterfaceFullFileNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.java')
 /]
 
 

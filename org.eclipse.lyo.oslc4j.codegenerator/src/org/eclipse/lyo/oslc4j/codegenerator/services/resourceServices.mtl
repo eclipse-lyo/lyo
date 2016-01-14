@@ -130,7 +130,7 @@ javaClassPackageName(aResource, anAdaptorInterface).concat('.').concat(javaClass
 /]
 
 [query public javaClassFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaClassPackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassName(aResource)).concat('.java')
 /]
 
 [query public javaInterfacePackageName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
@@ -146,6 +146,6 @@ javaInterfacePackageName(aResource, anAdaptorInterface).concat('.').concat(javaI
 /]
 
 [query public javaInterfaceFullFileName(aResource: Resource, anAdaptorInterface : AdaptorInterface) : String = 
-javaFilesBasePath(anAdaptorInterface).concat(javaInterfacePackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceName(aResource)).concat('.java')
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaInterfacePackageName(aResource, anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceName(aResource)).concat('.java')
 /]
 

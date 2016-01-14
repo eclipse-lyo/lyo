@@ -41,7 +41,7 @@ javaClassPackageNameForSingleton(aServiceProviderCatalog).concat('.').concat(jav
 /]
 
 [query public javaClassFullFileNameForSingleton(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concat(javaClassPackageNameForSingleton(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForSingleton(aServiceProviderCatalog)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concatenatePaths(javaClassPackageNameForSingleton(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForSingleton(aServiceProviderCatalog)).concat('.java')
 /]
 
 [comment Services for serviceProviderCatalogService /]
@@ -58,5 +58,5 @@ javaClassPackageNameForService(aServiceProviderCatalog).concat('.').concat(javaC
 /]
 
 [query public javaClassFullFileNameForService(aServiceProviderCatalog : ServiceProviderCatalog) : String = 
-javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concat(javaClassPackageNameForService(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProviderCatalog)).concat('.java')
+javaFilesBasePath(containingAdaptorInterface(aServiceProviderCatalog)).concatenatePaths(javaClassPackageNameForService(aServiceProviderCatalog).substituteAll('.', '/')).concat('/').concat(javaClassNameForService(aServiceProviderCatalog)).concat('.java')
 /]
