@@ -122,8 +122,10 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
             serviceProviderCatalog.setAbout(new URI(ServiceProviderRegistryURIs.getServiceProviderRegistryURI()));
             serviceProviderCatalog.setTitle("[aServiceProviderCatalog.title /]");
             serviceProviderCatalog.setDescription("[aServiceProviderCatalog.description /]");
+            [if (not aServiceProviderCatalog.publisher.oclIsUndefined())]
             serviceProviderCatalog.setPublisher(new Publisher("[aServiceProviderCatalog.publisher.title /]", "[aServiceProviderCatalog.publisher.identifier /]"));
             serviceProviderCatalog.getPublisher().setIcon(new URI("[aServiceProviderCatalog.publisher.icon /]"));
+            [/if]
         }
         catch (final URISyntaxException exception)
         {
@@ -331,7 +333,11 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 					String serviceProviderName = serviceProviderInfo.name;
 					String title = "[aServiceProvider.title.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
 					String description = "[aServiceProvider.description.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
+					[if (aServiceProvider.publisher.oclIsUndefined())]
+					Publisher publisher = null;
+					[else]
 					Publisher publisher = new Publisher("[aServiceProvider.publisher.title /]", "[aServiceProvider.publisher.identifier /]");
+					[/if]
 		        	Map<String, Object> parameterMap = new HashMap<String, Object>();
                     [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(lineSeparator())]
                     parameterMap.put("[instanceCompositeID /]", serviceProviderInfo.[instanceCompositeID /]);

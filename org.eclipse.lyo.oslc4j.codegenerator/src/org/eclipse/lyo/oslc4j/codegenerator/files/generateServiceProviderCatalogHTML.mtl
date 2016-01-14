@@ -127,14 +127,16 @@ ServiceProviderCatalog catalog = (ServiceProviderCatalog)request.getAttribute("c
 					[/protected] 
 					--%>
 	            </tr>
-	            <tr>
-		            <td><b>Adapter Publisher</b>:</td>
-		            <td>OSLC Tools Project</td>
-	            </tr>
-	            <tr>
-		            <td><b>Adapter Identity</b>:</td>
-		            <td>[containingAdaptorInterface(aServiceProviderCatalog).name /]</td>
-	            </tr>
+				[if (not aServiceProviderCatalog.publisher.oclIsUndefined())]
+				<tr>
+					<td><b>Adapter Publisher</b>:</td>
+					<td>[aServiceProviderCatalog.publisher.title /]</td>
+				</tr>
+				<tr>
+					<td><b>Adapter Identity</b>:</td>
+					<td>[aServiceProviderCatalog.publisher.identifier /]</td>
+				</tr>
+				[/if]
             </table>
 			
 			<h2>Service Providers</h2>
