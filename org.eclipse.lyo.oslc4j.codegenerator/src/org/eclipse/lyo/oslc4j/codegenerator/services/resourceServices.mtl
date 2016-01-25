@@ -71,23 +71,36 @@
 	)->flatten()->asSet()
 /]
 
-[query private allRelatedResources(aResource: Resource, alreadyAnalysed : Set(Resource)) : Set(Resource) =
-let drr : Set(Resource) = directlyRelatedResources(aResource) in 
-	drr->collectNested(r : Resource | 
-		Set{r}
-		->union(directlyRelatedResources(r))
-		->union(
-			(if (alreadyAnalysed->includes(r)) then 
-		        Set{}
-		    else
-				allRelatedResources(r, (Set{aResource}->union(drr))->union(alreadyAnalysed))
-		    endif)
-		)
-	)->flatten()->asSet()
+[comment allRelatedResources seems to hang for long & complicated hierarchy of resources. 
+As an intermediate solution, the depth parameter is introduced to allow the recursive query to stop once a certain limit is reached /]
+[query private allRelatedResources(aResource: Resource, alreadyAnalysed : Set(Resource), depth : Integer) : Set(Resource) =
+let drr : Set(Resource) = directlyRelatedResources(aResource),
+	newAlreadyAnalysed : Set(Resource) = (Set{aResource}->union(drr))->union(alreadyAnalysed),
+	toAnalyse : Set(Resource) =  drr - alreadyAnalysed in 
+
+	(if (depth > 20) then 
+        drr - alreadyAnalysed 
+    else
+		toAnalyse->collect(r : Resource | 
+			allRelatedResources(r, newAlreadyAnalysed, depth+1)
+			->union(directlyRelatedResources(r))
+			->union(Set{r})
+		)->flatten()->asSet()
+    endif)
 /]
 
+[comment allRelatedResources seems to hang for long & complicated hierarchy of resources. 
+As an intermediate solution, the depth parameter is introduced to allow the recursive query to stop once a certain limit is reached. 
+After that, we look at what related resources might be potentially missing, and then re-start the query for the remaining resources. 
+This is not a complete solution, but seems to be working for the Autosar 800+ resources. 
+It is not clear why the recursion is ending up in an endless loop otherwise. /]
 [query public allRelatedResources(aResource: Resource) : Set(Resource) =
-	allRelatedResources(aResource, Set{})
+let arr : Set(Resource) = allRelatedResources(aResource, Set{}, 1),
+	leftOut : Set(Resource) = arr->collect(r : Resource | directlyRelatedResources(r) - arr)->flatten()->asSet()
+in
+	arr
+	->union(leftOut)
+	->union(leftOut->collect(r : Resource | allRelatedResources(r, arr->union(Set{r}), 1))->flatten()->asSet())
 /]
 
 [query public allProperties(aResource: Resource) : Sequence(ResourceProperty) = 
