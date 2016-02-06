@@ -30,13 +30,18 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
-[query public generateDomainSpecificationConstants(aDomainSpecification : DomainSpecification) : String = 
-'public static String '.concat(domainSpecificationConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespaceURI).concat('";').concat(lineSeparator()).concat('public static String ').concat(domainSpecificationNamespaceConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespaceURI).concat('";').concat(lineSeparator()).concat('public static String ').concat(domainSpecificationNamespacePrefixConstantName(aDomainSpecification)).concat(' = "').concat(aDomainSpecification.namespacePrefix.name).concat('";').concat(lineSeparator())
-/]
+[template public generateDomainSpecificationConstants(aDomainSpecification : DomainSpecification)]
+public static String [domainSpecificationConstantName(aDomainSpecification)/] = "[aDomainSpecification.namespaceURI/]";
+public static String [domainSpecificationNamespaceConstantName(aDomainSpecification)/] = "[aDomainSpecification.namespaceURI/]";
+public static String [domainSpecificationNamespacePrefixConstantName(aDomainSpecification)/] = "[aDomainSpecification.namespacePrefix.name/]";
+[/template]
 
-[query public generateResourceConstants(aResource : Resource) : String = 
-'public static String '.concat(resourceConstantName(aResource)).concat(' = "').concat(aResource.javaName(false)).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourcePathConstantName(aResource)).concat(' = "').concat(aResource.javaName(false)).concat('"').concat(';').concat(lineSeparator()).concat('public static String ').concat(resourceTypeConstantName(aResource)).concat(' = ').concat(domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification())).concat(' + "').concat(aResource.javaName(false)).concat('";')
-/]
+
+[template public generateResourceConstants(aResource : Resource)]
+public static String [resourceConstantName(aResource)/] = "[aResource.javaName()/]";
+public static String [resourcePathConstantName(aResource)/] = "[aResource.javaName(false)/]";
+public static String [resourceTypeConstantName(aResource)/] = [domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification())/] + "[aResource.javaName()/]";
+[/template]
 
 [template public generateAdaptorConstants(anAdaptorInterface : AdaptorInterface)]
 [file (javaInterfaceFullFileNameForAdaptorConstants(anAdaptorInterface), false, 'UTF-8')]

@@ -118,11 +118,12 @@ endif)
 )
 /]
 
+[query public javaString (aString : String) : String = 
+concatenate((aString.substituteAll('/', ' ').substituteAll('{', ' ').substituteAll('}', '').tokenize(' ')->collect(s : String  | s.toUpperFirst())))
+/]
+
 [query public javaString (aString : String, toUpperFirst : Boolean) : String = 
-let name : String = 
-	concatenate((aString.substituteAll('/', ' ').substituteAll('{', ' ').substituteAll('}', '').tokenize(' ')->collect(s : String  | s.toUpperFirst())))
-in 
-	if (toUpperFirst) then name.toUpperFirst() else name.toLowerFirst() endif
+if (toUpperFirst) then javaString(aString).toUpperFirst() else javaString(aString).toLowerFirst() endif
 /]
 
 [query public concatenate (aStringSequence : Sequence(String)) : String = 

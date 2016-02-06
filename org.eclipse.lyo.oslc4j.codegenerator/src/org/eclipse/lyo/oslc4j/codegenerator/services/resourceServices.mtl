@@ -122,6 +122,10 @@ in
 	aResource.interfaceResources().resourceProperties
 /]
 
+[query public javaName(aResource: Resource) : String = 
+javaString(aResource.name)
+/]
+
 [query public javaName(aResource: Resource, toUpperFirst : Boolean) : String = 
 javaString(aResource.name, toUpperFirst)
 /]
