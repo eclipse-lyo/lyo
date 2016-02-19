@@ -47,11 +47,16 @@
 	->asOrderedSet()
 /]
 
+[comment The interfaceResources of resource A, are its directInterfaceResources; plus for each such directInterfaceResource DIR, ALL the extendingResources of DIR.
+However, if an extendingResource of DIR is also a ParentResource of A, then exclude this resource from the interface set.
+It is a problem if a resource X is defined to be both an interface of A, as well as one of its (distant) parents. Since, the resource shape would end up defining each of X's properties twice/]
 [query public interfaceResources(aResource: Resource) : OrderedSet(Resource) =
-	directInterfaceResources(aResource)
+	((directInterfaceResources(aResource)
 	->union(
 			directInterfaceResources(aResource)->collectNested(r:Resource | allExtendingResources(r))->flatten()->asOrderedSet()
 			)
+	->asOrderedSet())
+	- parentResources(aResource))
 	->asOrderedSet()
 /]
 
