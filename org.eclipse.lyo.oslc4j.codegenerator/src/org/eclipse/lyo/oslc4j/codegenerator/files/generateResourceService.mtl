@@ -73,6 +73,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -332,7 +333,7 @@ public class [javaClassName(aService) /]
     {
 		try {
     		[creationMethodResourceType(aCreationFactory)/] newResource = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[creationMethodName(aCreationFactory)/](httpServletRequest, aResource[commaSeparate(creationMethodParameterList(aCreationFactory), true, false)/]);
-			httpServletResponse.setHeader("ETag", [javaClassNameForAdaptorManager(anAdaptorInterface) /].[creationETagMethodName(aCreationFactory)/](newResource));
+			httpServletResponse.setHeader("ETag", [javaClassNameForAdaptorManager(anAdaptorInterface) /].[getResourceETagMethodName(aCreationFactory.resourceTypes)/](newResource));
 	        return Response.created(newResource.getAbout()).entity(aResource).build();
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -456,9 +457,10 @@ public class [javaClassName(aService) /]
     	}
     }
 	[/for]
-
 	[for (aBasicCapability: BasicCapability | aService.basicCapabilities)]
+	[if (aBasicCapability.read)]
 	[for (aResource: Resource | aBasicCapability.resourceTypes)]
+
 	/**
 	 * RDF/XML, XML and JSON representation of a single change request
 	 * 
@@ -524,6 +526,92 @@ public class [javaClassName(aService) /]
         throw new WebApplicationException(Status.NOT_FOUND);
 	}
 	[/for]
+	[/if]
+	[if (aBasicCapability.delete)]
+	[for (aResource: Resource | aBasicCapability.resourceTypes)]
+	/**
+	 * Delete a single change request
+	 * 
+	 * @param productId
+	 * @param changeRequestId
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 * @throws URISyntaxException
+	 */
+    @DELETE
+    [JAXRSPathAnnotation(aResource.instanceURISegment(aBasicCapability))/]
+    public [deleteResourceMethodReturnType(aBasicCapability, aResource)/] [deleteResourceMethodName(aBasicCapability, aResource)/](
+                [commaSeparate(instanceMethodSignature(aResource, aBasicCapability, true), false, false)/]
+        ) throws IOException, ServletException, URISyntaxException
+    {
+		// [protected (deleteResourceMethodName(aBasicCapability, aResource).concat('_init'))]
+		// [/protected]
+        final [deleteResourceMethodResourceType(aBasicCapability, aResource)/] aResource = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[getResourceMethodName(aBasicCapability, aResource, true)/](httpServletRequest[commaSeparate(instanceMethodParameterList(aResource, aBasicCapability), true, false)/]);
+
+        if (aResource != null) {
+			// [protected (deleteResourceMethodName(aBasicCapability, aResource))]
+			// [/protected]
+			boolean deleted = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[deleteResourceMethodName(aBasicCapability, aResource)/](httpServletRequest[commaSeparate(instanceMethodParameterList(aResource, aBasicCapability), true, false)/]);
+            if (deleted)
+				return Response.ok().build();
+			else
+				throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+        }
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+	[/for]
+	[/if]
+
+	[if (aBasicCapability.update)]
+	[for (aResource: Resource | aBasicCapability.resourceTypes)]
+	/**
+	 * Update a single resource via RDF/XML, XML or JSON POST
+	 * @param serviceProviderId
+	 * @param resourceId
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+    @PUT
+    [JAXRSPathAnnotation(aResource.instanceURISegment(aBasicCapability))/]
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    public [updateResourceMethodReturnType(aBasicCapability, aResource)/] [updateResourceMethodName(aBasicCapability, aResource)/](
+			@HeaderParam("If-Match") final String eTagHeader,
+            [commaSeparate(instanceMethodSignature(aResource, aBasicCapability, true), false, true)/] 
+            final [getResourceMethodResourceType(aBasicCapability, aResource)/] aResource
+        ) throws IOException, ServletException
+    {
+		// [protected (updateResourceMethodName(aBasicCapability, aResource).concat('_init'))]
+		// [/protected]
+        final [updateResourceMethodResourceType(aBasicCapability, aResource)/] originalResource = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[getResourceMethodName(aBasicCapability, aResource, true)/](httpServletRequest[commaSeparate(instanceMethodParameterList(aResource, aBasicCapability), true, false)/]);
+
+        if (originalResource != null) {
+			try {
+				final String originalETag = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[getResourceETagMethodName(aResource)/](originalResource);
+
+                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+					// [protected (updateResourceMethodName(aBasicCapability, aResource))]
+					// [/protected]
+		    		final [updateResourceMethodResourceType(aBasicCapability, aResource)/] updatedResource = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[updateResourceMethodName(aBasicCapability, aResource)/](httpServletRequest, aResource[commaSeparate(instanceMethodParameterList(aResource, aBasicCapability), true, false)/]);
+					httpServletResponse.setHeader("ETag", [javaClassNameForAdaptorManager(anAdaptorInterface) /].[getResourceETagMethodName(aResource)/](updatedResource));
+					return Response.ok().build();
+                } 
+				else {
+                	throw new WebApplicationException(Status.PRECONDITION_FAILED);
+                }
+
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    		throw new WebApplicationException(e);
+	    	}
+
+        } 
+		else {
+        	throw new WebApplicationException(Status.NOT_FOUND);
+        }
+    }
+	[/for]
+	[/if]
 	[/for]
 }
 [/let]

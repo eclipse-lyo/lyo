@@ -180,9 +180,13 @@ methodSignature(JAXRSPathParameters(aCreationFactory.URI()), forJAXRSMethod)
 methodParameterList(JAXRSPathParameters(aCreationFactory.URI()))
 /]
 
-[query public creationETagMethodName(aCreationFactory: CreationFactory) : String = 
-concatenate(aCreationFactory.resourceTypes.javaName(true)->sep('getETagFrom', 'And', '').oclAsType(String))
+[query public getResourceETagMethodName(resources : Set(Resource)) : String = 
+concatenate(resources.javaName(true)->sep('getETagFrom', 'And', '').oclAsType(String))
 .concat('')
+/]
+
+[query public getResourceETagMethodName(aResource: Resource) : String = 
+getResourceETagMethodName(Set{aResource})
 /]
 
 [comment Dialog /]
@@ -269,6 +273,14 @@ JAXRSPathParameters(aResource.instanceURI(aBasicCapability))
 	.concat((if forRDF then '' else 'AsHtml' endif))
 /]
 
+[query public deleteResourceMethodName(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+'delete'.concat(javaName(aResource, true))
+/]
+
+[query public updateResourceMethodName(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+'update'.concat(javaName(aResource, true))
+/]
+
 [query public getResourceMethodResourceType(aBasicCapability: BasicCapability, aResource: Resource) : String = 
 javaClassName(aResource)
 /]
@@ -279,6 +291,22 @@ if forRDF then
 else 
 	'Response' 
 endif
+/]
+
+[query public updateResourceMethodResourceType(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+javaClassName(aResource)
+/]
+
+[query public updateResourceMethodReturnType(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+'Response' 
+/]
+
+[query public deleteResourceMethodResourceType(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+javaClassName(aResource)
+/]
+
+[query public deleteResourceMethodReturnType(aBasicCapability: BasicCapability, aResource: Resource) : String = 
+'Response' 
 /]
 
 [query public instanceMethodSignature(aResource: Resource, aBasicCapability: BasicCapability, forJAXRSMethod : Boolean) : String =  

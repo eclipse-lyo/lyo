@@ -153,16 +153,8 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		// [/protected]
 		return newResource;
     }
-
-	public static String [creationETagMethodName(aCreationFactory)/](final [creationMethodResourceType(aCreationFactory)/] aResource)
-    {
-		String eTag = null;
-		// TODO Implement code to return an ETag for a particular resource
-		// [protected (creationETagMethodName(aCreationFactory))]
-		// [/protected]
-		return eTag;
-    }
 	[/for]
+
 	[for (aCreationDialog: Dialog | aService.creationDialogs)]
     [if (aService.creationFactories->select(f: CreationFactory | f.resourceTypes = aCreationDialog.resourceTypes)->isEmpty())]
 	public static [creationMethodResourceType(aCreationDialog)/] [creationMethodName(aCreationDialog)/](HttpServletRequest httpServletRequest, final [creationMethodResourceType(aCreationDialog)/] aResource[commaSeparate(dialogMethodSignature(aCreationDialog, false, false), true, false)/])
@@ -176,7 +168,9 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     }
 	[/if]
 	[/for]
+
 	[for (aBasicCapability: BasicCapability | aService.basicCapabilities)]
+	[if (aBasicCapability.read)]
 	[for (aResource: Resource | aBasicCapability.resourceTypes)]
 	public static [getResourceMethodResourceType(aBasicCapability, aResource)/] [getResourceMethodName(aBasicCapability, aResource, true)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
     {
@@ -188,7 +182,45 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		return aResource;
     }
 	[/for]
+	[/if]
+
+	[if (aBasicCapability.delete)]
+	[for (aResource: Resource | aBasicCapability.resourceTypes)]
+	public static Boolean [deleteResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
+    {
+		Boolean deleted = false;
+		// TODO Implement code to delete a resource
+		// [protected (deleteResourceMethodName(aBasicCapability, aResource))]
+		// [/protected]
+		return deleted;
+    }
 	[/for]
+	[/if]
+
+	[if (aBasicCapability.update)]
+	[for (aResource: Resource | aBasicCapability.resourceTypes)]
+	public static [updateResourceMethodResourceType(aBasicCapability, aResource)/] [updateResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest, final [updateResourceMethodResourceType(aBasicCapability, aResource)/] aResource[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/]) {
+		[updateResourceMethodResourceType(aBasicCapability, aResource)/] updatedResource = null;
+		// TODO Implement code to update and return a resource
+		// [protected (updateResourceMethodName(aBasicCapability, aResource))]
+		// [/protected]
+		return updatedResource;
+	}
+	[/for]
+	[/if]
+	[/for]
+
+	[/for]
+
+	[for (aResource: Resource | servicedResources(anAdaptorInterface))]
+	public static String [getResourceETagMethodName(aResource)/](final [javaClassName(aResource)/] aResource)
+    {
+		String eTag = null;
+		// TODO Implement code to return an ETag for a particular resource
+		// [protected (getResourceETagMethodName(aResource))]
+		// [/protected]
+		return eTag;
+    }
 	[/for]
 }
 [/file]
