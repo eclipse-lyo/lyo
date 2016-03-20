@@ -50,6 +50,8 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorJsp/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorJsp/]
 
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorClient/]
+
 [template public generate(anAdaptorInterface : AdaptorInterface)]
 [comment @main/]
 
@@ -61,19 +63,21 @@
 [anAdaptorInterface.generateAdaptorManager() /]
 [anAdaptorInterface.generateDelegatedUIJavaScripts() /]
 
+[if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogSingleton() /]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogHTML() /]
+[/if]
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface))]
-	[aResource.generateResource(anAdaptorInterface, anAdaptorInterface) /]
+	[aResource.generateResource(anAdaptorInterface) /]
 	[aResource.generateResourceInterface(anAdaptorInterface, anAdaptorInterface) /]
 	[if (not basicCapabilities(anAdaptorInterface, aResource)->isEmpty())]
 		[aResource.generateGetResourceJsp(anAdaptorInterface, anAdaptorInterface) /]
 	[/if]
 [/for]
 
-[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
+[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders())]
     [aServiceProvider.generateServiceProviderInfo() /]
 	[aServiceProvider.generateServiceProviderService()/]
 	[aServiceProvider.generateAdaptorServiceProviderFactory() /]
@@ -116,5 +120,9 @@
 		[/let]
 		[/for]
 	[/for]
+[/for]
+
+[for (aRequiredAdaptor: RequiredAdaptor | anAdaptorInterface.requiredAdaptors)]
+	[aRequiredAdaptor.generateAdaptorClient(anAdaptorInterface) /]
 [/for]
 [/template]

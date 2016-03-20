@@ -72,9 +72,10 @@ import java.util.List;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+[if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
 import [javaClassFullNameForSingleton(anAdaptorInterface.serviceProviderCatalog) /];
-
-[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
+[/if]
+[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders())]
 import [javaClassFullName(aServiceProvider) /];
 [/for]
 [for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name))]
@@ -109,7 +110,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 		// [/protected]
 	}
 
-    [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders)]
+    [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders())]
     public static [aServiceProvider.javaClassName()/]['[' ']'/] get[aServiceProvider.javaClassName()/]s(HttpServletRequest httpServletRequest)
     {
 		[aServiceProvider.javaClassName() /][ '[' ']' /] serviceProviderInfos = {};
@@ -120,7 +121,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     }
     [/for]
 
-	[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services)]
+	[for (aService: Service | anAdaptorInterface.serviceProviders().services)]
 	[for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
     public static List<[queryMethodResourceType(aQueryCapability)/]> [queryMethodName(aQueryCapability, true)/](HttpServletRequest httpServletRequest[commaSeparate(queryMethodSignature(aQueryCapability, false), true, false)/], String where, int page, int limit)
     {

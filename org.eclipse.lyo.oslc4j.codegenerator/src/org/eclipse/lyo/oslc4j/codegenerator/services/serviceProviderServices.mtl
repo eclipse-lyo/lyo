@@ -79,6 +79,7 @@ relevantResources(aService)->collectNested(aResource : Resource |
 	definingDomainSpecification(aResource)
 	->union(aResource.allProperties()->asSet()->collectNested(aResourceProperty : ResourceProperty | aResourceProperty.definingDomainSpecification()))
 )->flatten()->asSet()
+->union(Set{aService.domainSpecification})
 /]
 
 [comment Services for serviceProviderService /]

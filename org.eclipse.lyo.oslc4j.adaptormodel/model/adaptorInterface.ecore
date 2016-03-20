@@ -16,6 +16,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javascriptFilesBasePath"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredAdaptors" upperBound="-1"
+        eType="#//RequiredAdaptor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getResources"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getResource"
@@ -178,5 +180,18 @@
   <eClassifiers xsi:type="ecore:EEnum" name="ResourceServiceNamespace">
     <eLiterals name="relativeToServiceProvider" literal="relativeToServiceProvider"/>
     <eLiterals name="independantOfServiceProvider" value="1" literal="independantOfServiceProvider"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequiredAdaptor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceProviderCatalogURI"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenericRequiredAdaptor" eSuperTypes="#//RequiredAdaptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicedResources" upperBound="-1"
+        eType="#//Resource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelledRequiredAdaptor" eSuperTypes="#//RequiredAdaptor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="adaptorInterface" lowerBound="1"
+        eType="#//AdaptorInterface"/>
   </eClassifiers>
 </ecore:EPackage>

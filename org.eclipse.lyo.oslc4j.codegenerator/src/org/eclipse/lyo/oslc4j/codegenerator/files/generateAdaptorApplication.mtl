@@ -84,14 +84,16 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
+[if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
 import [javaClassFullNameForService(anAdaptorInterface.serviceProviderCatalog) /];
-[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
+[/if]
+[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders()->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
 import [javaClassFullNameForService(aServiceProvider)/];				
 [/for]
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]import [javaClassFullName(aResource, anAdaptorInterface) /];[/for]
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
-[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services) separator(lineSeparator())]import [javaClassFullName(aService) /];[/for]
+[for (aService: Service | anAdaptorInterface.serviceProviders().services) separator(lineSeparator())]import [javaClassFullName(aService) /];[/for]
 
 
 public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends OslcWinkApplication {
@@ -105,7 +107,7 @@ public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends 
     	{
     		RESOURCE_CLASSES.addAll(JenaProvidersRegistry.getProviders());
     		RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
-			[for (aService: Service | anAdaptorInterface.serviceProviderCatalog.serviceProviders.services)]
+			[for (aService: Service | anAdaptorInterface.serviceProviders().services)]
 			RESOURCE_CLASSES.add([javaClassName(aService)/].class);
 			[/for]
 			[for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name))]
@@ -115,8 +117,10 @@ public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends 
     		RESOURCE_CLASSES.add(Class.forName("org.eclipse.lyo.server.oauth.webapp.services.OAuthService"));
     		
     		//Catalog resources.   
+			[if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
             RESOURCE_CLASSES.add([javaClassNameForService(anAdaptorInterface.serviceProviderCatalog) /].class);
-			[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviderCatalog.serviceProviders->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
+			[/if]
+			[for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders()->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
 			RESOURCE_CLASSES.add([javaClassNameForService(aServiceProvider)/].class);
 			[/for]
 

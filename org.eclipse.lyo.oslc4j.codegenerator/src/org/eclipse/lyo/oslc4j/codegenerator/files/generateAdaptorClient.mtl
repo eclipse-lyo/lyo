@@ -1,0 +1,118 @@
+[comment encoding = UTF-8 /]
+[comment
+/*******************************************************************************
+ * Copyright (c) 2015 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of client code
+ *     
+ *******************************************************************************/
+/]
+
+
+[module generateAdaptorClient('http://org.eclipse.lyo/oslc4j/adaptorInterface')]
+
+[import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::resourcePropertyServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::requiredAdaptorServices/]
+
+[template public generateAdaptorClient(aRequiredAdaptor: RequiredAdaptor, anAdaptorInterface : AdaptorInterface)]
+[file (javaClassFullFileNameForClient(aRequiredAdaptor, anAdaptorInterface), false, 'UTF-8')]
+/*******************************************************************************
+ * Copyright (c) 2015 Jad El-khoury.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *     Jad El-khoury        - initial implementation of client code
+ *     
+ *******************************************************************************/
+
+package [javaClassPackageNameForClient(aRequiredAdaptor, anAdaptorInterface) /];
+
+import org.apache.wink.client.ClientResponse;
+import org.eclipse.lyo.client.oslc.OSLCConstants;
+import org.eclipse.lyo.client.oslc.OslcClient;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+[for (aResource: Resource | servicedResources(aRequiredAdaptor)->sortedBy(name))]
+import [javaClassFullName(aResource, anAdaptorInterface) /];
+[/for]
+
+// [protected ('imports')]
+// [/protected]
+
+
+// [protected ('pre_class_code')]
+// [/protected]
+
+public class [javaClassNameForClient(aRequiredAdaptor) /]
+{
+	// TODO The very basic functionality of a client is generated. a more complete set of functions (query, C.R.U.D., etc) ought to be generated.
+
+	// [protected ('class_attributes')]
+	// [/protected]
+	
+	// [protected ('class_methods')]
+	// [/protected]
+
+	static String serviceProviderCatalogURI = "[aRequiredAdaptor.serviceProviderCatalogURI/]";
+
+	public static ServiceProviderCatalog getServiceProviderCatalog() throws Exception {
+		OslcClient client = new OslcClient();
+		ClientResponse response = null;
+		ServiceProviderCatalog catalog = null;
+
+		// [protected ('getServiceProviderCatalog'.concat('_init'))]
+		// [/protected]
+
+		response = client.getResource(serviceProviderCatalogURI,OSLCConstants.CT_RDF);
+		if (response != null) {
+			catalog = response.getEntity(ServiceProviderCatalog.class);
+		}
+		// [protected ('getServiceProviderCatalog'.concat('_final'))]
+		// [/protected]
+		return catalog;
+	}
+
+[for (aResource: Resource | servicedResources(aRequiredAdaptor)->sortedBy(name)) separator(lineSeparator()) ]
+	public static [javaClassName(aResource) /] get[javaName(aResource, true)/](String resourceURI) throws Exception {
+		OslcClient client = new OslcClient();
+		ClientResponse response = null;
+		[javaClassName(aResource) /] resource = null;
+
+		// [protected ('get'.concat(javaName(aResource, true)).concat('_init'))]
+		// [/protected]
+
+		response = client.getResource(resourceURI, OSLCConstants.CT_RDF);
+		if (response != null) {
+			resource = response.getEntity([javaClassName(aResource) /].class);
+		}
+		// [protected ('get'.concat(javaName(aResource, true)).concat('_final'))]
+		// [/protected]
+		return resource;
+	}
+[/for]
+}
+[/file]
+[/template]
+
+

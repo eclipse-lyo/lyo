@@ -69,7 +69,7 @@ static public String [propertyToHtmlForCreationMethodName(aProperty, aResource, 
 }
 [/template]
 
-[template public generateResource(aResource : Resource, contextAdaptorInterface : AdaptorInterface, managingAdaptorInterface: AdaptorInterface)]
+[template public generateResource(aResource : Resource, contextAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileName(aResource, contextAdaptorInterface), false, 'UTF-8')]
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation and others.
@@ -180,9 +180,9 @@ public [javaClassName(aResource) /](final URI about)
 	// [/protected]
 }
 
-[for (aBasicCapability: BasicCapability | basicCapabilities(managingAdaptorInterface, aResource))]
-[let methodSuffix: String = (if (basicCapabilities(managingAdaptorInterface, aResource)->size() = 1) then '' else basicCapabilities(managingAdaptorInterface, aResource)->indexOf(aBasicCapability).toString() endif)]
-[if (basicCapabilities(managingAdaptorInterface, aResource)->indexOf(aBasicCapability) = 1)]
+[for (aBasicCapability: BasicCapability | basicCapabilities(contextAdaptorInterface, aResource))]
+[let methodSuffix: String = (if (basicCapabilities(contextAdaptorInterface, aResource)->size() = 1) then '' else basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability).toString() endif)]
+[if (basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability) = 1)]
 public [javaClassName(aResource)/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
        throws URISyntaxException
 {
@@ -337,7 +337,7 @@ public String toHtml(boolean asLocalResource)
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     [propertyToHtmlForCreationMethod(aProperty, aResource, null, '')/]
 
-[for (aCreationDialog: Dialog| managingAdaptorInterface.creationDialogs(aResource))]
+[for (aCreationDialog: Dialog| contextAdaptorInterface.creationDialogs(aResource))]
     [propertyToHtmlForCreationMethod(aProperty, aResource, aCreationDialog, dialogMethodSignature(aCreationDialog, false, false))/]
 
 [/for]
