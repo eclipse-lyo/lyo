@@ -113,6 +113,10 @@ endif
 JAXRSConcatURISegments(aQueryCapability.eContainer(Service).serviceBaseURI(), aQueryCapability.URISegment())
 /]
 
+[query public queryCompositeID(aQueryCapability: QueryCapability) : Sequence(String) =  
+JAXRSPathParameters(aQueryCapability.URI())
+/]
+
 [query public queryMethodName(aQueryCapability: QueryCapability, forRDF : Boolean) : String = 
 concatenate(aQueryCapability.resourceTypes.javaName(true)->sep('query', 'sAnd', 's').oclAsType(String))
 	.concat((if forRDF then '' else 'AsHtml' endif))
@@ -135,7 +139,7 @@ endif
 /]
 
 [query public queryMethodSignature(aQueryCapability: QueryCapability, forJAXRSMethod : Boolean) : String =  
-methodSignature(JAXRSPathParameters(aQueryCapability.URI()), forJAXRSMethod)
+methodSignature(queryCompositeID(aQueryCapability), forJAXRSMethod)
 /]
 
 [query public queryMethodParameterList(aQueryCapability: QueryCapability) : String =  
@@ -153,6 +157,10 @@ endif
 
 [query public URI (aCreationFactory: CreationFactory) : String =  
 JAXRSConcatURISegments(aCreationFactory.eContainer(Service).serviceBaseURI(), aCreationFactory.URISegment())
+/]
+
+[query public creationCompositeID(aCreationFactory: CreationFactory) : Sequence(String) =  
+JAXRSPathParameters(aCreationFactory.URI())
 /]
 
 [query public creationMethodName(aCreationFactory: CreationFactory) : String = 
@@ -173,7 +181,7 @@ endif
 /]
 
 [query public creationMethodSignature(aCreationFactory: CreationFactory, forJAXRSMethod : Boolean) : String =  
-methodSignature(JAXRSPathParameters(aCreationFactory.URI()), forJAXRSMethod)
+methodSignature(creationCompositeID(aCreationFactory), forJAXRSMethod)
 /]
 
 [query public creationMethodParameterList(aCreationFactory: CreationFactory) : String =  
@@ -202,6 +210,10 @@ endif
 JAXRSConcatURISegments(aDialog.eContainer(Service).serviceBaseURI(), aDialog.URISegment(selectionDialog))
 /]
 
+[query public dialogCompositeID(aDialog: Dialog, selectionDialog : Boolean) : Sequence(String) =  
+JAXRSPathParameters(aDialog.URI(selectionDialog))
+/]
+
 [query public dialogMethodName(aDialog: Dialog, selectionDialog : Boolean) : String = 
 concatenate(aDialog.resourceTypes.javaName(true)->sep('', 'And', '').oclAsType(String))
 	.concat((if selectionDialog then 'Selector' else 'Creator' endif))
@@ -220,7 +232,7 @@ endif
 /]
 
 [query public dialogMethodSignature(aDialog: Dialog, selectionDialog : Boolean, forJAXRSMethod : Boolean) : String =  
-methodSignature(JAXRSPathParameters(aDialog.URI(selectionDialog)), forJAXRSMethod)
+methodSignature(dialogCompositeID(aDialog, selectionDialog), forJAXRSMethod)
 /]
 
 [query public dialogMethodParameterList(aDialog: Dialog, selectionDialog : Boolean) : String =  

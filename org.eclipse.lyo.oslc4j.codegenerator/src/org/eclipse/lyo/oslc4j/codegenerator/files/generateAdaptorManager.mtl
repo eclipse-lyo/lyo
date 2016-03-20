@@ -30,11 +30,16 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::serviceProviderCatalogServices/]
 
-[query public backendCode(backendCodeTemplate : String, resourceClassName : String, resourceInstanceName : String) : String = 
+[query public backendCode(backendCodeTemplate : String, resourceClassName : String, resourceInstanceName : String, compositeID : Sequence(String)) : String = 
 (if (not backendCodeTemplate.oclIsUndefined()) then
 	backendCodeTemplate
 		.substituteAll('[ResourceClassName/]', resourceClassName)
 		.substituteAll('[ResourceInstanceName/]', resourceInstanceName)
+		.substituteAll('[Parameter1/]', (if (compositeID->size()  >=1) then compositeID->at(1) else '' endif))
+		.substituteAll('[Parameter2/]', (if (compositeID->size()  >=2) then compositeID->at(2) else '' endif))
+		.substituteAll('[Parameter3/]', (if (compositeID->size()  >=3) then compositeID->at(3) else '' endif))
+		.substituteAll('[Parameter4/]', (if (compositeID->size()  >=4) then compositeID->at(4) else '' endif))
+		.substituteAll('[Parameter5/]', (if (compositeID->size()  >=5) then compositeID->at(5) else '' endif))
 else
     ''
 endif)
@@ -127,7 +132,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		List<[queryMethodResourceType(aQueryCapability)/]> resources = null;
 		// TODO Implement code to return a set of resources
-		[backendCode(anAdaptorInterface.backendCodeTemplate_getResources, queryMethodResourceType(aQueryCapability), 'resources')/]
+		[backendCode(anAdaptorInterface.backendCodeTemplate_getResources, queryMethodResourceType(aQueryCapability), 'resources', queryCompositeID(aQueryCapability))/]
 		// [protected (queryMethodName(aQueryCapability, true))]
 		// [/protected]
 		return resources;
@@ -138,7 +143,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		List<[dialogMethodResourceType(aSelectionDialog)/]> resources = null;
 		// TODO Implement code to return a set of resources, based on search criteria 
-		[backendCode(anAdaptorInterface.backendCodeTemplate_searchResources, dialogMethodResourceType(aSelectionDialog), 'resources')/]
+		[backendCode(anAdaptorInterface.backendCodeTemplate_searchResources, dialogMethodResourceType(aSelectionDialog), 'resources', dialogCompositeID(aSelectionDialog, true))/]
 		// [protected (dialogMethodName(aSelectionDialog, true))]
 		// [/protected]
 		return resources;
@@ -149,7 +154,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[creationMethodResourceType(aCreationFactory)/] newResource = null;
 		// TODO Implement code to create a resource
-		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationFactory), 'newResource')/]
+		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationFactory), 'newResource', creationCompositeID(aCreationFactory))/]
 		// [protected (creationMethodName(aCreationFactory))]
 		// [/protected]
 		return newResource;
@@ -162,7 +167,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[creationMethodResourceType(aCreationDialog)/] newResource = null;
 		// TODO Implement code to create a resource
-		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationDialog), 'newResource')/]
+		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationDialog), 'newResource', dialogCompositeID(aCreationDialog, false))/]
 		// [protected (creationMethodName(aCreationDialog))]
 		// [/protected]
 		return newResource;
@@ -177,7 +182,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[getResourceMethodResourceType(aBasicCapability, aResource)/] aResource = null;
 		// TODO Implement code to return a resource
-		[backendCode(anAdaptorInterface.backendCodeTemplate_getResource, getResourceMethodResourceType(aBasicCapability, aResource), 'aResource')/]
+		[backendCode(anAdaptorInterface.backendCodeTemplate_getResource, getResourceMethodResourceType(aBasicCapability, aResource), 'aResource', instanceCompositeID(aResource, aBasicCapability))/]
 		// [protected (getResourceMethodName(aBasicCapability, aResource, true))]
 		// [/protected]
 		return aResource;
