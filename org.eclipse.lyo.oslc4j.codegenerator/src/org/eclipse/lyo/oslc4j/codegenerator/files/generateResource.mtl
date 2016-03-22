@@ -36,7 +36,7 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
 [template public resourcePropertyAsTextInputForCreation(aProperty: ResourceProperty)]
-"<input name=\"[aProperty.name/]\" type=\"text\" style=\"width: 400px\" id=\"[aProperty.name/]\" [if (Sequence{'excatlyOne', 'oneOrMany'}->includes(aProperty.occurs.toString()))]required[/if]>"
+"<input name=\"[javaName(aProperty, false)/]\" type=\"text\" style=\"width: 400px\" id=\"[javaName(aProperty, false)/]\" [if (Sequence{'excatlyOne', 'oneOrMany'}->includes(aProperty.occurs.toString()))]required[/if]>"
 [/template]
 
 [template public propertyToHtmlForCreationMethod(aProperty: ResourceProperty, aResource: Resource, aCreationDialog: Dialog, methodSignature: String)]
@@ -56,7 +56,7 @@ static public String [propertyToHtmlForCreationMethodName(aProperty, aResource, 
 	[if (Sequence{'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(valueType))]
 	s= s + [resourcePropertyAsTextInputForCreation(aProperty) /];
 	[elseif(valueType = 'Boolean')]
-	s= s + "<input name=\"[aProperty.name/]\" type=\"radio\" value=\"true\">True<input name=\"[aProperty.name/]\" type=\"radio\" value=\"false\">False";
+	s= s + "<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"true\">True<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"false\">False";
 	[elseif(Sequence{'Resource', 'LocalResource'}->includes(valueType))]
 	[comment TODO: How to deal with properties that are resources? Should then also be created, or should hte user get a list of existing such resources to choose from. 
 	Latter sounds most reasonable. For now just ignore such properties./]
@@ -270,9 +270,9 @@ public String toHtml(boolean asLocalResource)
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
-    public void add[aProperty.name.toUpperFirst() /](final [javaAttributeBaseType(aProperty) /] [aProperty.name /] )
+    public void add[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeBaseType(aProperty) /] [javaName(aProperty, false)/])
     {
-        this.[javaAttributeName(aProperty, aResource) /].add([aProperty.name /]);
+        this.[javaAttributeName(aProperty, aResource) /].add([javaName(aProperty, false)/]);
     }
 	[/if]
 [/for]
@@ -319,17 +319,17 @@ public String toHtml(boolean asLocalResource)
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
-    public void set[javaAttributeName(aProperty, aResource).toUpperFirst() /](final [javaAttributeTypeDeclaration(aProperty) /] [aProperty.name /] )
+    public void set[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeTypeDeclaration(aProperty) /] [javaName(aProperty, false)/] )
     {
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
         this.[javaAttributeName(aProperty, aResource) /].clear();
-        if ([aProperty.name /] != null)
+        if ([javaName(aProperty, false)/] != null)
         {
-            this.[javaAttributeName(aProperty, aResource) /].addAll([aProperty.name /]);
+            this.[javaAttributeName(aProperty, aResource) /].addAll([javaName(aProperty, false)/]);
         }
 
 	[else]
-        this.[javaAttributeName(aProperty, aResource) /] = [aProperty.name /];
+        this.[javaAttributeName(aProperty, aResource) /] = [javaName(aProperty, false)/];
 	[/if]
     }
 [/for]

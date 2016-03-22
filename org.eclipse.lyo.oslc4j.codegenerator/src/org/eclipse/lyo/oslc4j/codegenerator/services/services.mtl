@@ -119,7 +119,9 @@ endif)
 /]
 
 [query public javaString (aString : String) : String = 
-concatenate((aString.substituteAll('/', ' ').substituteAll('{', ' ').substituteAll('}', '').tokenize(' ')->collect(s : String  | s.toUpperFirst())))
+concatenate(
+	aString.replaceAll('\\W+', ' ').tokenize(' ')->collect(s : String  | s.toUpperFirst())
+)
 /]
 
 [query public javaString (aString : String, toUpperFirst : Boolean) : String = 

@@ -25,6 +25,15 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::domainSpecificationServices/]
 
+
+[query public javaName(aProperty: ResourceProperty) : String = 
+javaString(aProperty.name)
+/]
+
+[query public javaName(aProperty: ResourceProperty, toUpperFirst : Boolean) : String = 
+javaString(aProperty.name, toUpperFirst)
+/]
+
 [comment TODO: "URI" should actually not be a valueType since it is not OSLC-standard. However, this is one way to allow user to specify a URI as a type.
 Another approach would be to have a valueType as String, and the Range being set to "URI", hence creating a URI (local) resource? 
 But I really want the user to be able to map to java.net.URI, just like they can map to String or Boolean - without having to create a resource for that. /]
@@ -33,11 +42,11 @@ not (Sequence{'URI'}->includes(aProperty.valueType.toString()))
 /]
 
 [query public nameAnnotation(aProperty: ResourceProperty) : String = 
-'@OslcName("'.concat(aProperty.name). concat('")')
+'@OslcName("'.concat(javaName(aProperty, false)). concat('")')
 /]
 
 [query public propertyDefinitionAnnotation(aProperty: ResourceProperty, aResource: Resource, anAdaptorInterface: AdaptorInterface) : String = 
-'@OslcPropertyDefinition('.concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.').concat(domainSpecificationNamespaceConstantName(aProperty.definingDomainSpecification())) . concat(' + "').concat(aProperty.name).concat('")')
+'@OslcPropertyDefinition('.concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.').concat(domainSpecificationNamespaceConstantName(aProperty.definingDomainSpecification())) . concat(' + "').concat(javaName(aProperty, false)).concat('")')
 /]
 
 [query public descriptionAnnotation(aProperty: ResourceProperty) : String = 
@@ -148,12 +157,8 @@ else
 endif)
 /]
 
-[query public prefixedName(aProperty: ResourceProperty) : String = 
-aProperty.definingDomainSpecification().namespacePrefix.name.concat(':').concat(aProperty.name)
-/]
-
 [query public typeURI(aProperty: ResourceProperty) : String = 
-aProperty.definingDomainSpecification().namespaceURI.concat('#').concat(aProperty.name)
+aProperty.definingDomainSpecification().namespaceURI.concat('#').concat(javaName(aProperty, false))
 /]
 
 [query public javaAttributeTypeNeedsConstruction(aProperty: ResourceProperty) : Boolean = 
@@ -275,10 +280,10 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 /]
 
 [query public javaAttributeName(aProperty: ResourceProperty, aResource: Resource) : String = 
-    (if (allProperties(aResource).name->count(aProperty.name) = 1) then
-        aProperty.name
+    (if (allProperties(aResource)->collect(p : ResourceProperty | javaName(p, false))->count(javaName(aProperty, false)) = 1) then
+        javaName(aProperty, false)
     else
-        aProperty.definingDomainSpecification().namespacePrefix.name.concat(aProperty.name.toUpperFirst())
+        aProperty.definingDomainSpecification().namespacePrefix.name.concat(javaName(aProperty, true))
     endif)
 /]
 

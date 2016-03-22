@@ -118,7 +118,7 @@ public interface [javaInterfaceName(aResource) /]
 
 [for (aProperty: ResourceProperty | aResource.resourceProperties)]
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
-    public void add[aProperty.name.toUpperFirst() /](final [javaAttributeBaseType(aProperty) /] [aProperty.name /] );
+    public void add[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeBaseType(aProperty) /] [javaName(aProperty, false)/] );
 	[/if]
 [/for]
 
@@ -161,7 +161,7 @@ public interface [javaInterfaceName(aResource) /]
 [/for]
 
 [for (aProperty: ResourceProperty | aResource.resourceProperties)]
-    public void set[javaAttributeName(aProperty, aResource).toUpperFirst() /](final [javaAttributeTypeDeclaration(aProperty) /] [aProperty.name /] );
+    public void set[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeTypeDeclaration(aProperty) /] [javaName(aProperty, false)/] );
 [/for]
 }
 
