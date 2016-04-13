@@ -6,12 +6,5 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated adaptorInterface -->
-      <package
-            uri="http://org.eclipse.lyo/oslc4j/adaptorInterface"
-            class="adaptorinterface.AdaptorinterfacePackage"
-            genModel="model/adaptorInterface.genmodel"/>
-   </extension>
 
 </plugin>
