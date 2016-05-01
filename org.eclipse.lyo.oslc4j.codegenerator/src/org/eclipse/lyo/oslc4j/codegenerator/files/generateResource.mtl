@@ -150,6 +150,11 @@ import [javaClassFullName(r, contextAdaptorInterface) /];
 // [protected ('imports')]
 // [/protected]
 
+// [protected ('preClassCode')]
+// [/protected]
+
+// [protected ('classAnnotations')]
+// [/protected]
 @OslcNamespace([javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification()) /])
 @OslcName([javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourceConstantName(aResource) /]) 
 @OslcResourceShape(title = "[aResource.name /] Resource Shape", describes = [javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourceTypeConstantName(aResource) /])
@@ -159,8 +164,16 @@ public class [javaClassName(aResource) /]
 {
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
+// [protected ('attributeAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+// [/protected]
 private [javaAttributeTypeDeclaration(aProperty) /] [javaAttributeName(aProperty, aResource)/][if javaAttributeTypeNeedsConstruction(aProperty)] = new [javaAttributeTypeDeclaration(aProperty)/]()[/if];  
 [/for]
+
+// [protected ('classAttributes')]
+// [/protected]
+
+// [protected ('classMethods')]
+// [/protected]
 
 public [javaClassName(aResource) /]()
        throws URISyntaxException
@@ -278,6 +291,8 @@ public String toHtml(boolean asLocalResource)
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
+	// [protected ('getterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+	// [/protected]
    	[if (not (nameAnnotation(aProperty) = ''))]
 	[nameAnnotation(aProperty)/]
 	[/if]
@@ -313,14 +328,20 @@ public String toHtml(boolean asLocalResource)
 	[/if]
     public [javaAttributeTypeDeclaration(aProperty) /] [if (aProperty.valueType.toString() = 'Boolean')]is[else]get[/if][javaAttributeName(aProperty, aResource).toUpperFirst() /]()
     {
+		// [protected ('getterInit:'.concat(javaAttributeName(aProperty, aResource)))]
+		// [/protected]
         return [javaAttributeName(aProperty, aResource) /];
     }
 
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
+	// [protected ('setterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+	// [/protected]
     public void set[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeTypeDeclaration(aProperty) /] [javaName(aProperty, false)/] )
     {
+	// [protected ('setterInit:'.concat(javaAttributeName(aProperty, aResource)))]
+	// [/protected]
 	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
         this.[javaAttributeName(aProperty, aResource) /].clear();
         if ([javaName(aProperty, false)/] != null)
@@ -331,7 +352,10 @@ public String toHtml(boolean asLocalResource)
 	[else]
         this.[javaAttributeName(aProperty, aResource) /] = [javaName(aProperty, false)/];
 	[/if]
+	// [protected ('setterFinalize:'.concat(javaAttributeName(aProperty, aResource)))]
+	// [/protected]
     }
+
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
