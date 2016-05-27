@@ -173,7 +173,7 @@ Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()).
 			variable
 		else
 			if(aProperty.valueType.toString() = 'DateTime') then
-				'new SimpleDateFormat().parse(' + variable + ')'
+				'new SimpleDateFormat("M/D/y").parse(' + variable + ')'
 			else
 				if(aProperty.valueType.toString() = 'URI') then
 					'new URI(' + variable + ')'

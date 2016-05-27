@@ -57,11 +57,11 @@ function search(baseUrl){
 		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
 			// populate results
 			txt = xmlhttp.responseText;
-			resp = eval('(' + txt + ')');
-			for( var i=0; i<resp.results.length; i=i+1 ) {
+			resp = JSON.parse(txt);
+			for( var i=0; i<resp['["oslc:results"]'/].length; i=i+1 ) {
 				var item=document.createElement('option');
-				item.text = resp.results['[i]'/].label;
-				item.value = resp.results['[i]'/].resourceUrl;
+				item.text = resp['["oslc:results"]'/]['[i]'/]['["oslc:label"]'/];
+				item.value = resp['["oslc:results"]'/]['[i]'/]['["rdf:resource"]'/];
 				if (ie > 0) {
 	 				list.add(item); 
 				} else {
@@ -78,6 +78,34 @@ function search(baseUrl){
 	searchMessage.style.display = 'none';
 	loadingMessage.style.display = 'block';
 	xmlhttp.send();
+}
+
+function create(baseUrl){
+	var form = document.getElementById("Create");
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState==4 && (xmlhttp.status==201)) {
+			var raw_response = xmlhttp.responseText;
+			var json_response = JSON.parse(raw_response);
+			// Send response to listener
+			sendRawResponse(json_response);
+		}
+	};
+	var postData="";
+
+	var formElements = form.elements;
+	for (var i = 0; i< formElements.length; i++) {
+		var el = formElements['['/]i[']'/];
+		var el_type = el.type;
+		if(el && el.getAttribute("name")) {
+			postData += '&'+ el.getAttribute("name") + '=' + encodeURIComponent(el.value);
+		}
+	} 
+
+	xmlhttp.open("POST", baseUrl, true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.setRequestHeader("Content-length",postData.length);
+	xmlhttp.send(postData);
 }
 
 function select(){
@@ -103,6 +131,18 @@ function sendResponse(label, resourceUrl) {
 		respondWithPostMessage(oslcResponse);
 	} 
 	
+}
+
+function sendRawResponse(jsonObj) {
+	var oslcResponse = "oslc-response:" + JSON.stringify(jsonObj, null, 2);
+	
+	if (window.location.hash == '#oslc-core-windowName-1.0') {       
+  	  // Window Name protocol in use
+        respondWithWindowName(oslcResponse);
+	} else if (window.location.hash == '#oslc-core-postMessage-1.0') {
+    	// Post Message protocol in use
+		respondWithPostMessage(oslcResponse);
+	}
 }
 
 function sendCancelResponse() {

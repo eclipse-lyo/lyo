@@ -126,7 +126,9 @@
 					<tr>
 						<td></td>
 						<td>
-							<input type="submit" value="Submit">
+							<input type="button"
+								value="Submit"
+								onclick="javascript: create( '<%= creatorUri %>' )">
 							<input type="reset">
 						</td>
 					</tr>
