@@ -49,6 +49,9 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateGetResourceJsp/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorJsp/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorClientJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorClientJsp/]
+
 
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorClient/]
 
@@ -62,6 +65,8 @@
 [anAdaptorInterface.generateAdaptorServletListener() /]
 [anAdaptorInterface.generateAdaptorManager() /]
 [anAdaptorInterface.generateDelegatedUIJavaScripts() /]
+[anAdaptorInterface.generateResourceSelectorClientJsp() /]
+[anAdaptorInterface.generateResourceCreatorClientJsp() /]
 
 [if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]

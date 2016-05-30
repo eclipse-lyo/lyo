@@ -345,32 +345,33 @@ public class [javaClassName(aService) /]
 	[/for]
 
 	[for (aCreationDialog: Dialog | aService.creationDialogs)]
-    /**
-     * OSLC delegated creation dialog for a single change request
-     * 
-     * Forwards to changerequest_creator.jsp to build the html form
-     * 
-     * @param productId
-     * @throws IOException
-     * @throws ServletException
-     */
-    @GET
+	/**
+	 * OSLC delegated creation dialog for a single change request
+	 * 
+	 * Forwards to changerequest_creator.jsp to build the html form
+	 * 
+	 * @param productId
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	@GET
 	[JAXRSPathAnnotation(aCreationDialog.URISegment(false)) /]
-    @Consumes({MediaType.WILDCARD})
-    public [dialogMethodReturnType (aCreationDialog, false)/] [dialogMethodName(aCreationDialog, false)/](
-                [commaSeparate(dialogMethodSignature(aCreationDialog, false, true), false, false)/]
-        ) throws IOException, ServletException
-    {
+	@Consumes({MediaType.WILDCARD})
+	public [dialogMethodReturnType (aCreationDialog, false)/] [dialogMethodName(aCreationDialog, false)/](
+				[commaSeparate(dialogMethodSignature(aCreationDialog, false, true), false, false)/]
+		) throws IOException, ServletException
+	{
 		// [protected (dialogMethodName(aCreationDialog, false))]
 		// [/protected]
 
-        [for (aPathParameter: String | JAXRSPathParameters(aCreationDialog.URI(false)))]
-        httpServletRequest.setAttribute("[aPathParameter/]", [aPathParameter/]);
-        [/for]
+		httpServletRequest.setAttribute("creatorUri", uriInfo.getAbsolutePath().toString());
+		[for (aPathParameter: String | JAXRSPathParameters(aCreationDialog.URI(false)))]
+		httpServletRequest.setAttribute("[aPathParameter/]", [aPathParameter/]);
+		[/for]
 
 		RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[resourceCreatorJspRelativeFileName(aCreationDialog) /]");
 		rd.forward(httpServletRequest, httpServletResponse);
-    }
+	}
 
     /**
      * Backend creator for the OSLC delegated creation dialog. 

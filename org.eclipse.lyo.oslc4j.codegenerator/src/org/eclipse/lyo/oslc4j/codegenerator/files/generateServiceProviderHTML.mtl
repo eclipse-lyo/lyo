@@ -23,6 +23,7 @@
 
 [import org::eclipse::lyo::oslc4j::codegenerator::services::services/]
 [import org::eclipse::lyo::oslc4j::codegenerator::services::jspServices/]
+[import org::eclipse::lyo::oslc4j::codegenerator::services::adaptorInterfaceServices/]
 
 [template public generateServiceProviderHTML(aServiceProvider : ServiceProvider)]
 [file (serviceProviderJspFullFileName(aServiceProvider), false, 'UTF-8')]
@@ -48,6 +49,7 @@
 --%>
 
 <%@ page import="java.net.URI" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.Service" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.Dialog" %>
@@ -154,7 +156,10 @@ Service['[]'/] services = (Service['[]'/])request.getAttribute("services");
 					for (int selectionDialogIndex = 0; selectionDialogIndex < selectionDialogs.length; selectionDialogIndex++) {
 						String selectionDialog = selectionDialogs['[selectionDialogIndex]'/].getDialog().toString();
 					%>
-						<p><a href="<%= selectionDialog %>"><%= selectionDialog %></a></p>
+						<p>
+	<a href="<%= selectionDialog %>"><%= selectionDialog %></a>
+	(<a href="<%= request.getContextPath() %>[resourceSelectorClientJspRelativeFileName(containingAdaptorInterface(aServiceProvider))/]?selectionUri=<%= URLEncoder.encode(selectionDialog.toString(), "UTF-8") %>">sample client</a>)
+						</p>
 					<%}%>
 	
 					<h4>Resource Creator Dialog(s)</h4>
@@ -163,7 +168,11 @@ Service['[]'/] services = (Service['[]'/])request.getAttribute("services");
 					for (int creationDialogIndex = 0; creationDialogIndex < creationDialogs.length; creationDialogIndex++) {
 						String creationDialog = creationDialogs['[creationDialogIndex]'/].getDialog().toString();
 					%>
-						<p><a href="<%= creationDialog %>"><%= creationDialog %></a></p>
+						<p>
+	<a href="<%= creationDialog %>"><%= creationDialog %></a>
+	(<a href="<%= request.getContextPath() %>[resourceCreatorClientJspRelativeFileName(containingAdaptorInterface(aServiceProvider))/]?creationUri=<%= URLEncoder.encode(creationDialog.toString(), "UTF-8") %>">sample client</a>)
+
+</p>
 					<%}%>
 
 					<h4>Resource Creation Factory(s) and Resource Shape(s)</h4>
