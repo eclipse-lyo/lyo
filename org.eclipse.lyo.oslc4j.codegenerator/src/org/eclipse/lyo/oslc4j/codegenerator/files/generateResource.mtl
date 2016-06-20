@@ -6,7 +6,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -42,30 +42,30 @@
 [template public propertyToHtmlForCreationMethod(aProperty: ResourceProperty, aResource: Resource, aCreationDialog: Dialog, methodSignature: String)]
 static public String [propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)/] (final HttpServletRequest httpServletRequest[commaSeparate(methodSignature, true, false)/])
 {
-	String s = "";
+    String s = "";
 
-	// [protected ('"Init:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
-	// [/protected]
+    // [protected ('"Init:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
+    // [/protected]
 
-	s = s + "<label for=\"[aProperty.name/]\">[aProperty.name/]: </LABEL>";
+    s = s + "<label for=\"[aProperty.name/]\">[aProperty.name/]: </LABEL>";
 
-	// [protected ('"Mid:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
-	// [/protected]
+    // [protected ('"Mid:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
+    // [/protected]
 
-	[let valueType : String = aProperty.valueType.toString()]
-	[if (Sequence{'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(valueType))]
-	s= s + [resourcePropertyAsTextInputForCreation(aProperty) /];
-	[elseif(valueType = 'Boolean')]
-	s= s + "<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"true\">True<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"false\">False";
-	[elseif(Sequence{'Resource', 'LocalResource'}->includes(valueType))]
-	[comment TODO: How to deal with properties that are resources? Should then also be created, or should hte user get a list of existing such resources to choose from. 
-	Latter sounds most reasonable. For now just ignore such properties./]
-	[/if]
-	[/let]
-	// [protected ('"Finalize:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
-	// [/protected]
+    [let valueType : String = aProperty.valueType.toString()]
+    [if (Sequence{'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(valueType))]
+    s= s + [resourcePropertyAsTextInputForCreation(aProperty) /];
+    [elseif(valueType = 'Boolean')]
+    s= s + "<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"true\">True<input name=\"[javaName(aProperty, false)/]\" type=\"radio\" value=\"false\">False";
+    [elseif(Sequence{'Resource', 'LocalResource'}->includes(valueType))]
+    [comment TODO: How to deal with properties that are resources? Should then also be created, or should hte user get a list of existing such resources to choose from.
+    Latter sounds most reasonable. For now just ignore such properties./]
+    [/if]
+    [/let]
+    // [protected ('"Finalize:'.concat(propertyToHtmlForCreationMethodName(aProperty, aResource, aCreationDialog)).concat('(...'.concat(methodSignature).concat(')"')))]
+    // [/protected]
 
-	return s; 
+    return s;
 }
 [/template]
 
@@ -77,7 +77,7 @@ static public String [propertyToHtmlForCreationMethodName(aProperty, aResource, 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -88,8 +88,8 @@ static public String [propertyToHtmlForCreationMethodName(aProperty, aResource, 
  *     Alberto Giammaria    - initial API and implementation
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
- *	   Sam Padgett	       - initial API and implementation
- *     Michael Fiedler     - adapted for OSLC4J
+ *	   Sam Padgett          - initial API and implementation
+ *     Michael Fiedler      - adapted for OSLC4J
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
  *     Matthieu Helleboid   - Support for multiple Service Providers.
  *     Anass Radouani       - Support for multiple Service Providers.
@@ -137,12 +137,12 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import [javaClassFullNameForAdaptorServletListener(contextAdaptorInterface) /]; 
+import [javaClassFullNameForAdaptorServletListener(contextAdaptorInterface) /];
 import [javaInterfaceFullNameForAdaptorConstants(contextAdaptorInterface) /];
 [for (aProperty: ResourceProperty | allProperties(aResource)->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]
 [for (r: Resource | aProperty.range)]
-import [javaClassFullName(r, contextAdaptorInterface) /];	
+import [javaClassFullName(r, contextAdaptorInterface) /];
 [/for]
 [/if]
 [/for]
@@ -156,204 +156,205 @@ import [javaClassFullName(r, contextAdaptorInterface) /];
 // [protected ('classAnnotations')]
 // [/protected]
 @OslcNamespace([javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[domainSpecificationNamespaceConstantName(aResource.definingDomainSpecification()) /])
-@OslcName([javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourceConstantName(aResource) /]) 
+@OslcName([javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourceConstantName(aResource) /])
 @OslcResourceShape(title = "[aResource.name /] Resource Shape", describes = [javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourceTypeConstantName(aResource) /])
 public class [javaClassName(aResource) /]
-	extends [if (aResource.directParentResource().oclIsUndefined())]AbstractResource[else][javaClassName(aResource.directParentResource()) /][/if]
-	implements [for (aResourceToInterface: Resource | OrderedSet{aResource}->union(aResource.interfaceResources())) separator(', ')][javaInterfaceName(aResourceToInterface) /][/for]
+    extends [if (aResource.directParentResource().oclIsUndefined())]AbstractResource[else][javaClassName(aResource.directParentResource()) /][/if]
+    implements [for (aResourceToInterface: Resource | OrderedSet{aResource}->union(aResource.interfaceResources())) separator(', ')][javaInterfaceName(aResourceToInterface) /][/for]
 {
 
-[for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
-// [protected ('attributeAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
-// [/protected]
-private [javaAttributeTypeDeclaration(aProperty) /] [javaAttributeName(aProperty, aResource)/][if javaAttributeTypeNeedsConstruction(aProperty)] = new [javaAttributeTypeDeclaration(aProperty)/]()[/if];  
-[/for]
-
-// [protected ('classAttributes')]
-// [/protected]
-
-// [protected ('classMethods')]
-// [/protected]
-
-public [javaClassName(aResource) /]()
-       throws URISyntaxException
-{
-    super();
-
-	// [protected ('constructor1')]
-	// [/protected]
-}
-
-public [javaClassName(aResource) /](final URI about)
-       throws URISyntaxException
-{
-    super(about);
-
-	// [protected ('constructor2')]
-	// [/protected]
-}
-
-[for (aBasicCapability: BasicCapability | basicCapabilities(contextAdaptorInterface, aResource))]
-[let methodSuffix: String = (if (basicCapabilities(contextAdaptorInterface, aResource)->size() = 1) then '' else basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability).toString() endif)]
-[if (basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability) = 1)]
-public [javaClassName(aResource)/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
-       throws URISyntaxException
-{
-	this (constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]));
-	// [protected ('constructor3')]
-	// [/protected]
-}
-[/if]
-public static URI constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
-{
-    String basePath = [javaClassNameForAdaptorServletListener(contextAdaptorInterface) /].getServicesBase();
-    Map<String, Object> pathParameters = new HashMap<String, Object>();
-    [for (instanceCompositeID: String | aResource.instanceCompositeID(aBasicCapability))]
-    pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
+    [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
+    // [protected ('attributeAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+    // [/protected]
+    private [javaAttributeTypeDeclaration(aProperty) /] [javaAttributeName(aProperty, aResource)/][if javaAttributeTypeNeedsConstruction(aProperty)] = new [javaAttributeTypeDeclaration(aProperty)/]()[/if];
     [/for]
-    String instanceURI = "[aResource.instanceURI(aBasicCapability) /]";
-  
-    final UriBuilder builder = UriBuilder.fromUri(basePath);
-    return builder.path(instanceURI).buildFromMap(pathParameters);
-}
 
-public static Link constructLink[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, true)/] final String label)
-{
-	return new Link(constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]), label);
-}
+    // [protected ('classAttributes')]
+    // [/protected]
 
-public static Link constructLink[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
-{
-	return new Link(constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]));
-}
-[/let]
-[/for]
+    // [protected ('classMethods')]
+    // [/protected]
 
-public String toString()
-{
-	return toString(false);
-}
+    public [javaClassName(aResource) /]()
+           throws URISyntaxException
+    {
+        super();
 
-public String toString(boolean asLocalResource)
-{
-		String result = "";
-		// [protected ('toString_init')]
-		// [/protected]
+        // [protected ('constructor1')]
+        // [/protected]
+    }
 
-		if (asLocalResource) {
-			result = result + "{a Local [aResource.name.toUpperFirst() /] Resource} - update [aResource.name.toUpperFirst() /].toString() to present resource as desired.";
-			// [protected ('toString_bodyForLocalResource')]
-			// [/protected]
-		}
-		else {
-			result = getAbout().toString();
-		}
+    public [javaClassName(aResource) /](final URI about)
+           throws URISyntaxException
+    {
+        super(about);
 
-		// [protected ('toString_finalize')]
-		// [/protected]
+        // [protected ('constructor2')]
+        // [/protected]
+    }
 
-		return result;
-}
+    [for (aBasicCapability: BasicCapability | basicCapabilities(contextAdaptorInterface, aResource))]
+    [let methodSuffix: String = (if (basicCapabilities(contextAdaptorInterface, aResource)->size() = 1) then '' else basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability).toString() endif)]
+    [if (basicCapabilities(contextAdaptorInterface, aResource)->indexOf(aBasicCapability) = 1)]
+    public [javaClassName(aResource)/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
+           throws URISyntaxException
+    {
+        this (constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]));
+        // [protected ('constructor3')]
+        // [/protected]
+    }
+    [/if]
 
-public String toHtml()
-{
-	return toHtml(false);
-}
+    public static URI constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
+    {
+        String basePath = [javaClassNameForAdaptorServletListener(contextAdaptorInterface) /].getServicesBase();
+        Map<String, Object> pathParameters = new HashMap<String, Object>();
+        [for (instanceCompositeID: String | aResource.instanceCompositeID(aBasicCapability))]
+        pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
+        [/for]
+        String instanceURI = "[aResource.instanceURI(aBasicCapability) /]";
 
-public String toHtml(boolean asLocalResource)
-{
-		String result = "";
-		// [protected ('toHtml_init')]
-		// [/protected]
+        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        return builder.path(instanceURI).buildFromMap(pathParameters);
+    }
 
-		if (asLocalResource) {
-			result = toString(true);
-			// [protected ('toHtml_bodyForLocalResource')]
-			// [/protected]
-		}
-		else {
-			result = "<a href=\"" + getAbout() + "\">" + toString() + "</a>";
-		}
+    public static Link constructLink[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, true)/] final String label)
+    {
+        return new Link(constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]), label);
+    }
 
-		// [protected ('toHtml_finalize')]
-		// [/protected]
+    public static Link constructLink[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
+    {
+        return new Link(constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodParameterList(aBasicCapability), false, false)/]));
+    }
+    [/let]
+    [/for]
 
-		return result;
-}
+    public String toString()
+    {
+        return toString(false);
+    }
+
+    public String toString(boolean asLocalResource)
+    {
+        String result = "";
+        // [protected ('toString_init')]
+        // [/protected]
+
+        if (asLocalResource) {
+            result = result + "{a Local [aResource.name.toUpperFirst() /] Resource} - update [aResource.name.toUpperFirst() /].toString() to present resource as desired.";
+            // [protected ('toString_bodyForLocalResource')]
+            // [/protected]
+        }
+        else {
+            result = getAbout().toString();
+        }
+
+        // [protected ('toString_finalize')]
+        // [/protected]
+
+        return result;
+    }
+
+    public String toHtml()
+    {
+        return toHtml(false);
+    }
+
+    public String toHtml(boolean asLocalResource)
+    {
+        String result = "";
+        // [protected ('toHtml_init')]
+        // [/protected]
+
+        if (asLocalResource) {
+            result = toString(true);
+            // [protected ('toHtml_bodyForLocalResource')]
+            // [/protected]
+        }
+        else {
+            result = "<a href=\"" + getAbout() + "\">" + toString() + "</a>";
+        }
+
+        // [protected ('toHtml_finalize')]
+        // [/protected]
+
+        return result;
+    }
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
-	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
+    [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
     public void add[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeBaseType(aProperty) /] [javaName(aProperty, false)/])
     {
         this.[javaAttributeName(aProperty, aResource) /].add([javaName(aProperty, false)/]);
     }
-	[/if]
+    [/if]
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
-	// [protected ('getterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
-	// [/protected]
-   	[if (not (nameAnnotation(aProperty) = ''))]
-	[nameAnnotation(aProperty)/]
-	[/if]
-	[if (not (propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface) = ''))]
-	[propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface)/]
-	[/if]
-	[if (not (descriptionAnnotation(aProperty) = ''))]
-	[descriptionAnnotation(aProperty)/]
-	[/if]
-	[if (not (occursAnnotation(aProperty) = ''))]
-	[occursAnnotation(aProperty)/]
-	[/if]
-	[if (not (valueTypeAnnotation(aProperty) = ''))]
-	[valueTypeAnnotation(aProperty)/]
-	[/if]
-	[if (not (representationAnnotation(aProperty) = ''))]
-	[representationAnnotation(aProperty)/]
-	[/if]
-	[if (not (rangeAnnotation(aProperty, aResource, contextAdaptorInterface)= ''))]
-	[rangeAnnotation(aProperty, aResource, contextAdaptorInterface)/]
-	[/if]
-	[if (not (readOnlyAnnotation(aProperty) = ''))]
-	[readOnlyAnnotation(aProperty)/]
-	[/if]
-	[if (not (titleAnnotation(aProperty)= ''))]
-	[titleAnnotation(aProperty)/]
-	[/if]
-	[if (not (isMemberPropertyAnnotation(aProperty)= ''))]
-	[isMemberPropertyAnnotation(aProperty)/]
-	[/if]
-	[if (not (allowedValueAnnotation(aProperty)= ''))]
-	[allowedValueAnnotation(aProperty)/]
-	[/if]
+    // [protected ('getterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+    // [/protected]
+       [if (not (nameAnnotation(aProperty) = ''))]
+    [nameAnnotation(aProperty)/]
+    [/if]
+    [if (not (propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface) = ''))]
+    [propertyDefinitionAnnotation(aProperty, aResource, contextAdaptorInterface)/]
+    [/if]
+    [if (not (descriptionAnnotation(aProperty) = ''))]
+    [descriptionAnnotation(aProperty)/]
+    [/if]
+    [if (not (occursAnnotation(aProperty) = ''))]
+    [occursAnnotation(aProperty)/]
+    [/if]
+    [if (not (valueTypeAnnotation(aProperty) = ''))]
+    [valueTypeAnnotation(aProperty)/]
+    [/if]
+    [if (not (representationAnnotation(aProperty) = ''))]
+    [representationAnnotation(aProperty)/]
+    [/if]
+    [if (not (rangeAnnotation(aProperty, aResource, contextAdaptorInterface)= ''))]
+    [rangeAnnotation(aProperty, aResource, contextAdaptorInterface)/]
+    [/if]
+    [if (not (readOnlyAnnotation(aProperty) = ''))]
+    [readOnlyAnnotation(aProperty)/]
+    [/if]
+    [if (not (titleAnnotation(aProperty)= ''))]
+    [titleAnnotation(aProperty)/]
+    [/if]
+    [if (not (isMemberPropertyAnnotation(aProperty)= ''))]
+    [isMemberPropertyAnnotation(aProperty)/]
+    [/if]
+    [if (not (allowedValueAnnotation(aProperty)= ''))]
+    [allowedValueAnnotation(aProperty)/]
+    [/if]
     public [javaAttributeTypeDeclaration(aProperty) /] [if (aProperty.valueType.toString() = 'Boolean')]is[else]get[/if][javaAttributeName(aProperty, aResource).toUpperFirst() /]()
     {
-		// [protected ('getterInit:'.concat(javaAttributeName(aProperty, aResource)))]
-		// [/protected]
+        // [protected ('getterInit:'.concat(javaAttributeName(aProperty, aResource)))]
+        // [/protected]
         return [javaAttributeName(aProperty, aResource) /];
     }
 
 [/for]
 
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
-	// [protected ('setterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
-	// [/protected]
+    // [protected ('setterAnnotation:'.concat(javaAttributeName(aProperty, aResource)))]
+    // [/protected]
     public void set[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeTypeDeclaration(aProperty) /] [javaName(aProperty, false)/] )
     {
-	// [protected ('setterInit:'.concat(javaAttributeName(aProperty, aResource)))]
-	// [/protected]
-	[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
+        // [protected ('setterInit:'.concat(javaAttributeName(aProperty, aResource)))]
+        // [/protected]
+    [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
         this.[javaAttributeName(aProperty, aResource) /].clear();
         if ([javaName(aProperty, false)/] != null)
         {
             this.[javaAttributeName(aProperty, aResource) /].addAll([javaName(aProperty, false)/]);
         }
 
-	[else]
+    [else]
         this.[javaAttributeName(aProperty, aResource) /] = [javaName(aProperty, false)/];
-	[/if]
-	// [protected ('setterFinalize:'.concat(javaAttributeName(aProperty, aResource)))]
-	// [/protected]
+    [/if]
+        // [protected ('setterFinalize:'.concat(javaAttributeName(aProperty, aResource)))]
+        // [/protected]
     }
 
 [/for]
@@ -372,97 +373,94 @@ I am getting to many if/else-ses. I think I need to rethink calmely to have a cl
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     public String [javaAttributeName(aProperty, aResource) /]ToHtml()
     {
-		String s = "";
+        String s = "";
 
-		// [protected (javaAttributeName(aProperty, aResource).concat('toHtml_init'))]
-		// [/protected]
+        // [protected (javaAttributeName(aProperty, aResource).concat('toHtml_init'))]
+        // [/protected]
 
-		s = s + "<label for=\"[aProperty.name/]\"><strong>[aProperty.name/]</strong>: </LABEL>";
+        s = s + "<label for=\"[aProperty.name/]\"><strong>[aProperty.name/]</strong>: </LABEL>";
 
-		// [protected (javaAttributeName(aProperty, aResource).concat('toHtml_mid'))]
-		// [/protected]
+        // [protected (javaAttributeName(aProperty, aResource).concat('toHtml_mid'))]
+        // [/protected]
 
-		try {
-		[comment For these basic valueTypes, one can simply call toString on the attribte /]
-		[if (Sequence{'Boolean', 'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(aProperty.valueType.toString()))]
-		    [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
-		        s = s + "<ul>";
-				Iterator<[javaAttributeBaseType(aProperty) /]> itr = [javaAttributeName(aProperty, aResource) /].iterator();
-				while(itr.hasNext()) {
-					s = s + "<li>";
-					s= s + itr.next().toString();
-					s = s + "</li>";
-				}
-		        s = s + "</ul>";
-			[else]
-				if ([javaAttributeName(aProperty, aResource)/] == null) {
-					s= s + "<em>null</em>";				
-				}
-				else {
-					s= s + [javaAttributeName(aProperty, aResource)/].toString();				
-				}
-		    [/if]
-		[comment a property with valueType of resource or LocalResource can return either a Class directly referring to a Resource, or Link. 
-		If we get a Link, we want to check if we can also work out which kind of resource class this Link refers to. If we can find out, 
-		we want to call toHtml on that class. if we cannot, we simply print the Link as a string. /]
-		[elseif(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()))]
-		    [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
-		        s = s + "<ul>";
-				Iterator<[javaAttributeBaseType(aProperty) /]> itr = [javaAttributeName(aProperty, aResource) /].iterator();
-				while(itr.hasNext()) {
-					s = s + "<li>";
-				    [if (javaAttributeBaseType(aProperty) = 'Link')]
-					    [if (aProperty.range->size() = 1)]
-							[comment Even if it is a Link, there are cases where I actually know that the link should point to a particular resource class.
-							(For example, for valueType = Resource, we get a Link irrespective of whether the valueType is set to a specific resource or not. ) /]
-							s = s + (new [javaClassName(aProperty.range->first()) /] (itr.next().getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
-						[else]
-							[comment just print the Link's URI as a String /]
-                            if (itr.next().getValue() == null) {
-                                s= s + "<em>null</em>";             
-                            }
-                            else {
-                                s = s + itr.next().getValue().toString();
-                            }
-					    [/if]
-					[else]
-						[comment itr refers to direct Resource class, and hence can simply call toHtml() on /]
-						s = s + itr.next().toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
-				    [/if]
-					s = s + "</li>";
-				}
-		        s = s + "</ul>";
-			[else]
-			    [if (javaAttributeBaseType(aProperty) = 'Link')]
-				    [if (aProperty.range->size() = 1)]
-						[comment Even if it is a Link, there are cases where I actually know that the link should point to a particular resource class.
-						(For example, for valueType = Resource, we get a Link irrespective of whether the valueType is set to a specific resource or not. ) /]
-						s = s + (new [javaClassName(aProperty.range->first()) /] ([javaAttributeName(aProperty, aResource)/].getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
-					[else]
-						[comment just print the Link's URI as a String /]
-                    if ([javaAttributeName(aProperty, aResource)/].getValue() == null) {
-                        s = s + "<em>null</em>";             
-                    }
-                    else {
-                        s = s + [javaAttributeName(aProperty, aResource)/].getValue().toString();                
-                    }
-				    [/if]
+        try {
+        [comment For these basic valueTypes, one can simply call toString on the attribte /]
+        [if (Sequence{'Boolean', 'String', 'XMLLiteral', 'DateTime', 'URI', 'Double', 'Float', 'Integer'}->includes(aProperty.valueType.toString()))]
+            [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
+            s = s + "<ul>";
+            Iterator<[javaAttributeBaseType(aProperty) /]> itr = [javaAttributeName(aProperty, aResource) /].iterator();
+            while(itr.hasNext()) {
+                s = s + "<li>";
+                s= s + itr.next().toString();
+                s = s + "</li>";
+            }
+            s = s + "</ul>";
+            [else]
+            if ([javaAttributeName(aProperty, aResource)/] == null) {
+                s= s + "<em>null</em>";
+            }
+            else {
+                s= s + [javaAttributeName(aProperty, aResource)/].toString();
+            }
+            [/if]
+        [comment a property with valueType of resource or LocalResource can return either a Class directly referring to a Resource, or Link.
+        If we get a Link, we want to check if we can also work out which kind of resource class this Link refers to. If we can find out,
+        we want to call toHtml on that class. if we cannot, we simply print the Link as a string. /]
+        [elseif(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString()))]
+            [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
+            s = s + "<ul>";
+            for([javaAttributeBaseType(aProperty) /] next : [javaAttributeName(aProperty, aResource) /]) {
+                s = s + "<li>";
+                [if (javaAttributeBaseType(aProperty) = 'Link')]
+                    [if (aProperty.range->size() = 1)]
+                        [comment Even if it is a Link, there are cases where I actually know that the link should point to a particular resource class.
+                        (For example, for valueType = Resource, we get a Link irrespective of whether the valueType is set to a specific resource or not. ) /]
+                s = s + (new [javaClassName(aProperty.range->first()) /] (next.getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+                    [else]
+                        [comment just print the Link's URI as a String /]
+                if (next.getValue() == null) {
+                    s= s + "<em>null</em>";
+                }
+                else {
+                    s = s + next.getValue().toString();
+                }
+                    [/if]
+                [else]
+                    [comment itr refers to direct Resource class, and hence can simply call toHtml() on /]
+                s = s + next.toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+                [/if]
+                s = s + "</li>";
+            }
+            s = s + "</ul>";
+            [else]
+                [if (javaAttributeBaseType(aProperty) = 'Link')]
+                    [if (aProperty.range->size() = 1)]
+                        [comment Even if it is a Link, there are cases where I actually know that the link should point to a particular resource class.
+                        (For example, for valueType = Resource, we get a Link irrespective of whether the valueType is set to a specific resource or not. ) /]
+            s = s + (new [javaClassName(aProperty.range->first()) /] ([javaAttributeName(aProperty, aResource)/].getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+                    [else]
+                        [comment just print the Link's URI as a String /]
+            if ([javaAttributeName(aProperty, aResource)/].getValue() == null) {
+                s = s + "<em>null</em>";
+            }
+            else {
+                s = s + [javaAttributeName(aProperty, aResource)/].getValue().toString();
+            }
+                    [/if]
+                [else]
+                    [comment the attribute refers to direct Resource class, and hence can simply call toHtml() on /]
+            s = s + [javaAttributeName(aProperty, aResource)/].toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+                [/if]
+            [/if]
+        [/if]
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-				[else]
-					[comment the attribute refers to direct Resource class, and hence can simply call toHtml() on /]
-					s = s + [javaAttributeName(aProperty, aResource)/].toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
-			    [/if]
+        // [protected (javaAttributeName(aProperty, aResource).concat('toHtml_finalize'))]
+        // [/protected]
 
-		    [/if]
-		[/if]
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-
-		// [protected (javaAttributeName(aProperty, aResource).concat('toHtml_finalize'))]
-		// [/protected]
-
-		return s; 
+        return s;
     }
 [/for]
 }
