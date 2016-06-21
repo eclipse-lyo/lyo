@@ -21,6 +21,17 @@
   <artifactId>OSLCSharepoint</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <wink.version>1.4</wink.version>
+    <version-jetty>9.4.5.v20170502</version-jetty>
+    <lyo.version>2.2.0-SNAPSHOT</lyo.version>
+   </properties>
+  
+  
   <repositories>
         <repository>
             <id>aduna</id>
@@ -98,7 +109,7 @@
   	<dependency>
   		<groupId>org.apache.wink</groupId>
   		<artifactId>wink-json4j</artifactId>
-  		<version>1.1.3-incubating</version>
+  		<version>${wink.version}</version>
   	</dependency>
 
   	<dependency>
@@ -188,16 +199,15 @@
   			<version>2.8</version>
   		</plugin>
   		<!-- ********************************************** -->
-		<!-- Jetty 7 plugin See also: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin -->
 		<plugin>
-			<groupId>org.mortbay.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>7.3.0.v20110203</version>
+           <groupId>org.eclipse.jetty</groupId>
+           <artifactId>jetty-maven-plugin</artifactId>
+           <version>${version-jetty}</version>
 
 			<configuration>
-			    <webAppConfig>
+			    <webApp>
 			      <contextPath>/OSLC4SharePoint</contextPath>
-			    </webAppConfig>
+			    </webApp>
 
 				<!-- enable hot deploy -->
 				<reload>automatic</reload>

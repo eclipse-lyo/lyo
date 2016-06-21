@@ -4,13 +4,18 @@
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-webapp</artifactId>
     <packaging>war</packaging>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <name>Eclipse Lyo OAuth Provider - Template Webapp</name>
     <description>A template webapp for implementing an OAuth provider.</description>
     <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <wink.version>1.4</wink.version>
+        <lyo.version>2.2.0-SNAPSHOT</lyo.version>
     </properties>
 
     <scm>
@@ -28,7 +33,7 @@
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-core</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>${lyo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -57,7 +62,7 @@
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-server</artifactId>
-            <version>1.2.1-incubating</version>
+            <version>${wink.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>stax-api</artifactId>
@@ -68,17 +73,17 @@
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-json4j</artifactId>
-            <version>1.2.1-incubating</version>
+            <version>${wink.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
         </dependency>
-        <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
     </dependencies>
 
     <build>
@@ -87,15 +92,6 @@
         <outputDirectory>target/classes</outputDirectory>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
 
             <!-- Source Jar Plugin -->
             <plugin>
@@ -123,6 +119,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+            			<configuration>
+                			<additionalparam>-Xdoclint:none</additionalparam>
+            			</configuration>
                     </execution>
                 </executions>
             </plugin>
