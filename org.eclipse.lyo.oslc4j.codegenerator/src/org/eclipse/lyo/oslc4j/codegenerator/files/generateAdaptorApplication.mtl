@@ -95,6 +95,8 @@ import [javaClassFullNameForService(aServiceProvider)/];
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
 [for (aService: Service | anAdaptorInterface.serviceProviders().services) separator(lineSeparator())]import [javaClassFullName(aService) /];[/for]
 
+// [protected ('imports')]
+// [/protected]
 
 public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends OslcWinkApplication {
 
