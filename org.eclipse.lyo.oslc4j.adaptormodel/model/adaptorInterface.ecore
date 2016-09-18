@@ -3,24 +3,34 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="adaptorinterface" nsURI="http://org.eclipse.lyo/oslc4j/adaptorInterface"
     nsPrefix="oslc4j_ai">
   <eClassifiers xsi:type="ecore:EClass" name="AdaptorInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="serviceProviderCatalog"
         lowerBound="1" eType="#//ServiceProviderCatalog" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClassBaseNamespace"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specification" lowerBound="1"
         eType="#//Specification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredAdaptors" upperBound="-1"
+        eType="#//RequiredAdaptor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaClassBaseNamespace"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javaFilesBasePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="jspFilesBasePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="javascriptFilesBasePath"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredAdaptors" upperBound="-1"
-        eType="#//RequiredAdaptor" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getResources"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_classImports"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_classMethods"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_servletListenerInitialize"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_servletListenerDestroy"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getServiceProviders"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getResource"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_getResources"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="backendCodeTemplate_searchResources"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

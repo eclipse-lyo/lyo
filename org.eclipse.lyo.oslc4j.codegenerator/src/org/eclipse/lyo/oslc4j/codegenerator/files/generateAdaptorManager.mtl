@@ -45,6 +45,14 @@ else
 endif)
 /]
 
+[query public backendCode(backendCodeTemplate : String) : String = 
+(if (not backendCodeTemplate.oclIsUndefined()) then
+	backendCodeTemplate
+else
+    ''
+endif)
+/]
+
 [template public generateAdaptorManager(anAdaptorInterface : AdaptorInterface)]
 [file (javaClassFullFileNameForAdaptorManager(anAdaptorInterface), false, 'UTF-8')]
 /*******************************************************************************
@@ -87,6 +95,7 @@ import [javaClassFullName(aServiceProvider) /];
 import [javaClassFullName(aResource, anAdaptorInterface) /];
 [/for]
 
+[backendCode(anAdaptorInterface.backendCodeTemplate_classImports)/]
 // [protected ('imports')]
 // [/protected]
 
@@ -98,12 +107,14 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 	// [protected ('class_attributes')]
 	// [/protected]
 	
+	[backendCode(anAdaptorInterface.backendCodeTemplate_classMethods)/]
 	// [protected ('class_methods')]
 	// [/protected]
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
 		// TODO Implement code to establish connection to data backbone etc ...
+		[backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerInitialize)/]
 		// [protected ('contextInitializeServletListener')]
 		// [/protected]
     }
@@ -111,6 +122,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 	public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
 	{
 		// TODO Implement code to shutdown connections to data backbone etc...
+		[backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerDestroy)/]
 		// [protected ('contextDestroyed')]
 		// [/protected]
 	}
@@ -120,6 +132,7 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
     {
 		[aServiceProvider.javaClassName() /][ '[' ']' /] serviceProviderInfos = {};
 		// TODO Implement code to return the set of ServiceProviders
+		[backendCode(anAdaptorInterface.backendCodeTemplate_getServiceProviders)/]
 		// [protected ('"'.concat(aServiceProvider.javaClassName()).concat('[] get'.concat(aServiceProvider.javaClassName()).concat('s(...)"')))]
 		// [/protected]
 		return serviceProviderInfos;
