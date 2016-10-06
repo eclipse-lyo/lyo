@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2013 IBM Corporation.
+ * Copyright (c) 2011, 2016 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
@@ -14,11 +14,11 @@
  *	 Michael Fiedler	 - initial API and implementation
  *	 Michael Fiedler	 - refactoring to remove un-needed GETs in formLogin()
  *	 Samuel Padgett 	 - improve error handling
+ *   Jim Ruehin			 - added Basic auth for Jazz Auth Server 6.x
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.jazz;
 
 import java.io.IOException;
-
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -28,6 +28,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.apache.xerces.impl.dv.util.Base64;
 import org.eclipse.lyo.client.exception.JazzAuthErrorException;
 import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.oslc.OslcClient;
@@ -48,9 +49,13 @@ public class JazzFormAuthClient extends OslcClient {
 	private String project;
 	private String user;
 	private String password;
+	private HttpResponse lastRedirectResponse = null;
+	private String jsaCsrfCookie = null;
 
 	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
 	private static final String JAZZ_AUTH_FAILED = "authfailed";
+	private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
+	private static final String JAZZ_JSA_REDIRECT_HEADER = "X-JSA-AUTHORIZATION-REDIRECT";
 
 	public JazzFormAuthClient()
 	{
@@ -63,7 +68,6 @@ public class JazzFormAuthClient extends OslcClient {
 	 * @param url - the URL of the Jazz server, including the web app context
 	 * @param user
 	 * @param password
-	 * @returns
 	 **/
 	public JazzFormAuthClient(String url, String user, String password)
 	{
@@ -84,7 +88,6 @@ public class JazzFormAuthClient extends OslcClient {
 	 * applications like RRC and DM.
 	 * @param user
 	 * @param password
-	 * @returns
 	 **/
 	public JazzFormAuthClient(String url, String authUrl, String user, String password)
 	{
@@ -142,16 +145,31 @@ public class JazzFormAuthClient extends OslcClient {
 		int statusCode = -1;
 		String location = null;
 		HttpResponse resp;
-
+		
 		HttpGet authenticatedIdentity = new HttpGet(this.authUrl + "/authenticated/identity");
-
 		resp = httpClient.execute(authenticatedIdentity);
 		statusCode = resp.getStatusLine().getStatusCode();
 		location = getHeader(resp,"Location");
 		EntityUtils.consume(resp.getEntity());
 		statusCode = followRedirects(statusCode,location);
 
-
+		// Check to see if the response is from a Jazz Authorization Server that supports OIDC.
+		// In CLM 6.x, the JAS supports Basic auth to be compatible with earlier releases.
+		// If we're talking to a JAS that supports OIDC, re-do the request with a Basic auth header to gain access.
+		if (HttpStatus.SC_UNAUTHORIZED == statusCode) { // this might be a JSA server. 
+			if (true == handleJsaServer()) {
+				// Re-do the original request using Basic auth, starting at the last authorization redirect.
+				authenticatedIdentity = new HttpGet(lastRedirectResponse.getFirstHeader(JAZZ_JSA_REDIRECT_HEADER).getValue() + "&prompt=none");
+				String credentials = new String(user + ":" + password);
+				authenticatedIdentity.setHeader("Authorization", "Basic " + Base64.encode(credentials.getBytes("UTF-8")));
+				resp = httpClient.execute(authenticatedIdentity);
+				statusCode = resp.getStatusLine().getStatusCode();
+				EntityUtils.consume(resp.getEntity());		
+				statusCode = followRedirects(statusCode, getHeader(resp,"Location"));
+			}
+		}
+		
+		
 		HttpPost securityCheck = new HttpPost(this.authUrl + "/j_security_check");
 		StringEntity entity = new StringEntity("j_username=" + this.user + "&j_password=" + this.password);
 		securityCheck.setHeader("Accept", "*/*");
@@ -159,6 +177,7 @@ public class JazzFormAuthClient extends OslcClient {
 		securityCheck.setEntity(entity);
 		securityCheck.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		securityCheck.addHeader("OSLC-Core-Version", "2.0");
+		securityCheck.addHeader("Cookie", jsaCsrfCookie);
 
 		resp = httpClient.execute(securityCheck);
 		statusCode = resp.getStatusLine().getStatusCode();
@@ -187,6 +206,55 @@ public class JazzFormAuthClient extends OslcClient {
 		}
 
 		return statusCode;
+	}
+	
+	/**
+	 * Checks to see if we're communicating with a JSA server (SSO), and handles auth for JSA
+	 * This function is called because the server returned a 401 (UNAUTHORIZED).
+	 * If this is not a JSA server, we return to the normal flow. IF it is a server, we get the 
+	 * 
+	 * @return true if it's a JSA server, else false.
+	 * 
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
+	 * @throws JazzAuthErrorException 
+
+	 */
+	private Boolean handleJsaServer() throws ClientProtocolException, IOException, JazzAuthErrorException
+	{
+		if (null == lastRedirectResponse) {
+			return false;
+		}
+
+		// If this is a JAS response supporting OIDC, then we expect both Basic and Bearer challenges
+		Header[] authHeaders = lastRedirectResponse.getHeaders(WWW_AUTHENTICATE_HEADER);
+		
+		if (2 > authHeaders.length) { // if we don't have at least 2 auth headers then it's not JSA
+			return false; //throw new JazzAuthFailedException(this.user,this.url);
+		}
+		
+		Boolean basicChallenge=false, 
+				bearerChallenge=false;
+		for (Header theHeader : authHeaders) {
+			if (theHeader.getValue().contains("Basic")) {
+				basicChallenge = true;
+			}
+			else if (theHeader.getValue().contains("Bearer")) {
+				bearerChallenge = true;
+			}
+		}
+		if (!basicChallenge || !bearerChallenge) { // didn't get both challenges, so this isn't a JSA server
+			return false; //throw new JazzAuthFailedException(this.user,this.url);
+		}
+		
+		// Check for the JSA authoriziation redirect header. If we don't have it, it's not a JSA server.
+		Header jsaRedirectHeader = lastRedirectResponse.getFirstHeader(JAZZ_JSA_REDIRECT_HEADER);
+		if (null == jsaRedirectHeader) {
+			return false; 
+		}
+
+		// Passed all checks - we're interacting with a JAS.
+		return true;
 	}
 
 
@@ -217,13 +285,14 @@ public class JazzFormAuthClient extends OslcClient {
 
 	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
 	{
-		while ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) && (location != null))
+		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
 		{
 			HttpGet get = new HttpGet(location);
-			HttpResponse newResp = this.httpClient.execute(get);
-			statusCode = newResp.getStatusLine().getStatusCode();
-			location = getHeader(newResp,"Location");
-			EntityUtils.consume(newResp.getEntity());
+			
+			lastRedirectResponse = this.httpClient.execute(get);
+			statusCode = lastRedirectResponse.getStatusLine().getStatusCode();
+			location = getHeader(lastRedirectResponse,"Location");
+			EntityUtils.consume(lastRedirectResponse.getEntity());
 		}
 
 		return statusCode;
