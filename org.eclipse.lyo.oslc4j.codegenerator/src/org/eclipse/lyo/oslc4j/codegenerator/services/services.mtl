@@ -118,6 +118,12 @@ endif)
 )
 /]
 
+[query public javaConstantString (aString : String) : String = 
+concatenate(
+	aString.replaceAll('\\W+', '_').tokenize('_')->sep('_').oclAsType(String)
+).toUpperCase()
+/]
+
 [query public javaString (aString : String) : String = 
 concatenate(
 	aString.replaceAll('\\W+', ' ').tokenize(' ')->collect(s : String  | s.toUpperFirst())

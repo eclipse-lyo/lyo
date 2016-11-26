@@ -33,6 +33,10 @@ You should also question any other use of "eContainer" in this whole project /]
 obj.eContainer(AdaptorInterface).oclAsType(AdaptorInterface)
 /]
 
+[query public javaName(anAdaptorInterface : AdaptorInterface, toUpperFirst : Boolean) : String = 
+javaString(anAdaptorInterface.name, toUpperFirst)
+/]
+
 [query public serviceProviders(anAdaptorInterface : AdaptorInterface) : Sequence(ServiceProvider) = 
 (if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined()) then
 	anAdaptorInterface.serviceProviderCatalog.serviceProviders
@@ -148,7 +152,7 @@ javaClassBaseNamespace(anAdaptorInterface)
 /]
 
 [query public javaClassNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
-anAdaptorInterface.name.toUpperFirst().concat('Manager')
+javaName(anAdaptorInterface, true).concat('Manager')
 /]
 
 [query public javaClassFullNameForAdaptorManager(anAdaptorInterface : AdaptorInterface) : String = 
@@ -165,7 +169,7 @@ javaClassBaseNamespace(anAdaptorInterface)
 /]
 
 [query public javaInterfaceNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
-anAdaptorInterface.name.toUpperFirst().concat('Constants')
+javaName(anAdaptorInterface, true).concat('Constants')
 /]
 
 [query public javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
@@ -176,17 +180,20 @@ javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).concat('.').conc
 javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaInterfaceNameForAdaptorConstants(anAdaptorInterface)).concat('.java')
 /]
 
+[query public javaConstantName(aDomainSpecification : DomainSpecification) : String = 
+javaConstantString(aDomainSpecification.name)
+/]
 
 [query public domainSpecificationConstantName(aDomainSpecification : DomainSpecification) : String = 
-aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_DOMAIN')
+javaConstantName(aDomainSpecification).concat('_DOMAIN')
 /]
 
 [query public domainSpecificationNamespaceConstantName(aDomainSpecification : DomainSpecification) : String = 
-aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_NAMSPACE')
+javaConstantName(aDomainSpecification).concat('_NAMSPACE')
 /]
 
 [query public domainSpecificationNamespacePrefixConstantName(aDomainSpecification : DomainSpecification) : String = 
-aDomainSpecification.name.toUpperCase().substituteAll(' ', '_').concat('_NAMSPACE_PREFIX')
+javaConstantName(aDomainSpecification).concat('_NAMSPACE_PREFIX')
 /]
 
 [query public resourceConstantName(aResource : Resource) : String = 
