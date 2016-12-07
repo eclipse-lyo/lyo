@@ -115,10 +115,12 @@
                 <p>Summary: <%= a[javaName(aResource, true)/].toHtml() %><br /></p>
                 <h2>Properties</h2>
                 <table style="clear: both;">
-                [for (aProperty: ResourceProperty | allProperties(aResource))]
+				[for (propertiesCollection: Collection(ResourceProperty) | Sequence{aResource.resourceProperties, inheritedProperties(aResource), interfaceProperties(aResource)})]
+				[for (aProperty: ResourceProperty | propertiesCollection)]
                     <tr>
                         <td><%= a[javaName(aResource, true)/].[javaAttributeName(aProperty, aResource) /]ToHtml()%></td>
                     </tr>
+                [/for]
                 [/for]
                 </table>
 

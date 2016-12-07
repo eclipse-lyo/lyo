@@ -418,7 +418,8 @@ public class [javaClassName(aService) /]
 			[comment TODO: Check for valid parameters (1) that the oneOrMore, or oneOrMany are set. (2) things have right format. (3) Allow end_user to also add own checks 
 			In the Resource class, automtiacally generate a "propertyValidValue" (similar to propertyAsHtmlForCreation) for each of the properties. 
 			There you can add all automatic checks, as well as allow for end-user ones./]
-			[for (aProperty: ResourceProperty | allProperties(aResource))]
+			[for (propertiesCollection: Collection(ResourceProperty) | Sequence{aResource.resourceProperties, inheritedProperties(aResource), interfaceProperties(aResource)})]
+			[for (aProperty: ResourceProperty | propertiesCollection)]
 			paramValues = httpServletRequest.getParameterValues("[javaName(aProperty, false)/]");
 			if (paramValues != null) {
 				[if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
@@ -434,6 +435,7 @@ public class [javaClassName(aService) /]
 				
 				[/if]
 			}			
+			[/for]
 			[/for]
 	
 			newResource = [javaClassNameForAdaptorManager(anAdaptorInterface) /].[creationMethodName(aCreationDialog)/](httpServletRequest, aResource[commaSeparate(dialogMethodParameterList(aCreationDialog, false), true, false)/]);

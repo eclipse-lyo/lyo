@@ -170,7 +170,7 @@ import [javaClassFullName(r, contextAdaptorInterface) /];
 [template public generateClassDeclaration(aResource : Resource, contextAdaptorInterface : AdaptorInterface)]
 public class [javaClassName(aResource) /]
     extends [if (aResource.directParentResource().oclIsUndefined())]AbstractResource[else][javaClassName(aResource.directParentResource()) /][/if]
-    implements [for (aResourceToInterface: Resource | OrderedSet{aResource}->union(aResource.interfaceResources())) separator(', ')][javaInterfaceName(aResourceToInterface) /][/for]
+    implements [javaInterfaceName(aResource)/][if aResource.interfaceResources()->size() > 0], [for (aResourceToInterface: Resource | aResource.interfaceResources()->sortedBy(name)) separator(', ')][javaInterfaceName(aResourceToInterface) /][/for][/if]
 [/template]
 
 [template public generateInstanceAttributes(aResource : Resource, contextAdaptorInterface : AdaptorInterface)]
