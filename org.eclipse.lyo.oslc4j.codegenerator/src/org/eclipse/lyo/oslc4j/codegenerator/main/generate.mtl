@@ -52,12 +52,9 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceSelectorClientJsp/]
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceCreatorClientJsp/]
 
-
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorClient/]
 
-[template public generate(anAdaptorInterface : AdaptorInterface)]
-[comment @main/]
-
+[template public generateForAdaptorManager(anAdaptorInterface : AdaptorInterface)]
 [anAdaptorInterface.generateLicenseFiles() /]
 [anAdaptorInterface.generateAdaptorApplication() /]
 [anAdaptorInterface.generateAdaptorConstants() /]
@@ -67,21 +64,24 @@
 [anAdaptorInterface.generateDelegatedUIJavaScripts() /]
 [anAdaptorInterface.generateResourceSelectorClientJsp() /]
 [anAdaptorInterface.generateResourceCreatorClientJsp() /]
+[/template]
 
+[template public generateForServiceProviderCatalog(anAdaptorInterface : AdaptorInterface)]
 [if (not anAdaptorInterface.serviceProviderCatalog.oclIsUndefined())]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogService() /]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogSingleton() /]
 [anAdaptorInterface.serviceProviderCatalog.generateServiceProviderCatalogHTML() /]
 [/if]
+[/template]
 
+[template public generateForRelevantResources(anAdaptorInterface : AdaptorInterface)]
 [for (aResource: Resource | relevantResources(anAdaptorInterface))]
 	[aResource.generateResource(anAdaptorInterface) /]
 	[aResource.generateResourceInterface(anAdaptorInterface, anAdaptorInterface) /]
-	[if (not basicCapabilities(anAdaptorInterface, aResource)->isEmpty())]
-		[aResource.generateGetResourceJsp(anAdaptorInterface, anAdaptorInterface) /]
-	[/if]
 [/for]
+[/template]
 
+[template public generateForServiceProviders(anAdaptorInterface : AdaptorInterface)]
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders())]
     [aServiceProvider.generateServiceProviderInfo() /]
 	[aServiceProvider.generateServiceProviderService()/]
@@ -94,18 +94,18 @@
 		[for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
 		[comment Produce one only jsp-file for each set of QueryCapabilities that have the same Sequence (not Set) of ResourceTypes. /]
 		[let allQueryCapabilities: Sequence(QueryCapability) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.queryCapabilities]
-			[if not (allQueryCapabilities->excluding(aQueryCapability)->exists(anotherQueryCapability: QueryCapability | 
+			[if not (allQueryCapabilities->excluding(aQueryCapability)->exists(anotherQueryCapability: QueryCapability |
 					(anotherQueryCapability.resourceTypes = aQueryCapability.resourceTypes).
 					_and(allQueryCapabilities->indexOf(anotherQueryCapability) > allQueryCapabilities->indexOf(aQueryCapability))))]
 				[aQueryCapability.generateResourceCollectionJsp() /]
 			[/if]
 		[/let]
 		[/for]
-	
+
 		[for (aSelectionDialog: Dialog | aService.selectionDialogs)]
 		[comment Produce one only set of jsp-files for each set of selectionDialogs that have the same Sequence (not Set) of ResourceTypes. /]
 		[let allSelectionDialogs: Sequence(Dialog) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.selectionDialogs]
-			[if not (allSelectionDialogs->excluding(aSelectionDialog)->exists(anotherSelectionDialog: Dialog | 
+			[if not (allSelectionDialogs->excluding(aSelectionDialog)->exists(anotherSelectionDialog: Dialog |
 					(anotherSelectionDialog.resourceTypes = aSelectionDialog.resourceTypes).
 					_and(allSelectionDialogs->indexOf(anotherSelectionDialog) > allSelectionDialogs->indexOf(aSelectionDialog))))]
 				[aSelectionDialog.generateFilteredResourceCollectionJsp() /]
@@ -113,11 +113,11 @@
 			[/if]
 		[/let]
 		[/for]
-	
+
 		[for (aCreationDialog: Dialog | aService.creationDialogs)]
 		[comment Produce one only jsp-file for each set of creationDialogs that have the same Sequence (not Set) of ResourceTypes. /]
 		[let allCreationDialogs: Sequence(Dialog) = anAdaptorInterface.serviceProviderCatalog.serviceProviders.services.creationDialogs]
-			[if not (allCreationDialogs->excluding(aCreationDialog)->exists(anotherCreationDialog: Dialog | 
+			[if not (allCreationDialogs->excluding(aCreationDialog)->exists(anotherCreationDialog: Dialog |
 					(anotherCreationDialog.resourceTypes = aCreationDialog.resourceTypes).
 					_and(allCreationDialogs->indexOf(anotherCreationDialog) > allCreationDialogs->indexOf(aCreationDialog))))]
 				[aCreationDialog.generateResourceCreatorJsp() /]
@@ -127,7 +127,24 @@
 	[/for]
 [/for]
 
+[for (aResource: Resource | relevantResources(anAdaptorInterface))]
+	[if (not basicCapabilities(anAdaptorInterface, aResource)->isEmpty())]
+		[aResource.generateGetResourceJsp(anAdaptorInterface, anAdaptorInterface) /]
+	[/if]
+[/for]
+[/template]
+
+[template public generateForRequiredAdaptors(anAdaptorInterface : AdaptorInterface)]
 [for (aRequiredAdaptor: RequiredAdaptor | anAdaptorInterface.requiredAdaptors)]
 	[aRequiredAdaptor.generateAdaptorClient(anAdaptorInterface) /]
 [/for]
+[/template]
+
+[template public generate(anAdaptorInterface : AdaptorInterface)]
+[comment @main/]
+[generateForAdaptorManager(anAdaptorInterface)/]
+[generateForServiceProviderCatalog(anAdaptorInterface)/]
+[generateForRelevantResources(anAdaptorInterface)/]
+[generateForServiceProviders(anAdaptorInterface)/]
+[generateForRequiredAdaptors(anAdaptorInterface)/]
 [/template]
