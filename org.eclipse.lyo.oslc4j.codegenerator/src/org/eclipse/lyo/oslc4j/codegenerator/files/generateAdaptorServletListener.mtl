@@ -6,13 +6,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *	   Sam Padgett	       - initial API and implementation
  *     Michael Fiedler     - adapted for OSLC4J
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
@@ -33,13 +33,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *	   Sam Padgett	       - initial API and implementation
  *     Michael Fiedler     - adapted for OSLC4J
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
@@ -63,44 +63,42 @@ import [javaClassFullNameForAdaptorManager(anAdaptorInterface) /];
 // [protected ('imports')]
 // [/protected]
 
-
 public class [javaClassNameForAdaptorServletListener(anAdaptorInterface) /] implements ServletContextListener  {
+    private static String servletBase = null;
+    private static String servicesBase = null;
 
-	private static String servletBase = null;
-	private static String servicesBase = null;
+    private static final String SERVICES_PATH = "/services";
 
-	private static final String SERVICES_PATH = "/services";
-
-	private static final String PROPERTY_SCHEME = [javaClassNameForAdaptorServletListener(anAdaptorInterface) /].class.getPackage().getName() + ".scheme";
-    private static final String PROPERTY_PORT   = [javaClassNameForAdaptorServletListener(anAdaptorInterface) /].class.getPackage().getName() + ".port";
+    private static final String PROPERTY_SCHEME = [javaClassNameForAdaptorServletListener(anAdaptorInterface) /].class.getPackage().getName() + ".scheme";
+    private static final String PROPERTY_PORT = [javaClassNameForAdaptorServletListener(anAdaptorInterface) /].class.getPackage().getName() + ".port";
     private static final Logger LOGGER = Logger.getLogger([javaClassNameForAdaptorServletListener(anAdaptorInterface) /].class.getName());
     private static final String HOST = getHost();
 
-	// [protected ('class_attributes')]
-	// [/protected]
-	
-	// [protected ('class_methods')]
-	// [/protected]
+    // [protected ('class_attributes')]
+    // [/protected]
+
+    // [protected ('class_methods')]
+    // [/protected]
 
     public ServletListener() {
         super();
     }
 
-	private static String getHost() {
+    private static String getHost() {
         try {
             return InetAddress.getLocalHost().getCanonicalHostName();
         } catch (final UnknownHostException exception) {
             return "localhost";
         }
-	}
+    }
 
-	public static String getServletBase() {
-		return servletBase;
-	}
+    public static String getServletBase() {
+        return servletBase;
+    }
 
-	public static String getServicesBase() {
-		return servicesBase;
-	}
+    public static String getServicesBase() {
+        return servicesBase;
+    }
 
     private static String generateBasePath(final ServletContextEvent servletContextEvent)
     {
@@ -126,34 +124,34 @@ public class [javaClassNameForAdaptorServletListener(anAdaptorInterface) /] impl
     @Override
     public void contextInitialized(final ServletContextEvent servletContextEvent)
     {
-		// [protected ('contextInitialized_init')]
-		// [/protected]
+        // [protected ('contextInitialized_init')]
+        // [/protected]
 
-    	String basePath=generateBasePath(servletContextEvent);
-    	servletBase = basePath;
-    	servicesBase = basePath + SERVICES_PATH;
+        String basePath=generateBasePath(servletContextEvent);
+        servletBase = basePath;
+        servicesBase = basePath + SERVICES_PATH;
 
-		LOGGER.log(Level.INFO, "servletListner contextInitialized.");
+        LOGGER.log(Level.INFO, "servletListner contextInitialized.");
 
-		// Establish connection to data backbone etc ...
-		[javaClassNameForAdaptorManager(anAdaptorInterface) /].contextInitializeServletListener(servletContextEvent);	
+        // Establish connection to data backbone etc ...
+        [javaClassNameForAdaptorManager(anAdaptorInterface) /].contextInitializeServletListener(servletContextEvent);
 
-		// [protected ('contextInitialized_final')]
-		// [/protected]
+        // [protected ('contextInitialized_final')]
+        // [/protected]
     }
 
-	@Override
-	public void contextDestroyed(ServletContextEvent servletContextEvent) 
-	{
-		// [protected ('contextDestroyed_init')]
-		// [/protected]
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent)
+    {
+        // [protected ('contextDestroyed_init')]
+        // [/protected]
 
-		// Shutdown connections to data backbone etc...
-		[javaClassNameForAdaptorManager(anAdaptorInterface) /].contextDestroyServletListener(servletContextEvent);	
+        // Shutdown connections to data backbone etc...
+        [javaClassNameForAdaptorManager(anAdaptorInterface) /].contextDestroyServletListener(servletContextEvent);
 
-		// [protected ('contextDestroyed_final')]
-		// [/protected]
-	}
+        // [protected ('contextDestroyed_final')]
+        // [/protected]
+    }
 
 }
 

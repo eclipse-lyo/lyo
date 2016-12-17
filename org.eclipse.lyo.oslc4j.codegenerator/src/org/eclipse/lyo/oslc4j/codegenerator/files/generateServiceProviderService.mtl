@@ -89,16 +89,13 @@ import [javaClassFullNameForSingleton(containingServiceProviderCatalog(aServiceP
 [JAXRSPathAnnotation(aServiceProvider.serviceBaseURI())/]
 public class [javaClassNameForService(aServiceProvider) /]
 {
-	@Context private HttpServletRequest httpServletRequest;
-	@Context private HttpServletResponse httpServletResponse;
-	
-	
-	/**
-	 * RDF/XML, XML and JSON representations of an OSLC Service Provider collection
-	 * @return
-	 */
-	
+    @Context private HttpServletRequest httpServletRequest;
+    @Context private HttpServletResponse httpServletResponse;
 
+    /**
+     * RDF/XML, XML and JSON representations of an OSLC Service Provider collection
+     * @return
+     */
     @OslcDialog
     (
          title = "Service Provider Selection Dialog",
@@ -122,35 +119,30 @@ public class [javaClassNameForService(aServiceProvider) /]
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ServiceProvider[ '[' /][ ']' /] getServiceProviders()
     {
-    	httpServletResponse.addHeader("Oslc-Core-Version","2.0");
+        httpServletResponse.addHeader("Oslc-Core-Version","2.0");
         return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].getServiceProviders(httpServletRequest);
     }
-   
 
     /**
      * RDF/XML, XML and JSON representations of a single OSLC Service Provider
-     * 
+     *
      * @param serviceProviderId
      * @return
      */
-
-	 
     @GET
     [JAXRSPathAnnotation(aServiceProvider.instanceURISegment()) /]
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ServiceProvider getServiceProvider([commaSeparate(aServiceProvider.instanceJAXRSMethodSignature(), false, false)/])
     {
-    	httpServletResponse.addHeader("Oslc-Core-Version","2.0");
+        httpServletResponse.addHeader("Oslc-Core-Version","2.0");
         return [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].get[aServiceProvider.javaName(true)/](httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
     }
-    
- 
-    
+
     /**
      * HTML representation of a single OSLC Service Provider
-     * 
+     *
      * Forwards to serviceprovider_html.jsp to create the html document
-     * 
+     *
      * @param serviceProviderId
      */
     @GET
@@ -158,26 +150,24 @@ public class [javaClassNameForService(aServiceProvider) /]
     @Produces(MediaType.TEXT_HTML)
     public void getHtmlServiceProvider([commaSeparate(instanceJAXRSMethodSignature(aServiceProvider), false, false)/])
     {
-    	ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].get[aServiceProvider.javaName(true)/](httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
-    	Service [ '[' /][ ']' /] services = serviceProvider.getServices();
+        ServiceProvider serviceProvider = [javaClassNameForSingleton(containingServiceProviderCatalog(aServiceProvider)) /].get[aServiceProvider.javaName(true)/](httpServletRequest[commaSeparate(aServiceProvider.instanceMethodParameterList(), true, false)/]);
+        Service [ '[' /][ ']' /] services = serviceProvider.getServices();
 
         httpServletRequest.setAttribute("serviceProvider", serviceProvider);
         httpServletRequest.setAttribute("services", services);
-		// [protected ('getHtmlServiceProvider_setAttributes')]
-		// [/protected]
+        // [protected ('getHtmlServiceProvider_setAttributes')]
+        // [/protected]
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("[serviceProviderJspRelativeFileName(aServiceProvider) /]");
-		try {
-			rd.forward(httpServletRequest, httpServletResponse);
-		} catch (Exception e) {				
-			e.printStackTrace();
-			throw new WebApplicationException(e);
-		} 
+        try {
+            rd.forward(httpServletRequest, httpServletResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e);
+        }
     }
-
-
-
 }
+
 [/let]
 [/file]
 [/template]

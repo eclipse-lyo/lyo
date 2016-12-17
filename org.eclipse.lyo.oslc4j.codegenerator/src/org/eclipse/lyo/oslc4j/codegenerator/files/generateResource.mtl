@@ -300,15 +300,17 @@ public String toHtml(boolean asLocalResource)
 
     return result;
 }
+
 [/template]
 
 [template public generateAddToAttributeMethods(aResource : Resource, contextAdaptorInterface : AdaptorInterface)]
 [for (aProperty: ResourceProperty | ((aResource.resourceProperties->asSequence())->union(interfaceProperties(aResource))))]
     [if (Sequence{'zeroOrMany', 'oneOrMany'}->includes(aProperty.occurs.toString()))]
-    public void add[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeBaseType(aProperty) /] [javaName(aProperty, false)/])
-    {
-        this.[javaAttributeName(aProperty, aResource) /].add([javaName(aProperty, false)/]);
-    }
+public void add[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [javaAttributeBaseType(aProperty) /] [javaName(aProperty, false)/])
+{
+    this.[javaAttributeName(aProperty, aResource) /].add([javaName(aProperty, false)/]);
+}
+
     [/if]
 [/for]
 [/template]
@@ -356,6 +358,7 @@ public [javaAttributeTypeDeclaration(aProperty) /] [if (aProperty.valueType.toSt
     // [/protected]
     return [javaAttributeName(aProperty, aResource) /];
 }
+
 [/for]
 [/template]
 
@@ -373,13 +376,14 @@ public void set[javaAttributeName(aProperty, aResource).toUpperFirst()/](final [
     {
         this.[javaAttributeName(aProperty, aResource) /].addAll([javaName(aProperty, false)/]);
     }
-
 [else]
     this.[javaAttributeName(aProperty, aResource) /] = [javaName(aProperty, false)/];
 [/if]
+
     // [protected ('setterFinalize:'.concat(javaAttributeName(aProperty, aResource)))]
     // [/protected]
 }
+
 [/for]
 [/template]
 
@@ -486,6 +490,7 @@ public String [javaAttributeName(aProperty, aResource) /]ToHtml()
 
     return s;
 }
+
 [/for]
 [/template]
 
@@ -502,23 +507,15 @@ public String [javaAttributeName(aProperty, aResource) /]ToHtml()
 [generateClassAnnotations(aResource, contextAdaptorInterface)/]
 [generateClassDeclaration(aResource, contextAdaptorInterface)/]
 {
-	[generateInstanceAttributes(aResource, contextAdaptorInterface)/]
-
-	[generateClassAttributes(aResource, contextAdaptorInterface)/]
-
-	[generateClassMethods(aResource, contextAdaptorInterface)/]
-
-	[generateConstructors(aResource, contextAdaptorInterface)/]
-
-	[generateToStringMethods(aResource, contextAdaptorInterface)/]
-
-	[generateAddToAttributeMethods(aResource, contextAdaptorInterface)/]
-
-	[generateGetters(aResource, contextAdaptorInterface)/]
-
-	[generateSetters(aResource, contextAdaptorInterface)/]
-
-	[generateAttributeToHtmlMethods(aResource, contextAdaptorInterface)/]
+    [generateInstanceAttributes(aResource, contextAdaptorInterface)/]
+    [generateClassAttributes(aResource, contextAdaptorInterface)/]
+    [generateClassMethods(aResource, contextAdaptorInterface)/]
+    [generateConstructors(aResource, contextAdaptorInterface)/]
+    [generateToStringMethods(aResource, contextAdaptorInterface)/]
+    [generateAddToAttributeMethods(aResource, contextAdaptorInterface)/]
+    [generateGetters(aResource, contextAdaptorInterface)/]
+    [generateSetters(aResource, contextAdaptorInterface)/]
+    [generateAttributeToHtmlMethods(aResource, contextAdaptorInterface)/]
 }
 [/file]
 [/template]

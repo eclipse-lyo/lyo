@@ -84,7 +84,7 @@ public class [javaClassNameForFactory(aServiceProvider) /]
 {
     private static Class<?>[ '[' ']' /] RESOURCE_CLASSES =
     {
-		[for (aService: Service | aServiceProvider.services) separator(', ')][javaClassName(aService)/].class[/for]
+        [for (aService: Service | aServiceProvider.services) separator(', ')][javaClassName(aService)/].class[/for]
     };
 
     private [javaClassNameForFactory(aServiceProvider) /]()
@@ -92,25 +92,16 @@ public class [javaClassNameForFactory(aServiceProvider) /]
         super();
     }
 
-    /**
-     * Create a new Bugzilla OSLC change management service provider.
-     * @param baseURI
-     * @param serviceProviderTitle
-     * @param parameterValueMap - a map containing the path replacement value for {serviceProviderId}.  See ServiceProviderCatalogSingleton.initServiceProviders()
-     * @return
-     * @throws OslcCoreApplicationException
-     * @throws URISyntaxException
-     */
     public static ServiceProvider createServiceProvider(final String baseURI, final String title, final String description, final Publisher publisher, final Map<String,Object> parameterValueMap)
            throws OslcCoreApplicationException, URISyntaxException
     {
         final ServiceProvider serviceProvider = ServiceProviderFactory.createServiceProvider(baseURI,
-                                                                                             ServiceProviderRegistryURIs.getUIURI(),
-                                                                                             title,
-                                                                                             description,
-                                                                                             publisher,
-                                                                                             RESOURCE_CLASSES,
-                                                                                             parameterValueMap);
+                                                    ServiceProviderRegistryURIs.getUIURI(),
+                                                    title,
+                                                    description,
+                                                    publisher,
+                                                    RESOURCE_CLASSES,
+                                                    parameterValueMap);
         URI detailsURIs[ '[' ']' /] = {new URI(baseURI)};
         serviceProvider.setDetails(detailsURIs);
 
@@ -121,9 +112,9 @@ public class [javaClassNameForFactory(aServiceProvider) /]
             new PrefixDefinition(OslcConstants.OSLC_DATA_NAMESPACE_PREFIX, new URI(OslcConstants.OSLC_DATA_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDF_NAMESPACE_PREFIX, new URI(OslcConstants.RDF_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDFS_NAMESPACE_PREFIX, new URI(OslcConstants.RDFS_NAMESPACE)),
-			[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(aServiceProvider)->sortedBy(name)) separator(','.concat(lineSeparator()))]
-			new PrefixDefinition([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespacePrefixConstantName(aDomainSpecification) /], new URI([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespaceConstantName(aDomainSpecification) /]))
-			[/for]
+            [for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(aServiceProvider)->sortedBy(name)) separator(','.concat(lineSeparator()))]
+            new PrefixDefinition([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespacePrefixConstantName(aDomainSpecification) /], new URI([javaInterfaceNameForAdaptorConstants(anAdaptorInterface)/].[domainSpecificationNamespaceConstantName(aDomainSpecification) /]))
+            [/for]
         };
 
         serviceProvider.setPrefixDefinitions(prefixDefinitions);

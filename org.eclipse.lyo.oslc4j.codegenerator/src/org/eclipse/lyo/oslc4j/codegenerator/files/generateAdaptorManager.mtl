@@ -32,14 +32,14 @@
 
 [query public backendCode(backendCodeTemplate : String, resourceClassName : String, resourceInstanceName : String, compositeID : Sequence(String)) : String = 
 (if (not backendCodeTemplate.oclIsUndefined()) then
-	backendCodeTemplate
-		.substituteAll('[ResourceClassName/]', resourceClassName)
-		.substituteAll('[ResourceInstanceName/]', resourceInstanceName)
-		.substituteAll('[Parameter1/]', (if (compositeID->size()  >=1) then compositeID->at(1) else '' endif))
-		.substituteAll('[Parameter2/]', (if (compositeID->size()  >=2) then compositeID->at(2) else '' endif))
-		.substituteAll('[Parameter3/]', (if (compositeID->size()  >=3) then compositeID->at(3) else '' endif))
-		.substituteAll('[Parameter4/]', (if (compositeID->size()  >=4) then compositeID->at(4) else '' endif))
-		.substituteAll('[Parameter5/]', (if (compositeID->size()  >=5) then compositeID->at(5) else '' endif))
+    backendCodeTemplate
+        .substituteAll('[ResourceClassName/]', resourceClassName)
+        .substituteAll('[ResourceInstanceName/]', resourceInstanceName)
+        .substituteAll('[Parameter1/]', (if (compositeID->size()  >=1) then compositeID->at(1) else '' endif))
+        .substituteAll('[Parameter2/]', (if (compositeID->size()  >=2) then compositeID->at(2) else '' endif))
+        .substituteAll('[Parameter3/]', (if (compositeID->size()  >=3) then compositeID->at(3) else '' endif))
+        .substituteAll('[Parameter4/]', (if (compositeID->size()  >=4) then compositeID->at(4) else '' endif))
+        .substituteAll('[Parameter5/]', (if (compositeID->size()  >=5) then compositeID->at(5) else '' endif))
 else
     ''
 endif)
@@ -47,7 +47,7 @@ endif)
 
 [query public backendCode(backendCodeTemplate : String) : String = 
 (if (not backendCodeTemplate.oclIsUndefined()) then
-	backendCodeTemplate
+    backendCodeTemplate
 else
     ''
 endif)
@@ -104,143 +104,143 @@ import [javaClassFullName(aResource, anAdaptorInterface) /];
 
 public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
 
-	// [protected ('class_attributes')]
-	// [/protected]
-	
-	[backendCode(anAdaptorInterface.backendCodeTemplate_classMethods)/]
-	// [protected ('class_methods')]
-	// [/protected]
+    // [protected ('class_attributes')]
+    // [/protected]
+    
+    [backendCode(anAdaptorInterface.backendCodeTemplate_classMethods)/]
+    // [protected ('class_methods')]
+    // [/protected]
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
-		[backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerInitialize)/]
-		// [protected ('contextInitializeServletListener')]
-		// TODO Implement code to establish connection to data backbone etc ...
-		// [/protected]
+        [backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerInitialize)/]
+        // [protected ('contextInitializeServletListener')]
+        // TODO Implement code to establish connection to data backbone etc ...
+        // [/protected]
     }
 
-	public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
-	{
-		[backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerDestroy)/]
-		// [protected ('contextDestroyed')]
-		// TODO Implement code to shutdown connections to data backbone etc...
-		// [/protected]
-	}
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
+    {
+        [backendCode(anAdaptorInterface.backendCodeTemplate_servletListenerDestroy)/]
+        // [protected ('contextDestroyed')]
+        // TODO Implement code to shutdown connections to data backbone etc...
+        // [/protected]
+    }
 
     [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders())]
     public static [aServiceProvider.javaClassName()/]['[' ']'/] get[aServiceProvider.javaClassName()/]s(HttpServletRequest httpServletRequest)
     {
-		[aServiceProvider.javaClassName() /][ '[' ']' /] serviceProviderInfos = {};
-		[backendCode(anAdaptorInterface.backendCodeTemplate_getServiceProviders)/]
-		// [protected ('"'.concat(aServiceProvider.javaClassName()).concat('[] get'.concat(aServiceProvider.javaClassName()).concat('s(...)"')))]
-		// TODO Implement code to return the set of ServiceProviders
-		// [/protected]
-		return serviceProviderInfos;
+        [aServiceProvider.javaClassName() /][ '[' ']' /] serviceProviderInfos = {};
+        [backendCode(anAdaptorInterface.backendCodeTemplate_getServiceProviders)/]
+        // [protected ('"'.concat(aServiceProvider.javaClassName()).concat('[] get'.concat(aServiceProvider.javaClassName()).concat('s(...)"')))]
+        // TODO Implement code to return the set of ServiceProviders
+        // [/protected]
+        return serviceProviderInfos;
     }
     [/for]
 
-	[for (aService: Service | anAdaptorInterface.serviceProviders().services)]
-	[for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
+    [for (aService: Service | anAdaptorInterface.serviceProviders().services)]
+    [for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
     public static List<[queryMethodResourceType(aQueryCapability)/]> [queryMethodName(aQueryCapability, true)/](HttpServletRequest httpServletRequest[commaSeparate(queryMethodSignature(aQueryCapability, false), true, false)/], String where, int page, int limit)
     {
-		List<[queryMethodResourceType(aQueryCapability)/]> resources = null;
-		[backendCode(anAdaptorInterface.backendCodeTemplate_getResources, queryMethodResourceType(aQueryCapability), 'resources', queryCompositeID(aQueryCapability))/]
-		// [protected (queryMethodName(aQueryCapability, true))]
-		// TODO Implement code to return a set of resources
-		// [/protected]
-		return resources;
+        List<[queryMethodResourceType(aQueryCapability)/]> resources = null;
+        [backendCode(anAdaptorInterface.backendCodeTemplate_getResources, queryMethodResourceType(aQueryCapability), 'resources', queryCompositeID(aQueryCapability))/]
+        // [protected (queryMethodName(aQueryCapability, true))]
+        // TODO Implement code to return a set of resources
+        // [/protected]
+        return resources;
     }
-	[/for]
-	[for (aSelectionDialog: Dialog | aService.selectionDialogs)]
-	public static List<[dialogMethodResourceType(aSelectionDialog)/]> [dialogMethodName(aSelectionDialog, true)/](HttpServletRequest httpServletRequest[commaSeparate(dialogMethodSignature(aSelectionDialog, true, false), true, false)/], String terms)   
+    [/for]
+    [for (aSelectionDialog: Dialog | aService.selectionDialogs)]
+    public static List<[dialogMethodResourceType(aSelectionDialog)/]> [dialogMethodName(aSelectionDialog, true)/](HttpServletRequest httpServletRequest[commaSeparate(dialogMethodSignature(aSelectionDialog, true, false), true, false)/], String terms)   
     {
-		List<[dialogMethodResourceType(aSelectionDialog)/]> resources = null;
-		[backendCode(anAdaptorInterface.backendCodeTemplate_searchResources, dialogMethodResourceType(aSelectionDialog), 'resources', dialogCompositeID(aSelectionDialog, true))/]
-		// [protected (dialogMethodName(aSelectionDialog, true))]
-		// TODO Implement code to return a set of resources, based on search criteria 
-		// [/protected]
-		return resources;
+        List<[dialogMethodResourceType(aSelectionDialog)/]> resources = null;
+        [backendCode(anAdaptorInterface.backendCodeTemplate_searchResources, dialogMethodResourceType(aSelectionDialog), 'resources', dialogCompositeID(aSelectionDialog, true))/]
+        // [protected (dialogMethodName(aSelectionDialog, true))]
+        // TODO Implement code to return a set of resources, based on search criteria 
+        // [/protected]
+        return resources;
     }
-	[/for]
-	[for (aCreationFactory: CreationFactory | aService.creationFactories)]
-	public static [creationMethodResourceType(aCreationFactory)/] [creationMethodName(aCreationFactory)/](HttpServletRequest httpServletRequest, final [creationMethodResourceType(aCreationFactory)/] aResource[commaSeparate(creationMethodSignature(aCreationFactory, false), true, false)/])
+    [/for]
+    [for (aCreationFactory: CreationFactory | aService.creationFactories)]
+    public static [creationMethodResourceType(aCreationFactory)/] [creationMethodName(aCreationFactory)/](HttpServletRequest httpServletRequest, final [creationMethodResourceType(aCreationFactory)/] aResource[commaSeparate(creationMethodSignature(aCreationFactory, false), true, false)/])
     {
-		[creationMethodResourceType(aCreationFactory)/] newResource = null;
-		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationFactory), 'newResource', creationCompositeID(aCreationFactory))/]
-		// [protected (creationMethodName(aCreationFactory))]
-		// TODO Implement code to create a resource
-		// [/protected]
-		return newResource;
+        [creationMethodResourceType(aCreationFactory)/] newResource = null;
+        [backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationFactory), 'newResource', creationCompositeID(aCreationFactory))/]
+        // [protected (creationMethodName(aCreationFactory))]
+        // TODO Implement code to create a resource
+        // [/protected]
+        return newResource;
     }
-	[/for]
+    [/for]
 
-	[for (aCreationDialog: Dialog | aService.creationDialogs)]
+    [for (aCreationDialog: Dialog | aService.creationDialogs)]
     [if (aService.creationFactories->select(f: CreationFactory | f.resourceTypes = aCreationDialog.resourceTypes)->isEmpty())]
-	public static [creationMethodResourceType(aCreationDialog)/] [creationMethodName(aCreationDialog)/](HttpServletRequest httpServletRequest, final [creationMethodResourceType(aCreationDialog)/] aResource[commaSeparate(dialogMethodSignature(aCreationDialog, false, false), true, false)/])
+    public static [creationMethodResourceType(aCreationDialog)/] [creationMethodName(aCreationDialog)/](HttpServletRequest httpServletRequest, final [creationMethodResourceType(aCreationDialog)/] aResource[commaSeparate(dialogMethodSignature(aCreationDialog, false, false), true, false)/])
     {
-		[creationMethodResourceType(aCreationDialog)/] newResource = null;
-		[backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationDialog), 'newResource', dialogCompositeID(aCreationDialog, false))/]
-		// [protected (creationMethodName(aCreationDialog))]
-		// TODO Implement code to create a resource
-		// [/protected]
-		return newResource;
+        [creationMethodResourceType(aCreationDialog)/] newResource = null;
+        [backendCode(anAdaptorInterface.backendCodeTemplate_createResource, creationMethodResourceType(aCreationDialog), 'newResource', dialogCompositeID(aCreationDialog, false))/]
+        // [protected (creationMethodName(aCreationDialog))]
+        // TODO Implement code to create a resource
+        // [/protected]
+        return newResource;
     }
-	[/if]
-	[/for]
+    [/if]
+    [/for]
 
-	[for (aBasicCapability: BasicCapability | aService.basicCapabilities)]
-	[if (aBasicCapability.read)]
-	[for (aResource: Resource | aBasicCapability.resourceTypes)]
-	public static [getResourceMethodResourceType(aBasicCapability, aResource)/] [getResourceMethodName(aBasicCapability, aResource, true)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
+    [for (aBasicCapability: BasicCapability | aService.basicCapabilities)]
+    [if (aBasicCapability.read)]
+    [for (aResource: Resource | aBasicCapability.resourceTypes)]
+    public static [getResourceMethodResourceType(aBasicCapability, aResource)/] [getResourceMethodName(aBasicCapability, aResource, true)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
     {
-		[getResourceMethodResourceType(aBasicCapability, aResource)/] aResource = null;
-		[backendCode(anAdaptorInterface.backendCodeTemplate_getResource, getResourceMethodResourceType(aBasicCapability, aResource), 'aResource', instanceCompositeID(aResource, aBasicCapability))/]
-		// [protected (getResourceMethodName(aBasicCapability, aResource, true))]
-		// TODO Implement code to return a resource
-		// [/protected]
-		return aResource;
+        [getResourceMethodResourceType(aBasicCapability, aResource)/] aResource = null;
+        [backendCode(anAdaptorInterface.backendCodeTemplate_getResource, getResourceMethodResourceType(aBasicCapability, aResource), 'aResource', instanceCompositeID(aResource, aBasicCapability))/]
+        // [protected (getResourceMethodName(aBasicCapability, aResource, true))]
+        // TODO Implement code to return a resource
+        // [/protected]
+        return aResource;
     }
-	[/for]
-	[/if]
+    [/for]
+    [/if]
 
-	[if (aBasicCapability.delete)]
-	[for (aResource: Resource | aBasicCapability.resourceTypes)]
-	public static Boolean [deleteResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
+    [if (aBasicCapability.delete)]
+    [for (aResource: Resource | aBasicCapability.resourceTypes)]
+    public static Boolean [deleteResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/])
     {
-		Boolean deleted = false;
-		// [protected (deleteResourceMethodName(aBasicCapability, aResource))]
-		// TODO Implement code to delete a resource
-		// [/protected]
-		return deleted;
+        Boolean deleted = false;
+        // [protected (deleteResourceMethodName(aBasicCapability, aResource))]
+        // TODO Implement code to delete a resource
+        // [/protected]
+        return deleted;
     }
-	[/for]
-	[/if]
+    [/for]
+    [/if]
 
-	[if (aBasicCapability.update)]
-	[for (aResource: Resource | aBasicCapability.resourceTypes)]
-	public static [updateResourceMethodResourceType(aBasicCapability, aResource)/] [updateResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest, final [updateResourceMethodResourceType(aBasicCapability, aResource)/] aResource[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/]) {
-		[updateResourceMethodResourceType(aBasicCapability, aResource)/] updatedResource = null;
-		// [protected (updateResourceMethodName(aBasicCapability, aResource))]
-		// TODO Implement code to update and return a resource
-		// [/protected]
-		return updatedResource;
-	}
-	[/for]
-	[/if]
-	[/for]
+    [if (aBasicCapability.update)]
+    [for (aResource: Resource | aBasicCapability.resourceTypes)]
+    public static [updateResourceMethodResourceType(aBasicCapability, aResource)/] [updateResourceMethodName(aBasicCapability, aResource)/](HttpServletRequest httpServletRequest, final [updateResourceMethodResourceType(aBasicCapability, aResource)/] aResource[commaSeparate(instanceMethodSignature(aResource, aBasicCapability, false), true, false)/]) {
+        [updateResourceMethodResourceType(aBasicCapability, aResource)/] updatedResource = null;
+        // [protected (updateResourceMethodName(aBasicCapability, aResource))]
+        // TODO Implement code to update and return a resource
+        // [/protected]
+        return updatedResource;
+    }
+    [/for]
+    [/if]
+    [/for]
 
-	[/for]
+    [/for]
 
-	[for (aResource: Resource | servicedResources(anAdaptorInterface))]
-	public static String [getResourceETagMethodName(aResource)/](final [javaClassName(aResource)/] aResource)
+    [for (aResource: Resource | servicedResources(anAdaptorInterface))]
+    public static String [getResourceETagMethodName(aResource)/](final [javaClassName(aResource)/] aResource)
     {
-		String eTag = null;
-		// [protected (getResourceETagMethodName(aResource))]
-		// TODO Implement code to return an ETag for a particular resource
-		// [/protected]
-		return eTag;
+        String eTag = null;
+        // [protected (getResourceETagMethodName(aResource))]
+        // TODO Implement code to return an ETag for a particular resource
+        // [/protected]
+        return eTag;
     }
-	[/for]
+    [/for]
 }
 [/file]
 [/template]

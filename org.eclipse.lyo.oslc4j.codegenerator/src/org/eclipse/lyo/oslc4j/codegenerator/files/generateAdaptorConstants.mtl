@@ -77,16 +77,16 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 public interface [javaInterfaceNameForAdaptorConstants(anAdaptorInterface) /]
 {
-	// [protected ('user constants')]
-	// [/protected]
+    // [protected ('user constants')]
+    // [/protected]
 
-	[for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name))]
-	[generateDomainSpecificationConstants(aDomainSpecification) /]
-	[/for]
+    [for (aDomainSpecification: DomainSpecification | relevantDomainSpecifications(anAdaptorInterface)->sortedBy(name))]
+    [generateDomainSpecificationConstants(aDomainSpecification) /]
+    [/for]
 
-	[for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name))]
-	[generateResourceConstants(aResource) /]
-	[/for]
+    [for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name))]
+    [generateResourceConstants(aResource) /]
+    [/for]
 
     public static final String HDR_OSLC_VERSION = "OSLC-Core-Version";
 

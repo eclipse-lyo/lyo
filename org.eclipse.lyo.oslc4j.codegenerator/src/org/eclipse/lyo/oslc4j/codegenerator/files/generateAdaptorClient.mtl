@@ -66,50 +66,50 @@ import [javaClassFullName(aResource, anAdaptorInterface) /];
 
 public class [javaClassNameForClient(aRequiredAdaptor) /]
 {
-	[comment TODO The very basic functionality of a client is generated. a more complete set of functions (query, C.R.U.D., etc) ought to be generated. /]
+    [comment TODO The very basic functionality of a client is generated. a more complete set of functions (query, C.R.U.D., etc) ought to be generated. /]
 
-	// [protected ('class_attributes')]
-	// [/protected]
-	
-	// [protected ('class_methods')]
-	// [/protected]
+    // [protected ('class_attributes')]
+    // [/protected]
+    
+    // [protected ('class_methods')]
+    // [/protected]
 
-	static String serviceProviderCatalogURI = "[aRequiredAdaptor.serviceProviderCatalogURI/]";
+    static String serviceProviderCatalogURI = "[aRequiredAdaptor.serviceProviderCatalogURI/]";
 
-	public static ServiceProviderCatalog getServiceProviderCatalog() throws Exception {
-		OslcClient client = new OslcClient();
-		ClientResponse response = null;
-		ServiceProviderCatalog catalog = null;
+    public static ServiceProviderCatalog getServiceProviderCatalog() throws Exception {
+        OslcClient client = new OslcClient();
+        ClientResponse response = null;
+        ServiceProviderCatalog catalog = null;
 
-		// [protected ('getServiceProviderCatalog'.concat('_init'))]
-		// [/protected]
+        // [protected ('getServiceProviderCatalog'.concat('_init'))]
+        // [/protected]
 
-		response = client.getResource(serviceProviderCatalogURI,OSLCConstants.CT_RDF);
-		if (response != null) {
-			catalog = response.getEntity(ServiceProviderCatalog.class);
-		}
-		// [protected ('getServiceProviderCatalog'.concat('_final'))]
-		// [/protected]
-		return catalog;
-	}
+        response = client.getResource(serviceProviderCatalogURI,OSLCConstants.CT_RDF);
+        if (response != null) {
+            catalog = response.getEntity(ServiceProviderCatalog.class);
+        }
+        // [protected ('getServiceProviderCatalog'.concat('_final'))]
+        // [/protected]
+        return catalog;
+    }
 
 [for (aResource: Resource | servicedResources(aRequiredAdaptor)->sortedBy(name)) separator(lineSeparator()) ]
-	public static [javaClassName(aResource) /] get[javaName(aResource, true)/](String resourceURI) throws Exception {
-		OslcClient client = new OslcClient();
-		ClientResponse response = null;
-		[javaClassName(aResource) /] resource = null;
+    public static [javaClassName(aResource) /] get[javaName(aResource, true)/](String resourceURI) throws Exception {
+        OslcClient client = new OslcClient();
+        ClientResponse response = null;
+        [javaClassName(aResource) /] resource = null;
 
-		// [protected ('get'.concat(javaName(aResource, true)).concat('_init'))]
-		// [/protected]
+        // [protected ('get'.concat(javaName(aResource, true)).concat('_init'))]
+        // [/protected]
 
-		response = client.getResource(resourceURI, OSLCConstants.CT_RDF);
-		if (response != null) {
-			resource = response.getEntity([javaClassName(aResource) /].class);
-		}
-		// [protected ('get'.concat(javaName(aResource, true)).concat('_final'))]
-		// [/protected]
-		return resource;
-	}
+        response = client.getResource(resourceURI, OSLCConstants.CT_RDF);
+        if (response != null) {
+            resource = response.getEntity([javaClassName(aResource) /].class);
+        }
+        // [protected ('get'.concat(javaName(aResource, true)).concat('_final'))]
+        // [/protected]
+        return resource;
+    }
 [/for]
 }
 [/file]

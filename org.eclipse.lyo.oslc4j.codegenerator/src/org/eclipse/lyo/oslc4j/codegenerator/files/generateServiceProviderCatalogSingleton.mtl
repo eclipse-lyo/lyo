@@ -6,7 +6,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -39,7 +39,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -91,26 +91,26 @@ import [javaClassFullName(aServiceProvider) /];
 
 /**
  * This is the OSLC service provider catalog for the Bugzilla adapter.  Service providers are
- * not registered with the catalog until a request comes in to access either the catalog or a 
+ * not registered with the catalog until a request comes in to access either the catalog or a
  * specific service provider.   This request could be from an external consumer or an internal
  * request triggered by a consumer accessing a change request.
- * 
+ *
  * The service providers are created and registered in the initServiceProvidersFromProducts()
  * method.  A list of accessible products is retrieved from Bugzilla and a ServiceProvider is
  * created and registered for each using the Bugzilla productId as the identifier.
- * 
+ *
  * The registered service providers are refreshed on each catalog or service provider collection
  * request.
  */
 public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 {
     private static final ServiceProviderCatalog             serviceProviderCatalog;
-	[comment TODO: We here assume that 1 single serviceProvider type is specified in the SPCatalog.
-	In the metamodel, a SPCatalog  can have 1+ serviceProvider types. 
-	For example, one SP type maps to the products. Another SP type maps to "something-else".
-	In this case, each such SP type would need to define its name. (for example "ProductServiceProvider")
-	In this case, loop through the SP types, and create a variable for each. You will also need to loop through and create the functions below for each such SP type. 
-	Alternatively, define serviceProviders as some Dictionary, where the key is the SP name, and the value is the SortedMap below/]
+    [comment TODO: We here assume that 1 single serviceProvider type is specified in the SPCatalog.
+    In the metamodel, a SPCatalog  can have 1+ serviceProvider types.
+    For example, one SP type maps to the products. Another SP type maps to "something-else".
+    In this case, each such SP type would need to define its name. (for example "ProductServiceProvider")
+    In this case, loop through the SP types, and create a variable for each. You will also need to loop through and create the functions below for each such SP type.
+    Alternatively, define serviceProviders as some Dictionary, where the key is the SP name, and the value is the SortedMap below/]
     private static final SortedMap<String, ServiceProvider> serviceProviders = new TreeMap<String, ServiceProvider>();
 
     static
@@ -136,27 +136,27 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 
 
     private [javaClassNameForSingleton(aServiceProviderCatalog) /]()
-    {   	
+    {
         super();
     }
-    
+
 
     public static URI getUri()
     {
-    	return serviceProviderCatalog.getAbout();
+        return serviceProviderCatalog.getAbout();
     }
 
-    public static ServiceProviderCatalog getServiceProviderCatalog(HttpServletRequest httpServletRequest) 
+    public static ServiceProviderCatalog getServiceProviderCatalog(HttpServletRequest httpServletRequest)
     {
-    	initServiceProviders(httpServletRequest);
+        initServiceProviders(httpServletRequest);
         return serviceProviderCatalog;
     }
 
-    public static ServiceProvider [ '[' ']' /] getServiceProviders(HttpServletRequest httpServletRequest) 
+    public static ServiceProvider [ '[' ']' /] getServiceProviders(HttpServletRequest httpServletRequest)
     {
         synchronized(serviceProviders)
         {
-        	initServiceProviders(httpServletRequest);
+            initServiceProviders(httpServletRequest);
             return serviceProviders.values().toArray(new ServiceProvider[ '[' /] serviceProviders.size()[ ']' /]);
         }
     }
@@ -171,7 +171,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
         pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
         [/for]
         String instanceURI = "[aServiceProvider.instanceURI() /]";
-      
+
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
@@ -182,20 +182,20 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
         return identifier;
     }
 
-    public static ServiceProvider get[aServiceProvider.javaName(true)/](HttpServletRequest httpServletRequest, [aServiceProvider.instanceMethodSignature() /]) 
+    public static ServiceProvider get[aServiceProvider.javaName(true)/](HttpServletRequest httpServletRequest, [aServiceProvider.instanceMethodSignature() /])
     {
         ServiceProvider serviceProvider;
 
         synchronized(serviceProviders)
-        {     	
+        {
             String identifier = [aServiceProvider.javaName(false)/]Identifier([aServiceProvider.instanceMethodParameterList() /]);
             serviceProvider = serviceProviders.get(identifier);
-            
+
             //One retry refreshing the service providers
             if (serviceProvider == null)
             {
-            	getServiceProviders(httpServletRequest);
-            	serviceProvider = serviceProviders.get(identifier);
+                getServiceProviders(httpServletRequest);
+                serviceProvider = serviceProviders.get(identifier);
             }
         }
 
@@ -209,7 +209,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 
     public static ServiceProvider register[aServiceProvider.javaName(true)/](final HttpServletRequest httpServletRequest,
                                                           final ServiceProvider serviceProvider,
-                                                          [aServiceProvider.instanceMethodSignature() /]) 
+                                                          [aServiceProvider.instanceMethodSignature() /])
                                                 throws URISyntaxException
     {
         synchronized(serviceProviders)
@@ -221,14 +221,14 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
         }
     }
 
-/**
- * Register a service provider with the OSLC catalog
- * 
- * @param serviceProviderURI
- * @param serviceProvider
- * @param productId
- * @return
- */
+    /**
+    * Register a service provider with the OSLC catalog
+    *
+    * @param serviceProviderURI
+    * @param serviceProvider
+    * @param productId
+    * @return
+    */
     private static ServiceProvider register[aServiceProvider.javaName(true)/]NoSync(final URI serviceProviderURI,
                                                                  final ServiceProvider serviceProvider
                                                                  [commaSeparate(aServiceProvider.instanceMethodSignature(), true, false)/])
@@ -248,7 +248,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 
         return serviceProvider;
     }
-    
+
     // This version is for self-registration and thus package-protected
     static ServiceProvider register[aServiceProvider.javaName(true)/](final ServiceProvider serviceProvider[commaSeparate(aServiceProvider.instanceMethodSignature(), true, false)/])
                                             throws URISyntaxException
@@ -288,71 +288,70 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
             }
         }
     }
-    [/for] 
+    [/for]
 
     private static SortedSet<URI> getServiceProviderDomains(final ServiceProvider serviceProvider)
     {
         final SortedSet<URI> domains = new TreeSet<URI>();
 
         if (serviceProvider!=null) {
-    		final Service [ '[' ']' /] services = serviceProvider.getServices();
-	        for (final Service service : services)
-	        {
-	            final URI domain = service.getDomain();
+            final Service [ '[' ']' /] services = serviceProvider.getServices();
+            for (final Service service : services)
+            {
+                final URI domain = service.getDomain();
 
-	            domains.add(domain);
-	        }
+                domains.add(domain);
+            }
         }
         return domains;
     }
-    
+
     /**
      * Retrieve a list of products from Bugzilla and construct a service provider for each.
-     * 
+     *
      * Each product ID is added to the parameter map which will be used during service provider
      * creation to create unique URI paths for each Bugzilla product.  See @Path definition at
      * the top of BugzillaChangeRequestService.
-     * 
+     *
      * @param httpServletRequest
      */
-    protected static void initServiceProviders (HttpServletRequest httpServletRequest)   
+    protected static void initServiceProviders (HttpServletRequest httpServletRequest)
     {
-		try {
+        try {
+            // [protected ('initServiceProviders')]
+            // [/protected]
 
-			// [protected ('initServiceProviders')]
-			// [/protected]
-
-	        String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
-
+            String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
             [for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
-	        [javaClassName(aServiceProvider) /] [ '[' ']' /] [javaClassName(aServiceProvider).toLowerFirst()/]s = [javaClassNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /].get[aServiceProvider.javaClassName()/]s(httpServletRequest);
-	        //Register each service provider
-	        for ([javaClassName(aServiceProvider) /] serviceProviderInfo : [javaClassName(aServiceProvider).toLowerFirst()/]s) {
-				String identifier = [aServiceProvider.javaName(false)/]Identifier([for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
-		        if (! serviceProviders.containsKey(identifier)) {
-					String serviceProviderName = serviceProviderInfo.name;
-					String title = "[aServiceProvider.title.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
-					String description = "[aServiceProvider.description.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
-					[if (aServiceProvider.publisher.oclIsUndefined())]
-					Publisher publisher = null;
-					[else]
-					Publisher publisher = new Publisher("[aServiceProvider.publisher.title /]", "[aServiceProvider.publisher.identifier /]");
-					[/if]
-		        	Map<String, Object> parameterMap = new HashMap<String, Object>();
+            
+            [javaClassName(aServiceProvider) /] [ '[' ']' /] [javaClassName(aServiceProvider).toLowerFirst()/]s = [javaClassNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /].get[aServiceProvider.javaClassName()/]s(httpServletRequest);
+            //Register each service provider
+            for ([javaClassName(aServiceProvider) /] serviceProviderInfo : [javaClassName(aServiceProvider).toLowerFirst()/]s) {
+                String identifier = [aServiceProvider.javaName(false)/]Identifier([for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
+                if (! serviceProviders.containsKey(identifier)) {
+                    String serviceProviderName = serviceProviderInfo.name;
+                    String title = "[aServiceProvider.title.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
+                    String description = "[aServiceProvider.description.concat(': ') /]" + serviceProviderName + "(" + identifier + ")";
+                    [if (aServiceProvider.publisher.oclIsUndefined())]
+                    Publisher publisher = null;
+                    [else]
+                    Publisher publisher = new Publisher("[aServiceProvider.publisher.title /]", "[aServiceProvider.publisher.identifier /]");
+                    [/if]
+                    Map<String, Object> parameterMap = new HashMap<String, Object>();
                     [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(lineSeparator())]
                     parameterMap.put("[instanceCompositeID /]", serviceProviderInfo.[instanceCompositeID /]);
                     [/for]
-		        	final ServiceProvider aServiceProvider = [javaClassNameForFactory(aServiceProvider) /].createServiceProvider(basePath, title, description, publisher, parameterMap);
-		            register[aServiceProvider.javaName(true)/](aServiceProvider, [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
-	        	}
-	        }
-
+                    final ServiceProvider aServiceProvider = [javaClassNameForFactory(aServiceProvider) /].createServiceProvider(basePath, title, description, publisher, parameterMap);
+                    register[aServiceProvider.javaName(true)/](aServiceProvider, [for (instanceCompositeID: String | instanceCompositeID(aServiceProvider)) separator(', ')]serviceProviderInfo.[instanceCompositeID /][/for]);
+                }
+            }
             [/for]
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new WebApplicationException(e,Status.INTERNAL_SERVER_ERROR);
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e,Status.INTERNAL_SERVER_ERROR);
+        }
     }
 }
+
 [/file]
 [/template]
