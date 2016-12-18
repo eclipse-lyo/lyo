@@ -138,11 +138,10 @@ public class [javaClassName(aService) /]
         super();
     }
 
+    [comment TODO: add query support /]
 	[for (aQueryCapability: QueryCapability | aService.queryCapabilities)]
     /**
      * RDF/XML, XML and JSON representation of a change request collection
-     * 
-     * TODO:  add query support
      * 
      * @param productId
      * @param where
@@ -406,8 +405,8 @@ public class [javaClassName(aService) /]
 			[creationMethodResourceType(aCreationDialog)/] newResource = null;
 	
 			[if not (aCreationDialog.resourceTypes->size() = 1)]
-			// TODO Implement code to create the new resource. This method seems to be expected to handle more than a single type of resources.
 			// [protected (creationMethodName(aCreationDialog))]
+			// TODO Implement code to create the new resource. This method seems to be expected to handle more than a single type of resources.
 			// [/protected]
 			[else]
 			[let aResource : Resource = aCreationDialog.resourceTypes->first()]
