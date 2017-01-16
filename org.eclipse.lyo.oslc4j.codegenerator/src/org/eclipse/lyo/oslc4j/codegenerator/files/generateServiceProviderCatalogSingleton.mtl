@@ -115,25 +115,16 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 
     static
     {
-        try
-        {
-            serviceProviderCatalog = new ServiceProviderCatalog();
-
-            serviceProviderCatalog.setAbout(new URI(ServiceProviderRegistryURIs.getServiceProviderRegistryURI()));
-            serviceProviderCatalog.setTitle("[aServiceProviderCatalog.title /]");
-            serviceProviderCatalog.setDescription("[aServiceProviderCatalog.description /]");
-            [if (not aServiceProviderCatalog.publisher.oclIsUndefined())]
-            serviceProviderCatalog.setPublisher(new Publisher("[aServiceProviderCatalog.publisher.title /]", "[aServiceProviderCatalog.publisher.identifier /]"));
-            serviceProviderCatalog.getPublisher().setIcon(new URI("[aServiceProviderCatalog.publisher.icon /]"));
-            [/if]
-        }
-        catch (final URISyntaxException exception)
-        {
-            // We should never get here.
-            throw new ExceptionInInitializerError(exception);
-        }
+        serviceProviderCatalog = new ServiceProviderCatalog();
+        URI catalogUri = UriBuilder.fromUri(ServletListener.getServicesBase()).path("/catalog/singleton").build();
+        serviceProviderCatalog.setAbout(catalogUri);
+        serviceProviderCatalog.setTitle("[aServiceProviderCatalog.title /]");
+        serviceProviderCatalog.setDescription("[aServiceProviderCatalog.description /]");
+        [if (not aServiceProviderCatalog.publisher.oclIsUndefined())]
+        serviceProviderCatalog.setPublisher(new Publisher("[aServiceProviderCatalog.publisher.title /]", "[aServiceProviderCatalog.publisher.identifier /]"));
+        serviceProviderCatalog.getPublisher().setIcon(new URI("[aServiceProviderCatalog.publisher.icon /]"));
+        [/if]
     }
-
 
     private [javaClassNameForSingleton(aServiceProviderCatalog) /]()
     {
