@@ -12,17 +12,10 @@
  * Contributors:
  *
  *	   Michael Fiedler		 - initial API and implementation
- *	   
+ *
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
-import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
-import com.hp.hpl.jena.rdf.model.Property;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -42,6 +35,14 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
+
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
+import org.apache.jena.rdf.model.Property;
 
 
 public class OSLC4JUtils {
@@ -73,7 +74,7 @@ public class OSLC4JUtils {
 	 * 412789.
 	 */
 	private static String inferTypeFromShape = System.getProperty(OSLC4JConstants.OSLC4J_INFER_TYPE_FROM_SHAPE);
-	
+
 	/**
 	 * List of available ResourceShapes. This list will be used to infer the
 	 * property type from the resource shape and it will only be considered if
@@ -81,19 +82,19 @@ public class OSLC4JUtils {
 	 * fix for defect 412789.
 	 */
 	private static List<ResourceShape> shapes = new ArrayList<>();
-	
+
 	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
 	 * Returns the value of org.eclipse.lyo.oslc4j.publicURI or null if not set.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return Public URI, or null if not set
 	 */
 	public static String getPublicURI()
 	{
 		return publicURI;
 	}
-	
+
 	/**
 	 * Sets the value of org.eclipse.lyo.oslc4j.publicURI
 	 * @param newPublicURI
@@ -199,7 +200,7 @@ public class OSLC4JUtils {
 	public static void setUseBeanClassForParsing(String useBeanClassForParsing) {
 		OSLC4JUtils.useBeanClassForParsing = useBeanClassForParsing;
 	}
-	
+
 	public static boolean inferTypeFromShape() {
 		boolean result = false;
 		if (null != inferTypeFromShape) {
@@ -207,7 +208,7 @@ public class OSLC4JUtils {
 		}
 		return result;
 	}
-	
+
 	public static String getInferTypeFromShape() {
 		return inferTypeFromShape;
 	}
@@ -220,7 +221,7 @@ public class OSLC4JUtils {
 	 * Returns a list of Resource Shapes to be used when inferring a property
 	 * type from the Resource Shape. This method should only be used when the
 	 * property inferTypeFromShape is set to true.
-	 * 
+	 *
 	 * @return List of Resource Shapes
 	 */
 	public static List<ResourceShape> getShapes() {
@@ -231,7 +232,7 @@ public class OSLC4JUtils {
 	 * Sets a list of Resource Shapes to be used when inferring a property type
 	 * from the Resource Shape. This method should only be used when the
 	 * property inferTypeFromShape is set to true.
-	 * 
+	 *
 	 * @param shapes
 	 *			  List of Resource Shapes
 	 */
@@ -247,16 +248,16 @@ public class OSLC4JUtils {
 	public static boolean isHostResolutionDisabled()
 	{
 		boolean retVal = false;
-		
+
 		String hostResDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION);
 		if (hostResDisabledProp !=null)
 		{
 			retVal = Boolean.parseBoolean(hostResDisabledProp);
 		}
 		return retVal;
-		
+
 	}
-	
+
 	public static void setHostResolutionDisabled(boolean hostResDisabled)
 	{
 		System.setProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, Boolean.toString(hostResDisabled));
@@ -407,7 +408,7 @@ public class OSLC4JUtils {
 	public static boolean relativeURIsAreDisabled()
 	{
 		boolean retVal = true;
-		
+
 		String relURIsDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_RELATIVE_URIS);
 		if (relURIsDisabledProp !=null)
 		{
@@ -415,9 +416,9 @@ public class OSLC4JUtils {
 		}
 		return retVal;
 	}
-	
+
 	/**
-	 * Return if the query result list type will be	 
+	 * Return if the query result list type will be
 	 * http://www.w3.org/2000/01/rdf-schema#Container or there will be no type.
 	 * Default is no type.
 	 */
@@ -429,7 +430,7 @@ public class OSLC4JUtils {
 	/**
 	 * This method returns true if the given Resource Shape describes array
 	 * matches the list of RDF types.
-	 * 
+	 *
 	 * @param shape
 	 *			  Resource Shape
 	 * @param rdfTypesList
@@ -447,23 +448,23 @@ public class OSLC4JUtils {
 			for (URI describeUri : describes)
 			{
 				final String describeUriStr = describeUri.toASCIIString();
-				if (rdfTypesList.contains(describeUriStr)) 
+				if (rdfTypesList.contains(describeUriStr))
 				{
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * This method receives the property name and the property value and tries
 	 * to infer the property type from the pre-defined list of Resource Shapes.
 	 * Then returns the corresponding java object for the given object value.
 	 * Returns a null object when it was not possible to infer the property type
 	 * from the list of Resource Shapes.
-	 * 
+	 *
 	 * @param rdfTypesList
 	 * @param propertyQName
 	 *			  Property information
@@ -473,8 +474,8 @@ public class OSLC4JUtils {
 	 * @throws DatatypeConfigurationException
 	 *			   , IllegalArgumentException, InstantiationException,
 	 *			   InvocationTargetException
-	 on 
-	 * 
+	 on
+	 *
 	 */
 	public static Object getValueBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
 														  final QName propertyQName,
@@ -526,7 +527,7 @@ public class OSLC4JUtils {
 											if (XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString())) {
 												return new XMLLiteral(originalValue.toString());
 											}
-	
+
 											// special treatment for Date
 											Class<?> objClass = dataTypeFromShape.getJavaClass();
 											if (objClass.getCanonicalName().equals(XSDDateTime.class.getCanonicalName())) {
@@ -536,7 +537,7 @@ public class OSLC4JUtils {
 												final XSDDateTime xsdDateTime = new XSDDateTime(calendar);
 												return xsdDateTime.asCalendar().getTime();
 											}
-											
+
 											// special treatment for Boolean
 											if (objClass.getCanonicalName().equals(Boolean.class.getCanonicalName())) {
 												// XML supports both 'true' and '1' for a true Boolean.
@@ -552,25 +553,25 @@ public class OSLC4JUtils {
 													throw new IllegalArgumentException("'" + originalValue.toString() + "' has wrong format for Boolean.");
 												}
 											}
-											
+
 											// special treatment for double
 											if (objClass.getCanonicalName().equals(Double.class.getCanonicalName())) {
 												return XSDDatatype.XSDdouble.parseValidated(originalValue.toString());
 											}
-											
+
 											// special treatment for float
 											if (objClass.getCanonicalName().equals(Float.class.getCanonicalName())) {
 												return XSDDatatype.XSDfloat.parseValidated(originalValue.toString());
 											}
 											Constructor<?> cons = objClass.getConstructor(String.class);
 											return cons.newInstance(originalValue.toString());
-										} catch (IllegalArgumentException e) {											
+										} catch (IllegalArgumentException e) {
 											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
-										} catch (InvocationTargetException e) {											
+										} catch (InvocationTargetException e) {
 											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
-										} catch (DatatypeFormatException e) {											
+										} catch (DatatypeFormatException e) {
 											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
 										}
@@ -597,13 +598,13 @@ public class OSLC4JUtils {
 
 		return null;
 	}
-	
+
 	/**
 	 * This method receives the property name and the property value and tries
 	 * to infer the property Data Type from the pre-defined list of Resource Shapes.
 	 * Returns a null object when it was not possible to infer the property Data Type
 	 * from the list of Resource Shapes.
-	 * 
+	 *
 	 * @param rdfTypesList
 	 * 		List of rdf:types
 	 * @param property
@@ -612,7 +613,7 @@ public class OSLC4JUtils {
 	 * @throws DatatypeConfigurationException
 	 *			   , IllegalArgumentException, InstantiationException,
 	 *			   InvocationTargetException
-	 * 
+	 *
 	 */
 	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
 														  final Property property )

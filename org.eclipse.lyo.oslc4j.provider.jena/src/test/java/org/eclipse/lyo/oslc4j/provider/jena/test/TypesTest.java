@@ -25,11 +25,11 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.Test;
 
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 
 public class TypesTest {
 	private final static String TEST_RESOURCE = "http://example.com/resources/testResource";

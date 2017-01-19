@@ -98,30 +98,30 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.w3c.dom.Element;
 
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
-import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
-import com.hp.hpl.jena.datatypes.xsd.impl.XSDDateType;
-import com.hp.hpl.jena.rdf.model.Container;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFList;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.RSIterator;
-import com.hp.hpl.jena.rdf.model.ReifiedStatement;
-import com.hp.hpl.jena.rdf.model.ResIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.SimpleSelector;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.Map1;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
+import org.apache.jena.datatypes.xsd.impl.XSDDateType;
+import org.apache.jena.rdf.model.Container;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.RSIterator;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.SimpleSelector;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.Map1;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 public final class JenaModelHelper
 {
@@ -672,13 +672,7 @@ public final class JenaModelHelper
 
 					ExtendedIterator<RDFNode> iterator =
 							object.asResource().listProperties(RDFS.member).
-									mapWith(new Map1<Statement, RDFNode>()
-						{
-							@Override
-							public RDFNode map1(Statement o) {
-								return o.getObject();
-							}
-						});
+									mapWith(s -> s.getObject());
 
 					while (iterator.hasNext())
 					{

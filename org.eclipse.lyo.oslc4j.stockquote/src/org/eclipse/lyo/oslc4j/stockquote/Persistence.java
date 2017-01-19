@@ -32,10 +32,10 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFWriter;
-import com.hp.hpl.jena.util.FileUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.util.FileUtils;
 
 public class Persistence
 {

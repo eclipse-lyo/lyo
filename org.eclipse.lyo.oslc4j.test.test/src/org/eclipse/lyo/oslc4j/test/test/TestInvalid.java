@@ -45,7 +45,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 
-import com.hp.hpl.jena.shared.JenaException;
+import org.apache.jena.shared.JenaException;
 
 @SuppressWarnings("deprecation")
 public class TestInvalid

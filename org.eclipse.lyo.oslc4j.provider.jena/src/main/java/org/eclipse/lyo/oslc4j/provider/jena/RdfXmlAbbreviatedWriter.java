@@ -33,24 +33,24 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.hp.hpl.jena.rdf.model.AnonId;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFErrorHandler;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.RDFWriter;
-import com.hp.hpl.jena.rdf.model.RSIterator;
-import com.hp.hpl.jena.rdf.model.ReifiedStatement;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.rdf.model.impl.Util;
-import com.hp.hpl.jena.util.CharEncoding;
-import com.hp.hpl.jena.util.FileUtils;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.Filter;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.rdf.model.AnonId;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFErrorHandler;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RSIterator;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.impl.Util;
+import org.apache.jena.util.CharEncoding;
+import org.apache.jena.util.FileUtils;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.Filter;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * <p>RDF writer or serializer in the abbreviated XML syntax.</p>
@@ -175,7 +175,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	 * @param propName The (supported) property name.
 	 * @param propValue The property value ({@link String}, {@link Boolean}, or {@link Integer}), otherwise <code>null</code>. 
 	 * @return The old property value, otherwise <code>null</code>.
-	 * @see com.hp.hpl.jena.rdf.model.RDFWriter#setProperty(java.lang.String, java.lang.Object)
+	 * @see org.apache.jena.rdf.model.RDFWriter#setProperty(java.lang.String, java.lang.Object)
 	 */
 	public Object setProperty(String propName, Object propValue) {
 
@@ -239,7 +239,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.hp.hpl.jena.rdf.model.RDFWriter#setErrorHandler(com.hp.hpl.jena.rdf.model.RDFErrorHandler)
+	 * @see org.apache.jena.rdf.model.RDFWriter#setErrorHandler(org.apache.jena.rdf.model.RDFErrorHandler)
 	 */
 	public RDFErrorHandler setErrorHandler(RDFErrorHandler errorHandler) {
 		
@@ -251,14 +251,14 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.hp.hpl.jena.rdf.model.RDFWriter#write(com.hp.hpl.jena.rdf.model.Model, java.io.OutputStream, java.lang.String)
+	 * @see org.apache.jena.rdf.model.RDFWriter#write(org.apache.jena.rdf.model.Model, java.io.OutputStream, java.lang.String)
 	 */
 	public void write(Model model, OutputStream out, String base) {
 		write(model, FileUtils.asUTF8(out), base);
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.hp.hpl.jena.rdf.model.RDFWriter#write(com.hp.hpl.jena.rdf.model.Model, java.io.Writer, java.lang.String)
+	 * @see org.apache.jena.rdf.model.RDFWriter#write(org.apache.jena.rdf.model.Model, java.io.Writer, java.lang.String)
 	 */
 	public void write(Model model, Writer writer, String base) {
 		
