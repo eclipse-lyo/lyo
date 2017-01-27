@@ -83,15 +83,15 @@ public class OslcClient {
 	X509HostnameVerifier hostnameVerifier;
 
 	/**
-	 * Sets the Secure Socket Protocol to be used, valid values "TLS","SSL","SSL_TLS".
+	 * Returns theSecure Sockect Protocol associated with this OSLC Client
+	 * @return the user configured Secure Socket Protocol
 	 */
 	public String getConfiguredSecureSocketProtocol() {
 		return configuredSecureSocketProtocol;
 	}
 
 	/**
-	 * Returns theSecure Sockect Protocol associated with this OSLC Client
-	 * @return the user configured Secure Socket Protocol
+	 * Sets the Secure Socket Protocol to be used, valid values "TLSv1.2","TLS","SSL","SSL_TLS".
 	 */
 	public void setConfiguredSecureSocketProtocol(
 			String configuredSecureSocketProtocol) {
@@ -101,7 +101,7 @@ public class OslcClient {
 		setupSSLSupport();
 	}
 
-	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
+	private static final String SECURE_SOCKET_PROTOCOL [] = new String[] {"TLSv1.2","TLS","SSL","SSL_TLS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$  //$NON-NLS-4$
 
 	/**
 	 * Initialize a new OslcClient using an Apache Http Components 4 Http client and configuration.
