@@ -63,6 +63,7 @@ public class DMFormSample {
 		options.addOption("user", true, "user ID");
 		options.addOption("password", true, "password");
 		options.addOption("project",true,"project area");
+		options.addOption("raw", false, "print raw object");  // useful for custom domains
 
 		CommandLineParser cliParser = new GnuParser();
 
@@ -79,6 +80,7 @@ public class DMFormSample {
 		String user = cmd.getOptionValue("user");
 		String passwd = cmd.getOptionValue("password");
 		String projectArea = cmd.getOptionValue("project");
+		Boolean processAsJavaObjects = !cmd.hasOption("raw");
 
 		try {
 
@@ -99,16 +101,11 @@ public class DMFormSample {
 
 				//STEP 4: Get the URL of the OSLC ChangeManagement catalog
 				String catalogUrl = helper.getCatalogUrl();
-				//WORKAROUND:  The IBM Rational Design Manager app requires an initial GET of a protected resource using */* as the Accept type
-				client.getResource(catalogUrl, "*/*").consumeContent();
 
 				//STEP 5: Find the OSLC Service Provider for the project area we want to work with
 				String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, projectArea);
 
 				//STEP 6: Get the Query Capabilities URL so that we can run some OSLC queries
-				//WORKAROUND:  DM defect 39535 prevents OSLC4J from reading the DM Service Provider resource correctly
-				//As a workaround, for now, you can hardcode the queryCapability URL.
-
 				String queryCapability = client.lookupQueryCapability(serviceProviderUrl,
 																	  OSLCConstants.OSLC_AM_V2,
 																	  OSLCConstants.AM_RESOURCE_TYPE);
@@ -124,7 +121,6 @@ public class DMFormSample {
 
 				OslcQueryResult result = query.submit();
 
-				boolean processAsJavaObjects = true;
 				processPagedQueryResults(result,client, processAsJavaObjects);
 
 				System.out.println("\n------------------------------\n");
