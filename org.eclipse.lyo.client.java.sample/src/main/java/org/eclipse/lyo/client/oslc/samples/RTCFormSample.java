@@ -23,10 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.cli.CommandLine;
@@ -146,7 +147,7 @@ public class RTCFormSample {
 				//attributes and then print it as raw XML.  Change the dcterms:identifier below to match a
 				//real workitem in your RTC project area
 				OslcQueryParameters queryParams2 = new OslcQueryParameters();
-				queryParams2.setWhere("dcterms:identifier=\"10\"");
+				queryParams2.setWhere("dcterms:identifier=\"7\"");
 				queryParams2.setSelect("dcterms:identifier,dcterms:title,dcterms:creator,dcterms:created,oslc_cm:status");
 				OslcQuery query2 = new OslcQuery(client, queryCapability, queryParams2);
 
@@ -161,19 +162,35 @@ public class RTCFormSample {
 				task.setDescription("Image elements must provide a description in the 'alt' attribute for consumption by screen readers.");
 				task.addTestedByTestCase(new Link(new URI("http://qmprovider/testcase/1"), "Accessibility verification using a screen reader"));
 				task.addDctermsType("task");
-
-				//Get the Creation Factory URL for change requests so that we can create one
-				String taskCreation = client.lookupCreationFactory(
+				
+				//Get the Creation Factory URL for task change requests so that we can create one
+				CreationFactory taskCreation = client.lookupCreationFactoryResource(
 						serviceProviderUrl, OSLCConstants.OSLC_CM_V2,
 						task.getRdfTypes()[0].toString(), OSLCConstants.OSLC_CM_V2 + "task");
+				String factoryUrl = taskCreation.getCreation().toString();
+
+				//Determine what to use for the Filed Against attribute by requesting the resource shape for the creation factory.
+				String shapeUrl = taskCreation.getResourceShapes()[0].toString();
+				ClientResponse shapeResponse = client.getResource(shapeUrl);
+				ResourceShape shape = shapeResponse.getEntity(ResourceShape.class);
+
+				//Look at the allowed values for Filed Against. This is generally a required field for defects.
+				Property filedAgainstProperty = shape.getProperty(new URI(RTC_NAMESPACE + RTC_FILED_AGAINST));
+				if (filedAgainstProperty != null) {
+					URI allowedValuesRef = filedAgainstProperty.getAllowedValuesRef();
+					ClientResponse allowedValuesResponse = client.getResource(allowedValuesRef.toString());
+					AllowedValues allowedValues = allowedValuesResponse.getEntity(AllowedValues.class);
+					Object[] values = allowedValues.getValues().toArray();
+					task.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), (URI) values[0]);
+				}
 
 				//Create the change request
 				ClientResponse creationResponse = client.createResource(
-						taskCreation, task,
+						factoryUrl, task,
 						OslcMediaType.APPLICATION_RDF_XML,
 						OslcMediaType.APPLICATION_RDF_XML);
 				String changeRequestLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
-				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+				if (creationResponse.getStatusCode() != HttpStatus.SC_CREATED) {
 					System.err.println("ERROR: Could not create the task (status " + creationResponse.getStatusCode() + ")\n");
 					System.err.println(creationResponse.getEntity(String.class));
 					System.exit(1);
@@ -208,15 +225,15 @@ public class RTCFormSample {
 				CreationFactory defectCreation = client.lookupCreationFactoryResource(
 						serviceProviderUrl, OSLCConstants.OSLC_CM_V2,
 						defect.getRdfTypes()[0].toString(), OSLCConstants.OSLC_CM_V2 + "defect");
-				String factoryUrl = defectCreation.getCreation().toString();
+				factoryUrl = defectCreation.getCreation().toString();
 
 				//Determine what to use for the Filed Against attribute by requesting the resource shape for the creation factory.
-				String shapeUrl = defectCreation.getResourceShapes()[0].toString();
-				ClientResponse shapeResponse = client.getResource(shapeUrl);
-				ResourceShape shape = shapeResponse.getEntity(ResourceShape.class);
+				shapeUrl = defectCreation.getResourceShapes()[0].toString();
+				shapeResponse = client.getResource(shapeUrl);
+				shape = shapeResponse.getEntity(ResourceShape.class);
 
 				//Look at the allowed values for Filed Against. This is generally a required field for defects.
-				Property filedAgainstProperty = shape.getProperty(new URI(RTC_NAMESPACE + RTC_FILED_AGAINST));
+				filedAgainstProperty = shape.getProperty(new URI(RTC_NAMESPACE + RTC_FILED_AGAINST));
 				if (filedAgainstProperty != null) {
 					URI allowedValuesRef = filedAgainstProperty.getAllowedValuesRef();
 					ClientResponse allowedValuesResponse = client.getResource(allowedValuesRef.toString());
@@ -224,8 +241,9 @@ public class RTCFormSample {
 					Object[] values = allowedValues.getValues().toArray();
 					//If this fails, you might need to check that the value is
 					//not "Unassigned", which is an allowed value in some RTC
-					//project areas.
-					defect.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), (URI) values[0]);
+					//project areas. Try the second value instead of the first, most project area processes
+					//create more than one category
+					defect.getExtendedProperties().put(new QName(RTC_NAMESPACE, RTC_FILED_AGAINST), (URI) values[1]);
 				}
 
 				//Create the change request
@@ -234,7 +252,7 @@ public class RTCFormSample {
 						OslcMediaType.APPLICATION_RDF_XML,
 						OslcMediaType.APPLICATION_RDF_XML);
 				String defectLocation = creationResponse.getHeaders().getFirst(HttpHeaders.LOCATION);
-				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+				if (creationResponse.getStatusCode() != HttpStatus.SC_CREATED) {
 					System.err.println("ERROR: Could not create the defect (status " + creationResponse.getStatusCode() + ")\n");
 					System.err.println(creationResponse.getEntity(String.class));
 					System.exit(1);
