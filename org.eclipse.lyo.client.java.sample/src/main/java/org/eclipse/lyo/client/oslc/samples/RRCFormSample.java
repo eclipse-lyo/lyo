@@ -59,7 +59,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 
 
 /**
- * Samples of logging in to Rational Requirements Composer and running OSLC operations
+ * Samples of logging in to Rational Requirements Composer or Rational DOORS Next Generation
+ * and running OSLC operations
  *
  *
  * - run an OLSC Requirement query and retrieve OSLC Requirements and de-serialize them as Java objects
@@ -242,7 +243,7 @@ public class RRCFormSample {
 					collection.setInstanceShape(collectionInstanceShape.getAbout());
 					collection.setTitle("Collection01");
 					collection.setDescription("Created By EclipseLyo");
-					//Create the change request
+					//Create the collection
 					creationResponse = client.createResource(
 							requirementFactory, collection,
 							OslcMediaType.APPLICATION_RDF_XML,
@@ -296,7 +297,7 @@ public class RRCFormSample {
 				}
 
 				//QUERIES
-				// SCENARIO 01  Do a query for type= Requirements
+				// SCENARIO 01  Do a query for type= Requirement
 				OslcQueryParameters queryParams = new OslcQueryParameters();
 				queryParams.setPrefix("rdf=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>");
 				queryParams.setWhere("rdf:type=<http://open-services.net/ns/rm#Requirement>");
