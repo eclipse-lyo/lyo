@@ -38,7 +38,10 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
 
 /**
- * Samples of accessing a generic ChangeManagement provider and running OSLC operations
+ * Samples of accessing a generic ChangeManagement provider and running OSLC operations.
+ * 
+ * This will not run against any CM server that requires authentication. Use with the
+ * eclipse/Lyo sample CM servers.
  *
  *
  * - run an OLSC ChangeRequest query and retrieve OSLC ChangeRequests and de-serialize them as Java objects
@@ -82,7 +85,7 @@ public class GenericCMSample {
 			//STEP 1: Create a new generic OslcClient
 			OslcClient client = new OslcClient();
 
-			//STEP 2: Find the OSLC Service Provider for the project area we want to work with
+			//STEP 2: Find the OSLC Service Provider for the service provider we want to work with
 			String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, providerTitle);
 
 			//STEP 3: Get the Query Capabilities and Creation Factory URLs so that we can run some OSLC queries
