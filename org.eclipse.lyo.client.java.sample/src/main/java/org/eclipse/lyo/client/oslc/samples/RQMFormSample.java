@@ -26,7 +26,6 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -159,7 +158,7 @@ public class RQMFormSample {
 				ClientResponse creationResponse = client.createResource(
 						testcaseCreation, testcase,
 						OslcMediaType.APPLICATION_RDF_XML);
-				if (creationResponse.getStatusCode() != HttpServletResponse.SC_CREATED) {
+				if (creationResponse.getStatusCode() != HttpStatus.SC_CREATED) {
 					System.err.println("ERROR: Could not create the test case (status " + creationResponse.getStatusCode() + ")\n");
 					System.err.println(creationResponse.getEntity(String.class));
 					System.exit(1);
