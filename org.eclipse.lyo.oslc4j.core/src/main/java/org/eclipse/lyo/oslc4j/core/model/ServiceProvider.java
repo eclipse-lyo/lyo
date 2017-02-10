@@ -4,17 +4,17 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -42,19 +42,19 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Service Provider Resource Shape", describes = OslcConstants.TYPE_SERVICE_PROVIDER)
 public class ServiceProvider extends AbstractResource{
-    private final SortedSet<URI> details = new TreeSet<URI>();
-    private final List<PrefixDefinition> prefixDefinitions = new ArrayList<PrefixDefinition>();
-    private final List<Service> services = new ArrayList<Service>();
+	private final SortedSet<URI> details = new TreeSet<URI>();
+	private final List<PrefixDefinition> prefixDefinitions = new ArrayList<PrefixDefinition>();
+	private final List<Service> services = new ArrayList<Service>();
 
-    private Date   created; // TODO - ServiceProvider.created nice to have, but not required.
-    private String description;
-    private String identifier; // TODO - ServiceProvider.identifier nice to have, but not required.
+	private Date   created; // TODO - ServiceProvider.created nice to have, but not required.
+	private String description;
+	private String identifier; // TODO - ServiceProvider.identifier nice to have, but not required.
 	private OAuthConfiguration oauthConfiguration;
 	private Publisher publisher;
 	private String title;
 
 	public ServiceProvider() {
-	    super();
+		super();
 	}
 
 	public void addService(final Service srvc) {
@@ -62,47 +62,47 @@ public class ServiceProvider extends AbstractResource{
 	}
 
 	@OslcDescription("The date and time that this resource was created")
-    @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "created")
-    @OslcReadOnly
-    @OslcTitle("Created")
-    public final Date getCreated() {
-        return created;
-    }
+	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "created")
+	@OslcReadOnly
+	@OslcTitle("Created")
+	public final Date getCreated() {
+		return created;
+	}
 
 	@OslcDescription("Description of the service provider")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
 	@OslcReadOnly
-    @OslcTitle("Description")
+	@OslcTitle("Description")
 	@OslcValueType(ValueType.XMLLiteral)
-    public String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
 	@OslcDescription("URLs that may be used to retrieve web pages to determine additional details about the service provider")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "details")
 	@OslcReadOnly
-    @OslcTitle("Details")
-    public URI[] getDetails() {
-	    return details.toArray(new URI[details.size()]);
+	@OslcTitle("Details")
+	public URI[] getDetails() {
+		return details.toArray(new URI[details.size()]);
 	}
 
 	@OslcDescription("A unique identifier for this resource")
-    @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
-    @OslcReadOnly
-    @OslcTitle("Identifier")
-    public final String getIdentifier() {
-        return identifier;
-    }
+	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
+	@OslcReadOnly
+	@OslcTitle("Identifier")
+	public final String getIdentifier() {
+		return identifier;
+	}
 
 	@OslcDescription("Defines the three OAuth URIs required for a client to act as an OAuth consumer")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthConfiguration")
 	@OslcRange(OslcConstants.TYPE_O_AUTH_CONFIGURATION)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("OAuth Configuration")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_OAUTH_CONFIGURATION)
-    @OslcValueType(ValueType.LocalResource)
-    public OAuthConfiguration getOauthConfiguration() {
+	@OslcValueType(ValueType.LocalResource)
+	public OAuthConfiguration getOauthConfiguration() {
 		return oauthConfiguration;
 	}
 
@@ -111,11 +111,11 @@ public class ServiceProvider extends AbstractResource{
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "prefixDefinition")
 	@OslcRange(OslcConstants.TYPE_PREFIX_DEFINITION)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("Prefix Definitions")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PREFIX_DEFINITION)
-    @OslcValueType(ValueType.LocalResource)
-    public PrefixDefinition[] getPrefixDefinitions() {
+	@OslcValueType(ValueType.LocalResource)
+	public PrefixDefinition[] getPrefixDefinitions() {
 		return prefixDefinitions.toArray(new PrefixDefinition[prefixDefinitions.size()]);
 	}
 
@@ -123,11 +123,11 @@ public class ServiceProvider extends AbstractResource{
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "publisher")
 	@OslcRange(OslcConstants.TYPE_PUBLISHER)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("Publisher")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PUBLISHER)
-    @OslcValueType(ValueType.LocalResource)
-    public Publisher getPublisher() {
+	@OslcValueType(ValueType.LocalResource)
+	public Publisher getPublisher() {
 		return publisher;
 	}
 
@@ -137,10 +137,10 @@ public class ServiceProvider extends AbstractResource{
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "service")
 	@OslcRange(OslcConstants.TYPE_SERVICE)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("Services")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_SERVICE)
-    @OslcValueType(ValueType.LocalResource)
+	@OslcValueType(ValueType.LocalResource)
 	public Service[] getServices() {
 		return services.toArray(new Service[services.size()]);
 	}
@@ -148,30 +148,30 @@ public class ServiceProvider extends AbstractResource{
 	@OslcDescription("Title of the service provider")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
-    @OslcTitle("Title")
+	@OslcTitle("Title")
 	@OslcValueType(ValueType.XMLLiteral)
-    public String getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
 	public final void setCreated(final Date created) {
-        this.created = created;
-    }
+		this.created = created;
+	}
 
-    public void setDescription(final String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
 	public void setDetails(final URI[] details) {
-	    this.details.clear();
-	    if (details != null) {
-	        this.details.addAll(Arrays.asList(details));
+		this.details.clear();
+		if (details != null) {
+			this.details.addAll(Arrays.asList(details));
 		}
 	}
 
 	public final void setIdentifier(final String identifier) {
-        this.identifier = identifier;
-    }
+		this.identifier = identifier;
+	}
 
 	public void setOauthConfiguration(final OAuthConfiguration oauthConfiguration) {
 		this.oauthConfiguration = oauthConfiguration;
@@ -180,7 +180,7 @@ public class ServiceProvider extends AbstractResource{
 	public void setPrefixDefinitions(final PrefixDefinition[] prefixDefinitions) {
 		this.prefixDefinitions.clear();
 		if (prefixDefinitions != null) {
-		    this.prefixDefinitions.addAll(Arrays.asList(prefixDefinitions));
+			this.prefixDefinitions.addAll(Arrays.asList(prefixDefinitions));
 		}
 	}
 
@@ -191,7 +191,7 @@ public class ServiceProvider extends AbstractResource{
 	public void setServices(final Service[] services) {
 		this.services.clear();
 		if (services != null) {
-		    this.services.addAll(Arrays.asList(services));
+			this.services.addAll(Arrays.asList(services));
 		}
 	}
 

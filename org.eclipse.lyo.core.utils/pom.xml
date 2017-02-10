@@ -1,31 +1,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.lyo.oslc4j.core</groupId>
-	<version>2.1.0</version>
-	<name>OSLC4J Utilities</name>
-	<artifactId>oslc4j-utils</artifactId>
-	<description>Additional utilities such as the OSLC4J Marshaller and Unmarshaller</description>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+    <version>2.1.2-SNAPSHOT</version>
+    <name>OSLC4J Utilities</name>
+    <artifactId>oslc4j-utils</artifactId>
+    <description>Additional utilities such as the OSLC4J Marshaller and Unmarshaller</description>
 
     <scm>
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
-	
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-	<dependencies>
-	  	<dependency>
-	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
-	  		<artifactId>oslc4j-json4j-provider</artifactId>
-	  		<version>2.1.0</version>
-	  	</dependency>
-	  	<dependency>
-	  		<groupId>org.eclipse.lyo.oslc4j.core</groupId>
-	  		<artifactId>oslc4j-jena-provider</artifactId>
-	  		<version>2.1.0</version>
-	    </dependency> 
+    <!-- Disable doclint for Java 1.8 (for now) -->
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>oslc4j-json4j-provider</artifactId>
+            <version>2.1.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>oslc4j-jena-provider</artifactId>
+            <version>2.1.2-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -38,51 +51,56 @@
             <version>1.2.1-incubating</version>
             <scope>test</scope>
         </dependency>
-	</dependencies>
-	
-	<build>
-		<outputDirectory>target/classes</outputDirectory>
-		<plugins>
-			<!-- Compiler Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			
-			<!-- Source Jar Plugin -->
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-source-plugin</artifactId>
-			  <executions>
-			    <execution>
-			      <id>attach-sources</id>
-			      <goals>
-			        <goal>jar</goal>
-			      </goals>
-			    </execution>
-			  </executions>
-			</plugin>
-			
-			<!-- Javadoc Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+    <build>
+        <outputDirectory>target/classes</outputDirectory>
+        <plugins>
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <!-- Source Jar Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     <distributionManagement>
         <repository>
             <id>repo.eclipse.org</id>

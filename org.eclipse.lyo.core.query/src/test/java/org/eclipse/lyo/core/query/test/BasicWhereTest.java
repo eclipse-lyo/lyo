@@ -11,9 +11,9 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
- *    Samuel Padgett - convert to JUnit tests
- *    Samuel Padgett - add URIRef test
+ *	  Steve Pitschke - initial API and implementation
+ *	  Samuel Padgett - convert to JUnit tests
+ *	  Samuel Padgett - add URIRef test
  *******************************************************************************/
 package org.eclipse.lyo.core.query.test;
 

@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.test.resources;
 
@@ -51,143 +51,143 @@ import org.eclipse.lyo.oslc4j.test.Test;
 @Path("tests")
 public class TestResource
 {
-    public TestResource()
-    {
-        super();
-    }
+	public TestResource()
+	{
+		super();
+	}
 
-    @OslcDialog
-    (
-        title = "Test Selection Dialog",
-        label = "Test Selection Dialog",
-        uri = "",
-        hintWidth = "1000px",
-        hintHeight = "600px",
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @OslcQueryCapability
-    (
-        title = "Test Query Capability",
-        label = "Test Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public Test[] getTests()
-    {
-        return Persistence.getTests();
-    }
+	@OslcDialog
+	(
+		title = "Test Selection Dialog",
+		label = "Test Selection Dialog",
+		uri = "",
+		hintWidth = "1000px",
+		hintHeight = "600px",
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@OslcQueryCapability
+	(
+		title = "Test Query Capability",
+		label = "Test Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public Test[] getTests()
+	{
+		return Persistence.getTests();
+	}
 
-    @GET
-    @Path("{testId}")
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public Test getTest(@PathParam("testId") final String testId)
-    {
-        final Test test = Persistence.getTest(testId);
+	@GET
+	@Path("{testId}")
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public Test getTest(@PathParam("testId") final String testId)
+	{
+		final Test test = Persistence.getTest(testId);
 
-        if (test != null)
-        {
-            return test;
-        }
+		if (test != null)
+		{
+			return test;
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    @GET
-    @Path("{testId}")
-    @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
-    public Compact getCompact(@PathParam("testId") final String testId)
-           throws URISyntaxException
-    {
-        final Test test = Persistence.getTest(testId);
+	@GET
+	@Path("{testId}")
+	@Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON})
+	public Compact getCompact(@PathParam("testId") final String testId)
+		   throws URISyntaxException
+	{
+		final Test test = Persistence.getTest(testId);
 
-        if (test != null)
-        {
-            final Preview largePreview = new Preview();
+		if (test != null)
+		{
+			final Preview largePreview = new Preview();
 
-            largePreview.setDocument(new URI("http://www.yourcompany.com/doc.jsp"));
-            largePreview.setHintHeight("200px");
-            largePreview.setHintWidth("300px");
-            largePreview.setInitialHeight("100px");
+			largePreview.setDocument(new URI("http://www.yourcompany.com/doc.jsp"));
+			largePreview.setHintHeight("200px");
+			largePreview.setHintWidth("300px");
+			largePreview.setInitialHeight("100px");
 
-            final Compact compact = new Compact();
+			final Compact compact = new Compact();
 
-            compact.setAbout(test.getAbout());
-            compact.setIcon(new URI("http://www.yourcompany.com/icon.gif"));
-            compact.setLargePreview(largePreview);
-            compact.setShortTitle("shortTitle");
-            compact.setTitle("title");
+			compact.setAbout(test.getAbout());
+			compact.setIcon(new URI("http://www.yourcompany.com/icon.gif"));
+			compact.setLargePreview(largePreview);
+			compact.setShortTitle("shortTitle");
+			compact.setTitle("title");
 
-            return compact;
-        }
+			return compact;
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    @OslcCreationFactory
-    (
-         title = "Test Creation Factory",
-         label = "Test Creation",
-         resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST},
-         resourceTypes = {Constants.TYPE_TEST},
-         usages = {OslcConstants.OSLC_USAGE_DEFAULT}
-    )
-    @POST
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public Response addTest(@Context final HttpServletRequest httpServletRequest,
-                                     final Test               test)
-           throws URISyntaxException
-    {
-        final long identifier = Persistence.getNextIdentifier();
+	@OslcCreationFactory
+	(
+		 title = "Test Creation Factory",
+		 label = "Test Creation",
+		 resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST},
+		 resourceTypes = {Constants.TYPE_TEST},
+		 usages = {OslcConstants.OSLC_USAGE_DEFAULT}
+	)
+	@POST
+	@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public Response addTest(@Context final HttpServletRequest httpServletRequest,
+									 final Test				  test)
+		   throws URISyntaxException
+	{
+		final long identifier = Persistence.getNextIdentifier();
 
-        final URI about = new URI(httpServletRequest.getScheme(),
-                                  null,
-                                  httpServletRequest.getServerName(),
-                                  httpServletRequest.getServerPort(),
-                                  httpServletRequest.getContextPath() + "/tests/" + identifier,
-                                  null,
-                                  null);
+		final URI about = new URI(httpServletRequest.getScheme(),
+								  null,
+								  httpServletRequest.getServerName(),
+								  httpServletRequest.getServerPort(),
+								  httpServletRequest.getContextPath() + "/tests/" + identifier,
+								  null,
+								  null);
 
-        test.setAbout(about);
-        test.setIdentifier(String.valueOf(identifier));
+		test.setAbout(about);
+		test.setIdentifier(String.valueOf(identifier));
 
-        Persistence.addTest(test);
+		Persistence.addTest(test);
 
-        return Response.created(about).entity(test).build();
-    }
+		return Response.created(about).entity(test).build();
+	}
 
-    @PUT
-    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    @Path("{testId}")
-    public Response updateTest(@PathParam("testId") final String testId,
-                                                    final Test   test)
-    {
-        final Test updatedTest = Persistence.updateTest(testId,
-                                                        test);
+	@PUT
+	@Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	@Path("{testId}")
+	public Response updateTest(@PathParam("testId") final String testId,
+													final Test	 test)
+	{
+		final Test updatedTest = Persistence.updateTest(testId,
+														test);
 
-        if (updatedTest != null)
-        {
-            return Response.ok().build();
-        }
+		if (updatedTest != null)
+		{
+			return Response.ok().build();
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 
-    @DELETE
-    @Path("{testId}")
-    public Response deleteTest(@PathParam("testId") final String testId)
-    {
-        final Test test = Persistence.deleteTest(testId);
+	@DELETE
+	@Path("{testId}")
+	public Response deleteTest(@PathParam("testId") final String testId)
+	{
+		final Test test = Persistence.deleteTest(testId);
 
-        if (test != null)
-        {
-            return Response.noContent().build();
-        }
+		if (test != null)
+		{
+			return Response.noContent().build();
+		}
 
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+		throw new WebApplicationException(Status.NOT_FOUND);
+	}
 }

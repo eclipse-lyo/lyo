@@ -4,18 +4,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *     Samuel Padgett       - remove final from class
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
+ *	   Samuel Padgett		- remove final from class
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -37,14 +37,14 @@ public class OAuthConfiguration extends AbstractResource {
 	private URI oauthRequestTokenURI;
 
 	public OAuthConfiguration() {
-	    super();
+		super();
 	}
 
 	public OAuthConfiguration(final URI oauthRequestTokenURI, final URI authorizationURI,  final URI oauthAccessTokenURI) {
-	    this();
+		this();
 
 		this.oauthRequestTokenURI = oauthRequestTokenURI;
-		this.authorizationURI =  authorizationURI;
+		this.authorizationURI =	 authorizationURI;
 		this.oauthAccessTokenURI = oauthAccessTokenURI;
 	}
 
@@ -53,8 +53,8 @@ public class OAuthConfiguration extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "authorizationURI")
 	@OslcReadOnly
 	@OslcTitle("Authorization URI")
-    public URI getAuthorizationURI() {
-	    return authorizationURI;
+	public URI getAuthorizationURI() {
+		return authorizationURI;
 	}
 
 	@OslcDescription("URI for obtaining OAuth access token")
@@ -62,8 +62,8 @@ public class OAuthConfiguration extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthAccessTokenURI")
 	@OslcReadOnly
 	@OslcTitle("Access Token URI")
-    public URI getOauthAccessTokenURI() {
-	    return oauthAccessTokenURI;
+	public URI getOauthAccessTokenURI() {
+		return oauthAccessTokenURI;
 	}
 
 	@OslcDescription("URI for obtaining OAuth request token")
@@ -71,19 +71,19 @@ public class OAuthConfiguration extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthRequestTokenURI")
 	@OslcReadOnly
 	@OslcTitle("Request Token URI")
-    public URI getOauthRequestTokenURI() {
-	    return oauthRequestTokenURI;
+	public URI getOauthRequestTokenURI() {
+		return oauthRequestTokenURI;
 	}
 
 	public void setAuthorizationURI(final URI authorizationURI) {
-	    this.authorizationURI = authorizationURI;
+		this.authorizationURI = authorizationURI;
 	}
 
 	public void setOauthAccessTokenURI(final URI oauthAccessTokenURI) {
-	    this.oauthAccessTokenURI = oauthAccessTokenURI;
+		this.oauthAccessTokenURI = oauthAccessTokenURI;
 	}
 
 	public void setOauthRequestTokenURI(final URI oauthRequestTokenURI) {
-	    this.oauthRequestTokenURI = oauthRequestTokenURI;
+		this.oauthRequestTokenURI = oauthRequestTokenURI;
 	}
 }

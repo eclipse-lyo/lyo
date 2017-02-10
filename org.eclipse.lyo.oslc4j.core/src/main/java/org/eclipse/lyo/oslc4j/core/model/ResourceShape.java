@@ -4,17 +4,17 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *	
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -45,11 +45,11 @@ public final class ResourceShape extends AbstractResource {
 	private String title;
 
 	public ResourceShape() {
-	    super();
+		super();
 	}
 
 	public ResourceShape(final URI about) {
-	    super(about);
+		super(about);
 	}
 
 	public void addDescribeItem(final URI describeItem) {
@@ -62,15 +62,15 @@ public final class ResourceShape extends AbstractResource {
 	
 	//Bugzilla 392780
 	public Property getProperty(URI definition) {
-	    return properties.get(definition);
+		return properties.get(definition);
 	}
 
 	@OslcDescription("Type or types of resource described by this shape")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "describes")
 	@OslcReadOnly
-    @OslcTitle("Describes")
+	@OslcTitle("Describes")
 	public URI[] getDescribes() {
-	    return describes.toArray(new URI[describes.size()]);
+		return describes.toArray(new URI[describes.size()]);
 	}
 
 	@OslcDescription("The properties that are allowed or required by this shape")
@@ -78,12 +78,12 @@ public final class ResourceShape extends AbstractResource {
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "property")
 	@OslcRange(OslcConstants.TYPE_PROPERTY)
 	@OslcReadOnly
-    @OslcRepresentation(Representation.Inline)
+	@OslcRepresentation(Representation.Inline)
 	@OslcTitle("Properties")
 	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PROPERTY)
-    @OslcValueType(ValueType.LocalResource)
-    public Property[] getProperties() {
-	    return properties.values().toArray(new Property[properties.size()]);
+	@OslcValueType(ValueType.LocalResource)
+	public Property[] getProperties() {
+		return properties.values().toArray(new Property[properties.size()]);
 	}
 
 	
@@ -91,27 +91,27 @@ public final class ResourceShape extends AbstractResource {
 	@OslcDescription("Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
-    @OslcTitle("Title")
-    @OslcValueType(ValueType.XMLLiteral)
+	@OslcTitle("Title")
+	@OslcValueType(ValueType.XMLLiteral)
 	public String getTitle() {
 		return title;
 	}
 
 	public void setDescribes(final URI[] describes) {
-	    this.describes.clear();
-	    if (describes != null) {
-	        this.describes.addAll(Arrays.asList(describes));
-	    }
+		this.describes.clear();
+		if (describes != null) {
+			this.describes.addAll(Arrays.asList(describes));
+		}
 	}
 
 
 	public void setProperties(final Property[] properties) {
-	    this.properties.clear();
-	    if (properties != null) {
-	        for(Property prop :properties) {
-	            this.properties.put(prop.getPropertyDefinition(), prop);
-	        }
-	    }
+		this.properties.clear();
+		if (properties != null) {
+			for(Property prop :properties) {
+				this.properties.put(prop.getPropertyDefinition(), prop);
+			}
+		}
 	}
 
 	public void setTitle(final String title) {

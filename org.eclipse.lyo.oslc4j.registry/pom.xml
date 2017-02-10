@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-registry</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>OSLC4J Registry</name>
     <description>Eclipse Lyo OSLC4J registry application for OSLC providers.</description>
@@ -16,6 +16,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- Disable doclint for Java 1.8 (for now) -->
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -26,22 +39,22 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-wink</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-json4j-provider</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -83,6 +96,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.test.resources;
 
@@ -38,37 +38,37 @@ import org.eclipse.lyo.oslc4j.test.Constants;
 @Path("tests3")
 public class TestErrorResource
 {
-    public TestErrorResource()
-    {
-        super();
-    }
+	public TestErrorResource()
+	{
+		super();
+	}
 
-    @OslcQueryCapability
-    (
-        title = "Test Error Query Capability",
-        label = "Test Error Query",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
-        resourceTypes = {Constants.TYPE_TEST},
-        usages = {Constants.USAGE_ERROR}
-    )
-    @GET
-    @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-    public Response getError()
-           throws URISyntaxException
-    {
-        final ExtendedError extendedError = new ExtendedError();
+	@OslcQueryCapability
+	(
+		title = "Test Error Query Capability",
+		label = "Test Error Query",
+		resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Constants.PATH_TEST,
+		resourceTypes = {Constants.TYPE_TEST},
+		usages = {Constants.USAGE_ERROR}
+	)
+	@GET
+	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public Response getError()
+		   throws URISyntaxException
+	{
+		final ExtendedError extendedError = new ExtendedError();
 
-        extendedError.setHintHeight("100");
-        extendedError.setHintWidth("200");
-        extendedError.setMoreInfo(new URI("http://open-services.net/bin/view/Main/OslcCoreSpecification?sortcol=table;up=#Error_Responses"));
-        extendedError.setRel("alternate");
+		extendedError.setHintHeight("100");
+		extendedError.setHintWidth("200");
+		extendedError.setMoreInfo(new URI("http://open-services.net/bin/view/Main/OslcCoreSpecification?sortcol=table;up=#Error_Responses"));
+		extendedError.setRel("alternate");
 
-        final Error error = new Error();
+		final Error error = new Error();
 
-        error.setExtendedError(extendedError);
-        error.setMessage("This is a bogus bad request status for testing purposes.");
-        error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
+		error.setExtendedError(extendedError);
+		error.setMessage("This is a bogus bad request status for testing purposes.");
+		error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
 
-        return Response.ok(error).build();
-    }
+		return Response.ok(error).build();
+	}
 }

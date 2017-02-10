@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -23,15 +23,15 @@ import org.antlr.runtime.RecognitionException;
  */
 public class ParseException extends Exception
 {
-    ParseException(RecognitionException cause)
-    {
-        super(cause);
-    }
-    
-    ParseException(String msg)
-    {
-        super(msg);
-    }
-    
-    private static final long serialVersionUID = 2373494371127406191L;
+	ParseException(RecognitionException cause)
+	{
+		super(cause);
+	}
+	
+	ParseException(String msg)
+	{
+		super(msg);
+	}
+	
+	private static final long serialVersionUID = 2373494371127406191L;
 }

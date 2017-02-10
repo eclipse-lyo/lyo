@@ -11,14 +11,14 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.StringValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -27,45 +27,45 @@ import org.eclipse.lyo.core.query.Value.Type;
  */
 class StringValueInvocationHandler extends ValueInvocationHandler
 {
-    public
-    StringValueInvocationHandler(CommonTree tree)
-    {
-        super(tree, Type.STRING);
-    }
+	public
+	StringValueInvocationHandler(Tree tree)
+	{
+		super(tree, Type.STRING);
+	}
 
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        String methodName = method.getName();
-        boolean isValue = methodName.equals("value");
-        
-        if (! isValue &&
-            ! methodName.equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        if (value == null) {
-            
-            String rawValue = tree.getText();
-            
-            // XXX - determine if need to unescape
-            value = rawValue.substring(1, rawValue.length() - 1);
-        }
-        
-        if (isValue) {
-            return value;
-        }
-        
-        return '"' + value + '"';
-    }
-    
-    private String value = null;
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		String methodName = method.getName();
+		boolean isValue = methodName.equals("value");
+		
+		if (! isValue &&
+			! methodName.equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		if (value == null) {
+			
+			String rawValue = tree.getText();
+			
+			// XXX - determine if need to unescape
+			value = rawValue.substring(1, rawValue.length() - 1);
+		}
+		
+		if (isValue) {
+			return value;
+		}
+		
+		return '"' + value + '"';
+	}
+	
+	private String value = null;
 }

@@ -11,8 +11,8 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer    - Initial implementation
- *    Samuel Padgett - Add support for application/x-oslc-compact+xml
+ *	  Kevin Bauer	 - Initial implementation
+ *	  Samuel Padgett - Add support for application/x-oslc-compact+xml
  *******************************************************************************/
 package org.eclipse.lyo.core.utils.marshallers;
 
@@ -92,7 +92,7 @@ public class OSLC4JMarshaller {
 
 	/**
 	 * @param mediaType
-	 *            the mediaType to set
+	 *			  the mediaType to set
 	 */
 	public void setMediaType(MediaType mediaType) {
 		this.mediaType = mediaType;

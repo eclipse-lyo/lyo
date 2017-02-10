@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
+ *	   Russell Boykin		- initial API and implementation
+ *	   Alberto Giammaria	- initial API and implementation
+ *	   Chris Peters			- initial API and implementation
+ *	   Gianluca Bernardini	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.json4j;
 
@@ -39,31 +39,31 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Produces(OslcMediaType.APPLICATION_JSON)
 @Consumes(OslcMediaType.APPLICATION_JSON)
 public final class OslcSimpleRdfJsonArrayProvider
-       extends OslcRdfJsonArrayProvider
+	   extends OslcRdfJsonArrayProvider
 {
-    public OslcSimpleRdfJsonArrayProvider()
-    {
-        super();
-    }
+	public OslcSimpleRdfJsonArrayProvider()
+	{
+		super();
+	}
 
-    @Override
-    public void writeTo(final Object[]                       objects,
-                        final Class<?>                       type,
-                        final Type                           genericType,
-                        final Annotation[]                   annotations,
-                        final MediaType                      mediaType,
-                        final MultivaluedMap<String, Object> map,
-                        final OutputStream                   outputStream)
-           throws IOException,
-                  WebApplicationException
-    {
-        writeTo(objects,
-                mediaType,
-                map,
-                outputStream,
-                null,
-                null,
-                null,
-                null);
-    }
+	@Override
+	public void writeTo(final Object[]						 objects,
+						final Class<?>						 type,
+						final Type							 genericType,
+						final Annotation[]					 annotations,
+						final MediaType						 mediaType,
+						final MultivaluedMap<String, Object> map,
+						final OutputStream					 outputStream)
+		   throws IOException,
+				  WebApplicationException
+	{
+		writeTo(objects,
+				mediaType,
+				map,
+				outputStream,
+				null,
+				null,
+				null,
+				null);
+	}
 }

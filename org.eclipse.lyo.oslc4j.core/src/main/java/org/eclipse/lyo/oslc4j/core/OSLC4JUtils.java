@@ -11,8 +11,8 @@
  *
  * Contributors:
  *
- *     Michael Fiedler       - initial API and implementation
- *     
+ *	   Michael Fiedler		 - initial API and implementation
+ *	   
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
@@ -150,7 +150,7 @@ public class OSLC4JUtils {
 	 * property inferTypeFromShape is set to true.
 	 * 
 	 * @param shapes
-	 *            List of Resource Shapes
+	 *			  List of Resource Shapes
 	 */
 	public static void setShapes(List<ResourceShape> shapes) {
 		OSLC4JUtils.shapes = shapes;
@@ -200,8 +200,8 @@ public class OSLC4JUtils {
 	{
 		UriBuilder builder = null;
 
-		final String pathInfo    = request.getPathInfo();
-	    final String servletPath = request.getServletPath();
+		final String pathInfo	 = request.getPathInfo();
+		final String servletPath = request.getServletPath();
 		final String configuredPublicURI = getPublicURI();
 	   
 		//public URI configured, use it - it includes the context
@@ -240,18 +240,18 @@ public class OSLC4JUtils {
 				hostName = request.getServerName();
 			}
 
-			String contextPath   = request.getContextPath();
-			String pathToBuild   = includePath ? (contextPath + servletPath + pathInfo) : contextPath; 
-            builder = UriBuilder.fromPath(pathToBuild)
-                                .scheme(request.getScheme())
-                                .host(hostName)
-                                .port(request.getServerPort());			   
+			String contextPath	 = request.getContextPath();
+			String pathToBuild	 = includePath ? (contextPath + servletPath + pathInfo) : contextPath; 
+			builder = UriBuilder.fromPath(pathToBuild)
+								.scheme(request.getScheme())
+								.host(hostName)
+								.port(request.getServerPort());			   
 		}
 		   
 	   
 	   
 		URI resolvedURI = builder.build().normalize();
-       
+	   
 		return resolvedURI.toString();
 
 	}
@@ -274,10 +274,10 @@ public class OSLC4JUtils {
 	}
 	
 	/**
-	 * Return if the query result list type will be  
+	 * Return if the query result list type will be	 
 	 * http://www.w3.org/2000/01/rdf-schema#Container or there will be no type.
-     * Default is no type.
-     */
+	 * Default is no type.
+	 */
 	public static boolean isQueryResultListAsContainer()
 	{
 		return "true".equals(System.getProperty(OSLC4JConstants.OSLC4J_QUERY_RESULT_LIST_AS_CONTAINER, "false"));
@@ -288,12 +288,12 @@ public class OSLC4JUtils {
 	 * matches the list of RDF types.
 	 * 
 	 * @param shape
-	 *            Resource Shape
+	 *			  Resource Shape
 	 * @param rdfTypesList
-	 *            List of rdf:types
+	 *			  List of rdf:types
 	 *
 	 * @return True if the ResourceShape type is in the list of rdf:types,
-	 *         otherwise returns false.
+	 *		   otherwise returns false.
 	 */
 	private static boolean doesResourceShapeMatchRdfTypes(final ResourceShape shape,
 														  final HashSet<String> rdfTypesList)
@@ -323,13 +323,13 @@ public class OSLC4JUtils {
 	 * 
 	 * @param rdfTypesList
 	 * @param propertyQName
-	 *            Property information
+	 *			  Property information
 	 * @param originalValue
-	 *            Property value
+	 *			  Property value
 	 * @return Java object related to the Resource Shape type.
 	 * @throws DatatypeConfigurationException
-	 *             , IllegalArgumentException, InstantiationException,
-	 *             InvocationTargetException
+	 *			   , IllegalArgumentException, InstantiationException,
+	 *			   InvocationTargetException
 	 on 
 	 * 
 	 */
@@ -340,7 +340,7 @@ public class OSLC4JUtils {
 				   IllegalArgumentException,
 				   InstantiationException,
 				   InvocationTargetException
-    {
+	{
 		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != propertyQName && null != originalValue)
 		{
 			try {
@@ -396,18 +396,18 @@ public class OSLC4JUtils {
 											
 											// special treatment for Boolean
 											if (objClass.getCanonicalName().equals(Boolean.class.getCanonicalName())) {
-					                            // XML supports both 'true' and '1' for a true Boolean.
-					                            // Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
-					                            if ((Boolean.TRUE.toString().equals(originalValue.toString())) || ("1".equals(originalValue.toString()))) {
-					                               return Boolean.TRUE;
-					                            }
-					                            // XML supports both 'false' and '0' for a false Boolean.
-					                            else if ((Boolean.FALSE.toString().equals(originalValue.toString())) || ("0".equals(originalValue.toString()))) {
-					                            	return Boolean.FALSE;
-					                            }
-					                            else {
-					                                throw new IllegalArgumentException("'" + originalValue.toString() + "' has wrong format for Boolean.");
-					                            }
+												// XML supports both 'true' and '1' for a true Boolean.
+												// Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
+												if ((Boolean.TRUE.toString().equals(originalValue.toString())) || ("1".equals(originalValue.toString()))) {
+												   return Boolean.TRUE;
+												}
+												// XML supports both 'false' and '0' for a false Boolean.
+												else if ((Boolean.FALSE.toString().equals(originalValue.toString())) || ("0".equals(originalValue.toString()))) {
+													return Boolean.FALSE;
+												}
+												else {
+													throw new IllegalArgumentException("'" + originalValue.toString() + "' has wrong format for Boolean.");
+												}
 											}
 											
 											// special treatment for double
@@ -422,13 +422,13 @@ public class OSLC4JUtils {
 											Constructor<?> cons = objClass.getConstructor(String.class);
 											return cons.newInstance(originalValue.toString());
 										} catch (IllegalArgumentException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
 										} catch (InvocationTargetException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
 										} catch (DatatypeFormatException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :  e.getMessage();
+											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
 											throw new IllegalArgumentException(errorMessage, e);
 										}
 									}
@@ -453,7 +453,7 @@ public class OSLC4JUtils {
 		}
 
 		return null;
-    }
+	}
 	
 	/**
 	 * This method receives the property name and the property value and tries
@@ -463,19 +463,19 @@ public class OSLC4JUtils {
 	 * 
 	 * @param rdfTypesList
 	 * @param propertyQName
-	 *            Property information
+	 *			  Property information
 	 * @param originalValue
-	 *            Property value
+	 *			  Property value
 	 * @return Java object related to the Resource Shape type.
 	 * @throws DatatypeConfigurationException
-	 *             , IllegalArgumentException, InstantiationException,
-	 *             InvocationTargetException
+	 *			   , IllegalArgumentException, InstantiationException,
+	 *			   InvocationTargetException
 	 on 
 	 * 
 	 */
 	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
 														  final Property property )
-    {
+	{
 		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != property )
 		{
 			try {
@@ -520,5 +520,5 @@ public class OSLC4JUtils {
 			}
 		}
 		return null;
-    }
+	}
 }

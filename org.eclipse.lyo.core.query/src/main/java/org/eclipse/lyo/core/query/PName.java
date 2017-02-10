@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Jim Conallen - initial API and implementation
+ *	  Jim Conallen - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-json4j-provider</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.2-SNAPSHOT</version>
     <name>OSLC4J JSON4J Provider</name>
     <description>JAX-RS provider for reading and writing OSLC 2.0 JSON content using the Eclipse Lyo OSLC4J SDK.</description>
     <scm>
@@ -12,6 +12,18 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <!-- Disable doclint for Java 1.8 (for now) -->
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.apache.wink</groupId>
@@ -21,7 +33,7 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
@@ -76,6 +88,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -11,14 +11,14 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
 
-import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.Tree;
 import org.eclipse.lyo.core.query.DecimalValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -27,37 +27,37 @@ import org.eclipse.lyo.core.query.Value.Type;
  */
 class DecimalValueInvocationHandler extends ValueInvocationHandler
 {
-    public
-    DecimalValueInvocationHandler(CommonTree tree)
-    {
-        super(tree, Type.DECIMAL);
-    }
+	public
+	DecimalValueInvocationHandler(Tree tree)
+	{
+		super(tree, Type.DECIMAL);
+	}
 
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object
-    invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        String methodName = method.getName();
-        boolean isValue = methodName.equals("value");
-        
-        if (! isValue &&
-            ! methodName.equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        if (value == null) {
-            value = tree.getText();
-        }
-        
-        return value;
-    }
-    
-    private String value = null;
+	/**
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object
+	invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		String methodName = method.getName();
+		boolean isValue = methodName.equals("value");
+		
+		if (! isValue &&
+			! methodName.equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		if (value == null) {
+			value = tree.getText();
+		}
+		
+		return value;
+	}
+	
+	private String value = null;
 }

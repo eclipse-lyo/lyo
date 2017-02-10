@@ -11,8 +11,8 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
- *    David Terry - 2.0 implementation
+ *	  Kevin Bauer - Initial implementation
+ *	  David Terry - 2.0 implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -37,8 +37,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
   trs:changeLog
-             [ a       trs:ChangeLog
-             ] .
+			 [ a	   trs:ChangeLog
+			 ] .
 }
 </pre>
 
@@ -47,7 +47,7 @@ JAX-RS implementations a way to generate the empty change log in the TRS
 resource's output. 
  */
 @OslcNamespace(TRS_NAMESPACE)
-@OslcResourceShape(title = "Change Log  Shape", describes = TRS_TYPE_CHANGE_LOG)
+@OslcResourceShape(title = "Change Log	Shape", describes = TRS_TYPE_CHANGE_LOG)
 @OslcName("ChangeLog")
 public class EmptyChangeLog extends AbstractChangeLog
 {

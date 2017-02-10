@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Daniel Figueiredo Caetano - initial implementation
+ *	   Daniel Figueiredo Caetano - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
@@ -48,7 +48,7 @@ import com.hp.hpl.jena.rdf.model.Model;
  */
 public class JenaCustomNamespaceTest {
 
-	private final String NAME_LOCAL_PART 		= "name";
+	private final String NAME_LOCAL_PART		= "name";
 	private final String DESCRIPTION_LOCAL_PART = "description";
 	
 	/**

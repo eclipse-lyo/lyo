@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Daniel Figueiredo Caetano - initial implementation
+ *	   Daniel Figueiredo Caetano - initial implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.oslc4j.core.test.customnamespace;

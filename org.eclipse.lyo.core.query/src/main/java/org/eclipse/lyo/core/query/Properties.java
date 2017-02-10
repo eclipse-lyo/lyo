@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query;
 
@@ -22,5 +22,5 @@ import java.util.List;
  */
 public interface Properties
 {
-    List<Property> children();
+	List<Property> children();
 }

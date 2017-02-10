@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.lyo.core.query;
@@ -22,15 +22,15 @@ package org.eclipse.lyo.core.query;
  */
 public interface Value
 {
-    enum Type
-    {
-        URI_REF,
-        BOOLEAN,
-        DECIMAL,
-        STRING,
-        TYPED_STRING,
-        LANGED_STRING;
-    }
-    
-    Type type();    
+	enum Type
+	{
+		URI_REF,
+		BOOLEAN,
+		DECIMAL,
+		STRING,
+		TYPED_STRING,
+		LANGED_STRING;
+	}
+	
+	Type type();	
 }

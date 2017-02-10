@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *    Steve Pitschke - initial API and implementation
+ *	  Steve Pitschke - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.query.impl;
 
@@ -25,26 +25,26 @@ import org.eclipse.lyo.core.query.Property.Type;
  */
 public class WildcardInvocationHandler extends PropertyInvocationHandler
 {
-    public
-    WildcardInvocationHandler()
-    {
-        super(null, Type.IDENTIFIER, null, true);
-    }
+	public
+	WildcardInvocationHandler()
+	{
+		super(null, Type.IDENTIFIER, null, true);
+	}
 
-    /**
-     * @see org.eclipse.lyo.core.query.impl.PropertiesInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
-    @Override
-    public Object invoke(
-        Object proxy,
-        Method method,
-        Object[] args
-    ) throws Throwable
-    {
-        if (! method.getName().equals("toString")) {
-            return super.invoke(proxy, method, args);
-        }
-        
-        return "*";
-    }
+	/**
+	 * @see org.eclipse.lyo.core.query.impl.PropertiesInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
+	@Override
+	public Object invoke(
+		Object proxy,
+		Method method,
+		Object[] args
+	) throws Throwable
+	{
+		if (! method.getName().equals("toString")) {
+			return super.invoke(proxy, method, args);
+		}
+		
+		return "*";
+	}
 }

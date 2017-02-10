@@ -11,10 +11,10 @@
  *
  * Contributors:
  *
- *     Paul Slauenwhite     - initial API and implementation
- *     Patrick Streule      - initial API and implementation
- *     Martin Aeschlimann   - initial API and implementation
- *     Sandeep Somavarapu   - initial API and implementation
+ *	   Paul Slauenwhite		- initial API and implementation
+ *	   Patrick Streule		- initial API and implementation
+ *	   Martin Aeschlimann	- initial API and implementation
+ *	   Sandeep Somavarapu	- initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.OutputStream;
@@ -70,14 +70,14 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * </li>
  * </ul> 
  * 
- *  
- * @author  Patrick Streule
- * @author  Paul Slauenwhite
- * @author  Martin Aeschlimann
- * @author  Sandeep Somavarapu
+ *	
+ * @author	Patrick Streule
+ * @author	Paul Slauenwhite
+ * @author	Martin Aeschlimann
+ * @author	Sandeep Somavarapu
  * @version 1.0
- * @since   1.0
- * @see     RDFWriter
+ * @since	1.0
+ * @see		RDFWriter
  */
 public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
@@ -89,7 +89,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	private RDFErrorHandler errorHandler = null;
 	
 	/**
-	 * <p>If <code>false</code>, an XML declaration is not included with the serialized RDF model.  
+	 * <p>If <code>false</code>, an XML declaration is not included with the serialized RDF model.	
 	 * If <code>true</code>, the XML declaration without the encoding is included with the serialized 
 	 * RDF model.  If not set (default) or <code>true</code> and the {@link java.io.OutputStreamWriter} uses an 
 	 * encoding other than UTF-8/UTF-16, the XML declaration with the encoding is included with the 
@@ -301,7 +301,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 				Property predicate = statement.getPredicate();
 
-		    	return ((!statement.isReified()) && (statement.getObject().isResource()) && (!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate)));
+				return ((!statement.isReified()) && (statement.getObject().isResource()) && (!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate)));
 			} 
 		};
 		
@@ -309,70 +309,70 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		List<Resource> objects = new ArrayList<Resource>();
 		ExtendedIterator<Statement> statementIterator = model.listStatements().filterKeep(filter);
 
-	    while (statementIterator.hasNext()) {
+		while (statementIterator.hasNext()) {
 
-	    	//Assumption: All statements have an URI or anonymous resource as the object. 
-	    	Statement stmt = statementIterator.next();
-	    	logger.finest("Added model object: " + stmt.getSubject().toString() + " " + stmt.getPredicate().toString() + " " + stmt.getObject().toString());
-	    	Resource resource =  stmt.getObject().asResource();
+			//Assumption: All statements have an URI or anonymous resource as the object. 
+			Statement stmt = statementIterator.next();
+			logger.finest("Added model object: " + stmt.getSubject().toString() + " " + stmt.getPredicate().toString() + " " + stmt.getObject().toString());
+			Resource resource =	 stmt.getObject().asResource();
 
-	    	//Maintain uniqueness:
-	    	if(!objects.contains(resource)) {
-	    		objects.add(resource);
-	    	}
-	    }
-	    
-	    //Resolve the proposed root resources of the model.  These include:
-	    //1. Resources not the object of any other statements
-	    //2. Other non-anonymous resources
-	    List<Resource> rootResources = new ArrayList<Resource>();
-	    statementIterator = model.listStatements();
+			//Maintain uniqueness:
+			if(!objects.contains(resource)) {
+				objects.add(resource);
+			}
+		}
+		
+		//Resolve the proposed root resources of the model.	 These include:
+		//1. Resources not the object of any other statements
+		//2. Other non-anonymous resources
+		List<Resource> rootResources = new ArrayList<Resource>();
+		statementIterator = model.listStatements();
 
-	    while (statementIterator.hasNext()) {
+		while (statementIterator.hasNext()) {
 
-	    	Resource subject = statementIterator.next().getSubject();
+			Resource subject = statementIterator.next().getSubject();
 
-	    	if( ! (objects.contains(subject) && subject.isAnon()) ){
+			if( ! (objects.contains(subject) && subject.isAnon()) ){
 
-	    		//Maintain uniqueness:
-	    		if(!rootResources.contains(subject)) {
-	    			rootResources.add(subject);
-	    			logger.finest("Added proposed root: " + subject.getURI());
-	    		}
-	    	}
-	    }
-	    
-	    //Test the candidate root resources to see if they are the objects of other root resource candidates.
-	    //If a candidate is the object of another root resource candidate, propose it for removal from root resources.
-	    //If all candidates are proposed for removal (i.e. fully cyclic graph), keep them all try to serialize.
-	    Set<Resource> removalCandidates = new HashSet<Resource>();
-	    Set<Resource> rootTestAgainst = new HashSet<Resource>();
-	    rootTestAgainst.addAll(rootResources);
-	    rootTestAgainst.addAll(objects);
+				//Maintain uniqueness:
+				if(!rootResources.contains(subject)) {
+					rootResources.add(subject);
+					logger.finest("Added proposed root: " + subject.getURI());
+				}
+			}
+		}
+		
+		//Test the candidate root resources to see if they are the objects of other root resource candidates.
+		//If a candidate is the object of another root resource candidate, propose it for removal from root resources.
+		//If all candidates are proposed for removal (i.e. fully cyclic graph), keep them all try to serialize.
+		Set<Resource> removalCandidates = new HashSet<Resource>();
+		Set<Resource> rootTestAgainst = new HashSet<Resource>();
+		rootTestAgainst.addAll(rootResources);
+		rootTestAgainst.addAll(objects);
 		for (Resource rootCandidate: rootResources) {
-		    if (logger.isLoggable(Level.FINEST)) {
-		        logger.finest("validating root candidate: " + rootCandidate.toString());
-		    }
+			if (logger.isLoggable(Level.FINEST)) {
+				logger.finest("validating root candidate: " + rootCandidate.toString());
+			}
 			for (Resource rootTest: rootTestAgainst){
-	            if (logger.isLoggable(Level.FINEST)) {
-	                logger.finest("testing against resource: " + rootTest.toString());
-	            }
-                if (!rootTest.equals(rootCandidate)) {
-                    boolean rootCandidateIsObject = model.listStatements(rootTest, null, rootCandidate).hasNext();
-                    if (rootCandidateIsObject) {
-                        boolean objectIsReification = model.listStatements(rootTest, RDF.type, RDF.Statement).hasNext();
-                        if (!objectIsReification) {
-                            // checks if there is a self cyclic reference for the resource.
-                            boolean isCyclic = isChild(model, new HashSet<Resource>(), rootCandidate, rootCandidate);
-                            if (!isCyclic) {
-                                removalCandidates.add(rootCandidate);
-                                if (logger.isLoggable(Level.FINEST)) {
-                                    logger.finest("removed: " + rootCandidate.toString());
-                                }
-                            }
-                        }
-                    }
-                }
+				if (logger.isLoggable(Level.FINEST)) {
+					logger.finest("testing against resource: " + rootTest.toString());
+				}
+				if (!rootTest.equals(rootCandidate)) {
+					boolean rootCandidateIsObject = model.listStatements(rootTest, null, rootCandidate).hasNext();
+					if (rootCandidateIsObject) {
+						boolean objectIsReification = model.listStatements(rootTest, RDF.type, RDF.Statement).hasNext();
+						if (!objectIsReification) {
+							// checks if there is a self cyclic reference for the resource.
+							boolean isCyclic = isChild(model, new HashSet<Resource>(), rootCandidate, rootCandidate);
+							if (!isCyclic) {
+								removalCandidates.add(rootCandidate);
+								if (logger.isLoggable(Level.FINEST)) {
+									logger.finest("removed: " + rootCandidate.toString());
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -445,54 +445,54 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		xmlWriter.end();
 	}
 	
-    /**
-     * Returns true if there is a path leading from <code>parent</code> to any
-     * of the resources in <code>children</code>.
-     * 
-     * @param model
-     *            model.
-     * @param visitedResources
-     *            resource already visited during the search.
-     * @param parent
-     *            parent resource.
-     * @param children
-     *            children resources.
-     * @return true if there is a path.
-     */
-    private boolean isChild(Model model, Set<Resource> visitedResources, Resource parent, Resource... children) {
-        boolean isChild = false;
-        List<Resource> newChildren = new ArrayList<Resource>();
-        outer: for (Resource child : children) 
-        {
-            visitedResources.add(child);
-            List<Statement> list = model.listStatements(null, null, child).toList();
-            for (Statement stat : list) 
-            {
-                RDFNode subject = stat.getSubject();
-                if (subject.isResource()) 
-                {
-                    Resource subjectAsResource = subject.asResource();
-                    if (subject.equals(parent)) 
-                    {
-                        isChild = true;
-                        break outer;
-                    } 
-                    else {
-                        if (!visitedResources.contains(subjectAsResource)) 
-                        {
-                            newChildren.add(subjectAsResource);
-                        }
-                    }
-                }
-            }
-        }
-        if (!isChild && newChildren.size() > 0) 
-        {
-            Resource[] childrenResources = new Resource[newChildren.size()];
-            isChild = isChild(model, visitedResources, parent, (Resource[]) newChildren.toArray(childrenResources));
-        }
-        return isChild;
-    }
+	/**
+	 * Returns true if there is a path leading from <code>parent</code> to any
+	 * of the resources in <code>children</code>.
+	 * 
+	 * @param model
+	 *			  model.
+	 * @param visitedResources
+	 *			  resource already visited during the search.
+	 * @param parent
+	 *			  parent resource.
+	 * @param children
+	 *			  children resources.
+	 * @return true if there is a path.
+	 */
+	private boolean isChild(Model model, Set<Resource> visitedResources, Resource parent, Resource... children) {
+		boolean isChild = false;
+		List<Resource> newChildren = new ArrayList<Resource>();
+		outer: for (Resource child : children) 
+		{
+			visitedResources.add(child);
+			List<Statement> list = model.listStatements(null, null, child).toList();
+			for (Statement stat : list) 
+			{
+				RDFNode subject = stat.getSubject();
+				if (subject.isResource()) 
+				{
+					Resource subjectAsResource = subject.asResource();
+					if (subject.equals(parent)) 
+					{
+						isChild = true;
+						break outer;
+					} 
+					else {
+						if (!visitedResources.contains(subjectAsResource)) 
+						{
+							newChildren.add(subjectAsResource);
+						}
+					}
+				}
+			}
+		}
+		if (!isChild && newChildren.size() > 0) 
+		{
+			Resource[] childrenResources = new Resource[newChildren.size()];
+			isChild = isChild(model, visitedResources, parent, (Resource[]) newChildren.toArray(childrenResources));
+		}
+		return isChild;
+	}
 	
 	private void serializeStatements(Resource resource, XMLWriter xmlWriter, List<Resource> serializedResources, String rootResourceTypeURI){
 
@@ -516,17 +516,17 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 			if (object.isResource()) {
 				
-			    Resource resource = object.asResource();
-			    
-			    if(RDF.type.equals(predicate)) {
-			        String resourceType = resource.getURI();
-			        if(resourceType.equals(rootResourceTypeURI)) {
-			            
-			            // Resource type has already been serialized. Skipping it
-			            return;
-			        }
-			    }
-			    
+				Resource resource = object.asResource();
+				
+				if(RDF.type.equals(predicate)) {
+					String resourceType = resource.getURI();
+					if(resourceType.equals(rootResourceTypeURI)) {
+						
+						// Resource type has already been serialized. Skipping it
+						return;
+					}
+				}
+				
 				xmlWriter.startTag(predicate.getNameSpace(), predicate.getLocalName(), true);
 								
 				if (statement.isReified()) {
@@ -549,7 +549,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 								
 				if ((predicate.isAnon()) && (predicate.getProperty(RDF.type) == null)) {
 					xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_PARSE_TYPE, RDF_CONSTANT_RESOURCE);					
-				} 				
+				}				
 
 				StmtIterator statementIterator = model.listStatements(resource, null, ((RDFNode)(null)));
 				Statement firstResourceStatement = null;
@@ -568,9 +568,9 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 					String resourceNameSpace = RDF.getURI();
 					String resourceName = RDF_ELEMENT_DESCRIPTION;
-	                
-	                Statement resourceType = resource.getProperty(RDF.type);
-	                String nestedResourceTypeURI = null;	                
+					
+					Statement resourceType = resource.getProperty(RDF.type);
+					String nestedResourceTypeURI = null;					
 					if (resourceType != null) {
 
 						Resource resourceTypeResource = ((Resource)(resourceType.getObject()));
@@ -665,13 +665,13 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	 * <li>Indentation using tabs.</li>
 	 * </ul> 
 	 * 
-	 *  
-	 * @author  Patrick Streule
-	 * @author  Paul Slauenwhite
-	 * @author  Martin Aeschlimann
-	 * @author  Sandeep Somavarapu
+	 *	
+	 * @author	Patrick Streule
+	 * @author	Paul Slauenwhite
+	 * @author	Martin Aeschlimann
+	 * @author	Sandeep Somavarapu
 	 * @version 1.0
-	 * @since   1.0
+	 * @since	1.0
 	 */
 	private class XMLWriter {
 
@@ -707,27 +707,27 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			int unknownNamespacePrefixCounter = 0;
 			ExtendedIterator<Statement> statementIterator = model.listStatements();
 
-		    while (statementIterator.hasNext()) {
+			while (statementIterator.hasNext()) {
 
-		    	Statement statement = statementIterator.next();
-		    	Property predicate = statement.getPredicate();
+				Statement statement = statementIterator.next();
+				Property predicate = statement.getPredicate();
 
-		    	if ((!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate))){
+				if ((!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate))){
 
-		    		String namespace = null;
-		    		
-		    		if(RDF.type.equals(predicate)){
-		    			namespace = statement.getObject().asResource().getNameSpace();
-		    		}
-		    		else{
-		    			namespace = predicate.getNameSpace();
-		    		}	
-		    		
-	    			if(!namespaceMap.containsKey(namespace)){
-	    				namespaceMap.put(namespace, "j." + (unknownNamespacePrefixCounter++)); //$NON-NLS-1$
-	    			}
-		    	}
-		    }
+					String namespace = null;
+					
+					if(RDF.type.equals(predicate)){
+						namespace = statement.getObject().asResource().getNameSpace();
+					}
+					else{
+						namespace = predicate.getNameSpace();
+					}	
+					
+					if(!namespaceMap.containsKey(namespace)){
+						namespaceMap.put(namespace, "j." + (unknownNamespacePrefixCounter++)); //$NON-NLS-1$
+					}
+				}
+			}
 
 			this.indent = indent;
 			this.tab = tab;

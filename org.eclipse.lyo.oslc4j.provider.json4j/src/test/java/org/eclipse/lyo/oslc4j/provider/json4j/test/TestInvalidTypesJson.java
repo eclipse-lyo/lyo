@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial API and implementation
+ *	   Samuel Padgett - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.json4j.test;
 
@@ -28,23 +28,23 @@ import org.junit.Test;
 public class TestInvalidTypesJson
 {
 	@Test(expected = WebApplicationException.class)
-    public void testInvalidJavaAboutRelativeURI()
-           throws IOException,
-                  URISyntaxException
-    {
-        final TestResource relativeUri = new TestResource();
+	public void testInvalidJavaAboutRelativeURI()
+		   throws IOException,
+				  URISyntaxException
+	{
+		final TestResource relativeUri = new TestResource();
 
-        relativeUri.setAbout(new URI("relative"));
+		relativeUri.setAbout(new URI("relative"));
 
-        final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
+		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 
-        oslcRdfJsonProvider.writeTo(relativeUri,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null);
+		oslcRdfJsonProvider.writeTo(relativeUri,
+									null,
+									null,
+									null,
+									null,
+									null,
+									null);
 
-    }
+	}
 }

@@ -11,7 +11,7 @@
  * 
  * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
+ *	  Kevin Bauer - Initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -42,8 +42,8 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
   a trs:TrackedResourceSet ;
   trs:base <http://cm1.example.com/baseResources> ;
   trs:changeLog [
-    a trs:ChangeLog ; 
-    trs:changes  ...  .
+	a trs:ChangeLog ; 
+	trs:changes	 ...  .
   ] .
 }
 </pre>

@@ -3,12 +3,24 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-wink</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.2-SNAPSHOT</version>
     <name>OSLC4J Wink Application</name>
     <description>OSLC4J Wink application for supporting OSLC resource shapes and service provider registration.</description>
     <scm>
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
+    <!-- Disable doclint for Java 1.8 (for now) -->
+    <profiles>
+        <profile>
+            <id>doclint-java8-disable</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.apache.wink</groupId>
@@ -51,7 +63,7 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -98,6 +110,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

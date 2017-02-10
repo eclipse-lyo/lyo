@@ -11,8 +11,8 @@
  * 
  * * Contributors:
  * 
- *    Kevin Bauer - Initial implementation
- *    David Terry - TRS 2.0 compliant implementation
+ *	  Kevin Bauer - Initial implementation
+ *	  David Terry - TRS 2.0 compliant implementation
  *******************************************************************************/
 package org.eclipse.lyo.core.trs;
 
@@ -50,14 +50,14 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * 
  * {@code
  * <https://.../baseResources>
- *  a ldp:Container;
- *  trs:cutoffEvent <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> ;
- *  rdfs:member <http://cm1.example.com/bugs/1> ;
- *  rdfs:member <http://cm1.example.com/bugs/2> ;
- *  rdfs:member <http://cm1.example.com/bugs/3> ;
- *  ...
- *  rdfs:member <http://cm1.example.com/bugs/199> ;
- *  rdfs:member <http://cm1.example.com/bugs/200> .
+ *	a ldp:Container;
+ *	trs:cutoffEvent <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> ;
+ *	rdfs:member <http://cm1.example.com/bugs/1> ;
+ *	rdfs:member <http://cm1.example.com/bugs/2> ;
+ *	rdfs:member <http://cm1.example.com/bugs/3> ;
+ *	...
+ *	rdfs:member <http://cm1.example.com/bugs/199> ;
+ *	rdfs:member <http://cm1.example.com/bugs/200> .
  * }
  * </pre>
  * 
@@ -73,9 +73,9 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * <pre>
  * {@code
  * <https://.../baseResources/page1>
- *   a ldp:Page;
- *   ldp:pageOf <https://.../baseResource>;
- *   ldp:nextPage <https://../baseResources/page2> .
+ *	 a ldp:Page;
+ *	 ldp:pageOf <https://.../baseResource>;
+ *	 ldp:nextPage <https://../baseResources/page2> .
  * }
  * </pre>
  * 

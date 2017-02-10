@@ -11,7 +11,7 @@
  *
  * Contributors:
  *
- *     Samuel Padgett - initial implementation
+ *	   Samuel Padgett - initial implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test.resources;
 

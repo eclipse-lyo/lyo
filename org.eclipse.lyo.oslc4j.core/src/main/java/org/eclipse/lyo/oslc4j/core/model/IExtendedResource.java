@@ -1,17 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2012 IBM Corporation.
  *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
- *  Contributors:
- *  
- *     Samuel Padgett - initial API and implementation
+ *	All rights reserved. This program and the accompanying materials
+ *	are made available under the terms of the Eclipse Public License v1.0
+ *	and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *	
+ *	The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ *	and the Eclipse Distribution License is available at
+ *	http://www.eclipse.org/org/documents/edl-v10.php.
+ *	
+ *	Contributors:
+ *	
+ *	   Samuel Padgett - initial API and implementation
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -34,42 +34,42 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
  */
 public interface IExtendedResource extends IResource
 {
-    /**
-     * Gets the RDF types of this resource. These types will be added to the
-     * serialization of the resource in addition to the
-     * {@link OslcResourceShape#describes()} annotation.
-     * 
-     * @return the collection of types
-     */
-    public Collection<URI> getTypes();
+	/**
+	 * Gets the RDF types of this resource. These types will be added to the
+	 * serialization of the resource in addition to the
+	 * {@link OslcResourceShape#describes()} annotation.
+	 * 
+	 * @return the collection of types
+	 */
+	public Collection<URI> getTypes();
 
-    /**
-     * Sets the RDF types of this resource. These types will be added to the
-     * serialization of the resource in addition to the
-     * {@link OslcResourceShape#describes()} annotation.
-     * 
-     * @param types
-     *            the collection of types
-     */
-    public void setTypes(final Collection<URI> types);
+	/**
+	 * Sets the RDF types of this resource. These types will be added to the
+	 * serialization of the resource in addition to the
+	 * {@link OslcResourceShape#describes()} annotation.
+	 * 
+	 * @param types
+	 *			  the collection of types
+	 */
+	public void setTypes(final Collection<URI> types);
 
-    /**
-     * Adds an RDF type to this resource. These types will be added to the
-     * serialization of the resource in addition to the
-     * {@link OslcResourceShape#describes()} annotation.
-     * 
-     * @param type
-     *            the type URI
-     */
-    public void addType(final URI type);
+	/**
+	 * Adds an RDF type to this resource. These types will be added to the
+	 * serialization of the resource in addition to the
+	 * {@link OslcResourceShape#describes()} annotation.
+	 * 
+	 * @param type
+	 *			  the type URI
+	 */
+	public void addType(final URI type);
 
 	/**
 	 * Sets extended properties not defined in the bean.
 	 * 
 	 * @param properties
-	 *            a map of properties where the key is the predicate qualified
-	 *            name and the value is the object of the statement. Values are
-	 *            collections if there are multiple statements for a predicate.
+	 *			  a map of properties where the key is the predicate qualified
+	 *			  name and the value is the object of the statement. Values are
+	 *			  collections if there are multiple statements for a predicate.
 	 */
 	public void setExtendedProperties(Map<QName, Object> properties);
 	
@@ -77,8 +77,8 @@ public interface IExtendedResource extends IResource
 	 * Gets back the list of extended properties not defined in this bean.
 	 * 
 	 * @return the extended properties, a map of properties where the key is the
-	 *         predicate qualified name and the value is the object of the
-	 *         statement
+	 *		   predicate qualified name and the value is the object of the
+	 *		   statement
 	 */
 	public Map<QName, Object> getExtendedProperties();
 }
