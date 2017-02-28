@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -59,7 +59,7 @@ public final class TestPlan
     protected URI getRdfType() {
     	return URI.create(QmConstants.TYPE_TEST_PLAN);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -89,7 +89,7 @@ public final class TestPlan
     {
         this.validatesRequirementCollections.add(requirementCollection);
     }
-    
+
     @OslcDescription("The person(s) who are responsible for the work needed to complete the change request.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
@@ -150,7 +150,7 @@ public final class TestPlan
     {
         return usesTestCases.toArray(new Link[usesTestCases.size()]);
     }
- 
+
     @OslcDescription("Requirement Collection that is validated by the Test Plan.")
     @OslcName("validatesRequirementCollection")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "validatesRequirementCollection")

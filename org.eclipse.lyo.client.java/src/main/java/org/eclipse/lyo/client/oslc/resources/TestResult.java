@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -47,7 +47,7 @@ public final class TestResult
     private Link     executesTestScript;
     private Link     reportsOnTestCase;
     private Link     reportsOnTestPlan;
-    private Link     producedByTestExecutionRecord;    
+    private Link     producedByTestExecutionRecord;
     private String   status;
 
     public TestResult()
@@ -58,7 +58,7 @@ public final class TestResult
     protected URI getRdfType() {
     	return URI.create(QmConstants.TYPE_TEST_RESULT);
     }
-    
+
     public void addAffectedByChangeRequest(final Link affectingChangeRequest)
     {
         this.affectedByChangeRequests.add(affectingChangeRequest);
@@ -74,7 +74,7 @@ public final class TestResult
     {
         return affectedByChangeRequests.toArray(new Link[affectedByChangeRequests.size()]);
     }
-    
+
     @OslcDescription("Test Plan that the Test Result reports on.")
     @OslcName("reportsOnTestPlan")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "reportsOnTestPlan")
@@ -85,7 +85,7 @@ public final class TestResult
     {
         return reportsOnTestPlan;
     }
-    
+
     @OslcDescription("Test Case that the Test Result reports on.")
     @OslcName("reportsOnTestCase")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "reportsOnTestCase")
@@ -96,7 +96,7 @@ public final class TestResult
     {
         return reportsOnTestCase;
     }
-    
+
     @OslcDescription("Test Script executed to produce the Test Result.")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "executesTestScript")
     @OslcTitle("Executes Test Script")
@@ -104,7 +104,7 @@ public final class TestResult
     {
         return executesTestScript;
     }
-    
+
     @OslcDescription("Test Execution Record that the Test Result was produced by.")
     @OslcName("producedByTestExecutionRecord")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "producedByTestExecutionRecord")
@@ -115,7 +115,7 @@ public final class TestResult
     {
         return producedByTestExecutionRecord;
     }
-    
+
     @OslcDescription("Used to indicate the state of the Test Result based on values defined by the service provider.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "status")
@@ -125,7 +125,7 @@ public final class TestResult
     {
         return status;
     }
-    
+
     public void setAffectedByChangeRequests(final Link[] affectedByChangeRequests)
     {
         this.affectedByChangeRequests.clear();
@@ -135,30 +135,30 @@ public final class TestResult
             this.affectedByChangeRequests.addAll(Arrays.asList(affectedByChangeRequests));
         }
     }
-    
+
     public void setReportsOnTestPlan(final Link reportsOnTestPlan)
     {
         this.reportsOnTestPlan = reportsOnTestPlan;
     }
-    
+
     public void setReportsOnTestCase(final Link reportsOnTestCase)
     {
         this.reportsOnTestCase = reportsOnTestCase;
     }
-    
+
     public void setProducedByTestExecutionRecord(final Link producedByTestExecutionRecord)
     {
         this.producedByTestExecutionRecord = producedByTestExecutionRecord;
     }
-    
+
     public void setExecutesTestScript(final Link executesTestScript)
     {
         this.executesTestScript = executesTestScript;
     }
-    
+
     public void setStatus(final String status)
     {
         this.status = status;
     }
-    
+
 }

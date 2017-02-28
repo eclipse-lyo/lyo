@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -52,7 +52,7 @@ extends AbstractResource
     private final Set<String>   subjects                    = new TreeSet<String>();
     private final Set<URI>      states                      = new TreeSet<URI>();
     private final Set<ParameterInstance> inputParameters    = new TreeSet<ParameterInstance>();
-    
+
     private Date     created;
     private String   description;
     private String   identifier;
@@ -66,10 +66,10 @@ extends AbstractResource
 	public AutomationRequest()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(AutomationConstants.TYPE_AUTOMATION_REQUEST));
 	}
-	
+
     public AutomationRequest(final URI about)
      {
          super(about);
@@ -80,7 +80,7 @@ extends AbstractResource
     protected URI getRdfType() {
     	return URI.create(AutomationConstants.TYPE_AUTOMATION_REQUEST);
     }
-    
+
     public void addContributor(final URI contributor)
     {
         this.contributors.add(contributor);
@@ -90,7 +90,7 @@ extends AbstractResource
     {
         this.creators.add(creator);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
@@ -105,12 +105,12 @@ extends AbstractResource
     {
         this.states.add(state);
     }
-    
+
     public void addInputParameter(final ParameterInstance parameter)
     {
         this.inputParameters.add(parameter);
     }
-    
+
     @OslcDescription("The person(s) who are responsible for the work needed to complete the automation request.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
@@ -210,7 +210,7 @@ extends AbstractResource
     {
         return desiredState;
     }
-    
+
     @OslcDescription("Automation Plan run by the Automation Request.")
     @OslcPropertyDefinition(AutomationConstants.AUTOMATION_NAMESPACE + "executesAutomationPlan")
     @OslcName("executesAutomationPlan")
@@ -220,7 +220,7 @@ extends AbstractResource
     {
         return executesAutomationPlan;
     }
-    
+
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcName("subject")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "subject")
@@ -240,7 +240,7 @@ extends AbstractResource
     {
         return title;
     }
-    
+
     @OslcDescription("Used to indicate the state of the automation request based on values defined by the service provider.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcReadOnly(true)
@@ -259,7 +259,7 @@ extends AbstractResource
         return states.toArray(new URI[states.size()]);
     }
 
-    
+
     @OslcDescription("Parameters provided when Automation Requests are created.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcName("inputParameter")
@@ -305,7 +305,7 @@ extends AbstractResource
     {
         this.identifier = identifier;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;
@@ -340,7 +340,7 @@ extends AbstractResource
     {
         this.executesAutomationPlan = executesAutomationPlan;
     }
-    
+
     public void setSubjects(final String[] subjects)
     {
         this.subjects.clear();
@@ -365,7 +365,7 @@ extends AbstractResource
             this.states.addAll(Arrays.asList(states));
         }
     }
-    
+
     public void setInputParameters(final ParameterInstance[] parameters)
     {
         this.inputParameters.clear();

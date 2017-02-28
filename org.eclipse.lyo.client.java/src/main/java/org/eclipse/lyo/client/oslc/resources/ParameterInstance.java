@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -43,7 +43,7 @@ public final class ParameterInstance
 extends AbstractResource implements Comparable<ParameterInstance>
 {
     private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
-    
+
     private String   name;
     private String   value;
     private String   description;
@@ -53,10 +53,10 @@ extends AbstractResource implements Comparable<ParameterInstance>
 	public ParameterInstance()
 	{
 		super();
-		
+
 		rdfTypes.add(URI.create(AutomationConstants.TYPE_PARAMETER_INSTANCE));
 	}
-	
+
     public ParameterInstance(final URI about)
     {
          super(about);
@@ -67,7 +67,7 @@ extends AbstractResource implements Comparable<ParameterInstance>
     protected URI getRdfType() {
     	return URI.create(AutomationConstants.TYPE_PARAMETER_INSTANCE);
     }
-    
+
     public void addRdfType(final URI rdfType)
     {
         this.rdfTypes.add(rdfType);
@@ -99,7 +99,7 @@ extends AbstractResource implements Comparable<ParameterInstance>
     {
         return value;
     }
-    
+
     @OslcDescription("Resource Shape that provides hints as to resource property value-types and allowed values. ")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "instanceShape")
     @OslcRange(OslcConstants.TYPE_RESOURCE_SHAPE)
@@ -136,12 +136,12 @@ extends AbstractResource implements Comparable<ParameterInstance>
     {
         this.name = name;
     }
-    
+
     public void setValue(final String value)
     {
         this.value = value;
     }
-    
+
     public void setInstanceShape(final URI instanceShape)
     {
         this.instanceShape = instanceShape;
