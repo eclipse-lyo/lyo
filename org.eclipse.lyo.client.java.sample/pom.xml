@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.samples.clients</groupId>
     <artifactId>oslc-java-samples</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.2-SNAPSHOT</version>
     <name>org.eclipse.lyo.samples.clients</name>
     <repositories>
         <repository>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-java-client</artifactId>
-            <version>[2.1.0,)</version>
+            <version>2.1.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
