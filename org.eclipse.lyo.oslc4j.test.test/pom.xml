@@ -3,10 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
     <artifactId>oslc4j-test-test</artifactId>
+    <version>2.1.2-SNAPSHOT</version>
     <name>OSLC4J Test Application (Tests)</name>
     <scm>
         <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
     </scm>
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -44,5 +51,4 @@
             <version>3.1-b33</version>
         </dependency>
     </dependencies>
-    <version>2.1.2-SNAPSHOT</version>
 </project>
