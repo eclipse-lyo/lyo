@@ -11,6 +11,9 @@
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <oauth.version>20100527</oauth.version>
         <oauth-httpclient.version>20090913</oauth-httpclient.version>
         <httpcore.version>4.4.5</httpcore.version>
@@ -27,9 +30,18 @@
             <activation>
                 <jdk>[1.8,)</jdk>
             </activation>
-            <properties>
-                <javadoc.opts>-Xdoclint:none</javadoc.opts>
-            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     <dependencies>
@@ -128,12 +140,6 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-            </plugin>
-
             <!-- Source Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -148,8 +154,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <!-- Javadoc Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -161,13 +165,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <additionalparam>${javadoc.opts}</additionalparam>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <!-- Surefire Plugin (JUnit) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
