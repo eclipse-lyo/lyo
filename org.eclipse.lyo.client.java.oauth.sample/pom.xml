@@ -14,13 +14,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>oauth</id>
-			<url>http://oauth.googlecode.com/svn/code/maven</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -34,4 +27,23 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>lyo-releases</id>
+			<name>Eclipse Lyo Releases</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>lyo-snapshots</id>
+			<name>Eclipse Lyo Snapshots</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>
