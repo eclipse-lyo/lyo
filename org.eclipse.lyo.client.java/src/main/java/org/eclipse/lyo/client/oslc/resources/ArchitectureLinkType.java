@@ -36,6 +36,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 @OslcResourceShape(title = "Architecture Management LinkType Resource Shape", describes = ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE)
 @OslcNamespace(ArchitectureConstants.ARCHITECTURE_NAMESPACE)
+@OslcName(ArchitectureConstants.ARCHITECTURE_LINK_TYPE)
 /**
  * @see http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/
  */
