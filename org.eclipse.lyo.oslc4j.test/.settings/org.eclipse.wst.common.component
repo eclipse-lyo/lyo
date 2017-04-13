@@ -2,19 +2,19 @@
     <wb-module deploy-name="oslc4j-test">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <dependent-module archiveName="oslc4j-core-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.core/org.eclipse.lyo.oslc4j.core">
+        <dependent-module archiveName="oslc4j-core-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.core/org.eclipse.lyo.oslc4j.core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="oslc4j-wink-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.wink/org.eclipse.lyo.oslc4j.wink">
+        <dependent-module archiveName="oslc4j-wink-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.wink/org.eclipse.lyo.oslc4j.wink">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="oslc4j-json4j-provider-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.provider.json4j/org.eclipse.lyo.oslc4j.provider.json4j">
+        <dependent-module archiveName="oslc4j-json4j-provider-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.provider.json4j/org.eclipse.lyo.oslc4j.provider.json4j">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="oslc4j-jena-provider-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.provider.jena/org.eclipse.lyo.oslc4j.provider.jena">
+        <dependent-module archiveName="oslc4j-jena-provider-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.provider.jena/org.eclipse.lyo.oslc4j.provider.jena">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="oslc4j-test-common-3.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.test.common/org.eclipse.lyo.oslc4j.test.common">
+        <dependent-module archiveName="oslc4j-test-common-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/org.eclipse.lyo.oslc4j.test.common/org.eclipse.lyo.oslc4j.test.common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/OSLC4JTest/WebContent/WEB-INF/classes"/>
