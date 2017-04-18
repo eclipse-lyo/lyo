@@ -241,6 +241,22 @@ public class [javaClassNameForAdaptorManager(anAdaptorInterface) /] {
         return eTag;
     }
     [/for]
+
+    [comment creationFactories that need to handle more than 1 resource need a special ETag method. See the method calls from the ServiceProvider Services classes./]
+    [for (aService: Service | anAdaptorInterface.serviceProviders().services)]
+    [for (aCreationFactory: CreationFactory | aService.creationFactories)]
+    [if (aCreationFactory.resourceTypes->size() > 1 )]
+    public static String [getResourceETagMethodName(aCreationFactory.resourceTypes)/](final [creationMethodResourceType(aCreationFactory)/] aResource)
+    {
+        String eTag = null;
+        // [protected (getResourceETagMethodName(aCreationFactory.resourceTypes))]
+        // TODO Implement code to return an ETag for a particular resource
+        // [/protected]
+        return eTag;
+    }
+    [/if]
+    [/for]
+    [/for]
 }
 [/file]
 [/template]
