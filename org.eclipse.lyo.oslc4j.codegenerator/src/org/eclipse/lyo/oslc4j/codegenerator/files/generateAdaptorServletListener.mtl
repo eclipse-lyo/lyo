@@ -51,12 +51,14 @@
 
 package [javaClassPackageNameForAdaptorServletListener(anAdaptorInterface) /];
 
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 
 import [javaClassFullNameForAdaptorManager(anAdaptorInterface) /];
 
@@ -87,6 +89,11 @@ public class [javaClassNameForAdaptorServletListener(anAdaptorInterface) /] impl
         String basePath = generateBasePath(servletContextEvent);
         servletBase = basePath;
         servicesBase = basePath + SERVICES_PATH;
+        try {
+            OSLC4JUtils.setPublicURI(servicesBase);
+        } catch (MalformedURLException e) {
+            logger.log(Level.SEVERE, "servletListner encountered MalformedURLException.", e);
+        }
 
         logger.log(Level.INFO, "servletListner contextInitialized.");
 
