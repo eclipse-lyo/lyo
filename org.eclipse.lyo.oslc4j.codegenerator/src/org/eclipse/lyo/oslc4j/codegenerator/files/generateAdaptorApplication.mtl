@@ -90,6 +90,7 @@ import [javaClassFullNameForService(anAdaptorInterface.serviceProviderCatalog) /
 [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders()->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
 import [javaClassFullNameForService(aServiceProvider)/];
 [/for]
+import [javaClassFullNameForResourceShapeService(anAdaptorInterface) /];
 
 [for (aResource: Resource | relevantResources(anAdaptorInterface)->sortedBy(name)) separator(lineSeparator())]import [javaClassFullName(aResource, anAdaptorInterface) /];[/for]
 import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
@@ -98,10 +99,19 @@ import [javaInterfaceFullNameForAdaptorConstants(anAdaptorInterface) /];
 // [protected ('imports')]
 // [/protected]
 
+// [protected ('pre_class_code')]
+// [/protected]
+
 public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends OslcWinkApplication {
 
     private static final Set<Class<?>>         RESOURCE_CLASSES                          = new HashSet<Class<?>>();
     private static final Map<String, Class<?>> RESOURCE_SHAPE_PATH_TO_RESOURCE_CLASS_MAP = new HashMap<String, Class<?>>();
+
+    // [protected ('class_attributes')]
+    // [/protected]
+
+    // [protected ('class_methods')]
+    // [/protected]
 
     static
     {
@@ -125,6 +135,7 @@ public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends 
             [for (aServiceProvider: ServiceProvider | anAdaptorInterface.serviceProviders()->sortedBy(x: ServiceProvider | javaClassFullNameForService(x)))]
             RESOURCE_CLASSES.add([javaClassNameForService(aServiceProvider)/].class);
             [/for]
+            RESOURCE_CLASSES.add([javaClassNameForResourceShapeService(anAdaptorInterface)/].class);
 
             // [protected ('Custom Resource Classes')]
             // [/protected]
@@ -163,6 +174,10 @@ public class [javaClassNameForAdaptorApplication(anAdaptorInterface) /] extends 
         super(RESOURCE_CLASSES,
               OslcConstants.PATH_RESOURCE_SHAPES,
               RESOURCE_SHAPE_PATH_TO_RESOURCE_CLASS_MAP);
+    }
+
+    public static Map<String, Class<?>> getResourceShapePathToResourceClassMap() {
+        return RESOURCE_SHAPE_PATH_TO_RESOURCE_CLASS_MAP;
     }
 }
 [/file]

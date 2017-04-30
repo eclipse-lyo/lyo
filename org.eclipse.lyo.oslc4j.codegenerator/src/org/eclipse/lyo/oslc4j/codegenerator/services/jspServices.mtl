@@ -67,6 +67,13 @@ jspFilesWebappPath(anAdaptorInterface).concatenatePaths('creationDialogSampleCli
 jspFilesBasePath(anAdaptorInterface).concatenatePaths(resourceCreatorClientJspRelativeFileName(anAdaptorInterface))
 /]
 
+[query public resourceShapeJspRelativeFileName(anAdaptorInterface : AdaptorInterface) : String = 
+jspFilesWebappPath(anAdaptorInterface).concatenatePaths('resourceShape').concat('.jsp').toLower()
+/]
+
+[query public resourceShapeJspFullFileName(anAdaptorInterface : AdaptorInterface) : String = 
+jspFilesBasePath(anAdaptorInterface).concatenatePaths(resourceShapeJspRelativeFileName(anAdaptorInterface))
+/]
 
 [query public resourceSelectorResultsJspRelativeFileName(aSelectionDialog: Dialog) : String = 
 jspFilesWebappPath(containingAdaptorInterface(aSelectionDialog)).concatenatePaths(concatenate(aSelectionDialog.resourceTypes.javaName(true)->sep('', 'And', '').oclAsType(String))).concat('selectorResults').concat('.jsp').toLower()

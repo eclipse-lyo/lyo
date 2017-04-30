@@ -163,6 +163,23 @@ javaClassPackageNameForAdaptorManager(anAdaptorInterface).concat('.').concat(jav
 javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForAdaptorManager(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForAdaptorManager(anAdaptorInterface)).concat('.java')
 /]
 
+[comment Services for ResourceShapeService /]
+[query public javaClassPackageNameForResourceShapeService(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassBaseNamespace(anAdaptorInterface).concat('.services')
+/]
+
+[query public javaClassNameForResourceShapeService(anAdaptorInterface : AdaptorInterface) : String = 
+'ResourceShapeService'
+/]
+
+[query public javaClassFullNameForResourceShapeService(anAdaptorInterface : AdaptorInterface) : String = 
+javaClassPackageNameForResourceShapeService(anAdaptorInterface).concat('.').concat(javaClassNameForResourceShapeService(anAdaptorInterface))
+/]
+
+[query public javaClassFullFileNameForResourceShapeService(anAdaptorInterface : AdaptorInterface) : String = 
+javaFilesBasePath(anAdaptorInterface).concatenatePaths(javaClassPackageNameForResourceShapeService(anAdaptorInterface).substituteAll('.', '/')).concat('/').concat(javaClassNameForResourceShapeService(anAdaptorInterface)).concat('.java')
+/]
+
 [comment Services for AdaptorConstants /]
 [query public javaInterfacePackageNameForAdaptorConstants(anAdaptorInterface : AdaptorInterface) : String = 
 javaClassBaseNamespace(anAdaptorInterface)

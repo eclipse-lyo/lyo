@@ -52,8 +52,10 @@
 [import org::eclipse::lyo::oslc4j::codegenerator::jsp::generateServiceProviderHTML/]
 [import org::eclipse::lyo::oslc4j::codegenerator::jsp::generateDelegatedUIJavaScripts/]
 [import org::eclipse::lyo::oslc4j::codegenerator::jsp::generateIndexJsp/]
+[import org::eclipse::lyo::oslc4j::codegenerator::jsp::generateResourceShapeJsp/]
 
 [import org::eclipse::lyo::oslc4j::codegenerator::files::generateAdaptorClient/]
+[import org::eclipse::lyo::oslc4j::codegenerator::files::generateResourceShapeService/]
 
 [template public generateForAdaptorManager(anAdaptorInterface : AdaptorInterface)]
 [anAdaptorInterface.generateLicenseFiles() /]
@@ -66,6 +68,8 @@
 [anAdaptorInterface.generateDelegatedUIJavaScripts() /]
 [anAdaptorInterface.generateResourceSelectorClientJsp() /]
 [anAdaptorInterface.generateResourceCreatorClientJsp() /]
+[anAdaptorInterface.generateResourceShapeService() /]
+[anAdaptorInterface.generateResourceShapeJsp() /]
 [/template]
 
 [template public generateForServiceProviderCatalog(anAdaptorInterface : AdaptorInterface)]
