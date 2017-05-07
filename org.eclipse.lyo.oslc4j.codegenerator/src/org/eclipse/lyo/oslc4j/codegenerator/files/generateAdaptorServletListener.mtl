@@ -90,7 +90,7 @@ public class [javaClassNameForAdaptorServletListener(anAdaptorInterface) /] impl
         servletBase = basePath;
         servicesBase = basePath + SERVICES_PATH;
         try {
-            OSLC4JUtils.setPublicURI(servicesBase);
+            OSLC4JUtils.setPublicURI(servletBase);
         } catch (MalformedURLException e) {
             logger.log(Level.SEVERE, "servletListner encountered MalformedURLException.", e);
         }
