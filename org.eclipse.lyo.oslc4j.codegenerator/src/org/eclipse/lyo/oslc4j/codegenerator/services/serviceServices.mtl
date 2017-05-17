@@ -53,7 +53,7 @@ javaClassBaseNamespace(containingAdaptorInterface(aService)).concat('.services')
 /]
 
 [query public javaClassName(aService: Service) : String = 
-(concatenate(servicedResources(aService).javaName(true)->sep('', 'And', '').oclAsType(String))).toUpperFirst()
+(concatenate(servicedResources(aService)->sortedBy(name).javaName(true)->sep('', 'And', '').oclAsType(String))).toUpperFirst()
 .concat('Service')
 /]
 

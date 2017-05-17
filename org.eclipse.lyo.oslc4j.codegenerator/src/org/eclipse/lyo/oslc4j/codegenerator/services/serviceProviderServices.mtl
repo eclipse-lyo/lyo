@@ -33,6 +33,11 @@ You should also question any other use of "eContainer" in this whole project /]
 aServiceProvider.eContainer(AdaptorInterface)
 /]
 
+[comment 
+If there is only 1 SP in the project, just call it 'ServiceProvider. Most projects would most likely have 1 SP, so we make the naming simple.
+If there are more than 1 SP, we try to use the 'serviceNamespace' given in the model as part of the name - when available.
+If no such 'serviceNamespace' is available, we simply name it ServiceProvider_i , where i is the position of the SP in the ordered list of SPs under the SPC. 
+/]
 [query public javaName(aServiceProvider : ServiceProvider, toUpperFirst : Boolean) : String = 
 let name : String = 
 	(if (containingAdaptorInterface(aServiceProvider).serviceProviderCatalog.serviceProviders->size() = 1) then
@@ -41,8 +46,8 @@ let name : String =
 		(if (not aServiceProvider.serviceNamespace.oclIsUndefined())._and(not aServiceProvider.serviceNamespace.equalsIgnoreCase('')) then
 		    javaString(aServiceProvider.serviceNamespace, true).concat('ServiceProvider')
 		else
-			concatenate(aServiceProvider.servicedResources().javaName(true)->sep('', 'And', '').oclAsType(String))
-			.concat('ServiceProvider')
+			'ServiceProvider'
+			.concat(containingAdaptorInterface(aServiceProvider).serviceProviderCatalog.serviceProviders->indexOf(aServiceProvider).toString())
 		endif)
 	endif)
 in 
