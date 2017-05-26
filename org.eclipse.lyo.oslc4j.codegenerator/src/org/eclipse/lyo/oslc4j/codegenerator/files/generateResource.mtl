@@ -481,10 +481,15 @@ public String [javaAttributeName(aProperty, aResource) /]ToHtml()
                 [if (aProperty.range->size() = 1)]
                     [comment Even if it is a Link, there are cases where I actually know that the link should point to a particular resource class.
                     (For example, for valueType = Resource, we get a Link irrespective of whether the valueType is set to a specific resource or not. ) /]
-        s = s + (new [javaClassName(aProperty.range->first()) /] ([javaAttributeName(aProperty, aResource)/].getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+        if (([javaAttributeName(aProperty, aResource)/] == null) || ([javaAttributeName(aProperty, aResource)/].getValue() == null)) {
+            s = s + "<em>null</em>";
+        }
+        else {
+            s = s + (new [javaClassName(aProperty.range->first()) /] ([javaAttributeName(aProperty, aResource)/].getValue())).toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+        }
                 [else]
                     [comment just print the Link's URI as a String /]
-        if ([javaAttributeName(aProperty, aResource)/].getValue() == null) {
+        if (([javaAttributeName(aProperty, aResource)/] == null) || ([javaAttributeName(aProperty, aResource)/].getValue() == null)) {
             s = s + "<em>null</em>";
         }
         else {
@@ -493,7 +498,12 @@ public String [javaAttributeName(aProperty, aResource) /]ToHtml()
                 [/if]
             [else]
                 [comment the attribute refers to direct Resource class, and hence can simply call toHtml() on /]
-        s = s + [javaAttributeName(aProperty, aResource)/].toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+        if ([javaAttributeName(aProperty, aResource)/] == null) {
+            s = s + "<em>null</em>";
+        }
+        else {
+            s = s + [javaAttributeName(aProperty, aResource)/].toHtml([if (aProperty.valueType.toString() = 'LocalResource')]true[else]false[/if]);
+        }
             [/if]
         [/if]
     [/if]
