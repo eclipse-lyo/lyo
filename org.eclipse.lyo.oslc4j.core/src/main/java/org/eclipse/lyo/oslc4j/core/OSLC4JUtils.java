@@ -48,15 +48,27 @@ import com.hp.hpl.jena.rdf.model.Property;
 
 
 public class OSLC4JUtils {
+
+	/**
+	 * An OslcWinkApplication should set the value of publicURI to the base URI of the servlet,
+	 * which consists of the hostname, (including the port number), plus the servlet ContextPath.
+	 * Typical URI would be similar to "localhost:8080/adaptor-webapp".
+	 * After setting the publicURI, the servletPath of the application should also be set.
+	 * Typical servlet path value would be similar to "/services".
+	 * This would result in a servletURI which is a concatenation of the baseURI and its servletPath.
+	 * (localhost:8080/adaptor-webapp/services)
+	 */
 	private static String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
-	
+	private static String servletPath = "/services";
+	private static String servletURI = null;
+
 	/**
 	 * This constant should be set to true for matching the resource rdf:type to
 	 * the describes parameter of the OslcResourceShape annotation. By default
 	 * this is set to false. This is part of the fix for defect 412755.
 	 */
 	private static String useBeanClassForParsing = System.getProperty(OSLC4JConstants.OSLC4J_USE_BEAN_CLASS_FOR_PARSING);
-	
+
 	/**
 	 * This constant should be set to true when the property type is not
 	 * explicitly passed and it should be inferred from the resource shape. By
@@ -97,11 +109,50 @@ public class OSLC4JUtils {
 		if (newPublicURI != null && !newPublicURI.isEmpty())
 		{
 			//test for valid URL - exception will be thrown if invalid
-			URL newPublicURL = new URL(newPublicURI);			
+			URL newPublicURL = new URL(newPublicURI);
 		}
 		publicURI = newPublicURI;
 	}
-	
+
+	/**
+	 * Return the servlet path value.
+	 *
+	 * @return Servlet Path, or its default "services/" if not set.
+	 */
+	public static String getServletPath()
+	{
+		return servletPath;
+	}
+
+	 /**
+	 * Sets the value of the servlet path.
+	 * This method also sets the resulting value of the servletURI (combining the publicURI with the servlet path)
+	 * It hence assumes that the publicURI is already set as desired.
+	 */
+	public static void setServletPath(String newServletPath)
+	{
+		if (newServletPath != null && !newServletPath.isEmpty())
+		{
+			//test for valid URL - exception will be thrown if invalid
+			URI testServletURI = UriBuilder.fromUri(getPublicURI()).path(newServletPath).build();
+			servletPath = newServletPath;
+			servletURI = testServletURI.toString();
+		}
+		else {
+            throw new IllegalArgumentException("no valid ServletPath provided");
+		}
+	}
+
+	/**
+	 * Return the public URI including the servlet path. Typically, this would
+	 * be something like "localhost:8080/adaptor-webapp/services",
+	 * whereas the publicURI would typically be the base "localhost:8080/adaptor-webapp"
+	 */
+	public static String getServletURI()
+	{
+		return servletURI;
+	}
+
 	public static boolean useBeanClassForParsing() {
 		boolean result = false;
 		if (null != useBeanClassForParsing) {
@@ -109,8 +160,8 @@ public class OSLC4JUtils {
 		}
 		return result;
 	}
-	
-	public static String getUseBeanClassForParsing() {		
+
+	public static String getUseBeanClassForParsing() {
 		return useBeanClassForParsing;
 	}
 

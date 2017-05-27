@@ -144,7 +144,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import [javaClassFullNameForAdaptorServletListener(contextAdaptorInterface) /];
 import [javaInterfaceFullNameForAdaptorConstants(contextAdaptorInterface) /];
 [for (aProperty: ResourceProperty | allProperties(aResource)->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]
@@ -228,7 +227,7 @@ public [javaClassName(aResource)/]([commaSeparate(aResource.instanceMethodSignat
 
 public static URI constructURI[methodSuffix/]([commaSeparate(aResource.instanceMethodSignature(aBasicCapability, false), false, false)/])
 {
-    String basePath = [javaClassNameForAdaptorServletListener(contextAdaptorInterface) /].getServicesBase();
+    String basePath = OSLC4JUtils.getServletURI();
     Map<String, Object> pathParameters = new HashMap<String, Object>();
     [for (instanceCompositeID: String | aResource.instanceCompositeID(aBasicCapability))]
     pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
@@ -254,8 +253,8 @@ public static Link constructLink[methodSuffix/]([commaSeparate(aResource.instanc
 
 [template public generateResourceShapeMethods(aResource : Resource, contextAdaptorInterface : AdaptorInterface)]
 public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-    return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getPublicURI(), 
-    OslcConstants.PATH_RESOURCE_SHAPES, 
+    return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+    OslcConstants.PATH_RESOURCE_SHAPES,
     [javaInterfaceNameForAdaptorConstants(contextAdaptorInterface) /].[resourcePathConstantName(aResource)/],  
     [javaClassName(aResource) /].class);
 }

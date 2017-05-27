@@ -97,7 +97,6 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import [javaClassFullNameForAdaptorServletListener(contextAdaptorInterface) /];
 import [javaInterfaceFullNameForAdaptorConstants(contextAdaptorInterface) /];
 [for (aProperty: ResourceProperty | allProperties(aResource)->sortedBy(name))]
 [if(Sequence{'Resource', 'LocalResource'}->includes(aProperty.valueType.toString())) ]

@@ -55,7 +55,7 @@
 [for (aResource: Resource | aSelectionDialog.resourceTypes)]
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
 [/for]
-<%@page import="[javaClassFullNameForAdaptorServletListener(anAdaptorInterface) /]"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
 <%--
 [protected ('imports')]
 --%>
@@ -87,7 +87,7 @@
     <%--
     [/protected]
     --%>
-    <script type="text/javascript" src="<%=[javaClassNameForAdaptorServletListener(anAdaptorInterface) /].getServletBase() %>/[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface) /]"></script>
+    <script type="text/javascript" src="<%=OSLC4JUtils.getServletURI()%>/[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface) /]"></script>
   </head>
   [comment TODO: make a more powerfull/flexible search form, by allowing user to entry values on each resource property, and not just "summary" as is expected here./]
   <body style="padding: 10px;">
