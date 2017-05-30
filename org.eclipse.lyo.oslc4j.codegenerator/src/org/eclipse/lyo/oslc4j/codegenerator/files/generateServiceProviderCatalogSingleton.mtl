@@ -80,6 +80,7 @@ import org.eclipse.lyo.oslc4j.core.model.Publisher;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 
 import [javaClassFullNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /];
 [for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
@@ -116,7 +117,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
     static
     {
         serviceProviderCatalog = new ServiceProviderCatalog();
-        URI catalogUri = UriBuilder.fromUri(ServletListener.getServicesBase()).path("/catalog/singleton").build();
+        URI catalogUri = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/catalog/singleton").build();
         serviceProviderCatalog.setAbout(catalogUri);
         serviceProviderCatalog.setTitle("[aServiceProviderCatalog.title /]");
         serviceProviderCatalog.setDescription("[aServiceProviderCatalog.description /]");
@@ -156,7 +157,7 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
 
     private static URI construct[aServiceProvider.javaName(true)/]URI([aServiceProvider.instanceMethodSignature() /])
     {
-        String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
+        String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         [for (instanceCompositeID: String | aServiceProvider.instanceCompositeID()) separator(lineSeparator())]
         pathParameters.put("[instanceCompositeID /]", [instanceCompositeID /]);
@@ -312,9 +313,9 @@ public class [javaClassNameForSingleton(aServiceProviderCatalog) /]
             // [protected ('initServiceProviders')]
             // [/protected]
 
-            String basePath = [javaClassNameForAdaptorServletListener(containingAdaptorInterface(aServiceProviderCatalog)) /].getServicesBase();
+            String basePath = OSLC4JUtils.getServletURI();
             [for (aServiceProvider: ServiceProvider | aServiceProviderCatalog.serviceProviders)]
-            
+
             [javaClassName(aServiceProvider) /] [ '[' ']' /] [javaClassName(aServiceProvider).toLowerFirst()/]s = [javaClassNameForAdaptorManager(containingAdaptorInterface(aServiceProviderCatalog)) /].get[aServiceProvider.javaClassName()/]s(httpServletRequest);
             //Register each service provider
             for ([javaClassName(aServiceProvider) /] serviceProviderInfo : [javaClassName(aServiceProvider).toLowerFirst()/]s) {
