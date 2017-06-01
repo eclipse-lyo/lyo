@@ -16,6 +16,13 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
+import com.hp.hpl.jena.datatypes.DatatypeFormatException;
+import com.hp.hpl.jena.datatypes.RDFDatatype;
+import com.hp.hpl.jena.datatypes.TypeMapper;
+import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
+import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
+import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
+import com.hp.hpl.jena.rdf.model.Property;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -28,23 +35,13 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
-
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
-
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
-import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
-import com.hp.hpl.jena.rdf.model.Property;
 
 
 public class OSLC4JUtils {
@@ -59,7 +56,7 @@ public class OSLC4JUtils {
 	 * (localhost:8080/adaptor-webapp/services)
 	 */
 	private static String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
-	private static String servletPath = "/services";
+	private static String servletPath = null;
 	private static String servletURI = null;
 
 	/**
@@ -83,7 +80,7 @@ public class OSLC4JUtils {
 	 * the property inferTypeFromShape is set to true. This is part of the the
 	 * fix for defect 412789.
 	 */
-	private static List<ResourceShape> shapes = new ArrayList<ResourceShape>();
+	private static List<ResourceShape> shapes = new ArrayList<>();
 	
 	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
@@ -124,23 +121,57 @@ public class OSLC4JUtils {
 		return servletPath;
 	}
 
-	 /**
-	 * Sets the value of the servlet path.
-	 * This method also sets the resulting value of the servletURI (combining the publicURI with the servlet path)
-	 * It hence assumes that the publicURI is already set as desired.
+	/**
+	 * Resolve a URI (usually a resource subject or info URI) based on the settings of
+	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
+	 *
+	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
+	 *
+	 * If the disableHostResolution property is false or not set, resolution of the local hostname
+	 * is attempted.
+	 *
+	 * If the disableHostResolution property is true or resolution has failed, the hostname is
+	 * retrieved from the request.
+	 *
+	 * Query parameters from the request are not copied to the resolved URI.
+	 *
+	 * @param request - request to base resolved URI on
+	 * @param includePath - if the path (after the context root) should be included in the
+	 * resolved URI
+	 * @return String containing the resolved URI
+	 * @deprecated Use {@link #resolveFullUri(HttpServletRequest)} instead.
 	 */
-	public static void setServletPath(String newServletPath)
-	{
-		if (newServletPath != null && !newServletPath.isEmpty())
-		{
-			//test for valid URL - exception will be thrown if invalid
-			URI testServletURI = UriBuilder.fromUri(getPublicURI()).path(newServletPath).build();
-			servletPath = newServletPath;
-			servletURI = testServletURI.toString();
+	@Deprecated
+	public static String resolveURI(HttpServletRequest request, boolean includePath) {
+		UriBuilder builder;
+
+		final String pathInfo = request.getPathInfo();
+		final String servletPath = request.getServletPath();
+		final String configuredPublicURI = getPublicURI();
+
+		if (configuredPublicURI != null && !configuredPublicURI.isEmpty()) {
+			//public URI configured, use it - it includes the context
+			String uriToBuild = configuredPublicURI;
+			if (includePath) {
+				uriToBuild = configuredPublicURI + "/" + servletPath + pathInfo;
+			}
+			builder = UriBuilder.fromUri(uriToBuild); //Normalize later
+		} else {
+			final String hostname = guessHostname(request);
+
+			String contextPath = request.getContextPath();
+			String pathToBuild = contextPath;
+			if (includePath) {
+				pathToBuild = contextPath + servletPath + pathInfo;
+			}
+			builder = UriBuilder.fromPath(pathToBuild)
+					.scheme(request.getScheme())
+					.host(hostname)
+					.port(request.getServerPort());
 		}
-		else {
-            throw new IllegalArgumentException("no valid ServletPath provided");
-		}
+
+		URI resolvedURI = builder.build().normalize();
+		return resolvedURI.toString();
 	}
 
 	/**
@@ -230,84 +261,144 @@ public class OSLC4JUtils {
 	{
 		System.setProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, Boolean.toString(hostResDisabled));
 	}
-	
-	
+
 	/**
-	 * Resolve a URI (usually a resource subject or info URI) based on the settings of
+	 * Resolve a full request URI (usually a resource subject or info URI) based on the settings of
 	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
-	 * 
+	 *
 	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
-	 * 
-	 * If the disableHostResolution property is false or not set, resolution of the local hostname is attempted.
-	 * 
-	 * If the disableHostResolution property is true or resolution has failed, the hostname is retrieved from the request.
-	 * 
+	 *
+	 * If the servletPath property is set, it takes precedence and is used to build the full URI.
+	 *
+	 * If the disableHostResolution property is false or not set, resolution of the local hostname
+	 * is attempted.
+	 *
+	 * If the disableHostResolution property is true or resolution has failed, the hostname is
+	 * retrieved from the request.
+	 *
 	 * Query parameters from the request are not copied to the resolved URI.
-	 * 
 	 * @param request - request to base resolved URI on
-	 * @param includePath - if the path (after the context root) should be included in the resolved URI
 	 * @return String containing the resolved URI
 	 */
-	public static String resolveURI(HttpServletRequest request, boolean includePath)
-	{
-		UriBuilder builder = null;
+	public static String resolveFullUri(HttpServletRequest request) {
+		final UriBuilder servletUriBuilder = servletUriBuilderFrom(request);
 
-		final String pathInfo	 = request.getPathInfo();
-		final String servletPath = request.getServletPath();
-		final String configuredPublicURI = getPublicURI();
-	   
-		//public URI configured, use it - it includes the context
-		if (configuredPublicURI != null && !configuredPublicURI.isEmpty())
-		{
-			String uriToBuild = includePath ? (configuredPublicURI + "/" + servletPath + pathInfo) : configuredPublicURI;
-			builder = UriBuilder.fromUri(uriToBuild); //Normalize later
-		}
-		else
-		{
-			String hostName = "localhost";
-		   
-			//try host resolution first if property to disable it is false or not set
-			boolean getHostNameFromRequest = false;
-		   
-			if (isHostResolutionDisabled())
-			{
-			   getHostNameFromRequest = true;
-			}
-			else
-			{
-				try 
-				{
-					hostName = InetAddress.getLocalHost().getCanonicalHostName();
-				}
-				catch (UnknownHostException e)
-				{
-					//fallback is to use the hostname from request
-					logger.finer("Unable to resolve hostname.  Extracting hostname from request.");
-					getHostNameFromRequest = true;
-				}
-			}
-		   
-			if (getHostNameFromRequest)
-			{
-				hostName = request.getServerName();
-			}
+		final String pathInfo = request.getPathInfo();
+		final UriBuilder publicUriBuilder = servletUriBuilder.path(pathInfo);
 
-			String contextPath	 = request.getContextPath();
-			String pathToBuild	 = includePath ? (contextPath + servletPath + pathInfo) : contextPath; 
-			builder = UriBuilder.fromPath(pathToBuild)
-								.scheme(request.getScheme())
-								.host(hostName)
-								.port(request.getServerPort());			   
-		}
-		   
-	   
-	   
-		URI resolvedURI = builder.build().normalize();
-	   
+		URI resolvedURI = publicUriBuilder.build().normalize();
 		return resolvedURI.toString();
-
 	}
-	
+
+	/**
+	 * Resolve a servlet URI based on the settings of
+	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
+	 *
+	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
+	 *
+	 * If the servletPath property is set, it takes precedence and is used to build the full URI.
+	 *
+	 * If the disableHostResolution property is false or not set, resolution of the local hostname
+	 * is attempted.
+	 *
+	 * If the disableHostResolution property is true or resolution has failed, the hostname is
+	 * retrieved from the request.
+	 *
+	 * Query parameters from the request are not copied to the resolved URI.
+	 * @param request - request to base resolved URI on
+	 * @return String containing the resolved URI
+	 */
+	public static String resolveServletUri(HttpServletRequest request) {
+		final UriBuilder servletUriBuilder = servletUriBuilderFrom(request);
+
+		URI resolvedURI = servletUriBuilder.build().normalize();
+		return resolvedURI.toString();
+	}
+
+	/**
+	 * Sets the value of the servlet path.
+	 *
+	 * This method also sets the resulting value of the servletURI (combining the publicURI with
+	 * the servlet path). This requires publicURI to be configured beforehand.
+	 *
+	 * @param newServletPath New servlet path to set or NULL to reset it.
+	 */
+	public static void setServletPath(String newServletPath) {
+		if (newServletPath != null && !newServletPath.isEmpty()) {
+			//test for valid URL - exception will be thrown if invalid
+			URI testServletURI = servletUriBuilderFrom(getPublicURI(), newServletPath).build();
+			servletPath = newServletPath;
+			servletURI = testServletURI.toString();
+		} else {
+			servletPath = null;
+			servletURI = null;
+		}
+	}
+
+	private static UriBuilder servletUriBuilderFrom(final HttpServletRequest request) {
+		final String publicUri = getOrConstructPublicUriBase(request);
+		final String servletPath;
+		if (getServletPath() != null) {
+			servletPath = getServletPath();
+		} else {
+			servletPath = request.getServletPath();
+		}
+
+		return servletUriBuilderFrom(publicUri, servletPath);
+	}
+
+	private static UriBuilder servletUriBuilderFrom(final String publicUri,
+			final String servletPath) {
+		return UriBuilder.fromUri(publicUri).path(servletPath);
+	}
+
+	private static String getOrConstructPublicUriBase(final HttpServletRequest request) {
+		String publicUri = getPublicURI();
+		if (publicUri == null || publicUri.isEmpty()) {
+			final String scheme = request.getScheme();
+			final String hostName = guessHostname(request);
+			final int serverPort = request.getServerPort();
+			final String contextPath = request.getContextPath();
+			publicUri = constructPublicUriBase(scheme, hostName, serverPort, contextPath);
+		}
+		return publicUri;
+	}
+
+	private static String constructPublicUriBase(final String scheme, final String hostName,
+			final int serverPort, final String contextPath) {
+		return UriBuilder.fromPath(contextPath)
+				.scheme(scheme)
+				.host(hostName)
+				.port(serverPort)
+				.build()
+				.normalize()
+				.toString();
+	}
+
+	private static String guessHostname(final HttpServletRequest request) {
+		String hostName = "localhost";
+
+		//try host resolution first if property to disable it is false or not set
+		boolean getHostNameFromRequest = false;
+
+		if (isHostResolutionDisabled()) {
+			getHostNameFromRequest = true;
+		} else {
+			try {
+				hostName = InetAddress.getLocalHost().getCanonicalHostName();
+			} catch (UnknownHostException e) {
+				//fallback is to use the hostname from request
+				logger.finer("Unable to resolve hostname.  Extracting hostname from request.");
+				getHostNameFromRequest = true;
+			}
+		}
+
+		if (getHostNameFromRequest) {
+			hostName = request.getServerName();
+		}
+		return hostName;
+	}
+
 	/**
 	 * Returns the boolean value of org.eclipse.lyo.oslc4j.disableRelativeURIs
 	 * Default is true if not set or invalid (relative URIs will not be allowed)

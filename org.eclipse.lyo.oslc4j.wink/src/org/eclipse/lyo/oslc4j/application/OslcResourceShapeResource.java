@@ -20,7 +20,6 @@ package org.eclipse.lyo.oslc4j.application;
 
 import java.net.URISyntaxException;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -29,7 +28,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-
 import org.apache.wink.common.AbstractDynamicResource;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -73,22 +71,18 @@ public class OslcResourceShapeResource
 
 	@GET
 	@Path("{resourceShapePath}")
-	@Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
-	public ResourceShape getResourceShape(@Context						  final HttpServletRequest httpServletRequest,
-										  @PathParam("resourceShapePath") final String			   resourceShapePath)
-		   throws OslcCoreApplicationException,
-				  URISyntaxException
-	{
-		final String baseURI = OSLC4JUtils.resolveURI(httpServletRequest,false);
-
+	@Produces(
+			{OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType
+					.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+	public ResourceShape getResourceShape(@Context final HttpServletRequest httpServletRequest,
+			@PathParam("resourceShapePath") final String resourceShapePath)
+			throws OslcCoreApplicationException, URISyntaxException {
 		final Class<?> resourceClass = resourcePathToResourceClassMap.get(resourceShapePath);
 
-		if (resourceClass != null)
-		{
-			return ResourceShapeFactory.createResourceShape(baseURI,
-															resourceShapesPath,
-															resourceShapePath,
-															resourceClass);
+		if (resourceClass != null) {
+			final String servletUri = OSLC4JUtils.resolveServletUri(httpServletRequest);
+			return ResourceShapeFactory.createResourceShape(servletUri, resourceShapesPath,
+					resourceShapePath, resourceClass);
 		}
 
 		throw new WebApplicationException(Response.Status.NOT_FOUND);
