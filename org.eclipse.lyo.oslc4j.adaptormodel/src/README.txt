@@ -1,1 +1,0 @@
-I need a src folder to avoid java errors in eclipse. But I have nothing to put it. and does not like empty folders. Hence the need for this README file.
