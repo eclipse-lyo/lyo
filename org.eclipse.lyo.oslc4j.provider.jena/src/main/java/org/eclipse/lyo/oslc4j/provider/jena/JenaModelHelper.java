@@ -1822,11 +1822,19 @@ public final class JenaModelHelper
 			   InvocationTargetException,
 			   OslcCoreApplicationException
 	{
+		if (object == null)
+		{
+			return;
+		}
 		final Class<? extends Object> objectClass = object.getClass();
 
 		RDFNode nestedNode = null;
 		final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
 		final Object value = (reifiedResource == null) ? object : reifiedResource.getValue();
+		if (value == null)
+		{
+			return;
+		}
 
 		if (value instanceof String)
 		{
