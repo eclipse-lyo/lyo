@@ -46,6 +46,8 @@ import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -144,8 +146,20 @@ public abstract class AbstractOslcRdfXmlProvider
 						   final ResponseInfo<?>				responseInfo)
 				throws WebApplicationException
 	{
-		final String serializationLanguage = getSerializationLanguage(baseMediaType);
- 
+		String serializationLanguage = getSerializationLanguage(baseMediaType);
+
+		// This is a special case to handle RDNG GET on a ServiceProvider resource.
+		// RDNG can only consume RDF/XML-ABBREV although its sometimes sends Accept=application/rdf+xml.
+		// The org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders system property is used
+		// to turn off this special case
+		if ((objects != null && objects[0] != null) &&
+			( objects[0] instanceof ServiceProviderCatalog || objects[0] instanceof ServiceProvider ) &&
+			serializationLanguage.equals(FileUtils.langXML) &&
+			"true".equals(System.getProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders"))) {
+			serializationLanguage = FileUtils.langXMLAbbrev;
+			logger.log(Level.INFO, "Using RDF/XML-ABBREV for ServiceProvider resources");
+		}
+
 		try
 		{
 			final Model model = JenaModelHelper.createJenaModel(descriptionURI,
