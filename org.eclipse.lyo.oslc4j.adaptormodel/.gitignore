@@ -1,2 +1,4 @@
 /bin
-/src
+!.project
+!.classpath
+!.settings/
