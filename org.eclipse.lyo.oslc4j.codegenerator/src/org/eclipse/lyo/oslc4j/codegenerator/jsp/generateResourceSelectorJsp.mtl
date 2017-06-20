@@ -56,7 +56,6 @@
 <%@page import="[javaClassFullName(aResource, anAdaptorInterface) /]"%>
 [/for]
 <%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
 <%--
 [protected ('imports')]
 --%>
@@ -88,7 +87,7 @@
     <%--
     [/protected]
     --%>
-    <script type="text/javascript" src="<%=UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface)/]").build().toString()%>"></script>
+    <script type="text/javascript" src="<%=OSLC4JUtils.getServletURI()%>/[delegatedUIJavaScriptsRelativeFileName(anAdaptorInterface) /]"></script>
   </head>
   [comment TODO: make a more powerfull/flexible search form, by allowing user to entry values on each resource property, and not just "summary" as is expected here./]
   <body style="padding: 10px;">
