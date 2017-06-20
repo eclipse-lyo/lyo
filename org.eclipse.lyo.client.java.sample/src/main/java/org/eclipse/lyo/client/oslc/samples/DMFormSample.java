@@ -175,9 +175,6 @@ public class DMFormSample {
 
 					}
 				}
-			} catch (java.lang.reflect.UndeclaredThrowableException e) {
-				// printing the exception causes an infinite loop if the resource is a folder, not oslc_am:Resource
-				logger.log(Level.SEVERE, "Unable to process artfiact at url: " + resultsUrl);
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Unable to process artfiact at url: " + resultsUrl, e);
 			}
