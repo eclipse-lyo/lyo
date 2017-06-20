@@ -127,7 +127,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 @OslcResourceShape(title = "Change Log	Shape", describes = TRS_TYPE_CHANGE_LOG)
 public class ChangeLog extends AbstractChangeLog
 {
-	private List<ChangeEvent> change;
+	private List<ChangeEvent> change = new ArrayList<>();
 	private URI previous;
 	
 	/**
@@ -138,9 +138,6 @@ public class ChangeLog extends AbstractChangeLog
 	@OslcPropertyDefinition(TRS_CHANGE)
 	@OslcTitle("Change")
 	public List<ChangeEvent> getChange() {
-		if(change == null){
-			change = new ArrayList<ChangeEvent>();
-		}
 		return change;
 	}
 	
@@ -148,6 +145,9 @@ public class ChangeLog extends AbstractChangeLog
 	 * @param change the changes to set
 	 */
 	public void setChange(List<ChangeEvent> change) {
+		if(change == null) {
+			throw new IllegalArgumentException("Change Event list must not be null");
+		}
 		this.change = change;
 	}
 
