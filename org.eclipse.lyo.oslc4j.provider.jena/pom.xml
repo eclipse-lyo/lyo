@@ -32,10 +32,6 @@
             <artifactId>xml-apis</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <exclusions>
@@ -50,14 +46,19 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
-            <version>2.7.1</version>
+            <version>2.13.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-iri</artifactId>
-            <version>0.9.2</version>
+            <version>0.9.4</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -138,7 +139,7 @@
             <dependency>
                 <groupId>org.apache.jena</groupId>
                 <artifactId>jena-iri</artifactId>
-                <version>0.9.2</version>
+                <version>0.9.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
