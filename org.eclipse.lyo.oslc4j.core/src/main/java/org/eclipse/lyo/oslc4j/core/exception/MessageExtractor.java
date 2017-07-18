@@ -15,6 +15,7 @@
  *	   Alberto Giammaria	- initial API and implementation
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
+ *	   Andrew Berezovskyi   - update logging to use SLF4J
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.exception;
 
@@ -22,13 +23,13 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageExtractor {
 
+	private final static Logger log = LoggerFactory.getLogger(MessageExtractor.class);
 	private static final String CLASS = MessageExtractor.class.getName();
-	private static final Logger logger = Logger.getLogger(CLASS);
 	private static final String BUNDLE_NAME = "messages/oslc4jcore";
 	private static ResourceBundle bundle = null;
 
@@ -50,12 +51,13 @@ public class MessageExtractor {
 				final String message = messages.getString( key );
 				return formatMessage(locale, message, args);
 			} catch ( final MissingResourceException missingResourceException ) {
-				logger.log(Level.SEVERE, missingResourceException.getMessage(), missingResourceException );
+				log.error("Resource {} is missing", key, missingResourceException);
 				return "???" + key + "???";
 			}
 		}
 
-		logger.log(Level.SEVERE, "missing resource: " + key);
+		log.error("Resource {} is missing (as well as message bundle for the locale {})", key,
+				locale);
 		return "???" + key + "???";
 	}
 

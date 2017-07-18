@@ -11,12 +11,13 @@
  *
  * Contributors:
  *
- *	   Russell Boykin		- initial API and implementation
- *	   Alberto Giammaria	- initial API and implementation
- *	   Chris Peters			- initial API and implementation
- *	   Gianluca Bernardini	- initial API and implementation
- *	   Michael Fiedler		- path parameter substitution
- *	   Samuel Padgett 		- resolve method path parameters for creation factories
+ *     Russell Boykin       - initial API and implementation
+ *     Alberto Giammaria    - initial API and implementation
+ *     Chris Peters         - initial API and implementation
+ *     Gianluca Bernardini  - initial API and implementation
+ *     Michael Fiedler      - path parameter substitution
+ *     Samuel Padgett       - resolve method path parameters for creation factories
+ *     Andrew Berezovskyi   - update logging to use SLF4J
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -27,8 +28,6 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -40,9 +39,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcQueryCapability;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ServiceProviderFactory {
-	private static final Logger logger = Logger.getLogger(ServiceProviderFactory.class.getName());
+	private final static Logger log = LoggerFactory.getLogger(ServiceProviderFactory.class);
 
 	private ServiceProviderFactory() {
 		super();
@@ -286,50 +287,34 @@ public final class ServiceProviderFactory {
 					(pathAnnotationStringValue(methodPathAnnotation)),
 					pathParameterValues);
 
-			try
-			{
+			try {
 				final String encodedParameter = URLEncoder.encode(parameter, "UTF-8");
-
 				uri += "?" + parameterName + "=" + encodedParameter;
-			}
-			catch (final UnsupportedEncodingException exception)
-			{
-				logger.log(Level.WARNING,
-						   "Error encoding URI [" +
-						   parameter +
-						   "]",
-						   exception);
+			} catch (final UnsupportedEncodingException exception) {
+				// TODO Andrew@2017-07-18: Rethrow an exception
+				log.warn("Error encoding URI [{}]", parameter, exception);
 			}
 
+			StringBuilder resourceShapeParameters = new StringBuilder();
 
-			String resourceShapeParameters = "";
+			if (resourceShapes != null) {
+				for (final String resourceShape : resourceShapes) {
+					final String resourceShapeURI = baseURI + '/' + resourceShape;
 
-			if (resourceShapes != null)
-			{
-				final int numResourceShapes = resourceShapes.length;
+					try {
+						final String encodedResourceShape = URLEncoder.encode(resourceShapeURI,
+								"UTF-8");
 
-				for (int index = 0; index < numResourceShapes; index++)
-				{
-					final String resourceShapeURI = baseURI + '/' + resourceShapes[index];
-
-					try
-					{
-						final String encodedResourceShape = URLEncoder.encode(resourceShapeURI, "UTF-8");
-
-						resourceShapeParameters += "&resourceShape=" + encodedResourceShape;
-					}
-					catch (final UnsupportedEncodingException exception)
-					{
-						logger.log(Level.WARNING,
-								   "Error encoding URI [" +
-								   resourceShapeURI +
-								   "]",
-								   exception);
+						resourceShapeParameters.append("&resourceShape=").append(
+								encodedResourceShape);
+					} catch (final UnsupportedEncodingException exception) {
+						// TODO Andrew@2017-07-18: Rethrow an exception
+						log.warn("Error encoding URI [{}]", resourceShapeURI, exception);
 					}
 				}
 			}
 
-			uri += resourceShapeParameters;
+			uri += resourceShapeParameters.toString();
 		}
 
 		Dialog dialog = new Dialog(title, new URI(uri).normalize());

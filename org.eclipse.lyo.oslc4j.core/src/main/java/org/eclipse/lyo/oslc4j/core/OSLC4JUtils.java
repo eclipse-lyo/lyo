@@ -11,8 +11,9 @@
  *
  * Contributors:
  *
- *	   Michael Fiedler		 - initial API and implementation
- *	   
+ *         Michael Fiedler      - initial API and implementation
+ *         Andrew Berezovskyi   - update logging to use SLF4J
+ *
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -42,9 +42,12 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OSLC4JUtils {
+
+	private final static Logger log = LoggerFactory.getLogger(OSLC4JUtils.class);
 
 	/**
 	 * An OslcWinkApplication should set the value of publicURI to the base URI of the servlet,
@@ -82,7 +85,6 @@ public class OSLC4JUtils {
 	 */
 	private static List<ResourceShape> shapes = new ArrayList<>();
 	
-	private static final Logger logger = Logger.getLogger(OSLC4JUtils.class.getName());
 	/**
 	 * Returns the value of org.eclipse.lyo.oslc4j.publicURI or null if not set.
 	 * 
@@ -99,14 +101,14 @@ public class OSLC4JUtils {
 	 * @param newPublicURI
 	 * 		The new public URI to use.
 	 */
-	@SuppressWarnings("unused")
-	public static void setPublicURI(String newPublicURI) throws MalformedURLException
+//	 @SuppressWarnings("unused")
+	public static void setPublicURI(final String newPublicURI) throws MalformedURLException
 	{
 
 		if (newPublicURI != null && !newPublicURI.isEmpty())
 		{
 			//test for valid URL - exception will be thrown if invalid
-			URL newPublicURL = new URL(newPublicURI);
+			new URL(newPublicURI);
 		}
 		publicURI = newPublicURI;
 	}
@@ -375,6 +377,8 @@ public class OSLC4JUtils {
 				.toString();
 	}
 
+	// TODO Andrew@2017-07-18: Avoid guessing anything and prefer configuration and/or convention
+	@Deprecated
 	private static String guessHostname(final HttpServletRequest request) {
 		String hostName = "localhost";
 
@@ -388,7 +392,7 @@ public class OSLC4JUtils {
 				hostName = InetAddress.getLocalHost().getCanonicalHostName();
 			} catch (UnknownHostException e) {
 				//fallback is to use the hostname from request
-				logger.finer("Unable to resolve hostname.  Extracting hostname from request.");
+				log.info("Unable to resolve hostname. Extracting hostname from request.");
 				getHostNameFromRequest = true;
 			}
 		}
@@ -477,127 +481,173 @@ public class OSLC4JUtils {
 	 * 
 	 */
 	public static Object getValueBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
-														  final QName propertyQName,
-														  final Object originalValue)
-			throws DatatypeConfigurationException,
-				   IllegalArgumentException,
-				   InstantiationException,
-				   InvocationTargetException
-	{
-		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != propertyQName && null != originalValue)
-		{
-			try {
-				// get the pre-defined list of ResourceShapes
-				List<ResourceShape> shapes = OSLC4JUtils.getShapes();
+			final QName propertyQName, final Object originalValue)
+			throws DatatypeConfigurationException, IllegalArgumentException,
+			InstantiationException,
+			InvocationTargetException {
+		if (null == rdfTypesList || rdfTypesList.isEmpty() || null == propertyQName || null ==
+				originalValue) {
+			return null;
+		}
+		try {
+			// get the pre-defined list of ResourceShapes
+			List<ResourceShape> shapes = OSLC4JUtils.getShapes();
 
-				if (null != shapes && !shapes.isEmpty()) {
-
-					// try to find the attribute type in the list of
-					// resource shapes
-					String propertyName = propertyQName.getNamespaceURI()
-							+ propertyQName.getLocalPart();
-
-					TypeMapper typeMapper = TypeMapper.getInstance();
-
-					for (ResourceShape shape : shapes) {
-
-						// ensure that the current resource shape matches the resource rdf:type
-						if (doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
-
-							org.eclipse.lyo.oslc4j.core.model.Property[] props = shape.getProperties();
-
-							for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
-								URI propDefinition = prop.getPropertyDefinition();
-
-								if (propertyName.equals(propDefinition.toString())) {
-									URI propValueType = prop.getValueType();
-
-									if (null == propValueType) {
-										continue;
-									}
-
-									RDFDatatype dataTypeFromShape = typeMapper.getTypeByName(propValueType.toString());
-
-									// this is a literal type
-									if (null != dataTypeFromShape) {
-										try {
-
-											// special treatment for XMLLiteral
-											if (XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString())) {
-												return new XMLLiteral(originalValue.toString());
-											}
-	
-											// special treatment for Date
-											Class<?> objClass = dataTypeFromShape.getJavaClass();
-											if (objClass.getCanonicalName().equals(XSDDateTime.class.getCanonicalName())) {
-												String dateStr = originalValue.toString();
-												Calendar calendar;
-												calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateStr).toGregorianCalendar();
-												final XSDDateTime xsdDateTime = new XSDDateTime(calendar);
-												return xsdDateTime.asCalendar().getTime();
-											}
-											
-											// special treatment for Boolean
-											if (objClass.getCanonicalName().equals(Boolean.class.getCanonicalName())) {
-												// XML supports both 'true' and '1' for a true Boolean.
-												// Cannot use Boolean.parseBoolean since it supports case-insensitive TRUE.
-												if ((Boolean.TRUE.toString().equals(originalValue.toString())) || ("1".equals(originalValue.toString()))) {
-												   return Boolean.TRUE;
-												}
-												// XML supports both 'false' and '0' for a false Boolean.
-												else if ((Boolean.FALSE.toString().equals(originalValue.toString())) || ("0".equals(originalValue.toString()))) {
-													return Boolean.FALSE;
-												}
-												else {
-													throw new IllegalArgumentException("'" + originalValue.toString() + "' has wrong format for Boolean.");
-												}
-											}
-											
-											// special treatment for double
-											if (objClass.getCanonicalName().equals(Double.class.getCanonicalName())) {
-												return XSDDatatype.XSDdouble.parseValidated(originalValue.toString());
-											}
-											
-											// special treatment for float
-											if (objClass.getCanonicalName().equals(Float.class.getCanonicalName())) {
-												return XSDDatatype.XSDfloat.parseValidated(originalValue.toString());
-											}
-											Constructor<?> cons = objClass.getConstructor(String.class);
-											return cons.newInstance(originalValue.toString());
-										} catch (IllegalArgumentException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
-											throw new IllegalArgumentException(errorMessage, e);
-										} catch (InvocationTargetException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
-											throw new IllegalArgumentException(errorMessage, e);
-										} catch (DatatypeFormatException e) {											
-											String errorMessage = (null == e.getMessage()) ? e.getCause().toString() :	e.getMessage();
-											throw new IllegalArgumentException(errorMessage, e);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			} catch (NoSuchMethodException e) {
-				// if there is any error while creating the new object, return null,
-				// i.e use the original value and not the new one.
-				logger.warning("Could not create extended value <" + propertyQName + " +> based on shape: " + e.getLocalizedMessage());
-				return null;
-			} catch (IllegalAccessException e) {
-				// if there is any error while creating the new object, return null,
-				// i.e use the original value and not the new one.
-				// if there is any error while creating the new object, return null,
-				// i.e use the original value and not the new one.
-				logger.warning("Could not create extended value <" + propertyQName + " +> based on shape: " + e.getLocalizedMessage());
+			if (null == shapes || shapes.isEmpty()) {
 				return null;
 			}
+
+			// try to find the attribute type in the list of
+			// resource shapes
+			String propertyName = propertyQName.getNamespaceURI() + propertyQName.getLocalPart();
+
+			TypeMapper typeMapper = TypeMapper.getInstance();
+
+			for (ResourceShape shape : shapes) {
+
+				// ensure that the current resource shape matches the resource rdf:type
+				if (!doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
+					continue;
+				}
+
+				org.eclipse.lyo.oslc4j.core.model.Property[] props = shape.getProperties();
+
+				for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
+					URI propDefinition = prop.getPropertyDefinition();
+
+					if (!propertyName.equals(propDefinition.toString())) {
+						continue;
+					}
+					URI propValueType = prop.getValueType();
+
+					if (null == propValueType) {
+						continue;
+					}
+
+					RDFDatatype dataTypeFromShape = typeMapper.getTypeByName(
+							propValueType.toString());
+
+					// this is a literal type
+					if (null == dataTypeFromShape) {
+						continue;
+					}
+					try {
+
+						// special treatment for XMLLiteral
+						if (isXmlLiteralProperty(propValueType)) {
+							return xmlLiteralPropertyFrom(originalValue);
+						}
+
+						// special treatment for Date
+						if (isDateProperty(dataTypeFromShape)) {
+							return datePropertyFrom(originalValue);
+						}
+
+						// special treatment for Boolean
+						if (isBooleanProperty(dataTypeFromShape)) {
+							return booleanPropertyFrom(originalValue);
+
+						}
+
+						// special treatment for double
+						if (isDoubleProperty(dataTypeFromShape)) {
+							return doublePropertyFrom(originalValue);
+						}
+
+						// special treatment for float
+						if (isFloatProperty(dataTypeFromShape)) {
+							return floatPropertyFrom(originalValue);
+						}
+						Constructor<?> cons = dataTypeFromShape.getJavaClass().getConstructor(
+								String.class);
+						return cons.newInstance(originalValue.toString());
+					} catch (IllegalArgumentException | InvocationTargetException |
+							DatatypeFormatException e) {
+						throw new IllegalArgumentException(e);
+					}
+				}
+			}
+		} catch (NoSuchMethodException | IllegalAccessException e) {
+			// if there is any error while creating the new object, return null,
+			// i.e use the original value and not the new one.
+			// TODO Andrew@2017-07-18: Throw exception instead of returning null
+			log.warn("Could not create extended value <{}> based on shape", propertyQName, e);
+			return null;
 		}
 
 		return null;
 	}
-	
+
+	private static Object floatPropertyFrom(final Object originalValue) {
+		return XSDDatatype.XSDfloat.parseValidated(originalValue.toString());
+	}
+
+	private static Object doublePropertyFrom(final Object originalValue) {
+		return XSDDatatype.XSDdouble.parseValidated(originalValue.toString());
+	}
+
+	private static Object booleanPropertyFrom(final Object originalValue) {
+		// XML supports both 'true' and '1' for a true
+		// Boolean.
+		// Cannot use Boolean.parseBoolean since it
+		// supports case-insensitive TRUE.
+		if ((Boolean.TRUE.toString().equals(
+                originalValue.toString())) || ("1".equals(
+                originalValue.toString()))) {
+            return Boolean.TRUE;
+        }
+        // XML supports both 'false' and '0' for a false
+        // Boolean.
+        else if ((Boolean.FALSE.toString().equals(
+                originalValue.toString())) || ("0".equals(
+                originalValue.toString()))) {
+            return Boolean.FALSE;
+        } else {
+            throw new IllegalArgumentException(
+                    "'" + originalValue.toString() + "' " + "has " + "wrong " +
+                            "format for Boolean" + ".");
+        }
+	}
+
+	private static Object datePropertyFrom(final Object originalValue)
+			throws DatatypeConfigurationException {
+		String dateStr = originalValue.toString();
+		Calendar calendar;
+		calendar = DatatypeFactory.newInstance()
+				.newXMLGregorianCalendar(dateStr)
+				.toGregorianCalendar();
+		final XSDDateTime xsdDateTime = new XSDDateTime(calendar);
+		return xsdDateTime.asCalendar().getTime();
+	}
+
+	private static XMLLiteral xmlLiteralPropertyFrom(final Object originalValue) {
+		return new XMLLiteral(originalValue.toString());
+	}
+
+	private static boolean isFloatProperty(final RDFDatatype dataTypeFromShape) {
+		return dataTypeFromShape.getJavaClass().getCanonicalName().equals(
+				Float.class.getCanonicalName());
+	}
+
+	private static boolean isDoubleProperty(final RDFDatatype dataTypeFromShape) {
+		return dataTypeFromShape.getJavaClass().getCanonicalName().equals(
+				Double.class.getCanonicalName());
+	}
+
+	private static boolean isBooleanProperty(final RDFDatatype dataTypeFromShape) {
+		return dataTypeFromShape.getJavaClass().getCanonicalName().equals(
+				Boolean.class.getCanonicalName());
+	}
+
+	private static boolean isDateProperty(final RDFDatatype dataTypeFromShape) {
+		return dataTypeFromShape.getJavaClass().getCanonicalName().equals(
+				XSDDateTime.class.getCanonicalName());
+	}
+
+	private static boolean isXmlLiteralProperty(final URI propValueType) {
+		return XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString());
+	}
+
 	/**
 	 * This method receives the property name and the property value and tries
 	 * to infer the property Data Type from the pre-defined list of Resource Shapes.
@@ -614,7 +664,8 @@ public class OSLC4JUtils {
 	 *			   InvocationTargetException
 	 * 
 	 */
-	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
+	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String>
+			rdfTypesList,
 														  final Property property )
 	{
 		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != property )
@@ -636,7 +687,8 @@ public class OSLC4JUtils {
 						// ensure that the current resource shape matches the resource rdf:type
 						if (doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
 
-							org.eclipse.lyo.oslc4j.core.model.Property[] props = shape.getProperties();
+							org.eclipse.lyo.oslc4j.core.model.Property[] props = shape
+									.getProperties();
 
 							for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
 								URI propDefinition = prop.getPropertyDefinition();
@@ -647,16 +699,16 @@ public class OSLC4JUtils {
 									if (null == propValueType) {
 										continue;
 									}
-									RDFDatatype dataTypeFromShape = typeMapper.getTypeByName(propValueType.toString());
-									return dataTypeFromShape;
+									return typeMapper.getTypeByName(propValueType.toString());
 								}
 							}
 						}
 					}
 				}
 			} catch (Exception e) {
-				// if there is any error, return null,
-				logger.warning("Could not find Data Type <" + property + " +> based on shape: " + e.getLocalizedMessage());
+				// if there is any error, return null
+				// TODO Andrew@2017-07-18: Throw an exception instead of throwing null
+				log.warn("Could not find Data Type <{}> based on shape", property, e);
 				return null;
 			}
 		}
