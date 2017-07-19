@@ -82,7 +82,6 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>${basedir}/src/</sourceDirectory>
         <plugins>
             <!-- Source Jar Plugin -->
             <plugin>

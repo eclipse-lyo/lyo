@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-wink</artifactId>
+            <artifactId>oslc4j-core</artifactId>
             <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -30,15 +30,14 @@
             <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+            <version>2.13.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
