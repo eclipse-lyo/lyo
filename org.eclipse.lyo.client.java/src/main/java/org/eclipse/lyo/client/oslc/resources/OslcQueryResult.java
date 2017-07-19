@@ -53,7 +53,7 @@ import org.apache.jena.vocabulary.RDFS;
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	/**
 	 * The default member property to look for in OSLC query results
-	 * (rdfs:member). Can be changed using {@link #setMemberProperty(Property)}.
+	 * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
 	 */
 	public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
 
@@ -73,14 +73,13 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	    }
 
 	    public boolean selects(Statement s) {
-	    	String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
-	    	if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
-	    		return false;
-	    	}
+			String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate()
+					.getLocalName();
+			return !OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName) && s.getObject()
+					.isResource();
 
-	    	return s.getObject().isResource();
-	    }
-    }
+		}
+	}
 
 	private final OslcQuery query;
 
@@ -101,20 +100,15 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	public OslcQueryResult(OslcQuery query, ClientResponse response) {
 		this.query = query;
 		this.response = response;
-
 		this.pageNumber = 1;
-
-
 	}
 
 	private OslcQueryResult(OslcQueryResult prev) {
-		this.query = new OslcQuery(prev);
+		this.query = prev.query;
 		this.response = this.query.getResponse();
 		this.membersResource = prev.membersResource;
 		this.memberProperty = prev.memberProperty;
-
 		this.pageNumber = prev.pageNumber + 1;
-
 	}
 
 	private synchronized void initializeRdf() {
@@ -128,11 +122,10 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 			Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
 			ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
 
-			//There should only be one - take the first
 			infoResource = null;
-			while (iter.hasNext()) {
+			if (iter.hasNext()) {
+				// There should only be one - take the first
 				infoResource = iter.next();
-				break;
 			}
 			membersResource = rdfModel.getResource(query.getCapabilityUrl());
 		}
@@ -146,7 +139,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 			StmtIterator iter = rdfModel.listStatements(select);
 			if (iter.hasNext()) {
 				Statement nextPage = iter.next();
-				nextPageUrl = nextPage.getResource().getURI();
+				final Resource nextPageResource = nextPage.getResource();
+				nextPageUrl = nextPageResource.getURI();
 			} else {
 				nextPageUrl = "";
 			}
@@ -158,12 +152,13 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	 * @return whether there is another page of results after this
 	 */
 	public boolean hasNext() {
-		return (!"".equals(getNextPageUrl()));
+		final String nextPageUrl = getNextPageUrl();
+		final boolean nextUrlNotEmpty = nextPageUrl != null && nextPageUrl.trim().length() > 0;
+		return nextUrlNotEmpty;
 	}
 
 	/**
 	 * @return the next page of results
-	 * @throws NoSuchElementException if there is no next page
 	 */
 	public OslcQueryResult next() {
 		return new OslcQueryResult(this);
@@ -234,7 +229,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	 */
 	public String[] getMembersUrls() {
 		initializeRdf();
-		ArrayList<String> membersUrls = new ArrayList<String>();
+		ArrayList<String> membersUrls = new ArrayList<>();
         Selector select = getMemberSelector();
 		StmtIterator iter = rdfModel.listStatements(select);
 		while (iter.hasNext()) {
@@ -247,7 +242,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	/**
 	 * Return the enumeration of queried results from this page
 	 *
-	 * @param T
 	 * @param clazz
 	 *
 	 * @return member statements from current page.
@@ -257,47 +251,30 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
-        Iterable<T> result = new Iterable<T>() {
-                public Iterator<T>
-                iterator() {
-                    return new Iterator<T>() {
-                            public boolean hasNext() {
-                                return iter.hasNext();
-                            }
+		Iterable<T> result = () -> new Iterator<T>() {
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
 
-                            @SuppressWarnings("unchecked")
-                            public T next() {
-                                Statement member = iter.next();
+			@SuppressWarnings("unchecked")
+			public T next() {
+				Statement member = iter.next();
 
-                                try {
-                                    return (T)JenaModelHelper.fromJenaResource((Resource)member.getObject(), clazz);
-                                } catch (IllegalArgumentException e) {
-                                   throw new IllegalStateException(e.getMessage());
-                                } catch (SecurityException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (DatatypeConfigurationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (IllegalAccessException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (InstantiationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (InvocationTargetException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (OslcCoreApplicationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (URISyntaxException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (NoSuchMethodException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                }
-                            }
+				try {
+					return (T) JenaModelHelper.fromJenaResource((Resource) member.getObject(),
+							clazz);
+				} catch (IllegalArgumentException | SecurityException | IllegalAccessException |
+						DatatypeConfigurationException | InvocationTargetException |
+						InstantiationException | URISyntaxException | OslcCoreApplicationException
+						| NoSuchMethodException e) {
+					throw new IllegalStateException(e.getMessage());
+				}
+			}
 
-                            public void remove() {
-                                iter.remove();
-                            }
-                        };
-                }
-            };
+			public void remove() {
+				iter.remove();
+			}
+		};
 
         return result;
     }

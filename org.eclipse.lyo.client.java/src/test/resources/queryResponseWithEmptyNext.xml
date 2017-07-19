@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:oslc="http://open-services.net/ns/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+	<oslc:ResponseInfo rdf:about="http://example.com/provider/query?oslc.where=ex%3Aproduct%3D%22Product%20A%2">
+		<oslc:totalCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</oslc:totalCount>
+		<oslc:nextPage rdf:resource="" />
+	</oslc:ResponseInfo>
+	<rdf:Description rdf:about="http://example.com/provider/query">
+		<rdfs:member rdf:resource="http://example.com/resources/1"/>
+		<rdfs:member rdf:resource="http://example.com/resources/3"/>
+	</rdf:Description>
+</rdf:RDF>

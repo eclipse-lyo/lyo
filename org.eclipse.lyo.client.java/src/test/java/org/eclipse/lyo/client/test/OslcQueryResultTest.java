@@ -17,7 +17,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.client.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
@@ -70,6 +70,30 @@ public class OslcQueryResultTest {
 		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query", params);
 		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
 		 assertEquals(2, result.getMembersUrls().length);
+	}
+
+	@Test
+	public void testQueryResultHasNext() {
+		ClientResponse mockedResponse = mockClientResponse("/queryResponseWithNext.xml");
+
+		OslcQueryParameters params = new OslcQueryParameters();
+		params.setWhere("ex:product=\"Product A\"");
+		OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
+				params);
+		OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+		assertTrue("Next URI resource should be detected", result.hasNext());
+	}
+
+	@Test
+	public void testQueryResultWithEmptyNext() {
+		ClientResponse mockedResponse = mockClientResponse("/queryResponseWithEmptyNext.xml");
+
+		OslcQueryParameters params = new OslcQueryParameters();
+		params.setWhere("ex:product=\"Product A\"");
+		OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
+				params);
+		OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+		assertFalse("Empty Next URI resource should be ignored", result.hasNext());
 	}
 
 	@Test
