@@ -139,10 +139,10 @@
         </exclusions>
       </dependency>
       <dependency>
-        <!--CQ 8441-->
+        <!--CQ 13902-->
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-iri</artifactId>
-        <version>1.0.2</version>
+        <version>1.1.2</version>
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
