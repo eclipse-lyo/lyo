@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
 import org.apache.commons.codec.binary.Base64;
 
 import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
@@ -38,6 +37,8 @@ import com.hp.hpl.jena.shared.PropertyNotFoundException;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.FileUtils;
 import com.hp.hpl.jena.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A simple RDF consumer store backed by an XML file on the filesystem.
@@ -61,10 +62,9 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 	protected final static String PROVISIONAL = LYO_OAUTH_NAMESPACE
 			+ "provisional";
 	protected final static String TRUSTED = LYO_OAUTH_NAMESPACE + "trusted";
-	
 
-	private Logger logger = Logger.getLogger(FileSystemConsumerStore.class);
-	
+	private final static Logger log = LoggerFactory.getLogger(FileSystemConsumerStore.class);
+
 	private Model model;
 	private String oauthStore;
 
@@ -108,7 +108,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 				// The resource is missing some properties.
 				// Not good, but other consumer resources might
 				// be OK, so continue. (Log the error, though.)
-				logger.error(
+				log.error(
 						"Could not load consumer "
 								+ consumerResource.getProperty(model
 										.createProperty(CONSUMER_NAME))
@@ -180,7 +180,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		try {
 			writeModel();
 		} catch (Exception e) {
-			logger.error("Error finalizing model to disk");
+			log.error("Error finalizing model to disk");
 		}
 		
 		this.model.close();

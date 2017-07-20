@@ -20,8 +20,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <wink.version>1.4</wink.version>
-        <lyo.version>2.2.0-SNAPSHOT</lyo.version>
     </properties>
 
     <scm>
@@ -36,39 +34,37 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oauth-core</artifactId>
-            <version>${lyo.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.servlet</artifactId>
-            <version>3.1-b33</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- Library-specific -->
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth</artifactId>
-            <version>20090617</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth-provider</artifactId>
-            <version>20090531</version>
-            <scope>compile</scope>
         </dependency>
+
+        <!-- Other Lyo modules -->
+        <dependency>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>oauth-core</artifactId>
+            <version>2.2.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Generic dependencies -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.servlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-server</artifactId>
-            <version>${wink.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>stax-api</artifactId>
@@ -79,17 +75,19 @@
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-json4j</artifactId>
-            <version>${wink.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
         </dependency>
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -133,21 +131,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>stax</groupId>
-                <artifactId>stax-api</artifactId>
-                <version>1.0.1</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <distributionManagement>
         <repository>

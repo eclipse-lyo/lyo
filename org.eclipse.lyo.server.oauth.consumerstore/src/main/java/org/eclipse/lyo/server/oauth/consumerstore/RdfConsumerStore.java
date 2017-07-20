@@ -17,7 +17,6 @@
 package org.eclipse.lyo.server.oauth.consumerstore;
 
 
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
@@ -32,6 +31,8 @@ import com.hp.hpl.jena.shared.JenaException;
 import com.hp.hpl.jena.shared.Lock;
 import com.hp.hpl.jena.shared.PropertyNotFoundException;
 import com.hp.hpl.jena.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A simple RDF consumer store backed by a Jena TDB native datastore
@@ -55,8 +56,8 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 
 	protected final static String DB = "RDFStore"; // database type
 
-	private Logger logger = Logger.getLogger(RdfConsumerStore.class);
-	
+	private final static Logger log = LoggerFactory.getLogger(RdfConsumerStore.class);
+
 	private Model model;
 	private Dataset dataset;
 
@@ -88,7 +89,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		try {
 			this.dataset = TDBFactory.createDataset(DB);
 		} catch (Exception e) {
-			logger.error("Could not create dataset for OAuth consumer store.", e);
+			log.error("Could not create dataset for OAuth consumer store.", e);
 		}
 	}
 
@@ -96,7 +97,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		try {
 			this.model = dataset.getDefaultModel();
 		} catch (Exception e) {
-			logger.error("Could not create model for OAuth consumer store.", e);
+			log.error("Could not create model for OAuth consumer store.", e);
 		}
 	}
 
@@ -113,7 +114,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 					// The resource is missing some properties.
 					// Not good, but other consumer resources might
 					// be OK, so continue. (Log the error, though.)
-					logger.error(
+					log.error(
 							"Could not load consumer "
 									+ consumerResource.getProperty(model
 											.createProperty(CONSUMER_NAME))
