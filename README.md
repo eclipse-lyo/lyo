@@ -16,8 +16,8 @@
 
     <dependency>
       <groupId>org.eclipse.lyo.store</groupId>
-      <artifactId>lyo-store</artifactId>
-      <version>2.2.0-SNAPSHOT</version>
+      <artifactId>store-core</artifactId>
+      <version>2.2.0</version>
     </dependency>
 
 ## Initialisation

@@ -37,9 +37,9 @@ Add the following dependency:
 
 ```xml
 <dependency>
-  <groupId>org.eclipse.lyo.tools</groupId>
-  <artifactId>lyo-store</artifactId>
-  <version>2.2.0-SNAPSHOT</version>
+    <groupId>org.eclipse.lyo.store</groupId>
+    <artifactId>store-core</artifactId>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -99,7 +99,7 @@ if (store.namedGraphExists(GRAPH_NAME)) {
 ```
 
 See [Store
-javadoc](http://assume.gitlab.io/jena-cache/apidocs/org/eclipse/lyo/tools/store/Store.html)
+javadoc](http://download.eclipse.org/lyo/docs/store/latest/org/eclipse/lyo/store/Store.html)
 for all available methods.
 
 ## Links
@@ -109,5 +109,5 @@ for all available methods.
 * [Ask a question on Eclipse Lyo forum][forum]
 * **[Contribute to Eclipse Lyo!](https://wiki.eclipse.org/Lyo#Contributing_to_Lyo)**
 
-[javadoc]: http://assume.gitlab.io/jena-cache/apidocs/overview-summary.html
+[javadoc]: http://download.eclipse.org/lyo/docs/store/latest/overview-summary.html
 [forum]: https://www.eclipse.org/forums/index.php/f/228/
