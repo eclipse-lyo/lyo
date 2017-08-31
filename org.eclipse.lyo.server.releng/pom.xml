@@ -71,10 +71,10 @@
         <version>3.0.1</version>
       </dependency>
       <dependency>
-        <!--CQ 6756-->
+        <!--CQ 14055-->
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.3</version>
+        <version>1.9</version>
       </dependency>
       <dependency>
         <!--CQ 12413-->
