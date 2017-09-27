@@ -21,8 +21,8 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.hp.hpl.jena.rdf.model.RDFErrorHandler;
-import com.hp.hpl.jena.shared.JenaException;
+import org.apache.jena.rdf.model.RDFErrorHandler;
+import org.apache.jena.shared.JenaException;
 
 public final class ErrorHandler
 	   implements RDFErrorHandler

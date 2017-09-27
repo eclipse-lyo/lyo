@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
     <artifactId>oslc4j-stockquote-sample</artifactId>
-    <version>2.2.0</version>
+    <version>2.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>OSLC4J Stock Quote Sample</name>
     <scm>
@@ -25,27 +25,27 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-wink</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-json4j-provider</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
             <artifactId>oslc4j-stockquote-common</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
@@ -97,7 +97,7 @@
                     <contextHandlers>
                         <contextHandler
                             implementation="org.eclipse.jetty.webapp.WebAppContext">
-                            <war>${basedir}/../org.eclipse.lyo.oslc4j.registry/target/oslc4j-registry-2.2.0.war</war>
+                            <war>${basedir}/../org.eclipse.lyo.oslc4j.registry/target/oslc4j-registry-2.3.0-SNAPSHOT.war</war>
                             <contextPath>/OSLC4JRegistry</contextPath>
                         </contextHandler>
                     </contextHandlers>

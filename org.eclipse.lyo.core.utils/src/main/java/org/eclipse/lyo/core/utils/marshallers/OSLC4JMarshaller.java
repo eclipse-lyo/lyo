@@ -25,9 +25,9 @@ import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.RDFWriter;
-import com.hp.hpl.jena.util.FileUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.util.FileUtils;
 
 import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.*;
 

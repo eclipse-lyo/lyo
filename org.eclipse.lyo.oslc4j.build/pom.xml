@@ -123,10 +123,10 @@
         <version>1.0.1</version>
       </dependency>
       <dependency>
-        <!--CQ 12405-->
+        <!--CQ 13874-->
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-core</artifactId>
-        <version>2.13.0</version>
+        <version>3.0.1</version>
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>
@@ -139,10 +139,10 @@
         </exclusions>
       </dependency>
       <dependency>
-        <!--CQ 13902-->
+        <!--CQ 14319-->
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-iri</artifactId>
-        <version>1.1.2</version>
+        <version>3.0.1</version>
         <exclusions>
           <exclusion>
             <groupId>org.slf4j</groupId>

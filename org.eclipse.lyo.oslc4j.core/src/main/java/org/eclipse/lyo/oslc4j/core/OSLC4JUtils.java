@@ -17,13 +17,6 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.datatypes.xsd.XSDDateTime;
-import com.hp.hpl.jena.datatypes.xsd.impl.XMLLiteralType;
-import com.hp.hpl.jena.rdf.model.Property;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -42,8 +35,18 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
+import org.apache.jena.rdf.model.Property;
+
 
 public class OSLC4JUtils {
 
@@ -249,7 +252,7 @@ public class OSLC4JUtils {
 	public static boolean isHostResolutionDisabled()
 	{
 		boolean retVal = false;
-		
+
 		String hostResDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION);
 		if (hostResDisabledProp !=null)
 		{
@@ -411,7 +414,7 @@ public class OSLC4JUtils {
 	public static boolean relativeURIsAreDisabled()
 	{
 		boolean retVal = true;
-		
+
 		String relURIsDisabledProp = System.getProperty(OSLC4JConstants.OSLC4J_DISABLE_RELATIVE_URIS);
 		if (relURIsDisabledProp !=null)
 		{
@@ -419,9 +422,9 @@ public class OSLC4JUtils {
 		}
 		return retVal;
 	}
-	
+
 	/**
-	 * Return if the query result list type will be	 
+	 * Return if the query result list type will be
 	 * http://www.w3.org/2000/01/rdf-schema#Container or there will be no type.
 	 * Default is no type.
 	 */
@@ -433,7 +436,7 @@ public class OSLC4JUtils {
 	/**
 	 * This method returns true if the given Resource Shape describes array
 	 * matches the list of RDF types.
-	 * 
+	 *
 	 * @param shape
 	 *			  Resource Shape
 	 * @param rdfTypesList
@@ -451,23 +454,23 @@ public class OSLC4JUtils {
 			for (URI describeUri : describes)
 			{
 				final String describeUriStr = describeUri.toASCIIString();
-				if (rdfTypesList.contains(describeUriStr)) 
+				if (rdfTypesList.contains(describeUriStr))
 				{
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * This method receives the property name and the property value and tries
 	 * to infer the property type from the pre-defined list of Resource Shapes.
 	 * Then returns the corresponding java object for the given object value.
 	 * Returns a null object when it was not possible to infer the property type
 	 * from the list of Resource Shapes.
-	 * 
+	 *
 	 * @param rdfTypesList
 	 * @param propertyQName
 	 *			  Property information
@@ -653,7 +656,7 @@ public class OSLC4JUtils {
 	 * to infer the property Data Type from the pre-defined list of Resource Shapes.
 	 * Returns a null object when it was not possible to infer the property Data Type
 	 * from the list of Resource Shapes.
-	 * 
+	 *
 	 * @param rdfTypesList
 	 * 		List of rdf:types
 	 * @param property
@@ -662,7 +665,7 @@ public class OSLC4JUtils {
 	 * @throws DatatypeConfigurationException
 	 *			   , IllegalArgumentException, InstantiationException,
 	 *			   InvocationTargetException
-	 * 
+	 *
 	 */
 	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String>
 			rdfTypesList,

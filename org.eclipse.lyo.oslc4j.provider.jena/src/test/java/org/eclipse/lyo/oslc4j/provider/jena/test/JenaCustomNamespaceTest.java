@@ -38,7 +38,7 @@ import org.eclipse.lyo.oslc4j.core.test.customnamespace.CustomNamespaceResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.junit.Test;
 
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 
 /**
  * Tests the Jena working with custom and global namespace mappings.
