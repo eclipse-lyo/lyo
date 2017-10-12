@@ -21,16 +21,16 @@ import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 
-import com.hp.hpl.jena.tdb.TDBFactory;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ResIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.shared.Command;
-import com.hp.hpl.jena.shared.JenaException;
-import com.hp.hpl.jena.shared.Lock;
-import com.hp.hpl.jena.shared.PropertyNotFoundException;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.shared.Command;
+import org.apache.jena.shared.JenaException;
+import org.apache.jena.shared.Lock;
+import org.apache.jena.shared.PropertyNotFoundException;
+import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
