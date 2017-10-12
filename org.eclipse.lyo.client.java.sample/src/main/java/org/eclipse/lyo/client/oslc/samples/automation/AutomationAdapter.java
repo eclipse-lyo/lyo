@@ -73,10 +73,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
 
 @OslcResourceShape(title = "Automation Adapter Resource Shape", describes = IConstants.TYPE_AUTOMATION_ADAPTER)
 @OslcNamespace(IConstants.NAMESPACE_URI_JAZZ_AUTO_RQM)

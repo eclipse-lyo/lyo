@@ -20,7 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
-import com.hp.hpl.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.BaseDatatype;
 
 public interface RmConstants
 {
