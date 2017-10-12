@@ -14,10 +14,10 @@ package org.eclipse.lyo.store.internals;
  * #L%
  */
 
-import com.hp.hpl.jena.query.ARQ;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.tdb.TDB;
-import com.hp.hpl.jena.tdb.TDBFactory;
+import org.apache.jena.query.ARQ;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.tdb.TDB;
+import org.apache.jena.tdb.TDBFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

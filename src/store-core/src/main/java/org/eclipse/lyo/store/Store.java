@@ -15,7 +15,7 @@ package org.eclipse.lyo.store;
  * #L%
  */
 
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Model;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;

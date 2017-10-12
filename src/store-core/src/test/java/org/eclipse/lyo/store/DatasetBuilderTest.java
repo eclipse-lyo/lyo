@@ -14,7 +14,7 @@ package org.eclipse.lyo.store;
  * #L%
  */
 
-import com.hp.hpl.jena.query.Dataset;
+import org.apache.jena.query.Dataset;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -15,11 +15,11 @@ package org.eclipse.lyo.store.internals;
  */
 
 import com.google.common.collect.Sets;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.ReadWrite;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.tdb.TDB;
-import com.hp.hpl.jena.tdb.TDBFactory;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.ReadWrite;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.tdb.TDB;
+import org.apache.jena.tdb.TDBFactory;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;

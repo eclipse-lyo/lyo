@@ -14,8 +14,8 @@ package org.eclipse.lyo.store.internals.query;
  * #L%
  */
 
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.update.UpdateProcessor;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.update.UpdateProcessor;
 
 /**
  * QueryExecutor is an interface that allows to run SPARQL queries on different triplestore

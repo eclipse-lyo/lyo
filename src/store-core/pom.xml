@@ -19,7 +19,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <oslc4j-core.version>2.2.0</oslc4j-core.version>
+    <oslc4j-core.version>2.3.0-SNAPSHOT</oslc4j-core.version>
   </properties>
 
   <dependencies>

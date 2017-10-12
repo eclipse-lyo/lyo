@@ -16,7 +16,7 @@ package org.eclipse.lyo.store;
 
 /**
  * ModelUnmarshallingException is an exception that occurs during
- * {@link com.hp.hpl.jena.rdf.model.Model}
+ * {@link org.apache.jena.rdf.model.Model}
  * transformation.
  *
  * @author Andrew Berezovskyi (andriib@kth.se)
