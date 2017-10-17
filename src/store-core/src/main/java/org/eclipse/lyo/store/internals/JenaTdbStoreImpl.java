@@ -112,7 +112,7 @@ public class JenaTdbStoreImpl implements Store {
             final Collection<T> resources) throws StoreAccessException {
         try {
             final Model model = JenaModelHelper.createJenaModel(resources.toArray());
-            insertJenaModel(namedGraph, model);
+            this.putJenaModel(namedGraph, model);
             return true;
         } catch (DatatypeConfigurationException | IllegalAccessException |
                 OslcCoreApplicationException | InvocationTargetException e) {
@@ -194,6 +194,17 @@ public class JenaTdbStoreImpl implements Store {
         dataset.begin(ReadWrite.WRITE);
         try {
             dataset.addNamedModel(name.toString(), model);
+            dataset.commit();
+        } finally {
+            dataset.end();
+        }
+        TDB.sync(dataset);
+    }
+
+    public void putJenaModel(final URI name, final Model model) {
+        dataset.begin(ReadWrite.WRITE);
+        try {
+            dataset.replaceNamedModel(name.toString(), model);
             dataset.commit();
         } finally {
             dataset.end();
