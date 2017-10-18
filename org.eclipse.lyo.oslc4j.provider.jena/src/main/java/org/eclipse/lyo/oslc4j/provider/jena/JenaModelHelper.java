@@ -2035,6 +2035,13 @@ public final class JenaModelHelper
 					  model,
 					  reifiedStatement,
 					  nestedProperties);
+	
+		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=526188
+		//If the resulting reifiedStatement only contain the 4 statements about its subject, predicate object, & type, 
+		//then there are no additional statements on the statement. Hence, remove the newly created reifiedStatement.
+		if (reifiedStatement.listProperties().toList().size() == 4) {
+			reifiedStatement.removeProperties();
+		}
 	}
 
 	private static String getDefaultPropertyName(final Method method)
