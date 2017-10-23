@@ -19,9 +19,9 @@ public class ResourceWithReifiedLinks extends AbstractResource
 	public final static String TEST_NAMESPACE = "http://example.com/ns#";
 	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
 
-    public String title;
-    public Link linkWithNoLabel = new Link();
-    public Link linkWithLabel = new Link();
+    private String title;
+    private Link linkWithNoLabel = new Link();
+    private Link linkWithLabel = new Link();
     
     public ResourceWithReifiedLinks() throws URISyntaxException
     {
@@ -40,7 +40,15 @@ public class ResourceWithReifiedLinks extends AbstractResource
     {
         return linkWithNoLabel;
     }
-    
+
+    @OslcName("linkWithLabel")
+    @OslcPropertyDefinition(TEST_NAMESPACE + "linkWithLabel")
+    @OslcValueType(ValueType.Resource)
+    public Link getLinkWithLabel() {
+        return linkWithLabel;
+    }
+
+
     @OslcName("title")
     @OslcPropertyDefinition(TEST_NAMESPACE + "title")
     @OslcValueType(ValueType.String)
@@ -48,16 +56,16 @@ public class ResourceWithReifiedLinks extends AbstractResource
     {
         return title;
     }
-    
-    @OslcName("linkWithLabel")
-    @OslcPropertyDefinition(TEST_NAMESPACE + "linkWithLabel")
-    @OslcValueType(ValueType.Resource)
-    public Link getLinkWithLabel()
-    {
-        return linkWithLabel;
+
+    public void setTitle(final String title) {
+        this.title = title;
     }
-    
-    
-   
-    
+
+    public void setLinkWithNoLabel(final Link linkWithNoLabel) {
+        this.linkWithNoLabel = linkWithNoLabel;
+    }
+
+    public void setLinkWithLabel(final Link linkWithLabel) {
+        this.linkWithLabel = linkWithLabel;
+    }
 }

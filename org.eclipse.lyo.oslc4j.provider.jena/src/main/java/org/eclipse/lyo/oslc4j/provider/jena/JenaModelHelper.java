@@ -52,9 +52,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
@@ -64,7 +61,29 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.XSDDateTime;
+import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
+import org.apache.jena.datatypes.xsd.impl.XSDDateType;
+import org.apache.jena.rdf.model.Container;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.RSIterator;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.SimpleSelector;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
@@ -96,32 +115,9 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
-
-import org.apache.jena.datatypes.DatatypeFormatException;
-import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.datatypes.xsd.XSDDateTime;
-import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
-import org.apache.jena.datatypes.xsd.impl.XSDDateType;
-import org.apache.jena.rdf.model.Container;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.RSIterator;
-import org.apache.jena.rdf.model.ReifiedStatement;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.SimpleSelector;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.util.iterator.Map1;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 
 public final class JenaModelHelper
 {
@@ -144,7 +140,7 @@ public final class JenaModelHelper
 
 	private static final String GENERATED_PREFIX_START = "j.";
 
-	private static final Logger logger = Logger.getLogger(JenaModelHelper.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(JenaModelHelper.class);
 
 	private JenaModelHelper()
 	{
@@ -177,7 +173,7 @@ public final class JenaModelHelper
 				  OslcCoreApplicationException
 	{
 		final Model				  model				= ModelFactory.createDefaultModel();
-		final Map<String, String> namespaceMappings = new HashMap<String, String>();
+		final Map<String, String> namespaceMappings = new HashMap<>();
 
 		Resource descriptionResource = null;
 
@@ -192,7 +188,7 @@ public final class JenaModelHelper
 				descriptionResource = model.createResource(descriptionAbout);
 			}
 
-			Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
+			Map<IExtendedResource,Resource> visitedResources = new HashMap<>();
 			handleExtendedProperties(FilteredResource.class,
 					model,
 					descriptionResource,
@@ -218,7 +214,7 @@ public final class JenaModelHelper
 																			 model.createResource(responseInfo.nextPage()));
 					}
 
-					visitedResources = new HashMap<IExtendedResource,Resource>();
+					visitedResources = new HashMap<>();
 					handleExtendedProperties(ResponseInfo.class,
 											model,
 											responseInfoResource,
@@ -355,9 +351,9 @@ public final class JenaModelHelper
 				  NoSuchMethodException
 	{
 		final Object   newInstance = beanClass.newInstance();
-		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
-		final Map<String,Object> visitedResources = new HashMap<String, Object>();
-		final HashSet<String> rdfTypes = new HashSet<String>();
+		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
+		final Map<String,Object> visitedResources = new HashMap<>();
+		final HashSet<String> rdfTypes = new HashSet<>();
 
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
@@ -381,7 +377,7 @@ public final class JenaModelHelper
 				  SecurityException,
 				  NoSuchMethodException
 	{
-		final List<Object> results = new ArrayList<Object>();
+		final List<Object> results = new ArrayList<>();
 
 		if (beanClass.getAnnotation(OslcResourceShape.class) != null)
 		{
@@ -402,7 +398,7 @@ public final class JenaModelHelper
 				// get the list of subjects that have rdf:type element
 				listSubjects = model.listSubjectsWithProperty(RDF.type);
 
-				List<Resource> resourceList = new ArrayList<Resource>();
+				List<Resource> resourceList = new ArrayList<>();
 
 				// iterate over the list of subjects to create a list of
 				// subjects that does not contain inline resources
@@ -451,12 +447,12 @@ public final class JenaModelHelper
 			NoSuchMethodException {
 		if (null != listSubjects) {
 
-			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 
 			for (final Resource resource : listSubjects) {
 				final Object   newInstance = beanClass.newInstance();
-				final Map<String,Object> visitedResources = new HashMap<String, Object>();
-				final HashSet<String> rdfTypes = new HashSet<String>();
+				final Map<String,Object> visitedResources = new HashMap<>();
+				final HashSet<String> rdfTypes = new HashSet<>();
 
 				fromResource(classPropertyDefinitionsToSetMethods,
 							 beanClass,
@@ -525,10 +521,10 @@ public final class JenaModelHelper
 
 		// Collect values for array properties. We do this since values for
 		// arrays are not required to be contiguous.
-		final Map<String, List<Object>> propertyDefinitionsToArrayValues = new HashMap<String, List<Object>>();
+		final Map<String, List<Object>> propertyDefinitionsToArrayValues = new HashMap<>();
 
 		// Ensure a single-value property is not set more than once
-		final Set<Method> singleValueMethodsUsed = new HashSet<Method>();
+		final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
 		final StmtIterator listProperties = resource.listProperties();
 
@@ -537,7 +533,7 @@ public final class JenaModelHelper
 		if (bean instanceof IExtendedResource)
 		{
 			extendedResource = (IExtendedResource) bean;
-			extendedProperties = new HashMap<QName, Object>();
+			extendedProperties = new HashMap<>();
 			extendedResource.setExtendedProperties(extendedProperties);
 		}
 		else
@@ -574,7 +570,7 @@ public final class JenaModelHelper
 				{
 					if (extendedProperties == null)
 					{
-						logger.fine("Set method not found for object type:	" +
+						logger.debug("Set method not found for object type:	" +
 									   beanClass.getName() +
 									   ", uri:	" +
 									   uri);
@@ -604,7 +600,7 @@ public final class JenaModelHelper
 							}
 							else
 							{
-								collection = new ArrayList<Object>();
+								collection = new ArrayList<>();
 								collection.add(previous);
 								extendedProperties.put(key, collection);
 							}
@@ -652,7 +648,7 @@ public final class JenaModelHelper
 					   || (RDF.nil.equals(object))
 					   || object.canAs(RDFList.class)))
 				{
-					objects = new ArrayList<RDFNode>();
+					objects = new ArrayList<>();
 					Resource listNode = object.asResource();
 					while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI()))
 					{
@@ -668,7 +664,7 @@ public final class JenaModelHelper
 				}
 				else if (multiple && isRdfCollectionResource(object.getModel(), object))
 				{
-					objects = new ArrayList<RDFNode>();
+					objects = new ArrayList<>();
 
 					ExtendedIterator<RDFNode> iterator =
 							object.asResource().listProperties(RDFS.member).
@@ -867,7 +863,7 @@ public final class JenaModelHelper
 							List<Object> values = propertyDefinitionsToArrayValues.get(uri);
 							if (values == null)
 							{
-								values = new ArrayList<Object>();
+								values = new ArrayList<>();
 
 								propertyDefinitionsToArrayValues.put(uri,
 																	 values);
@@ -938,20 +934,20 @@ public final class JenaModelHelper
 					(AbstractList.class			  == parameterClass) ||
 					(AbstractSequentialList.class == parameterClass))
 				{
-					collection = new LinkedList<Object>();
+					collection = new LinkedList<>();
 				}
 				// Handle the Set interface
 				// Handle the AbstractSet class
 				else if ((Set.class			 == parameterClass) ||
 						 (AbstractSet.class	 == parameterClass))
 				{
-					collection = new HashSet<Object>();
+					collection = new HashSet<>();
 				}
 				// Handle the SortedSet and NavigableSet interfaces
 				else if ((SortedSet.class	 == parameterClass) ||
 						 (NavigableSet.class == parameterClass))
 				{
-					collection = new TreeSet<Object>();
+					collection = new TreeSet<>();
 				}
 				// Not handled above.  Let's try newInstance with possible failure.
 				else
@@ -1089,9 +1085,9 @@ public final class JenaModelHelper
 
 				if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES)))
 			   	{
-					if (logger.isLoggable(Level.WARNING))
+					if (logger.isWarnEnabled())
 					{
-						logger.log(Level.WARNING,
+						logger.warn(
 								"Property " + propertyQName.getNamespaceURI()
 								+ propertyQName.getLocalPart()
 								+ " could not be parsed as datatype "
@@ -1131,7 +1127,7 @@ public final class JenaModelHelper
 			(!visitedResources.containsKey(getVisitedResourceName(nestedResource))))
 		{
 			final AbstractResource any = new AnyResource();
-			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 			fromResource(classPropertyDefinitionsToSetMethods,
 						 AnyResource.class,
 						 any,
@@ -1161,7 +1157,7 @@ public final class JenaModelHelper
 	private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
 			throws OslcCoreApplicationException
 	{
-		final Map<String, Method> result = new HashMap<String, Method>();
+		final Map<String, Method> result = new HashMap<>();
 
 		final Method[] methods = beanClass.getMethods();
 
@@ -1300,7 +1296,7 @@ public final class JenaModelHelper
 		if (object instanceof IExtendedResource)
 		{
 			final IExtendedResource extendedResource = (IExtendedResource) object;
-			Map<IExtendedResource,Resource> visitedResources = new HashMap<IExtendedResource,Resource>();
+			Map<IExtendedResource,Resource> visitedResources = new HashMap<>();
 			handleExtendedProperties(resourceClass,
 									 model,
 									 mainResource,
@@ -1510,7 +1506,7 @@ public final class JenaModelHelper
 			// Check if it is a Date field
 			if ( OSLC4JUtils.inferTypeFromShape() ) {
 				// get the list of resource rdf type
-				HashSet<String> rdfTypes = new HashSet<String>();
+				HashSet<String> rdfTypes = new HashSet<>();
 				rdfTypes = getTypesFromResource(resource, rdfTypes);
 				dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, property);
 			}
@@ -1678,7 +1674,7 @@ public final class JenaModelHelper
 				   || RDF_BAG.equals(collectionType.collectionType())
 				   || RDF_SEQ.equals(collectionType.collectionType())))
 		{
-			rdfNodeContainer = new ArrayList<RDFNode>();
+			rdfNodeContainer = new ArrayList<>();
 		}
 		else
 		{
@@ -1910,7 +1906,7 @@ public final class JenaModelHelper
 			// Check if it is a Date field
 			if ( OSLC4JUtils.inferTypeFromShape() ) {
 				// get the list of resource rdf type
-				HashSet<String> rdfTypes = new HashSet<String>();
+				HashSet<String> rdfTypes = new HashSet<>();
 				rdfTypes = getTypesFromResource(resource, rdfTypes);
 				dataType = OSLC4JUtils.getDataTypeBasedOnResourceShapeType(rdfTypes, attribute);
 			}
@@ -1966,7 +1962,7 @@ public final class JenaModelHelper
 
 			nestedNode = nestedResource;
 		}
-		else if (logger.isLoggable(Level.WARNING))
+		else if (logger.isWarnEnabled())
 		{
 			// Warn that one of the properties could not be serialized because it does not have the right annotations.
 			String subjectClassName = resourceClass.getSimpleName();
@@ -1981,7 +1977,7 @@ public final class JenaModelHelper
 				objectClassName = objectClass.getName();
 			}
 
-			logger.warning("Could not serialize "
+			logger.warn("Could not serialize "
 					+ objectClassName
 					+ " because it does not have an OslcResourceShape annotation (class: "
 					+ subjectClassName + ", method: " + method.getName() + ")");
@@ -2041,6 +2037,7 @@ public final class JenaModelHelper
 		//then there are no additional statements on the statement. Hence, remove the newly created reifiedStatement.
 		if (reifiedStatement.listProperties().toList().size() == 4) {
 			reifiedStatement.removeProperties();
+			logger.debug("An empty reified statement was stripped from the model");
 		}
 	}
 
