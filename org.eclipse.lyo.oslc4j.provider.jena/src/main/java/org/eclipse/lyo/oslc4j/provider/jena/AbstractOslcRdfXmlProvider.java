@@ -97,35 +97,6 @@ public abstract class AbstractOslcRdfXmlProvider
 		if (type.getAnnotation(OslcResourceShape.class) != null ||
 			type.getAnnotation(OslcNotQueryResult.class) != null)
 		{
-			// When handling "recursive" writing of an OSLC Error object, we get a zero-length array of annotations
-			if ((annotations != null) &&
-				((annotations.length > 0) ||
-				 (CLASS_OSLC_ERROR != type)))
-			{
-				for (final Annotation annotation : annotations)
-				{
-					if (annotation instanceof Produces)
-					{
-						final Produces producesAnnotation = (Produces) annotation;
-
-						for (final String value : producesAnnotation.value())
-						{
-							for (final MediaType requiredMediaType : requiredMediaTypes)
-							{
-								if (requiredMediaType.isCompatible(MediaType.valueOf(value)))
-								{
-									return true;
-								}
-							}
-						}
-
-						return false;
-					}
-				}
-
-				return false;
-			}
-
 			// We do not have annotations when running from the non-web client.
 			if (isCompatible(actualMediaType, requiredMediaTypes)) 
 			{
