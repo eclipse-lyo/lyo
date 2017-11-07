@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *	
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -53,9 +53,8 @@ public interface OslcConstants {
 	public static final String TYPE_SERVICE					 = OSLC_CORE_NAMESPACE + "Service";
 	public static final String TYPE_SERVICE_PROVIDER		 = OSLC_CORE_NAMESPACE + "ServiceProvider";
 	public static final String TYPE_SERVICE_PROVIDER_CATALOG = OSLC_CORE_NAMESPACE + "ServiceProviderCatalog";
-	
-	public static final String TYPE_CONTAINER				 = RDFS_NAMESPACE + "Container";
 
+	public static final String TYPE_CONTAINER				 = RDFS_NAMESPACE + "Container";
 	public static final String PATH_RESOURCE_SHAPES = "resourceShapes";
 
 	public static final String PATH_ALLOWED_VALUES			 = "allowedValues";

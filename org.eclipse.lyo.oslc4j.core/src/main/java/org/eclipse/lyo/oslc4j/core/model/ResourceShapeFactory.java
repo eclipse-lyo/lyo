@@ -33,9 +33,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 import javax.ws.rs.core.UriBuilder;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValues;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDefaultValue;
@@ -63,15 +61,15 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidValueTypeException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 
-public final class ResourceShapeFactory {
-	private static final String METHOD_NAME_START_GET = "get";
-	private static final String METHOD_NAME_START_IS  = "is";
-	private static final String METHOD_NAME_START_SET = "set";
+public class ResourceShapeFactory {
+	protected static final String METHOD_NAME_START_GET = "get";
+	protected static final String METHOD_NAME_START_IS  = "is";
+	protected static final String METHOD_NAME_START_SET = "set";
 
-	private static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
-	private static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
+	protected static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
+	protected static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
 
-	private static final Map<Class<?>, ValueType> CLASS_TO_VALUE_TYPE = new HashMap<Class<?>, ValueType>();
+	protected static final Map<Class<?>, ValueType> CLASS_TO_VALUE_TYPE = new HashMap<Class<?>, ValueType>();
 
 	static {
 		// Primitive types
@@ -97,7 +95,7 @@ public final class ResourceShapeFactory {
 		CLASS_TO_VALUE_TYPE.put(URI.class,		  ValueType.Resource);
 	}
 
-	private ResourceShapeFactory() {
+	protected ResourceShapeFactory() {
 		super();
 	}
 
@@ -191,7 +189,7 @@ public final class ResourceShapeFactory {
 		}
 
 		Class<?> componentType = getComponentType(resourceClass, method, returnType);
-		
+
 		// Reified resources are a special case.
 		if (IReifiedResource.class.isAssignableFrom(componentType))
 		{
@@ -252,7 +250,7 @@ public final class ResourceShapeFactory {
 				property.setRepresentation(new URI(defaultRepresentation.toString()));
 			}
 		}
-		
+
 
 		final OslcAllowedValue allowedValueAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcAllowedValue.class);
 
@@ -306,7 +304,7 @@ public final class ResourceShapeFactory {
 		return property;
 	}
 
-	private static String getDefaultPropertyName(final Method method) {
+	protected static String getDefaultPropertyName(final Method method) {
 		final String methodName	   = method.getName();
 		final int	 startingIndex = methodName.startsWith(METHOD_NAME_START_GET) ? METHOD_NAME_START_GET_LENGTH : METHOD_NAME_START_IS_LENGTH;
 		final int	 endingIndex   = startingIndex + 1;
@@ -343,7 +341,7 @@ public final class ResourceShapeFactory {
 		return Occurs.ZeroOrOne;
 	}
 
-	private static Class<?> getComponentType(final Class<?> resourceClass, final Method method, final Class<?> type) throws OslcCoreInvalidPropertyTypeException {
+	protected static Class<?> getComponentType(final Class<?> resourceClass, final Method method, final Class<?> type) throws OslcCoreInvalidPropertyTypeException {
 		if (type.isArray()) {
 			return type.getComponentType();
 		} else if (Collection.class.isAssignableFrom(type)) {
@@ -364,7 +362,7 @@ public final class ResourceShapeFactory {
 		}
 	}
 
-	private static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
+	protected static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
 		final String getMethodName = getMethod.getName();
 
 		final String setMethodName;
@@ -399,7 +397,7 @@ public final class ResourceShapeFactory {
 		}
 	}
 
-	private static void validateUserSpecifiedValueType(final Class<?> resourceClass, final Method method, final ValueType userSpecifiedValueType, final Class<?> componentType) throws OslcCoreInvalidValueTypeException {
+	protected static void validateUserSpecifiedValueType(final Class<?> resourceClass, final Method method, final ValueType userSpecifiedValueType, final Class<?> componentType) throws OslcCoreInvalidValueTypeException {
 		final ValueType calculatedValueType = CLASS_TO_VALUE_TYPE.get(componentType);
 
 		// If user-specified value type matches calculated value type
