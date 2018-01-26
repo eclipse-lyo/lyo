@@ -34,6 +34,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValues;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDefaultValue;
@@ -121,7 +123,7 @@ public final class ResourceShapeFactory {
 			throw new OslcCoreMissingAnnotationException(resourceClass, OslcResourceShape.class);
 		}
 
-		final URI about = new URI(baseURI + "/" + resourceShapesPath + "/" + resourceShapePath);
+		final URI about = UriBuilder.fromUri(baseURI).path(resourceShapesPath).path(resourceShapePath).build();
 		final ResourceShape resourceShape = new ResourceShape(about);
 
 		final String title = resourceShapeAnnotation.title();
