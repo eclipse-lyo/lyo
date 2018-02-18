@@ -16,7 +16,7 @@ To replace `$version-stub$` with the correct version in the Javadoc:
 
 To set the new artifact version (run in on parent):
 
-    mvn versions:set -DnewVersion=2.3.0-SNAPSHOT
+    mvn versions:set -DnewVersion=2.3.0.M3
 
 Show the transitive dependency tree (in offline mode):
 
