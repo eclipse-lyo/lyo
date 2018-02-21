@@ -106,6 +106,8 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         // annotations.
         if (!shaclShape.isReadShaclAnnotations()) {
             shaclShape.setShaclProperties(null);
+            shaclShape.setTargetClass(new URI(resourceClass.getAnnotation(OslcNamespace.class).value()
+                    + resourceClass.getAnnotation(OslcName.class).value()));
             propertyDefinitions.clear();
             createProperties(resourceClass, verifiedClasses, shaclShape, propertyDefinitions,
                     false);
@@ -126,24 +128,28 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         final ShaclTargetNode shaclTargetNode = resourceClass.getAnnotation(ShaclTargetNode.class);
         if (shaclTargetNode != null) {
             shaclShape.setTargetNode(new URI(shaclTargetNode.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclTargetObjectsOf shaclTargetObjectsOf = resourceClass.getAnnotation(
                 ShaclTargetObjectsOf.class);
         if (shaclTargetObjectsOf != null) {
             shaclShape.setTargetObjectsOf(new URI(shaclTargetObjectsOf.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclTargetSubjectsOf shaclTargetSubjectsOf = resourceClass.getAnnotation(
                 ShaclTargetSubjectsOf.class);
         if (shaclTargetSubjectsOf != null) {
             shaclShape.setTargetSubjectsOf(new URI(shaclTargetSubjectsOf.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclTargetClass shaclTargetClass = resourceClass.getAnnotation(
                 ShaclTargetClass.class);
         if (shaclTargetClass != null) {
             shaclShape.setTargetClass(new URI(shaclTargetClass.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         //Target Constraints End
@@ -151,21 +157,25 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         final RdfsIsDefinedBy isDefinedBy = resourceClass.getAnnotation(RdfsIsDefinedBy.class);
         if (isDefinedBy != null) {
             shaclShape.setIsDefinedBy(new URI(isDefinedBy.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final RdfsLabel label = resourceClass.getAnnotation(RdfsLabel.class);
         if (label != null) {
             shaclShape.setLabel(label.value());
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final RDFType rdfTypeAnotation = resourceClass.getAnnotation(RDFType.class);
         if (rdfTypeAnotation != null) {
             shaclShape.setType(new URI(rdfTypeAnotation.value()));
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclClosed shaclClosed = resourceClass.getAnnotation(ShaclClosed.class);
         if (shaclClosed != null) {
             shaclShape.setClosed(shaclClosed.value());
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclIgnoredProperties shaclIgnoredProperties = resourceClass.getAnnotation(
@@ -173,6 +183,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         if (shaclIgnoredProperties != null) {
             List<URI> ignoredPropertiesList = populateIgnoredProperties(shaclIgnoredProperties);
             shaclShape.setIgnoredProperties(ignoredPropertiesList);
+            shaclShape.setReadShaclAnnotations(true);
         }
     }
 
