@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.eclipse.lyo.oslc4j.core</groupId>
         <artifactId>oslc4j-core-build</artifactId>
-        <version>2.3.0.M3</version>
+        <version>2.3.0</version>
         <relativePath>../org.eclipse.lyo.oslc4j.build/pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-core</artifactId>
-    <version>2.3.0.M3</version>
+    <version>2.3.0</version>
     <name>OSLC4J Core</name>
     <description>Core components of the Eclipse Lyo OSLC4J SDK.</description>
     <scm>
