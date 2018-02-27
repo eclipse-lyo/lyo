@@ -25,11 +25,11 @@ Now add a dependency for the library:
 <dependency>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-validation</artifactId>
-    <version>2.3.0.M3</version>
+    <version>2.3.0</version>
 </dependency>
 ```
 
-Start by reading the library's main interface class [`Validator`](http://download.eclipse.org/lyo/docs/validation/2.3.0.M3/org/eclipse/lyo/validation/Validator.html) on Javadoc.
+Start by reading the library's main interface class [`Validator`](http://download.eclipse.org/lyo/docs/validation/2.3.0/org/eclipse/lyo/validation/Validator.html) on Javadoc.
 
 You can also review the library's [`unit test cases`](https://github.com/eclipse/lyo-validation/tree/master/src/test/java/org/eclipse/lyo/validation) that shows how to use this interface. 
 
