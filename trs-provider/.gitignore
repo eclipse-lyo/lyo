@@ -1,0 +1,12 @@
+# Build artefacts
+/target/
+/bin/
+
+# IDE files
+/.project
+/.classpath
+/.settings/
+
+/.idea/
+/*.iml
+
