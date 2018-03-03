@@ -27,7 +27,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <lyo.version>2.3.0-SNAPSHOT</lyo.version>
+    <lyo.version>2.4.0-SNAPSHOT</lyo.version>
   </properties>
 
   <build>
