@@ -16,7 +16,7 @@
  * Omar Kacimi         -  Library conversion
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.provider;
+package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,9 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
@@ -45,11 +42,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is the backbone of the Tracked resource set service class. This
- * class is extended by oslc adapters wishing to implement an OSLC TRS
- * interface. The implementing classes need to implement one method returning
- * the change history of the resources living in the tool exposed by the OSLC
- * adapter
+ * This class is the backbone of the Tracked resource set service class. This class is extended by
+ * oslc adapters wishing to implement an OSLC TRS interface. The implementing classes need to
+ * implement one method returning the change history of the resources living in the tool exposed by
+ * the OSLC adapter
  *
  * @version $version-stub$
  * @since 2.3.0
@@ -61,76 +57,74 @@ public abstract class ChangeHistories {
     /**
      * Comparators for change events and history data
      */
-    public static Comparator<HistoryData> histDataComparator = new Comparator<HistoryData>() {
+    public static  Comparator<HistoryData> histDataComparator    = new Comparator<HistoryData>() {
         @Override
         public int compare(HistoryData object1, HistoryData object2) {
             return object2.getTimestamp().compareTo(object1.getTimestamp()); // reverse
         }
     };
-    public static Comparator<ChangeEvent> changeEventComparator = new Comparator<ChangeEvent>() {
+    public static  Comparator<ChangeEvent> changeEventComparator = new Comparator<ChangeEvent>() {
         @Override
         public int compare(ChangeEvent object1, ChangeEvent object2) {
             return object2.getOrder() - object1.getOrder(); //
         }
     };
-    private static String mutex = "";//$NON-NLS-1$
+    private static String                  mutex                 = "";//$NON-NLS-1$
     /**
      * Page Limit for Base Resources
      */
-    private final int BASE_PAGELIMIT = 40;
+    private final  int                     BASE_PAGELIMIT        = 40;
     /**
      * Page Limit for ChangeLogs
      */
-    private final int CHANGELOGS_PAGELIMIT = 40;
+    private final  int                     CHANGELOGS_PAGELIMIT  = 40;
     /**
      * Mutex used for managing concurrent accesses to TRS information
      */
-    protected ArtificialTRSMaker artificialTRSMaker = new ArtificialTRSMaker();
+    protected      ArtificialTRSMaker      artificialTRSMaker    = new ArtificialTRSMaker();
     /**
      * Saved History data
      */
 
-    protected List<HistoryData> allHistories = new ArrayList<HistoryData>();
+    protected      List<HistoryData>       allHistories          = new ArrayList<HistoryData>();
     /**
      * interval for updating the base resources
      */
     protected long UPDATEINTERVAL;
     /**
-     * A flag which should be turned on to true in case the inheriting class
-     * will be exposing artificial TRS data which using the utility method of
-     * the ArtificialTRSMaker class.
+     * A flag which should be turned on to true in case the inheriting class will be exposing
+     * artificial TRS data which using the utility method of the ArtificialTRSMaker class.
      */
-    protected boolean artificialTRS = true;
+    protected boolean artificialTRS         = true;
     /**
-     * If this flag is turned on, artificial history data will be periodically
-     * added for the existing base resources
+     * If this flag is turned on, artificial history data will be periodically added for the
+     * existing base resources
      */
     protected boolean periodicArtificialTRS = false;
     /**
-     * This flag should be set to true by the implementing class in case it
-     * generates TRS data for its TRS interface using the artifical TRS maker
-     * class functionality.
+     * This flag should be set to true by the implementing class in case it generates TRS data for
+     * its TRS interface using the artifical TRS maker class functionality.
      */
-    protected boolean hasBeenTweaked = false;
+    protected boolean hasBeenTweaked        = false;
     /**
-     * url prefix for the trs url e.g http://host/services/ will imply the trs
-     * uri shall be of the type http://host/services/trs
+     * url prefix for the trs url e.g http://host/services/ will imply the trs uri shall be of the
+     * type http://host/services/trs
      */
-    protected String serviceBase;
-    private Date mostRecentChangeLogDate;
-    private Date lastBaseResourceUpdatedDate;
+    protected String                 serviceBase;
+    private   Date                   mostRecentChangeLogDate;
+    private   Date                   lastBaseResourceUpdatedDate;
     /**
      * List of base resources
      */
-    private Map<String, Base> baseResouces;
+    private   Map<String, Base>      baseResouces;
     /**
      * List of Change Logs
      */
-    private Map<String, ChangeLog> changeLogs;
+    private   Map<String, ChangeLog> changeLogs;
     /**
      * Saved History
      */
-    private HistoryData[] prevHistories;
+    private   HistoryData[]          prevHistories;
 
 ///*    *//**//**
 //     * Periodically create artifical TRS data for the base resources if the
@@ -147,7 +141,8 @@ public abstract class ChangeHistories {
 //                    if (hasBeenTweaked) {
 //                        for (Base base : baseResouces.values()) {
 //                            for (URI baseMember : base.getMembers()) {
-//                                allHistories.addAll(artificialTRSMaker.getPostTweakedHistoryDataForElement(baseMember));
+//                                allHistories.addAll(artificialTRSMaker
+// .getPostTweakedHistoryDataForElement(baseMember));
 //                            }
 //                        }
 //                    }
@@ -166,10 +161,17 @@ public abstract class ChangeHistories {
     }
 
     /**
+     * Implemented by inheriting classes. returns the changes through time to the resources exposes
+     * by the adapter starting from the given point in time
+     *
+     * @param dateAfter the date starting from which the change data is returned
+     */
+    public abstract HistoryData[] getHistory(HttpServletRequest httpServletRequest, Date dateAfter);
+
+    /**
      * add a list of changes to the existing history data list.
      *
-     * @param changeType  the type of change to be added: modification, creation or
-     *                    deletion
+     * @param changeType  the type of change to be added: modification, creation or deletion
      * @param changedUris the uris of the changed objects
      */
     public void updateHistories(String changeType, List<URI> changedUris) {
@@ -187,20 +189,10 @@ public abstract class ChangeHistories {
         Collections.sort(allHistories, histDataComparator);
     }
 
-    /**
-     * Implemented by inheriting classes. returns the changes through time to
-     * the resources exposes by the adapter starting from the given point in
-     * time
-     *
-     * @param dateAfter the date starting from which the change data is returned
-     */
-    public abstract HistoryData[] getHistory(HttpServletRequest httpServletRequest, Date dateAfter);
-
     // protected abstract void init();
 
     /**
-     * Order the history data returned by the getHistory method to use it in the
-     * rest of the class
+     * Order the history data returned by the getHistory method to use it in the rest of the class
      */
     public HistoryData[] getOrderedHistory(HttpServletRequest httpServletRequest, Date dateAfter) {
         HistoryData[] unsortedHd = getHistory(httpServletRequest, dateAfter);
@@ -209,10 +201,11 @@ public abstract class ChangeHistories {
     }
 
     /**
-     * A synchronized call to the buildBaseResourcesAndChangeLogsInternal to
-     * manage concurrent calls to the TRS service
+     * A synchronized call to the buildBaseResourcesAndChangeLogsInternal to manage concurrent calls
+     * to the TRS service
      */
-    public void buildBaseResourcesAndChangeLogs(HttpServletRequest httpServletRequest) throws URISyntaxException {
+    public void buildBaseResourcesAndChangeLogs(HttpServletRequest httpServletRequest)
+            throws URISyntaxException {
         synchronized (mutex) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
         }
@@ -228,7 +221,8 @@ public abstract class ChangeHistories {
      *
      * @throws URISyntaxException propagated from called method throwing same exception
      */
-    public Base getBaseResource(String pagenum, HttpServletRequest httpServletRequest) throws URISyntaxException {
+    public Base getBaseResource(String pagenum, HttpServletRequest httpServletRequest)
+            throws URISyntaxException {
         synchronized (mutex) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
             return baseResouces != null ? baseResouces.get(pagenum) : null;
@@ -245,7 +239,8 @@ public abstract class ChangeHistories {
      *
      * @throws URISyntaxException propagated from called method throwing same exception
      */
-    public ChangeLog getChangeLog(String pagenum, HttpServletRequest httpServletRequest) throws URISyntaxException {
+    public ChangeLog getChangeLog(String pagenum, HttpServletRequest httpServletRequest)
+            throws URISyntaxException {
         synchronized (mutex) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
             // changeLogs might be null
@@ -280,7 +275,7 @@ public abstract class ChangeHistories {
     private Page createNewBasePage(Base base, int basePagenum) throws URISyntaxException {
         Page ldp = new Page();
         ldp.setAbout(URI.create(serviceBase + "/trs/" + TRSConstants.TRS_TERM_BASE //$NON-NLS-1$
-                + String.valueOf(basePagenum)));// );
+                                        + String.valueOf(basePagenum)));// );
         ldp.setNextPage(new URI(TRSConstants.RDF_NIL));
         ldp.setPageOf(base);
         return ldp;
@@ -302,10 +297,9 @@ public abstract class ChangeHistories {
     }
 
     /**
-     * Main method called to create the change log and the base objects when a
-     * call to the TRS service is made. Depending on the refresh rate defined
-     * for the trs service, the base objects might be completely rebuilt or only
-     * the change logs will be rebuilt
+     * Main method called to create the change log and the base objects when a call to the TRS
+     * service is made. Depending on the refresh rate defined for the trs service, the base objects
+     * might be completely rebuilt or only the change logs will be rebuilt
      *
      * @param httpServletRequest the request made to the TRS service
      */
@@ -314,9 +308,8 @@ public abstract class ChangeHistories {
         log.info("started building the change log and the base");
 
         Date nowDate = new Date();
-        if ((lastBaseResourceUpdatedDate != null) && (UPDATEINTERVAL != -1) && (nowDate.getTime() -
-                lastBaseResourceUpdatedDate
-                .getTime() > UPDATEINTERVAL)) {
+        if ((lastBaseResourceUpdatedDate != null) && (UPDATEINTERVAL != -1) && (
+                nowDate.getTime() - lastBaseResourceUpdatedDate.getTime() > UPDATEINTERVAL)) {
             mostRecentChangeLogDate = null; // enforce to build all
         }
         boolean buildAll = ((mostRecentChangeLogDate == null) || (baseResouces == null));
@@ -392,7 +385,8 @@ public abstract class ChangeHistories {
             String changedUriTemplate = "urn:urn-3:" + //$NON-NLS-1$
                     "cm1.example.com" + //$NON-NLS-1$
                     ":" + //$NON-NLS-1$
-                    TRSUtil.XSD_DATETIME_FORMAT.format(historyData.getTimestamp()) + ":" + //$NON-NLS-1$
+                    TRSUtil.XSD_DATETIME_FORMAT.format(historyData.getTimestamp()) + ":" +
+                    //$NON-NLS-1$
                     changeOrder;
             URI changedUri = URI.create(changedUriTemplate);
             String histDataType = historyData.getType();
@@ -422,10 +416,12 @@ public abstract class ChangeHistories {
             if (changeLog == null) {
                 URI prevPage;
                 if (changeLogs == null) {
-                    prevPage = URI.create(serviceBase + "/trs/" + TRSConstants.TRS_TERM_CHANGE_LOG);//$NON-NLS-1$
+                    prevPage = URI.create(
+                            serviceBase + "/trs/" + TRSConstants.TRS_TERM_CHANGE_LOG);//$NON-NLS-1$
                 } else {
                     prevPage = URI.create(serviceBase + "/trs/" //$NON-NLS-1$
-                            + TRSConstants.TRS_TERM_CHANGE_LOG + "/" + String.valueOf(
+                                                  + TRSConstants.TRS_TERM_CHANGE_LOG + "/"
+                                                  + String.valueOf(
                             changeLogPageNum + 1));//$NON-NLS-1$
                 }
                 if (prevChangeLog != null) {
@@ -452,7 +448,9 @@ public abstract class ChangeHistories {
                 if (base == null) {
                     if (prevBase != null) {
                         URI nextPage = URI.create(serviceBase + "/trs/" //$NON-NLS-1$
-                                + TRSConstants.TRS_TERM_BASE + "/" + String.valueOf(basePagenum + 1));//$NON-NLS-1$
+                                                          + TRSConstants.TRS_TERM_BASE + "/"
+                                                          + String.valueOf(
+                                basePagenum + 1));//$NON-NLS-1$
                         prevBase.getNextPage().setNextPage(nextPage);
                         prevBase = null;
                     }

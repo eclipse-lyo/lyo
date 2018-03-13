@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.provider;
+package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,10 +71,13 @@ public class TRSUtil {
      *
      * @return a list of rdf resources with the given type
      */
-    public static List<Resource> getResourcesWithTypeFromModel(Model model, String fullQualifiedRDFTypeName) {
+    public static List<Resource> getResourcesWithTypeFromModel(Model model,
+            String fullQualifiedRDFTypeName) {
         List<Resource> resources = new ArrayList<Resource>();
         ResIterator listSubjects = null;
-        listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(fullQualifiedRDFTypeName));
+        listSubjects = model.listSubjectsWithProperty(
+                RDF.type,
+                model.getResource(fullQualifiedRDFTypeName));
 
         for (final ResIterator resIterator = listSubjects; resIterator.hasNext(); ) {
             Resource resource = resIterator.next();
@@ -93,29 +96,38 @@ public class TRSUtil {
      * @return the list of change events found in the rdf model
      */
     public static List<ChangeEvent> getChangeEventsFromChangeLogJenaModel(Model changeLogJenaModel)
-            throws IllegalAccessException, IllegalArgumentException, InstantiationException, InvocationTargetException,
-            SecurityException, NoSuchMethodException, DatatypeConfigurationException, OslcCoreApplicationException,
-            URISyntaxException {
+            throws IllegalAccessException, IllegalArgumentException, InstantiationException,
+            InvocationTargetException, SecurityException, NoSuchMethodException,
+            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
         List<ChangeEvent> changeEvents = new ArrayList<ChangeEvent>();
         List<Resource> modificationResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                TRSConstants.TRS_TYPE_MODIFICATION);
+                                                                             TRSConstants
+                                                                                     .TRS_TYPE_MODIFICATION);
         List<Resource> creationResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                TRSConstants.TRS_TYPE_CREATION);
+                                                                         TRSConstants
+                                                                                 .TRS_TYPE_CREATION);
         List<Resource> deletionResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                TRSConstants.TRS_TYPE_DELETION);
+                                                                         TRSConstants
+                                                                                 .TRS_TYPE_DELETION);
 
         for (Resource jenaRes : modificationResources) {
-            ChangeEvent changeEvent = (Modification) JenaModelHelper.fromJenaResource(jenaRes, Modification.class);
+            ChangeEvent changeEvent = (Modification) JenaModelHelper.fromJenaResource(
+                    jenaRes,
+                    Modification.class);
             changeEvents.add(changeEvent);
         }
 
         for (Resource jenaRes : creationResources) {
-            ChangeEvent changeEvent = (Creation) JenaModelHelper.fromJenaResource(jenaRes, Creation.class);
+            ChangeEvent changeEvent = (Creation) JenaModelHelper.fromJenaResource(
+                    jenaRes,
+                    Creation.class);
             changeEvents.add(changeEvent);
         }
 
         for (Resource jenaRes : deletionResources) {
-            ChangeEvent changeEvent = (Deletion) JenaModelHelper.fromJenaResource(jenaRes, Deletion.class);
+            ChangeEvent changeEvent = (Deletion) JenaModelHelper.fromJenaResource(
+                    jenaRes,
+                    Deletion.class);
             changeEvents.add(changeEvent);
         }
 
@@ -178,7 +190,8 @@ public class TRSUtil {
         if (objToConvert instanceof ChangeEvent) {
             ChangeEvent changeEvent = (ChangeEvent) objToConvert;
             URI changed = changeEvent.getChanged();
-            Date modificationDate = (Date) changeEvent.getExtendedProperties().get(dateModifiedQname);
+            Date modificationDate = (Date) changeEvent.getExtendedProperties()
+                                                      .get(dateModifiedQname);
             HistoryData hd = null;
             if (changeEvent instanceof Deletion) {
                 hd = HistoryData.getInstance(modificationDate, changed, HistoryData.DELETED);

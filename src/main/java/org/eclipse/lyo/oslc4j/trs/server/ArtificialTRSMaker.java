@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.provider;
+package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -26,9 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Utility class for creating HistoryData objects out of a list of resources.
- * This can be used as a convenience to easily expose all the resources of a
- * server at one point in time using TRS.
+ * Utility class for creating HistoryData objects out of a list of resources. This can be used as a
+ * convenience to easily expose all the resources of a server at one point in time using TRS.
  *
  * @version $version-stub$
  * @since 2.3.0
@@ -38,11 +37,10 @@ public class ArtificialTRSMaker {
     private final static Logger log = LoggerFactory.getLogger(ArtificialTRSMaker.class);
 
     /**
-     * a boolean flag set to true after the history data is created for the
-     * resources once
+     * a boolean flag set to true after the history data is created for the resources once
      */
-    private boolean hasBeenTweaked = false;
-    private int resourcesWithArtificialChangeDataLimit = -1;
+    private boolean hasBeenTweaked                         = false;
+    private int     resourcesWithArtificialChangeDataLimit = -1;
 
     public ArtificialTRSMaker() {
         super();
