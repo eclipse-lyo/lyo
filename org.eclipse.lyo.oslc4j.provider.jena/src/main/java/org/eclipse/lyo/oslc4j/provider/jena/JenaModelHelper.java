@@ -998,9 +998,9 @@ public final class JenaModelHelper
 		if (object.isResource())
 		{
 			Resource resource = object.asResource();
-			if (resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_ALT))
-				|| resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_BAG))
-				|| resource.hasProperty(RDF.type, model.getResource(RDF_TYPE_URI + RDF_SEQ)))
+			if (resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_ALT))
+				|| resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_BAG))
+				|| resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_SEQ)))
 			{
 				return true;
 			}
