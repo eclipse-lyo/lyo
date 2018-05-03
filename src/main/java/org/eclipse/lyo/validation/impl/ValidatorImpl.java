@@ -14,9 +14,7 @@
  *    Yash Khatri - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-/**
- * @since 2.3.0
- */
+
 
 package org.eclipse.lyo.validation.impl;
 
@@ -25,7 +23,7 @@ import es.weso.rdf.jena.RDFAsJenaModel;
 import es.weso.schema.Result;
 import es.weso.schema.Schema;
 import es.weso.schema.Schemas;
-import es.weso.schema.ShapeMap;
+import es.weso.shapeMaps.ShapeMap;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -47,10 +45,13 @@ import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.None;
 import scala.Option;
-import scala.collection.immutable.Map;
-import scala.util.Try;
+import scala.util.Either;
 
+/**
+ * @since 2.3.0
+ */
 public class ValidatorImpl implements Validator {
 
     private static final Option<String> OPTION_NONE = Option.apply(null);
@@ -70,9 +71,7 @@ public class ValidatorImpl implements Validator {
     }
 
     @Override
-    public ValidationResultModel validate(Model dataModel, Model shapeModel)
-            throws IllegalAccessException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException {
+    public ValidationResultModel validate(Model dataModel, Model shapeModel) {
         return getValidationResults(dataModel, shapeModel);
     }
 
@@ -86,16 +85,14 @@ public class ValidatorImpl implements Validator {
         return getValidationResults(dataModel, shapeModel);
     }
 
-    private ValidationResultModel getValidationResults(Model dataModel, Model shapeModel)
-            throws IllegalAccessException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException {
+    private ValidationResultModel getValidationResults(Model dataModel, Model shapeModel) {
 
         ResourceModel resourceModel;
         Result validationResult;
         ResIterator iterator = dataModel.listSubjects();
         Model model = ModelFactory.createDefaultModel();
-        List<ResourceModel> validResources = new ArrayList<ResourceModel>();
-        List<ResourceModel> invalidResources = new ArrayList<ResourceModel>();
+        List<ResourceModel> validResources = new ArrayList<>();
+        List<ResourceModel> invalidResources = new ArrayList<>();
         boolean isValid = false;
         while (iterator.hasNext()) {
             // Iterating over each resource in the model
@@ -147,8 +144,7 @@ public class ValidatorImpl implements Validator {
     }
 
     private Result validateInternal(Model resourceAsModel, Model shapeAsModel)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException {
+            throws IllegalArgumentException {
         RDFAsJenaModel resourceAsRDFReader = new RDFAsJenaModel(resourceAsModel);
         RDFAsJenaModel shapeAsRDFReader = new RDFAsJenaModel(shapeAsModel);
         return validate(resourceAsRDFReader, shapeAsRDFReader);
@@ -157,17 +153,17 @@ public class ValidatorImpl implements Validator {
     private Result validate(final RDFAsJenaModel rdf, final Schema schema) {
         PrefixMap nodeMap = rdf.getPrefixMap();
         PrefixMap shapesMap = schema.pm();
-        Map<String, scala.collection.immutable.List<String>> shapeMap = ShapeMap.parseShapeMap(
-                OPTION_NONE);
-        return schema.validate(rdf, TRIGGER_MODE, shapeMap, OPTION_NONE, OPTION_NONE, nodeMap,
-                shapesMap);
+//        final ShapeMap empty = ShapeMap.empty();
+//        final String shapeMap = empty.toString();
+        return schema.validate(rdf, TRIGGER_MODE, "", OPTION_NONE, OPTION_NONE, nodeMap,
+                               shapesMap);
     }
 
     private Result validate(RDFAsJenaModel resourceAsRDFReader, RDFAsJenaModel shapeAsRDFReader) {
         Schema schema = null;
-        Try<Schema> schemaTry = Schemas.fromRDF(shapeAsRDFReader, SHACLEX);
-        if (schemaTry.isSuccess()) {
-            schema = schemaTry.get();
+        final Either<String, Schema> schemaTry = Schemas.fromRDF(shapeAsRDFReader, SHACLEX);
+        if (schemaTry.isRight()) {
+            schema = schemaTry.toOption().get();
         }
         return validate(resourceAsRDFReader, schema);
     }
