@@ -20,13 +20,16 @@
 
 package org.eclipse.lyo.validation;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import es.weso.schema.ErrorInfo;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Date;
+import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.validation.impl.ValidatorImpl;
 import org.eclipse.lyo.validation.model.ResourceModel;
@@ -35,6 +38,9 @@ import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import scala.Option;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * The Class OslcAnnotationsBasedValidationTest.
@@ -56,9 +62,9 @@ public class OslcAnnotationsBasedValidationTest {
      * It should start with "B" to be valid. But Here in this example, it starts with "C".
      */
     @Test
-    public void OslcBasedNegativetest() {
-
-        try {
+    public void OslcBasedNegativetest()
+            throws URISyntaxException, InvocationTargetException, DatatypeConfigurationException,
+            OslcCoreApplicationException, IllegalAccessException, ParseException {
             anOslcResource = new AnOslcResource(
                     new URI("http://www.sampledomain.org/sam#AnOslcResource"));
             anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
@@ -80,21 +86,13 @@ public class OslcAnnotationsBasedValidationTest {
             Assert.assertEquals(0, vr.getValidResources().size());
 
             for (ResourceModel rm : vr.getInvalidResources()) {
-                JsonElement jelement = new JsonParser().parse(rm.getResult().toJsonString2spaces());
-                JsonObject obj = jelement.getAsJsonObject();
-                String actualError = obj.getAsJsonArray("errors").get(0).getAsJsonObject().get(
-                        "error").toString().replaceAll("\"", "").split(" ")[0];
-                Assert.assertFalse(rm.getResult().isValid());
-                String expectedError = "sh:minCountError";
-                Assert.assertEquals(expectedError, actualError);
+                final Option<ErrorInfo> errorInfoOption = rm.getResult().errors().headOption();
+                if(errorInfoOption.isDefined()) {
+                    final ErrorInfo errorInfo = errorInfoOption.get();
+                    assertThat(errorInfo.msg()).startsWith("sh:MinCountConstraintComponent");
+                }
                 Assert.assertEquals(1, rm.getResult().errors().size());
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
-        }
-
     }
 
     /**

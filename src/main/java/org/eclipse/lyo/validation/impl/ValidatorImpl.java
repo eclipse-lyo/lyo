@@ -19,11 +19,13 @@
 package org.eclipse.lyo.validation.impl;
 
 import es.weso.rdf.PrefixMap;
+import es.weso.rdf.RDFReader;
 import es.weso.rdf.jena.RDFAsJenaModel;
 import es.weso.schema.Result;
 import es.weso.schema.Schema;
 import es.weso.schema.Schemas;
-import es.weso.shapeMaps.ShapeMap;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -34,6 +36,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.shared.PropertyNotFoundException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -45,7 +49,6 @@ import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scala.None;
 import scala.Option;
 import scala.util.Either;
 
@@ -54,10 +57,11 @@ import scala.util.Either;
  */
 public class ValidatorImpl implements Validator {
 
-    private static final Option<String> OPTION_NONE = Option.apply(null);
-    private static final String TRIGGER_MODE = "TargetDecls";
-    private static final String SHACLEX = "SHACLex";
-    private static final Logger log = LoggerFactory.getLogger(ValidatorImpl.class);
+    private static final Option<String> OPTION_NONE               = Option.apply(null);
+    private static final String         TRIGGER_MODE_TARGET_DECLS = "TargetDecls";
+    private static final String         SHACLEX                   = "SHACLex";
+    private static final Logger         log                       = LoggerFactory.getLogger(ValidatorImpl.class);
+    private static final String         EMPTY_MAP                 = "";
 
     @Override
     public ValidationResultModel validate(AbstractResource resource)
@@ -86,33 +90,34 @@ public class ValidatorImpl implements Validator {
     }
 
     private ValidationResultModel getValidationResults(Model dataModel, Model shapeModel) {
-
-        ResourceModel resourceModel;
-        Result validationResult;
+        if(log.isDebugEnabled()) {
+            log.debug("Data model: \n{}", modelToTurtle(dataModel));
+            log.debug("Shape model: \n{}", modelToTurtle(shapeModel));
+        }
         ResIterator iterator = dataModel.listSubjects();
         Model model = ModelFactory.createDefaultModel();
         List<ResourceModel> validResources = new ArrayList<>();
         List<ResourceModel> invalidResources = new ArrayList<>();
-        boolean isValid = false;
         while (iterator.hasNext()) {
             // Iterating over each resource in the model
 
-            resourceModel = new ResourceModel();
+            ResourceModel resourceModel = new ResourceModel();
 
             final Resource resource = iterator.next();
             model.add(resource.listProperties());
 
-            validationResult = validateInternal(model, shapeModel);
-            if (validationResult.isValid()) {
-                isValid = true;
+            Result validationResult = validateInternal(model, shapeModel);
+
+            if(log.isDebugEnabled()) {
+                final RDFReader valReport = validationResult.validationReport().right().get();
+                log.debug("Validation report: \n{}", valReport.serialize("TURTLE"));
             }
 
             populateResourceModel(resourceModel, model, resource, validationResult);
 
-            populateCounts(resourceModel, isValid, validResources, invalidResources);
+            populateCounts(resourceModel, validationResult.isValid(), validResources, invalidResources);
 
             model.remove(resource.listProperties());
-            isValid = false;
 
             log.info(
                     "Total Number Of Resources " + (validResources.size() + invalidResources.size
@@ -153,19 +158,38 @@ public class ValidatorImpl implements Validator {
     private Result validate(final RDFAsJenaModel rdf, final Schema schema) {
         PrefixMap nodeMap = rdf.getPrefixMap();
         PrefixMap shapesMap = schema.pm();
-//        final ShapeMap empty = ShapeMap.empty();
-//        final String shapeMap = empty.toString();
-        return schema.validate(rdf, TRIGGER_MODE, "", OPTION_NONE, OPTION_NONE, nodeMap,
-                               shapesMap);
+        return schema.validate(
+                rdf,
+                TRIGGER_MODE_TARGET_DECLS,
+                EMPTY_MAP,
+                OPTION_NONE,
+                OPTION_NONE,
+                nodeMap,
+                shapesMap);
     }
 
     private Result validate(RDFAsJenaModel resourceAsRDFReader, RDFAsJenaModel shapeAsRDFReader) {
-        Schema schema = null;
         final Either<String, Schema> schemaTry = Schemas.fromRDF(shapeAsRDFReader, SHACLEX);
         if (schemaTry.isRight()) {
-            schema = schemaTry.toOption().get();
+            Schema schema = schemaTry.right().get();
+            return validate(resourceAsRDFReader, schema);
+        } else {
+            throw new IllegalArgumentException("A given Shape cannot be used to create a correct "
+                                                       + "Schema");
         }
-        return validate(resourceAsRDFReader, schema);
+    }
+
+    // TODO Andrew@2018-05-05: contrib to lyo-core JMH
+    public static String modelToTurtle(final RDFAsJenaModel shaclexModel) {
+        final Model jenaModel = shaclexModel.model();
+        return modelToTurtle(jenaModel);
+    }
+
+    // TODO Andrew@2018-05-05: contrib to lyo-core JMH
+    public static String modelToTurtle(final Model jenaModel) {
+        final OutputStream out = new ByteArrayOutputStream();
+        RDFDataMgr.write(out, jenaModel, RDFFormat.TURTLE);
+        return out.toString();
     }
 
     private static void populateResourceModel(ResourceModel resourceModel, Model model,
