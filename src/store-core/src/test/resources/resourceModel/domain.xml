@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
+  <domainSpecifications name="TestDomain" namespaceURI="http://your.organisation.test/nsp1#" namespacePrefix="//@domainPrefixes.0">
+    <resources name="WithBlankResource" resourceProperties="//@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.1"/>
+    <resources name="BlankResource" resourceProperties="//@domainSpecifications.0/@resourceProperties.2"/>
+    <resources name="WithTwoDepthBlankResource" resourceProperties="//@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.2"/>
+    <resourceProperties name="relatesToBlankResource" valueType="LocalResource" range="//@domainSpecifications.0/@resources.1"/>
+    <resourceProperties name="stringProperty" valueType="String"/>
+    <resourceProperties name="intProperty" valueType="Integer"/>
+    <resourceProperties name="relatesToBlankResourceTwoDepth" valueType="LocalResource" range="//@domainSpecifications.0/@resources.0"/>
+  </domainSpecifications>
+  <domainPrefixes name="nsp1"/>
+  <generationSetting javaClassPackageName="org.eclipse.lyo.store.resources" javaFilesPath="\src\test\java"/>
+</oslc4j_ai:Specification>

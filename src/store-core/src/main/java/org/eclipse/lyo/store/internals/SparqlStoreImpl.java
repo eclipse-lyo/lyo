@@ -188,7 +188,7 @@ public class SparqlStoreImpl implements Store {
 
     @Override
     public Model getJenaModelForSubject(final URI namedGraphUri, final URI subject)
-            throws NoSuchElementException, StoreAccessException, ModelUnmarshallingException {
+            throws NoSuchElementException {
         if (namedGraphExists(namedGraphUri)) {
             final Model model;
             model = modelFromQueryByUri(namedGraphUri, subject);
@@ -203,12 +203,7 @@ public class SparqlStoreImpl implements Store {
             final Class<T> clazz) throws StoreAccessException, ModelUnmarshallingException {
         if (namedGraphExists(namedGraph)) {
             final Model model;
-            try {
-                model = modelFromQueryFlat(namedGraph);
-            } catch (final URISyntaxException e) {
-                throw new IllegalArgumentException("Key is not valid to be used as part of the URI",
-                        e);
-            }
+            model = modelFromQueryFlat(namedGraph);
             return getResourcesFromModel(model, clazz);
         } else {
             throw new IllegalArgumentException("Named graph"
@@ -224,12 +219,7 @@ public class SparqlStoreImpl implements Store {
             throws StoreAccessException, ModelUnmarshallingException {
         if (namedGraphExists(namedGraph)) {
             final Model model;
-            try {
-                model = modelFromQueryFlatPaged(namedGraph, getResourceNsUri(clazz), limit, offset);
-            } catch (final URISyntaxException e) {
-                throw new IllegalArgumentException("Key is not valid to be used as part of the URI",
-                        e);
-            }
+            model = modelFromQueryFlatPaged(namedGraph, getResourceNsUri(clazz), limit, offset);
             return getResourcesFromModel(model, clazz);
         } else {
             throw new IllegalArgumentException("Named graph"
@@ -333,31 +323,31 @@ public class SparqlStoreImpl implements Store {
         return map;
     }
 
-    private Model modelFromQueryFlat(final URI namedGraph) throws URISyntaxException {
+    private Model modelFromQueryFlat(final URI namedGraph) {
         // TODO avoid CONSTRUCT query
         final QuerySolutionMap map = getGraphMap(namedGraph);
-        final String queryTemplate = "CONSTRUCT { ?s ?p ?o } where { GRAPH ?g { ?s "
+        final String queryTemplate = "DESCRIBE ?s WHERE { GRAPH ?g { ?s "
                                      + "?p "
                                      + "?o } }";
         final ParameterizedSparqlString query = new ParameterizedSparqlString(queryTemplate, map);
 
         final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-        return queryExecution.execConstruct();
+        return queryExecution.execDescribe();
     }
 
     private Model modelFromQueryByUri(final URI namedGraph, final URI uri) {
         // TODO avoid CONSTRUCT query
         final QuerySolutionMap map = getGraphMap(namedGraph);
         map.add("s", new ResourceImpl(String.valueOf(uri)));
-        final String queryTemplate = "CONSTRUCT { ?s ?p ?o } WHERE { GRAPH ?g { ?s ?p ?o . } }";
+        final String queryTemplate = "DESCRIBE ?s WHERE { GRAPH ?g { ?s ?p ?o . } }";
         final ParameterizedSparqlString query = new ParameterizedSparqlString(queryTemplate, map);
 
         final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-        return queryExecution.execConstruct();
+        return queryExecution.execDescribe();
     }
 
     private Model modelFromQueryFlatPaged(final URI namedGraph, final URI type, final int limit,
-            final int offset) throws URISyntaxException {
+            final int offset) {
         // TODO avoid CONSTRUCT query
         final Model m = ModelFactory.createDefaultModel();
         final Resource typeResource = m.createResource(type.toString());
@@ -366,7 +356,7 @@ public class SparqlStoreImpl implements Store {
         map.add("t", typeResource);
         final String queryTemplate = "PREFIX rdf: <http://www"
                                      + ".w3.org/1999/02/22-rdf-syntax-ns#>\n"
-                                     + "CONSTRUCT { ?s ?p ?o }\n"
+                                     + "DESCRIBE ?s\n"
                                      + "WHERE {\n"
                                      + "  GRAPH ?g {\n"
                                      + "    ?s ?p ?o\n"
@@ -391,7 +381,7 @@ public class SparqlStoreImpl implements Store {
         query.setLiteral("f", offset);
 
         final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-        return queryExecution.execConstruct();
+        return queryExecution.execDescribe();
     }
 
 }
