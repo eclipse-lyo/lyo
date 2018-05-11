@@ -22,8 +22,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
 
 /**
  * @author Yash Khatri
@@ -41,7 +41,7 @@ public interface Validator {
      *
      * @see org.eclipse.lyo.validation.shacl.ShaclShapeFactory#createShaclShape(Class)
      */
-    ValidationResultModel validate(AbstractResource resource)
+    ValidationResult validate(AbstractResource resource)
             throws OslcCoreApplicationException, URISyntaxException, ParseException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException;
@@ -66,7 +66,7 @@ public interface Validator {
      * @throws DatatypeConfigurationException the datatype configuration exception
      * @throws OslcCoreApplicationException   the oslc core application exception
      */
-    ValidationResultModel validate(Model dataModel, Model shapeModel)
+    ValidationResult validate(Model dataModel, Model shapeModel)
             throws IllegalAccessException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException;
 
@@ -83,7 +83,7 @@ public interface Validator {
      *
      * @return Model with the validation results
      */
-    ValidationResultModel validate(Model dataModel, Class<? extends AbstractResource> clazz)
+    ValidationResult validate(Model dataModel, Class<? extends AbstractResource> clazz)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException;

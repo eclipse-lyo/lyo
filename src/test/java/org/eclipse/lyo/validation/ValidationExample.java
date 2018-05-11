@@ -16,22 +16,18 @@
 
 package org.eclipse.lyo.validation;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.util.FileUtils;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.FileUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ResourceModel;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
-import org.eclipse.lyo.validation.AResource;
-import org.eclipse.lyo.validation.Validator;
 
 /**
  * @author Yash Khatri
@@ -56,13 +52,11 @@ public class ValidationExample {
         shapeModel.read(ValidationExample.class.getResourceAsStream("/aResource-Shape.ttl"), "urn:dummy",
                 FileUtils.langTurtle);
 
-        Validator validator = new ValidatorImpl();
+        Validator validator = ValidatorFactory.createShaclExValidator();
         // Validate the data model against the SHACL shapes model. You can have shape
         // and data in same model.
-        ValidationResultModel validationResult = validator.validate(dataModel, shapeModel);
-        for (ResourceModel rm : validationResult.getInvalidResources()) {
-            System.out.println(rm.getResult().show());
-        }
+        ValidationResult vr = validator.validate(dataModel, shapeModel);
+        vr.getValidationReport().write(System.out, RDFLanguages.strLangTurtle);
     }
 
     /**
@@ -80,11 +74,9 @@ public class ValidationExample {
 
         // Validate the OSLC resource against the SHACL Shape annotations - as defined
         // in the class @shacl annotations.
-        Validator validator = new ValidatorImpl();
-        ValidationResultModel validationResult = validator.validate(aResource);
-        for (ResourceModel rm : validationResult.getInvalidResources()) {
-            System.out.println(rm.getResult().show());
-        }
+        Validator validator = ValidatorFactory.createShaclExValidator();
+        ValidationResult vr = validator.validate(aResource);
+        vr.getValidationReport().write(System.out, RDFLanguages.strLangTurtle);
     }
 
     /**
@@ -101,11 +93,9 @@ public class ValidationExample {
 
         // Validate the OSLC resource against the OSLC Shape annotations - as defined in
         // the class @oslc annotations.
-        Validator validator = new ValidatorImpl();
-        ValidationResultModel validationResult = validator.validate(anOslcResource);
-        for (ResourceModel rm : validationResult.getInvalidResources()) {
-            System.out.println(rm.getResult().show());
-        }
+        Validator validator = ValidatorFactory.createShaclExValidator();
+        ValidationResult vr = validator.validate(anOslcResource);
+        vr.getValidationReport().write(System.out, RDFLanguages.strLangTurtle);
     }
 
     public static void main(String[] args) throws Exception {

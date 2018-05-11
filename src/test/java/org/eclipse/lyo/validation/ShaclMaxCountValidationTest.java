@@ -20,33 +20,29 @@
 
 package org.eclipse.lyo.validation;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.math.BigInteger;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
-import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ResourceModel;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.junit.Assert;
+
+import org.eclipse.lyo.validation.shacl.ValidationResult;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * The Class ShaclMaxCountValidationTest.
  */
 public class ShaclMaxCountValidationTest {
 
-    /** The a resource. */
-    AResource aResource;
+    /**
+     * The a resource.
+     */
+    public AResource aResource;
 
     /**
      * Shacl max count negativetest.
-     *
+     * <p>
      * This test is failing because the max allowed cardinality of anintegerproperty is 0.
      */
     @Test
@@ -60,33 +56,12 @@ public class ShaclMaxCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{aResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+            ValidationResult vr = TestHelper.performTest(aResource);
+            TestHelper.assertNegative(vr, "sh:MaxCountConstraintComponent");
 
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
-            Assert.assertEquals(1, vr.getInvalidResources().size());
-            Assert.assertEquals(0, vr.getValidResources().size());
-
-            for (ResourceModel rm : vr.getInvalidResources()) {
-
-                JsonElement jelement = new JsonParser().parse(rm.getResult().toJsonString2spaces());
-                JsonObject obj = jelement.getAsJsonObject();
-                String actualError = obj.getAsJsonArray("errors").get(0).getAsJsonObject().get(
-                        "error").toString().replaceAll("\"", "").split(" ")[0];
-
-                Assert.assertFalse(rm.getResult().isValid());
-                String expectedError = "sh:maxCountError";
-                Assert.assertEquals(expectedError, actualError);
-                Assert.assertEquals(1, rm.getResult().errors().size());
-            }
-
-        } catch (Exception e) {
+        } catch (URISyntaxException e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -101,24 +76,11 @@ public class ShaclMaxCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{aResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
-
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
-            Assert.assertEquals(1, vr.getValidResources().size());
-            Assert.assertEquals(0, vr.getInvalidResources().size());
-
-            for (ResourceModel rm : vr.getValidResources()) {
-
-                Assert.assertTrue(rm.getResult().isValid());
-                Assert.assertEquals(0, rm.getResult().errors().size());
-            }
+            ValidationResult vr = TestHelper.performTest(aResource);
+            TestHelper.assertPositive(vr);
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
         }
 
     }

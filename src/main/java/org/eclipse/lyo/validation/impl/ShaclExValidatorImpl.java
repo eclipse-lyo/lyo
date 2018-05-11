@@ -24,47 +24,45 @@ import es.weso.rdf.jena.RDFAsJenaModel;
 import es.weso.schema.Result;
 import es.weso.schema.Schema;
 import es.weso.schema.Schemas;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.shared.PropertyNotFoundException;
+import org.apache.jena.riot.RDFLanguages;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.validation.Validator;
-import org.eclipse.lyo.validation.model.ResourceModel;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
+import org.eclipse.lyo.validation.shacl.ShaclResult;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.Option;
 import scala.util.Either;
 
+import static scala.collection.JavaConversions.*;
+
 /**
  * @since 2.3.0
  */
-public class ValidatorImpl implements Validator {
+public class ShaclExValidatorImpl implements Validator {
 
     private static final Option<String> OPTION_NONE               = Option.apply(null);
     private static final String         TRIGGER_MODE_TARGET_DECLS = "TargetDecls";
     private static final String         SHACLEX                   = "SHACLex";
-    private static final Logger         log                       = LoggerFactory.getLogger(ValidatorImpl.class);
+    private static final Logger         log                       = LoggerFactory.getLogger(ShaclExValidatorImpl.class);
     private static final String         EMPTY_MAP                 = "";
 
     @Override
-    public ValidationResultModel validate(AbstractResource resource)
+    public ValidationResult validate(AbstractResource resource)
             throws OslcCoreApplicationException, URISyntaxException, ParseException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException {
@@ -75,12 +73,12 @@ public class ValidatorImpl implements Validator {
     }
 
     @Override
-    public ValidationResultModel validate(Model dataModel, Model shapeModel) {
+    public ValidationResult validate(Model dataModel, Model shapeModel) {
         return getValidationResults(dataModel, shapeModel);
     }
 
     @Override
-    public ValidationResultModel validate(Model dataModel, Class<? extends AbstractResource> clazz)
+    public ValidationResult validate(Model dataModel, Class<? extends AbstractResource> clazz)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException {
@@ -89,63 +87,29 @@ public class ValidatorImpl implements Validator {
         return getValidationResults(dataModel, shapeModel);
     }
 
-    private ValidationResultModel getValidationResults(Model dataModel, Model shapeModel) {
-        if(log.isDebugEnabled()) {
+    private ValidationResult getValidationResults(Model dataModel, Model shapeModel) {
+        Model valResultJenaModel = ModelFactory.createDefaultModel();
+        if (log.isDebugEnabled()) {
             log.debug("Data model: \n{}", modelToTurtle(dataModel));
             log.debug("Shape model: \n{}", modelToTurtle(shapeModel));
         }
-        ResIterator iterator = dataModel.listSubjects();
-        Model model = ModelFactory.createDefaultModel();
-        List<ResourceModel> validResources = new ArrayList<>();
-        List<ResourceModel> invalidResources = new ArrayList<>();
-        while (iterator.hasNext()) {
-            // Iterating over each resource in the model
 
-            ResourceModel resourceModel = new ResourceModel();
+        Result result = validateInternal(dataModel, shapeModel);
 
-            final Resource resource = iterator.next();
-            model.add(resource.listProperties());
+        final RDFReader valReport = result.validationReport().right().get();
+        Either<String, String> valReportAsTurtle = valReport.serialize(RDFLanguages.strLangTurtle);
 
-            Result validationResult = validateInternal(model, shapeModel);
-
-            if(log.isDebugEnabled()) {
-                final RDFReader valReport = validationResult.validationReport().right().get();
-                log.debug("Validation report: \n{}", valReport.serialize("TURTLE"));
-            }
-
-            populateResourceModel(resourceModel, model, resource, validationResult);
-
-            populateCounts(resourceModel, validationResult.isValid(), validResources, invalidResources);
-
-            model.remove(resource.listProperties());
-
-            log.info(
-                    "Total Number Of Resources " + (validResources.size() + invalidResources.size
-                            ()));
+        if (log.isDebugEnabled()) {
+            log.debug("Validation report: \n{}", valReportAsTurtle.right().get());
         }
 
-        log.info("Validations Completed; Returning ValidationResultModel");
-        return populateValidationModel(validResources, invalidResources);
-
-    }
-
-    private void populateCounts(ResourceModel resourceModel, boolean isValid,
-            List<ResourceModel> validResources, List<ResourceModel> invalidResources) {
-        if (isValid) {
-            validResources.add(resourceModel);
-            log.info("Datamodel valid.");
-        } else {
-            invalidResources.add(resourceModel);
-            log.info("Datamodel Invalid");
+        try {
+            final InputStream in = new ByteArrayInputStream(valReportAsTurtle.right().get().getBytes("UTF-8"));
+            valResultJenaModel.read(in, null, RDFLanguages.strLangTurtle);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-        log.debug("Valid Count:" + validResources.size());
-        log.debug("InValid Count:" + invalidResources.size());
-    }
-
-    private ValidationResultModel populateValidationModel(List<ResourceModel> validResources,
-            List<ResourceModel> invalidResources) {
-        log.debug("Populating ValidationResultModel");
-        return new ValidationResultModel(validResources, invalidResources);
+        return populateValidationResult(result);
     }
 
     private Result validateInternal(Model resourceAsModel, Model shapeAsModel)
@@ -192,51 +156,21 @@ public class ValidatorImpl implements Validator {
         return out.toString();
     }
 
-    private static void populateResourceModel(ResourceModel resourceModel, Model model,
-            final Resource resource, Result validationResult) {
-        try {
-            log.debug("setting title");
-            resourceModel.setTitle(resource.getRequiredProperty(
-                    model.getProperty("http://purl.org/dc/terms/title")).getObject().toString());
-        } catch (PropertyNotFoundException e) {
-            try {
-                log.debug("setting title");
-                resourceModel.setTitle(resource.getRequiredProperty(
-                        model.getProperty("http://purl.org/dc/terms#title"))
-                        .getObject()
-                        .toString());
-            } catch (PropertyNotFoundException ex) {
-                log.debug("title doesn't exist");
-                resourceModel.setTitle("No title exists");
-            }
+    ValidationResult populateValidationResult(Result result){
+        Model valReportJenaModel = ModelFactory.createDefaultModel();
+        final RDFReader valReport = result.validationReport().right().get();
+        Either<String, String> valReportAsTurtle = valReport.serialize(RDFLanguages.strLangTurtle);
+
+        if (log.isDebugEnabled()) {
+            log.debug("Validation report: \n{}", valReportAsTurtle.right().get());
         }
 
         try {
-            log.debug("setting description");
-            resourceModel.setDescription(resource.getRequiredProperty(
-                    model.getProperty("http://purl.org/dc/terms/description"))
-                    .getObject()
-                    .toString());
-        } catch (PropertyNotFoundException e) {
-            try {
-                log.debug("setting description");
-                resourceModel.setDescription(resource.getRequiredProperty(
-                        model.getProperty("http://purl.org/dc/terms#description"))
-                        .getObject()
-                        .toString());
-            } catch (PropertyNotFoundException ex) {
-                log.debug("description doesn't exist");
-                resourceModel.setDescription("No desciption exists");
-            }
+            final InputStream in = new ByteArrayInputStream(valReportAsTurtle.right().get().getBytes("UTF-8"));
+            valReportJenaModel.read(in, null, RDFLanguages.strLangTurtle);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-        try {
-            log.debug("setting uri");
-            resourceModel.setURI(model.getSeq(resource).toString());
-        } catch (Exception e) {
-            log.debug("uri doesn't exist");
-            resourceModel.setURI("No uri exists");
-        }
-
-        resourceModel.setResult(validationResult);
+        return new ShaclResult(result, result.isValid(), result.message() ,valReportJenaModel, seqAsJavaList(result.errors()));
     }
 }

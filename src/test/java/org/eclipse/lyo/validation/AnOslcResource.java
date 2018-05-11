@@ -20,6 +20,15 @@
 
 package org.eclipse.lyo.validation;
 
+import org.eclipse.lyo.oslc4j.core.annotation.*;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.*;
+import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
+import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -27,20 +36,6 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
-import javax.xml.datatype.DatatypeConfigurationException;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.core.model.Link;
-import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
-import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ANOSLCRESOURCE)
@@ -69,11 +64,11 @@ public class AnOslcResource extends AbstractResource {
         this.aSetOfDates.add(aSetOfDates);
     }
 
-    public ValidationResultModel validate()
+    public ValidationResult validate()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException {
-        return new ValidatorImpl().validate(this);
+        return new ShaclExValidatorImpl().validate(this);
     }
 
     @OslcName("anIntegerProperty")

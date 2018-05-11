@@ -38,10 +38,10 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.validation.constants.DataType;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
+import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
 import org.eclipse.lyo.validation.shacl.annotations.*;
 
 /**
@@ -65,7 +65,6 @@ public class AResource extends AbstractResource {
     private HashSet<Date> aSetOfDates = new HashSet<Date>();
     private Link aReferenceProperty = new Link();
     private BigInteger integerProperty3;
-    ;
 
     public AResource() throws URISyntaxException {
         super();
@@ -79,11 +78,11 @@ public class AResource extends AbstractResource {
         this.aSetOfDates.add(aSetOfDates);
     }
 
-    public ValidationResultModel validate()
+    public ValidationResult validate()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException {
-        return new ValidatorImpl().validate(this);
+        return new ShaclExValidatorImpl().validate(this);
     }
 
     @OslcName("anIntegerProperty")

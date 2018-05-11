@@ -16,21 +16,13 @@
 
 package org.eclipse.lyo.validation;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ResourceModel;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * The Class ShaclMinCountValidationTest.
@@ -61,25 +53,9 @@ public class ShaclMinCountValidationTest {
             aResource.addASetOfDates(new Date());
             //not setting anotherIntegerProperty
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{aResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+            ValidationResult vr = TestHelper.performTest(aResource);
+            TestHelper.assertNegative(vr, "sh:MinCountConstraintComponent");
 
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
-
-            for (ResourceModel rm : vr.getInvalidResources()) {
-
-                JsonElement jelement = new JsonParser().parse(rm.getResult().toJsonString2spaces());
-                JsonObject obj = jelement.getAsJsonObject();
-                String actualError = obj.getAsJsonArray("errors").get(0).getAsJsonObject().get(
-                        "error").toString().replaceAll("\"", "").split(" ")[0];
-
-                Assert.assertFalse(rm.getResult().isValid());
-                String expectedError = "sh:minCountError";
-                Assert.assertEquals(expectedError, actualError);
-                Assert.assertEquals(1, rm.getResult().errors().size());
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
@@ -99,18 +75,9 @@ public class ShaclMinCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{aResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
-            shapeModel.write(System.out, "TURTLE");
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
+            ValidationResult vr = TestHelper.performTest(aResource);
+            TestHelper.assertPositive(vr);
 
-            for (ResourceModel rm : vr.getValidResources()) {
-
-                Assert.assertTrue(rm.getResult().isValid());
-                Assert.assertEquals(0, rm.getResult().errors().size());
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");

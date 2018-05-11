@@ -20,27 +20,18 @@
 
 package org.eclipse.lyo.validation;
 
-import es.weso.schema.ErrorInfo;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.validation.shacl.ValidationResult;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
-import javax.xml.datatype.DatatypeConfigurationException;
-import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.impl.ValidatorImpl;
-import org.eclipse.lyo.validation.model.ResourceModel;
-import org.eclipse.lyo.validation.model.ValidationResultModel;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.junit.Assert;
-import org.junit.Test;
-import scala.Option;
-
-import static org.assertj.core.api.Assertions.*;
 
 /**
  * The Class OslcAnnotationsBasedValidationTest.
@@ -65,6 +56,8 @@ public class OslcAnnotationsBasedValidationTest {
     public void OslcBasedNegativetest()
             throws URISyntaxException, InvocationTargetException, DatatypeConfigurationException,
             OslcCoreApplicationException, IllegalAccessException, ParseException {
+
+        try {
             anOslcResource = new AnOslcResource(
                     new URI("http://www.sampledomain.org/sam#AnOslcResource"));
             anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
@@ -73,26 +66,12 @@ public class OslcAnnotationsBasedValidationTest {
             anOslcResource.setAStringProperty("Cat");
             anOslcResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{anOslcResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AnOslcResource.class);
-            shaclShape.setTargetClass(
-                    new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + SampleAdaptorConstants
-                            .ANOSLCRESOURCE));
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+            ValidationResult vr = TestHelper.performTest(anOslcResource);
+            TestHelper.assertNegative(vr, "sh:MinCountConstraintComponent");
 
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
-            Assert.assertEquals(1, vr.getInvalidResources().size());
-            Assert.assertEquals(0, vr.getValidResources().size());
-
-            for (ResourceModel rm : vr.getInvalidResources()) {
-                final Option<ErrorInfo> errorInfoOption = rm.getResult().errors().headOption();
-                if(errorInfoOption.isDefined()) {
-                    final ErrorInfo errorInfo = errorInfoOption.get();
-                    assertThat(errorInfo.msg()).startsWith("sh:MinCountConstraintComponent");
-                }
-                Assert.assertEquals(1, rm.getResult().errors().size());
-            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -112,20 +91,9 @@ public class OslcAnnotationsBasedValidationTest {
             anOslcResource.addASetOfDates(new Date());
             anOslcResource.setIntegerProperty2(new BigInteger("12"));
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{anOslcResource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AnOslcResource.class);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+            ValidationResult vr = TestHelper.performTest(anOslcResource);
+            TestHelper.assertPositive(vr);
 
-            Validator validator = new ValidatorImpl();
-            ValidationResultModel vr = validator.validate(dataModel, shapeModel);
-            Assert.assertEquals(1, vr.getValidResources().size());
-            Assert.assertEquals(0, vr.getInvalidResources().size());
-
-            for (ResourceModel rm : vr.getValidResources()) {
-
-                Assert.assertTrue(rm.getResult().isValid());
-                Assert.assertEquals(0, rm.getResult().errors().size());
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
