@@ -30,13 +30,14 @@ package org.eclipse.lyo.validation.shacl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
@@ -56,31 +57,25 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(ShDomainConstants.VALIDATIONRESULT_NAMESPACE)
-@OslcName(ShDomainConstants.VALIDATIONRESULT_LOCALNAME)
-@OslcResourceShape(title = "ValidationResult Resource Shape", describes = ShDomainConstants.VALIDATIONRESULT_TYPE)
-public class ValidationResult
+@OslcNamespace(ShDomainConstants.VALIDATIONREPORT_NAMESPACE)
+@OslcName(ShDomainConstants.VALIDATIONREPORT_LOCALNAME)
+@OslcResourceShape(title = "ValidationReport Resource Shape", describes = ShDomainConstants.VALIDATIONREPORT_TYPE)
+public class ValidationReport
     extends AbstractResource
-    implements IValidationResult
+    implements IValidationReport
 {
-    // Start of user code attributeAnnotation:resultpath
+    // Start of user code attributeAnnotation:conforms
     // End of user code
-    private URI resultpath;
-    // Start of user code attributeAnnotation:focusNode
+    private Boolean conforms;
+    // Start of user code attributeAnnotation:result
     // End of user code
-    private URI focusNode;
-    // Start of user code attributeAnnotation:message
-    // End of user code
-    private String message;
-    // Start of user code attributeAnnotation:resultSeverity
-    // End of user code
-    private URI resultSeverity;
+    private HashSet<ValidationResult> result = new HashSet<ValidationResult>();
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ValidationResult()
+    public ValidationReport()
            throws URISyntaxException
     {
         super();
@@ -89,7 +84,7 @@ public class ValidationResult
         // End of user code
     }
     
-    public ValidationResult(final URI about)
+    public ValidationReport(final URI about)
            throws URISyntaxException
     {
         super(about);
@@ -102,8 +97,8 @@ public class ValidationResult
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        ShDomainConstants.VALIDATIONRESULT_PATH,
-        ValidationResult.class);
+        ShDomainConstants.VALIDATIONREPORT_PATH,
+        ValidationReport.class);
     }
     
     
@@ -119,7 +114,7 @@ public class ValidationResult
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local ValidationResult Resource} - update ValidationResult.toString() to present resource as desired.";
+            result = result + "{a Local ValidationReport Resource} - update ValidationReport.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }
@@ -159,110 +154,70 @@ public class ValidationResult
         return result;
     }
     
+    public void addResult(final ValidationResult result)
+    {
+        this.result.add(result);
+    }
     
-    // Start of user code getterAnnotation:resultpath
+    
+    // Start of user code getterAnnotation:conforms
     // End of user code
-    @OslcName("resultpath")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultpath")
+    @OslcName("conforms")
+    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "conforms")
     @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public URI getResultpath()
+    public Boolean isConforms()
     {
-        // Start of user code getterInit:resultpath
+        // Start of user code getterInit:conforms
         // End of user code
-        return resultpath;
+        return conforms;
     }
     
-    // Start of user code getterAnnotation:focusNode
+    // Start of user code getterAnnotation:result
     // End of user code
-    @OslcName("focusNode")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "focusNode")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcName("result")
+    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "result")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.LocalResource)
+    @OslcRange({ShDomainConstants.VALIDATIONRESULT_TYPE})
     @OslcReadOnly(false)
-    public URI getFocusNode()
+    public HashSet<ValidationResult> getResult()
     {
-        // Start of user code getterInit:focusNode
+        // Start of user code getterInit:result
         // End of user code
-        return focusNode;
+        return result;
     }
     
-    // Start of user code getterAnnotation:message
+    
+    // Start of user code setterAnnotation:conforms
     // End of user code
-    @OslcName("message")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "message")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getMessage()
+    public void setConforms(final Boolean conforms )
     {
-        // Start of user code getterInit:message
+        // Start of user code setterInit:conforms
         // End of user code
-        return message;
+        this.conforms = conforms;
+    
+        // Start of user code setterFinalize:conforms
+        // End of user code
     }
     
-    // Start of user code getterAnnotation:resultSeverity
+    // Start of user code setterAnnotation:result
     // End of user code
-    @OslcName("resultSeverity")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultSeverity")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcReadOnly(false)
-    @OslcAllowedValue({"http://www.w3.org/ns/shacl#Info", "http://www.w3.org/ns/shacl#Warning", "http://www.w3.org/ns/shacl#Violation"})
-    public URI getResultSeverity()
+    public void setResult(final HashSet<ValidationResult> result )
     {
-        // Start of user code getterInit:resultSeverity
+        // Start of user code setterInit:result
         // End of user code
-        return resultSeverity;
-    }
+        this.result.clear();
+        if (result != null)
+        {
+            this.result.addAll(result);
+        }
     
-    
-    // Start of user code setterAnnotation:resultpath
-    // End of user code
-    public void setResultpath(final URI resultpath )
-    {
-        // Start of user code setterInit:resultpath
-        // End of user code
-        this.resultpath = resultpath;
-    
-        // Start of user code setterFinalize:resultpath
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:focusNode
-    // End of user code
-    public void setFocusNode(final URI focusNode )
-    {
-        // Start of user code setterInit:focusNode
-        // End of user code
-        this.focusNode = focusNode;
-    
-        // Start of user code setterFinalize:focusNode
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:message
-    // End of user code
-    public void setMessage(final String message )
-    {
-        // Start of user code setterInit:message
-        // End of user code
-        this.message = message;
-    
-        // Start of user code setterFinalize:message
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:resultSeverity
-    // End of user code
-    public void setResultSeverity(final URI resultSeverity )
-    {
-        // Start of user code setterInit:resultSeverity
-        // End of user code
-        this.resultSeverity = resultSeverity;
-    
-        // Start of user code setterFinalize:resultSeverity
+        // Start of user code setterFinalize:result
         // End of user code
     }
     
     
-
+    
 }

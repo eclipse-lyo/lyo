@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
+  <domainSpecifications name="SHACL" namespaceURI="http://www.w3.org/ns/shacl" namespacePrefix="//@domainPrefixes.0">
+    <resources name="ValidationReport" resourceProperties="//@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.4"/>
+    <resources name="ValidationResult" resourceProperties="//@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5"/>
+    <resourceProperties name="conforms"/>
+    <resourceProperties name="focusNode" valueType="URI"/>
+    <resourceProperties name="message" valueType="String"/>
+    <resourceProperties name="resultpath" valueType="URI"/>
+    <resourceProperties name="result" occurs="zeroOrMany" valueType="LocalResource" range="//@domainSpecifications.0/@resources.1"/>
+    <resourceProperties name="resultSeverity" valueType="URI">
+      <allowedValue>http://www.w3.org/ns/shacl#Info</allowedValue>
+      <allowedValue>http://www.w3.org/ns/shacl#Warning</allowedValue>
+      <allowedValue>http://www.w3.org/ns/shacl#Violation</allowedValue>
+    </resourceProperties>
+    <generationSetting javaClassPackageName="" javaFilesPath=""/>
+  </domainSpecifications>
+  <domainPrefixes name="sh"/>
+  <generationSetting javaClassPackageName="org.eclipse.lyo.validation.shacl" javaFilesPath="\src\main\java"/>
+</oslc4j_ai:Specification>
