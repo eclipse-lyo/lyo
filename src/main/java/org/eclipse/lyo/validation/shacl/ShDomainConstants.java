@@ -36,8 +36,8 @@ public interface ShDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String SHACL_DOMAIN = "http://www.w3.org/ns/shacl";
-    public static String SHACL_NAMSPACE = "http://www.w3.org/ns/shacl";
+    public static String SHACL_DOMAIN = "http://www.w3.org/ns/shacl#";
+    public static String SHACL_NAMSPACE = "http://www.w3.org/ns/shacl#";
     public static String SHACL_NAMSPACE_PREFIX = "sh";
 
     public static String VALIDATIONREPORT_PATH = "validationReport";

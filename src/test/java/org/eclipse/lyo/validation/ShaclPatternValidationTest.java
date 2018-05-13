@@ -26,13 +26,12 @@
 
 package org.eclipse.lyo.validation;
 
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The Class ShaclPatternValidationTest.
@@ -46,7 +45,8 @@ public class ShaclPatternValidationTest {
      * Shacl pattern negative test.
      *
      * This test will fail because the pattern for StringProperty does not satisfy.
-     * It should start with "B" to be valid. But Here in this example, it starts with "C".
+     * It should start with "B" to be valid. But Here in this example, it starts
+     * with "C".
      */
     @Test
     public void ShaclPatternNegativetest() {
@@ -54,12 +54,12 @@ public class ShaclPatternValidationTest {
         try {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
-            //Invalid Value. Should Start with 'B' to be valid.
+            // Invalid Value. Should Start with 'B' to be valid.
             aResource.setAStringProperty("Catalyzer");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:PatternConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource),
+                    "pattern violation. Expected \"Catalyzer\" to match '^B'");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,8 +81,7 @@ public class ShaclPatternValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

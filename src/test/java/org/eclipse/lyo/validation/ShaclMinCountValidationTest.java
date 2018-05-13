@@ -53,8 +53,7 @@ public class ShaclMinCountValidationTest {
             aResource.addASetOfDates(new Date());
             //not setting anotherIntegerProperty
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MinCountConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource), "MinCount violation. Expected 1, obtained: 0");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,8 +74,7 @@ public class ShaclMinCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -23,6 +23,7 @@ import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.eclipse.lyo.validation.shacl.ValidationResult;
 
 /**
@@ -38,13 +39,16 @@ public interface Validator {
      * @param resource Resource to be validated
      *
      * @return the validation result model
+     * @throws NoSuchMethodException 
+     * @throws SecurityException 
+     * @throws InstantiationException 
      *
      * @see org.eclipse.lyo.validation.shacl.ShaclShapeFactory#createShaclShape(Class)
      */
-    ValidationResult validate(AbstractResource resource)
+    ValidationReport validate(AbstractResource resource)
             throws OslcCoreApplicationException, URISyntaxException, ParseException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException;
+            DatatypeConfigurationException, InstantiationException, SecurityException, NoSuchMethodException;
 
     /**
      * Validate.
@@ -65,10 +69,15 @@ public interface Validator {
      * @throws InvocationTargetException      the invocation target exception
      * @throws DatatypeConfigurationException the datatype configuration exception
      * @throws OslcCoreApplicationException   the oslc core application exception
+     * @throws URISyntaxException 
+     * @throws NoSuchMethodException 
+     * @throws SecurityException 
+     * @throws InstantiationException 
+     * @throws IllegalArgumentException 
      */
-    ValidationResult validate(Model dataModel, Model shapeModel)
+    ValidationReport validate(Model dataModel, Model shapeModel)
             throws IllegalAccessException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException;
+            DatatypeConfigurationException, OslcCoreApplicationException, IllegalArgumentException, InstantiationException, SecurityException, NoSuchMethodException, URISyntaxException;
 
     /**
      * Validate <code>dataModel</code> against the {@link ShaclShape} that is constructed from
@@ -82,9 +91,12 @@ public interface Validator {
      * @param clazz     Resource class with shape annotations
      *
      * @return Model with the validation results
+     * @throws NoSuchMethodException 
+     * @throws SecurityException 
+     * @throws InstantiationException 
      */
-    ValidationResult validate(Model dataModel, Class<? extends AbstractResource> clazz)
+    ValidationReport validate(Model dataModel, Class<? extends AbstractResource> clazz)
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
-            ParseException;
+            ParseException, InstantiationException, SecurityException, NoSuchMethodException;
 }

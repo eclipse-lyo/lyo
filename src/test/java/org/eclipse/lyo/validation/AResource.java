@@ -27,8 +27,19 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
+
 import javax.xml.datatype.DatatypeConfigurationException;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
+
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
@@ -41,12 +52,24 @@ import org.eclipse.lyo.validation.constants.DataType;
 import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-import org.eclipse.lyo.validation.shacl.annotations.*;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclClassType;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclDataType;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclIn;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxCount;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxExclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxInclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxLength;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinCount;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinExclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinInclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinLength;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclPattern;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclTargetClass;
 
 /**
  *
- * @author Yash Khatri (yash.s.khatri@gmail.com)
+ * @author Yash Khatri 
  *
  */
 
@@ -78,10 +101,10 @@ public class AResource extends AbstractResource {
         this.aSetOfDates.add(aSetOfDates);
     }
 
-    public ValidationResult validate()
+    public ValidationReport validate()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
-            ParseException {
+            ParseException, InstantiationException, SecurityException, NoSuchMethodException {
         return new ShaclExValidatorImpl().validate(this);
     }
 

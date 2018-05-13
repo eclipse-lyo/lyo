@@ -54,8 +54,7 @@ public class ShaclMaxLengthValidationTest {
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MaxLengthConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource), "maxLength violation. Expected length(\"Between two and four\") <= 10");
 
 
         } catch (Exception e) {
@@ -77,8 +76,7 @@ public class ShaclMaxLengthValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
 
         } catch (Exception e) {

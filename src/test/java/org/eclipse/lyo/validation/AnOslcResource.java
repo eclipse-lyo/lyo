@@ -20,15 +20,6 @@
 
 package org.eclipse.lyo.validation;
 
-import org.eclipse.lyo.oslc4j.core.annotation.*;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.*;
-import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-
-import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -36,6 +27,31 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.Occurs;
+import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
+import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
 
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ANOSLCRESOURCE)
@@ -64,10 +80,10 @@ public class AnOslcResource extends AbstractResource {
         this.aSetOfDates.add(aSetOfDates);
     }
 
-    public ValidationResult validate()
+    public ValidationReport validate()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
-            ParseException {
+            ParseException, InstantiationException, SecurityException, NoSuchMethodException {
         return new ShaclExValidatorImpl().validate(this);
     }
 

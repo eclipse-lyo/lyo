@@ -20,13 +20,12 @@
 
 package org.eclipse.lyo.validation;
 
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The Class ShaclInValidationTest.
@@ -39,8 +38,8 @@ public class ShaclInValidationTest {
     /**
      * Shacl in negativetest.
      *
-     * This test is failing because the allowed values for the anotherintegerproperty are 5, 7, 9
-     * or 12.
+     * This test is failing because the allowed values for the
+     * anotherintegerproperty are 5, 7, 9 or 12.
      */
     @Test
     public void ShaclInNegativetest() {
@@ -49,11 +48,11 @@ public class ShaclInValidationTest {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
-            //Invalid value. Allowed values are 5,7,9 or 12.
+            // Invalid value. Allowed values are 5,7,9 or 12.
             aResource.setAnotherIntegerProperty(new BigInteger("6"));
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:InConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource),
+                    "In violation. Expected 6 to be in List(LiteralValue(12), LiteralValue(9), LiteralValue(7), LiteralValue(5))");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,8 +73,7 @@ public class ShaclInValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

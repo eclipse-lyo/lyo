@@ -20,17 +20,17 @@
 
 package org.eclipse.lyo.validation;
 
+import java.math.BigInteger;
+import java.net.URI;
+import java.util.Date;
+
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationResult;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigInteger;
-import java.net.URI;
-import java.util.Date;
 
 /**
  * The Class ShaclClosedValidationTest.
@@ -43,35 +43,35 @@ public class ShaclClosedValidationTest {
     /**
      * Shacl closed negative test.
      *
-     * This test will fail because the shacl shape have closed set to true.
-     * This means that any extra property apart from those allowed in the shacl shape
-     * wil lead to the shacl closed validation error.
+     * This test will fail because the shacl shape have closed set to true. This
+     * means that any extra property apart from those allowed in the shacl shape wil
+     * lead to the shacl closed validation error.
      */
     @Test
     public void ShaclClosedNegativetest() {
 
         try {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            //According to the Shacl shape this is an extra property. Hence, it will show shacl
+            // According to the Shacl shape this is an extra property. Hence, it will show
+            // shacl
             // closed error.
             aResource.setAnIntegerProperty(new BigInteger("2"));
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{aResource});
+            Model dataModel = JenaModelHelper.createJenaModel(new Object[] { aResource });
             ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
 
-            //Removing "anIntegerProperty" from the ShaclShape properties.
-            shaclShape.removeProperty(
-                    new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anIntegerProperty"));
+            // Removing "anIntegerProperty" from the ShaclShape properties.
+            shaclShape.removeProperty(new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anIntegerProperty"));
             shaclShape.setClosed(true);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+            Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
 
             Validator validator = ValidatorFactory.createShaclExValidator();
-            ValidationResult vr = validator.validate(dataModel, shapeModel);
+            ValidationReport vr = validator.validate(dataModel, shapeModel);
 
-            TestHelper.assertNegative(vr, "sh:ClosedConstraintComponent");
+            TestHelper.assertNegative(vr, "closed violation.");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class ShaclClosedValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
+            ValidationReport vr = TestHelper.performTest(aResource);
             TestHelper.assertPositive(vr);
 
         } catch (Exception e) {

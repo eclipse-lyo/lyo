@@ -22,13 +22,11 @@ package org.eclipse.lyo.validation;
 
 import java.math.BigInteger;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 
-import org.eclipse.lyo.validation.shacl.ValidationResult;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
+import org.junit.Assert;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * The Class ShaclMaxCountValidationTest.
@@ -56,10 +54,11 @@ public class ShaclMaxCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MaxCountConstraintComponent");
+            ValidationReport vr = TestHelper.performTest(aResource);
+            TestHelper.assertNegative(vr, "MaxCount violation. Expected 0, obtained: 1");
 
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
+            Assert.fail("Exception should be thrown.");
             e.printStackTrace();
         }
     }
@@ -76,10 +75,11 @@ public class ShaclMaxCountValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
+            ValidationReport vr = TestHelper.performTest(aResource);
             TestHelper.assertPositive(vr);
 
         } catch (Exception e) {
+            Assert.fail("Exception should be thrown.");
             e.printStackTrace();
         }
 

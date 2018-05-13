@@ -54,8 +54,7 @@ public class ShaclMinExclusiveValidationTest {
             aResource.setIntegerProperty2(new BigInteger("5"));
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MinExclusiveConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource), "minExclusive violation. Expected 5 > 5");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,8 +76,7 @@ public class ShaclMinExclusiveValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

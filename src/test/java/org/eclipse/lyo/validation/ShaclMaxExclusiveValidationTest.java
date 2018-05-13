@@ -52,8 +52,7 @@ public class ShaclMaxExclusiveValidationTest {
             aResource.setIntegerProperty2(new BigInteger("16"));
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MaxExclusiveConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource), "maxExclusive violation. Expected 16 < 15");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,8 +74,7 @@ public class ShaclMaxExclusiveValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

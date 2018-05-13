@@ -65,7 +65,7 @@ public class ValidationResult
 {
     // Start of user code attributeAnnotation:resultpath
     // End of user code
-    private URI resultpath;
+    private URI resultPath;
     // Start of user code attributeAnnotation:focusNode
     // End of user code
     private URI focusNode;
@@ -106,71 +106,17 @@ public class ValidationResult
         ValidationResult.class);
     }
     
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local ValidationResult Resource} - update ValidationResult.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = getAbout().toString();
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public String toHtml()
-    {
-        return toHtml(false);
-    }
-    
-    public String toHtml(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toHtml_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = toString(true);
-            // Start of user code toHtml_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
-        // Start of user code toHtml_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
     // Start of user code getterAnnotation:resultpath
     // End of user code
-    @OslcName("resultpath")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultpath")
+    @OslcName("resultPath")
+    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultPath")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcReadOnly(false)
-    public URI getResultpath()
+    public URI getResultPath()
     {
         // Start of user code getterInit:resultpath
         // End of user code
-        return resultpath;
+        return resultPath;
     }
     
     // Start of user code getterAnnotation:focusNode
@@ -217,11 +163,11 @@ public class ValidationResult
     
     // Start of user code setterAnnotation:resultpath
     // End of user code
-    public void setResultpath(final URI resultpath )
+    public void setResultPath(final URI resultPath )
     {
         // Start of user code setterInit:resultpath
         // End of user code
-        this.resultpath = resultpath;
+        this.resultPath = resultPath;
     
         // Start of user code setterFinalize:resultpath
         // End of user code

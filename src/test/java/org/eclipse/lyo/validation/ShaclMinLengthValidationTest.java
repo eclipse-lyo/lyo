@@ -26,13 +26,12 @@
 
 package org.eclipse.lyo.validation;
 
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The Class ShaclMinLengthValidationTest.
@@ -60,8 +59,7 @@ public class ShaclMinLengthValidationTest {
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "sh:MinLengthConstraintComponent");
+            TestHelper.assertNegative(TestHelper.performTest(aResource), "minLength violation. Expected length(\"Betwee\") >= 7");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,8 +81,7 @@ public class ShaclMinLengthValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            ValidationResult vr = TestHelper.performTest(aResource);
-            TestHelper.assertPositive(vr);
+            TestHelper.assertPositive(TestHelper.performTest(aResource));
 
         } catch (Exception e) {
             e.printStackTrace();

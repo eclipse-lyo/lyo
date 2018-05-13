@@ -1,48 +1,45 @@
 package org.eclipse.lyo.validation;
 
-import es.weso.schema.ErrorInfo;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationResult;
+import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.junit.Assert;
-import org.junit.Test;
-import scala.Option;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestHelper {
 
-    public static ValidationResult performTest(AbstractResource resource) {
+    public static ValidationReport performTest(AbstractResource resource)
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException, ParseException,
+            InstantiationException, SecurityException, NoSuchMethodException {
 
-        try {
+        Model dataModel = JenaModelHelper.createJenaModel(new Object[] { resource });
+        ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
+        Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[]{shaclShape});
+        Validator validator = ValidatorFactory.createShaclExValidator();
+        return validator.validate(dataModel, shapeModel);
 
-            Validator validator = ValidatorFactory.createShaclExValidator();
-            return validator.validate(dataModel, shapeModel);
-
-        } catch (Exception e) {
-            Assert.fail("Exception should not be thrown");
-        }
-        return null;
     }
 
-    public static void assertNegative(ValidationResult vr, String errorMessage){
-        final Option<ErrorInfo> errorInfoOption = vr.getResult().errors().headOption();
-        if (errorInfoOption.isDefined()) {
-            final ErrorInfo errorInfo = errorInfoOption.get();
-            assertThat(errorInfo.msg()).startsWith(errorMessage);
+    public static void assertNegative(ValidationReport vr, String errorMessage) {
+        if (vr.getResult().iterator().hasNext()) {
+        Assert.assertTrue(vr.getResult().iterator().next().getMessage().startsWith(errorMessage));
+        } else {
+            Assert.fail("Validation Error should exist.");
         }
-        Assert.assertEquals(1, vr.getErrors().size());
     }
 
-    public static void assertPositive(ValidationResult vr) {
-        Assert.assertTrue(vr.isValid());
-        Assert.assertEquals(0, vr.getResult().errors().size());
+    public static void assertPositive(ValidationReport vr) {
+        Assert.assertTrue(vr.isConforms());
     }
 }
