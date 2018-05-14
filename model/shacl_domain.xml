@@ -3,18 +3,73 @@
   <domainSpecifications name="SHACL" namespaceURI="http://www.w3.org/ns/shacl" namespacePrefix="//@domainPrefixes.0">
     <resources name="ValidationReport" resourceProperties="//@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.4"/>
     <resources name="ValidationResult" resourceProperties="//@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5"/>
+    <resources name="ShaclShape" resourceProperties="//@domainSpecifications.0/@resourceProperties.6 //@domainSpecifications.0/@resourceProperties.7 //@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.0/@resourceProperties.9 //@domainSpecifications.0/@resourceProperties.10 //@domainSpecifications.0/@resourceProperties.11 //@domainSpecifications.0/@resourceProperties.12 //@domainSpecifications.0/@resourceProperties.13 //@domainSpecifications.0/@resourceProperties.14 //@domainSpecifications.0/@resourceProperties.15"/>
+    <resources name="ShaclProperty" resourceProperties="//@domainSpecifications.0/@resourceProperties.42 //@domainSpecifications.0/@resourceProperties.16 //@domainSpecifications.0/@resourceProperties.17 //@domainSpecifications.0/@resourceProperties.18 //@domainSpecifications.0/@resourceProperties.31 //@domainSpecifications.0/@resourceProperties.32 //@domainSpecifications.0/@resourceProperties.43 //@domainSpecifications.0/@resourceProperties.19 //@domainSpecifications.0/@resourceProperties.20 //@domainSpecifications.0/@resourceProperties.21 //@domainSpecifications.0/@resourceProperties.22 //@domainSpecifications.0/@resourceProperties.23 //@domainSpecifications.0/@resourceProperties.24 //@domainSpecifications.0/@resourceProperties.25 //@domainSpecifications.0/@resourceProperties.26 //@domainSpecifications.0/@resourceProperties.27 //@domainSpecifications.0/@resourceProperties.28 //@domainSpecifications.0/@resourceProperties.29 //@domainSpecifications.0/@resourceProperties.30 //@domainSpecifications.0/@resourceProperties.33 //@domainSpecifications.0/@resourceProperties.34 //@domainSpecifications.0/@resourceProperties.35 //@domainSpecifications.0/@resourceProperties.36 //@domainSpecifications.0/@resourceProperties.37 //@domainSpecifications.0/@resourceProperties.38 //@domainSpecifications.0/@resourceProperties.39 //@domainSpecifications.0/@resourceProperties.40 //@domainSpecifications.0/@resourceProperties.41 //@domainSpecifications.0/@resourceProperties.44"/>
     <resourceProperties name="conforms"/>
     <resourceProperties name="focusNode" valueType="URI"/>
     <resourceProperties name="message" valueType="String"/>
-    <resourceProperties name="resultpath" valueType="URI"/>
+    <resourceProperties name="resultPath" valueType="URI"/>
     <resourceProperties name="result" occurs="zeroOrMany" valueType="LocalResource" range="//@domainSpecifications.0/@resources.1"/>
     <resourceProperties name="resultSeverity" valueType="URI">
       <allowedValue>http://www.w3.org/ns/shacl#Info</allowedValue>
       <allowedValue>http://www.w3.org/ns/shacl#Warning</allowedValue>
       <allowedValue>http://www.w3.org/ns/shacl#Violation</allowedValue>
     </resourceProperties>
+    <resourceProperties title="targetClass" name="targetClass" readOnly="true" valueType="URI" description="Type or types of resource described by this shape"/>
+    <resourceProperties title="targetNode" name="targetNode" readOnly="true" valueType="URI"/>
+    <resourceProperties title="targetSubjectsOf" name="targetSubjectsOf" readOnly="true" valueType="URI" description="Type or types of resource described by this shape"/>
+    <resourceProperties title="targetObjectsOf" name="targetObjectsOf" readOnly="true" valueType="URI" description="Type or types of resource described by this shape"/>
+    <resourceProperties title="isDefinedBy" name="isDefinedBy" readOnly="true" valueType="URI"/>
+    <resourceProperties title="label" name="label" readOnly="true" valueType="String"/>
+    <resourceProperties title="RDF Type" name="type" readOnly="true" valueType="URI" description="Type or types of resource described by this shape"/>
+    <resourceProperties title="isClosed" name="isClosed" readOnly="true"/>
+    <resourceProperties title="ignoredProperties" name="ignoredProperties" occurs="zeroOrMany" readOnly="true" valueType="URI"/>
+    <resourceProperties title="Properties" name="property" occurs="zeroOrMany" readOnly="true" valueType="LocalResource" range="//@domainSpecifications.0/@resources.3" description="The properties that are allowed or required by this shape"/>
+    <resourceProperties name="path" readOnly="true" valueType="URI" description="path of a property"/>
+    <resourceProperties title="Class" name="classType" readOnly="true" valueType="URI" description="Specifies the Class of a node"/>
+    <resourceProperties title="Min Count" name="minCount" readOnly="true" valueType="Integer" description="Specifies the min count"/>
+    <resourceProperties title="Max Count" name="maxCount" readOnly="true" valueType="Integer" description="Specifies the max count"/>
+    <resourceProperties title="Range Min Exclusive" name="minExclusive" readOnly="true" valueType="Integer" description="Specifies the range: Min Exclusive"/>
+    <resourceProperties title="Range Max Exclusive" name="maxExclusive" readOnly="true" valueType="Integer" description="Specifies the range: Max Exclusive"/>
+    <resourceProperties title="Range Min Inclusive" name="minInclusive" readOnly="true" valueType="Integer" description="Specifies the range: Min Inclusive"/>
+    <resourceProperties title="Range Max Inclusive" name="maxInclusive" readOnly="true" valueType="Integer" description="Specifies the range: Max Inclusive"/>
+    <resourceProperties title="Minimum Length" name="minLength" readOnly="true" valueType="Integer" description="Specifies the minimum string length of each value node that satisfies the condition."/>
+    <resourceProperties title="Maximum Length" name="maxLength" readOnly="true" valueType="Integer" description="Specifies the maximum string length of each value node that satisfies the condition."/>
+    <resourceProperties title="Pattern" name="pattern" readOnly="true" valueType="String" description="Specifies a regular expression that each value node matches to satisfy the condition."/>
+    <resourceProperties title="LanguageIn" name="languageIn" occurs="zeroOrMany" readOnly="true" valueType="String" description="Specifies the allowed language tags for each value node limited by a given list of language tags."/>
+    <resourceProperties title="UniqueLang" name="uniqueLang" readOnly="true" description="Specifies that no pair of value nodes may use the same language tag if set true."/>
+    <resourceProperties title="Name" name="name" readOnly="true" valueType="String" description="Specifies the name"/>
+    <resourceProperties title="Description" name="description" readOnly="true" valueType="String" description="Specifies the description"/>
+    <resourceProperties name="order" readOnly="true" valueType="Double" description="Sets the order of a property"/>
+    <resourceProperties name="group" readOnly="true" valueType="URI" description="Indicate that the shape belongs to a group of related property shapes"/>
+    <resourceProperties name="severity" valueType="URI" description="The specific values of sh:severity have no impact on the validation, but may be used by user interface tools to categorize validation results."/>
+    <resourceProperties title="Message" name="message" readOnly="true" valueType="String" description="Specifies the message to be shown in resultMessage of Validation report"/>
+    <resourceProperties name="isDeactivated" readOnly="true"/>
+    <resourceProperties title="Node" name="node" readOnly="true" valueType="URI" description="sh:node specifies the condition that each value node conforms to the given node shape."/>
+    <resourceProperties name="equals" readOnly="true" valueType="URI" description="sh:equals specifies the condition that the set of all value nodes is equal to the set of objects of the triples that have the focus node as subject and the value of sh:equals as predicate."/>
+    <resourceProperties name="disjoint" readOnly="true" valueType="URI" description="sh:disjoint specifies the condition that the set of value nodes is disjoint with the set of objects of the triples that have the focus node as subject and the value of sh:equals as predicate."/>
+    <resourceProperties name="lessThan" readOnly="true" valueType="URI" description="sh:lessThan specifies the condition that each value node is smaller than all the objects of the triples that have the focus node as subject and the value of sh:lessThan as predicate."/>
+    <resourceProperties name="lessThanOrEquals" readOnly="true" valueType="URI" description="sh:lessThanOrEquals specifies the condition that each value node is smaller than or equal to all the objects of the triples that have the focus node as subject and the value of sh:lessThanOrEquals as predicate."/>
+    <resourceProperties name="hasValue" readOnly="true" valueType="URI" description="sh:hasValue specifies the condition that at least one value node is equal to the given RDF term."/>
+    <resourceProperties name="in" occurs="zeroOrMany" valueType="LocalResource" range="//@domainSpecifications.1/@resources.0" description="specifies the condition that each value node is a member of a provided SHACL list."/>
+    <resourceProperties title="Data Type" name="datatype" valueType="String" description="See list of allowed values for sh:datatype">
+      <allowedValue>http://www.w3.org/2001/XMLSchema#boolean</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#dateTime</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#decimal</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#double</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#float</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#integer</allowedValue>
+      <allowedValue>http://www.w3.org/2001/XMLSchema#string</allowedValue>
+      <allowedValue>http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral</allowedValue>
+    </resourceProperties>
+    <resourceProperties title="Node Kind" name="nodeKind" readOnly="true" valueType="URI" description="Specifies the node kind. Values can be: sh:BlankNode, sh:IRI, sh:Literal, sh:BlankNodeOrIRI, sh:BlankNodeOrLiteral and sh:IRIOrLiteral"/>
     <generationSetting javaClassPackageName="" javaFilesPath=""/>
   </domainSpecifications>
+  <domainSpecifications name="Java" namespaceURI="http://your.organisation.domain/nsp2#" namespacePrefix="//@domainPrefixes.1">
+    <resources name="Object"/>
+    <generationSetting javaClassPackageName="java.lang" javaFilesPath=""/>
+  </domainSpecifications>
   <domainPrefixes name="sh"/>
+  <domainPrefixes name="nsp2"/>
   <generationSetting javaClassPackageName="org.eclipse.lyo.validation.shacl" javaFilesPath="\src\main\java"/>
 </oslc4j_ai:Specification>

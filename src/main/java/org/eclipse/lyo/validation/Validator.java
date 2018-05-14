@@ -18,13 +18,14 @@ package org.eclipse.lyo.validation;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+
 import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.validation.shacl.ShaclShape;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
-import org.eclipse.lyo.validation.shacl.ValidationResult;
 
 /**
  * @author Yash Khatri
@@ -38,7 +39,7 @@ public interface Validator {
      *
      * @param resource Resource to be validated
      *
-     * @return the validation result model
+     * @return {@link ValidationReport}
      * @throws NoSuchMethodException 
      * @throws SecurityException 
      * @throws InstantiationException 
@@ -57,13 +58,13 @@ public interface Validator {
      * dataModel against shapeModel and return the
      * ValidationResultModel
      * <p>
-     * It iterates on all the resources with in the <code>dataModel</code> and returns the first
-     * error in each resource.
+     * It iterates on all the resources with in the <code>dataModel</code> and returns all the errors
+     * found in all resources. 
      *
      * @param dataModel  the data model
      * @param shapeModel the shape model
      *
-     * @return the validation result model
+     * @return {@link ValidationReport}
      *
      * @throws IllegalAccessException         the illegal access exception
      * @throws InvocationTargetException      the invocation target exception
@@ -84,13 +85,13 @@ public interface Validator {
      * the shape annotations in the resource class passed in the
      * <code>clazz</code> variable. The target is set to the class type of the resource class.
      * <p>
-     * It iterates on all the resources with in the <code>dataModel</code> and returns the first
-     * error in each resource.
+     * It iterates on all the resources with in the <code>dataModel</code> and returns all
+     * the errors in each resource.
      *
      * @param dataModel Data model to be validated
      * @param clazz     Resource class with shape annotations
      *
-     * @return Model with the validation results
+     * @return {@link ValidationReport}
      * @throws NoSuchMethodException 
      * @throws SecurityException 
      * @throws InstantiationException 

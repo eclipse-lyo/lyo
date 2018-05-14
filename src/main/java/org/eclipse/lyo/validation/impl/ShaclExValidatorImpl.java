@@ -17,9 +17,7 @@
 package org.eclipse.lyo.validation.impl;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -29,8 +27,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFLanguages;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -94,8 +90,8 @@ public class ShaclExValidatorImpl implements Validator {
             NoSuchMethodException, DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
         Model valResultJenaModel = ModelFactory.createDefaultModel();
         if (log.isDebugEnabled()) {
-            log.debug("Data model: \n{}", modelToTurtle(dataModel));
-            log.debug("Shape model: \n{}", modelToTurtle(shapeModel));
+            log.debug("Data model: \n{}", dataModel.write(System.out, RDFLanguages.strLangTurtle));
+            log.debug("Shape model: \n{}", shapeModel.write(System.out, RDFLanguages.strLangTurtle));
         }
 
         Result result = validateInternal(dataModel, shapeModel);
@@ -136,19 +132,6 @@ public class ShaclExValidatorImpl implements Validator {
         } else {
             throw new IllegalArgumentException("A given Shape cannot be used to create a correct " + "Schema");
         }
-    }
-
-    // TODO Andrew@2018-05-05: contrib to lyo-core JMH
-    public static String modelToTurtle(final RDFAsJenaModel shaclexModel) {
-        final Model jenaModel = shaclexModel.model();
-        return modelToTurtle(jenaModel);
-    }
-
-    // TODO Andrew@2018-05-05: contrib to lyo-core JMH
-    public static String modelToTurtle(final Model jenaModel) {
-        final OutputStream out = new ByteArrayOutputStream();
-        RDFDataMgr.write(out, jenaModel, RDFFormat.TURTLE);
-        return out.toString();
     }
 
     ValidationReport populateValidationReport(Result result) throws IllegalAccessException, IllegalArgumentException,

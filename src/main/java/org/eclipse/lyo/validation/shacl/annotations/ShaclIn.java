@@ -21,7 +21,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.eclipse.lyo.validation.constants.DataType;
 
 /**
  * @author Yash Khatri
@@ -32,8 +31,6 @@ import org.eclipse.lyo.validation.constants.DataType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ShaclIn {
-
-    DataType dataType();
 
     String[] value();
 }

@@ -424,7 +424,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription(
             "The specific values of sh:severity have no impact on the validation, but may be " +
-                    "used" + " by user interface tools to categorize validation results.")
+                    "used by user interface tools to categorize validation results.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "severity")
     @OslcReadOnly
     @OslcName("severity")
@@ -438,7 +438,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription(
             "sh:equals specifies the condition that the set of all value nodes is equal to the "
-                    + "set of objects of the " + "triples that have the focus node as subject and" +
+                    + "set of objects of the triples that have the focus node as subject and" +
                     " " + "the value of sh:equals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "equals")
     @OslcReadOnly
@@ -453,8 +453,8 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription(
             "sh:disjoint specifies the condition that the set of value nodes is disjoint with " +
-                    "the" + " the set of objects of the triples " + "that have the focus node as " +
-                    "subject " + "and the value of sh:equals as predicate.")
+                    "the set of objects of the triples that have the focus node as " +
+                    "subject and the value of sh:equals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "disjoint")
     @OslcReadOnly
     @OslcName("disjoint")
@@ -468,8 +468,8 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription(
             "sh:lessThan specifies the condition that each value node is smaller than all the " +
-                    "objects of the triples that have the " + "focus node as subject and the " +
-                    "value" + " of sh:lessThan as predicate.")
+                    "objects of the triples that have the focus node as subject and the " +
+                    "value of sh:lessThan as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "lessThan")
     @OslcReadOnly
     @OslcName("lessThan")
@@ -483,8 +483,8 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription(
             "sh:lessThanOrEquals specifies the condition that each value node is smaller than or " +
-                    "" + "equal to all the objects of the triples" + " that have the focus node " +
-                    "as " + "subject and the value of sh:lessThanOrEquals as predicate.")
+                    "equal to all the objects of the triples that have the focus node " +
+                    "as subject and the value of sh:lessThanOrEquals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "lessThanOrEquals")
     @OslcReadOnly
     @OslcName("lessThanOrEquals")
