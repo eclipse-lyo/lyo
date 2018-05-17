@@ -34,9 +34,9 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 @OslcNamespace(ShaclConstants.SHACL_CORE_NAMESPACE)
 @OslcName("Shape")
 @OslcResourceShape(title = "Shacl Resource Shape", describes = ShaclConstants.TYPE_SHACL_SHAPE)
-public final class ShaclShape extends AbstractResource {
+public final class Shape extends AbstractResource {
     //Core Constraints
-    private final Map<URI, ShaclProperty> properties = new HashMap<URI, ShaclProperty>();
+    private final Map<URI, Property> properties = new HashMap<URI, Property>();
     //Targets
     private URI targetClass;
     private URI targetNode;
@@ -50,11 +50,11 @@ public final class ShaclShape extends AbstractResource {
 
     private boolean readShaclAnnotations = false;
 
-    public ShaclShape() {
+    public Shape() {
         super();
     }
 
-    public ShaclShape(final URI about) {
+    public Shape(final URI about) {
         super(about);
     }
 
@@ -67,7 +67,7 @@ public final class ShaclShape extends AbstractResource {
         this.ignoredProperties.add(ignoredPropertyPredicate);
     }
 
-    public void addProperty(final ShaclProperty property) {
+    public void addProperty(final Property property) {
         this.properties.put(property.getPath(), property);
     }
 
@@ -75,7 +75,7 @@ public final class ShaclShape extends AbstractResource {
         this.properties.remove(predicate);
     }
 
-    public ShaclProperty getShaclProperty(URI definition) {
+    public Property getShaclProperty(URI definition) {
         return properties.get(definition);
     }
 
@@ -134,15 +134,15 @@ public final class ShaclShape extends AbstractResource {
     @OslcReadOnly
     @OslcTitle("Properties")
     @OslcValueType(ValueType.LocalResource)
-    public List<ShaclProperty> getShaclProperties() {
+    public List<Property> getShaclProperties() {
         return ImmutableList.copyOf(
-                properties.values().toArray(new ShaclProperty[properties.size()]));
+                properties.values().toArray(new Property[properties.size()]));
     }
 
-    public void setShaclProperties(final ShaclProperty[] properties) {
+    public void setShaclProperties(final Property[] properties) {
         this.properties.clear();
         if (properties != null) {
-            for (ShaclProperty prop : properties) {
+            for (Property prop : properties) {
                 this.properties.put(prop.getPath(), prop);
             }
         }

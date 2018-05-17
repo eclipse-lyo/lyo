@@ -26,7 +26,7 @@ import java.util.Date;
 
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.junit.Assert;
@@ -61,7 +61,7 @@ public class ShaclClosedValidationTest {
             aResource.addASetOfDates(new Date());
 
             Model dataModel = JenaModelHelper.createJenaModel(new Object[] { aResource });
-            ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
+            Shape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
 
             // Removing "anIntegerProperty" from the ShaclShape properties.
             shaclShape.removeProperty(new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anIntegerProperty"));

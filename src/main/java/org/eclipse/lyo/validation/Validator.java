@@ -24,7 +24,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
 
 /**
@@ -81,7 +81,7 @@ public interface Validator {
             DatatypeConfigurationException, OslcCoreApplicationException, IllegalArgumentException, InstantiationException, SecurityException, NoSuchMethodException, URISyntaxException;
 
     /**
-     * Validate <code>dataModel</code> against the {@link ShaclShape} that is constructed from
+     * Validate <code>dataModel</code> against the {@link Shape} that is constructed from
      * the shape annotations in the resource class passed in the
      * <code>clazz</code> variable. The target is set to the class type of the resource class.
      * <p>

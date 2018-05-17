@@ -16,13 +16,23 @@
 
 package org.eclipse.lyo.validation.shacl;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
+
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
@@ -35,10 +45,10 @@ import org.eclipse.lyo.validation.constants.DataType;
  * @since 2.3.0
  */
 @OslcNamespace(ShaclConstants.SHACL_CORE_NAMESPACE)
-@OslcName("property")
+@OslcName("Property")
 @OslcResourceShape(title = "SHACL Property Resource Shape",
                    describes = ShaclConstants.TYPE_SHACL_PROPERTY)
-public class ShaclProperty extends AbstractResource {
+public class Property extends AbstractResource {
 
     private URI path;
 
@@ -70,13 +80,13 @@ public class ShaclProperty extends AbstractResource {
     //Non Validating Property Shape Characteristics.
     private String name;
     private String description;
-    private BigDecimal order;
+    private BigInteger order;
     private URI group;
 
     //Shapes
     private URI severity;
     private String message;
-    private Boolean isDeactivated;
+    private Boolean deactivated;
     private URI node;
 
     //Property Pair Constraint Components
@@ -88,11 +98,11 @@ public class ShaclProperty extends AbstractResource {
     //Other Constraint Components
     private URI hasValue;
 
-    public ShaclProperty() {
+    public Property() {
         super();
     }
 
-    public ShaclProperty(final URI path, final DataType dataType, final BigInteger minCount,
+    public Property(final URI path, final DataType dataType, final BigInteger minCount,
             final BigInteger maxCount) {
         this();
 
@@ -116,11 +126,11 @@ public class ShaclProperty extends AbstractResource {
     }
 
     @OslcDescription("Use cases of this feature include shape reuse and debugging.")
-    @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "isDeactivated")
+    @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "deactivated")
     @OslcValueType(ValueType.Boolean)
     @OslcTitle("Deactivated")
     public Boolean isDeactivated() {
-        return isDeactivated;
+        return deactivated;
     }
 
     public void addIn(Object newIn) {
@@ -143,11 +153,11 @@ public class ShaclProperty extends AbstractResource {
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "order")
     @OslcReadOnly
     @OslcName("order")
-    public BigDecimal getOrder() {
+    public BigInteger getOrder() {
         return order;
     }
 
-    public void setOrder(BigDecimal order) {
+    public void setOrder(BigInteger order) {
         this.order = order;
     }
 
@@ -259,7 +269,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription("Specifies the range: Min Exclusive")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "minExclusive")
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.Integer)
     @OslcTitle("Range Min Exclusive")
     public BigInteger getMinExclusive() {
         return minExclusive;
@@ -271,7 +281,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription("Specifies the range: Max Exclusive")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "maxExclusive")
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.Integer)
     @OslcTitle("Range Max Exclusive")
     public BigInteger getMaxExclusive() {
         return maxExclusive;
@@ -283,7 +293,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription("Specifies the range: Min Inclusive")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "minInclusive")
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.Integer)
     @OslcTitle("Range Min Inclusive")
     public BigInteger getMinInclusive() {
         return minInclusive;
@@ -295,7 +305,7 @@ public class ShaclProperty extends AbstractResource {
 
     @OslcDescription("Specifies the range: Max Inclusive")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "maxInclusive")
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.Integer)
     @OslcTitle("Range Max Inclusive")
     public BigInteger getMaxInclusive() {
         return maxInclusive;
@@ -511,7 +521,7 @@ public class ShaclProperty extends AbstractResource {
     }
 
     public void setDeactivated(Boolean deactivated) {
-        this.isDeactivated = deactivated;
+        this.deactivated = deactivated;
     }
 
     private Object[] appendValue(Object[] obj, Object newObj) {

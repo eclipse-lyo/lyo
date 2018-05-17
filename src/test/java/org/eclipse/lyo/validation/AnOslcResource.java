@@ -49,7 +49,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
 
@@ -58,7 +58,7 @@ import org.eclipse.lyo.validation.shacl.ValidationReport;
 @OslcResourceShape(title = "AResource Resource Shape",
                    describes = SampleAdaptorConstants.TYPE_ARESOURCE)
 public class AnOslcResource extends AbstractResource {
-    private static ShaclShape shaclShape = null;
+    private static Shape shaclShape = null;
     private static ResourceShape resourceShape = null;
     private BigInteger anIntegerProperty;
     private BigInteger integerProperty2;
@@ -183,7 +183,7 @@ public class AnOslcResource extends AbstractResource {
         this.aReferenceProperty = aReferenceProperty;
     }
 
-    public ShaclShape getShaclShape()
+    public Shape getShaclShape()
             throws OslcCoreApplicationException, URISyntaxException, ParseException {
         if (shaclShape == null) {
             return createShaclShape();
@@ -201,7 +201,7 @@ public class AnOslcResource extends AbstractResource {
         }
     }
 
-    private ShaclShape createShaclShape()
+    private Shape createShaclShape()
             throws OslcCoreApplicationException, URISyntaxException, ParseException {
         return ShaclShapeFactory.createShaclShape(AnOslcResource.class);
     }

@@ -165,7 +165,9 @@ public class ValidationReport
         // Start of user code setterFinalize:result
         // End of user code
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "ValidationReport [conforms=" + conforms + ", result=" + result + "]";
+    }
 }

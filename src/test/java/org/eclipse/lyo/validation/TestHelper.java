@@ -10,7 +10,7 @@ import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.junit.Assert;
@@ -23,7 +23,7 @@ public class TestHelper {
             InstantiationException, SecurityException, NoSuchMethodException {
 
         Model dataModel = JenaModelHelper.createJenaModel(new Object[] { resource });
-        ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
+        Shape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
         Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
 
         Validator validator = ValidatorFactory.createShaclExValidator();

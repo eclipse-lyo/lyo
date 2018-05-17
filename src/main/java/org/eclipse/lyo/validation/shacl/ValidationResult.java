@@ -208,7 +208,11 @@ public class ValidationResult
         // Start of user code setterFinalize:resultSeverity
         // End of user code
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "ValidationResult [resultPath=" + resultPath + ", focusNode=" + focusNode + ", message=" + message
+                + ", resultSeverity=" + resultSeverity + "]";
+    }
 
 }

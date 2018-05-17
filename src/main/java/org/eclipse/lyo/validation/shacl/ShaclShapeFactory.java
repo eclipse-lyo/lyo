@@ -18,7 +18,6 @@ package org.eclipse.lyo.validation.shacl;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,7 +29,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
+
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValues;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcMaxSize;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreDuplicatePropertyDefinitionException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionException;
@@ -42,7 +53,39 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.validation.constants.DataType;
-import org.eclipse.lyo.validation.shacl.annotations.*;
+import org.eclipse.lyo.validation.shacl.annotations.RDFType;
+import org.eclipse.lyo.validation.shacl.annotations.RdfsIsDefinedBy;
+import org.eclipse.lyo.validation.shacl.annotations.RdfsLabel;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclClassType;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclClosed;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclDataType;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclDescription;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclDisjoint;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclEquals;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclGroup;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclHasValue;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclIgnoredProperties;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclIn;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclLanguageIn;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclLessThan;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclLessThanOrEquals;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxCount;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxExclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxInclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMaxLength;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinCount;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinExclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinInclusive;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclMinLength;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclName;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclNode;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclOrder;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclPattern;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclTargetClass;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclTargetNode;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclTargetObjectsOf;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclTargetSubjectsOf;
+import org.eclipse.lyo.validation.shacl.annotations.ShaclUniqueLang;
 
 /**
  * Factory for creating Shacl shapes form the Abstract Resource Classes.
@@ -70,9 +113,9 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      *
      * @param resourceClass Resource class that is annotated with shape annotations.
      *
-     * @return an instance of {@link ShaclShape} shape
+     * @return an instance of {@link Shape} shape
      */
-    public static ShaclShape createShaclShape(final Class<?> resourceClass)
+    public static Shape createShaclShape(final Class<?> resourceClass)
             throws OslcCoreApplicationException, URISyntaxException, ParseException {
         final HashSet<Class<?>> verifiedClasses = new HashSet<Class<?>>();
         verifiedClasses.add(resourceClass);
@@ -80,7 +123,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         return createShaclShape(resourceClass, verifiedClasses);
     }
 
-    private static ShaclShape createShaclShape(final Class<?> resourceClass,
+    private static Shape createShaclShape(final Class<?> resourceClass,
             final Set<Class<?>> verifiedClasses)
             throws OslcCoreApplicationException, URISyntaxException, ParseException {
         final OslcResourceShape resourceShapeAnnotation = resourceClass.getAnnotation(
@@ -93,7 +136,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         OslcName oslcName = resourceClass.getAnnotation(OslcName.class);
 
         final URI about = new URI(oslcNamespace.value() + oslcName.value());
-        final ShaclShape shaclShape = new ShaclShape(about);
+        final Shape shaclShape = new Shape(about);
 
         populateFromClassLevelAnnotations(shaclShape, resourceClass);
 
@@ -119,9 +162,9 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
     }
 
     /**
-     * Populates the class level annotations in the {@link ShaclShape} instance.
+     * Populates the class level annotations in the {@link Shape} instance.
      */
-    private static void populateFromClassLevelAnnotations(ShaclShape shaclShape,
+    private static void populateFromClassLevelAnnotations(Shape shaclShape,
             final Class<?> resourceClass) throws URISyntaxException {
 
         //Target Constraints Start
@@ -205,7 +248,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      * @throws OslcCoreMissingSetMethodException This is the entry method for creating properties.
      */
     private static void createProperties(final Class<?> resourceClass,
-            final Set<Class<?>> verifiedClasses, final ShaclShape shaclShape,
+            final Set<Class<?>> verifiedClasses, final Shape shaclShape,
             final Set<String> propertyDefinitions, boolean chooseShacl)
             throws OslcCoreDuplicatePropertyDefinitionException, URISyntaxException,
             OslcCoreApplicationException, OslcCoreMissingSetMethodException, ParseException {
@@ -275,7 +318,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      * @throws OslcCoreMissingSetMethodException
      */
     private static void createPropertiesInternal(final Class<?> resourceClass,
-            final Set<Class<?>> verifiedClasses, final ShaclShape shaclShape,
+            final Set<Class<?>> verifiedClasses, final Shape shaclShape,
             final Set<String> propertyDefinitions, boolean chooseShacl, final Method method,
             final OslcPropertyDefinition propertyDefinitionAnnotation,
             final String propertyDefinition)
@@ -283,11 +326,11 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
             OslcCoreMissingSetMethodException {
         propertyDefinitions.add(propertyDefinition);
         if (chooseShacl) {
-            final ShaclProperty property = createPropertiesFromShaclAnnotations(resourceClass,
+            final Property property = createPropertiesFromShaclAnnotations(resourceClass,
                     method, propertyDefinitionAnnotation, verifiedClasses, shaclShape);
             shaclShape.addProperty(property);
         } else {
-            final ShaclProperty property = createPropertiesFromOslcAnnotations(resourceClass,
+            final Property property = createPropertiesFromOslcAnnotations(resourceClass,
                     method, propertyDefinitionAnnotation, verifiedClasses);
             shaclShape.addProperty(property);
         }
@@ -346,7 +389,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      * @throws OslcCoreApplicationException This method reads the OSLC annotations for populating
      *                                      property instances.
      */
-    private static ShaclProperty createPropertiesFromOslcAnnotations(Class<?> resourceClass,
+    private static Property createPropertiesFromOslcAnnotations(Class<?> resourceClass,
             Method method, OslcPropertyDefinition propertyDefinitionAnnotation,
             Set<Class<?>> verifiedClasses)
             throws URISyntaxException, OslcCoreApplicationException, ParseException {
@@ -354,7 +397,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         Class<?> componentType = createPropertyCommon(resourceClass, method,
                 propertyDefinitionAnnotation, verifiedClasses);
 
-        final ShaclProperty property = new ShaclProperty();
+        final Property property = new Property();
         property.setPath(new URI(propertyDefinitionAnnotation.value()));
 
         //Setting Value Type
@@ -502,15 +545,15 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
     /**
      * Reads shacl annotations for populating property instances.
      */
-    private static ShaclProperty createPropertiesFromShaclAnnotations(final Class<?> resourceClass,
+    private static Property createPropertiesFromShaclAnnotations(final Class<?> resourceClass,
             final Method method, final OslcPropertyDefinition propertyDefinitionAnnotation,
-            final Set<Class<?>> verifiedClasses, ShaclShape shaclShape)
+            final Set<Class<?>> verifiedClasses, Shape shaclShape)
             throws URISyntaxException, OslcCoreApplicationException, ParseException {
 
         Class<?> componentType = createPropertyCommon(resourceClass, method,
                 propertyDefinitionAnnotation, verifiedClasses);
 
-        final ShaclProperty property = new ShaclProperty();
+        final Property property = new Property();
         property.setPath(new URI(propertyDefinitionAnnotation.value()));
 
         //Setting Value Type
@@ -664,7 +707,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         final ShaclOrder shaclOrder = InheritedMethodAnnotationHelper.getAnnotation(method,
                 ShaclOrder.class);
         if (shaclOrder != null) {
-            property.setOrder(new BigDecimal(shaclOrder.value()));
+            property.setOrder(new BigInteger(String.valueOf(shaclOrder.value())));
             shaclShape.setReadShaclAnnotations(true);
         }
         //Non Validating Constraints End

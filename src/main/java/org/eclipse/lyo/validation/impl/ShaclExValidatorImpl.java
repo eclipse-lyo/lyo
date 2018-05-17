@@ -32,7 +32,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.validation.Validator;
-import org.eclipse.lyo.validation.shacl.ShaclShape;
+import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.validation.shacl.ValidationReport;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class ShaclExValidatorImpl implements Validator {
     public ValidationReport validate(AbstractResource resource) throws OslcCoreApplicationException, URISyntaxException,
             ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, InstantiationException, SecurityException, NoSuchMethodException {
-        ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
+        Shape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
         Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
         Model dataModel = JenaModelHelper.createJenaModel(new Object[] { resource });
         return getValidationResults(dataModel, shapeModel);
@@ -80,7 +80,7 @@ public class ShaclExValidatorImpl implements Validator {
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException, ParseException,
             InstantiationException, SecurityException, NoSuchMethodException {
-        ShaclShape shaclShape = ShaclShapeFactory.createShaclShape(clazz);
+        Shape shaclShape = ShaclShapeFactory.createShaclShape(clazz);
         Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
         return getValidationResults(dataModel, shapeModel);
     }
