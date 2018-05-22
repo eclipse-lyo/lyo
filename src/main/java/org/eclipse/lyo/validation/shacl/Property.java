@@ -37,7 +37,6 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.validation.constants.DataType;
 
 /**
  * @author Yash Khatri
@@ -54,7 +53,7 @@ public class Property extends AbstractResource {
 
     //Value Type Constraints
     private URI classType;
-    private DataType dataType;
+    private ValueType dataType;
     private URI nodeKind;
 
     //Cardinality Constraints
@@ -75,7 +74,7 @@ public class Property extends AbstractResource {
     private Boolean uniqueLang;
 
     //Values Based Constraints
-    private Object[] in;
+    private String[] in;
 
     //Non Validating Property Shape Characteristics.
     private String name;
@@ -102,7 +101,7 @@ public class Property extends AbstractResource {
         super();
     }
 
-    public Property(final URI path, final DataType dataType, final BigInteger minCount,
+    public Property(final URI path, final ValueType dataType, final BigInteger minCount,
             final BigInteger maxCount) {
         this();
 
@@ -199,8 +198,12 @@ public class Property extends AbstractResource {
         return null;
     }
 
-    public void setDataType(DataType dataType) {
-        this.dataType = dataType;
+    public void setDataType(URI dataType) {
+        if (dataType != null) {
+            this.dataType = ValueType.fromString(dataType.toString());
+        } else {
+            this.dataType = null;
+        }
     }
 
     @OslcDescription("Specifies the description")
@@ -428,7 +431,7 @@ public class Property extends AbstractResource {
         return in;
     }
 
-    public void setIn(Object[] in) {
+    public void setIn(String[] in) {
         this.in = in;
     }
 

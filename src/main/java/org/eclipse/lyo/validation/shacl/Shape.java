@@ -139,7 +139,7 @@ public final class Shape extends AbstractResource {
                 properties.values().toArray(new Property[properties.size()]));
     }
 
-    public void setShaclProperties(final Property[] properties) {
+    public void setShaclProperties(final List<Property> properties) {
         this.properties.clear();
         if (properties != null) {
             for (Property prop : properties) {

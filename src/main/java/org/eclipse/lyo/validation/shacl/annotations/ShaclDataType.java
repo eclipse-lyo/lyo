@@ -21,7 +21,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import org.eclipse.lyo.validation.constants.DataType;
+
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
  * @author Yash Khatri
@@ -33,6 +34,6 @@ import org.eclipse.lyo.validation.constants.DataType;
 @Target(ElementType.METHOD)
 public @interface ShaclDataType {
 
-    DataType value();
+    ValueType value();
 
 }

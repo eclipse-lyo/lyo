@@ -52,7 +52,6 @@ import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.validation.constants.DataType;
 import org.eclipse.lyo.validation.shacl.annotations.RDFType;
 import org.eclipse.lyo.validation.shacl.annotations.RdfsIsDefinedBy;
 import org.eclipse.lyo.validation.shacl.annotations.RdfsLabel;
@@ -407,77 +406,19 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         if (valueTypeAnnotation != null) {
             valueType = valueTypeAnnotation.value();
             validateUserSpecifiedValueType(resourceClass, method, valueType, componentType);
-            property.setDataType(DataType.fromString(valueType.toString()));
+            property.setDataType(new URI(valueType.toString()));
 
             final OslcAllowedValue oslcAllowedValue = InheritedMethodAnnotationHelper.getAnnotation(
                     method, OslcAllowedValue.class);
             if (oslcAllowedValue != null) {
-
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                decimalFormat.setMaximumFractionDigits(2);
-
-                Object[] object = new Object[oslcAllowedValue.value().length];
-
-                for (int i = 0; i < oslcAllowedValue.value().length; i++) {
-                    if (valueType.equals(ValueType.Boolean)) {
-                        object[i] = Boolean.parseBoolean(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.Date)) {
-                        object[i] = df.parse(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.DateTime)) {
-                        object[i] = formatter.parse(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.Decimal)) {
-                        object[i] = Float.parseFloat(df.format(oslcAllowedValue.value()[i]));
-                    } else if (valueType.equals(ValueType.Double)) {
-                        object[i] = Double.parseDouble(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.Float)) {
-                        object[i] = Float.parseFloat(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.Integer)) {
-                        object[i] = Integer.parseInt(oslcAllowedValue.value()[i]);
-                    } else if (valueType.equals(ValueType.String)) {
-                        object[i] = oslcAllowedValue.value()[i];
-                    } else {
-                        object[i] = oslcAllowedValue.value()[i];
-                    }
-                }
-
-                property.setIn(object);
+                property.setIn(oslcAllowedValue.value());
             }
 
             final OslcAllowedValues oslcAllowedValues = InheritedMethodAnnotationHelper
                     .getAnnotation(
                     method, OslcAllowedValues.class);
             if (oslcAllowedValues != null) {
-
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                decimalFormat.setMaximumFractionDigits(2);
-
-                Object object = new Object();
-
-                if (valueType.equals(ValueType.Boolean)) {
-                    object = Boolean.parseBoolean(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.Date)) {
-                    object = df.parse(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.DateTime)) {
-                    object = formatter.parse(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.Decimal)) {
-                    object = Float.parseFloat(df.format(oslcAllowedValues.value()));
-                } else if (valueType.equals(ValueType.Double)) {
-                    object = Double.parseDouble(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.Float)) {
-                    object = Float.parseFloat(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.Integer)) {
-                    object = Integer.parseInt(oslcAllowedValues.value());
-                } else if (valueType.equals(ValueType.String)) {
-                    object = oslcAllowedValues.value();
-                } else {
-                    object = oslcAllowedValues.value();
-                }
-
-                property.addIn(object);
+                property.addIn(oslcAllowedValues);
             }
 
         }
@@ -557,49 +498,19 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         property.setPath(new URI(propertyDefinitionAnnotation.value()));
 
         //Setting Value Type
-        DataType dataType = null;
+        ValueType dataType = null;
         final ShaclDataType dataTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(
                 method, ShaclDataType.class);
         if (dataTypeAnnotation != null) {
             dataType = dataTypeAnnotation.value();
-            property.setDataType(dataType);
+            property.setDataType(new URI(dataType.toString()));
             shaclShape.setReadShaclAnnotations(true);
-
-            //Other Constraint Components
-            final ShaclIn inAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method,
-                    ShaclIn.class);
-            if (inAnnotation != null) {
-
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                decimalFormat.setMaximumFractionDigits(2);
-
-                Object[] object = new Object[inAnnotation.value().length];
-                for (int i = 0; i < inAnnotation.value().length; i++) {
-                    if (dataType == DataType.Integer) {
-                        object[i] = new BigInteger(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.String) {
-                        object[i] = inAnnotation.value()[i];
-                    } else if (dataType == DataType.URI) {
-                        object[i] = new URI(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.Boolean) {
-                        object[i] = Boolean.parseBoolean(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.Date) {
-                        object[i] = df.parse(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.DateTime) {
-                        object[i] = formatter.parse(inAnnotation.value().toString());
-                    } else if (dataType == DataType.Double) {
-                        object[i] = Double.parseDouble(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.Float) {
-                        object[i] = Float.parseFloat(inAnnotation.value()[i]);
-                    } else if (dataType == DataType.Decimal) {
-                        object[i] = Float.parseFloat(inAnnotation.value()[i]);
-                    }
-                }
-                property.setIn(object);
-                shaclShape.setReadShaclAnnotations(true);
-            }
+        }
+        // Other Constraint Components
+        final ShaclIn inAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, ShaclIn.class);
+        if (inAnnotation != null) {
+            property.setIn(inAnnotation.value());
+            shaclShape.setReadShaclAnnotations(true);
         }
 
         final ShaclDescription shaclDescription = InheritedMethodAnnotationHelper.getAnnotation(
@@ -611,7 +522,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         final ShaclDataType dataTypeAnotation = InheritedMethodAnnotationHelper.getAnnotation(
                 method, ShaclDataType.class);
         if (dataTypeAnotation != null) {
-            property.setDataType(dataTypeAnotation.value());
+            property.setDataType(new URI(dataTypeAnotation.value().toString()));
             shaclShape.setReadShaclAnnotations(true);
         }
 

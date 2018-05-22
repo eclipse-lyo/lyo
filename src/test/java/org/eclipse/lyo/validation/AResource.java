@@ -48,7 +48,6 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.validation.constants.DataType;
 import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 import org.eclipse.lyo.validation.shacl.Shape;
 import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
@@ -88,6 +87,7 @@ public class AResource extends AbstractResource {
     private HashSet<Date> aSetOfDates = new HashSet<Date>();
     private Link aReferenceProperty = new Link();
     private BigInteger integerProperty3;
+    private String anotherStringProperty;
 
     public AResource() throws URISyntaxException {
         super();
@@ -115,7 +115,7 @@ public class AResource extends AbstractResource {
     @OslcReadOnly(false)
     @ShaclMinCount(0)
     @ShaclMaxCount(0)
-    @ShaclDataType(DataType.Integer)
+    @ShaclDataType(ValueType.Integer)
     @ShaclMaxLength(2)
     @ShaclMinLength(1)
     public BigInteger getAnIntegerProperty() {
@@ -163,10 +163,9 @@ public class AResource extends AbstractResource {
     @OslcReadOnly(false)
     @ShaclMinCount(1)
     @ShaclMaxCount(1)
-    @ShaclDataType(DataType.Integer)
+    @ShaclDataType(ValueType.Integer)
     @ShaclMaxLength(2)
     @ShaclMinLength(1)
-    @ShaclIn(value = {"5", "7", "9", "12"})
     public BigInteger getAnotherIntegerProperty() {
         return anotherIntegerProperty;
     }
@@ -225,6 +224,21 @@ public class AResource extends AbstractResource {
 
     public void setAReferenceProperty(final Link aReferenceProperty) {
         this.aReferenceProperty = aReferenceProperty;
+    }
+
+    @OslcName("anotherStringProperty")
+    @OslcPropertyDefinition(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anotherStringProperty")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.String)
+    @OslcRange({SampleAdaptorConstants.TYPE_ANOTHERRESOURCE})
+    @OslcReadOnly(false)
+    @ShaclIn({"A", "B", "C"})
+    public String getAnotherStringProperty() {
+        return anotherStringProperty;
+    }
+
+    public void setAnotherStringProperty(String anotherStringProperty) {
+        this.anotherStringProperty = anotherStringProperty;
     }
 
     public Shape getShaclShape()

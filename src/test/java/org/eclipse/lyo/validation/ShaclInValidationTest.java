@@ -48,11 +48,12 @@ public class ShaclInValidationTest {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
-            // Invalid value. Allowed values are 5,7,9 or 12.
             aResource.setAnotherIntegerProperty(new BigInteger("6"));
+            // Invalid value. Allowed values are "A" or "B" or "C".
+            aResource.setAnotherStringProperty("D");
 
             TestHelper.assertNegative(TestHelper.performTest(aResource),
-                    "In violation. Expected 6 to be in List(LiteralValue(12), LiteralValue(9), LiteralValue(7), LiteralValue(5))");
+                    "In violation. Expected \"D\" to be in List(LiteralValue(\"C\"), LiteralValue(\"B\"), LiteralValue(\"A\"))");
 
         } catch (Exception e) {
             e.printStackTrace();
