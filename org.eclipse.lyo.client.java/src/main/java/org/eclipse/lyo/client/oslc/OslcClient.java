@@ -119,16 +119,16 @@ public class OslcClient {
 	{
 		httpClient = new DefaultHttpClient(new ThreadSafeClientConnManager());
 		httpClient.setRedirectStrategy(new RedirectStrategy() {
-	        @Override
+			@Override
 			public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context)  {
-	            return null;
-	        }
+				return null;
+			}
 
-	        @Override
+			@Override
 			public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) {
-	            return false;
-	        }
-	    });
+				return false;
+			}
+		});
 		this.trustManagers = trustManagers;
 		this.hostnameVerifier = hostnameVerifier;
 		setupSSLSupport();
@@ -222,11 +222,13 @@ public class OslcClient {
 	 * @throws OAuthException
 	 * @throws URISyntaxException
 	 */
-	public ClientResponse getResource(String url, Map<String, String> requestHeaders) {
+	public ClientResponse getResource(String url, Map<String, String> requestHeaders)
+			throws IOException, OAuthException, URISyntaxException {
 		return getResource(url, requestHeaders, OSLCConstants.CT_RDF);
 	}
 
-	protected ClientResponse getResource(String url, Map<String, String> requestHeaders, String defaultMediaType) {
+	protected ClientResponse getResource(String url, Map<String, String> requestHeaders, String defaultMediaType)
+			throws IOException, OAuthException, URISyntaxException {
 		ClientResponse response = null;
 		RestClient restClient = new RestClient(clientConfig);
 		boolean redirect = false;
@@ -418,7 +420,7 @@ public class OslcClient {
 
 		do {
 			response = restClient.resource(url).contentType(mediaType).accept(acceptType)
-					             .header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
+					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch).put(artifact);
 
 			if (response.getStatusType().getFamily() == Status.Family.REDIRECTION) {
 				url = response.getHeaders().getFirst(HttpHeaders.LOCATION);
@@ -663,7 +665,7 @@ public class OslcClient {
 				sslContext = SSLContext.getInstance(configuredSecureSocketProtocol);
 			}
 			catch (NoSuchAlgorithmException e) {
-					// Ignore Exception, we will try other default values below
+				// Ignore Exception, we will try other default values below
 			}
 			if ( sslContext != null ){
 				return sslContext;

@@ -20,6 +20,8 @@ package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.HttpMethod;
 
@@ -104,40 +106,21 @@ public class OslcOAuthClient extends OslcClient {
 	}
 
 	@Override
-	/**
-	 * Get an OAuth protected OSLC resource
-	 * @see OSLCClient#getResponse(final String url, final String mediaType)
-	 */
-	public ClientResponse getResource(String url, String mediaType) throws IOException, OAuthException, URISyntaxException
-	{
-		OAuthMessage message = getResourceInternal(url, HttpMethod.GET, false);
-
-		String realm = "Jazz";
-		// Change if a different name was detected
-		if ( oauth_real_name != null ) {
-			realm = oauth_real_name;
+	protected ClientResponse getResource(String url, Map<String, String> requestHeaders, String defaultMediaType)
+			throws IOException, OAuthException, URISyntaxException {
+		if (requestHeaders == null) {
+			requestHeaders = new HashMap<>();
 		}
-		String authHeader = message.getAuthorizationHeader(realm);
 
-		ClientConfig config = getClientConfig();
-		RestClient restClient = new RestClient(config);
+		requestHeaders.put("Authorization", this.getAuthorizationHeader(url, HttpMethod.GET));
 
-		return restClient.resource(url).accept(mediaType).header("Authorization",authHeader).header("OSLC-Core-Version", "2.0").get();
+		return super.getResource(url, requestHeaders, defaultMediaType);
 	}
-
 
 	@Override
 	public ClientResponse updateResource(final String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, OAuthException, URISyntaxException
 	{
-
-		OAuthMessage message = getResourceInternal(url, HttpMethod.PUT, false);
-
-		String realm = "Jazz";
-		// Change if a different name was detected
-		if ( oauth_real_name != null ) {
-			realm = oauth_real_name;
-		}
-		String authHeader = message.getAuthorizationHeader(realm);
+		String authHeader = this.getAuthorizationHeader(url, HttpMethod.PUT);
 
 		ClientConfig config = getClientConfig();
 
@@ -158,14 +141,7 @@ public class OslcOAuthClient extends OslcClient {
 	 */
 	@Override
 	public ClientResponse createResource(final String url, final Object artifact, String mediaType, String acceptType) throws IOException, OAuthException, URISyntaxException  {
-		OAuthMessage message = getResourceInternal(url, HttpMethod.POST, false);
-
-		String realm = "Jazz";
-		// Change if a different name was detected
-		if ( oauth_real_name != null ) {
-			realm = oauth_real_name;
-		}
-		String authHeader = message.getAuthorizationHeader(realm);
+		String authHeader = this.getAuthorizationHeader(url, HttpMethod.POST);
 
 		ClientConfig config = getClientConfig();
 		RestClient restClient = new RestClient(config);
@@ -173,6 +149,18 @@ public class OslcOAuthClient extends OslcClient {
 		return restClient.resource(url).contentType(mediaType).accept(acceptType).header("Authorization",authHeader).header(OSLCConstants.OSLC_CORE_VERSION,"2.0").post(artifact);
 
 		// return restClient.resource(url).accept(mediaType).header("Authorization",authHeader).header("OSLC-Core-Version", "2.0").get();
+	}
+
+	protected String getAuthorizationHeader(String url, String httpMethod) throws IOException, OAuthException, URISyntaxException {
+		OAuthMessage message = getResourceInternal(url, httpMethod, false);
+
+		String realm = "Jazz";
+		// Change if a different name was detected
+		if ( oauth_real_name != null ) {
+			realm = oauth_real_name;
+		}
+
+		return message.getAuthorizationHeader(realm);
 	}
 
 
@@ -199,14 +187,14 @@ public class OslcOAuthClient extends OslcClient {
 			if (accessor.requestToken == null) {
 				client.getRequestToken(accessor);
 				System.out.println("Enter this URL in a browser and run again: "+ accessor.consumer.serviceProvider.userAuthorizationURL +
-								   "?oauth_token=" + accessor.requestToken);  // for command line use
+						"?oauth_token=" + accessor.requestToken);  // for command line use
 				throw new OAuthRedirectException(accessor.consumer.serviceProvider.userAuthorizationURL, accessor);
 			}
 
 			//Exchange request token for access token.
 			if (accessor.accessToken == null) {
 				try {
-				   client.getAccessToken(accessor, OAuthMessage.POST, null);
+					client.getAccessToken(accessor, OAuthMessage.POST, null);
 				} catch (OAuthException e) {
 					LOGGER.debug("OAuthException caught: " + e.getMessage());
 					if (restart)
