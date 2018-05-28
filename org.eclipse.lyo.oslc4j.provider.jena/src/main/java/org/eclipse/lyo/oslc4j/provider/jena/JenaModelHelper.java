@@ -30,28 +30,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.AbstractCollection;
-import java.util.AbstractList;
-import java.util.AbstractSequentialList;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Deque;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NavigableSet;
-import java.util.Queue;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.function.Function;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
@@ -67,20 +47,10 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
-import org.apache.jena.rdf.model.Container;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.graph.BlankNodeId;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.RSIterator;
-import org.apache.jena.rdf.model.ReifiedStatement;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.SimpleSelector;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.ResourceUtils;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -102,19 +72,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionEx
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.core.model.AnyResource;
-import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
-import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
-import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
-import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
-import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
+import org.eclipse.lyo.oslc4j.core.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -173,7 +131,6 @@ public final class JenaModelHelper
 				  OslcCoreApplicationException
 	{
 		final Model				  model				= ModelFactory.createDefaultModel();
-		final Map<String, String> namespaceMappings = new HashMap<>();
 
 		Resource descriptionResource = null;
 
@@ -190,11 +147,12 @@ public final class JenaModelHelper
 
 			Map<IExtendedResource,Resource> visitedResources = new HashMap<>();
 			handleExtendedProperties(FilteredResource.class,
-					model,
-					descriptionResource,
-					(IExtendedResource) responseInfo.getContainer(),
-					properties,
-					visitedResources);
+									 model,
+									 descriptionResource,
+									 responseInfo.getContainer(),
+									 properties,
+									 visitedResources
+			);
 
 			if (responseInfoAbout != null)
 			{
@@ -216,17 +174,20 @@ public final class JenaModelHelper
 
 					visitedResources = new HashMap<>();
 					handleExtendedProperties(ResponseInfo.class,
-											model,
-											responseInfoResource,
-											(IExtendedResource) responseInfo,
-											properties,
-											visitedResources);
+											 model,
+											 responseInfoResource,
+											 responseInfo,
+											 properties,
+											 visitedResources
+					);
 				}
 			}
 		}
 
 		// add global namespace mappings
-		namespaceMappings.putAll(OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap());
+		final Map<String, String> namespaceMappings = new HashMap<>(OslcGlobalNamespaceProvider
+																			.getInstance()
+																							   .getPrefixDefinitionMap());
 
 		for (final Object object : objects)
 		{
@@ -279,7 +240,7 @@ public final class JenaModelHelper
 				   InvocationTargetException,
 				   OslcCoreApplicationException
 	{
-		final Class<? extends Object> objectClass = object.getClass();
+		final Class<?> objectClass = object.getClass();
 
 		// Collect the namespace prefix -> namespace mappings
 		recursivelyCollectNamespaceMappings(namespaceMappings,
@@ -338,18 +299,30 @@ public final class JenaModelHelper
 		}
 	}
 
-	public static Object fromJenaResource(final Resource resource,
-										  final Class<?> beanClass)
-		   throws DatatypeConfigurationException,
-				  IllegalAccessException,
-				  IllegalArgumentException,
-				  InstantiationException,
-				  InvocationTargetException,
-				  OslcCoreApplicationException,
-				  URISyntaxException,
-				  SecurityException,
-				  NoSuchMethodException
-	{
+	/**
+	 * Wrapper around {@link #unmarshal(Model, Class)} to unmarshal a single resource instance.
+	 *
+	 * @throws IllegalArgumentException if anything but 1 resource was unmarshaled exactly.
+	 */
+	public static <T> T unmarshalSingle(final Model model, Class<T> clazz)
+			throws LyoJenaModelException, IllegalArgumentException {
+		final T[] ts = unmarshal(model, clazz);
+		if (ts.length != 1) {
+			throw new IllegalArgumentException("Model shall contain exactly 1 instance of the "
+													   + "class");
+		}
+		return ts[0];
+	}
+
+	/**
+	 * @see {@link #unmarshalSingle(Model, Class)}
+	 */
+	@Deprecated
+	public static Object fromJenaResource(final Resource resource, final Class<?> beanClass)
+			throws DatatypeConfigurationException, IllegalAccessException,
+			IllegalArgumentException,
+			InstantiationException, InvocationTargetException, OslcCoreApplicationException,
+			URISyntaxException, SecurityException, NoSuchMethodException {
 		final Object   newInstance = beanClass.newInstance();
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 		final Map<String,Object> visitedResources = new HashMap<>();
@@ -365,36 +338,57 @@ public final class JenaModelHelper
 		return newInstance;
 	}
 
-	public static Object[] fromJenaModel(final Model	model,
-										 final Class<?> beanClass)
-		   throws DatatypeConfigurationException,
-				  IllegalAccessException,
-				  IllegalArgumentException,
-				  InstantiationException,
-				  InvocationTargetException,
-				  OslcCoreApplicationException,
-				  URISyntaxException,
-				  SecurityException,
-				  NoSuchMethodException
-	{
+	/**
+	 * Wrapper around {@link #fromJenaModel(Model, Class)} to provide generics support and group
+	 * exceptions.
+	 *
+	 * @param model Jena model with RDF resources to be unmarshalled
+	 * @param clazz Lyo resource class instance to assist reflection
+	 * @param <T>   Same resource class to make the method generic
+	 *
+	 * @return an array of unmarshalled resource class instances
+	 *
+	 * @throws LyoJenaModelException if the model cannot be unmarshalled into instances of the
+	 *                               provided class
+	 */
+	public static <T> T[] unmarshal(final Model model, Class<T> clazz)
+			throws LyoJenaModelException {
+		try {
+			final Object[] objects = JenaModelHelper.fromJenaModel(model, clazz);
+			return (T[]) objects;
+		} catch (DatatypeConfigurationException | IllegalAccessException |
+				InvocationTargetException | InstantiationException | OslcCoreApplicationException
+				| NoSuchMethodException | URISyntaxException e) {
+			throw new LyoJenaModelException(e);
+		}
+	}
+
+	/**
+	 * @see {@link #unmarshal(Model, Class)}
+	 */
+	@Deprecated
+	public static Object[] fromJenaModel(final Model model, final Class<?> beanClass)
+			throws DatatypeConfigurationException, IllegalAccessException,
+			IllegalArgumentException,
+			InstantiationException, InvocationTargetException, OslcCoreApplicationException,
+			URISyntaxException, SecurityException, NoSuchMethodException {
 		final List<Object> results = new ArrayList<>();
 
-		if (beanClass.getAnnotation(OslcResourceShape.class) != null)
-		{
-			ResIterator listSubjects = null;
+		if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
+			ResIterator listSubjects;
 
 			// Fix for defect 412755
 			// keep the same behavior, i.e. use the class name to match the resource rdf:type
 			if (!OSLC4JUtils.useBeanClassForParsing()) {
 
 				final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
-				listSubjects = model.listSubjectsWithProperty(RDF.type,
+				listSubjects = model.listSubjectsWithProperty(
+						RDF.type,
 						model.getResource(qualifiedName));
 				List<Resource> resourceList = listSubjects.toList();
 
 				createObjectResultList(beanClass, results, resourceList);
-			}
-			else {
+			} else {
 				// get the list of subjects that have rdf:type element
 				listSubjects = model.listSubjectsWithProperty(RDF.type);
 
@@ -407,7 +401,7 @@ public final class JenaModelHelper
 
 					// check if the current resource is not an inline resource,
 					// i.e, check if it does not have a parent node
-					SimpleSelector selector = new SimpleSelector(null, null, (RDFNode) resource);
+					SimpleSelector selector = new SimpleSelector(null, null, resource);
 					StmtIterator listStatements = model.listStatements(selector);
 					if (!listStatements.hasNext()) {
 						// the current resource is not an inline resource, it
@@ -419,24 +413,79 @@ public final class JenaModelHelper
 				createObjectResultList(beanClass, results, resourceList);
 			}
 
-		}
-		else if (URI.class.equals(beanClass))
-		{
+		} else if (URI.class.equals(beanClass)) {
 			StmtIterator memberIterator = model.listStatements(null, RDFS.member, (RDFNode) null);
-			while (memberIterator.hasNext())
-			{
+			while (memberIterator.hasNext()) {
 				Statement memberStatement = memberIterator.next();
 				RDFNode memberObject = memberStatement.getObject();
-				if (memberObject.isURIResource())
-				{
+				if (memberObject.isURIResource()) {
 					URI memberURI = URI.create(memberObject.asResource().getURI());
 					results.add(memberURI);
 				}
 			}
 		}
 
-		return results.toArray((Object[]) Array.newInstance(beanClass,
-															results.size()));
+		return results.toArray((Object[]) Array.newInstance(beanClass, results.size()));
+	}
+
+	/**
+	 * Extracts a resource from the Jena model pointed to by a Link.
+	 * <p>
+	 * Useful in case of following links of a just unmarshaled resource using {@link
+	 * #unmarshal(Model, Class)} or {@link #unmarshalSingle(Model, Class)}.
+	 *
+	 * @param m      Jena model
+	 * @param l      Link that points to resouce inside the model
+	 * @param rClass Lyo resource class to unmarshall the OSLC resource into.
+	 * @param <R>    Same class argument to make method generic
+	 *
+	 * @return An instance of a resource class
+	 *
+	 * @throws IllegalArgumentException if the link does not point a resource in the model.
+	 */
+	public static <R extends IResource> R followLink(final Model m, final Link l,
+			final Class<R> rClass) throws IllegalArgumentException, LyoJenaModelException {
+		final R[] rs = unmarshal(m, rClass);
+		for (R r : rs) {
+			if (l.getValue().equals(r.getAbout())) {
+				return r;
+			}
+		}
+		throw new IllegalArgumentException("Link cannot be followed in this model");
+	}
+
+	/**
+	 * Skolemize all blank node by replacing them with equivalent resources with an ephemeral
+	 * URI of
+	 * form 'urn:skolem:%blankNodeId%''
+	 *
+	 * @param m Jena model to skolemize
+	 */
+	public static void skolemize(final Model m) {
+		skolemize(m, blankNodeId -> "urn:skolem:" + blankNodeId.getLabelString());
+	}
+
+	/**
+	 * Skolemize all blank node by replacing them with equivalent resources with a URI generated by
+	 * the supplied lambda function.
+	 * <p>
+	 * <p>
+	 * See <a href="https://www.w3.org/TR/rdf11-concepts/#section-skolemization">RDF 1.1 //
+	 * Replacing Blank Nodes with IRIs</a> for further guidance.
+	 *
+	 * @param m                 Jena model to skolemize
+	 * @param skolemUriFunction Lambda function that returns ("mints") a resource URI for a BNode.
+	 */
+	public static void skolemize(final Model m, Function<BlankNodeId, String> skolemUriFunction) {
+		final ResIterator resIterator = m.listSubjects();
+		while (resIterator.hasNext()) {
+			final Resource resource = resIterator.nextResource();
+			if (resource != null && resource.isAnon()) {
+				final String skolemURI = skolemUriFunction.apply(resource.getId().getBlankNodeId
+						());
+				ResourceUtils.renameResource(resource, skolemURI);
+			}
+		}
 	}
 
 	private static List<Object> createObjectResultList(final Class<?> beanClass,
@@ -662,13 +711,12 @@ public final class JenaModelHelper
 
 					visitedResources.put(getVisitedResourceName(object.asResource()), objects);
 				}
-				else if (multiple && isRdfCollectionResource(object.getModel(), object))
-				{
+				else if (multiple && isRdfCollectionResource(object.getModel(), object)) {
 					objects = new ArrayList<>();
 
 					ExtendedIterator<RDFNode> iterator =
 							object.asResource().listProperties(RDFS.member).
-									mapWith(s -> s.getObject());
+									mapWith(Statement::getObject);
 
 					while (iterator.hasNext())
 					{
@@ -945,15 +993,13 @@ public final class JenaModelHelper
 				}
 				// Handle the SortedSet and NavigableSet interfaces
 				else if ((SortedSet.class	 == parameterClass) ||
-						 (NavigableSet.class == parameterClass))
-				{
+						 (NavigableSet.class == parameterClass)) {
 					collection = new TreeSet<>();
 				}
 				// Not handled above.  Let's try newInstance with possible failure.
 				else
 				{
-					final Collection<Object> tempCollection = ((Collection<Object>) parameterClass.newInstance());
-					collection = tempCollection;
+					collection = ((Collection<Object>) parameterClass.newInstance());
 				}
 
 				collection.addAll(values);
@@ -1641,23 +1687,23 @@ public final class JenaModelHelper
 		if (nameAnnotation != null)
 		{
 			name = nameAnnotation.value();
-		}
-		else
-		{
+		} else {
 			name = getDefaultPropertyName(method);
 		}
 
-		if (!propertyDefinition.endsWith(name))
-		{
+		if (!propertyDefinition.endsWith(name)) {
 			throw new OslcCoreInvalidPropertyDefinitionException(resourceClass,
 																 method,
-																 propertyDefinitionAnnotation);
+																 propertyDefinitionAnnotation
+			);
 		}
 
-		final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method,
+		final OslcValueType valueTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation
+				(method,
 																								OslcValueType.class);
 
-		final boolean xmlLiteral = valueTypeAnnotation == null ? false : ValueType.XMLLiteral.equals(valueTypeAnnotation.value());
+		final boolean xmlLiteral = valueTypeAnnotation != null && ValueType.XMLLiteral.equals(
+				valueTypeAnnotation.value());
 
 		final Property attribute = model.createProperty(propertyDefinition);
 
@@ -1802,21 +1848,18 @@ public final class JenaModelHelper
 											final Object			  object,
 											final Model				  model,
 											final Resource			  resource,
-											final Property			  attribute,
-											final Map<String, Object> nestedProperties,
-											final boolean			  onlyNested,
-											final List<RDFNode>		  rdfNodeContainer)
+			final Property attribute, final Map<String, Object> nestedProperties,
+											final boolean onlyNested,
+			final List<RDFNode> rdfNodeContainer)
 		throws DatatypeConfigurationException,
-			   IllegalAccessException,
-			   IllegalArgumentException,
-			   InvocationTargetException,
+			   IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			   OslcCoreApplicationException
 	{
 		if (object == null)
 		{
 			return;
 		}
-		final Class<? extends Object> objectClass = object.getClass();
+		final Class<?> objectClass = object.getClass();
 
 		RDFNode nestedNode = null;
 		final IReifiedResource<?> reifiedResource = (object instanceof IReifiedResource) ? (IReifiedResource<?>) object : null;
@@ -1979,20 +2022,17 @@ public final class JenaModelHelper
 
 			logger.warn("Could not serialize "
 					+ objectClassName
-					+ " because it does not have an OslcResourceShape annotation (class: "
+								+ " because it does not have an OslcResourceShape annotation "
+								+ "(class: "
 					+ subjectClassName + ", method: " + method.getName() + ")");
 		}
 
-		if (nestedNode != null)
-		{
-			if (rdfNodeContainer != null)
-			{
+		if (nestedNode != null) {
+			if (rdfNodeContainer != null) {
 				if (reifiedResource != null)
 				{
-					// Reified resource is not supported for rdf collection resources
-					throw new OslcCoreInvalidPropertyDefinitionException(resourceClass,
-																		 method,
-																		 null);
+					throw new IllegalStateException(
+							"Reified resource is not supported for rdf collection resources");
 				}
 
 				// Instead of adding a nested node to model, add it to a list
@@ -2056,12 +2096,11 @@ public final class JenaModelHelper
 			return lowercasedFirstCharacter;
 		}
 
-		return lowercasedFirstCharacter +
-			   methodName.substring(endingIndex);
+		return lowercasedFirstCharacter + methodName.substring(endingIndex);
 	}
 
 	private static void recursivelyCollectNamespaceMappings(final Map<String, String>	  namespaceMappings,
-															final Class<? extends Object> resourceClass)
+															final Class<?> resourceClass)
 	{
 		final OslcSchema oslcSchemaAnnotation = resourceClass.getPackage().getAnnotation(OslcSchema.class);
 
@@ -2137,13 +2176,11 @@ public final class JenaModelHelper
 
 				while (true)
 				{
-					final String newPrefix = prefix +
-											 index;
+					final String newPrefix = prefix + index;
 
 					if (!namespaceMappings.containsKey(newPrefix))
 					{
-						namespaceMappings.put(newPrefix,
-											  namespace);
+						namespaceMappings.put(newPrefix, namespace);
 
 						return;
 					}
@@ -2156,7 +2193,7 @@ public final class JenaModelHelper
 
 	private static String getVisitedResourceName(Resource resource)
 	{
-		String visitedResourceName = null;
+		String visitedResourceName;
 
 		if (resource.getURI() != null)
 		{
