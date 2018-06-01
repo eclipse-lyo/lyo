@@ -5,7 +5,7 @@ package org.eclipse.lyo.store.internals;
  * Contributors:
  *     Andrew Berezovskyi - initial implementation
  * %%
- * Copyright (C) 2016 KTH Royal Institute of Technology
+ * Copyright (C) 2016 - 2018 KTH Royal Institute of Technology
  * %%
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,6 +15,7 @@ package org.eclipse.lyo.store.internals;
  */
 
 import com.google.common.collect.Sets;
+import java.util.HashSet;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
@@ -74,6 +75,7 @@ public class JenaTdbStoreImpl implements Store {
         dataset.begin(ReadWrite.READ);
         try {
             contains = dataset.containsNamedModel(namedGraph.toString());
+            dataset.commit();
         } finally {
             dataset.end();
         }
@@ -86,9 +88,9 @@ public class JenaTdbStoreImpl implements Store {
         if (namedGraphExists(namedGraph)) {
             dataset.begin(ReadWrite.READ);
             final Model model = dataset.getNamedModel(namedGraph.toString());
-            dataset.end();
             try {
                 final Object[] obj = JenaModelHelper.fromJenaModel(model, clazz);
+                dataset.commit();
                 @SuppressWarnings("unchecked") final T[] castObjects = (T[]) Array.newInstance(
                         clazz, obj.length);
                 for (int i = 0; i < obj.length; i++) {
@@ -100,6 +102,8 @@ public class JenaTdbStoreImpl implements Store {
                     InvocationTargetException | NoSuchMethodException | URISyntaxException e) {
                 throw new ModelUnmarshallingException(
                         "Failed to buildPersistent an " + "object from Jena model", e);
+            } finally {
+                dataset.end();
             }
         } else {
             throw new StoreAccessException(
@@ -163,7 +167,9 @@ public class JenaTdbStoreImpl implements Store {
         dataset.begin(ReadWrite.READ);
         try {
             final Iterator<String> namedGraphNames = dataset.listNames();
-            return Sets.newHashSet(namedGraphNames);
+            final HashSet<String> strings = Sets.newHashSet(namedGraphNames);
+            dataset.commit();
+            return strings;
         } finally {
             dataset.end();
         }
@@ -172,7 +178,14 @@ public class JenaTdbStoreImpl implements Store {
     @Override
     public void removeAll() {
         // TODO Andrew@2017-04-04: do we need a transaction here?
-        dataset.asDatasetGraph().clear();
+        dataset.begin(ReadWrite.WRITE);
+        try {
+            dataset.asDatasetGraph().clear();
+            dataset.commit();
+        }
+        finally {
+            dataset.end();
+        }
     }
 
     @Override
@@ -198,7 +211,7 @@ public class JenaTdbStoreImpl implements Store {
         } finally {
             dataset.end();
         }
-        TDB.sync(dataset);
+//        TDB.sync(dataset);
     }
 
     public void putJenaModel(final URI name, final Model model) {

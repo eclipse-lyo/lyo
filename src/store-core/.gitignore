@@ -13,9 +13,9 @@
 hs_err_pid*
 
 # Eclipse
+.project
+.classpath
 .metadata
-**/bin/
-**/tmp/
 *.tmp
 *.bak
 *.swp

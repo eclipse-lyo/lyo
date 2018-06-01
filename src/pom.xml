@@ -24,20 +24,12 @@
   <dependencyManagement>
     <dependencies>
       <!-- Jena -->
+
       <dependency>
         <groupId>org.apache.jena</groupId>
-        <artifactId>jena-core</artifactId>
-        <version>3.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>3.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-tdb</artifactId>
-        <version>3.0.1</version>
+        <artifactId>apache-jena-libs</artifactId>
+        <version>3.6.0</version>
+        <type>pom</type>
       </dependency>
 
       <!-- Generic -->
@@ -50,6 +42,11 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>21.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.5</version>
       </dependency>
       <dependency>
         <!--TODO why is it here?-->
