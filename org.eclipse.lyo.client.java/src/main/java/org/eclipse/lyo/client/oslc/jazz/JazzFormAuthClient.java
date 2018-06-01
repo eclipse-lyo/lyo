@@ -27,11 +27,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.eclipse.lyo.client.exception.JazzAuthErrorException;
 import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.oslc.OslcClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An OSLC client for IBM Rational Jazz servers using Form Auth to authenticate.
@@ -42,8 +43,7 @@ import org.eclipse.lyo.client.oslc.OslcClient;
  */
 public class JazzFormAuthClient extends OslcClient {
 
-	private static Logger logger = Logger.getLogger(JazzFormAuthClient.class);
-
+	private final static Logger logger = LoggerFactory.getLogger(JazzFormAuthClient.class);
 	private String url;
 	private String authUrl;
 	private String project;
@@ -277,7 +277,7 @@ public class JazzFormAuthClient extends OslcClient {
 		} catch (JazzAuthErrorException jee) {
 			throw jee;
 		}catch (Exception e) {
-			logger.error(e);
+			logger.error("Form login failed for unknown reason", e);
 			return -1;
 		}
 	}

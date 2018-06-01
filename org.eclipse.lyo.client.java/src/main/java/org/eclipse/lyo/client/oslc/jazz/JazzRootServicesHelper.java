@@ -22,7 +22,6 @@ import java.io.InputStream;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
@@ -35,6 +34,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to assist in retrieval of attributes from the IBM Rational
@@ -62,7 +63,7 @@ public class JazzRootServicesHelper {
 	public static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
 	public static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
 
-	private static final Logger logger = Logger.getLogger(JazzRootServicesHelper.class.getName());
+	private final static Logger logger = LoggerFactory.getLogger(JazzRootServicesHelper.class);
 
 	/**
 	 * Initialize Jazz rootservices-related URLs such as the catalog location and OAuth URLs
@@ -111,7 +112,7 @@ public class JazzRootServicesHelper {
 
 		}
 		else {
-			logger.fatal("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
+			logger.error("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
 		}
 
 		processRootServices();

@@ -34,17 +34,17 @@ import net.oauth.client.OAuthClient;
 import net.oauth.client.httpclient4.HttpClient4;
 
 import org.apache.http.HttpHeaders;
-import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.RestClient;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OslcOAuthClient extends OslcClient {
 
-	protected OAuthAccessor accessor;
-	private static Logger LOGGER = Logger.getLogger(OslcOAuthClient.class);
-	private String oauth_real_name;
+	protected            OAuthAccessor accessor;
+	private final static Logger        log = LoggerFactory.getLogger(OslcOAuthClient.class);
+	private              String        oauth_real_name;
 
 	/**
 	 * Initialize an OAuthClient with the required OAuth URLs
@@ -196,10 +196,10 @@ public class OslcOAuthClient extends OslcClient {
 				try {
 					client.getAccessToken(accessor, OAuthMessage.POST, null);
 				} catch (OAuthException e) {
-					LOGGER.debug("OAuthException caught: " + e.getMessage());
+					log.debug("OAuthException caught: " + e.getMessage());
 					if (restart)
 					{
-						LOGGER.error("Failed to get access key.");
+						log.error("Failed to get access key.");
 						e.printStackTrace();
 					} else {
 						//restart the dance
