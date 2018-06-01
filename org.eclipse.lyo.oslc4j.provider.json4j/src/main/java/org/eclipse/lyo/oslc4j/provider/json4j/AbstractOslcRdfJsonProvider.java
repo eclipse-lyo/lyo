@@ -46,6 +46,10 @@ import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
+/**
+ * Use JSON-LD support in Jena provider.
+ */
+@Deprecated
 public abstract class AbstractOslcRdfJsonProvider
 {
 	private static final Logger logger = Logger.getLogger(AbstractOslcRdfJsonProvider.class.getName());
@@ -108,13 +112,13 @@ public abstract class AbstractOslcRdfJsonProvider
 			  throws WebApplicationException
 	{
 		boolean isClientSide = false;
-		
+
 		try {
 			httpServletRequest.getMethod();
 		} catch (RuntimeException e) {
 			isClientSide = true;
 		}
-		
+
 		String descriptionURI  = null;
 		String responseInfoURI = null;
 
@@ -126,13 +130,13 @@ public abstract class AbstractOslcRdfJsonProvider
 			{
 				descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
 				responseInfoURI = descriptionURI;
-				
+
 				final String queryString = httpServletRequest.getQueryString();
 				if ((queryString != null) &&
 					(isOslcQuery(queryString)))
 				{
 					responseInfoURI += "?" + queryString;
-				} 
+				}
 			}
 
 		}
@@ -149,7 +153,7 @@ public abstract class AbstractOslcRdfJsonProvider
 		final Integer totalCount = isClientSide ?
 				null :
 				(Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
-		
+
 		ResponseInfo<?> responseInfo = new ResponseInfoArray<Object>(null, properties, totalCount, nextPageURI);
 
 		try

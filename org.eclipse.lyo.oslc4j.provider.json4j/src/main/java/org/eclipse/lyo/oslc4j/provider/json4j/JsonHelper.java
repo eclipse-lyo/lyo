@@ -88,6 +88,10 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
+/**
+ * Use JSON-LD support in Jena provider.
+ */
+@Deprecated
 public final class JsonHelper
 {
 	private static final String JSON_PROPERTY_DELIMITER			   = ":";
@@ -112,7 +116,7 @@ public final class JsonHelper
 	private static final String RDF_TYPE_URI	 = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_TYPE;
 	private static final String RDF_NIL_URI		 = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_NIL;
 	private static final String RDF_RESOURCE_URI = OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_RESOURCE;
-	
+
 	private static final String METHOD_NAME_START_GET = "get";
 	private static final String METHOD_NAME_START_IS  = "is";
 	private static final String METHOD_NAME_START_SET = "set";
@@ -128,7 +132,7 @@ public final class JsonHelper
 	 * System property {@value} : When "true", write "INF", "-INF", and "NaN"
 	 * strings for Infinity, -Infinity, and NaN float and double values,
 	 * respectively. Enabled by default.
-	 * 
+	 *
 	 * @see #OSLC4J_READ_SPECIAL_NUMS
 	 */
 	public static final String OSLC4J_WRITE_SPECIAL_NUMS = "org.eclipse.lyo.oslc4j.writeSpecialNumberValues";
@@ -137,7 +141,7 @@ public final class JsonHelper
 	 * System property {@value} : When "true", read "INF", "-INF", and "NaN"
 	 * strings for Infinity, -Infinity, and NaN float and double values,
 	 * respectively. Enabled by default.
-	 * 
+	 *
 	 * @see #OSLC4J_WRITE_SPECIAL_NUMS
 	 */
 	public static final String OSLC4J_READ_SPECIAL_NUMS	 = "org.eclipse.lyo.oslc4j.readSpecialNumberValues";
@@ -172,7 +176,7 @@ public final class JsonHelper
 			namespaceMappings.put(prefixDefinitionEntry.getKey(), prefixDefinitionEntry.getValue());
 			reverseNamespaceMappings.put(prefixDefinitionEntry.getValue(), prefixDefinitionEntry.getKey());
 		}
-		
+
 		if (descriptionAbout != null)
 		{
 			final JSONArray jsonArray = new JSONArray();
@@ -192,7 +196,7 @@ public final class JsonHelper
 					jsonArray.add(jsonObject);
 				}
 			}
-			
+
 			// Ensure we have an rdf prefix
 			final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
 														   OslcConstants.RDF_NAMESPACE,
@@ -207,32 +211,32 @@ public final class JsonHelper
 
 			resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
 								 descriptionAbout);
-			
+
 			/* Support for Container rdf:type */
 			if(OSLC4JUtils.isQueryResultListAsContainer()){
 				final JSONArray containerTypesJSONArray = new JSONArray();
 
 				final JSONObject containerTypeJSONObject = new JSONObject();
 
-			
+
 				containerTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-						OslcConstants.TYPE_CONTAINER);	
-			
-			
+						OslcConstants.TYPE_CONTAINER);
+
+
 				containerTypesJSONArray.add(containerTypeJSONObject);
 
 				resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
 								 containerTypesJSONArray);
-				
+
 				Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
 				addExtendedProperties(namespaceMappings,
 									  reverseNamespaceMappings,
 									  resultJSONObject,
 									  (IExtendedResource) responseInfo.getContainer(),
 									  properties,
-									  visitedObjects);				
+									  visitedObjects);
 			}
-			
+
 
 			resultJSONObject.put(rdfsPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_MEMBER,
 								 jsonArray);
@@ -250,37 +254,37 @@ public final class JsonHelper
 				responseInfoJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ABOUT,
 										   responseInfoAbout);
 
-				
 
-				if (responseInfo != null) 
+
+				if (responseInfo != null)
 				{
 					responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TOTAL_COUNT,
 							responseInfo.totalCount() == null ? objects.length : responseInfo.totalCount());
-					
+
 					if (responseInfo.nextPage() != null)
 					{
 						final JSONObject nextPageJSONObject = new JSONObject();
 						nextPageJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
-								responseInfo.nextPage());				 
+								responseInfo.nextPage());
 						responseInfoJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_NEXT_PAGE,
 								nextPageJSONObject);
 					}
-					
+
 					final JSONArray responseInfoTypesJSONArray = new JSONArray();
-					
+
 					final JSONObject responseInfoTypeJSONObject = new JSONObject();
-					
+
 					responseInfoTypeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
 												OslcConstants.TYPE_RESPONSE_INFO);
 
 					responseInfoTypesJSONArray.add(responseInfoTypeJSONObject);
-					
+
 					responseInfoJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
 											responseInfoTypesJSONArray);
-					
+
 					resultJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESPONSE_INFO,
 										responseInfoJSONObject);
-					
+
 					Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
 					addExtendedProperties(namespaceMappings,
 										  reverseNamespaceMappings,
@@ -412,12 +416,12 @@ public final class JsonHelper
 								+ JSON_PROPERTY_SUFFIX_RESOURCE);
 
 						beans.add(URI.create(uri));
-					} 
-					else 
+					}
+					else
 					{
 						final Object bean = beanClass.newInstance();
 						HashSet<String> rdfTypes = new HashSet<String>();
-						
+
 						fromJSON(rdfPrefix,
 								 namespaceMappings,
 								 classPropertyDefinitionsToSetMethods,
@@ -425,7 +429,7 @@ public final class JsonHelper
 								 beanClass,
 								 bean,
 								 rdfTypes);
-	
+
 						beans.add(bean);
 					}
 				}
@@ -435,7 +439,7 @@ public final class JsonHelper
 		{
 			final Object bean = beanClass.newInstance();
 			HashSet<String> rdfTypes = new HashSet<String>();
-			
+
 			fromJSON(rdfPrefix,
 					 namespaceMappings,
 					 classPropertyDefinitionsToSetMethods,
@@ -488,13 +492,13 @@ public final class JsonHelper
 																 method,
 																 propertyDefinitionAnnotation);
 		}
-		 
+
 		final boolean isRdfContainer;
-		
+
 		final OslcRdfCollectionType collectionType =
-			InheritedMethodAnnotationHelper.getAnnotation(method, 
+			InheritedMethodAnnotationHelper.getAnnotation(method,
 														  OslcRdfCollectionType.class);
-		
+
 		if (collectionType != null &&
 				OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
 					(JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType())
@@ -545,9 +549,9 @@ public final class JsonHelper
 			{
 				localResourceValue = buildContainer(namespaceMappings,
 													reverseNamespaceMappings,
-													collectionType, jsonArray);				  
-			} 
-			else 
+													collectionType, jsonArray);
+			}
+			else
 			{
 				if (jsonArray.size() > 0)
 				{
@@ -585,9 +589,9 @@ public final class JsonHelper
 			{
 				localResourceValue = buildContainer(namespaceMappings,
 													reverseNamespaceMappings,
-													collectionType, jsonArray);				  
-			} 
-			else 
+													collectionType, jsonArray);
+			}
+			else
 			{
 				if (jsonArray.size() > 0)
 				{
@@ -626,7 +630,7 @@ public final class JsonHelper
 						   localResourceValue);
 		}
 	}
-	
+
 	private static Object buildContainer(final Map<String, String>	 namespaceMappings,
 										 final Map<String, String>	 reverseNamespaceMappings,
 										 final OslcRdfCollectionType collectionType,
@@ -638,33 +642,33 @@ public final class JsonHelper
 													   OslcConstants.RDF_NAMESPACE,
 													   namespaceMappings,
 													   reverseNamespaceMappings);
-		
+
 		if (JSON_PROPERTY_SUFFIX_LIST.equals(collectionType.collectionType()))
 		{
 			JSONObject listObject = new JSONObject();
-			
+
 			listObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
 						   OslcConstants.RDF_NAMESPACE + JSON_PROPERTY_SUFFIX_NIL);
-		   
+
 			for (int i = jsonArray.size() - 1; i >= 0; i --)
 			{
 				Object o = jsonArray.get(i);
-			   
+
 				JSONObject newListObject = new JSONObject();
 				newListObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_FIRST, o);
 				newListObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_REST, listObject);
-			   
+
 				listObject = newListObject;
 			}
-			
+
 			return listObject;
 		}
-			
+
 		JSONObject container = new JSONObject();
-		
+
 		container.put(rdfPrefix + JSON_PROPERTY_DELIMITER + collectionType.collectionType(),
 					  jsonArray);
-	   
+
 		return container;
 	}
 
@@ -733,7 +737,7 @@ public final class JsonHelper
 					}
 				}
 			}
-			
+
 			jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
 						   rdfTypesJSONArray);
 		}
@@ -749,7 +753,7 @@ public final class JsonHelper
 								typeURI);
 		  rdfTypesJSONArray.add(rdfTypeJSONObject);
 	}
-	
+
 	private static void buildResourceAttributes(final Map<String, String> namespaceMappings,
 												final Map<String, String> reverseNamespaceMappings,
 												final Object			  object,
@@ -767,7 +771,7 @@ public final class JsonHelper
 		{
 			return;
 		}
-		
+
 		for (final Method method : objectClass.getMethods())
 		{
 			if (method.getParameterTypes().length == 0)
@@ -789,12 +793,12 @@ public final class JsonHelper
 						{
 							Map<String, Object> nestedProperties = null;
 							boolean onlyNested = false;
-							
+
 							if (properties != null)
 							{
 								@SuppressWarnings("unchecked")
 								final Map<String, Object> map = (Map<String, Object>)properties.get(oslcPropertyDefinitionAnnotation.value());
-								
+
 								if (map != null)
 								{
 									nestedProperties = map;
@@ -829,11 +833,11 @@ public final class JsonHelper
 				}
 			}
 		}
-		
+
 		if (object instanceof IExtendedResource)
 		{
 			final IExtendedResource extendedResource = (IExtendedResource) object;
-			
+
 			addExtendedProperties(namespaceMappings,
 								  reverseNamespaceMappings,
 								  jsonObject,
@@ -861,22 +865,22 @@ public final class JsonHelper
 													   OslcConstants.RDF_NAMESPACE,
 													   namespaceMappings,
 													   reverseNamespaceMappings);
-		
+
 		String rdfTypeKey = rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE;
 		JSONArray typesJSONArray;
-		if (jsonObject.containsKey(rdfTypeKey)) 
+		if (jsonObject.containsKey(rdfTypeKey))
 		{
 			typesJSONArray = (JSONArray) jsonObject.get(rdfTypeKey);
 		} else {
 			typesJSONArray = new JSONArray();
 		}
-		
+
 		final JSONObject typeJSONObject = new JSONObject();
-		
+
 		for (final URI type : extendedResource.getTypes())
 		{
 			final String propertyName = type.toString();
-			
+
 			if (properties != null &&
 				properties.get(propertyName) == null &&
 				! (properties instanceof NestedWildcardProperties) &&
@@ -884,30 +888,30 @@ public final class JsonHelper
 			{
 				continue;
 			}
-			
+
 			typeJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
 					propertyName);
-		
-			typesJSONArray.add(typeJSONObject);
-		}		
 
-		if (typesJSONArray.size() > 0) 
+			typesJSONArray.add(typeJSONObject);
+		}
+
+		if (typesJSONArray.size() > 0)
 		{
 			jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE, typesJSONArray);
 		}
-		
+
 		for (Map.Entry<QName, Object> extendedProperty : extendedResource.getExtendedProperties().entrySet())
 		{
 			final String namespace = extendedProperty.getKey().getNamespaceURI();
 			final String localName = extendedProperty.getKey().getLocalPart();
 			Map<String, Object> nestedProperties = null;
 			boolean onlyNested = false;
-			
+
 			if (properties != null)
 			{
 				@SuppressWarnings("unchecked")
 				final Map<String, Object> map = (Map<String, Object>)properties.get(namespace + localName);
-				
+
 				if (map != null)
 				{
 					nestedProperties = map;
@@ -921,20 +925,20 @@ public final class JsonHelper
 				{
 					nestedProperties = ((NestedWildcardProperties)properties).commonNestedProperties();
 					onlyNested = ! (properties instanceof SingletonWildcardProperties);
-				}								 
+				}
 				else
 				{
 					continue;
 				}
 			}
-			
+
 			final Object value = getExtendedPropertyJsonValue(namespaceMappings,
 															  reverseNamespaceMappings,
 															  extendedProperty.getValue(),
 															  nestedProperties,
 															  onlyNested,
 															  visitedObjects);
-			
+
 			if (value == null && ! onlyNested)
 			{
 				logger.warning("Could not add extended property " + extendedProperty.getKey() + " for resource " + extendedResource.getAbout());
@@ -946,7 +950,7 @@ public final class JsonHelper
 				if (prefix == null)
 				{
 					prefix = extendedProperty.getKey().getPrefix();
-					
+
 					// Add the prefix to the JSON namespace mappings.
 					namespaceMappings.put(prefix, namespace);
 					reverseNamespaceMappings.put(namespace, prefix);
@@ -990,7 +994,7 @@ public final class JsonHelper
 					jsonArray.add(nextJson);
 				}
 			}
-			
+
 			return jsonArray;
 		}
 		else if ((object instanceof String)	 ||
@@ -1001,7 +1005,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			return object;
 		}
 		else if (object instanceof XMLLiteral)
@@ -1010,7 +1014,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			// XMLLiterals are treated as strings in the OSLC 2.0 JSON format.
 			final XMLLiteral xmlLiteral = (XMLLiteral) object;
 			return xmlLiteral.getValue();
@@ -1021,7 +1025,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			final GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime((Date) object);
 
@@ -1033,7 +1037,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			return handleResourceReference(namespaceMappings,
 										   reverseNamespaceMappings,
 										   resourceClass,
@@ -1055,10 +1059,10 @@ public final class JsonHelper
 			if (!returnObject.isEmpty())
 				return returnObject;
 		}
-		
+
 		return null;
 	}
-	
+
 	private static String getDefaultPropertyName(final Method method)
 	{
 		final String methodName	   = method.getName();
@@ -1100,7 +1104,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			final Float f = (Float) object;
 			if (f.compareTo(Float.POSITIVE_INFINITY) == 0)
 			{
@@ -1111,7 +1115,7 @@ public final class JsonHelper
 			{
 				return NEGATIVE_INF;
 			}
-			
+
 			if (f.isNaN())
 			{
 				return NOT_A_NUMBER;
@@ -1126,7 +1130,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			final Double d = (Double) object;
 			if (d.compareTo(Double.POSITIVE_INFINITY) == 0)
 			{
@@ -1137,13 +1141,13 @@ public final class JsonHelper
 			{
 				return NEGATIVE_INF;
 			}
-			
+
 			if (d.isNaN())
 			{
 				return NOT_A_NUMBER;
 			}
 		}
- 
+
 		if ((object instanceof String)	||
 			(object instanceof Boolean) ||
 			(object instanceof Number))
@@ -1152,7 +1156,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			return object;
 		}
 		else if (object instanceof URI)
@@ -1161,7 +1165,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			return handleResourceReference(namespaceMappings,
 										   reverseNamespaceMappings,
 										   resourceClass,
@@ -1174,7 +1178,7 @@ public final class JsonHelper
 			{
 				return null;
 			}
-			
+
 			final GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime((Date) object);
 
@@ -1218,7 +1222,7 @@ public final class JsonHelper
 		{
 			return null;
 		}
-		
+
 		if (!(value instanceof URI))
 		{
 			// The OSLC JSON serialization doesn't support reification on anything except
@@ -1229,14 +1233,14 @@ public final class JsonHelper
 														   method,
 														   method.getReturnType());
 		}
-		
+
 		// Add the resource reference value.
 		final JSONObject jsonObject = handleResourceReference(namespaceMappings,
 															  reverseNamespaceMappings,
 															  resourceClass,
 															  method,
 															  (URI) value);
-		
+
 		// Add any reified statements.
 		Map<Object, JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
 		buildResourceAttributes(namespaceMappings,
@@ -1246,7 +1250,7 @@ public final class JsonHelper
 								jsonObject,
 								properties,
 								visitedObjects);
-		
+
 		return jsonObject;
 	}
 
@@ -1276,7 +1280,7 @@ public final class JsonHelper
 
 		jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
 					   uri.toString());
-		
+
 		return jsonObject;
 	}
 
@@ -1294,28 +1298,28 @@ public final class JsonHelper
 				   OslcCoreApplicationException
 	{
 		final Class<? extends Object> objectClass = object.getClass();
-		
+
 		if (object instanceof URI) {
-			
+
 			// Ensure we have an rdf prefix
 			final String rdfPrefix = ensureNamespacePrefix(OslcConstants.RDF_NAMESPACE_PREFIX,
 														   OslcConstants.RDF_NAMESPACE,
 														   namespaceMappings,
 														   reverseNamespaceMappings);
-			
+
 			jsonObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE,
 					((URI) object).toASCIIString());
-			
+
 			visitedObjects.put(object, jsonObject);
-			
-		} 
+
+		}
 		else {
-			
+
 			// Collect the namespace prefix -> namespace mappings
 			recursivelyCollectNamespaceMappings(namespaceMappings,
 												reverseNamespaceMappings,
 												objectClass);
-	
+
 			if (object instanceof IResource)
 			{
 				final URI aboutURI = ((IResource) object).getAbout();
@@ -1325,7 +1329,7 @@ public final class JsonHelper
 							objectClass,
 							aboutURI);
 			}
-		  
+
 			buildResource(namespaceMappings,
 						  reverseNamespaceMappings,
 						  object,
@@ -1483,7 +1487,7 @@ public final class JsonHelper
 	 * Returns a list of rdf:types for a given json object. If the list was
 	 * populated before, returns the given list. This list will only be
 	 * populated if the property inferTypeFromShape is set to true.
-	 * 
+	 *
 	 * @param jsonObject
 	 * @param rdfPrefix
 	 * @param types
@@ -1514,7 +1518,7 @@ public final class JsonHelper
 		}
 		return types;
 	}
-	
+
 	private static void fromJSON(final String							  rdfPrefix,
 								 final Map<String, String>				  jsonNamespaceMappings,
 								 final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
@@ -1562,7 +1566,7 @@ public final class JsonHelper
 		else if (bean instanceof IReifiedResource)
 		{
 			isIReifiedResource = true;
-			
+
 			@SuppressWarnings("unchecked")
 			final IReifiedResource<Object> reifiedResource = (IReifiedResource<Object>) bean;
 			String resourceReference;
@@ -1583,8 +1587,8 @@ public final class JsonHelper
 			{
 				throw new IllegalArgumentException(e);
 			}
-		}	
-		
+		}
+
 		final IExtendedResource extendedResource;
 		final Map<QName, Object> extendedProperties;
 		if (bean instanceof IExtendedResource)
@@ -1598,10 +1602,10 @@ public final class JsonHelper
 			extendedResource = null;
 			extendedProperties = null;
 		}
-		
+
 		// get the list of rdf types
 		rdfTypes = getRdfTypesFromJsonObject(jsonObject, rdfPrefix, rdfTypes);
-		
+
 		@SuppressWarnings("unchecked")
 		final Set<Map.Entry<String, Object>> entrySet = jsonObject.entrySet();
 
@@ -1635,7 +1639,7 @@ public final class JsonHelper
 
 				final String propertyDefinition = namespace +
 												  name;
-				
+
 				final Method setMethod = setMethodMap.get(propertyDefinition);
 				if (setMethod == null)
 				{
@@ -1667,7 +1671,7 @@ public final class JsonHelper
 							final QName qName = new QName(namespace,
 									  name,
 									  namespacePrefix);
-							
+
 							final Object value = fromExtendedJSONValue(jsonValue,
 																	   rdfPrefix,
 																	   jsonNamespaceMappings,
@@ -1705,7 +1709,7 @@ public final class JsonHelper
 							}
 						}
 					}
-					
+
 					final Object parameter = fromJSONValue(rdfPrefix,
 														   jsonNamespaceMappings,
 														   classPropertyDefinitionsToSetMethods,
@@ -1760,22 +1764,22 @@ public final class JsonHelper
 		else if (jsonValue instanceof JSONObject)
 		{
 			final JSONObject o = (JSONObject) jsonValue;
-			
+
 			// Is it a resource reference?
 			final Object resourceURIValue = o.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE);
 			if (resourceURIValue != null)
 			{
-				final URI uri = new URI((String) resourceURIValue); 
+				final URI uri = new URI((String) resourceURIValue);
 				if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute())
 				{
 					throw new OslcCoreRelativeURIException(beanClass,
 														   "<none>",
 														   uri);
 				}
-				
+
 				return new URI((String) resourceURIValue);
 			}
-			
+
 			// Handle an inline resource.
 			final AbstractResource any = new AnyResource();
 			fromJSON(rdfPrefix,
@@ -1785,7 +1789,7 @@ public final class JsonHelper
 					 AnyResource.class,
 					 any,
 					 rdfTypes);
-			
+
 			return any;
 		}
 		else if (jsonValue instanceof String)
@@ -1794,13 +1798,13 @@ public final class JsonHelper
 			// fix for Bug 412789
 			// try to infer the data type from resource shapes for Strings
 			if (OSLC4JUtils.inferTypeFromShape()) {
-				
+
 				Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, jsonValue);
-				
+
 				// return the value only if the type was really inferred from
 				// the resource shape, otherwise keep the same behavior
 				if (null != newObject) {
-					
+
 					// return the new value only for ambiguous case
 					if ((newObject instanceof String)
 							|| (newObject instanceof XMLLiteral)
@@ -1824,12 +1828,12 @@ public final class JsonHelper
 			}
 		}
 		else if (jsonValue instanceof Integer) {
-			
+
 			// fix for Bug 412789
 			// There is no need to infer data type from resource shapes as
 			// integer values do not have ambiguity cases
 			return jsonValue;
-			
+
 		}
 		else if (jsonValue instanceof Double) {
 
@@ -1837,11 +1841,11 @@ public final class JsonHelper
 			// try to infer data type from resource shapes for Double
 			if (OSLC4JUtils.inferTypeFromShape()) {
 				Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, jsonValue);
-				
+
 				// return the value only if the type was really inferred from
 				// the resource shape, otherwise keep the same behavior
 				if (null != newObject) {
-					
+
 					// return the new value only for ambiguous case
 					if ((newObject instanceof Double)
 							|| (newObject instanceof Float)
@@ -1850,7 +1854,7 @@ public final class JsonHelper
 					}
 				}
 			}
-			
+
 		}
 
 		return jsonValue;
@@ -1889,24 +1893,24 @@ public final class JsonHelper
 		{
 			return false;
 		}
-	   
+
 		final JSONObject jsonObject = (JSONObject)jsonValue;
-	   
-		final boolean isListNode = 
+
+		final boolean isListNode =
 				jsonObject.has(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_FIRST)
 				&& jsonObject.has(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_REST);
 		if (isListNode)
 		{
 			return true;
 		}
-	   
+
 		final boolean isNilResource = RDF_NIL_URI.equals(
 				jsonObject.optString(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE));
 		if (!isNilResource)
 		{
 			return false;
 		}
-	   
+
 		final String setMethodName = setMethod.getName();
 		if (setMethodName.startsWith(METHOD_NAME_START_SET)) {
 			String getMethodName = METHOD_NAME_START_GET + setMethodName.substring(METHOD_NAME_START_GET_LENGTH);
@@ -1914,7 +1918,7 @@ public final class JsonHelper
 			try {
 				getMethod = beanClass.getMethod(getMethodName, new Class[0]);
 			} catch (NoSuchMethodException e) {
-			   
+
 				String isMethodName = METHOD_NAME_START_IS + setMethodName.substring(METHOD_NAME_START_GET_LENGTH);
 				try {
 					getMethod = beanClass.getMethod(isMethodName, new Class[0]);
@@ -1922,22 +1926,22 @@ public final class JsonHelper
 					return false;
 			   }
 			}
-		   
+
 			final OslcRdfCollectionType collectionType =
-				InheritedMethodAnnotationHelper.getAnnotation(getMethod, 
+				InheritedMethodAnnotationHelper.getAnnotation(getMethod,
 															  OslcRdfCollectionType.class);
-		   
+
 			if (collectionType != null &&
 					OslcConstants.RDF_NAMESPACE.equals(collectionType.namespaceURI()) &&
-					"List".equals(collectionType.collectionType())) 
+					"List".equals(collectionType.collectionType()))
 			{
 				return true;
 			}
 		}
-	   
+
 		return false;
 	}
-   
+
 	private static Object fromJSONValue(final String							 rdfPrefix,
 										final Map<String, String>				 jsonNamespaceMappings,
 										final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods,
@@ -1957,22 +1961,22 @@ public final class JsonHelper
 	{
 		boolean isRdfContainerNode = isRdfListNode(rdfPrefix, beanClass, setMethod, jsonValue);
 		JSONArray container = null;
-		
+
 		if (! isRdfContainerNode && jsonValue instanceof JSONObject) {
-			
+
 			JSONObject parent = (JSONObject)jsonValue;
-			
+
 			try
 			{
 				container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_ALT,
 												null);
-				
+
 				if (container == null)
 				{
 					container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_BAG,
 													null);
 				}
-				
+
 				if (container == null)
 				{
 					container = parent.optJSONArray(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_SEQ,
@@ -1983,10 +1987,10 @@ public final class JsonHelper
 			{
 				throw new IllegalArgumentException(e);
 			}
-			
+
 			isRdfContainerNode = container != null;
 		}
-	   
+
 		if (!isRdfContainerNode && jsonValue instanceof JSONObject)
 		{
 			final JSONObject nestedJSONObject = (JSONObject) jsonValue;
@@ -2026,20 +2030,20 @@ public final class JsonHelper
 		else if (jsonValue instanceof JSONArray || isRdfContainerNode)
 		{
 			final Collection<Object> jsonArray;
-		   
+
 			if (isRdfContainerNode && container == null)
 			{
 				jsonArray = new ArrayList<Object>();
-			   
+
 				JSONObject listNode = (JSONObject) jsonValue;
-				while (listNode != null 
+				while (listNode != null
 						&& !RDF_NIL_URI.equals(
 							listNode.opt(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESOURCE))) {
-				   
+
 					Object o = listNode.opt(
 							rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_FIRST);
 					jsonArray.add(o);
-				   
+
 					listNode = listNode.optJSONObject(
 							rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_REST);
 				}
@@ -2047,15 +2051,15 @@ public final class JsonHelper
 			else if (isRdfContainerNode)
 			{
 				@SuppressWarnings("unchecked")
-				final Collection<Object> array = container; 
-				
+				final Collection<Object> array = container;
+
 				jsonArray = array;
 			}
 			else
 			{
 				@SuppressWarnings("unchecked")
-				final Collection<Object> array = (JSONArray)jsonValue; 
-				
+				final Collection<Object> array = (JSONArray)jsonValue;
+
 				jsonArray = array;
 			}
 
@@ -2144,7 +2148,7 @@ public final class JsonHelper
 			{
 				throw new IllegalArgumentException("Boolean cannot be null.");
 			}
- 
+
 			if (Double.TYPE == setMethodComponentParameterClass)
 			{
 				if (readSpecialNumberValues())
@@ -2158,7 +2162,7 @@ public final class JsonHelper
 							+ OSLC4J_READ_SPECIAL_NUMS + " to true.");
 				}
 			}
-			
+
 			if (Float.TYPE == setMethodComponentParameterClass)
 			{
 				if (readSpecialNumberValues())
@@ -2172,14 +2176,14 @@ public final class JsonHelper
 							+ OSLC4J_READ_SPECIAL_NUMS + " to true.");
 				}
 			}
-			
+
 			if (Short.TYPE == setMethodComponentParameterClass ||
 				Integer.TYPE == setMethodComponentParameterClass ||
 				Long.TYPE == setMethodComponentParameterClass)
 			{
 				throw new IllegalArgumentException("Null values not allowed for type " + setMethodComponentParameterClass);
 			}
-			
+
 			return null;
 		}
 		else

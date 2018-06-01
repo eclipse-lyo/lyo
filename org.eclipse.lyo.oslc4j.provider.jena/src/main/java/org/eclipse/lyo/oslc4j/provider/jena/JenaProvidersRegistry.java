@@ -4,7 +4,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *	
+ *
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
@@ -37,6 +37,10 @@ public final class JenaProvidersRegistry
 		PROVIDERS.add(OslcTurtleArrayProvider.class);
 		PROVIDERS.add(OslcTurtleCollectionProvider.class);
 		PROVIDERS.add(OslcTurtleProvider.class);
+		PROVIDERS.add(OslcJsonLdProvider.class);
+		PROVIDERS.add(OslcJsonLdArrayProvider.class);
+		PROVIDERS.add(OslcJsonLdCollectionProvider.class);
+
 	}
 
 	private JenaProvidersRegistry()
@@ -51,7 +55,7 @@ public final class JenaProvidersRegistry
 	{
 		return new HashSet<Class<?>>(PROVIDERS);
 	}
-	
+
 	public static final Set<Class<?>> setProviders (Set<Class<?>> providers)
 	{
 		if (providers != null && PROVIDERS != null)
@@ -59,7 +63,7 @@ public final class JenaProvidersRegistry
 			PROVIDERS.clear();
 			PROVIDERS.addAll(providers);
 		}
-		return new HashSet<Class<?>>(PROVIDERS);		
+		return new HashSet<Class<?>>(PROVIDERS);
 	}
 
 	public static final Set<Class<?>> removeProviders (Set<Class<?>> providers)
@@ -68,6 +72,6 @@ public final class JenaProvidersRegistry
 		{
 			PROVIDERS.removeAll(providers);
 		}
-		return new HashSet<Class<?>>(PROVIDERS);		
+		return new HashSet<Class<?>>(PROVIDERS);
 	}
 }

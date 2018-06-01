@@ -36,6 +36,10 @@ import javax.ws.rs.ext.Provider;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
+/**
+ * Use JSON-LD support in Jena provider.
+ */
+@Deprecated
 @Provider
 @Produces(OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON)
 @Consumes(OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON)
