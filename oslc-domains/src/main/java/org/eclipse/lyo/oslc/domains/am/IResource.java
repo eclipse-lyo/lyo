@@ -68,10 +68,8 @@ import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
 
 // Start of user code imports
 // End of user code
@@ -84,9 +82,34 @@ public interface IResource
 
     public void addContributor(final Link contributor );
     public void addCreator(final Link creator );
-    public void addSubject(final String subject );
-    public void addType(final Link type );
+    public void addType(final String type );
     public void addServiceProvider(final URI serviceProvider );
+
+    @OslcName("contributor")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
+    @OslcReadOnly(false)
+    public HashSet<Link> getContributor();
+
+    @OslcName("created")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
+    @OslcDescription("Timestamp of resource creation")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.DateTime)
+    @OslcReadOnly(false)
+    public Date getCreated();
+
+    @OslcName("creator")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
+    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
+    @OslcReadOnly(false)
+    public HashSet<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -99,61 +122,10 @@ public interface IResource
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
-
-    @OslcName("shortTitle")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getShortTitle();
-
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
-
-    @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
-
-    @OslcName("creator")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
-
-    @OslcName("subject")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    @OslcTitle("")
-    public HashSet<String> getSubject();
-
-    @OslcName("created")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
-    @OslcDescription("Timestamp of resource creation")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCreated();
 
     @OslcName("modified")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "modified")
@@ -163,22 +135,26 @@ public interface IResource
     @OslcReadOnly(false)
     public Date getModified();
 
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public HashSet<Link> getType();
-
-    @OslcName("discussedBy")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "discussedBy")
-    @OslcDescription("A series of notes and comments about this resource.")
+    @OslcName("source")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "source")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({OslcDomainConstants.DISCUSSION_TYPE})
     @OslcReadOnly(false)
-    public Link getDiscussedBy();
+    public URI getSource();
+
+    @OslcName("title")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
+    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getTitle();
+
+    @OslcName("type")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "type")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public HashSet<String> getType();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -194,28 +170,26 @@ public interface IResource
     @OslcReadOnly(false)
     public HashSet<URI> getServiceProvider();
 
-    @OslcName("relation")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "relation")
-    @OslcDescription("Relation which identifies a related resource.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
+    @OslcName("shortTitle")
+    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public Link getRelation();
+    public String getShortTitle();
 
 
+    public void setContributor(final HashSet<Link> contributor );
+    public void setCreated(final Date created );
+    public void setCreator(final HashSet<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
-    public void setShortTitle(final String shortTitle );
-    public void setTitle(final String title );
-    public void setContributor(final HashSet<Link> contributor );
-    public void setCreator(final HashSet<Link> creator );
-    public void setSubject(final HashSet<String> subject );
-    public void setCreated(final Date created );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
-    public void setDiscussedBy(final Link discussedBy );
+    public void setSource(final URI source );
+    public void setTitle(final String title );
+    public void setType(final HashSet<String> type );
     public void setInstanceShape(final URI instanceShape );
     public void setServiceProvider(final HashSet<URI> serviceProvider );
-    public void setRelation(final Link relation );
+    public void setShortTitle(final String shortTitle );
 }
 

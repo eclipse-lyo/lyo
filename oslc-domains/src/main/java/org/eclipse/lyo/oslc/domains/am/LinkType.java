@@ -76,6 +76,7 @@ import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.Person;
 
@@ -87,12 +88,12 @@ import org.eclipse.lyo.oslc.domains.Person;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_amDomainConstants.RESOURCE_NAMESPACE)
-@OslcName(Oslc_amDomainConstants.RESOURCE_LOCALNAME)
-@OslcResourceShape(title = "Resource Resource Shape", describes = Oslc_amDomainConstants.RESOURCE_TYPE)
-public class Resource
+@OslcNamespace(Oslc_amDomainConstants.LINKTYPE_NAMESPACE)
+@OslcName(Oslc_amDomainConstants.LINKTYPE_LOCALNAME)
+@OslcResourceShape(title = "LinkType Resource Shape", describes = Oslc_amDomainConstants.LINKTYPE_TYPE)
+public class LinkType
     extends AbstractResource
-    implements IResource
+    implements ILinkType
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
@@ -103,39 +104,30 @@ public class Resource
     // Start of user code attributeAnnotation:creator
     // End of user code
     private HashSet<Link> creator = new HashSet<Link>();
-    // Start of user code attributeAnnotation:description
-    // End of user code
-    private String description;
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private URI source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
-    // Start of user code attributeAnnotation:type
-    // End of user code
-    private HashSet<String> type = new HashSet<String>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
     private HashSet<URI> serviceProvider = new HashSet<URI>();
-    // Start of user code attributeAnnotation:shortTitle
+    // Start of user code attributeAnnotation:comment
     // End of user code
-    private String shortTitle;
+    private String comment;
+    // Start of user code attributeAnnotation:label
+    // End of user code
+    private String label;
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Resource()
+    public LinkType()
            throws URISyntaxException
     {
         super();
@@ -144,7 +136,7 @@ public class Resource
         // End of user code
     }
     
-    public Resource(final URI about)
+    public LinkType(final URI about)
            throws URISyntaxException
     {
         super(about);
@@ -157,8 +149,8 @@ public class Resource
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_amDomainConstants.RESOURCE_PATH,
-        Resource.class);
+        Oslc_amDomainConstants.LINKTYPE_PATH,
+        LinkType.class);
     }
     
     
@@ -174,7 +166,7 @@ public class Resource
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Resource Resource} - update Resource.toString() to present resource as desired.";
+            result = result + "{a Local LinkType Resource} - update LinkType.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }
@@ -222,11 +214,6 @@ public class Resource
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
-    }
-    
-    public void addType(final String type)
-    {
-        this.type.add(type);
     }
     
     public void addServiceProvider(final URI serviceProvider)
@@ -282,21 +269,6 @@ public class Resource
         return creator;
     }
     
-    // Start of user code getterAnnotation:description
-    // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
-    
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -327,48 +299,6 @@ public class Resource
         return modified;
     }
     
-    // Start of user code getterAnnotation:source
-    // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcReadOnly(false)
-    public URI getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
-    
-    // Start of user code getterAnnotation:title
-    // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
-    
-    // Start of user code getterAnnotation:type
-    // End of user code
-    @OslcName("type")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "type")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public HashSet<String> getType()
-    {
-        // Start of user code getterInit:type
-        // End of user code
-        return type;
-    }
-    
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -397,19 +327,33 @@ public class Resource
         return serviceProvider;
     }
     
-    // Start of user code getterAnnotation:shortTitle
+    // Start of user code getterAnnotation:comment
     // End of user code
-    @OslcName("shortTitle")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcName("comment")
+    @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "comment")
+    @OslcDescription("May be used to provide a human-readable description of a resource.")
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getShortTitle()
+    public String getComment()
     {
-        // Start of user code getterInit:shortTitle
+        // Start of user code getterInit:comment
         // End of user code
-        return shortTitle;
+        return comment;
+    }
+    
+    // Start of user code getterAnnotation:label
+    // End of user code
+    @OslcName("label")
+    @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "label")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getLabel()
+    {
+        // Start of user code getterInit:label
+        // End of user code
+        return label;
     }
     
     
@@ -457,18 +401,6 @@ public class Resource
         // End of user code
     }
     
-    // Start of user code setterAnnotation:description
-    // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-    
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
-    
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -490,46 +422,6 @@ public class Resource
         this.modified = modified;
     
         // Start of user code setterFinalize:modified
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:source
-    // End of user code
-    public void setSource(final URI source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-    
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:title
-    // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-    
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:type
-    // End of user code
-    public void setType(final HashSet<String> type )
-    {
-        // Start of user code setterInit:type
-        // End of user code
-        this.type.clear();
-        if (type != null)
-        {
-            this.type.addAll(type);
-        }
-    
-        // Start of user code setterFinalize:type
         // End of user code
     }
     
@@ -561,15 +453,27 @@ public class Resource
         // End of user code
     }
     
-    // Start of user code setterAnnotation:shortTitle
+    // Start of user code setterAnnotation:comment
     // End of user code
-    public void setShortTitle(final String shortTitle )
+    public void setComment(final String comment )
     {
-        // Start of user code setterInit:shortTitle
+        // Start of user code setterInit:comment
         // End of user code
-        this.shortTitle = shortTitle;
+        this.comment = comment;
     
-        // Start of user code setterFinalize:shortTitle
+        // Start of user code setterFinalize:comment
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:label
+    // End of user code
+    public void setLabel(final String label )
+    {
+        // Start of user code setterInit:label
+        // End of user code
+        this.label = label;
+    
+        // Start of user code setterFinalize:label
         // End of user code
     }
     
@@ -629,25 +533,6 @@ public class Resource
         return s;
     }
     
-    static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"description\">description: </LABEL>";
-    
-        // Start of user code "Mid:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"description\" type=\"text\" style=\"width: 400px\" id=\"description\" >";
-        // Start of user code "Finalize:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -681,63 +566,6 @@ public class Resource
     
         s= s + "<input name=\"modified\" type=\"text\" style=\"width: 400px\" id=\"modified\" >";
         // Start of user code "Finalize:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String sourceToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:sourceToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"source\">source: </LABEL>";
-    
-        // Start of user code "Mid:sourceToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"source\" type=\"text\" style=\"width: 400px\" id=\"source\" >";
-        // Start of user code "Finalize:sourceToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"title\">title: </LABEL>";
-    
-        // Start of user code "Mid:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"title\" type=\"text\" style=\"width: 400px\" id=\"title\" >";
-        // Start of user code "Finalize:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"type\">type: </LABEL>";
-    
-        // Start of user code "Mid:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"type\" type=\"text\" style=\"width: 400px\" id=\"type\" >";
-        // Start of user code "Finalize:typeToHtmlForCreation(...)"
         // End of user code
     
         return s;
@@ -781,20 +609,39 @@ public class Resource
         return s;
     }
     
-    static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
+    static public String commentToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
     
-        // Start of user code "Init:shortTitleToHtmlForCreation(...)"
+        // Start of user code "Init:commentToHtmlForCreation(...)"
         // End of user code
     
-        s = s + "<label for=\"shortTitle\">shortTitle: </LABEL>";
+        s = s + "<label for=\"comment\">comment: </LABEL>";
     
-        // Start of user code "Mid:shortTitleToHtmlForCreation(...)"
+        // Start of user code "Mid:commentToHtmlForCreation(...)"
         // End of user code
     
-        s= s + "<input name=\"shortTitle\" type=\"text\" style=\"width: 400px\" id=\"shortTitle\" >";
-        // Start of user code "Finalize:shortTitleToHtmlForCreation(...)"
+        s= s + "<input name=\"comment\" type=\"text\" style=\"width: 400px\" id=\"comment\" >";
+        // Start of user code "Finalize:commentToHtmlForCreation(...)"
+        // End of user code
+    
+        return s;
+    }
+    
+    static public String labelToHtmlForCreation (final HttpServletRequest httpServletRequest)
+    {
+        String s = "";
+    
+        // Start of user code "Init:labelToHtmlForCreation(...)"
+        // End of user code
+    
+        s = s + "<label for=\"label\">label: </LABEL>";
+    
+        // Start of user code "Mid:labelToHtmlForCreation(...)"
+        // End of user code
+    
+        s= s + "<input name=\"label\" type=\"text\" style=\"width: 400px\" id=\"label\" >";
+        // Start of user code "Finalize:labelToHtmlForCreation(...)"
         // End of user code
     
         return s;
@@ -875,30 +722,6 @@ public class Resource
         return s;
     }
     
-    public String descriptionToHtml()
-    {
-        String s = "";
-    
-        // Start of user code descriptiontoHtml_mid
-        // End of user code
-    
-        try {
-            if (description == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + description.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code descriptiontoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
     public String identifierToHtml()
     {
         String s = "";
@@ -942,80 +765,6 @@ public class Resource
         }
     
         // Start of user code modifiedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String sourceToHtml()
-    {
-        String s = "";
-    
-        // Start of user code sourcetoHtml_mid
-        // End of user code
-    
-        try {
-            if (source == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + source.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code sourcetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String titleToHtml()
-    {
-        String s = "";
-    
-        // Start of user code titletoHtml_mid
-        // End of user code
-    
-        try {
-            if (title == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + title.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code titletoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String typeToHtml()
-    {
-        String s = "";
-    
-        // Start of user code typetoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            Iterator<String> itr = type.iterator();
-            while(itr.hasNext()) {
-                s = s + "<li>";
-                s= s + itr.next().toString();
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code typetoHtml_finalize
         // End of user code
     
         return s;
@@ -1071,25 +820,49 @@ public class Resource
         return s;
     }
     
-    public String shortTitleToHtml()
+    public String commentToHtml()
     {
         String s = "";
     
-        // Start of user code shortTitletoHtml_mid
+        // Start of user code commenttoHtml_mid
         // End of user code
     
         try {
-            if (shortTitle == null) {
+            if (comment == null) {
                 s = s + "<em>null</em>";
             }
             else {
-                s = s + shortTitle.toString();
+                s = s + comment.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     
-        // Start of user code shortTitletoHtml_finalize
+        // Start of user code commenttoHtml_finalize
+        // End of user code
+    
+        return s;
+    }
+    
+    public String labelToHtml()
+    {
+        String s = "";
+    
+        // Start of user code labeltoHtml_mid
+        // End of user code
+    
+        try {
+            if (label == null) {
+                s = s + "<em>null</em>";
+            }
+            else {
+                s = s + label.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        // Start of user code labeltoHtml_finalize
         // End of user code
     
         return s;
