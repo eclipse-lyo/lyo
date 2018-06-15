@@ -1,0 +1,48 @@
+#-----------------------------------------------------------------------------
+#  Copyright (c) 2018 Ricardo Javier Herrera.
+#
+#  All rights reserved. This program and the accompanying materials
+#  are made available under the terms of the Eclipse Public License v1.0
+#  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+#
+#  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+#  and the Eclipse Distribution License is available at
+#  http://www.eclipse.org/org/documents/edl-v10.php.
+#
+#  Contributors:
+#
+#      Ricardo Javier Herrera    -   initial implementation
+#-----------------------------------------------------------------------------
+
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix oslc:  <http://open-services.net/ns/core#> .
+
+<urn:containerA>  a  <http://locahost:7001/vocabularyContainer> ;
+        <http://locahost:7001/vocabulary/childrenA>
+                [ a       rdf:Alt ;
+                  rdf:_1  <urn:A> ;
+                  rdf:_2  <urn:B>
+                ] ;
+        <http://locahost:7001/vocabulary/childrenB>
+                [ a       rdf:Bag ;
+                  rdf:_1  <urn:A> ;
+                  rdf:_2  <urn:B>
+                ] ;
+        <http://locahost:7001/vocabulary/childrenL>
+                ( <urn:A> <urn:B> ) ;
+        <http://locahost:7001/vocabulary/childrenS>
+                [ a       rdf:Seq ;
+                  rdf:_1  <urn:A> ;
+                  rdf:_2  <urn:B>
+                ] .
+
+<urn:A>  a      <http://locahost:7001/vocabularyElement> ;
+        <http://locahost:7001/vocabulary/name>
+                "A" .
+
+<urn:B>  a      <http://locahost:7001/vocabularyElement> ;
+        <http://locahost:7001/vocabulary/name>
+                "B" .
+

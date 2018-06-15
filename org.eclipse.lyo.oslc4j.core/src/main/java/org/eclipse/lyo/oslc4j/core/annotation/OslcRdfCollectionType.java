@@ -33,6 +33,11 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcRdfCollectionType
 {
+	String RDF_LIST = "List";
+	String RDF_SEQ = "Seq";
+	String RDF_ALT = "Alt";
+	String RDF_BAG = "Bag";
+
 	/**
 	 * Namespace URI.
 	 */

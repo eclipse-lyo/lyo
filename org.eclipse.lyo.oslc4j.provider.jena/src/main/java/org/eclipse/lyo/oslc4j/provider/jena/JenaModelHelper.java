@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2014 IBM Corporation.
+ * Copyright (c) 2012-2018 IBM Corporation and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,12 +11,13 @@
  *
  * Contributors:
  *
- *	   Russell Boykin		- initial API and implementation
- *	   Alberto Giammaria	- initial API and implementation
- *	   Chris Peters			- initial API and implementation
- *	   Gianluca Bernardini	- initial API and implementation
- *	   Samuel Padgett		- oslc:totalCount should be a typed literal
- *	   Romain Barth			- unparseable literal
+ *	   Russell Boykin           -   initial API and implementation
+ *	   Alberto Giammaria        -   initial API and implementation
+ *	   Chris Peters             -   initial API and implementation
+ *	   Gianluca Bernardini      -   initial API and implementation
+ *	   Samuel Padgett		        -   oslc:totalCount should be a typed literal
+ *	   Romain Barth			        -   unparseable literal
+ *     Ricardo Javier Herrera   -   collection fixes
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -692,15 +693,12 @@ public final class JenaModelHelper
 
 				final List<RDFNode> objects;
 				if (multiple && object.isResource() && (
-					   (object.asResource().hasProperty(RDF.first)
-						   && object.asResource().hasProperty(RDF.rest))
-					   || (RDF.nil.equals(object))
-					   || object.canAs(RDFList.class)))
-				{
+						(object.asResource().hasProperty(RDF.first) && object.asResource()
+																			 .hasProperty(RDF.rest))
+								|| (RDF.nil.equals(object)) || object.canAs(RDFList.class))) {
 					objects = new ArrayList<>();
 					Resource listNode = object.asResource();
-					while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI()))
-					{
+					while (listNode != null && !RDF.nil.getURI().equals(listNode.getURI())) {
 						visitedResources.put(getVisitedResourceName(listNode), new Object());
 
 						RDFNode o = listNode.getPropertyResourceValue(RDF.first);
@@ -710,31 +708,30 @@ public final class JenaModelHelper
 					}
 
 					visitedResources.put(getVisitedResourceName(object.asResource()), objects);
-				}
-				else if (multiple && isRdfCollectionResource(object.getModel(), object)) {
-					objects = new ArrayList<>();
+				} else {
+					final Class<? extends Container> collectionResourceClass =
+							getRdfCollectionResourceClass(
+							object.getModel(),
+							object);
+					if (multiple && collectionResourceClass != null) {
+						objects = new ArrayList<>();
+						Container container = object.as(collectionResourceClass);
+						NodeIterator iterator = container.iterator();
+						while (iterator.hasNext()) {
+							RDFNode o = iterator.next();
 
-					ExtendedIterator<RDFNode> iterator =
-							object.asResource().listProperties(RDFS.member).
-									mapWith(Statement::getObject);
+							if (o.isResource()) {
+								visitedResources.put(getVisitedResourceName(o.asResource()),
+													 new Object());
+							}
 
-					while (iterator.hasNext())
-					{
-						RDFNode o = iterator.next();
-
-						if (o.isResource())
-						{
-							visitedResources.put(getVisitedResourceName(o.asResource()), new Object());
+							objects.add(o);
 						}
 
-						objects.add(o);
+						visitedResources.put(getVisitedResourceName(object.asResource()), objects);
+					} else {
+						objects = Collections.singletonList(object);
 					}
-
-					 visitedResources.put(getVisitedResourceName(object.asResource()), objects);
-				}
-				else
-				{
-				   objects = Collections.singletonList(object);
 				}
 
 				Class<?> reifiedClass = null;
@@ -1039,20 +1036,19 @@ public final class JenaModelHelper
 		return types;
 	}
 
-	private static boolean isRdfCollectionResource(Model model, RDFNode object)
+	private static Class<? extends Container> getRdfCollectionResourceClass(Model model, RDFNode object)
 	{
 		if (object.isResource())
 		{
 			Resource resource = object.asResource();
-			if (resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_ALT))
-				|| resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_BAG))
-				|| resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_SEQ)))
-			{
-				return true;
-			}
+			if (resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_ALT)))
+				return Alt.class;
+			if (resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_BAG)))
+				return Bag.class;
+			if (resource.hasProperty(RDF.type, model.getResource(OslcConstants.RDF_NAMESPACE + RDF_SEQ)))
+				return Seq.class;
 		}
-
-		return false;
+		return null;
 	}
 
 	/**
@@ -1811,31 +1807,21 @@ public final class JenaModelHelper
 	}
 
 	private static RDFNode createRdfContainer(final OslcRdfCollectionType collectionType,
-											  final List<RDFNode>		  rdfNodeContainer,
-											  final Model				  model)
-	{
-		if (RDF_LIST.equals(collectionType.collectionType()))
-		{
+			final List<RDFNode> rdfNodeContainer, final Model model) {
+		if (RDF_LIST.equals(collectionType.collectionType())) {
 			return model.createList(rdfNodeContainer.iterator());
 		}
 
 		Container container;
-
-		if (RDF_ALT.equals(collectionType.collectionType()))
-		{
+		if (RDF_ALT.equals(collectionType.collectionType())) {
 			container = model.createAlt();
-		}
-		else if (RDF_BAG.equals(collectionType.collectionType()))
-		{
+		} else if (RDF_BAG.equals(collectionType.collectionType())) {
 			container = model.createBag();
-		}
-		else
-		{
+		} else {
 			container = model.createSeq();
 		}
 
-		for (RDFNode node : rdfNodeContainer)
-		{
+		for (RDFNode node : rdfNodeContainer) {
 			container.add(node);
 		}
 
@@ -2071,9 +2057,9 @@ public final class JenaModelHelper
 					  model,
 					  reifiedStatement,
 					  nestedProperties);
-	
+
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=526188
-		//If the resulting reifiedStatement only contain the 4 statements about its subject, predicate object, & type, 
+		//If the resulting reifiedStatement only contain the 4 statements about its subject, predicate object, & type,
 		//then there are no additional statements on the statement. Hence, remove the newly created reifiedStatement.
 		if (reifiedStatement.listProperties().toList().size() == 4) {
 			reifiedStatement.removeProperties();

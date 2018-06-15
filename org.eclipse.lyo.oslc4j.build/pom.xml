@@ -125,7 +125,6 @@
         <version>1.0.1</version>
       </dependency>
       <dependency>
-        <!--CQ 13874-->
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-core</artifactId>
         <version>${version.jena}</version>
