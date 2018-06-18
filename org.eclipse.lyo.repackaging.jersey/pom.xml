@@ -116,7 +116,7 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-		<!-- Since version 2.26, it is necessary to specifiy a inject library. 
+		<!-- Since version 2.26, it is necessary to specifiy a inject library.
 			see https://jersey.github.io/release-notes/2.26.html -->
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
@@ -125,6 +125,17 @@
 		</dependency>
 	</dependencies>
 
-
-
+	<distributionManagement>
+		<repository>
+			<id>repo.eclipse.org</id>
+			<name>Eclipse Lyo Releases</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>repo.eclipse.org</id>
+			<name>Eclipse Lyo Snapshots</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 </project>
