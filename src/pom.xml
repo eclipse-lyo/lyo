@@ -31,7 +31,11 @@
         <version>3.6.0</version>
         <type>pom</type>
       </dependency>
-
+       <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-querybuilder</artifactId>
+        <version>3.6.0</version>
+      </dependency>
       <!-- Generic -->
       <dependency>
         <groupId>org.slf4j</groupId>
