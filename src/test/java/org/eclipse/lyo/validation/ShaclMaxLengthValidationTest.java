@@ -16,13 +16,12 @@
 
 package org.eclipse.lyo.validation;
 
-import org.eclipse.lyo.validation.shacl.ValidationResult;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The Class ShaclMaxLengthValidationTest.

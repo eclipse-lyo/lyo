@@ -28,7 +28,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.validation.shacl.ValidationReport;
+import org.eclipse.lyo.shacl.ValidationReport;
 
 /**
  * @author Yash Khatri

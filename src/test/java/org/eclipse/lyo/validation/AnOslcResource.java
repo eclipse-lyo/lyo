@@ -48,10 +48,10 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.shacl.Shape;
+import org.eclipse.lyo.shacl.ValidationReport;
 import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
-import org.eclipse.lyo.validation.shacl.Shape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationReport;
 
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ANOSLCRESOURCE)

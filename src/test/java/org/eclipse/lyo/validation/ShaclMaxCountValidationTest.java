@@ -24,7 +24,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
 
-import org.eclipse.lyo.validation.shacl.ValidationReport;
+import org.eclipse.lyo.shacl.ValidationReport;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -10,9 +10,9 @@ import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.validation.shacl.Shape;
-import org.eclipse.lyo.validation.shacl.ShaclShapeFactory;
-import org.eclipse.lyo.validation.shacl.ValidationReport;
+import org.eclipse.lyo.shacl.ShaclShapeFactory;
+import org.eclipse.lyo.shacl.Shape;
+import org.eclipse.lyo.shacl.ValidationReport;
 import org.junit.Assert;
 
 public class TestHelper {

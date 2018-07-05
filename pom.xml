@@ -54,6 +54,11 @@
 			<artifactId>oslc4j-jena-provider</artifactId>
 			<version>${version.lyo}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.eclipse.lyo</groupId>
+            <artifactId>shacl</artifactId>
+            <version>${version.lyo}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>xml-apis</groupId>
