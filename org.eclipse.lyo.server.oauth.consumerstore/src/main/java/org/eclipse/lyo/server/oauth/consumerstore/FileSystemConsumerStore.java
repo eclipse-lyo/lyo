@@ -13,6 +13,7 @@
  *  
  *     Sam Padgett - initial API and implementation
  *     Michael Fiedler - updates to use file persistence
+ *     Rahul Singh Bhadauriya - AES encryption for the consumer secret
  *******************************************************************************/
 package org.eclipse.lyo.server.oauth.consumerstore;
 
@@ -21,8 +22,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 
-import org.apache.commons.codec.binary.Base64;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
@@ -43,7 +48,8 @@ import org.slf4j.LoggerFactory;
 /**
  * A simple RDF consumer store backed by an XML file on the filesystem.
  * 
- * NOTE: The shared consumer secret is stored as Base64 and is only obfuscated, not encrypted.
+ * NOTE: The shared consumer secret is stored as Base64 and is only obfuscated, not encrypted (unless
+ * the ctor with an encryption key is used).
  * 
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
@@ -67,11 +73,27 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 
 	private Model model;
 	private String oauthStore;
+	private String encryptionKey;
 
 	
 	public FileSystemConsumerStore(String oauthStoreRoot) throws SQLException, ConsumerStoreException,
 			ClassNotFoundException {
 		this.oauthStore = oauthStoreRoot;
+		createModel();
+		loadConsumers();
+	}
+	/**
+	 * This provides a extra parameter for storing the consumer secret encrypted by a userKey
+	 * @param oauthStoreRoot
+	 * @param encryptionKey
+	 * @throws SQLException
+	 * @throws ConsumerStoreException
+	 * @throws ClassNotFoundException
+	 */
+	public FileSystemConsumerStore(String oauthStoreRoot, String encryptionKey) throws SQLException, ConsumerStoreException,
+			ClassNotFoundException {
+		this.oauthStore = oauthStoreRoot;
+		this.encryptionKey=encryptionKey;
 		createModel();
 		loadConsumers();
 	}
@@ -217,8 +239,12 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 				consumer.getName());
 		resource.addProperty(model.createProperty(CONSUMER_KEY),
 				consumer.consumerKey);
-		
-		String encodedSecret = new String(Base64.encodeBase64(consumer.consumerSecret.getBytes("UTF8")),"UTF8");
+		String encodedSecret=null;
+		if(this.encryptionKey!=null){ //if key is present use AES 128 encryption
+			encodedSecret=new String(encrypt(consumer.consumerSecret,this.encryptionKey));
+		}else{
+			encodedSecret = new String(Base64.getEncoder().encode(consumer.consumerSecret.getBytes("UTF8")),"UTF8");
+		}
 		resource.addProperty(model.createProperty(CONSUMER_SECRET),
 				encodedSecret);
 		
@@ -236,8 +262,13 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		
 		String encodedSecret = resource.getRequiredProperty(
 				model.createProperty(CONSUMER_SECRET)).getString();
-		String secret = new String(Base64.decodeBase64(encodedSecret.getBytes("UTF8")),"UTF8");
-		
+		String secret=null;
+		if(this.encryptionKey!=null) {
+			secret=new String(decrypt(encodedSecret,this.encryptionKey));
+		}else {
+			secret = new String(Base64.getDecoder().decode(encodedSecret.getBytes("UTF8")),"UTF8");
+		}
+				
 		LyoOAuthConsumer consumer = new LyoOAuthConsumer(key, secret);
 		consumer.setName(resource.getRequiredProperty(
 				model.createProperty(CONSUMER_NAME)).getString());
@@ -251,5 +282,67 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		consumer.setTrusted("true".equals(trusted));
 		
 		return consumer;
+	}
+	
+	protected String encrypt(String plainText, String encryptionKey) {
+		log.debug("Entering encrypt method in EncryptionUtil class");
+		
+		String encryptedText = null;
+		try {
+			Cipher cipher = Cipher.getInstance("AES");
+			SecretKey secretKey = getSecreteKey(encryptionKey);
+			byte[] plainTextByte = plainText.getBytes();
+			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+			byte[] encryptedByte = cipher.doFinal(plainTextByte);
+			Encoder encoder = Base64.getEncoder();
+			encryptedText = encoder.encodeToString(encryptedByte);
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		
+		log.debug("Exiting encrypt method in EncryptionUtil class");
+		
+		return encryptedText;
+	}
+	
+	protected String decrypt(String encryptedText, String decryptionKey) {
+
+		log.debug("Entering decrypt method in EncryptionUtil class");
+		
+		String decryptedText = null;
+		try {
+			Cipher cipher = Cipher.getInstance("AES");
+			SecretKey secretKey = getSecreteKey(decryptionKey);
+			Base64.Decoder decoder = Base64.getDecoder();
+			byte[] encryptedTextByte = decoder.decode(encryptedText);
+			cipher.init(Cipher.DECRYPT_MODE, secretKey);
+			byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
+			decryptedText = new String(decryptedByte);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e.getMessage(),e);
+		}
+		
+		log.debug("Exiting decrypt method in EncryptionUtil class");
+		
+		return decryptedText;
+	}
+	
+	/**
+	 * It generate Secret Key of length 32 bytes using user provided key.
+	 * 
+	 * @return
+	 */
+	protected SecretKey getSecreteKey(String encryptionKey) {
+		log.debug("Entering getSecreteKey method in EncryptionUtil class");
+		log.debug("Secret key length should be 16, 24 or 32 bytes");
+		
+		byte[] encoded = Base64.getDecoder().decode(encryptionKey);
+		SecretKey secretKey = new SecretKeySpec(encoded, "AES");
+
+		log.debug("Exiting getSecreteKey method");
+
+		return secretKey;
 	}
 }
