@@ -37,9 +37,19 @@
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
+            <artifactId>jena-tdb</artifactId>
+            <version>3.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-tdb2</artifactId>
+             <version>3.6.0</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-rdfconnection</artifactId>
+            <version>3.6.0</version>
+         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -117,6 +127,77 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.4.3</version>
             </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.3.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <_exportcontents>
+                            org.apache.jena.rdf.model,
+                            org.apache.jena.shared,
+                            org.apache.jena.util,
+                            org.apache.jena.vocabulary,
+                            org.apache.commons.codec.binary,
+                            org.apache.http;version="4.1.0",
+                            org.apache.http.client;version="4.1.0",
+                            org.apache.http.client.methods;version="4.1.0",
+                            org.apache.http.conn;version="4.1.0",
+                            org.apache.http.conn.scheme;version="4.1.0",
+                            org.apache.http.conn.ssl;version="4.1.0",
+                            org.apache.http.entity;version="4.1.0",
+                            org.apache.http.impl.client;version="4.1.0",
+                            org.apache.http.message;version="4.1.0",
+                            org.apache.http.util;version="4.1.0",
+                            org.apache.wink.client,
+                            org.apache.wink.json4j;version="1.4.0",
+                            org.eclipse.lyo.client.exception,
+                            org.eclipse.lyo.client.oslc,
+                            org.eclipse.lyo.client.oslc.jazz,
+                            org.eclipse.lyo.client.oslc.resources,
+                            org.eclipse.lyo.core.query,
+                            org.eclipse.lyo.core.query.impl,
+                            org.eclipse.lyo.core.trs,
+                            org.eclipse.lyo.core.utils.marshallers,
+                            org.eclipse.lyo.oslc4j.application,
+                            org.eclipse.lyo.oslc4j.client,
+                            org.eclipse.lyo.oslc4j.core,
+                            org.eclipse.lyo.oslc4j.core.annotation,
+                            org.eclipse.lyo.oslc4j.core.exception,
+                            org.eclipse.lyo.oslc4j.core.model,
+                            org.eclipse.lyo.oslc4j.provider.jena,
+                            org.eclipse.lyo.oslc4j.provider.json4j,
+                            org.eclipse.lyo.oslc4j.utils
+                        </_exportcontents>
+                        <Import-Package>
+                            javax.servlet;version="2.5.0",
+                            javax.servlet.http;version="2.5.0",
+                            javax.ws.rs;version="1.1.1",
+                            javax.ws.rs.core;version="1.1.1",
+                            javax.ws.rs.ext;version="1.1.1"
+                        </Import-Package>
+                        <Bundle-RequiredExecutionEnvironment>JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+                        <Embed-Dependency>*;scope=compile|runtime;inline=true</Embed-Dependency>
+                        <Embed-Directory>dependencies</Embed-Directory>
+                        <Embed-StripGroup>true</Embed-StripGroup>
+                        <Embed-Transitive>true</Embed-Transitive>
+                    </instructions>
+                    <finalName>${project.groupId}.${project.artifactId}_${project.version}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>osgi-bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
         </plugins>
     </build>
     <distributionManagement>
