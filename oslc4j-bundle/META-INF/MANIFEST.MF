@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1530711795736
-Build-Jdk: 1.8.0_144
-Built-By: ykhaet
+Bnd-LastModified: 1531331936854
+Build-Jdk: 1.8.0_152
+Built-By: andrew
 Bundle-ManifestVersion: 2
 Bundle-Name: oslc4j-bundle
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -45,32 +45,32 @@ Export-Package: org.eclipse.lyo.shacl;uses:="org.eclipse.lyo.oslc4j.core
  http.client,org.apache.http.client.methods,org.apache.http.conn,org.apa
  che.http.conn.ssl,org.apache.http.message",org.apache.http.message;vers
  ion="4.1.0";uses:="org.apache.http,org.apache.http.util",org.apache.htt
- p.util;version="4.1.0";uses:="org.apache.http",org.eclipse.lyo.oslc4j.c
- ore;uses:="javax.servlet.http,org.apache.jena.rdf.model,org.eclipse.lyo
- .oslc4j.core.model";version="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.cor
- e.annotation;uses:="org.eclipse.lyo.oslc4j.core.model";version="2.4.0.S
- NAPSHOT",org.eclipse.lyo.oslc4j.core.exception;uses:="org.eclipse.lyo.o
- slc4j.core.annotation,org.eclipse.lyo.oslc4j.core.model";version="2.4.0
- .SNAPSHOT",org.eclipse.lyo.oslc4j.core.model;uses:="javax.ws.rs,javax.w
- s.rs.core,org.eclipse.lyo.oslc4j.core.annotation,org.eclipse.lyo.oslc4j
- .core.exception";version="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.provid
- er.jena;uses:="javax.servlet.http,javax.ws.rs,javax.ws.rs.core,javax.ws
- .rs.ext,org.apache.jena.graph,org.apache.jena.rdf.model,org.eclipse.lyo
- .oslc4j.core.exception,org.eclipse.lyo.oslc4j.core.model";version="2.4.
- 0.SNAPSHOT",org.eclipse.lyo.store;uses:="org.apache.jena.rdf.model,org.
- eclipse.lyo.oslc4j.core.model";version="2.4.0.SNAPSHOT",org.eclipse.lyo
- .store.internals;uses:="org.apache.jena.query,org.apache.jena.rdf.model
- ,org.eclipse.lyo.oslc4j.core.model,org.eclipse.lyo.store,org.eclipse.ly
- o.store.internals.query";version="2.4.0.SNAPSHOT",org.eclipse.lyo.store
- .internals.query;uses:="org.apache.jena.query,org.apache.jena.update";v
- ersion="2.4.0.SNAPSHOT",org.apache.jena.atlas.web.auth;version="2.4.0.S
- NAPSHOT",org.apache.jena.riot.Lang;version="2.4.0.SNAPSHOT",org.apache.
- wink.client;version="2.4.0.SNAPSHOT",org.apache.wink.json4j;version="1.
- 4.0",org.eclipse.lyo.client.exception;version="2.4.0.SNAPSHOT",org.ecli
- pse.lyo.client.oslc;version="2.4.0.SNAPSHOT",org.eclipse.lyo.client.osl
- c.jazz;version="2.4.0.SNAPSHOT",org.eclipse.lyo.client.oslc.resources;v
- ersion="2.4.0.SNAPSHOT",org.eclipse.lyo.core.query;version="2.4.0.SNAPS
- HOT",org.eclipse.lyo.core.query.impl;version="2.4.0.SNAPSHOT",org.eclip
+ p.util;version="4.1.0";uses:="org.apache.http",org.eclipse.lyo.core.que
+ ry;version="2.4.0.SNAPSHOT",org.eclipse.lyo.core.query.impl;version="2.
+ 4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.core;uses:="javax.servlet.http,org
+ .apache.jena.rdf.model,org.eclipse.lyo.oslc4j.core.model";version="2.4.
+ 0.SNAPSHOT",org.eclipse.lyo.oslc4j.core.annotation;uses:="org.eclipse.l
+ yo.oslc4j.core.model";version="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.c
+ ore.exception;uses:="org.eclipse.lyo.oslc4j.core.annotation,org.eclipse
+ .lyo.oslc4j.core.model";version="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j
+ .core.model;uses:="javax.ws.rs,javax.ws.rs.core,org.eclipse.lyo.oslc4j.
+ core.annotation,org.eclipse.lyo.oslc4j.core.exception";version="2.4.0.S
+ NAPSHOT",org.eclipse.lyo.oslc4j.provider.jena;uses:="javax.servlet.http
+ ,javax.ws.rs,javax.ws.rs.core,javax.ws.rs.ext,org.apache.jena.graph,org
+ .apache.jena.rdf.model,org.eclipse.lyo.oslc4j.core.exception,org.eclips
+ e.lyo.oslc4j.core.model";version="2.4.0.SNAPSHOT",org.eclipse.lyo.store
+ ;uses:="org.apache.jena.rdf.model,org.eclipse.lyo.oslc4j.core.model";ve
+ rsion="2.4.0.SNAPSHOT",org.eclipse.lyo.store.internals;uses:="org.apach
+ e.jena.query,org.apache.jena.rdf.model,org.eclipse.lyo.oslc4j.core.mode
+ l,org.eclipse.lyo.store,org.eclipse.lyo.store.internals.query";version=
+ "2.4.0.SNAPSHOT",org.eclipse.lyo.store.internals.query;uses:="org.apach
+ e.jena.query,org.apache.jena.update";version="2.4.0.SNAPSHOT",org.apach
+ e.jena.atlas.web.auth;version="2.4.0.SNAPSHOT",org.apache.jena.riot.Lan
+ g;version="2.4.0.SNAPSHOT",org.apache.wink.client;version="2.4.0.SNAPSH
+ OT",org.apache.wink.json4j;version="1.4.0",org.eclipse.lyo.client.excep
+ tion;version="2.4.0.SNAPSHOT",org.eclipse.lyo.client.oslc;version="2.4.
+ 0.SNAPSHOT",org.eclipse.lyo.client.oslc.jazz;version="2.4.0.SNAPSHOT",o
+ rg.eclipse.lyo.client.oslc.resources;version="2.4.0.SNAPSHOT",org.eclip
  se.lyo.core.trs;version="2.4.0.SNAPSHOT",org.eclipse.lyo.core.utils.mar
  shallers;version="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.application;ve
  rsion="2.4.0.SNAPSHOT",org.eclipse.lyo.oslc4j.client;version="2.4.0.SNA
