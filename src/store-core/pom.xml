@@ -62,9 +62,19 @@
 
     <!-- Jena -->
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>apache-jena-libs</artifactId>
-      <type>pom</type>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-tdb</artifactId>
+        <version>3.6.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-tdb2</artifactId>
+        <version>3.6.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-rdfconnection</artifactId>
+        <version>3.6.0</version>
     </dependency>
     <dependency>
         <groupId>org.apache.jena</groupId>
