@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1531331936854
-Build-Jdk: 1.8.0_152
-Built-By: andrew
+Bnd-LastModified: 1531399521310
+Build-Jdk: 1.8.0_144
+Built-By: Yash Khatri
 Bundle-ManifestVersion: 2
 Bundle-Name: oslc4j-bundle
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
