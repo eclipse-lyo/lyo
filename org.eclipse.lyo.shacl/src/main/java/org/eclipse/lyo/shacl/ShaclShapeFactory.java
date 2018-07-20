@@ -468,7 +468,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
         property.setPath(new URI(propertyDefinitionAnnotation.value()));
 
         // Setting Value Type
-        ValueType dataType = null;
+        DataType dataType = null;
         final ShaclDataType dataTypeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method,
                 ShaclDataType.class);
         if (dataTypeAnnotation != null) {

@@ -22,7 +22,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.shacl.DataType;
 
 /**
  * @author Yash Khatri
@@ -34,6 +34,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 @Target(ElementType.METHOD)
 public @interface ShaclDataType {
 
-    ValueType value();
+    DataType value();
 
 }
