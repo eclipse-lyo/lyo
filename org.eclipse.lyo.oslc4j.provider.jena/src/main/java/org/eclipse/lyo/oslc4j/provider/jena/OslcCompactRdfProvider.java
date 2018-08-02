@@ -39,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 @Provider
 @Produces(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
 @Consumes(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
-public final class OslcCompactRdfProvider
+public class OslcCompactRdfProvider
 	   extends AbstractOslcRdfXmlProvider
 	   implements MessageBodyReader<Compact>,
 				  MessageBodyWriter<Compact>
