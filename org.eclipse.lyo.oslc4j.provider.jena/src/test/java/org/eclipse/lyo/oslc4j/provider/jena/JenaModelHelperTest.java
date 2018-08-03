@@ -31,8 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.*;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
 
 /**
  *
@@ -66,4 +67,17 @@ public class JenaModelHelperTest {
         element.setName(name);
         return element;
     }
+
+    @Test
+    public void testAbstractTypes()
+            throws InvocationTargetException, DatatypeConfigurationException,
+            OslcCoreApplicationException, IllegalAccessException, IOException,
+            LyoJenaModelException {
+        final Model expectedModel = RDFHelper.loadResourceModel("abstract-types.ttl");
+        final Person person = JenaModelHelper.unmarshalSingle(expectedModel, Person.class);
+        assertNotNull(person);
+        assertNotNull(person.getPet());
+        assertEquals(Dog.class, person.getPet().getClass());
+    }
+
 }

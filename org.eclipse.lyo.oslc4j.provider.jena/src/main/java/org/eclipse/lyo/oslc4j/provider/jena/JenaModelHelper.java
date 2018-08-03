@@ -21,10 +21,12 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -52,7 +54,6 @@ import org.apache.jena.graph.BlankNodeId;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.util.ResourceUtils;
-import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
@@ -62,6 +63,7 @@ import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
@@ -328,13 +330,14 @@ public final class JenaModelHelper
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 		final Map<String,Object> visitedResources = new HashMap<>();
 		final HashSet<String> rdfTypes = new HashSet<>();
-
+                final Map<String, Class> rdfTypeClasses = getRdfTypeClasses(beanClass.getPackage());
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
 					 newInstance,
 					 resource,
 					 visitedResources,
-					 rdfTypes);
+					 rdfTypes,
+                                         rdfTypeClasses);
 
 		return newInstance;
 	}
@@ -489,6 +492,28 @@ public final class JenaModelHelper
 		}
 	}
 
+        private static Map<String, Class> getRdfTypeClasses(Package pkg) {
+            String name;
+            OslcName oslcName;
+            OslcNamespace oslcNs;
+            Set<Class<?>> modelClasses;
+            Map<String, Class> rdfTypeClasses = new HashMap<>();
+            try {
+                modelClasses = ClassScanner.getClassesOnPackage(pkg.getName());
+                for (Class<?> modelClass : modelClasses) {
+                    oslcNs = modelClass.getAnnotation(OslcNamespace.class);
+                    if (oslcNs != null) {
+                        oslcName = modelClass.getAnnotation(OslcName.class);
+                        name = (oslcName == null ? modelClass.getSimpleName() : oslcName.value());
+                        rdfTypeClasses.put(oslcNs.value() + name, modelClass);
+                    }
+                }
+            } catch(ClassNotFoundException | IOException ex) {
+                logger.warn("Could not map RDF types to model classes", ex);
+            }
+            return rdfTypeClasses;
+        }
+
 	private static List<Object> createObjectResultList(final Class<?> beanClass,
 			List<Object> results, List<Resource> listSubjects)
 			throws IllegalAccessException, InstantiationException,
@@ -496,9 +521,9 @@ public final class JenaModelHelper
 			OslcCoreApplicationException, URISyntaxException,
 			NoSuchMethodException {
 		if (null != listSubjects) {
-
+                        Map<String, Class> rdfTypeClasses = getRdfTypeClasses(beanClass.getPackage());
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
-
+                        
 			for (final Resource resource : listSubjects) {
 				final Object   newInstance = beanClass.newInstance();
 				final Map<String,Object> visitedResources = new HashMap<>();
@@ -509,7 +534,7 @@ public final class JenaModelHelper
 							 newInstance,
 							 resource,
 							 visitedResources,
-							 rdfTypes);
+							 rdfTypes, rdfTypeClasses);
 
 				results.add(newInstance);
 			}
@@ -524,7 +549,8 @@ public final class JenaModelHelper
 									 final Object							  bean,
 									 final Resource							  resource,
 										   Map<String,Object>				  visitedResources,
-									 HashSet<String>					  rdfTypes)
+									 HashSet<String>					  rdfTypes,
+                                                                         Map<String, Class> rdfTypeClasses)
 			throws DatatypeConfigurationException,
 				   IllegalAccessException,
 				   IllegalArgumentException,
@@ -634,7 +660,7 @@ public final class JenaModelHelper
 							prefix = generatePrefix(resource.getModel(), predicate.getNameSpace());
 						}
 						final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-						final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes);
+						final Object value = handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes, rdfTypeClasses);
 						final Object previous = extendedProperties.get(key);
 
 						if (previous == null)
@@ -851,14 +877,15 @@ public final class JenaModelHelper
 						}
 						else
 						{
-							final Object nestedBean = setMethodComponentParameterClass.newInstance();
-
+							//final Object nestedBean = setMethodComponentParameterClass.newInstance();
+                                                        final Object nestedBean = Modifier.isAbstract(setMethodComponentParameterClass.getModifiers()) ? getResourceClass(nestedResource, rdfTypeClasses).newInstance() : setMethodComponentParameterClass.newInstance();
 							fromResource(classPropertyDefinitionsToSetMethods,
-										 setMethodComponentParameterClass,
+										 nestedBean.getClass(),
 										 nestedBean,
 										 nestedResource,
 										 visitedResources,
-										 rdfTypes);
+										 rdfTypes,
+                                                                                 rdfTypeClasses);
 
 							parameter = nestedBean;
 						}
@@ -897,7 +924,8 @@ public final class JenaModelHelper
 										reifiedResource,
 										reifiedStatement,
 										visitedResources,
-										rdfTypes);
+										rdfTypes,
+                                                                                rdfTypeClasses);
 							}
 
 							parameter = reifiedResource;
@@ -1079,7 +1107,8 @@ public final class JenaModelHelper
 													  final RDFNode object,
 															Map<String,Object> visitedResources,
 													  final QName propertyQName,
-													  final HashSet<String> rdfTypes)
+													  final HashSet<String> rdfTypes,
+                                                                                                          final Map<String, Class> rdfTypeClasses)
 			throws URISyntaxException,
 				   IllegalArgumentException,
 				   SecurityException,
@@ -1175,7 +1204,8 @@ public final class JenaModelHelper
 						 any,
 						 nestedResource,
 						 visitedResources,
-						 rdfTypes);
+						 rdfTypes,
+                                                 rdfTypeClasses);
 
 			return any;
 		}
@@ -2209,5 +2239,18 @@ public final class JenaModelHelper
 
 		}
 	}
+
+    private static Class getResourceClass(Resource resource, Map<String, Class> rdfTypeClasses) {
+        String typeURI;
+        Statement statement;
+        Class foundType = null;
+        StmtIterator types = resource.listProperties(RDF.type);
+        while(types.hasNext() && foundType == null) {
+            statement = types.nextStatement();
+            typeURI = statement.getObject().asResource().getURI();
+            foundType = rdfTypeClasses.get(typeURI);
+        }
+        return foundType;
+    }
 
 }
