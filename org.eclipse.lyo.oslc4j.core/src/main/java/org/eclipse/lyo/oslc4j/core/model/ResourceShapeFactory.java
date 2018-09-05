@@ -365,7 +365,7 @@ public class ResourceShapeFactory {
 		}
 	}
 
-	static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
+	protected static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
 		final String getMethodName = getMethod.getName();
 
 		final String setMethodName;
