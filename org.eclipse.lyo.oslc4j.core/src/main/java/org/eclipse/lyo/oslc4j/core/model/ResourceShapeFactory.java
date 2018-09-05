@@ -30,9 +30,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValues;
@@ -60,6 +62,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidRepresentationExcept
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidValueTypeException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ResourceShapeFactory {
 	protected static final String METHOD_NAME_START_GET = "get";
@@ -362,7 +365,7 @@ public class ResourceShapeFactory {
 		}
 	}
 
-	protected static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
+	static void validateSetMethodExists(final Class<?> resourceClass, final Method getMethod) throws OslcCoreMissingSetMethodException {
 		final String getMethodName = getMethod.getName();
 
 		final String setMethodName;
@@ -372,14 +375,50 @@ public class ResourceShapeFactory {
 			setMethodName = METHOD_NAME_START_SET + getMethodName.substring(METHOD_NAME_START_IS_LENGTH);
 		}
 
-		try {
-			resourceClass.getMethod(setMethodName, getMethod.getReturnType());
-		} catch (final NoSuchMethodException exception) {
-			throw new OslcCoreMissingSetMethodException(resourceClass, getMethod, exception);
-		}
+        final Class<?> returnType = getMethod.getReturnType();
+        if(!isCollectionType(returnType)) {
+            try {
+                resourceClass.getMethod(setMethodName, returnType);
+            } catch (final NoSuchMethodException exception) {
+                throw new OslcCoreMissingSetMethodException(resourceClass, getMethod, exception);
+            }
+        } else {
+            final List<Method> methods = Arrays.stream(resourceClass.getMethods())
+                                               .filter(m -> m.getName().equals(setMethodName))
+                                               .collect(Collectors.toList());
+            if (methods.size() == 0) {
+                throw new OslcCoreMissingSetMethodException(resourceClass, getMethod, null);
+            }
+
+            if (methods.size() > 1) {
+                throw new IllegalArgumentException(
+                        "Multiple setters on the same RDF property are not yet supported");
+            }
+
+            final Method method = methods.get(0);
+
+            final Type[] parameterTypes = method.getGenericParameterTypes();
+            if (parameterTypes == null || parameterTypes.length == 0 || parameterTypes.length > 1) {
+                throw new IllegalArgumentException(
+                        String.format("Method '%s' shall have exactly one argument",
+                                      method.getName()
+                        ));
+            }
+
+            final ParameterizedType setterArgumentType = (ParameterizedType) parameterTypes[0];
+            final ParameterizedType genericReturnType = (ParameterizedType) getMethod.getGenericReturnType();
+            if (!genericReturnType.getActualTypeArguments()[0].equals(setterArgumentType.getActualTypeArguments()[0])) {
+                // if a getter returns HashSet<T>, we want the same t in the setter Set<T>
+                throw new OslcCoreMissingSetMethodException(resourceClass, getMethod, null);
+            }
+        }
 	}
 
-	private static void validateUserSpecifiedOccurs(final Class<?> resourceClass, final Method method, final OslcOccurs occursAnnotation) throws OslcCoreInvalidOccursException {
+    static boolean isCollectionType(final Class<?> returnType) {
+	    return Collection.class.isAssignableFrom(returnType);
+    }
+
+    private static void validateUserSpecifiedOccurs(final Class<?> resourceClass, final Method method, final OslcOccurs occursAnnotation) throws OslcCoreInvalidOccursException {
 		final Class<?> returnType = method.getReturnType();
 		final Occurs   occurs	  = occursAnnotation.value();
 
