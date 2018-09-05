@@ -48,6 +48,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.shacl.DataType;
 import org.eclipse.lyo.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.shacl.Shape;
 import org.eclipse.lyo.shacl.ValidationReport;
@@ -115,7 +116,7 @@ public class AResource extends AbstractResource {
     @OslcReadOnly(false)
     @ShaclMinCount(0)
     @ShaclMaxCount(0)
-    @ShaclDataType(ValueType.Integer)
+    @ShaclDataType(DataType.Integer)
     @ShaclMaxLength(2)
     @ShaclMinLength(1)
     public BigInteger getAnIntegerProperty() {
@@ -163,7 +164,7 @@ public class AResource extends AbstractResource {
     @OslcReadOnly(false)
     @ShaclMinCount(1)
     @ShaclMaxCount(1)
-    @ShaclDataType(ValueType.Integer)
+    @ShaclDataType(DataType.Integer)
     @ShaclMaxLength(2)
     @ShaclMinLength(1)
     public BigInteger getAnotherIntegerProperty() {
