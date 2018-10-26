@@ -1,6 +1,6 @@
 # Lyo Client libraries
 
-Build: https://hudson.eclipse.org/lyo/view/Enabled/job/lyo-client-nightly/
+Build: https://ci.eclipse.org/lyo/job/lyo-client-master/lastBuild/
 
 ## Getting started
 
