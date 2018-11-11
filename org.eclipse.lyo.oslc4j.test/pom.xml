@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
     <artifactId>oslc4j-test-sample</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0.M1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>OSLC4J Test Application</name>
     <scm>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.samples</groupId>
             <artifactId>oslc4j-test-common</artifactId>
-            <version>2.3.0</version>
+            <version>2.4.0.M1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
