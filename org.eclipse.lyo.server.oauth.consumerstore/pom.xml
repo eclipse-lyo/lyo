@@ -4,12 +4,11 @@
     <parent>
         <groupId>org.eclipse.lyo.oslc4j.server</groupId>
         <artifactId>lyo-server-build</artifactId>
-        <version>2.4.0-SNAPSHOT</version>
+        <version>2.4.0.M1-SNAPSHOT</version>
         <relativePath>../org.eclipse.lyo.server.releng/pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-consumer-store</artifactId>
-    <version>2.4.0-SNAPSHOT</version>
     <name>Lyo OAuth Consumer Store</name>
     <description>File-based consumer store for Eclipse Lyo OAuth providers.</description>
 
@@ -18,60 +17,27 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <lyo.version>${project.parent.version}</lyo.version>
     </properties>
-
-    <scm>
-        <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.server.git</url>
-    </scm>
 
     <dependencies>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-core</artifactId>
-            <version>2.4.0-SNAPSHOT</version>
+            <version>${lyo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-iri</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-tdb</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
