@@ -1,0 +1,27 @@
+--- #YAML:1.0
+name:               Lyo-OSLC
+version:            1.01
+abstract:           Perl modules for interacting with OSLC resources
+author:
+    - Max Vohlken
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    HTTP::Cookies:   0
+    LWP::UserAgent:  0
+    REST::Client:    0
+    URI:             0
+    URI::Escape:     0
+    XML::Simple:     0
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.55_02
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

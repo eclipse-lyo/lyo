@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# Shell script that redirects its execution to the Perl script stored in
+# the .bat file corresponding to its name. 
+# To use create a symlinks from this file to the name of the .bat file
+# with the .bat removed from the name.
+# For example.
+#   ln -s batwrapper mycommand
+# When mycommand is executed on unix it will end up executing the Perl
+# script stored in the file mycommand.bat. On Windows mycommand.bat
+# will be executed directly by the OS.
+#
+###############################################################################
+# Copyright (c) 2012 IBM Corporation.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# and Eclipse Distribution License v. 1.0 which accompanies this distribution. 
+#
+# The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+# and the Eclipse Distribution License is available at 
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# Contributors:
+#
+#  Max Vohlken - initial implementation
+###############################################################################
+
+#----------------------------------------------------------------------------
+# set_run_from_dir
+# Set the variable run_from_dir to the absolute path of the 
+# directory where the script was executed from.
+# USAGE: set_run_from_dir
+#
+set_run_from_dir () {
+	run_from_dir="`dirname "$0"`"
+	case "$run_from_dir" in
+	/*) ;; # run_from_dir is already an absolute path.
+	[a-zA-Z]:/*) ;; # run_from_dir is already an absolute windows path.
+	.) run_from_dir="`pwd`" ;;
+	*) run_from_dir="`pwd`/$run_from_dir" ;;
+	esac
+}
+
+find_perl () {
+	for p in ${1+"$@"}; do
+		if [ -x "$p" ]; then
+			perl="$p"
+			break
+		fi
+	done
+}
+
+set_run_from_dir
+
+# Default to the perl from the PATH
+perl=perl
+
+# Uncomment this if you need to use a specific perl in your environment
+#find_perl \
+#	/usr/local/bin/perl \
+#	/usr/bin/perl
+
+exec "$perl" "$run_from_dir/`basename "$0"`.bat" ${1+"$@"}
