@@ -4,7 +4,7 @@
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
-The purpose of the *TRS Provider* library is to provide a developer with a ready
+The purpose of the *TRS Server* library is to provide a developer with a ready
 to use set of classes over which he can provide a minimal implementation that
 will result in a TRS interface with minimal effort.
 
