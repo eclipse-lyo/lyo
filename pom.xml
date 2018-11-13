@@ -11,6 +11,7 @@
     <module>oauth-consumer-store</module>
     <module>oauth-webapp</module>
     <module>oslc4j-registry</module>
+    <module>oslc4j-wink</module>
   </modules>
 
   <dependencyManagement>
