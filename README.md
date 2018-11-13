@@ -1,5 +1,10 @@
 # TRS Client
 
+[![Build Status](https://travis-ci.org/eclipse/lyo.trs-client.svg?branch=master)](https://travis-ci.org/eclipse/lyo.trs-client)
+[![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
+
+
 ## Motivation
 
 The *TRS Client* utility uses the TRS interfaces of existing OSLC adapters in order to cache the data exposed by these OSLC adadapters in a preconfigured HTTP SPARQL enabled triplestore and to keep this data cache up to date with the data coming from the adapters. for more information please check the  [OSLC TRS 2.0 draft spec][1]
