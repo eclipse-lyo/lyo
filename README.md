@@ -1,6 +1,9 @@
 # Lyo Store
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f9560aee08b4c28a094b9fc2e3d43f2)](https://www.codacy.com/app/berezovskyi/lyo-store?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eclipse/lyo-store&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/eclipse/lyo.store.svg?branch=master)](https://travis-ci.org/eclipse/lyo.store)
+[![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
 *Lyo Store* is a library that can be used to persistently store OSLC resources in a triplestore. This can be useful to cache the results of REST resource requests for a faster retrieval of resources upon subsequent requests. Alternatively, a lifecycle tool may choose to preload its OSLC resources in the triplestore, allowing its OSLC server to provide OSLC services that interact directly with the artefacts consistently and conveniently managed using the expected RDF technologies. This, for example, makes it relatively easier for an OSLC server to provide clients with a TRS provider, or a SPARQL-endpoint for more advanced query capabilities.
 
@@ -16,7 +19,7 @@ If you encounter any API questions along the way, consult the [Javadoc][javadoc]
 
 ## Installation
 
-Lyo uses Maven as a primary choice for the build system. 
+Lyo uses Maven as a primary choice for the build system.
 
 First, make sure your POM file includes the Eclipse Maven repositories ```<repositories>...</repositories>``` as indicated in the general [Creating OSLC4J Project](https://wiki.eclipse.org/Lyo/creating_OSLC4J_project#Lyo_repositories) instructions.
 
@@ -28,7 +31,7 @@ Now, add the following dependency:
     <version>2.2.0</version>
 </dependency>
 ```
-Now you are all set to start using the library. 
+Now you are all set to start using the library.
 
 **NOTE!** If you are using the older versions of Lyo (2.1.2 and lower), Maven might decide to use an incompatible version of Jena. In order to prevent this, enforce the Jena version used by `lyo-store` by adding the following tag to the `pom.xml`:
 
