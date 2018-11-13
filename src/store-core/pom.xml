@@ -7,19 +7,18 @@
   <parent>
     <groupId>org.eclipse.lyo.store</groupId>
     <artifactId>store-parent</artifactId>
-    <version>2.4.0-SNAPSHOT</version>
+    <version>2.4.0.M1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>store-core</artifactId>
-  <version>2.4.0-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <oslc4j-core.version>2.4.0-SNAPSHOT</oslc4j-core.version>
+    <lyo.version>${project.parent.version}</lyo.version>
   </properties>
 
   <dependencies>
@@ -27,12 +26,12 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${oslc4j-core.version}</version>
+      <version>${lyo.version}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${oslc4j-core.version}</version>
+      <version>${lyo.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -47,7 +46,7 @@
     <dependency>
         <groupId>org.eclipse.lyo.core.query</groupId>
         <artifactId>oslc-query</artifactId>
-        <version>${oslc4j-core.version}</version>
+        <version>${lyo.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
