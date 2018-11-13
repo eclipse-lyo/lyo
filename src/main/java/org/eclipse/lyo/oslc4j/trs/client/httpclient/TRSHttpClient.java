@@ -14,13 +14,13 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.httpclient;
+package org.eclipse.lyo.oslc4j.trs.client.httpclient;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-
+import net.oauth.OAuthException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -28,9 +28,6 @@ import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-
-
-import net.oauth.OAuthException;
 
 /**
  * The http client instance shared between all TRS Task handlers in the

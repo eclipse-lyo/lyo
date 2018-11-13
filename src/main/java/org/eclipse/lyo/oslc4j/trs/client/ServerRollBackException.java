@@ -11,7 +11,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer;
+package org.eclipse.lyo.oslc4j.trs.client;
 
 /**
  * Thrown normally by a TRS Provider when the last change event which was processed can not be found

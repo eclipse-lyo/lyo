@@ -14,14 +14,13 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.test;
+package org.eclipse.lyo.oslc4j.trs.client.TRSProvider.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
@@ -31,8 +30,8 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler.TrsProviderHandler;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler.TrsProviderHandler;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;

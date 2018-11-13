@@ -10,7 +10,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer;
+package org.eclipse.lyo.oslc4j.trs.client;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,10 +24,10 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler.ConcurrentTRSProviderHandler;
-import org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler.TrsProviderHandler;
-import org.eclipse.lyo.oslc4j.trs.consumer.concurrent.TRSScheduledExecutorService;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler.ConcurrentTRSProviderHandler;
+import org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler.TrsProviderHandler;
+import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSScheduledExecutorService;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

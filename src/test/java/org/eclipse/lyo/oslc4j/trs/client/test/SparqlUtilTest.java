@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.test;
+package org.eclipse.lyo.oslc4j.trs.client.test;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -23,29 +23,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-
+import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.tdb.TDBLoader;
-import org.apache.jena.tdb.base.file.Location;
 import org.apache.jena.tdb.sys.TDBInternal;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
 import org.apache.log4j.Logger;
-import org.eclipse.lyo.oslc4j.trs.consumer.rdf.RdfUtil;
-import org.eclipse.lyo.oslc4j.trs.consumer.sparql.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.rdf.RdfUtil;
+import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-
-import junit.framework.Assert;
 
 public class SparqlUtilTest {
 

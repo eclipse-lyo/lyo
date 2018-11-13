@@ -14,10 +14,9 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.sparql;
+package org.eclipse.lyo.oslc4j.trs.client.sparql;
 
 import java.io.IOException;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -28,13 +27,14 @@ import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
-import org.eclipse.lyo.oslc4j.trs.consumer.rdf.RdfUtil;
-// FIXME Andrew@2018-02-26: why RDF4J here?
+import org.eclipse.lyo.oslc4j.trs.client.rdf.RdfUtil;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.query.Update;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.sparql.SPARQLRepository;
+
+// FIXME Andrew@2018-02-26: why RDF4J here?
 
 /**
  * * A utility class with static methods enabling the processing of trs tasks as

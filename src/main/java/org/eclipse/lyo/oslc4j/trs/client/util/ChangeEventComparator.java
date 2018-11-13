@@ -14,10 +14,9 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.util;
+package org.eclipse.lyo.oslc4j.trs.client.util;
 
 import java.util.Comparator;
-
 import org.eclipse.lyo.core.trs.ChangeEvent;
 
 /**

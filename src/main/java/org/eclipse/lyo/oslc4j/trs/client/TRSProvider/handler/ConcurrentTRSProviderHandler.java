@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler;
+package org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,21 +28,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
+import net.oauth.OAuthException;
 import org.apache.log4j.Logger;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.trs.consumer.RepresentationRetrievalException;
-import org.eclipse.lyo.oslc4j.trs.consumer.ServerRollBackException;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
-import org.eclipse.lyo.oslc4j.trs.consumer.sparql.SparqlUtil;
-
-import net.oauth.OAuthException;
+import org.eclipse.lyo.oslc4j.trs.client.RepresentationRetrievalException;
+import org.eclipse.lyo.oslc4j.trs.client.ServerRollBackException;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
 
 /**
  * Specialization fothe TRS provider class which supports multithreading when it

@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler;
+package org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -26,9 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
+import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.log4j.Logger;
@@ -42,14 +41,12 @@ import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.oslc4j.trs.consumer.RepresentationRetrievalException;
-import org.eclipse.lyo.oslc4j.trs.consumer.ServerRollBackException;
-import org.eclipse.lyo.oslc4j.trs.consumer.concurrent.TRSTaskHandler;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
-import org.eclipse.lyo.oslc4j.trs.consumer.sparql.SparqlUtil;
-import org.eclipse.lyo.oslc4j.trs.consumer.util.ChangeEventComparator;
-
-import net.oauth.OAuthException;
+import org.eclipse.lyo.oslc4j.trs.client.RepresentationRetrievalException;
+import org.eclipse.lyo.oslc4j.trs.client.ServerRollBackException;
+import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.util.ChangeEventComparator;
 
 /**
  * Base class for every TRS provider. Handles all periodic operations for a TRS

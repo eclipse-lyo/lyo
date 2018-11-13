@@ -14,11 +14,10 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.rdf;
+package org.eclipse.lyo.oslc4j.trs.client.rdf;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.log4j.Logger;
 

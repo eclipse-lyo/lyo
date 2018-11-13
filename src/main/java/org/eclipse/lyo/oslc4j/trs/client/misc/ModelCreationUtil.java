@@ -14,31 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.misc;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.servlet.ServletException;
-import javax.ws.rs.WebApplicationException;
-
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.rdf.model.Model;
-import org.apache.log4j.Logger;
-import org.eclipse.lyo.oslc4j.trs.consumer.rdf.RdfUtil;
-import org.eclipse.lyo.oslc4j.trs.consumer.sparql.SparqlUtil;
-import org.openrdf.model.Value;
-import org.openrdf.query.BindingSet;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.repository.RepositoryConnection;
+package org.eclipse.lyo.oslc4j.trs.client.misc;
 
 import com.j2bugzilla.base.Bug;
 import com.j2bugzilla.base.BugFactory;
@@ -47,6 +23,27 @@ import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
 import com.j2bugzilla.rpc.LogIn;
 import com.j2bugzilla.rpc.ReportBug;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.servlet.ServletException;
+import javax.ws.rs.WebApplicationException;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.log4j.Logger;
+import org.eclipse.lyo.oslc4j.trs.client.rdf.RdfUtil;
+import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.openrdf.model.Value;
+import org.openrdf.query.BindingSet;
+import org.openrdf.query.TupleQueryResult;
+import org.openrdf.repository.RepositoryConnection;
 
 /**
  * contains utility classes to create bugzilla bugs, and to link data in the

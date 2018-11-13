@@ -14,15 +14,13 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.concurrent;
+package org.eclipse.lyo.oslc4j.trs.client.concurrent;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import org.apache.log4j.Logger;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
-
 import net.oauth.OAuthException;
+import org.apache.log4j.Logger;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 
 /**
  * A generic class containing the information necessary for any thread class to

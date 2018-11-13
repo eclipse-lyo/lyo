@@ -12,7 +12,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer;
+package org.eclipse.lyo.oslc4j.trs.client;
 
 /**
  * Thrown when the required representation can not be retrieved from the server. Normally thrown by

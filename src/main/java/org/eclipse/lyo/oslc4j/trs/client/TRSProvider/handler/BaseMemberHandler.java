@@ -14,20 +14,18 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.consumer.TRSProvider.handler;
+package org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
+import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.log4j.Logger;
-import org.eclipse.lyo.oslc4j.trs.consumer.concurrent.TRSTaskHandler;
-import org.eclipse.lyo.oslc4j.trs.consumer.httpclient.TRSHttpClient;
-import org.eclipse.lyo.oslc4j.trs.consumer.sparql.SparqlUtil;
-
-import net.oauth.OAuthException;
+import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
+import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
 
 /**
  * This class is the thread handling the creation of sparql updates handling the
