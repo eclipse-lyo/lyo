@@ -1,8 +1,8 @@
-# TRS Consumer
+# TRS Client
 
 ## Motivation
 
-The *TRS Consumer * utility uses th TRS interfaces of existing OSLC adapters in order to cache the data exposed by these OSLC adadapters in a preconfigured HTTP SPARQL enabled triplestore and to keep this data cache up to date with the data coming from the adapters. for more information please check the  [OSLC TRS 2.0 draft spec][1]
+The *TRS Client* utility uses the TRS interfaces of existing OSLC adapters in order to cache the data exposed by these OSLC adadapters in a preconfigured HTTP SPARQL enabled triplestore and to keep this data cache up to date with the data coming from the adapters. for more information please check the  [OSLC TRS 2.0 draft spec][1]
 
 ## Supported features
 
@@ -37,14 +37,14 @@ Use the executables in the `appassembler` directory to run locally, and use the 
 
 1. Download Eclipse for JEE development and start it
 2. Clone the Lyo Git Repo located under:
-3. Import the org.eclipse.lyo.oslc4j.trs.consumer project into your eclipse workspace.
-3. Under Run Configurations in Eclipse select TRS Consumer build verify clean install and run it. This builds the TRS Consumer binary under the target folder in the project the binary.
-4. Configure the TRS Consumer as mentioned in the [config](#config) chapter.
-5. Run the TRS Consumer fro the Launch configuration of the TRS Consumer using the TRs Consumer launch Java run Configuration
+3. Import the org.eclipse.lyo.oslc4j.trs.Client project into your eclipse workspace.
+3. Under Run Configurations in Eclipse select TRS Client build verify clean install and run it. This builds the TRS Client binary under the target folder in the project the binary.
+4. Configure the TRS Client as mentioned in the [config](#config) chapter.
+5. Run the TRS Client fro the Launch configuration of the TRS Client using the TRs Client launch Java run Configuration
 
-## TRS Consumer configuration <a name="config"></a>
+## TRS Client configuration <a name="config"></a>
 
-The Application data for the TRS Consumer is stored in the application data folder. The application data folder has the following form in each operating system
+The Application data for the TRS Client is stored in the application data folder. The application data folder has the following form in each operating system
 
 	%USER_HOME% is the user home dir in this case
 
@@ -66,9 +66,9 @@ For example on windows:
 
 **The configuration files themselves are located in the `config` subfolder, e.g. `C:\Users\Omar\AppData\Roaming\TrsClient\config`.**
 
-TRS Consumer has the following configuration:
+TRS Client has the following configuration:
 
-- A TRSConsumer properties file (`trsClient.properties`)
+- A TRSClient properties file (`trsClient.properties`)
 - A `trsProviders` folder containing a configuration file (eg. `providerBugzilla.properties`) for each TRS Provider connected to the client
 
 The TRS client properties file contains the urls of the sparql http endpoint
@@ -87,13 +87,13 @@ The TRS provider file contains the uri of the provider, eg,
     baseAuth_user=
     baseAuth_pwd=
 
-## Run TRS consumer
+## Run TRS Client
 
-After adding the configuration, run TRS consumer with command:
+After adding the configuration, run TRS Client with command:
 
-    cd trs-consumer
+    cd trs-Client
     mvn clean package
-    ./target/appassembler/bin/trsconsumer
+    ./target/appassembler/bin/trsClient
 
 ## Tips for common issues
 
@@ -105,7 +105,7 @@ Comment `//import javax.servlet.ServletException;` and related class.
 
 Make sure you are using the JDK, not JRE, eg. in Eclipse: `Windows - Preferences - Java - Installed JREs`
 
-**TRS provider is running in Virtual Machine and TRS consumer can't access it from the Local Machine**
+**TRS provider is running in Virtual Machine and TRS Client can't access it from the Local Machine**
 
 Set Port Forwarding in virtual machine:
 
