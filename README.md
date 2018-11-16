@@ -1,5 +1,7 @@
 # Eclipse Lyo core repository
 
+[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
+
 This repository contains core library OSLC4J and its accompanying tests.
 
 ## Introduction
