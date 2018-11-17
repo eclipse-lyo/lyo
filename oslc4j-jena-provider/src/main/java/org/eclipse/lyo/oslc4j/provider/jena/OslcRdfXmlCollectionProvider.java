@@ -101,7 +101,8 @@ public class OslcRdfXmlCollectionProvider
 									   OslcMediaType.APPLICATION_RDF_XML_TYPE,
 									   OslcMediaType.APPLICATION_XML_TYPE,
 									   OslcMediaType.TEXT_XML_TYPE, 
-									   OslcMediaType.TEXT_TURTLE_TYPE);
+									   OslcMediaType.TEXT_TURTLE_TYPE,
+									   OslcMediaType.APPLICATION_JSON_LD_TYPE);
 				}
 			}
 		}
