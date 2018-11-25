@@ -13,7 +13,7 @@ See wiki https://wiki.eclipse.org/Lyo/BuildClient
 
 Javadoc: https://download.eclipse.org/lyo/docs/client/2.3.0/
 
-## Repository structurre
+## Repository structure
 
 * Java client: `oslc-java-client`
 * ~~Perl client: `oslc-perl-client`~~ **DEPRECATED**
