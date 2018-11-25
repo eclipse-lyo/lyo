@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.trs</groupId>
   <artifactId>trs-server</artifactId>
-  <version>2.4.0.M2-SNAPSHOT</version>
+  <version>2.4.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,13 +129,20 @@
       <id>lyo-releases</id>
       <name>lyo-releases repository</name>
       <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
     <repository>
       <id>lyo-snapshots</id>
       <name>lyo-snapshots repository</name>
       <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </repository>
   </repositories>
+
   <distributionManagement>
     <repository>
       <id>repo.eclipse.org</id>
@@ -148,4 +155,5 @@
       <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+
 </project>
