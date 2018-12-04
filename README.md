@@ -12,7 +12,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
-If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.1.2/overview-summary.html)
+If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.4.0/overview-summary.html)
 
 ## CONTRIBUTING
 
