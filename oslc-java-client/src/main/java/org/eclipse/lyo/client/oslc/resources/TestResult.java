@@ -39,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 /**
  * @see http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult
  */
-public final class TestResult
+public class TestResult
        extends QmResource
 {
     private final Set<Link>     affectedByChangeRequests       = new HashSet<Link>();

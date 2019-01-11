@@ -37,7 +37,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 /**
  * @see http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestExecutionRecord
  */
-public final class TestExecutionRecord
+public class TestExecutionRecord
        extends QmResource
 {
     private final Set<Link>     blockedByChangeRequests       = new HashSet<Link>();

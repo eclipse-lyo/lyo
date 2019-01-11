@@ -45,7 +45,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(CmConstants.CHANGE_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Change Request Resource Shape", describes = CmConstants.TYPE_CHANGE_REQUEST)
-public final class ChangeRequest
+public class ChangeRequest
        extends AbstractResource
 {
     private final Set<Link>     affectedByDefects           = new HashSet<Link>();

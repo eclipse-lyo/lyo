@@ -39,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 /**
  * @see http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestPlan
  */
-public final class TestPlan
+public class TestPlan
        extends QmResource
 {
 	private final Set<URI>      contributors                = new TreeSet<URI>();

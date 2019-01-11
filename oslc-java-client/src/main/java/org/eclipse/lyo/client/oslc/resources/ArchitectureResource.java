@@ -42,7 +42,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 /**
  * @see http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/
  */
-public final class ArchitectureResource
+public class ArchitectureResource
 extends AbstractResource
 {
 	private final Set<URI>      contributors                = new TreeSet<URI>();

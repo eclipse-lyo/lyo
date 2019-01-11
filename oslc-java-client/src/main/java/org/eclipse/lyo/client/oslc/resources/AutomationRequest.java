@@ -43,7 +43,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 /**
  * @see http://open-services.net/wiki/automation/OSLC-Automation-Specification-Version-2.0/#Resource_AutomationRequest
  */
-public final class AutomationRequest
+public class AutomationRequest
 extends AbstractResource
 {
 	private final Set<URI>      contributors                = new TreeSet<URI>();

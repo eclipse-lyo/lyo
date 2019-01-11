@@ -33,7 +33,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 @OslcNamespace(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Requirement Collection Resource Shape", describes = RmConstants.TYPE_REQUIREMENT_COLLECTION)
-public final class RequirementCollection
+public class RequirementCollection
        extends Requirement
 {
 	// The only extra field is uses
