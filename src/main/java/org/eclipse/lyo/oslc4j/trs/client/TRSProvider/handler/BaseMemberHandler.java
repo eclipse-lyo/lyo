@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
 import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is the thread handling the creation of sparql updates handling the
@@ -36,7 +37,7 @@ import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
  */
 public class BaseMemberHandler extends TRSTaskHandler {
 
-    final static Logger logger = Logger.getLogger(BaseMemberHandler.class);
+    final static Logger logger = LoggerFactory.getLogger(BaseMemberHandler.class);
     /*
      * the uri of the base member to be processed
      */
@@ -96,7 +97,7 @@ public class BaseMemberHandler extends TRSTaskHandler {
             super.processTRSTask();
             processBaseMemberAddition();
         } catch (IOException | URISyntaxException | OAuthException e) {
-            logger.error(e);
+            logger.error("Error processing Base Members", e);
         }
     }
 

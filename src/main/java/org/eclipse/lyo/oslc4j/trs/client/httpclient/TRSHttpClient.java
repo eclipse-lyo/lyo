@@ -24,10 +24,11 @@ import net.oauth.OAuthException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.log4j.Logger;
 import org.apache.wink.client.ClientResponse;
 import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The http client instance shared between all TRS Task handlers in the
@@ -41,7 +42,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  */
 public class TRSHttpClient extends JazzFormAuthClient {
 
-    static Logger logger = Logger.getLogger(TRSHttpClient.class);
+    static Logger logger = LoggerFactory.getLogger(TRSHttpClient.class);
 
     public TRSHttpClient() {
         super();
@@ -155,17 +156,16 @@ public class TRSHttpClient extends JazzFormAuthClient {
 
         final Model rdFModel = ModelFactory.createDefaultModel();
 
-        final java.io.InputStream is = new java.io.ByteArrayInputStream(responseAsString.getBytes());
-        try {
+        try (java.io.InputStream is = new java.io.ByteArrayInputStream(
+                responseAsString.getBytes())) {
             rdFModel.read(is, null);
         } catch (Exception e) {
-
-            logger.error("Error while retrieving the Jena model from response for url: ." + absoluteUrl);
-            logger.error(e);
+            logger.error(
+                    "Error while retrieving the Jena model from response for url: ." + absoluteUrl,
+                    e
+            );
             clientResponse.consumeContent();
             return null;
-        } finally {
-            is.close();
         }
 
         logger.debug(

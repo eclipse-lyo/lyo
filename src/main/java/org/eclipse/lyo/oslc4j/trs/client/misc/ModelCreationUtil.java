@@ -37,13 +37,14 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.Model;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.oslc4j.trs.client.rdf.RdfUtil;
 import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.RepositoryConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * contains utility classes to create bugzilla bugs, and to link data in the
@@ -54,29 +55,29 @@ import org.openrdf.repository.RepositoryConnection;
  */
 public class ModelCreationUtil {
 
-    Logger logger = Logger.getLogger(ModelCreationUtil.class);
+    private Logger logger = LoggerFactory.getLogger(ModelCreationUtil.class);
 
-    static String fusekiSparqlUpdateService = "https://vservices.offis.de/rtp/fuseki/v1.0/ldr/update";
-    static String fusekiSparqlQueryService = "https://vservices.offis.de/rtp/fuseki/v1.0/ldr/query";
-    String sesameSparqlUpdateService = "https://vservices.offis.de/rtp/openrdf-sesame/v1.0/repositories/ldr/statements";
+    private static String fusekiSparqlUpdateService = "https://vservices.offis.de/rtp/fuseki/v1.0/ldr/update";
+    private static String fusekiSparqlQueryService = "https://vservices.offis.de/rtp/fuseki/v1.0/ldr/query";
+    private String sesameSparqlUpdateService = "https://vservices.offis.de/rtp/openrdf-sesame/v1.0/repositories/ldr/statements";
     String sesameSparqlQueryService = "https://vservices.offis.de/rtp/openrdf-sesame/v1.0/repositories/ldr";
 
     private static String lineSep = " \n";
 
-    public static final String[] products = { "TestProduct" };
+    private static final String[] products = { "TestProduct" };
 
-    public static final String[] components = { "TestComponent" };
+    private static final String[] components = { "TestComponent" };
 
-    public static final String[] os = { "windows", "Mac OS", "Linux", "All", "Other" };
+    private static final String[] os = { "windows", "Mac OS", "Linux", "All", "Other" };
 
-    public static final String[] versions = { "unspecified" };
+    private static final String[] versions = { "unspecified" };
 
-    public static final String[] platforms = { "PC", "Macintosh", "All", "Other" };
+    private static final String[] platforms = { "PC", "Macintosh", "All", "Other" };
 
-    public static final String[] summaries = { "this is a change request ", "this is a bug", "this is a task",
+    private static final String[] summaries = { "this is a change request ", "this is a bug", "this is a task",
     "this is a reminder" };
 
-    public static final String[] descriptions = { "this is a the description of the bug ",
+    private static final String[] descriptions = { "this is a the description of the bug ",
     "this is the description of the task" };
 
     private static String oslc_cm_prefix = "http://open-services.net/ns/cm#";
@@ -104,19 +105,13 @@ public class ModelCreationUtil {
             String operatingSystem = os[rand.nextInt(os.length)];
             String platform = platforms[rand.nextInt(platforms.length)];
             String description = descriptions[rand.nextInt(descriptions.length)] + randomString;
-            try {
-                createBug(bc, summary, component, version, operatingSystem, platform, description, productId);
-            } catch (IOException e) {
-
-                logger.error(e);
-                ;
-            }
+            createBug(bc, summary, component, version, operatingSystem, platform, description, productId);
 
         }
 
     }
 
-    public static BugzillaConnector login(String bugzillaUri, String user, String pwd)
+    private static BugzillaConnector login(String bugzillaUri, String user, String pwd)
             throws ServletException, BugzillaException {
         BugzillaConnector bc = new BugzillaConnector();
 
@@ -133,10 +128,10 @@ public class ModelCreationUtil {
         return bc;
     }
 
-    public static String createBug(BugzillaConnector bc, String summary, String component, String version,
-            String operatingSystem, String platform, String description, final String productIdString)
-                    throws IOException, ServletException {
-        String newBugId = null;
+    private static String createBug(BugzillaConnector bc, String summary, String component,
+            String version, String operatingSystem, String platform, String description,
+            final String productIdString) {
+        String newBugId;
         try {
 
             // final int productId = Integer.parseInt(productIdString);
@@ -297,7 +292,7 @@ public class ModelCreationUtil {
      * Query for retrieving all the elements that are part of the matlab world
      * and bugzilla change requests
      */
-    public static void linkReqToReq() {
+    private static void linkReqToReq() {
         RepositoryConnection conn = SparqlUtil.getRepoConnection(fusekiSparqlQueryService, fusekiSparqlUpdateService,
                 "", "");
         conn.begin();
@@ -495,7 +490,7 @@ public class ModelCreationUtil {
         linkReqToReq();
     }
 
-    public static int getRandomWithExclusion(Random rnd, int start, int end, int... exclude) {
+    private static int getRandomWithExclusion(Random rnd, int start, int end, int... exclude) {
         try {
             int random = start + rnd.nextInt(end - start + 1 - exclude.length);
             for (int ex : exclude) {

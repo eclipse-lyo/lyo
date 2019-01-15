@@ -23,12 +23,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
 import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for handling the creation of the sparql update for processing a change
@@ -39,7 +40,7 @@ import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
  */
 public class ChangeEventHandler extends TRSTaskHandler {
 
-    final static Logger logger = Logger.getLogger(ChangeEventHandler.class);
+    final static Logger logger = LoggerFactory.getLogger(ChangeEventHandler.class);
     /**
      * The change event to be processed
      */
@@ -91,15 +92,8 @@ public class ChangeEventHandler extends TRSTaskHandler {
         try {
             super.processTRSTask();
             processChangeEvent();
-        } catch (IOException e) {
-
-            logger.error(e);
-        } catch (OAuthException e) {
-
-            logger.error(e);
-        } catch (URISyntaxException e) {
-
-            logger.error(e);
+        } catch (IOException | OAuthException | URISyntaxException e) {
+            logger.error("Error processing Change Events", e);
         }
     }
 

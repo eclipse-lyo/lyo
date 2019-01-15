@@ -30,7 +30,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.xml.datatype.DatatypeConfigurationException;
 import net.oauth.OAuthException;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -40,6 +39,8 @@ import org.eclipse.lyo.oslc4j.trs.client.RepresentationRetrievalException;
 import org.eclipse.lyo.oslc4j.trs.client.ServerRollBackException;
 import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Specialization fothe TRS provider class which supports multithreading when it
@@ -52,6 +53,9 @@ import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
  *
  */
 public class ConcurrentTRSProviderHandler extends TrsProviderHandler {
+
+    final static Logger logger = LoggerFactory.getLogger(ConcurrentTRSProviderHandler.class);
+
     public ConcurrentTRSProviderHandler(String trsUriBase, String sparqlQueryService, String sparqlUpdateService,
             TRSHttpClient trsHttpClient, String userName, String pwd, String sparql_user, String sparql_pwd) {
         super(trsUriBase, sparqlQueryService, sparqlUpdateService, trsHttpClient, userName, pwd, sparql_user,
@@ -65,7 +69,6 @@ public class ConcurrentTRSProviderHandler extends TrsProviderHandler {
 
     }
 
-    final static Logger logger = Logger.getLogger(ConcurrentTRSProviderHandler.class);
 
     private void indexingStage(List<ChangeEvent> compressedChanges,
             ExecutorService changeEventsAndBaseProcessingExecutor, List<String> queries, AtomicLong modelSize,

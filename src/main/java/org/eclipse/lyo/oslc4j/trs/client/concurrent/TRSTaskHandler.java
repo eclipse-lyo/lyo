@@ -19,8 +19,9 @@ package org.eclipse.lyo.oslc4j.trs.client.concurrent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import net.oauth.OAuthException;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A generic class containing the information necessary for any thread class to
@@ -32,7 +33,7 @@ import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
  */
 public abstract class TRSTaskHandler implements Runnable {
 
-    final static Logger logger = Logger.getLogger(TRSTaskHandler.class);
+    final static Logger logger = LoggerFactory.getLogger(TRSTaskHandler.class);
     /**
      * instance of the http client used by this TRS Task handler to communicate
      * with the TRS providers

@@ -19,8 +19,8 @@ package org.eclipse.lyo.oslc4j.trs.client.rdf;
 import java.io.IOException;
 import java.io.StringWriter;
 import org.apache.jena.rdf.model.Model;
-import org.apache.log4j.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class RdfUtil {
-    static Logger logger = Logger.getLogger(RdfUtil.class);
+    static Logger logger = LoggerFactory.getLogger(RdfUtil.class);
 
     static public String modelToRdfXml(Model model) throws IOException {
         return modelToString(model, "RDF/XML");

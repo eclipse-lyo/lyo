@@ -21,7 +21,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A specialization of the ScheduledThreadPoolExecutor propagating the
@@ -33,11 +34,10 @@ import org.apache.log4j.Logger;
  */
 public class TRSScheduledExecutorService extends ScheduledThreadPoolExecutor {
 
-    final static Logger logger = Logger.getLogger(TRSScheduledExecutorService.class);
+    final static Logger logger = LoggerFactory.getLogger(TRSScheduledExecutorService.class);
 
     public TRSScheduledExecutorService(int corePoolSize) {
         super(corePoolSize);
-        // TODO Auto-generated constructor stub
     }
 
     public TRSScheduledExecutorService(int corePoolSize, ThreadFactory tf) {
@@ -62,7 +62,7 @@ public class TRSScheduledExecutorService extends ScheduledThreadPoolExecutor {
             }
         }
         if (t != null) {
-            logger.error(t);
+            logger.error("Error chaining the execution", t);
         }
     }
 }

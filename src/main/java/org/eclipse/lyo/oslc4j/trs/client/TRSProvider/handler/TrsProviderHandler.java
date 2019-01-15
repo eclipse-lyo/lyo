@@ -30,7 +30,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.log4j.Logger;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -47,6 +46,8 @@ import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
 import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
 import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
 import org.eclipse.lyo.oslc4j.trs.client.util.ChangeEventComparator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for every TRS provider. Handles all periodic operations for a TRS
@@ -60,7 +61,7 @@ import org.eclipse.lyo.oslc4j.trs.client.util.ChangeEventComparator;
  *
  */
 public class TrsProviderHandler extends TRSTaskHandler {
-    final static Logger logger = Logger.getLogger(TrsProviderHandler.class);
+    final static Logger logger = LoggerFactory.getLogger(TrsProviderHandler.class);
 
     /**
      * The URI of the last processed change event
@@ -718,7 +719,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
             super.processTRSTask();
             pollAndProcessChanges();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("Uncaught handler error", e);
             lastProcessedChangeEventUri = null;
         }
     }
