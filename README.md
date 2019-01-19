@@ -1,6 +1,7 @@
 # TRS Client
 
 [![Build Status](https://travis-ci.org/eclipse/lyo.trs-client.svg?branch=master)](https://travis-ci.org/eclipse/lyo.trs-client)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/trs-client/latest/)
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
