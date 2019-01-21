@@ -2,8 +2,10 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f9560aee08b4c28a094b9fc2e3d43f2)](https://www.codacy.com/app/berezovskyi/lyo-store?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eclipse/lyo-store&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/eclipse/lyo.store.svg?branch=master)](https://travis-ci.org/eclipse/lyo.store)
-[![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/store/latest/)
+[![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
+
 
 *Lyo Store* is a library that can be used to persistently store OSLC resources in a triplestore. This can be useful to cache the results of REST resource requests for a faster retrieval of resources upon subsequent requests. Alternatively, a lifecycle tool may choose to preload its OSLC resources in the triplestore, allowing its OSLC server to provide OSLC services that interact directly with the artefacts consistently and conveniently managed using the expected RDF technologies. This, for example, makes it relatively easier for an OSLC server to provide clients with a TRS provider, or a SPARQL-endpoint for more advanced query capabilities.
 
