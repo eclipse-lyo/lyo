@@ -158,7 +158,7 @@ public abstract class TrackedResourceSetService {
                          + "Processing request");
         TrackedResourceSet result = new TrackedResourceSet();
         result.setAbout(buildURI("trs"));
-        result.setBase(buildURI("trs/base"));//$NON-NLS-1$
+        result.setBase(buildURI("trs/base"));
 
         ChangeLog changeLog = getChangeHistories().getChangeLog("1", httpServletRequest);
         if (changeLog == null) {

@@ -64,14 +64,6 @@
       <artifactId>slf4j-api</artifactId>
       <version>1.7.25</version>
     </dependency>
-
-    <dependency>
-      <!--TODO why?-->
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>javax.servlet.jsp-api</artifactId>
-      <version>2.3.1</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -84,27 +76,16 @@
       <version>1.1.1</version>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-      <artifactId>oslc4j-wink</artifactId>
-      <version>${lyo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-      <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${lyo.version}</version>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <!--CQ https://dev.eclipse.org/ipzilla/show_bug.cgi?id=16720-->
+      <version>2.6</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
       <version>${lyo.version}</version>
     </dependency>
-    <!--
-        <dependency>
-          <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-          <artifactId>oslc4j-json4j-provider</artifactId>
-          <version>${lyo.version}</version>
-        </dependency>
-    -->
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>

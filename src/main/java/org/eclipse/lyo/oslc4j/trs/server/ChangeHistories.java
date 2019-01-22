@@ -38,6 +38,7 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,74 +58,65 @@ public abstract class ChangeHistories {
     /**
      * Comparators for change events and history data
      */
-    public static  Comparator<HistoryData> histDataComparator    = new Comparator<HistoryData>() {
-        @Override
-        public int compare(HistoryData object1, HistoryData object2) {
-            return object2.getTimestamp().compareTo(object1.getTimestamp()); // reverse
-        }
+    public static         Comparator<HistoryData> histDataComparator    = (object1, object2) -> {
+        return object2.getTimestamp().compareTo(object1.getTimestamp()); // reverse
     };
-    public static  Comparator<ChangeEvent> changeEventComparator = new Comparator<ChangeEvent>() {
-        @Override
-        public int compare(ChangeEvent object1, ChangeEvent object2) {
-            return object2.getOrder() - object1.getOrder(); //
-        }
+    public static         Comparator<ChangeEvent> changeEventComparator = (object1, object2) -> {
+        return object2.getOrder() - object1.getOrder();
     };
-    private static String                  mutex                 = "";//$NON-NLS-1$
+    private final         Object                  lockObject            = new Object();
     /**
      * Page Limit for Base Resources
      */
-    private final  int                     BASE_PAGELIMIT        = 40;
+    private final         int                     BASE_PAGELIMIT        = 40;
     /**
      * Page Limit for ChangeLogs
      */
-    private final  int                     CHANGELOGS_PAGELIMIT  = 40;
-    /**
-     * Mutex used for managing concurrent accesses to TRS information
-     */
-    protected      ArtificialTRSMaker      artificialTRSMaker    = new ArtificialTRSMaker();
+    private final         int                     CHANGELOGS_PAGELIMIT  = 40;
+    protected             ArtificialTRSMaker      artificialTRSMaker    = new ArtificialTRSMaker();
     /**
      * Saved History data
      */
 
-    protected      List<HistoryData>       allHistories          = new ArrayList<HistoryData>();
-    /**
-     * interval for updating the base resources
-     */
-    protected long UPDATEINTERVAL;
+    protected             List<HistoryData>       allHistories          = new ArrayList<HistoryData>();
     /**
      * A flag which should be turned on to true in case the inheriting class will be exposing
      * artificial TRS data which using the utility method of the ArtificialTRSMaker class.
      */
-    protected boolean artificialTRS         = true;
+    @Deprecated protected boolean                 artificialTRS         = false;
     /**
      * If this flag is turned on, artificial history data will be periodically added for the
      * existing base resources
      */
-    protected boolean periodicArtificialTRS = false;
+    @Deprecated protected boolean                 periodicArtificialTRS = false;
     /**
      * This flag should be set to true by the implementing class in case it generates TRS data for
      * its TRS interface using the artifical TRS maker class functionality.
      */
-    protected boolean hasBeenTweaked        = false;
+    @Deprecated protected boolean                 hasBeenTweaked        = false;
     /**
      * url prefix for the trs url e.g http://host/services/ will imply the trs uri shall be of the
      * type http://host/services/trs
      */
-    protected String                 serviceBase;
-    private   Date                   mostRecentChangeLogDate;
-    private   Date                   lastBaseResourceUpdatedDate;
+    @Deprecated protected String                 serviceBase;
+    /**
+     * interval for updating the base resources, in ms
+     */
+    private               long                   baseUpdateInterval;
+    private               Date                   mostRecentChangeLogDate;
+    private               Date                   lastBaseResourceUpdatedDate;
     /**
      * List of base resources
      */
-    private   Map<String, Base>      baseResouces;
+    private               Map<String, Base>      baseResouces;
     /**
      * List of Change Logs
      */
-    private   Map<String, ChangeLog> changeLogs;
+    private               Map<String, ChangeLog> changeLogs;
     /**
      * Saved History
      */
-    private   HistoryData[]          prevHistories;
+    private               HistoryData[]          prevHistories;
 
 ///*    *//**//**
 //     * Periodically create artifical TRS data for the base resources if the
@@ -152,12 +144,18 @@ public abstract class ChangeHistories {
 //        }
 //    }*/
 
-    public ChangeHistories(long UPDATEINTERVAL, String serviceBase) {
+    @Deprecated
+    public ChangeHistories(long baseUpdateInterval, String serviceBase) {
+        this.baseUpdateInterval = baseUpdateInterval;
         this.serviceBase = serviceBase;
-        this.UPDATEINTERVAL = UPDATEINTERVAL;
     }
 
-    public ChangeHistories() {
+    /**
+     * @param baseUpdateInterval interval between base rebuilds, in milliseconds
+     */
+    public ChangeHistories(long baseUpdateInterval) {
+        this.baseUpdateInterval = baseUpdateInterval;
+        this.serviceBase = null;
     }
 
     /**
@@ -206,7 +204,7 @@ public abstract class ChangeHistories {
      */
     public void buildBaseResourcesAndChangeLogs(HttpServletRequest httpServletRequest)
             throws URISyntaxException {
-        synchronized (mutex) {
+        synchronized (lockObject) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
         }
     }
@@ -223,7 +221,7 @@ public abstract class ChangeHistories {
      */
     public Base getBaseResource(String pagenum, HttpServletRequest httpServletRequest)
             throws URISyntaxException {
-        synchronized (mutex) {
+        synchronized (lockObject) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
             return baseResouces != null ? baseResouces.get(pagenum) : null;
         }
@@ -241,27 +239,28 @@ public abstract class ChangeHistories {
      */
     public ChangeLog getChangeLog(String pagenum, HttpServletRequest httpServletRequest)
             throws URISyntaxException {
-        synchronized (mutex) {
+        synchronized (lockObject) {
             buildBaseResourcesAndChangeLogsInternal(httpServletRequest);
             // changeLogs might be null
             return changeLogs != null ? changeLogs.get(pagenum) : null;
         }
     }
 
-    public String getServiceBase() {
-        return serviceBase;
+
+    public long getBaseUpdateInterval() {
+        return baseUpdateInterval;
     }
 
-    public void setServiceBase(String serviceBase) {
-        this.serviceBase = serviceBase;
+    public void setBaseUpdateInterval(long uPDATEINTERVAL) {
+        baseUpdateInterval = uPDATEINTERVAL;
     }
 
-    public long getUPDATEINTERVAL() {
-        return UPDATEINTERVAL;
-    }
-
-    public void setUPDATEINTERVAL(long uPDATEINTERVAL) {
-        UPDATEINTERVAL = uPDATEINTERVAL;
+    private String getTrsServiceBase() {
+        if (serviceBase != null) {
+            log.warn("Please STOP setting the service base for the TRS and use OSLC4JUtils!");
+            return serviceBase + "/trs/";
+        }
+        return OSLC4JUtils.getServletURI() + "/trs/";
     }
 
     /**
@@ -274,12 +273,14 @@ public abstract class ChangeHistories {
      */
     private Page createNewBasePage(Base base, int basePagenum) throws URISyntaxException {
         Page ldp = new Page();
-        ldp.setAbout(URI.create(serviceBase + "/trs/" + TRSConstants.TRS_TERM_BASE //$NON-NLS-1$
-                                        + String.valueOf(basePagenum)));// );
+        ldp.setAbout(URI.create(
+                getTrsServiceBase() + TRSConstants.TRS_TERM_BASE + String.valueOf(basePagenum)));
         ldp.setNextPage(new URI(TRSConstants.RDF_NIL));
         ldp.setPageOf(base);
         return ldp;
     }
+
+    protected void newChangeEvent(final ChangeEvent ce) {}
 
     /**
      * Create a new page object with the page basepagenum
@@ -290,7 +291,7 @@ public abstract class ChangeHistories {
      */
     private Base createNewBase(int basePagenum) throws URISyntaxException {
         Base base = new Base();
-        base.setAbout(URI.create(serviceBase + "/trs/" + TRSConstants.TRS_TERM_BASE));//$NON-NLS-1$
+        base.setAbout(URI.create(getTrsServiceBase() + TRSConstants.TRS_TERM_BASE));
 
         base.setNextPage(createNewBasePage(base, basePagenum));
         return base;
@@ -308,8 +309,8 @@ public abstract class ChangeHistories {
         log.info("started building the change log and the base");
 
         Date nowDate = new Date();
-        if ((lastBaseResourceUpdatedDate != null) && (UPDATEINTERVAL != -1) && (
-                nowDate.getTime() - lastBaseResourceUpdatedDate.getTime() > UPDATEINTERVAL)) {
+        if ((lastBaseResourceUpdatedDate != null) && (baseUpdateInterval != -1) && (
+                nowDate.getTime() - lastBaseResourceUpdatedDate.getTime() > baseUpdateInterval)) {
             mostRecentChangeLogDate = null; // enforce to build all
         }
         boolean buildAll = ((mostRecentChangeLogDate == null) || (baseResouces == null));
@@ -417,10 +418,9 @@ public abstract class ChangeHistories {
                 URI prevPage;
                 if (changeLogs == null) {
                     prevPage = URI.create(
-                            serviceBase + "/trs/" + TRSConstants.TRS_TERM_CHANGE_LOG);//$NON-NLS-1$
+                            getTrsServiceBase() + TRSConstants.TRS_TERM_CHANGE_LOG);//$NON-NLS-1$
                 } else {
-                    prevPage = URI.create(serviceBase + "/trs/" //$NON-NLS-1$
-                                                  + TRSConstants.TRS_TERM_CHANGE_LOG + "/"
+                    prevPage = URI.create(getTrsServiceBase() + TRSConstants.TRS_TERM_CHANGE_LOG + "/"
                                                   + String.valueOf(
                             changeLogPageNum + 1));//$NON-NLS-1$
                 }
@@ -447,7 +447,7 @@ public abstract class ChangeHistories {
                 // Base Page
                 if (base == null) {
                     if (prevBase != null) {
-                        URI nextPage = URI.create(serviceBase + "/trs/" //$NON-NLS-1$
+                        URI nextPage = URI.create(getTrsServiceBase() //$NON-NLS-1$
                                                           + TRSConstants.TRS_TERM_BASE + "/"
                                                           + String.valueOf(
                                 basePagenum + 1));//$NON-NLS-1$
@@ -476,12 +476,13 @@ public abstract class ChangeHistories {
                 changeLog = null;
                 currentNumberOfChangeLog = 0;
             }
+            newChangeEvent(ce);
         }
         // Base resource's CutoffEvent is most recent Change event.
         // Since the order of the returned HistoryData is "new -> old",
         // the first one is the most recent.
         if (buildAll) {
-            ((Base) baseResouces.get("1")).setCutoffEvent(mostRecentChangeEventURI);//$NON-NLS-1$
+            baseResouces.get("1").setCutoffEvent(mostRecentChangeEventURI);//$NON-NLS-1$
         }
 
         for (Entry<String, ChangeLog> changeLogEntry : changeLogs.entrySet()) {

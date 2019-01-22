@@ -59,8 +59,8 @@ public class TRSUtil {
     public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
 
     static {
-        XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");//$NON-NLS-1$
-        XSD_DATETIME_FORMAT.setTimeZone(TimeZone.getDefault());// $NON-NLS-1$
+        XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        XSD_DATETIME_FORMAT.setTimeZone(TimeZone.getDefault());
     }
 
     /**
@@ -212,10 +212,8 @@ public class TRSUtil {
             int changeOrderInt = RandomUtils.nextInt();
             String changeOrder = String.valueOf(changeOrderInt);
 
-            String changedUriString = "urn:urn-3:" + //$NON-NLS-1$
-                    "cm1.example.com" + //$NON-NLS-1$
-                    ":" + //$NON-NLS-1$
-                    XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" + //$NON-NLS-1$
+            String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"
+                    + XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" +
                     changeOrder;
 
             URI changedUri = URI.create(changedUriString);
