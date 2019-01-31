@@ -23,26 +23,42 @@
 package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
+import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.eclipse.lyo.client.exception.JazzAuthErrorException;
+import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
 import org.eclipse.lyo.oslc4j.core.model.Service;
@@ -50,6 +66,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An OSLC Client that extends the JAX-RS 2.0 REST client with OSLC specific CRUD and
@@ -61,7 +79,36 @@ public class OslcClient {
 	private Client client;
 
 	protected HttpClient httpClient;
+	private String baseUrl;
+	private String rootServicesUrl;
+	private String catalogDomain;
+	private String catalogNamespace;
+	private String catalogProperty;
+	private String catalogUrl;
+	private Model rdfModel;
+	private Response lastRedirectResponse = null;
 
+	//OAuth URLs
+	String authorizationRealm;
+	String requestTokenUrl;
+	String authorizationTokenUrl;
+	String accessTokenUrl;
+	String requestConsumerKeyUrl;
+	String consumerApprovalUrl;
+
+	public static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
+	public static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
+	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
+	private static final String JAZZ_AUTH_FAILED = "authfailed";
+	private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
+	private static final String JAZZ_JSA_REDIRECT_HEADER = "X-JSA-AUTHORIZATION-REDIRECT";
+
+	private final static Logger logger = LoggerFactory.getLogger(OslcClient.class);
+
+
+	
+	
+	
 	/**
 	 * A simple OslcClient that provides http access to unprotected resources
 	 */
@@ -176,7 +223,7 @@ public class OslcClient {
 		Response response = null;
 		boolean redirect = false;
 		do {
-			WebTarget webTarget = client.target(url);
+			WebTarget webTarget = this.client.target(url);
 			Builder innvocationBuilder = webTarget.request(); 
 			boolean acceptSet = false;
 			boolean versionSet = false;
@@ -438,7 +485,7 @@ s	 * @param catalogUrl
 	 * @param serviceProviderUrl
 	 * @param oslcDomain
 	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
-	 * @return URL of requested Query Capablility or null if not found.
+	 * @return URL of requested Query Capability or null if not found.
 	 * @throws IOException
 	 * @throws OAuthException
 	 * @throws URISyntaxException
@@ -593,4 +640,184 @@ s	 * @param catalogUrl
 	{
 		return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, oslcUsage).getCreation().toString();
 	}
+
+	/**
+	 * Get the OSLC Catalog URL
+	 *
+	 * @return the catalog URL
+	 */
+	public String getCatalogUrl(String webContextUrl, String catalogDomain) throws RootServicesException
+	{
+		this.baseUrl = webContextUrl;
+		this.rootServicesUrl = UriBuilder.fromUri(this.baseUrl).path("rootservices").build().toString();
+		logger.debug(String.format("Fetching rootservices document at URL <%s>", this.rootServicesUrl));
+		this.catalogDomain = catalogDomain;
+		logger.debug(String.format("Using catalog domain <%s>", this.catalogDomain));
+
+		if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_CM) ||
+		    this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_CM_V2)) {
+
+			this.catalogNamespace = OSLCConstants.OSLC_CM;
+			this.catalogProperty  = RootServicesConstants.CM_ROOTSERVICES_CATALOG_PROP;
+
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_QM) ||
+			       this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_QM_V2)) {
+
+			this.catalogNamespace = OSLCConstants.OSLC_QM;
+			this.catalogProperty =  RootServicesConstants.QM_ROOTSERVICES_CATALOG_PROP;
+
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_RM) ||
+			       this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_RM_V2)) {
+
+			this.catalogNamespace = OSLCConstants.OSLC_RM;
+			this.catalogProperty =  RootServicesConstants.RM_ROOTSERVICES_CATALOG_PROP;
+
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AM_V2)) {
+
+			this.catalogNamespace = OSLCConstants.OSLC_AM_V2;
+			this.catalogProperty =  RootServicesConstants.AM_ROOTSERVICES_CATALOG_PROP;
+
+		}
+		else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
+
+			this.catalogNamespace = OSLCConstants.OSLC_AUTO;
+			this.catalogProperty =  RootServicesConstants.AUTO_ROOTSERVICES_CATALOG_PROP;
+
+		}
+		else {
+			logger.error("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
+		}
+
+		try {
+			Response response = this.getResource(rootServicesUrl,OSLCConstants.CT_RDF);
+			InputStream is = response.readEntity(InputStream.class);
+			rdfModel = ModelFactory.createDefaultModel();
+			rdfModel.read(is,rootServicesUrl);
+
+			//get the catalog URL
+			this.catalogUrl = getRootServicesProperty(rdfModel, this.catalogNamespace, this.catalogProperty);
+
+			//get the OAuth URLs
+			this.requestTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_REQUEST_TOKEN_URL);
+			this.authorizationTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_USER_AUTH_URL);
+			this.accessTokenUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_ACCESS_TOKEN_URL);
+			try { // Following field is optional, try to get it, if not found ignore exception because it will use the default
+				this.authorizationRealm = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_REALM_NAME);
+			} catch (ResourceNotFoundException e) {
+				logger.debug(String.format("OAuth authorization realm not found in rootservices <%s>", rootServicesUrl));
+			}
+
+			try {
+				this.requestConsumerKeyUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_REQUEST_CONSUMER_KEY_URL);
+			} catch (ResourceNotFoundException e) {
+				logger.debug(String.format("OAuth request consumer key URL not found in rootservices <%s>", rootServicesUrl));
+			}
+
+			try {
+				this.consumerApprovalUrl = getRootServicesProperty(rdfModel, JFS_NAMESPACE, RootServicesConstants.OAUTH_APPROVAL_MODULE_URL);
+			} catch (ResourceNotFoundException e) {
+				logger.debug(String.format("OAuth approval module URL not found in rootservices <%s>", rootServicesUrl));
+			}
+		} catch (Exception e) {
+			throw new RootServicesException(this.baseUrl, e);
+		}
+
+		return this.catalogUrl;
+	}
+
+	private String getRootServicesProperty(Model rdfModel, String namespace, String predicate) throws ResourceNotFoundException {
+		String returnVal = null;
+
+		Property prop = rdfModel.createProperty(namespace, predicate);
+		Statement stmt = rdfModel.getProperty((Resource) null, prop);
+		if (stmt != null && stmt.getObject() != null)
+			returnVal = stmt.getObject().toString();
+		if (returnVal == null)
+		{
+			throw new ResourceNotFoundException(baseUrl, namespace + predicate);
+		}
+		return returnVal;
+	}
+
+	/**
+	 * Executes the sequence of HTTP requests to perform a form login to a Jazz server
+	 *
+	 * @throws JazzAuthFailedException
+	 * @throws JazzAuthErrorException
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 *
+	 * @return The HTTP status code of the final request to verify login is successful
+	 **/
+	public int login(String userId, String password)
+			throws JazzAuthFailedException, JazzAuthErrorException, ClientProtocolException, IOException {
+	
+		int statusCode = -1;
+		String location = null;
+		Response resp;
+		
+		resp = this.client
+			.target(this.baseUrl + "/authenticated/identity")
+			.request()
+			.get();
+		statusCode = resp.getStatus();
+		location = resp.getHeaderString("Location");
+		resp.close();
+		statusCode = followRedirects(statusCode,location);
+	
+		// Check to see if the response is from a Jazz Authorization Server that supports OIDC.
+		// In CLM 6.x, the JAS supports Basic auth to be compatible with earlier releases.
+		// If we're talking to a JAS that supports OIDC, re-do the request with a Basic auth header to gain access.		
+		Form form = new Form();
+		form.param("j_username", userId);
+		form.param("j_password", password);
+		resp = this.client
+			.target(this.baseUrl + "/j_security_check")
+			.request()
+			.header("Accept", "*/*")
+			.header("X-Requested-With", "XMLHttpRequest")
+			.header("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
+			.header("OSLC-Core-Version", "2.0")
+			.post(Entity.form(form));
+	
+		statusCode = resp.getStatus();
+	
+		String jazzAuthMessage = resp.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
+	
+		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED))
+		{
+			resp.close();
+			throw new JazzAuthFailedException(userId,this.baseUrl);
+		}
+		else if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
+		{
+			resp.close();
+			throw new JazzAuthErrorException(statusCode, this.baseUrl);
+		}
+		else //success
+		{
+			location = resp.getHeaderString("Location");
+			resp.close();
+			statusCode = followRedirects(statusCode,location);
+		}
+	
+		return statusCode;
+	}
+
+	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
+	{
+		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
+		{
+			HttpGet get = new HttpGet(location);
+			
+			lastRedirectResponse = this.client.target(location).request().get();
+			statusCode = lastRedirectResponse.getStatus();
+			location = lastRedirectResponse.getHeaderString("Location");
+			lastRedirectResponse.close();
+		}
+	
+		return statusCode;
+	}
+
+	
 }

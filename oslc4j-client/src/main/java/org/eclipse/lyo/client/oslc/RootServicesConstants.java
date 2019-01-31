@@ -14,13 +14,13 @@
  *    Michael Fiedler - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.lyo.client.oslc.jazz;
+package org.eclipse.lyo.client.oslc;
 
 /**
  * Constants for Jazz rootservices entries
  *
  */
-public interface JazzRootServicesConstants {
+public interface RootServicesConstants {
 
 	//rootservices catalog properties.  See starting at:
 	//https://jazz.net/wiki/bin/view/Main/RootServicesSpec#Change_Management_Service_Provid

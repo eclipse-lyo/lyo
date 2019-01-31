@@ -13,6 +13,10 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContextBuilder;
+
 public class JEEFormsAuthenticator  implements ClientRequestFilter {
     private static final String COOKIE = "Cookie";
  
@@ -33,7 +37,7 @@ public class JEEFormsAuthenticator  implements ClientRequestFilter {
     }
  
     public JEEFormsAuthenticator(final String baseUri, final String username, final String password) {
-        this.username = username;
+    	this.username = username;
         this.password = password;
         this.baseUri = baseUri;
     }
@@ -41,13 +45,25 @@ public class JEEFormsAuthenticator  implements ClientRequestFilter {
     @Override
     public void filter(final ClientRequestContext requestContext) throws IOException {
         final List<Object> cookies = new ArrayList<>();
+        
+		// Setup SSL support to ignore self-assigned SSL certificates - for testing only!!
+		ClientBuilder clientBuilder = ClientBuilder.newBuilder();		
+	    SSLContextBuilder sslContextBuilder = null;
+	    try {
+		    sslContextBuilder = new SSLContextBuilder();
+		    sslContextBuilder.loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE);
+		    clientBuilder.sslContext(sslContextBuilder.build());
+	    } catch (Exception e) {
+	    }
+	    clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE);
+
  
         /*
          * This is hitting the URL as requested by the ClientBuilder.
          * (Refer to the line: "1. Send GET request to the needed private resource,
          * in response you get a cookie (Header “Set cookie”)"
          */
-        final Client initialClient =  ClientBuilder.newClient();
+        final Client initialClient =  clientBuilder.build();
         final Response responseInitial = initialClient
                 .target(requestContext.getUri())
                 .request(requestContext.getAcceptableMediaTypes().get(0))
@@ -62,7 +78,7 @@ public class JEEFormsAuthenticator  implements ClientRequestFilter {
         responseInitial.getCookies().values().stream().forEach((cookie) -> {
             cookies.add(cookie.toCookie());
         });
-        final Client loginClient = ClientBuilder.newClient();
+        final Client loginClient = clientBuilder.build();
         final Form form = new Form();
         form.param(J_USERNAME, this.username);
         form.param(J_PASSWORD, this.password);

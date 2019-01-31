@@ -22,9 +22,6 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
@@ -37,6 +34,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.eclipse.lyo.client.oslc.JEEFormsAuthenticator;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
@@ -89,6 +87,7 @@ public class CMSample {
 			return;
 		}
 
+		// for jazz.net apps, this is the baseUri for the server, e.g., https://ce4iot.rtp.raleigh.ibm.com:9443/ccm
 		String catalogUrl = cmd.getOptionValue("catalogURL");
 		String providerTitle = cmd.getOptionValue("providerTitle");
 		String userId = cmd.getOptionValue("user");
@@ -112,7 +111,7 @@ public class CMSample {
 		    // Use preemptive Basic authentication
 		    HttpAuthenticationFeature authFeature = HttpAuthenticationFeature.basic(userId, password);
 		    clientBuilder.register(authFeature);
-
+		    
 		    //STEP 1: Create a new OslcClient
 			OslcClient client = new OslcClient(clientBuilder);
 
