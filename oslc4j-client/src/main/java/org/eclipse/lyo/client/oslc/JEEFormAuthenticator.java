@@ -17,7 +17,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
 
-public class JEEFormsAuthenticator  implements ClientRequestFilter {
+public class JEEFormAuthenticator  implements ClientRequestFilter {
     private static final String COOKIE = "Cookie";
  
     // security params
@@ -30,13 +30,13 @@ public class JEEFormsAuthenticator  implements ClientRequestFilter {
     private final String baseUri;
      
     // requires by @Provider
-    public JEEFormsAuthenticator() {
+    public JEEFormAuthenticator() {
         this.username = null;
         this.password = null;
         this.baseUri = null;
     }
  
-    public JEEFormsAuthenticator(final String baseUri, final String username, final String password) {
+    public JEEFormAuthenticator(final String baseUri, final String username, final String password) {
     	this.username = username;
         this.password = password;
         this.baseUri = baseUri;

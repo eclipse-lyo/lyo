@@ -41,7 +41,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.eclipse.lyo.client.exception.RootServicesException;
-import org.eclipse.lyo.client.oslc.JEEFormsAuthenticator;
+import org.eclipse.lyo.client.oslc.JEEFormAuthenticator;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.resources.ChangeRequest;
@@ -134,7 +134,10 @@ public class IECMSample {
 			String catalogUrl = client.getCatalogUrl(webContextUrl, OSLCConstants.OSLC_CM_V2);
 
 			int status = client.login(userId, password);
-			logger.info("Login status: "+status);
+			if (status != 200) {
+				logger.info("Could not login to RTC, exiting!");
+				System.exit(-1);
+			}
 
 			//STEP 5: Find the OSLC Service Provider for the project area we want to work with
 			String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, projectArea);
