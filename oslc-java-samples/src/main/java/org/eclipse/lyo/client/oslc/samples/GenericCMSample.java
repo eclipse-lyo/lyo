@@ -149,6 +149,11 @@ public class GenericCMSample {
 		int page = 1;
 		do {
 			System.out.println("\nPage " + page + ":\n");
+			final int statusCode = result.getRawResponse().getStatusCode();
+			if(statusCode >= 400) {
+				logger.error("Query failed: {} on page {}", statusCode, result.getQuery().getQueryUrl());
+				return;
+			}
 			processCurrentPage(result,client,asJavaObjects);
 			if (result.hasNext()) {
 				result = result.next();
