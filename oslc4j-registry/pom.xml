@@ -20,10 +20,14 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+
     <lyo.version>${project.parent.version}</lyo.version>
-    <!--<jetty.version>9.1.5.v20140505</jetty.version>-->
-    <jetty.version>9.2.26.v20180806</jetty.version>
+
+    <jetty.version>9.3.25.v20180904</jetty.version>
     <jetty.port>8888</jetty.port>
+    <jetty.contextPath>/OSLC4JRegistry</jetty.contextPath>
+    <lyo.publicURI>http://localhost:${jetty.port}${jetty.contextPath}</lyo.publicURI>
+    <lyo.registryURI>${lyo.publicURI}/catalog/singleton</lyo.registryURI>
   </properties>
 
   <!-- Disable doclint for Java 1.8 (for now) -->
@@ -75,15 +79,17 @@
   </dependencies>
 
   <build>
+<!--
     <sourceDirectory>${basedir}/src/</sourceDirectory>
     <testResources>
       <testResource>
         <directory>test/resources</directory>
       </testResource>
     </testResources>
+-->
     <plugins>
       <!-- Source Jar Plugin -->
-      <plugin>
+<!--      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.2.1</version>
@@ -96,7 +102,7 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Javadoc Plugin -->
+      &lt;!&ndash; Javadoc Plugin &ndash;&gt;
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -112,7 +118,8 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -129,6 +136,8 @@
           </webResources>
         </configuration>
       </plugin>
+-->
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
@@ -137,8 +146,8 @@
         </configuration>
         <version>2.8</version>
       </plugin>
-      <!-- ********************************************** -->
-      <!-- Jetty 7 plugin See also: http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin -->
+-->
+
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -146,7 +155,7 @@
 
         <configuration>
           <webAppConfig>
-            <contextPath>/OSLC4JRegistry</contextPath>
+            <contextPath>${jetty.contextPath}</contextPath>
           </webAppConfig>
 
           <!-- Jetty config adds logging -->
@@ -155,14 +164,16 @@
           <!-- enable hot deploy -->
           <reload>automatic</reload>
           <scanIntervalSeconds>5</scanIntervalSeconds>
+<!--
           <scanTargets>
             <scanTarget>WebContent</scanTarget>
           </scanTargets>
+-->
 
           <systemProperties>
             <systemProperty>
               <name>config.dir</name>
-              <value>${basedir}/test/resources</value>
+              <value>${basedir}/src/test/resources</value>
             </systemProperty>
             <systemProperty>
               <name>jetty.logs</name>
@@ -177,11 +188,11 @@
 
             <systemProperty>
               <name>org.eclipse.lyo.oslc4j.publicURI</name>
-              <value>${publicURI}</value>
+              <value>${lyo.publicURI}</value>
             </systemProperty>
             <systemProperty>
               <name>org.eclipse.lyo.oslc4j.client.registryuri</name>
-              <value>${registryURI}</value>
+              <value>${lyo.registryURI}</value>
             </systemProperty>
 
           </systemProperties>
