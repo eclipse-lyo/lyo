@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
  * Copyright (c) 2012, 2014 IBM Corporation.
  *
  *  All rights reserved. This program and the accompanying materials
@@ -19,8 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.http.HttpStatus;
 import org.apache.wink.client.ClientResponse;
@@ -36,6 +34,8 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Samples of accessing a generic ChangeManagement provider and running OSLC operations.
@@ -52,7 +52,7 @@ import org.apache.commons.cli.ParseException;
  */
 public class GenericCMSample {
 
-	private static final Logger logger = Logger.getLogger(GenericCMSample.class.getName());
+	private final static Logger logger = LoggerFactory.getLogger(GenericCMSample.class);
 
 	/**
 	 * Access a CM service provider and perform some OSLC actions
@@ -72,8 +72,8 @@ public class GenericCMSample {
 		CommandLine cmd = cliParser.parse(options, args);
 
 		if (!validateOptions(cmd)) {
-			logger.severe("Syntax:  java <class_name> -url https://<server>:port/<context>/<catalog_location> -providerTitle \"<provider title>\"");
-			logger.severe("Example: java GenericCMSample -url https://exmple.com:8080/OSLC4JRegistry/catalog/1 -providerTitle \"OSLC Lyo Change Management Service Provider\"");
+			logger.error("Syntax:  java <class_name> -url https://<server>:port/<context>/<catalog_location> -providerTitle \"<provider title>\"");
+			logger.error("Example: java GenericCMSample -url https://exmple.com:8080/OSLC4JRegistry/catalog/1 -providerTitle \"OSLC Lyo Change Management Service Provider\"");
 			return;
 		}
 
@@ -82,9 +82,11 @@ public class GenericCMSample {
 
 		try {
 
+			logger.info("Initialising OSLC Client");
 			//STEP 1: Create a new generic OslcClient
 			OslcClient client = new OslcClient();
 
+			logger.info("Looking up Service Provider by URI={} and title='{}'", catalogUrl, providerTitle);
 			//STEP 2: Find the OSLC Service Provider for the service provider we want to work with
 			String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, providerTitle);
 
@@ -139,11 +141,8 @@ public class GenericCMSample {
 
 
 		} catch (Exception e) {
-			logger.log(Level.SEVERE,e.getMessage(),e);
+			logger.error("Unknown error", e);
 		}
-
-
-
 	}
 
 	private static void processPagedQueryResults(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
@@ -184,7 +183,7 @@ public class GenericCMSample {
 					}
 				}
 			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Unable to process artfiact at url: " + resultsUrl, e);
+				logger.error("Unable to process artifact at url: {}", resultsUrl, e);
 			}
 
 		}
