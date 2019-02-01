@@ -125,7 +125,7 @@ public class IECMSample {
 		    clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE);
 		    		    
 		    // IBM jazz-apps use JEE Form based authentication
-		    //clientBuilder.register(new JEEFormsAuthenticator(webContextUrl, userId, password));
+		    //clientBuilder.register(new JEEFormAuthenticator(webContextUrl, userId, password));
 
 		    //STEP 3: Create a new OslcClient
 			OslcClient client = new OslcClient(clientBuilder);
@@ -156,8 +156,7 @@ public class IECMSample {
 
 			OslcQueryResult result = query.submit();
 
-			boolean processAsJavaObjects = true;
-			processPagedQueryResults(result,client, processAsJavaObjects);
+			processPagedQueryResults(result, client);
 
 			System.out.println("\n------------------------------\n");
 
@@ -284,11 +283,11 @@ public class IECMSample {
 		}
 	}
 
-	private static void processPagedQueryResults(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
+	private static void processPagedQueryResults(OslcQueryResult result, OslcClient client) {
 		int page = 1;
 		do {
 			System.out.println("\nPage " + page + ":\n");
-			processCurrentPage(result,client,asJavaObjects);
+			processCurrentPage(result, client);
 			if (result.hasNext()) {
 				result = result.next();
 				page++;
@@ -298,7 +297,7 @@ public class IECMSample {
 		} while(true);
 	}
 
-	private static void processCurrentPage(OslcQueryResult result, OslcClient client, boolean asJavaObjects) {
+	private static void processCurrentPage(OslcQueryResult result, OslcClient client) {
 
 	    for (ChangeRequest cr : result.getMembers(ChangeRequest.class)) {
             System.out.println("id: " + cr.getIdentifier() + ", title: " + cr.getTitle() + ", status: " + cr.getStatus());

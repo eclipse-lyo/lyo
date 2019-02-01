@@ -765,9 +765,6 @@ s	 * @param catalogUrl
 		resp.close();
 		statusCode = followRedirects(statusCode,location);
 	
-		// Check to see if the response is from a Jazz Authorization Server that supports OIDC.
-		// In CLM 6.x, the JAS supports Basic auth to be compatible with earlier releases.
-		// If we're talking to a JAS that supports OIDC, re-do the request with a Basic auth header to gain access.		
 		Form form = new Form();
 		form.param("j_username", userId);
 		form.param("j_password", password);
@@ -808,8 +805,6 @@ s	 * @param catalogUrl
 	{
 		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
 		{
-			HttpGet get = new HttpGet(location);
-			
 			lastRedirectResponse = this.client.target(location).request().get();
 			statusCode = lastRedirectResponse.getStatus();
 			location = lastRedirectResponse.getHeaderString("Location");
