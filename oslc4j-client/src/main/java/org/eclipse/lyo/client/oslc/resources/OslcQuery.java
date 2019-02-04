@@ -123,34 +123,38 @@ public class OslcQuery {
 
 	private WebTarget createQueryResource(final String capabilityUri) {
 		WebTarget resource = oslcClient.getWebResource(capabilityUri);
-		applyPagination(resource);
-		applyOslcQueryParams(resource);
+		resource = applyPagination(resource);
+		resource = applyOslcQueryParams(resource);
 		return resource;
 	}
 
-	private void applyPagination(WebTarget resource) {
+	private WebTarget applyPagination(WebTarget resource) {
+		WebTarget result = resource;
 		if (pageSize > 0) {
-			resource.queryParam("oslc.paging", "true");
-			resource.queryParam("oslc.pageSize", pageSize);
+			result = result.queryParam("oslc.paging", "true");
+			result = result.queryParam("oslc.pageSize", pageSize);
 		}
+		return result;
 	}
 
-	private void applyOslcQueryParams(WebTarget resource) {
+	private WebTarget applyOslcQueryParams(WebTarget resource) {
+		WebTarget result = resource;
 		if (this.where != null && !this.where.isEmpty()) {
-			resource.queryParam("oslc.where", this.where);
+			result = result.queryParam("oslc.where", this.where);
 		}
 		if (this.select != null && !this.select.isEmpty()) {
-			resource.queryParam("oslc.select", this.select);
+			result = result.queryParam("oslc.select", this.select);
 		}
 		if (this.orderBy != null && !this.orderBy.isEmpty()) {
-			resource.queryParam("oslc.orderBy", this.orderBy);
+			result = result.queryParam("oslc.orderBy", this.orderBy);
 		}
 		if (this.searchTerms != null && !this.searchTerms.isEmpty()) {
-			resource.queryParam("oslc.searchTerms", this.searchTerms);
+			result = result.queryParam("oslc.searchTerms", this.searchTerms);
 		}
 		if (this.prefix != null && !this.prefix.isEmpty()) {
-			resource.queryParam("oslc.prefix", this.prefix);
+			result = result.queryParam("oslc.prefix", this.prefix);
 		}
+		return result;
 	}
 
 	/**

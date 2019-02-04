@@ -164,7 +164,7 @@ public class IECMSample {
 			//attributes and then print it as raw XML.  Change the dcterms:identifier below to match a
 			//real workitem in your RTC project area
 			OslcQueryParameters queryParams2 = new OslcQueryParameters();
-			queryParams2.setWhere("dcterms:identifier=\"7\"");
+			queryParams2.setWhere("dcterms:identifier=7");
 			queryParams2.setSelect("dcterms:identifier,dcterms:title,dcterms:creator,dcterms:created,oslc_cm:status");
 			OslcQuery query2 = new OslcQuery(client, queryCapability, queryParams2);
 
