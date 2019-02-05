@@ -1,6 +1,7 @@
 package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,25 +9,40 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.client.ClientResponseContext;
+import javax.ws.rs.client.ClientResponseFilter;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
 
-public class JEEFormAuthenticator  implements ClientRequestFilter {
+/**
+ * A filter that can be registered in order to non-preemptively handle JEE Form
+ * based authentication challenges.
+ * 
+ * @author jamsden
+ *
+ */
+public class JEEFormAuthenticator  implements ClientRequestFilter, ClientResponseFilter {
     private static final String COOKIE = "Cookie";
  
     // security params
     private static final String J_SECURITY_CHECK = "j_security_check";
     private static final String J_USERNAME = "j_username";
     private static final String J_PASSWORD = "j_password";
+    private static final String FORM_AUTHENTICATOR_REUSED = "org.eclipse.lyo.client.oslc.JEEFormAuthenticator.reused";
+	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
+	private static final String JAZZ_AUTH_REQUIRED = "authrequired";
+	private static final String JAZZ_AUTH_FAILED = "authfailed";
  
     private final String userId;
     private final String password;
@@ -42,78 +58,119 @@ public class JEEFormAuthenticator  implements ClientRequestFilter {
         this.baseUri = null;
     }
  
+    /**
+     * @param baseUri base URI for the server, e.g., https://host:9443/ccm
+     * @param username user's credentials
+     * @param password
+     */
     public JEEFormAuthenticator(final String baseUri, final String username, final String password) {
     	this.userId = username;
         this.password = password;
         this.baseUri = baseUri;
     }
- 
-    @Override
-    public void filter(final ClientRequestContext requestContext) throws IOException {
+
+	/* (non-Javadoc)
+	 * Checks to see if the response is a 401 UNAUTHORIZED. If so, it attempts to 
+	 * authenticate the user, and then retries the request with the updated 
+	 * session information.
+	 * 
+	 * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
+	 */
+	@Override
+    public void filter(ClientRequestContext request, ClientResponseContext response) throws IOException {
         final List<Object> cookies = new ArrayList<>();
         
-		// Setup SSL support to ignore self-assigned SSL certificates - for testing only!!
-		ClientBuilder clientBuilder = ClientBuilder.newBuilder();		
+        boolean authRequired = JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
+        boolean authAlreadyAttempted = "true".equals(request.getProperty(FORM_AUTHENTICATOR_REUSED));
+
+        if (authRequired && authAlreadyAttempted) {
+        	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+        	return;
+        } else if (!authRequired) {
+        	return;
+        }
+        // We got an Authentication challenge, attempt to authenticate the user
+        
+		// Setup SSL support to ignore self-assigned SSL certificates, uses only for authentication
+		ClientBuilder clientBuilder = ClientBuilder.newBuilder();
 	    SSLContextBuilder sslContextBuilder = null;
 	    try {
 		    sslContextBuilder = new SSLContextBuilder();
 		    sslContextBuilder.loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE);
 		    clientBuilder.sslContext(sslContextBuilder.build());
 	    } catch (Exception e) {
+	    	e.printStackTrace(System.err);
 	    }
 	    clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE);
-
- 
-        /*
-         * This is hitting the URL as requested by the ClientBuilder.
-         * (Refer to the line: "1. Send GET request to the needed private resource,
-         * in response you get a cookie (Header “Set cookie”)"
-         */
         authClient =  clientBuilder.build();
-        Response response = authClient
-                .target(this.baseUri + "/authenticated/identity")
+        authClient = request.getClient();
+
+        Response authResponse = authClient
+                .target(this.baseUri)
+                .path("authenticated/identity")
                 .request()
+                .property(FORM_AUTHENTICATOR_REUSED, "true") // prevent infinite loops
                 .get();
-		int statusCode = response.getStatus();
-		String location = response.getHeaderString("Location");
-		response.close();
+		int statusCode = authResponse.getStatus();
+		String location = authResponse.getHeaderString("Location");
+		authResponse.close();
 		statusCode = followRedirects(statusCode, location);
 
-        /*
-         * This section is getting the cookie above and use it to make the call against jsecuritycheck
-         * (Refer to the line: 2. Send request with cookie (from step 1) to the j_security_check.
-         * On response you should get code 302 – “Moved Temporarily”)
-         */
-        response.getCookies().values().stream().forEach((cookie) -> {
-            cookies.add(cookie.toCookie());
-        });
-        
         final Form form = new Form();
         form.param(J_USERNAME, this.userId);
         form.param(J_PASSWORD, this.password);
-        response = authClient
-        	.target(this.baseUri).path(J_SECURITY_CHECK)
+        authResponse = authClient
+        	.target(this.baseUri)
+        	.path(J_SECURITY_CHECK)
             .request(MediaType.APPLICATION_FORM_URLENCODED)
             .header("Accept", "*/*")
             .header("X-Requested-With", "XMLHttpRequest")
-    		.header("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
     		.header("OSLC-Core-Version", "2.0")
             .post(Entity.form(form));
-        response.getCookies().values().stream().forEach((cookie) -> {
+        authResponse.getCookies().values().stream().forEach((cookie) -> {
             cookies.add(cookie.toCookie());
         });
-		statusCode = response.getStatus();		
-		location = response.getHeaderString("Location");
-		response.close();
-		statusCode = followRedirects(statusCode,location);
+		statusCode = authResponse.getStatus();
+		// Check the result
+		String jazzAuthMessage = authResponse.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
+		
+		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED)) {
+			authResponse.close();
+        	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+        	return;
+		}
+		
+		location = authResponse.getHeaderString("Location");
+		authResponse.close();
+		statusCode = followRedirects(statusCode, location);
  
-        /*
-         * This is right before making the actual call. So we add the cookie (which the server will be
-         * able to tell that this call has been authenticated).
-         * (Refer to the line: 3. Now you can repeat request to the private resource with same cookie,
-         * on response you get needed resource data.)
-         */
-        requestContext.getHeaders().put(COOKIE, cookies);
+		// retry the request with the updated cookies
+		Client requestClient = request.getClient();
+		Invocation.Builder retryBuilder = requestClient
+			.target(request.getUri())
+			.request(request.getMediaType());
+        retryBuilder.property(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
+        MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<String, Object>();
+        newHeaders.putAll(request.getHeaders());
+        newHeaders.add(COOKIE, cookies);        
+		retryBuilder.headers(newHeaders);
+        Invocation invocation = null;
+        String requestMethod = request.getMethod();
+        if (request.getEntity() == null) {
+            invocation = retryBuilder.build(requestMethod);
+        } else {
+            invocation = retryBuilder.build(requestMethod,
+                    Entity.entity(request.getEntity(), request.getMediaType()));
+        }
+        Response retryResponse = invocation.invoke();
+
+        if (retryResponse.hasEntity()) {
+            response.setEntityStream(retryResponse.readEntity(InputStream.class));
+        }
+        MultivaluedMap<String, String> headers = response.getHeaders();
+        headers.clear();
+        headers.putAll(retryResponse.getStringHeaders());
+        response.setStatus(retryResponse.getStatus());			
     }
 
 	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
@@ -127,5 +184,10 @@ public class JEEFormAuthenticator  implements ClientRequestFilter {
 		}
 	
 		return statusCode;
+	}
+
+	@Override
+	public void filter(ClientRequestContext requestContext) throws IOException {
+		// do nothing, JEE Form is always preemptive
 	}
 }

@@ -125,19 +125,13 @@ public class IECMSample {
 		    clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE);
 		    		    
 		    // IBM jazz-apps use JEE Form based authentication
-		    //clientBuilder.register(new JEEFormAuthenticator(webContextUrl, userId, password));
+		    clientBuilder.register(new JEEFormAuthenticator(webContextUrl, userId, password));
 
 		    //STEP 3: Create a new OslcClient
 			OslcClient client = new OslcClient(clientBuilder);
 
 			//STEP 4: Get the URL of the OSLC ChangeManagement service from the rootservices document
 			String catalogUrl = client.getCatalogUrl(webContextUrl, OSLCConstants.OSLC_CM_V2);
-
-			int status = client.login(userId, password);
-			if (status != 200) {
-				logger.info("Could not login to RTC, exiting!");
-				System.exit(-1);
-			}
 
 			//STEP 5: Find the OSLC Service Provider for the project area we want to work with
 			String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, projectArea);

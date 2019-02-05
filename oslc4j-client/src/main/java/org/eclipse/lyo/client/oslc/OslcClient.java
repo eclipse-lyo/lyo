@@ -33,30 +33,19 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.eclipse.lyo.client.exception.JazzAuthErrorException;
-import org.eclipse.lyo.client.exception.JazzAuthFailedException;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.exception.RootServicesException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
@@ -86,7 +75,6 @@ public class OslcClient {
 	private String catalogProperty;
 	private String catalogUrl;
 	private Model rdfModel;
-	private Response lastRedirectResponse = null;
 
 	//OAuth URLs
 	String authorizationRealm;
@@ -98,10 +86,6 @@ public class OslcClient {
 
 	public static final String JFS_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/jfs/1.0/";
 	public static final String JD_NAMESPACE = "http://jazz.net/xmlns/prod/jazz/discovery/1.0/";
-	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
-	private static final String JAZZ_AUTH_FAILED = "authfailed";
-	private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
-	private static final String JAZZ_JSA_REDIRECT_HEADER = "X-JSA-AUTHORIZATION-REDIRECT";
 
 	private final static Logger logger = LoggerFactory.getLogger(OslcClient.class);
 
@@ -260,8 +244,6 @@ public class OslcClient {
 
 			response = innvocationBuilder.get();
 			
-			ResponseBuilder fromResponse = Response.fromResponse(response);
-
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
 				url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
 				response.readEntity(String.class);
@@ -737,81 +719,6 @@ s	 * @param catalogUrl
 			throw new ResourceNotFoundException(baseUrl, namespace + predicate);
 		}
 		return returnVal;
-	}
-
-	/**
-	 * Executes the sequence of HTTP requests to perform a form login to a Jazz server
-	 *
-	 * @throws JazzAuthFailedException
-	 * @throws JazzAuthErrorException
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 *
-	 * @return The HTTP status code of the final request to verify login is successful
-	 **/
-	public int login(String userId, String password)
-			throws JazzAuthFailedException, JazzAuthErrorException, ClientProtocolException, IOException {
-	
-		int statusCode = -1;
-		String location = null;
-		Response resp;
-		
-		resp = this.client
-			.target(this.baseUrl + "/authenticated/identity")
-			.request()
-			.get();
-		statusCode = resp.getStatus();
-		location = resp.getHeaderString("Location");
-		resp.close();
-		statusCode = followRedirects(statusCode,location);
-	
-		Form form = new Form();
-		form.param("j_username", userId);
-		form.param("j_password", password);
-		resp = this.client
-			.target(this.baseUrl + "/j_security_check")
-			.request()
-			.header("Accept", "*/*")
-			.header("X-Requested-With", "XMLHttpRequest")
-			.header("Content-Type", "application/x-www-form-urlencoded; charset=utf-8")
-			.header("OSLC-Core-Version", "2.0")
-			.post(Entity.form(form));
-	
-		statusCode = resp.getStatus();
-	
-		String jazzAuthMessage = resp.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
-	
-		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED))
-		{
-			resp.close();
-			throw new JazzAuthFailedException(userId,this.baseUrl);
-		}
-		else if ( statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_MOVED_TEMPORARILY )
-		{
-			resp.close();
-			throw new JazzAuthErrorException(statusCode, this.baseUrl);
-		}
-		else //success
-		{
-			location = resp.getHeaderString("Location");
-			resp.close();
-			statusCode = followRedirects(statusCode,location);
-		}
-	
-		return statusCode;
-	}
-
-	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
-	{
-		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
-		{
-			lastRedirectResponse = this.client.target(location).request().get();
-			statusCode = lastRedirectResponse.getStatus();
-			location = lastRedirectResponse.getHeaderString("Location");
-			lastRedirectResponse.close();
-		}
-	
-		return statusCode;
 	}
 
 	

@@ -26,6 +26,8 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -34,12 +36,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
-import javax.ws.rs.core.Response;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.eclipse.lyo.client.exception.RootServicesException;
+import org.eclipse.lyo.client.oslc.JEEFormAuthenticator;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
-import org.eclipse.lyo.client.oslc.jazz.JazzFormAuthClient;
-import org.eclipse.lyo.client.oslc.jazz.JazzRootServicesHelper;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryParameters;
 import org.eclipse.lyo.client.oslc.resources.OslcQueryResult;
@@ -47,6 +50,8 @@ import org.eclipse.lyo.client.oslc.resources.TestCase;
 import org.eclipse.lyo.client.oslc.resources.TestResult;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
 
 /**
  * Samples of logging in to Rational Quality Manager and running OSLC operations
@@ -87,102 +92,109 @@ public class IEQMSample {
 		}
 
 		String webContextUrl = cmd.getOptionValue("url");
-		String user = cmd.getOptionValue("user");
-		String passwd = cmd.getOptionValue("password");
+		String userId = cmd.getOptionValue("user");
+		String password = cmd.getOptionValue("password");
 		String projectArea = cmd.getOptionValue("project");
 
 		try {
 
-			//STEP 1: Initialize a Jazz rootservices helper and indicate we're looking for the QualityManagement catalog
-			//RQM contains both Quality and Change Management providers, so need to look for QM specifically
-			JazzRootServicesHelper helper = new JazzRootServicesHelper(webContextUrl,OSLCConstants.OSLC_QM_V2);
+			// STEP 1: Configure the ClientBuilder as needed for your client application
+			
+			// Use HttpClient instead of the default HttpUrlConnection
+			ClientConfig clientConfig = new ClientConfig().connectorProvider(new ApacheConnectorProvider());
+			ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+			clientBuilder.withConfig(clientConfig);
+			
+			// Setup SSL support to ignore self-assigned SSL certificates - for testing only!!
+		    SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
+		    sslContextBuilder.loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE);
+		    clientBuilder.sslContext(sslContextBuilder.build());
+		    clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE);
+		    		    
+		    // IBM jazz-apps use JEE Form based authentication
+		    clientBuilder.register(new JEEFormAuthenticator(webContextUrl, userId, password));
 
-			//STEP 2: Create a new Form Auth client with the supplied user/password
-			JazzFormAuthClient client = helper.initFormClient(user, passwd);
+		    //STEP 3: Create a new OslcClient
+			OslcClient client = new OslcClient(clientBuilder);
 
-			//STEP 3: Login in to Jazz Server
-			if (client.login() == HttpStatus.SC_OK) {
+			//STEP 4: Get the URL of the OSLC ChangeManagement service from the rootservices document
+			String catalogUrl = client.getCatalogUrl(webContextUrl, OSLCConstants.OSLC_QM_V2);
 
-				//STEP 4: Get the URL of the OSLC QualityManagement catalog
-				String catalogUrl = helper.getCatalogUrl();
+			//STEP 5: Find the OSLC Service Provider for the project area we want to work with
+			String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, projectArea);
 
-				//STEP 5: Find the OSLC Service Provider for the project area we want to work with
-				String serviceProviderUrl = client.lookupServiceProviderUrl(catalogUrl, projectArea);
+			//STEP 6: Get the Query Capabilities URL so that we can run some OSLC queries
+			String queryCapability = client.lookupQueryCapability(serviceProviderUrl,
+																  OSLCConstants.OSLC_QM_V2,
+																  OSLCConstants.QM_TEST_RESULT_QUERY);
 
-				//STEP 6: Get the Query Capabilities URL so that we can run some OSLC queries
-				String queryCapability = client.lookupQueryCapability(serviceProviderUrl,
-																	  OSLCConstants.OSLC_QM_V2,
-																	  OSLCConstants.QM_TEST_RESULT);
+         
+			//SCENARIO A: Run a query for all TestResults with a status of passed with OSLC paging of 10 items per
+			//page turned on and list the members of the result
+			OslcQueryParameters queryParams = new OslcQueryParameters();
+			queryParams.setWhere("oslc_qm:status=\"com.ibm.rqm.execution.common.state.passed\"");
+			OslcQuery query = new OslcQuery(client, queryCapability, 10, queryParams);
 
-				//SCENARIO A: Run a query for all TestResults with a status of passed with OSLC paging of 10 items per
-				//page turned on and list the members of the result
-				OslcQueryParameters queryParams = new OslcQueryParameters();
-				queryParams.setWhere("oslc_qm:status=\"com.ibm.rqm.execution.common.state.passed\"");
-				OslcQuery query = new OslcQuery(client, queryCapability, 10, queryParams);
+			System.out.println("Running query: " + query.getQueryUrl());
+			OslcQueryResult result = query.submit();
+			result.setMemberProperty(OSLCConstants.OSLC_QM_V2 + "testResult");
 
-				System.out.println("Running query: " + query.getQueryUrl());
-				OslcQueryResult result = query.submit();
-				result.setMemberProperty(OSLCConstants.OSLC_QM_V2 + "testResult");
+			boolean processAsJavaObjects = true;
+			processPagedQueryResults(result,client, processAsJavaObjects);
 
-				boolean processAsJavaObjects = true;
-				processPagedQueryResults(result,client, processAsJavaObjects);
+			System.out.println("\n------------------------------\n");
 
-				System.out.println("\n------------------------------\n");
+			//SCENARIO B:  Run a query for a specific TestResult selecting only certain
+			//attributes and then print it as raw XML.  Change the dcterms:title below to match a
+			//real TestResult in your RQM project area
+			OslcQueryParameters queryParams2 = new OslcQueryParameters();
+			queryParams2.setWhere("dcterms:title=\"Consistent_display_of_currency_Firefox_DB2_WAS_Windows_S1\"");
+			queryParams2.setSelect("dcterms:identifier,dcterms:title,dcterms:creator,dcterms:created,oslc_qm:status");
+			OslcQuery query2 = new OslcQuery(client, queryCapability, queryParams2);
 
-				//SCENARIO B:  Run a query for a specific TestResult selecting only certain
-				//attributes and then print it as raw XML.  Change the dcterms:title below to match a
-				//real TestResult in your RQM project area
-				OslcQueryParameters queryParams2 = new OslcQueryParameters();
-				queryParams2.setWhere("dcterms:title=\"Consistent_display_of_currency_Firefox_DB2_WAS_Windows_S1\"");
-				queryParams2.setSelect("dcterms:identifier,dcterms:title,dcterms:creator,dcterms:created,oslc_qm:status");
-				OslcQuery query2 = new OslcQuery(client, queryCapability, queryParams2);
+			OslcQueryResult result2 = query2.submit();
+			result2.setMemberProperty(OSLCConstants.OSLC_QM_V2 + "testResult");
+			Response rawResponse = result2.getRawResponse();
+			processRawResponse(rawResponse);
 
-				OslcQueryResult result2 = query2.submit();
-				result2.setMemberProperty(OSLCConstants.OSLC_QM_V2 + "testResult");
-				Response rawResponse = result2.getRawResponse();
-				processRawResponse(rawResponse);
-				rawResponse.readEntity(String.class);
+			//SCENARIO C:  RQM TestCase creation and update
+			TestCase testcase = new TestCase();
+			testcase.setTitle("Accessibility verification using a screen reader");
+			testcase.setDescription("This test case uses a screen reader application to ensure that the web browser content fully complies with accessibility standards");
+			testcase.addTestsChangeRequest(new Link(new URI("http://cmprovider/changerequest/1"), "Implement accessibility in Pet Store application"));
 
-				//SCENARIO C:  RQM TestCase creation and update
-				TestCase testcase = new TestCase();
-				testcase.setTitle("Accessibility verification using a screen reader");
-				testcase.setDescription("This test case uses a screen reader application to ensure that the web browser content fully complies with accessibility standards");
-				testcase.addTestsChangeRequest(new Link(new URI("http://cmprovider/changerequest/1"), "Implement accessibility in Pet Store application"));
+			//Get the Creation Factory URL for test cases so that we can create a test case
+			String testcaseCreation = client.lookupCreationFactory(
+					serviceProviderUrl, OSLCConstants.OSLC_QM_V2,
+					testcase.getRdfTypes()[0].toString());
 
-				//Get the Creation Factory URL for test cases so that we can create a test case
-				String testcaseCreation = client.lookupCreationFactory(
-						serviceProviderUrl, OSLCConstants.OSLC_QM_V2,
-						testcase.getRdfTypes()[0].toString());
-
-				//Create the test case
-				Response creationResponse = client.createResource(
-						testcaseCreation, testcase,
-						OslcMediaType.APPLICATION_RDF_XML);
-				if (creationResponse.getStatus() != HttpStatus.SC_CREATED) {
-					System.err.println("ERROR: Could not create the test case (status " + creationResponse.getStatus() + ")\n");
-					System.err.println(creationResponse.readEntity(String.class));
-					System.exit(1);
-				}
-
-				creationResponse.readEntity(String.class);
-				String testcaseLocation = creationResponse.getStringHeaders().getFirst(HttpHeaders.LOCATION);
-				System.out.println("Test Case created at location " + testcaseLocation);
-
-				//Get the test case from the service provider and update its title property
-				testcase = client.getResource(testcaseLocation,
-						OslcMediaType.APPLICATION_RDF_XML).readEntity(TestCase.class);
-				testcase.setTitle(testcase.getTitle() + " (updated)");
-
-				//Create a partial update URL so that only the title will be updated.
-				//Assuming (for readability) that the test case URL does not already contain a '?'
-				String updateUrl = testcase.getAbout() + "?oslc.properties=dcterms:title";
-
-				//Update the test case at the service provider
-				client.updateResource(updateUrl, testcase,
-						OslcMediaType.APPLICATION_RDF_XML).readEntity(String.class);
-
-
+			//Create the test case
+			Response creationResponse = client.createResource(
+					testcaseCreation, testcase,
+					OslcMediaType.APPLICATION_RDF_XML);
+			if (creationResponse.getStatus() != HttpStatus.SC_CREATED) {
+				System.err.println("ERROR: Could not create the test case (status " + creationResponse.getStatus() + ")\n");
+				System.err.println(creationResponse.readEntity(String.class));
+				System.exit(1);
 			}
+
+			creationResponse.readEntity(String.class);
+			String testcaseLocation = creationResponse.getStringHeaders().getFirst(HttpHeaders.LOCATION);
+			System.out.println("Test Case created at location " + testcaseLocation);
+
+			//Get the test case from the service provider and update its title property
+			testcase = client.getResource(testcaseLocation,
+					OslcMediaType.APPLICATION_RDF_XML).readEntity(TestCase.class);
+			testcase.setTitle(testcase.getTitle() + " (updated)");
+
+			//Create a partial update URL so that only the title will be updated.
+			//Assuming (for readability) that the test case URL does not already contain a '?'
+			String updateUrl = testcase.getAbout() + "?oslc.properties=dcterms:title";
+
+			//Update the test case at the service provider
+			client.updateResource(updateUrl, testcase,
+					OslcMediaType.APPLICATION_RDF_XML).readEntity(String.class);
+
 		} catch (RootServicesException re) {
 			logger.log(Level.SEVERE,"Unable to access the Jazz rootservices document at: " + webContextUrl + "/rootservices", re);
 		} catch (Exception e) {
