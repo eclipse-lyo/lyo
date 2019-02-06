@@ -17,7 +17,9 @@
  *     Gianluca Bernardini  - initial API and implementation
  *     Michael Fiedler      - path parameter substitution
  *     Samuel Padgett       - resolve method path parameters for creation factories
- *     Andrew Berezovskyi   - update logging to use SLF4J
+ *     Jad El-khoury		- switch to UriBuilder
+ *     Andrew Berezovskyi   - update logging to use SLF4J; UriBuilder param refactoring
+ *
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core.model;
 
@@ -79,7 +81,12 @@ public final class ServiceProviderFactory {
 				serviceMap.put(domain, service);
 			}
 
-			handleResourceClass(baseURI, genericBaseURI, resourceClass, service, pathParameterValues);
+			Map<String, Object> initPathParameterValues = pathParameterValues;
+			if (initPathParameterValues == null) {
+				log.warn("pathParameterValues passed to ServiceProviderFactory.initServiceProvider() SHALL NOT be null");
+				initPathParameterValues = new HashMap<>();
+			}
+			handleResourceClass(baseURI, genericBaseURI, resourceClass, service, initPathParameterValues);
 		}
 
 		// add the services to the provider
@@ -151,8 +158,8 @@ public final class ServiceProviderFactory {
 		}
 	}
 
-	protected static CreationFactory createCreationFactory(final String baseURI,
-			final Map<String, Object> pathParameterValues, final Method method)
+	static CreationFactory createCreationFactory(final String baseURI, final Map<String, Object> pathParameterValues,
+			final Method method)
 			throws URISyntaxException {
 		final Path classPathAnnotation = method.getDeclaringClass().getAnnotation(Path.class);
 		final OslcCreationFactory creationFactoryAnnotation = method.getAnnotation(
@@ -165,9 +172,9 @@ public final class ServiceProviderFactory {
 		return creationFactory;
 	}
 
-	protected static CreationFactory createCreationFactory(final String baseURI,
-			final Map<String, Object> pathParameterValues, final Path classPathAnnotation,
-			final OslcCreationFactory creationFactoryAnnotation, final Path methodPathAnnotation)
+	static CreationFactory createCreationFactory(final String baseURI, final Map<String, Object> pathParameterValues,
+			final Path classPathAnnotation, final OslcCreationFactory creationFactoryAnnotation,
+			final Path methodPathAnnotation)
 			throws URISyntaxException {
 		final String title = creationFactoryAnnotation.title();
 		final String label = creationFactoryAnnotation.label();
@@ -341,25 +348,30 @@ public final class ServiceProviderFactory {
 
 		return dialog;
 	}
-	
+
+	/**
+	 * Build the path from the @Path template + map of parameter value replacements
+	 *
+	 */
 	private static String resolvePathParameters(final String basePath, final String classPathAnnotation, final String methodPathAnnotation, final Map<String, Object> pathParameterValues)
 	{
 		final UriBuilder builder = UriBuilder.fromUri(basePath);
 		if (classPathAnnotation != null && !classPathAnnotation.equals("")) {
 			builder.path(classPathAnnotation);
-		}			
+		}
 		if (methodPathAnnotation != null && !methodPathAnnotation.equals("")) {
 			builder.path(methodPathAnnotation);
-		}			
-
-		String returnUri = null;
-		
-		//Build the path from the @Path template + map of parameter value replacements
-		final URI resolvedUri = builder.buildFromMap(pathParameterValues);
-		if (resolvedUri != null)
-		{
-			returnUri = resolvedUri.toString();
 		}
-		return returnUri;
+
+		final URI resolvedUri = builder.buildFromMap(pathParameterValues);
+
+		if (resolvedUri != null) {
+			return resolvedUri.toString();
+		}
+
+		log.warn("Could not build a path URI for basePath={} and path annotations (class='{}',method='{}')", basePath,
+				classPathAnnotation, methodPathAnnotation
+		);
+		return null;
 	}
 }
