@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.lyo.experimental</groupId>
 	<artifactId>lyo-validation</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.0.RC</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,7 +12,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<version.jetty>9.4.0.v20161208</version.jetty>
-		<version.lyo>2.4.0-SNAPSHOT</version.lyo>
+		<version.lyo>2.4.0</version.lyo>
 		<version.shaclex>0.0.87</version.shaclex>
 		<jena.version>3.6.0</jena.version>
 	</properties>
