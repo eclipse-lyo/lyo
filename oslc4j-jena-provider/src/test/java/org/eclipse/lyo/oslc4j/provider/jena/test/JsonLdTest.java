@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
-import org.apache.wink.common.internal.MultivaluedMapImpl;
+import javax.ws.rs.core.MultivaluedHashMap;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdArrayProvider;
@@ -71,7 +71,7 @@ public class JsonLdTest {
 
         provider.writeTo(sp, ServiceProvider.class, ServiceProvider.class, ServiceProvider.class
                 .getAnnotations(), OslcMediaType.APPLICATION_JSON_LD_TYPE, new
-                MultivaluedMapImpl<>(), outputStream);
+                MultivaluedHashMap<>(), outputStream);
 
         final String jsonLD = outputStream.toString("UTF-8");
 
@@ -92,7 +92,7 @@ public class JsonLdTest {
                          ServiceProvider.class,
                          ServiceProvider.class.getAnnotations(),
                          OslcMediaType.APPLICATION_JSON_LD_TYPE,
-                         new MultivaluedMapImpl<>(),
+                         new MultivaluedHashMap<>(),
                          outputStream);
 
         final String jsonLD = outputStream.toString("UTF-8");
@@ -115,7 +115,7 @@ public class JsonLdTest {
                 objects.getClass().getGenericSuperclass(),
                 ServiceProvider.class.getAnnotations(),
                 OslcMediaType.APPLICATION_JSON_LD_TYPE,
-                new MultivaluedMapImpl<>(),
+                new MultivaluedHashMap<>(),
                 outputStream);
 
         final String jsonLD = outputStream.toString("UTF-8");
