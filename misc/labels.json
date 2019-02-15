@@ -1,0 +1,162 @@
+[
+  {
+    "name": "duplicate",
+    "color": "ededed"
+  },
+  {
+    "name": "help wanted",
+    "color": "008672"
+  },
+  {
+    "name": "good first issue",
+    "color": "7057ff",
+    "aliases": [
+      "beginner-friendly",
+      "beginner",
+      "good-starter-issue",
+      "good for beginner",
+      "good for beginners",
+      "starter-issue",
+      "starter"
+    ]
+  },
+  {
+    "name": "Priority: Critical",
+    "color": "ee0701",
+    "aliases": [
+      "type: blocker"
+    ]
+  },
+  {
+    "name": "Priority: High",
+    "color": "d93f0b"
+  },
+  {
+    "name": "Priority: Low",
+    "color": "0e8a16"
+  },
+  {
+    "name": "Priority: Medium",
+    "color": "fbca04"
+  },
+  {
+    "name": "Status: Abandoned",
+    "color": "000000",
+    "aliases": [
+      "wontfix",
+      "invalid"
+    ]
+  },
+  {
+    "name": "Status: Blocked",
+    "color": "ee0701",
+    "aliases": [
+      "blocked"
+    ]
+  },
+  {
+    "name": "Status: On Hold",
+    "color": "cccccc",
+    "aliases":[
+      "status: postponed"
+    ]
+  },
+  {
+    "name": "Status: Proposal",
+    "color": "d4c5f9",
+    "aliases": [
+      "idea",
+      "Idea",
+      "proposal",
+      "Proposal",
+      "discussion"
+    ]
+  },
+  {
+    "name": "Status: PR Welcome",
+    "color": "c2e0c6",
+    "aliases": [
+      "patch welcome",
+      "status: ready for pr",
+      "status: available",
+      "status: in progress",
+      "status: confirmed"
+    ]
+  },
+  {
+    "name": "Status: Review Needed",
+    "color": "fbca04",
+    "aliases": [
+      "status: has patch"
+    ]
+  },
+  {
+    "name": "Type: Bug",
+    "color": "ee0701",
+    "aliases": [
+      "bug"
+    ]
+  },
+  {
+    "name": "Status: Changes Requested",
+    "color": "e99695"
+  },
+  {
+    "name": "Type: Documentation",
+    "color": "5319e7",
+    "aliases": [
+      "documents",
+      "document",
+      "type: docs"
+    ]
+  },
+  {
+    "name": "Type: Feature",
+    "color": "1d76db",
+    "aliases": [
+      "type: enhancement",
+      "enhancement"
+    ]
+  },
+  {
+    "name": "Type: Maintenance",
+    "color": "fbca04",
+    "aliases": [
+      "greenkeeper",
+      "maintenance",
+      "refactor",
+      "testing",
+      "test"
+    ]
+  },
+  {
+    "name": "Type: Question",
+    "color": "cc317c",
+    "aliases": [
+      "question"
+    ]
+  },
+  {
+    "name": "Xtra: CQ Needed",
+    "color": "fbca04",
+    "aliases": [
+      "status: cq needed",
+      "status: needs cqs",
+      "misc: cq needed"
+    ]
+  },
+  {
+    "name": "Xtra: ECA Missing",
+    "color": "cccccc",
+    "aliases": [
+      "misc: eca missing"
+    ]
+  },
+  {
+    "name": "Xtra: Fix Verified",
+    "color": "008672",
+    "aliases": [
+      "status: verified"
+    ]
+  }
+]
