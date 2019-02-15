@@ -22,10 +22,6 @@
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-      <artifactId>oslc4j-jena-provider</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
@@ -38,6 +34,12 @@
     </dependency>
 
     <!--TEST-->
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
