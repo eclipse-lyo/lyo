@@ -2,9 +2,20 @@ language: java
 
 jdk:
   - oraclejdk8
+  - oraclejdk9
+  - oraclejdk11
   - openjdk8
+  - openjdk9
+  - openjdk10
   - openjdk11
+  - openjdk-ea
 
 script:
-  - cd oslc-java-client
-  - mvn clean verify -B
+  # build clients
+  - (cd oslc-java-client && mvn clean verify -B)
+  - (cd oslc4j-client && mvn clean verify -B)
+  # build sample apps
+  - (cd oslc-java-client && mvn clean install -B)
+  - (cd oslc4j-client && mvn clean install -B)
+  - (cd oslc-java-samples && mvn clean verify -B)
+  - (cd oslc4j-client-samples && mvn clean verify -B)
