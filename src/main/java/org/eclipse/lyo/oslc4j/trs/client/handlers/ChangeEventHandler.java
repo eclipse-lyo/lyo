@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2016-2017   KTH Royal Institute of Technology.
  *
  * All rights reserved. This program and the accompanying materials
@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.client.TRSProvider.handler;
+package org.eclipse.lyo.oslc4j.trs.client.handlers;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,9 +25,8 @@ import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Deletion;
-import org.eclipse.lyo.oslc4j.trs.client.concurrent.TRSTaskHandler;
-import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
-import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +35,6 @@ import org.slf4j.LoggerFactory;
  * event
  *
  * @author Omar
- *
  */
 public class ChangeEventHandler extends TRSTaskHandler {
 
@@ -55,12 +53,22 @@ public class ChangeEventHandler extends TRSTaskHandler {
      */
     AtomicLong modelSize;
 
-    public ChangeEventHandler(TRSHttpClient oslcClient, String sparqlQueryService, String sparqlUpdateService,
-            String baseAuth_userName, String baseAuth_pwd, ChangeEvent handledChangeEvent, List<String> queries,
-            AtomicLong modelSize) {
-        super(oslcClient, sparqlQueryService, sparqlUpdateService, baseAuth_userName, baseAuth_pwd);
+    public ChangeEventHandler(TrsBasicAuthOslcClient oslcClient, String sparqlQueryService,
+            String sparqlUpdateService, String basicAuthUsername, String basicAuthPassword,
+            ChangeEvent handledChangeEvent, List<String> queries, AtomicLong modelSize) {
+        // here we assume the triplestore is not auth-protected, hence nulls
+        super(oslcClient,
+                sparqlUpdateService,
+                sparqlQueryService,
+                null,
+                null,
+                basicAuthUsername,
+                basicAuthPassword
+        );
         this.handledChangeEvent = handledChangeEvent;
-        threadName = "Change Event for resource: " + handledChangeEvent.getChanged() + " handler thread";
+//        threadName = "Change Event for resource: " + handledChangeEvent.getChanged() + "
+// handler " +
+//                "thread";
         this.queries = queries;
         this.modelSize = modelSize;
     }
@@ -68,19 +76,25 @@ public class ChangeEventHandler extends TRSTaskHandler {
     private void processChangeEvent() throws IOException, OAuthException, URISyntaxException {
         URI changed = handledChangeEvent.getChanged();
         logger.debug("creating query for resource " + changed.toString() + " change event ");
-        String query = "";
+        String query;
         if (handledChangeEvent instanceof Deletion) {
             query = SparqlUtil.getChangeEventQuery(handledChangeEvent, null);
-            queries.add(query.toString());
+            queries.add(query);
         } else {
 
-            Model updatedResRepresentation = (Model) fetchTRSRemoteResource(changed.toString(), Model.class);
+            Model updatedResRepresentation = (Model) fetchTRSRemoteResource(changed.toString(),
+                    Model.class
+            );
             if (updatedResRepresentation != null) {
                 modelSize.set(modelSize.get() + updatedResRepresentation.size());
-                query = SparqlUtil.getChangeEventQuery(handledChangeEvent, updatedResRepresentation);
-                queries.add(query.toString());
+                query = SparqlUtil.getChangeEventQuery(handledChangeEvent,
+                        updatedResRepresentation
+                );
+                queries.add(query);
             } else {
-                logger.error("could not retrieve representation of member resource with uri: " + changed.toString());
+                logger.error("could not retrieve representation of member resource with uri: " +
+                        changed
+                        .toString());
             }
         }
 
@@ -90,7 +104,6 @@ public class ChangeEventHandler extends TRSTaskHandler {
     @Override
     protected void processTRSTask() {
         try {
-            super.processTRSTask();
             processChangeEvent();
         } catch (IOException | OAuthException | URISyntaxException e) {
             logger.error("Error processing Change Events", e);

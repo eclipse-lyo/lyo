@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2016-2017   KTH Royal Institute of Technology.
  *
  * All rights reserved. This program and the accompanying materials
@@ -14,10 +14,11 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.client.rdf;
+package org.eclipse.lyo.oslc4j.trs.client.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
+
 import org.apache.jena.rdf.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

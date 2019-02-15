@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016-2017   KTH Royal Institute of Technology.
+/*
+ * Copyright (c) 2016-2018   KTH Royal Institute of Technology.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -16,13 +16,6 @@
  */
 package org.eclipse.lyo.oslc4j.trs.client.misc;
 
-import com.j2bugzilla.base.Bug;
-import com.j2bugzilla.base.BugFactory;
-import com.j2bugzilla.base.BugzillaConnector;
-import com.j2bugzilla.base.BugzillaException;
-import com.j2bugzilla.base.ConnectionException;
-import com.j2bugzilla.rpc.LogIn;
-import com.j2bugzilla.rpc.ReportBug;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,19 +23,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
 import javax.servlet.ServletException;
 import javax.ws.rs.WebApplicationException;
+
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.trs.client.rdf.RdfUtil;
-import org.eclipse.lyo.oslc4j.trs.client.sparql.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
+import org.eclipse.lyo.oslc4j.trs.client.util.RdfUtil;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.RepositoryConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.j2bugzilla.base.Bug;
+import com.j2bugzilla.base.BugFactory;
+import com.j2bugzilla.base.BugzillaConnector;
+import com.j2bugzilla.base.BugzillaException;
+import com.j2bugzilla.base.ConnectionException;
+import com.j2bugzilla.rpc.LogIn;
+import com.j2bugzilla.rpc.ReportBug;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,7 +188,7 @@ public class ModelCreationUtil {
 
     public static void linkBugzToSimAndReq() {
         RepositoryConnection conn = SparqlUtil.getRepoConnection(fusekiSparqlQueryService, fusekiSparqlUpdateService,
-                "", "");
+                                                                 "", "");
         conn.begin();
         try {
             StringBuilder matlabQb = new StringBuilder();

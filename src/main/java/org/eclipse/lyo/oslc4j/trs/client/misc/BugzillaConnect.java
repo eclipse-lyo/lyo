@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2016-2017   KTH Royal Institute of Technology.
+/*
+ * Copyright (c) 2016-2018   KTH Royal Institute of Technology.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -18,7 +18,6 @@ package org.eclipse.lyo.oslc4j.trs.client.misc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
@@ -39,7 +38,7 @@ public class BugzillaConnect {
     private static final String adminPassword = "";
     private static final String assigneeUser = "omar.kacimi@gmail.com";
 
-    public static void main(String[] args) throws MalformedURLException, XmlRpcException, ParseException {
+    public static void main(String[] args) throws MalformedURLException {
 
         XmlRpcClient client = new XmlRpcClient();
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();

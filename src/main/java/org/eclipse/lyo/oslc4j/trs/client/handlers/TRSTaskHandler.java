@@ -14,12 +14,13 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.client.concurrent;
+package org.eclipse.lyo.oslc4j.trs.client.handlers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import net.oauth.OAuthException;
-import org.eclipse.lyo.oslc4j.trs.client.httpclient.TRSHttpClient;
+import org.eclipse.lyo.oslc4j.trs.client.exceptions.TrsEndpointException;
+import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,35 +34,35 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class TRSTaskHandler implements Runnable {
 
-    final static Logger logger = LoggerFactory.getLogger(TRSTaskHandler.class);
+    final static Logger log = LoggerFactory.getLogger(TRSTaskHandler.class);
     /**
      * instance of the http client used by this TRS Task handler to communicate
      * with the TRS providers
      */
-    protected TRSHttpClient oslcClient;
+    protected    TrsBasicAuthOslcClient oslcClient;
     /**
      * http sparql endpoints of the triplestore used to store the data
      */
-    protected String sparqlUpdateService;
-    protected String sparqlQueryService;
+    protected    String sparqlUpdateService;
+    protected    String sparqlQueryService;
     /**
      * http sparql endpoints of the triplestore used to store the data and to
      * query it by a task handler
      */
-    protected String sparql_baseAuth_userName;
-    protected String sparql_baseAuth_pwd;
+    protected    String sparql_baseAuth_userName;
+    protected    String sparql_baseAuth_pwd;
     /**
      * http sparql endpoints of the triplestore used to store the data
      */
-    protected String baseAuth_userName;
-    protected String baseAuth_pwd;
+    protected    String baseAuth_userName;
+    protected    String baseAuth_pwd;
     /**
      * this is used for logging purposes. Whenever the run method of the
      * Runnable is executed a check is done to see whether the name of the
      * current runnable is the same as this variable in order to know which bit
      * of code is executed in which thread in the logging output
      */
-    protected String threadName;
+    protected    String threadName;
 
     /**
      * retrieve the distant resource using basic authentication if necessary
@@ -73,25 +74,21 @@ public abstract class TRSTaskHandler implements Runnable {
      *            the required content type
      * @return an instance of the required content type
      * @throws IOException
-     * @throws OAuthException
-     * @throws URISyntaxException
      */
     protected Object fetchTRSRemoteResource(String url, Class<?> objClass)
             throws IOException, OAuthException, URISyntaxException {
-        return oslcClient.fetchResourceUsingBaseAuth(url, objClass, baseAuth_userName, baseAuth_pwd);
+        try {
+            return oslcClient.fetchResourceUsingBaseAuth(
+                    url, objClass, baseAuth_userName, baseAuth_pwd);
+        } catch (TrsEndpointException e) {
+            log.error("The TRS endpoint {} is unreachable", url);
+            log.trace("TRS endpoint exception: {}", e);
+            // TODO Andrew@2018-06-19: propagate the exception correctly to callers.
+            return null;
+        }
     }
 
-    public TRSTaskHandler(TRSHttpClient oslcClient, String sparqlQueryService, String sparqlUpdateService,
-            String baseAuth_userName, String baseAuth_pwd) {
-        super();
-        this.oslcClient = oslcClient;
-        this.sparqlUpdateService = sparqlUpdateService;
-        this.sparqlQueryService = sparqlQueryService;
-        this.baseAuth_userName = baseAuth_userName;
-        this.baseAuth_pwd = baseAuth_pwd;
-    }
-
-    public TRSTaskHandler(TRSHttpClient oslcClient, String sparqlUpdateService, String sparqlQueryService,
+    public TRSTaskHandler(TrsBasicAuthOslcClient oslcClient, String sparqlUpdateService, String sparqlQueryService,
             String sparql_baseAuth_userName, String sparql_baseAuth_pwd, String baseAuth_userName,
             String baseAuth_pwd) {
         super();
@@ -108,32 +105,10 @@ public abstract class TRSTaskHandler implements Runnable {
      * Method to be overridden by the implementing class providing the task
      * behaviour
      */
-    protected void processTRSTask() {
-        Thread currentThread = Thread.currentThread();
-        if (!currentThread.getName().equals(threadName)) {
-            currentThread.setName(threadName);
-        }
-    }
+    protected abstract void processTRSTask();
 
     @Override
     public void run() {
         processTRSTask();
     }
-
-    public String getSparql_baseAuth_userName() {
-        return sparql_baseAuth_userName;
-    }
-
-    public void setSparql_baseAuth_userName(String sparql_baseAuth_userName) {
-        this.sparql_baseAuth_userName = sparql_baseAuth_userName;
-    }
-
-    public String getSparql_baseAuth_pwd() {
-        return sparql_baseAuth_pwd;
-    }
-
-    public void setSparql_baseAuth_pwd(String sparql_baseAuth_pwd) {
-        this.sparql_baseAuth_pwd = sparql_baseAuth_pwd;
-    }
-
 }
