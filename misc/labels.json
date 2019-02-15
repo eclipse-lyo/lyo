@@ -24,7 +24,8 @@
     "name": "Priority: Critical",
     "color": "ee0701",
     "aliases": [
-      "type: blocker"
+      "type: blocker",
+      "blocker"
     ]
   },
   {
@@ -43,8 +44,8 @@
     "name": "Status: Abandoned",
     "color": "000000",
     "aliases": [
-      "wontfix",
-      "invalid"
+      "invalid",
+      "wontfix"
     ]
   },
   {
@@ -80,7 +81,8 @@
       "status: ready for pr",
       "status: available",
       "status: in progress",
-      "status: confirmed"
+      "status: confirmed",
+      "awaiting/action"
     ]
   },
   {
@@ -111,8 +113,24 @@
     ]
   },
   {
-    "name": "Type: Feature",
+    "name": "Type: Enhancement",
     "color": "1d76db",
+    "aliases": [
+      "type: enhancement",
+      "enhancement",
+      "type: feature"
+    ]
+  },
+  {
+    "name": "Type: EPIC",
+    "color": "8aeae7",
+    "aliases": [
+      "epic"
+    ]
+  },
+  {
+    "name": "Type: Feature",
+    "color": "26ef7d",
     "aliases": [
       "type: enhancement",
       "enhancement"
@@ -142,7 +160,8 @@
     "aliases": [
       "status: cq needed",
       "status: needs cqs",
-      "misc: cq needed"
+      "misc: cq needed",
+      "awaiting/cq"
     ]
   },
   {
