@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory;
  * @since 2.3.0
  */
 @OslcService(TRSConstants.TRS_NAMESPACE)
-@Path("/trs")
 public abstract class TrackedResourceSetService {
     private static final Logger log     = LoggerFactory.getLogger(TrackedResourceSetService.class);
     private static final String newline = System.getProperty("line.separator");
