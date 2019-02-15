@@ -27,7 +27,7 @@ end
 projects.each { |p|
   # '-A' keeps unknown labels
   # '-d' makes a dry run
-  res = %x( github-label-sync -l labels.json -A #{p} )
+  res = %x( github-label-sync -l labels.json -A -d #{p} )
   puts res
   puts "="*79
 }
