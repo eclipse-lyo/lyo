@@ -7,24 +7,15 @@
   <packaging>pom</packaging>
   <name>OSLC4J Build</name>
 
-  <profiles>
-    <profile>
-      <id>disable-java8-doclint</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <additionalparam>-Xdoclint:none</additionalparam>
-      </properties>
-    </profile>
-  </profiles>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+
+    <version.lyo>${project.version}</version.lyo>
     <version.jena>3.6.0</version.jena>
+    <version.servlet>3.1.0</version.servlet>
   </properties>
 
   <modules>
@@ -39,6 +30,40 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+        <artifactId>oslc4j-core</artifactId>
+        <version>${version.lyo}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+        <artifactId>oslc4j-jena-provider</artifactId>
+        <version>${version.lyo}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+        <artifactId>oslc4j-json4j-provider</artifactId>
+        <version>${version.lyo}</version>
+      </dependency>
+
+      <dependency>
+        <!--TODO remove-->
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.servlet</artifactId>
+        <version>3.1-b33</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${version.servlet}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>21.0</version>
+      </dependency>
       <dependency>
         <!-- CQ 6577 -->
         <groupId>javax.xml.bind</groupId>
@@ -171,6 +196,43 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.0.1</version>
+          <configuration>
+            <source>8</source>
+            <additionalOptions>-Xdoclint:none</additionalOptions>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
   <repositories>
     <repository>

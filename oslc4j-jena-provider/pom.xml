@@ -12,23 +12,17 @@
     <description>JAX-RS provider for reading and writing RDF content using the Eclipse Lyo OSLC4J SDK.</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <lyo.version>${project.parent.version}</lyo.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>${lyo.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.servlet</artifactId>
-            <version>3.1-b33</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -48,6 +42,8 @@
             <artifactId>apache-jena-libs</artifactId>
             <type>pom</type>
          </dependency>
+
+        <!-- TEST -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -71,50 +67,14 @@
     </dependencies>
     <build>
         <plugins>
-            <!-- Source Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-
-            <!-- Javadoc Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>repo.eclipse.org</id>
-            <name>Eclipse Lyo Releases</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>repo.eclipse.org</id>
-            <name>Eclipse Lyo Snapshots</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

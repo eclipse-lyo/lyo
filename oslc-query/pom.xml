@@ -7,36 +7,28 @@
     <version>4.0.0-SNAPSHOT</version>
     <relativePath>../oslc4j-core-build/pom.xml</relativePath>
   </parent>
-  <!--TODO fix-->
+
   <groupId>org.eclipse.lyo.core.query</groupId>
   <artifactId>oslc-query</artifactId>
   <name>OSLC4J Query</name>
   <description>OSLC query support for the Eclipse Lyo OSLC4J SDK.</description>
-  <scm>
-    <url>http://git.eclipse.org/c/lyo/org.eclipse.lyo.core.git</url>
-  </scm>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <lyo.version>${project.parent.version}</lyo.version>
-  </properties>
+
   <dependencies>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>antlr-runtime</artifactId>
       <version>3.5.2</version>
     </dependency>
+
+    <!-- TEST -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-      <artifactId>oslc4j-core</artifactId>
-      <version>${lyo.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -82,38 +74,15 @@
         </executions>
       </plugin>
 
-      <!-- Source Jar Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-
-      <!-- Javadoc Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
+
     </plugins>
 
     <pluginManagement>
@@ -149,17 +118,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 </project>
