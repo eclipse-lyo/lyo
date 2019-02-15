@@ -117,8 +117,7 @@
     "color": "1d76db",
     "aliases": [
       "type: enhancement",
-      "enhancement",
-      "type: feature"
+      "enhancement"
     ]
   },
   {
@@ -132,8 +131,6 @@
     "name": "Type: Feature",
     "color": "26ef7d",
     "aliases": [
-      "type: enhancement",
-      "enhancement"
     ]
   },
   {
