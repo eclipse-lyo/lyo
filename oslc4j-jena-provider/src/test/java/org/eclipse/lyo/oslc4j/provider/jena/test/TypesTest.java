@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
  * Copyright (c) 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
@@ -46,16 +46,18 @@ public class TypesTest {
 	@Test
 	public void testNoDecimalCannonicolization() throws Exception {
 		Model m = ModelFactory.createDefaultModel();
-		Resource r = m.createResource(TEST_RESOURCE, m.createResource(TestResource.TEST_RESOURCE_TYPE));
+		Resource r = m.createResource(TEST_RESOURCE,
+				m.createResource(TestResource.TEST_RESOURCE_TYPE));
 		BigDecimal testDecimalValue = new BigDecimal(2700);
 		r.addLiteral(m.createProperty(DECIMAL_PROPERTY), m.createTypedLiteral(testDecimalValue));
-		
-		TestResource[] resourceArray = (TestResource[]) JenaModelHelper.fromJenaModel(m, TestResource.class);
+
+		TestResource[] resourceArray = JenaModelHelper.unmarshal(m, TestResource.class);
 		assertEquals("Expected to find one resource", 1, resourceArray.length);
-		
+
 		TestResource any = resourceArray[0];
-		assertEquals("Expected exactly one extended property", 1, any.getExtendedProperties().size());
-		
+		assertEquals("Expected exactly one extended property", 1,
+				any.getExtendedProperties().size());
+
 		Object prop = any.getExtendedProperties().values().iterator().next();
 		assertTrue("Property is not a BigDecimal", prop instanceof BigDecimal);
 		assertEquals("Decimal is not expected value", testDecimalValue, prop);
@@ -71,8 +73,10 @@ public class TypesTest {
 	@Test(expected = DatatypeFormatException.class)
 	public void testInvalidBoolean() throws Exception {
 		Model m = ModelFactory.createDefaultModel();
-		Resource r = m.createResource(TEST_RESOURCE, m.createResource(TestResource.TEST_RESOURCE_TYPE));
-		r.addLiteral(m.createProperty(BOOLEAN_PROPERTY), m.createTypedLiteral("invalid", XSDDatatype.XSDboolean.getURI()));
-		JenaModelHelper.fromJenaModel(m, TestResource.class);
+		Resource r = m.createResource(TEST_RESOURCE,
+				m.createResource(TestResource.TEST_RESOURCE_TYPE));
+		r.addLiteral(m.createProperty(BOOLEAN_PROPERTY),
+				m.createTypedLiteral("invalid", XSDDatatype.XSDboolean.getURI()));
+		JenaModelHelper.unmarshal(m, TestResource.class);
 	}
 }

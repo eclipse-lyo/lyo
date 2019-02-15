@@ -17,6 +17,7 @@ package org.eclipse.lyo.oslc4j.provider.jena.test;
 
 import static org.eclipse.lyo.oslc4j.core.test.customnamespace.CustomNamespaceConstants.TEST1_URL;
 import static org.eclipse.lyo.oslc4j.core.test.customnamespace.CustomNamespaceConstants.TEST2_URL;
+import static org.junit.Assert.*;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,13 +25,12 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import junit.framework.Assert;
-
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.EmptyNameResource;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.UnnamedResource;
+import org.junit.Assert;
 import org.junit.Test;
 
 import org.apache.jena.rdf.model.Model;
@@ -59,7 +59,7 @@ public class JenaOslcNameTest {
 		EmptyNameResource resource = createResource(EmptyNameResource.class);
 		Model model = JenaModelHelper.createJenaModel(new Object[] { resource });
 		List<RDFNode> rdfTypes = model.listObjectsOfProperty(RDF.type).toList();
-		Assert.assertTrue("Model should not contain RDF type as OslcName is empty", rdfTypes.isEmpty());
+		assertTrue("Model should not contain RDF type as OslcName is empty", rdfTypes.isEmpty());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class JenaOslcNameTest {
 		resource.getTypes().add(URI.create(typeToAdd));
 		Model model = JenaModelHelper.createJenaModel(new Object[] { resource });
 		List<RDFNode> rdfTypes = model.listObjectsOfProperty(RDF.type).toList();
-		Assert.assertEquals("Model should contain only added RDF type", rdfTypes.size(), 1);		
+		assertEquals("Model should contain only added RDF type", rdfTypes.size(), 1);
 		verifyRDFTypes(new String[] { typeToAdd }, rdfTypes);
 	}
 
@@ -89,7 +89,7 @@ public class JenaOslcNameTest {
 		TestResource resource = createResource(TestResource.class);
 		Model model = JenaModelHelper.createJenaModel(new Object[] { resource });
 		List<RDFNode> rdfTypes = model.listObjectsOfProperty(RDF.type).toList();
-		Assert.assertFalse("Model should contain RDF types", rdfTypes.isEmpty());
+		assertFalse("Model should contain RDF types", rdfTypes.isEmpty());
 		verifyRDFTypes(new String[] { TestResource.TEST_NAMESPACE + "Test" }, rdfTypes);
 	}
 
@@ -104,7 +104,7 @@ public class JenaOslcNameTest {
 		UnnamedResource resource = createResource(UnnamedResource.class);
 		Model model = JenaModelHelper.createJenaModel(new Object[] { resource });
 		List<RDFNode> rdfTypes = model.listObjectsOfProperty(RDF.type).toList();
-		Assert.assertFalse("Model should contain RDF types", rdfTypes.isEmpty());
+		assertFalse("Model should contain RDF types", rdfTypes.isEmpty());
 		verifyRDFTypes(new String[] { TestResource.TEST_NAMESPACE + "UnnamedResource" }, rdfTypes);
 	}
 
@@ -114,7 +114,7 @@ public class JenaOslcNameTest {
 			actualRdfTypesList.add(node.toString());
 		}
 		for (String expectedRdfType : expectedRDFTypes) {
-			Assert.assertTrue("Resource should contain RDF type " + expectedRdfType,
+			assertTrue("Resource should contain RDF type " + expectedRdfType,
 					actualRdfTypesList.contains(expectedRdfType));
 		}
 	}
@@ -122,9 +122,6 @@ public class JenaOslcNameTest {
 	/**
 	 * Creates a new instance adding some test values.
 	 * 
-	 * @param resource
-	 *			  class.
-	 * @return new instance
 	 */
 	private <T extends AbstractResource> T createResource(Class<T> resourceClass) throws Exception {
 		T resource = resourceClass.newInstance();

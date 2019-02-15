@@ -18,7 +18,7 @@ package org.eclipse.lyo.oslc4j.core;
 import java.util.Map;
 
 /**
- * Marker interface applied to {@link Map}<String, Object> to
+ * Marker interface applied to {@link Map} (parametrised with &lt;String, Object&gt;) to
  * indicate that when selecting properties for output all immediate,
  * properties of the resource should be output
  */

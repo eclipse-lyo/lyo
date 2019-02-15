@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
  * Copyright (c) 2014 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
@@ -16,28 +16,24 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
-import static org.junit.Assert.*;
-
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
-
 import javax.xml.namespace.QName;
-
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.DCTerms;
 import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
 import org.eclipse.lyo.oslc4j.provider.jena.AbstractOslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.vocabulary.DCTerms;
+import static org.junit.Assert.*;
 
 public class UnparseableLiteralTest {
 	@Before
@@ -57,8 +53,7 @@ public class UnparseableLiteralTest {
 		final Model m = ModelFactory.createDefaultModel();
 		m.read(is, null, "TURTLE");
 
-		final TestResource[] testResources =
-			(TestResource[]) JenaModelHelper.fromJenaModel(m, TestResource.class);
+		final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
 		assertEquals("Expected only one TestResource resource", 1, testResources.length);
 
 		final TestResource resource = testResources[0];

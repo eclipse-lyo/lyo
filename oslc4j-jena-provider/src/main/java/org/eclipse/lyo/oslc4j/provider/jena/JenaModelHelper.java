@@ -316,7 +316,7 @@ public final class JenaModelHelper
 	}
 
 	/**
-	 * @see {@link #unmarshalSingle(Model, Class)}
+	 * @see #unmarshalSingle(Model, Class)
 	 */
 	@Deprecated
 	public static Object fromJenaResource(final Resource resource, final Class<?> beanClass)
@@ -352,6 +352,7 @@ public final class JenaModelHelper
 	 * @throws LyoJenaModelException if the model cannot be unmarshalled into instances of the
 	 *                               provided class
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T[] unmarshal(final Model model, Class<T> clazz)
 			throws LyoJenaModelException {
 		try {
@@ -365,7 +366,7 @@ public final class JenaModelHelper
 	}
 
 	/**
-	 * @see {@link #unmarshal(Model, Class)}
+	 * @see #unmarshal(Model, Class)
 	 */
 	@Deprecated
 	public static Object[] fromJenaModel(final Model model, final Class<?> beanClass)

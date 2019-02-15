@@ -1,3 +1,18 @@
+/*!*****************************************************************************
+ * Copyright (c) 2017 Andrew Berezovskyi.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *	   Andrew Berezovskyi		- initial API and implementation
+ *******************************************************************************/
 package org.eclipse.lyo.oslc4j.core;
 
 import java.net.MalformedURLException;
@@ -8,23 +23,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 
-/**
- * Created on 2017-06-01
- * @author Andrew Berezovskyi (andriib@kth.se)
- * @version $version-stub$
- * @since 0.0.1
- */
 public class OSLC4JUtilsTest {
 
     @Before
     public void clearPublicURISystemProperty() throws MalformedURLException {
-//        System.clearProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION);
         System.setProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, "true");
         OSLC4JUtils.setPublicURI(null);
         OSLC4JUtils.setServletPath(null);
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testPublicURI() throws MalformedURLException {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
         when(mockedRequest.getServletPath()).thenReturn("/resources");
@@ -35,6 +44,7 @@ public class OSLC4JUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testDisableHostResolution() {
         HttpServletRequest mockedRequest = mockRequest();
         String resolvedUri = OSLC4JUtils.resolveURI(mockedRequest, true);
@@ -79,7 +89,7 @@ public class OSLC4JUtilsTest {
     }
 
     @Test
-    public void resolveFullPathUriWithoutPublicUri() throws Exception {
+    public void resolveFullPathUriWithoutPublicUri() {
         final HttpServletRequest request = mockRequest();
 
         final String fullUri = OSLC4JUtils.resolveFullUri(request);
@@ -91,7 +101,6 @@ public class OSLC4JUtilsTest {
     public void resolveServletUriWithPublicUri() throws Exception {
         OSLC4JUtils.setPublicURI("http://a.b/");
         OSLC4JUtils.setServletPath("/abc");
-        // request.getServletPath() -> "/resources"
         final HttpServletRequest request = mockRequest();
 
         final String fullUri = OSLC4JUtils.resolveServletUri(request);
@@ -100,7 +109,7 @@ public class OSLC4JUtilsTest {
     }
 
     @Test
-    public void resolveServletUriWithoutPublicUri() throws Exception {
+    public void resolveServletUriWithoutPublicUri() {
         final HttpServletRequest request = mockRequest();
 
         final String fullUri = OSLC4JUtils.resolveServletUri(request);

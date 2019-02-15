@@ -18,9 +18,8 @@ package org.eclipse.lyo.oslc4j.core.test;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
  * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
@@ -32,24 +32,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.jena.rdf.model.AnonId;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFErrorHandler;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.RDFWriter;
-import org.apache.jena.rdf.model.RSIterator;
-import org.apache.jena.rdf.model.ReifiedStatement;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdf.model.impl.Util;
 import org.apache.jena.util.CharEncoding;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.util.iterator.Filter;
 import org.apache.jena.vocabulary.RDF;
 
 /**
@@ -78,6 +65,7 @@ import org.apache.jena.vocabulary.RDF;
  * @since	1.0
  * @see		RDFWriter
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 	private final Map<AnonId, String> resourceIdToShortIdMap;
@@ -100,7 +88,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	 * <p>Number of indent spaces of the serialized RDF model (default: 0).</p>
 	 * 
 	 * <p>Note: This property in only supported when using the abbreviated XML 
-	 * (see {@link #RDF_XML_ABBREVIATED}) syntax.</p>
+	 * syntax.</p>
 	 */
 	private static String RDF_PROPERTY_INDENT = "indent"; //$NON-NLS-1$
 
@@ -158,7 +146,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	private static String PREFIX_RDF = "rdf"; //$NON-NLS-1$
 
 	public RdfXmlAbbreviatedWriter() {						
-		resourceIdToShortIdMap = new HashMap<AnonId, String>();
+		resourceIdToShortIdMap = new HashMap<>();
 	}
 
 	/**
@@ -199,12 +187,12 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			oldPropertyValue = String.valueOf(tab);
 
 			if(propValue instanceof Integer){
-				tab = ((Integer)(propValue)).intValue();
+				tab = (Integer) (propValue);
 			}
 			else if(propValue instanceof String){
 
 				try {
-					tab = Integer.valueOf(((String)(propValue))).intValue();
+					tab = Integer.valueOf(((String) (propValue)));
 				} 
 				catch (NumberFormatException n) {
 
@@ -219,12 +207,12 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			oldPropertyValue = String.valueOf(indent);
 
 			if(propValue instanceof Integer){
-				indent = ((Integer)(propValue)).intValue();
+				indent = (Integer) (propValue);
 			}
 			else if(propValue instanceof String){
 
 				try {
-					indent = Integer.valueOf(((String)(propValue))).intValue();
+					indent = Integer.valueOf(((String) (propValue)));
 				} 
 				catch (NumberFormatException n) {
 
@@ -289,24 +277,20 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		//Serialize the RDF model:
 		xmlWriter.rootStartTag(RDF.getURI(), RDF_ELEMENT_RDF);
 
+		//Resolve the objects of the model:
+		List<Resource> objects = new ArrayList<>();
 		//Filter the following statements:
 		//1) A subject of any other statement(s) in the model (reified statement).
 		//2) A literal resource as the object of the statement.
 		//3) A subject, predicate, or object as the predicate of the statement.
-		Filter<Statement> filter = new Filter<Statement>() {
+		ExtendedIterator<Statement> statementIterator = model.listStatements().filterKeep(
+				statement -> {
+					Property predicate = statement.getPredicate();
 
-			@Override 
-			public boolean accept(Statement statement) { 
-
-				Property predicate = statement.getPredicate();
-
-				return ((!statement.isReified()) && (statement.getObject().isResource()) && (!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate)));
-			} 
-		};
-		
-		//Resolve the objects of the model:
-		List<Resource> objects = new ArrayList<Resource>();
-		ExtendedIterator<Statement> statementIterator = model.listStatements().filterKeep(filter);
+					return ((!statement.isReified()) && (statement.getObject().isResource())
+							&& (!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(
+							predicate)) && (!RDF.object.equals(predicate)));
+				});
 
 		while (statementIterator.hasNext()) {
 
@@ -324,7 +308,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		//Resolve the proposed root resources of the model.	 These include:
 		//1. Resources not the object of any other statements
 		//2. Other non-anonymous resources
-		List<Resource> rootResources = new ArrayList<Resource>();
+		List<Resource> rootResources = new ArrayList<>();
 		statementIterator = model.listStatements();
 
 		while (statementIterator.hasNext()) {
@@ -344,8 +328,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		//Test the candidate root resources to see if they are the objects of other root resource candidates.
 		//If a candidate is the object of another root resource candidate, propose it for removal from root resources.
 		//If all candidates are proposed for removal (i.e. fully cyclic graph), keep them all try to serialize.
-		Set<Resource> removalCandidates = new HashSet<Resource>();
-		Set<Resource> rootTestAgainst = new HashSet<Resource>();
+		Set<Resource> removalCandidates = new HashSet<>();
+		Set<Resource> rootTestAgainst = new HashSet<>();
 		rootTestAgainst.addAll(rootResources);
 		rootTestAgainst.addAll(objects);
 		for (Resource rootCandidate: rootResources) {
@@ -362,7 +346,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 						boolean objectIsReification = model.listStatements(rootTest, RDF.type, RDF.Statement).hasNext();
 						if (!objectIsReification) {
 							// checks if there is a self cyclic reference for the resource.
-							boolean isCyclic = isChild(model, new HashSet<Resource>(), rootCandidate, rootCandidate);
+							boolean isCyclic = isChild(model, new HashSet<>(), rootCandidate, rootCandidate);
 							if (!isCyclic) {
 								removalCandidates.add(rootCandidate);
 								if (logger.isLoggable(Level.FINEST)) {
@@ -380,7 +364,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			rootResources.removeAll(removalCandidates);
 		}
 
-		List<Resource> serializedResources = new ArrayList<Resource>();
+		List<Resource> serializedResources = new ArrayList<>();
 	
 		for(Resource rootResource : rootResources){
 			
@@ -460,7 +444,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	 */
 	private boolean isChild(Model model, Set<Resource> visitedResources, Resource parent, Resource... children) {
 		boolean isChild = false;
-		List<Resource> newChildren = new ArrayList<Resource>();
+		List<Resource> newChildren = new ArrayList<>();
 		outer: for (Resource child : children) 
 		{
 			visitedResources.add(child);
@@ -496,7 +480,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 	private void serializeStatements(Resource resource, XMLWriter xmlWriter, List<Resource> serializedResources, String rootResourceTypeURI){
 
 		StmtIterator statementIterator = resource.getModel().listStatements(resource, null, ((RDFNode)(null)));
-		Set<Statement> visitedStatements = new HashSet<Statement> ();
+		Set<Statement> visitedStatements = new HashSet<>();
 		
 		while (statementIterator.hasNext()) {
 			serializeStatement(statementIterator.next(), xmlWriter, serializedResources,visitedStatements, rootResourceTypeURI);
@@ -561,7 +545,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 					firstResourceStatement = statementList.get(0);
 				}			
 				
-				if ((firstResourceStatement !=null) && (!visitedStatements.contains(firstResourceStatement)) && (serializedResources.add(resource))) {
+				if (firstResourceStatement != null && !visitedStatements.contains(
+						firstResourceStatement)) {
 					
 					xmlWriter.closeStartTag(true);
 
@@ -690,7 +675,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			}
 			
 			//Create the namespace map that maps namespaces to namespace prefixes:
-			namespaceMap = new HashMap<String, String>();
+			namespaceMap = new HashMap<>();
 
 			//Resolve and add the namespace map defined in the model:
 			Map<String, String> modelNamespacePrefixMap = model.getNsPrefixMap();
@@ -713,7 +698,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 
 				if ((!RDF.subject.equals(predicate)) && (!RDF.predicate.equals(predicate)) && (!RDF.object.equals(predicate))){
 
-					String namespace = null;
+					String namespace;
 					
 					if(RDF.type.equals(predicate)){
 						namespace = statement.getObject().asResource().getNameSpace();
@@ -760,15 +745,9 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 				tab();
 				tab();
 
-				StringBuilder buffer = new StringBuilder();
-				buffer.append(PREFIX_XMLNS);
-				buffer.append(':');
-				buffer.append(namespaceEntry.getValue());
-				buffer.append("=\""); //$NON-NLS-1$
-				buffer.append(namespaceEntry.getKey());
-				buffer.append('"');
-				
-				printWriter.print(buffer.toString());
+				final String buffer = PREFIX_XMLNS + ':' + namespaceEntry.getValue() + "=\"" +
+						namespaceEntry.getKey() + '"';
+				printWriter.print(buffer);
 			}
 						
 			closeStartTag(true);
@@ -785,27 +764,15 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 				tab();
 			}
 
-			StringBuilder buffer = new StringBuilder();
-			buffer.append('<');
-			buffer.append(namespaceMap.get(namespaceUri));
-			buffer.append(':');
-			buffer.append(localName);
-
-			printWriter.print(buffer.toString());
+			final String buffer = "<" + namespaceMap.get(namespaceUri) + ':' + localName;
+			printWriter.print(buffer);
 		}
 
 		public void attribute(String namespaceUri, String localName, String value) {
 
-			StringBuilder buffer = new StringBuilder();
-			buffer.append(' ');
-			buffer.append(namespaceMap.get(namespaceUri));
-			buffer.append(':');
-			buffer.append(localName);
-			buffer.append("=\""); //$NON-NLS-1$
-			buffer.append(value);
-			buffer.append('"');
-			
-			printWriter.print(buffer.toString());
+			final String buffer = " " + namespaceMap.get(namespaceUri) + ':' + localName + "=\"" +
+					value + '"';
+			printWriter.print(buffer);
 		}
 
 		public void closeEmptyStartTag() {			
@@ -842,15 +809,10 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 			if(isParent){
 				tab();
 			}
-			
-			StringBuilder buffer = new StringBuilder();
-			buffer.append("</"); //$NON-NLS-1$
-			buffer.append(namespaceMap.get(namespaceUri));
-			buffer.append(':');
-			buffer.append(localName);
-			buffer.append('>');
 
-			printWriter.print(buffer.toString());
+			final String buffer = "</" + //$NON-NLS-1$
+					namespaceMap.get(namespaceUri) + ':' + localName + '>';
+			printWriter.print(buffer);
 			
 			printWriter.println();
 		}
@@ -860,8 +822,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriter {
 		}		
 		
 		private void tab() {
-			
-			char spaces[] = new char[(tab * tabCount) + indent];
+
+			char[] spaces = new char[(tab * tabCount) + indent];
 
 			if(spaces.length > 0){
 				

@@ -47,7 +47,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 public final class Property extends AbstractResource implements Comparable<Property> {
 	private static final QName PROPERTY_ALLOWED_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
 	private static final QName PROPERTY_DEFAULT_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "defaultValue");
-	private final List<URI> range = new ArrayList<URI>();
+	private final List<URI> range = new ArrayList<>();
 
 	private URI allowedValuesRef;
 	private String description;
@@ -176,7 +176,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	@OslcReadOnly
 	@OslcTitle("Ranges")
 	public URI[] getRange() {
-		return range.toArray(new URI[range.size()]);
+		return range.toArray(new URI[0]);
 	}
 
 	@OslcAllowedValue({OslcConstants.OSLC_CORE_NAMESPACE + "Reference",
@@ -388,7 +388,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	 */
 	@Deprecated
 	public void addAllowedValue(final String allowedValue) {
-		ArrayList<Object> newValues = new ArrayList<Object>();
+		ArrayList<Object> newValues = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		Collection<Object> allowedValues = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (allowedValues != null) {
