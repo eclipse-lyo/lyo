@@ -1,5 +1,9 @@
 package org.eclipse.lyo.store;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
 /*-
  * #%L
  * Contributors:
@@ -15,9 +19,14 @@ package org.eclipse.lyo.store;
  */
 
 import org.apache.jena.query.Dataset;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
+import org.assertj.core.api.Assertions;
 import org.eclipse.lyo.store.internals.JenaTdbStoreImpl;
+import org.eclipse.lyo.store.resources.Requirement;
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * DatasetBuilderTest is .
@@ -38,6 +47,48 @@ public class JenaTdbStoreImplTest extends StoreTestBase<JenaTdbStoreImpl> {
     @Override
     protected JenaTdbStoreImpl buildStore() {
         return new JenaTdbStoreImpl(memDataset);
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForAllRequirementResources()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForRequirementResourcesWithFreeTextSearch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForRequirementResourcesWithWhereFilter()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+   }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForRequirementResourcesWithFreeTextSearchAndWhereFilter()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForRequirementResourcesWithNoMatch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForAllResources()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryForAllResourcesWithFreeTextSearch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
     }
 
 }

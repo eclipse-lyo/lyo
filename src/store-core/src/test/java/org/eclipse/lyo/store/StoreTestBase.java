@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
@@ -35,8 +36,10 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.store.resources.BlankResource;
+import org.eclipse.lyo.store.resources.Requirement;
 import org.eclipse.lyo.store.resources.WithBlankResource;
 import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -292,7 +295,86 @@ public abstract class StoreTestBase<T extends Store> {
                            .getIntProperty()).isEqualTo(intProperty);
     }
 
+    @Test
+    public void testStoreQueryForAllRequirementResources()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
 
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class, null, null, "", -1, -1);
+        Assertions.assertThat(requirements).hasSize(6);
+    }
+
+    @Test
+    public void testStoreQueryForRequirementResourcesWithFreeTextSearch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class, null, null, "river", -1, -1);
+        Assertions.assertThat(requirements).hasSize(2);
+    }
+
+    @Test
+    public void testStoreQueryForRequirementResourcesWithWhereFilter()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
+                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", null, -1, -1);
+        Assertions.assertThat(requirements).hasSize(1);
+    }
+
+    @Test
+    public void testStoreQueryForRequirementResourcesWithFreeTextSearchAndWhereFilter()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
+                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", "roof", -1, -1);
+        Assertions.assertThat(requirements).hasSize(1);
+    }
+
+    @Test
+    public void testStoreQueryForRequirementResourcesWithNoMatch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
+                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", "velocity", -1, -1);
+        Assertions.assertThat(requirements).hasSize(0);
+    }
+
+    @Test
+    public void testStoreQueryForAllResources()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        Model model = manager.getResources(namedGraphUri, null, null, "", -1, -1);
+        Assertions.assertThat(model.listSubjects().toList()).hasSize(7);
+    }
+
+    @Test
+    public void testStoreQueryForAllResourcesWithFreeTextSearch()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        Model model = manager.getResources(namedGraphUri, null, null, "river", -1, -1);
+        Assertions.assertThat(model.listSubjects().toList()).hasSize(2);
+
+    }
 
     protected abstract T buildStore();
 
@@ -309,5 +391,30 @@ public abstract class StoreTestBase<T extends Store> {
         resource.setAbout(URI.create("lyo:spc_" + randomHexString()));
         return resource;
     }
+    
+	private Requirement createRequirement(String identifier, String description) throws URISyntaxException {
+		Requirement r = new Requirement(buildKey());
+		r.setIdentifier(identifier);
+		r.setDescription(description);
+		return r;
+	}
+
+    private void populateStore(final T manager, final URI namedGraphUri)
+            throws StoreAccessException, URISyntaxException {
+        manager.appendResource(namedGraphUri,
+                createRequirement("rob", "Tom got a small piece of pie. Rock music approaches at high velocity."));
+        manager.appendResource(namedGraphUri, createRequirement("hang",
+                "She borrowed the book from him many years ago and hasn't yet returned it. Please wait outside of the house. The river stole the gods."));
+        manager.appendResource(namedGraphUri, createRequirement("observations",
+                "We have never been to Asia, nor have we visited Africa. Malls are great places to shop; I can find everything I need under one roof."));
+        manager.appendResource(namedGraphUri, createRequirement("kindly",
+                "I think I will buy the red car, or I will lease the blue one. The river stole the gods."));
+        manager.appendResource(namedGraphUri, createRequirement("itch",
+                "A song can make or ruin a person’s day if they let it get to them. The body may perhaps compensates for the loss of a true metaphysics."));
+        manager.appendResource(namedGraphUri, createRequirement("morning",
+                "They got there early, and they got really good seats. Lets all be unique together until we realise we are all the same."));
+        manager.appendResource(namedGraphUri, buildResource());
+    }
+
 }
 

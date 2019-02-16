@@ -27,11 +27,13 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.rdf.model.impl.ResourceImpl;
+import org.apache.jena.sparql.expr.E_Regex;
 import org.apache.jena.sparql.modify.request.QuadDataAcc;
 import org.apache.jena.sparql.modify.request.UpdateDataInsert;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
+import org.apache.jena.arq.querybuilder.ExprFactory;
 import org.apache.jena.riot.RiotException;
 
 import java.lang.reflect.Array;
@@ -254,7 +256,26 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit, final int offset) throws URISyntaxException {
+    public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
+            final String where, final String searchTerms, final int limit, final int offset)
+            throws StoreAccessException, ModelUnmarshallingException {
+
+        String _prefixes = prefixes;
+        String _where = where;
+
+        _prefixes = (StringUtils.isEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
+        _where = (StringUtils.isEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
+        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset);
+        return getResourcesFromModel(model, clazz);
+    }
+
+    @Override
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit, final int offset) {
+        return getResources(namedGraph, prefixes, where, null, limit, offset);
+    }
+    
+    @Override
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
 
     	if (namedGraph != null) {
         	//Make sure the designated namedGraph exists, if it is specified.
@@ -264,7 +285,7 @@ public class SparqlStoreImpl implements Store {
             }
     	}
 
-    	SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, limit, offset);
+    	SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset);
     	DescribeBuilder describeBuilder = new DescribeBuilder();
 		if (namedGraph != null) {
 			describeBuilder.addVar("s")
@@ -348,6 +369,14 @@ public class SparqlStoreImpl implements Store {
     @Override
     public void removeAll() {
         queryExecutor.prepareSparqlUpdate("CLEAR ALL").execute();
+    }
+
+    private <T extends IResource> String oslcQueryPrefixes(final Class<T> clazz) {
+        return "rdf=" + "<" + org.apache.jena.vocabulary.RDF.uri + ">";
+    }
+
+    private <T extends IResource> String oslcQueryWhere(final Class<T> clazz) {
+    	return "rdf:type=" + "<" + getResourceNsUri(clazz) + ">";
     }
 
     private <T extends IResource> List<T> getResourcesFromModel(final Model model,
@@ -461,7 +490,7 @@ public class SparqlStoreImpl implements Store {
     }
 
     //This method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
-    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final int limit, final int offset) {
+    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
 
     	SelectBuilder distinctResourcesQuery = new SelectBuilder();
 
@@ -470,22 +499,12 @@ public class SparqlStoreImpl implements Store {
         try {
         	if (!StringUtils.isEmpty(prefixes)) {
     			prefixesMap = QueryUtils.parsePrefixes(prefixes);
+    	        for (Entry<String, String> prefix : prefixesMap.entrySet()) {
+    	            distinctResourcesQuery.addPrefix(prefix.getKey(), prefix.getValue());
+    			}
         	}
 		} catch (ParseException e) {
             throw new IllegalArgumentException("prefixesExpression could not be parsed", e);
-		}
-        for (Entry<String, String> prefix : prefixesMap.entrySet()) {
-            distinctResourcesQuery.addPrefix(prefix.getKey(), prefix.getValue());
-		}
-
-    	//Setup where
-		WhereClause whereClause = null;
-        try {
-        	if (!StringUtils.isEmpty(where)) {
-    			whereClause = QueryUtils.parseWhere(where, prefixesMap);
-        	}
-		} catch (ParseException e) {
-            throw new IllegalArgumentException("whereExpression could not be parsed", e);
 		}
 
         distinctResourcesQuery
@@ -493,42 +512,59 @@ public class SparqlStoreImpl implements Store {
 		.setDistinct(true)
 		.addWhere( "?s", "?p", "?o");
 
-		List<SimpleTerm> parseChildren = whereClause.children();
-		for (Iterator<SimpleTerm> iterator = parseChildren.iterator(); iterator.hasNext();) {
-			SimpleTerm simpleTerm = iterator.next();
-			Type termType = simpleTerm.type();
-			PName property = simpleTerm.property();
-			
-			if (!termType.equals(Type.COMPARISON)){
-		        throw new UnsupportedOperationException("only support for terms of type Comparisons");
-			}
-			ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
-			if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
-		        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
-			}
-			
-			Value comparisonOperand = aComparisonTerm.operand();
-			Value.Type operandType = comparisonOperand.type();
-			String predicate;
-			if (property.local.equals("*")) {
-				predicate = "?p";
-			}
-			else {
-				predicate = property.toString();
-			}
-			
-			switch (operandType) {
-			case STRING:
-				StringValue stringOperand = (StringValue) comparisonOperand;
-		        distinctResourcesQuery.addWhere( "?s", predicate, stringOperand.value());
-				break;
-			case URI_REF:
-				UriRefValue uriOperand = (UriRefValue) comparisonOperand;
-		        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
-				break;
-			default:
-		        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI");
-			}
+        //Setup where
+		WhereClause whereClause = null;
+        try {
+        	if (!StringUtils.isEmpty(where)) {
+    			whereClause = QueryUtils.parseWhere(where, prefixesMap);
+    			List<SimpleTerm> parseChildren = whereClause.children();
+    			for (Iterator<SimpleTerm> iterator = parseChildren.iterator(); iterator.hasNext();) {
+    				SimpleTerm simpleTerm = iterator.next();
+    				Type termType = simpleTerm.type();
+    				PName property = simpleTerm.property();
+    				
+    				if (!termType.equals(Type.COMPARISON)){
+    			        throw new UnsupportedOperationException("only support for terms of type Comparisons");
+    				}
+    				ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
+    				if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
+    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
+    				}
+    				
+    				Value comparisonOperand = aComparisonTerm.operand();
+    				Value.Type operandType = comparisonOperand.type();
+    				String predicate;
+    				if (property.local.equals("*")) {
+    					predicate = "?p";
+    				}
+    				else {
+    					predicate = property.toString();
+    				}
+    				
+    				switch (operandType) {
+    				case STRING:
+    					StringValue stringOperand = (StringValue) comparisonOperand;
+    			        distinctResourcesQuery.addWhere( "?s", predicate, stringOperand.value());
+    					break;
+    				case URI_REF:
+    					UriRefValue uriOperand = (UriRefValue) comparisonOperand;
+    			        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
+    					break;
+    				default:
+    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI");
+    				}
+    			}
+        	}
+		} catch (ParseException e) {
+            throw new IllegalArgumentException("whereExpression could not be parsed", e);
+		}
+		
+        //Setup searchTerms
+        //Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the distinctResourcesQuery
+		if (!StringUtils.isEmpty(searchTerms)) {
+			ExprFactory factory = new ExprFactory();
+            E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
+			distinctResourcesQuery.addFilter(regex);
 		}
 		
 		if (limit > 0) {

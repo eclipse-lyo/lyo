@@ -150,21 +150,59 @@ public interface Store {
             int offset) throws StoreAccessException, ModelUnmarshallingException;
 
     /**
+     * Alternative to {@link Store#getResources(URI, Class)} with paging on the OSLC resource level.
+     *
+     * @param namedGraphUri URI of a named graph under which resources were stored
+     * @param clazz         class of the resources being retrieved
+     * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where query parameter.
+     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties. (See oslc.where  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param searchTerms   score each member resource using a full text search on it text-valued properties. (See oslc.searchTerms  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param limit         paging limit
+     * @param offset        paging offset
+     *
+     * @return list of OSLC resources, size is less or equal to 'limit'
+     *
+     * @throws StoreAccessException        if there was a problem with the triplestore (or the
+     *                                     dataset, more broadly).
+     * @throws ModelUnmarshallingException if the classes cannot be instantiated or another error
+     *                                     occurred when working with Jena model.
+     */
+    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, 
+    		String prefixes, String where, String searchTerms, 
+    		int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
+
+    /**
      * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html) 
      * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
      * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
      *
      * @param namedGraph    namedGraphUri URI of a named graph under which resources were stored
      * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where query parameter.
-     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties
+     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties. (See oslc.where  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
      * @param limit         paging limit
      * @param offset        paging offset
      *
      * @return list of resources, size is less or equal to 'limit'
      *
      */
-	Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset)
-			throws URISyntaxException;
+	Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset);
+
+    /**
+     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html) 
+     * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
+     * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
+     *
+     * @param namedGraph    namedGraphUri URI of a named graph under which resources were stored
+     * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where query parameter.
+     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties. (See oslc.where  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param searchTerms   score each member resource using a full text search on it text-valued properties. (See oslc.searchTerms  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param limit         paging limit
+     * @param offset        paging offset
+     *
+     * @return list of resources, size is less or equal to 'limit'
+     *
+     */
+	Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset);
 
     /**
      * Retrieve a single {@link IResource} instance specified by the concrete
