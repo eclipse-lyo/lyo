@@ -21,19 +21,11 @@ import net.oauth.OAuthException;
 
 
 public class OAuthRedirectException extends OAuthException {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -8602283923593056515L;
 
 	private String redirectURL;
 	private OAuthAccessor accessor;
 
-	/**
-	 * @param redirectURL
-	 * @param requestToken
-	 * @param tokenSecret
-	 */
 	public OAuthRedirectException(String redirectURL, OAuthAccessor accessor) {
 		this.redirectURL = redirectURL;
 		this.accessor = accessor;
