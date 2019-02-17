@@ -1,14 +1,14 @@
 language: java
 
 jdk:
-  - oraclejdk8
   - openjdk8
-  - openjdk9
-  - openjdk10
   - openjdk11
+  - openjdk-ea
+  - oraclejdk8
   - oraclejdk11
   - openjdk12
-  - openjdk-ea
+  - openjdk10
+  - openjdk9
 
 script:
   # build clients
