@@ -90,9 +90,9 @@ public class OslcClient {
 	private final static Logger logger = LoggerFactory.getLogger(OslcClient.class);
 
 
-	
-	
-	
+
+
+
 	/**
 	 * A simple OslcClient that provides http access to unprotected resources
 	 */
@@ -104,7 +104,7 @@ public class OslcClient {
 	/**
 	 * An OslcClient that allows client applications to provide a configured (but not built)
 	 * ClientBuilder typically used for supporting https, and various kinds of authentication.
-	 * 
+	 *
 	 * @param clientBuilder
 	 */
 	public OslcClient(ClientBuilder clientBuilder)
@@ -115,12 +115,12 @@ public class OslcClient {
 		for (Class<?> provider : Json4JProvidersRegistry.getProviders()) {
 			clientBuilder.register(provider);
 		}
-				
+
 		this.client = clientBuilder.build();
-		
+
 		this.httpClient = HttpClientBuilder.create().build();
 	}
-	
+
 	/**
 	 * Returns the JAX-RS client for this OslcClient
 	 * @return the JAX-RS client
@@ -141,17 +141,7 @@ public class OslcClient {
 	/**
 	 * Gets an OSLC resource using <code>application/rdf+xml</code>. Use
 	 * {@link #getResource(String, String)} to specify the media type or
-	 * {@link #getResource(String, Map)} to add other request headers. Call
-	 * {@link ClientResponse#getEntity(Class)} on the response to get the
-	 * OSLC4J-annotated Java object.
-	 *
-	 * @param url
-	 *            the resource URL
-	 * @return the Apache Wink ClientResponse
-	 *
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
+	 * {@link #getResource(String, Map)} to add other request headers.
 	 */
 	public Response getResource(String url) throws IOException,
 			URISyntaxException {
@@ -160,19 +150,13 @@ public class OslcClient {
 
 	/**
 	 * Gets an OSLC resource. Use {@link #getResource(String, Map)} instead to
-	 * add other request headers. Call {@link ClientResponse#getEntity(Class)}
-	 * on the response to get the OSLC4J-annotated Java object.
+	 * add other request headers.
 	 *
 	 * @param url
 	 *            the resource URL
 	 * @param mediaType
 	 *            the requested media type to use in the HTTP Accept request
 	 *            header
-	 * @return the Apache Wink ClientResponse
-	 *
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
 	 */
 	public Response getResource(String url, final String mediaType)
 			throws IOException, URISyntaxException {
@@ -180,8 +164,7 @@ public class OslcClient {
 	}
 
 	/**
-	 * Gets an OSLC resource. Call {@link ClientResponse#getEntity(Class)} on
-	 * the response to get the OSLC4J-annotated Java object.
+	 * Gets an OSLC resource.
 	 *
 	 * @param url
 	 *            the resource URL
@@ -191,11 +174,6 @@ public class OslcClient {
 	 *            <code>application/rdf+xml</code>. If
 	 *            <code>OSLC-Core-Version</code> is not in the map, it defaults
 	 *            to <code>2.0</code>.
-	 * @return the Apache Wink ClientResponse
-	 *
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
 	 */
 	public Response getResource(String url, Map<String, String> requestHeaders)
 			throws IOException, URISyntaxException {
@@ -208,7 +186,7 @@ public class OslcClient {
 		boolean redirect = false;
 		do {
 			WebTarget webTarget = this.client.target(url);
-			Builder innvocationBuilder = webTarget.request(); 
+			Builder innvocationBuilder = webTarget.request();
 			boolean acceptSet = false;
 			boolean versionSet = false;
 
@@ -243,7 +221,7 @@ public class OslcClient {
 			}
 
 			response = innvocationBuilder.get();
-			
+
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
 				url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
 				response.readEntity(String.class);
@@ -256,20 +234,16 @@ public class OslcClient {
 		return response;
 	}
 
-	
+
 	/**
 	 * Delete an OSLC resource and return a Wink ClientResponse
 	 * @param url
-	 * @return a Wink ClientResponse
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
 	 */
 	public Response deleteResource(String url)
 			throws IOException, URISyntaxException {
 		Response response = null;
 		boolean redirect = false;
-		
+
 		do {
 			response = client.target(url).request()
 					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0")
@@ -291,13 +265,6 @@ public class OslcClient {
 
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
-	 * @param url
-	 * @param artifact
-	 * @param mediaType
-	 * @return
-	 * @throws URISyntaxException
-	 * @throws OAuthException
-	 * @throws IOException
 	 */
 	public Response createResource(String url, final Object artifact, String mediaType) throws IOException, URISyntaxException {
 		return createResource(url, artifact, mediaType, "*/*");
@@ -305,14 +272,6 @@ public class OslcClient {
 
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
-	 * @param url
-	 * @param artifact
-	 * @param mediaType
-	 * @param acceptType
-	 * @return
-	 * @throws URISyntaxException
-	 * @throws OAuthException
-	 * @throws IOException
 	 */
 	public Response createResource(String url, final Object artifact, String mediaType, String acceptType) throws IOException, URISyntaxException {
 
@@ -339,10 +298,6 @@ public class OslcClient {
 
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
-	 * @param url
-	 * @param artifact
-	 * @param mediaType
-	 * @return
 	 */
 	public Response updateResource(String url, final Object artifact, String mediaType) {
 
@@ -351,11 +306,6 @@ public class OslcClient {
 
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
-	 * @param url
-	 * @param artifact
-	 * @param mediaType
-	 * @param acceptType
-	 * @return
 	 */
 	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType) {
 
@@ -382,14 +332,6 @@ public class OslcClient {
 
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
-	 * @param url
-	 * @param artifact
-	 * @param mediaType
-	 * @param acceptType
-	 * @return
-	 * @throws URISyntaxException
-	 * @throws OAuthException
-	 * @throws IOException
 	 */
 	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, URISyntaxException {
 
@@ -416,8 +358,6 @@ public class OslcClient {
 
 	/**
 	 * Create a Wink Resource for the given OslcQuery object
-	 * @param query
-	 * @return
 	 */
 	public WebTarget getWebResource(final String capabilityUri) {
 		WebTarget webTarget = client.target(capabilityUri);
@@ -427,14 +367,6 @@ public class OslcClient {
 
 	/**
 	 * Lookup the URL of a specific OSLC Service Provider in an OSLC Catalog using the service provider's title
-	 *
-s	 * @param catalogUrl
-	 * @param serviceProviderTitle
-	 * @return
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException
 	 */
 	public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle)
 			throws IOException, URISyntaxException, ResourceNotFoundException
@@ -464,14 +396,8 @@ s	 * @param catalogUrl
 	 * Find the OSLC Query Capability URL for a given OSLC resource type.  If no resource type is given, returns
 	 * the default Query Capability, if it exists.
 	 *
-	 * @param serviceProviderUrl
-	 * @param oslcDomain
 	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
 	 * @return URL of requested Query Capability or null if not found.
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException
 	 */
 	public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
 			throws IOException, URISyntaxException, ResourceNotFoundException
@@ -589,14 +515,8 @@ s	 * @param catalogUrl
 	 * Find the OSLC Creation Factory URL for a given OSLC resource type.  If no resource type is given, returns
 	 * the default Creation Factory, if it exists.
 	 *
-	 * @param serviceProviderUrl
-	 * @param oslcDomain
 	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
 	 * @return URL of requested Creation Factory or null if not found.
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException
 	 */
 	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
 			throws IOException, URISyntaxException, ResourceNotFoundException
@@ -608,14 +528,8 @@ s	 * @param catalogUrl
 	 * Find the OSLC Creation Factory URL for a given OSLC resource type and OSLC usage.  If no resource type is given, returns
 	 * the default Creation Factory, if it exists.
 	 *
-	 * @param serviceProviderUrl
-	 * @param oslcDomain
 	 * @param oslcResourceType - the resource type of the desired query capability.   This may differ from the OSLC artifact type.
 	 * @return URL of requested Creation Factory or null if not found.
-	 * @throws IOException
-	 * @throws OAuthException
-	 * @throws URISyntaxException
-	 * @throws ResourceNotFoundException
 	 */
 	public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, final String oslcUsage)
 			throws IOException, URISyntaxException, ResourceNotFoundException
@@ -721,5 +635,5 @@ s	 * @param catalogUrl
 		return returnVal;
 	}
 
-	
+
 }

@@ -53,7 +53,7 @@ import org.apache.jena.vocabulary.RDFS;
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	/**
 	 * The default member property to look for in OSLC query results
-	 * (rdfs:member). Can be changed using {@link #setMemberProperty(Property)}.
+	 * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
 	 */
 	public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
 
@@ -246,9 +246,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
 	/**
 	 * Return the enumeration of queried results from this page
-	 *
-	 * @param T
-	 * @param clazz
 	 *
 	 * @return member statements from current page.
 	 */
