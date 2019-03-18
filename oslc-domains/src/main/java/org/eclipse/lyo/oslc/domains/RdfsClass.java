@@ -93,7 +93,7 @@ public class RdfsClass
 {
     // Start of user code attributeAnnotation:subClassOf
     // End of user code
-    private Link subClassOf = new Link();
+    private Link subClassOf;
     
     // Start of user code classAttributes
     // End of user code
@@ -152,11 +152,13 @@ public class RdfsClass
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -209,6 +211,7 @@ public class RdfsClass
     }
     
     
+    @Deprecated
     static public String subClassOfToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -228,6 +231,7 @@ public class RdfsClass
     }
     
     
+    @Deprecated
     public String subClassOfToHtml()
     {
         String s = "";

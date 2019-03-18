@@ -104,13 +104,13 @@ public class ParameterInstance
     private String description;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     
     // Start of user code classAttributes
     // End of user code
@@ -169,11 +169,13 @@ public class ParameterInstance
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -258,7 +260,7 @@ public class ParameterInstance
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -286,7 +288,7 @@ public class ParameterInstance
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -332,7 +334,7 @@ public class ParameterInstance
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -360,7 +362,7 @@ public class ParameterInstance
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -375,6 +377,7 @@ public class ParameterInstance
     }
     
     
+    @Deprecated
     static public String nameToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -394,6 +397,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     static public String valueToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -413,6 +417,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -432,6 +437,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -450,6 +456,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -469,6 +476,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -489,6 +497,7 @@ public class ParameterInstance
     }
     
     
+    @Deprecated
     public String nameToHtml()
     {
         String s = "";
@@ -513,6 +522,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     public String valueToHtml()
     {
         String s = "";
@@ -537,6 +547,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -561,6 +572,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -591,6 +603,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -615,6 +628,7 @@ public class ParameterInstance
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";

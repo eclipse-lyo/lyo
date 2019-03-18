@@ -102,13 +102,13 @@ public class TestScript
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -123,22 +123,22 @@ public class TestScript
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:executionInstructions
     // End of user code
-    private HashSet<Link> executionInstructions = new HashSet<Link>();
+    private Set<Link> executionInstructions = new HashSet<Link>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private HashSet<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:validatesRequirement
     // End of user code
-    private HashSet<Link> validatesRequirement = new HashSet<Link>();
+    private Set<Link> validatesRequirement = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -197,11 +197,13 @@ public class TestScript
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -268,7 +270,7 @@ public class TestScript
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -299,7 +301,7 @@ public class TestScript
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -372,7 +374,7 @@ public class TestScript
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -402,7 +404,7 @@ public class TestScript
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -418,7 +420,7 @@ public class TestScript
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getExecutionInstructions()
+    public Set<Link> getExecutionInstructions()
     {
         // Start of user code getterInit:executionInstructions
         // End of user code
@@ -435,7 +437,7 @@ public class TestScript
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest()
+    public Set<Link> getRelatedChangeRequest()
     {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
@@ -452,7 +454,7 @@ public class TestScript
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatesRequirement()
+    public Set<Link> getValidatesRequirement()
     {
         // Start of user code getterInit:validatesRequirement
         // End of user code
@@ -462,7 +464,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -490,7 +492,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -554,7 +556,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -582,7 +584,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -598,7 +600,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:executionInstructions
     // End of user code
-    public void setExecutionInstructions(final HashSet<Link> executionInstructions )
+    public void setExecutionInstructions(final Set<Link> executionInstructions )
     {
         // Start of user code setterInit:executionInstructions
         // End of user code
@@ -614,7 +616,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest )
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
     {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
@@ -630,7 +632,7 @@ public class TestScript
     
     // Start of user code setterAnnotation:validatesRequirement
     // End of user code
-    public void setValidatesRequirement(final HashSet<Link> validatesRequirement )
+    public void setValidatesRequirement(final Set<Link> validatesRequirement )
     {
         // Start of user code setterInit:validatesRequirement
         // End of user code
@@ -645,6 +647,7 @@ public class TestScript
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -663,6 +666,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -682,6 +686,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -700,6 +705,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -719,6 +725,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -738,6 +745,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -757,6 +765,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -776,6 +785,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -795,6 +805,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -814,6 +825,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -832,6 +844,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String executionInstructionsToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -850,6 +863,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String relatedChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -868,6 +882,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     static public String validatesRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -887,6 +902,7 @@ public class TestScript
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -912,6 +928,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -936,6 +953,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -961,6 +979,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -985,6 +1004,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1009,6 +1029,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1033,6 +1054,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1057,6 +1079,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1083,6 +1106,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1107,6 +1131,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1137,6 +1162,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String executionInstructionsToHtml()
     {
         String s = "";
@@ -1167,6 +1193,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String relatedChangeRequestToHtml()
     {
         String s = "";
@@ -1192,6 +1219,7 @@ public class TestScript
         return s;
     }
     
+    @Deprecated
     public String validatesRequirementToHtml()
     {
         String s = "";

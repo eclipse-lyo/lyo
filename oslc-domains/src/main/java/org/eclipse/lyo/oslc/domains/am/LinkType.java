@@ -97,13 +97,13 @@ public class LinkType
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -115,7 +115,7 @@ public class LinkType
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:comment
     // End of user code
     private String comment;
@@ -180,11 +180,13 @@ public class LinkType
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -231,7 +233,7 @@ public class LinkType
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -262,7 +264,7 @@ public class LinkType
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -320,7 +322,7 @@ public class LinkType
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -359,7 +361,7 @@ public class LinkType
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -387,7 +389,7 @@ public class LinkType
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -439,7 +441,7 @@ public class LinkType
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -478,6 +480,7 @@ public class LinkType
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -496,6 +499,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -515,6 +519,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -533,6 +538,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -552,6 +558,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -571,6 +578,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -590,6 +598,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -609,6 +618,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String commentToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -628,6 +638,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     static public String labelToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -648,6 +659,7 @@ public class LinkType
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -673,6 +685,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -697,6 +710,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -722,6 +736,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -746,6 +761,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -770,6 +786,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -794,6 +811,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -820,6 +838,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String commentToHtml()
     {
         String s = "";
@@ -844,6 +863,7 @@ public class LinkType
         return s;
     }
     
+    @Deprecated
     public String labelToHtml()
     {
         String s = "";

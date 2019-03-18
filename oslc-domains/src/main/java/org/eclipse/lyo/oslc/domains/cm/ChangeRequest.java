@@ -118,13 +118,13 @@ public class ChangeRequest
     private String identifier;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -133,16 +133,16 @@ public class ChangeRequest
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:discussedBy
     // End of user code
-    private Link discussedBy = new Link();
+    private Link discussedBy;
     // Start of user code attributeAnnotation:closeDate
     // End of user code
     private Date closeDate;
@@ -169,25 +169,25 @@ public class ChangeRequest
     private Boolean verified;
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private HashSet<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectsPlanItem
     // End of user code
-    private HashSet<Link> affectsPlanItem = new HashSet<Link>();
+    private Set<Link> affectsPlanItem = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectedByDefect
     // End of user code
-    private HashSet<Link> affectedByDefect = new HashSet<Link>();
+    private Set<Link> affectedByDefect = new HashSet<Link>();
     // Start of user code attributeAnnotation:tracksRequirement
     // End of user code
-    private HashSet<Link> tracksRequirement = new HashSet<Link>();
+    private Set<Link> tracksRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:implementsRequirement
     // End of user code
-    private HashSet<Link> implementsRequirement = new HashSet<Link>();
+    private Set<Link> implementsRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectsRequirement
     // End of user code
-    private HashSet<Link> affectsRequirement = new HashSet<Link>();
+    private Set<Link> affectsRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:tracksChangeSet
     // End of user code
-    private HashSet<Link> tracksChangeSet = new HashSet<Link>();
+    private Set<Link> tracksChangeSet = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -246,11 +246,13 @@ public class ChangeRequest
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -402,7 +404,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -418,7 +420,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -434,7 +436,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -479,7 +481,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -493,7 +495,7 @@ public class ChangeRequest
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -659,7 +661,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest()
+    public Set<Link> getRelatedChangeRequest()
     {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
@@ -675,7 +677,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsPlanItem()
+    public Set<Link> getAffectsPlanItem()
     {
         // Start of user code getterInit:affectsPlanItem
         // End of user code
@@ -691,7 +693,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedByDefect()
+    public Set<Link> getAffectedByDefect()
     {
         // Start of user code getterInit:affectedByDefect
         // End of user code
@@ -707,7 +709,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksRequirement()
+    public Set<Link> getTracksRequirement()
     {
         // Start of user code getterInit:tracksRequirement
         // End of user code
@@ -723,7 +725,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getImplementsRequirement()
+    public Set<Link> getImplementsRequirement()
     {
         // Start of user code getterInit:implementsRequirement
         // End of user code
@@ -739,7 +741,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsRequirement()
+    public Set<Link> getAffectsRequirement()
     {
         // Start of user code getterInit:affectsRequirement
         // End of user code
@@ -754,7 +756,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksChangeSet()
+    public Set<Link> getTracksChangeSet()
     {
         // Start of user code getterInit:tracksChangeSet
         // End of user code
@@ -812,7 +814,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -828,7 +830,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -844,7 +846,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -884,7 +886,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -900,7 +902,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -1036,7 +1038,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest )
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
     {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
@@ -1052,7 +1054,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectsPlanItem
     // End of user code
-    public void setAffectsPlanItem(final HashSet<Link> affectsPlanItem )
+    public void setAffectsPlanItem(final Set<Link> affectsPlanItem )
     {
         // Start of user code setterInit:affectsPlanItem
         // End of user code
@@ -1068,7 +1070,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectedByDefect
     // End of user code
-    public void setAffectedByDefect(final HashSet<Link> affectedByDefect )
+    public void setAffectedByDefect(final Set<Link> affectedByDefect )
     {
         // Start of user code setterInit:affectedByDefect
         // End of user code
@@ -1084,7 +1086,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:tracksRequirement
     // End of user code
-    public void setTracksRequirement(final HashSet<Link> tracksRequirement )
+    public void setTracksRequirement(final Set<Link> tracksRequirement )
     {
         // Start of user code setterInit:tracksRequirement
         // End of user code
@@ -1100,7 +1102,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:implementsRequirement
     // End of user code
-    public void setImplementsRequirement(final HashSet<Link> implementsRequirement )
+    public void setImplementsRequirement(final Set<Link> implementsRequirement )
     {
         // Start of user code setterInit:implementsRequirement
         // End of user code
@@ -1116,7 +1118,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectsRequirement
     // End of user code
-    public void setAffectsRequirement(final HashSet<Link> affectsRequirement )
+    public void setAffectsRequirement(final Set<Link> affectsRequirement )
     {
         // Start of user code setterInit:affectsRequirement
         // End of user code
@@ -1132,7 +1134,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:tracksChangeSet
     // End of user code
-    public void setTracksChangeSet(final HashSet<Link> tracksChangeSet )
+    public void setTracksChangeSet(final Set<Link> tracksChangeSet )
     {
         // Start of user code setterInit:tracksChangeSet
         // End of user code
@@ -1147,6 +1149,7 @@ public class ChangeRequest
     }
     
     
+    @Deprecated
     static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1166,6 +1169,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1185,6 +1189,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1204,6 +1209,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1223,6 +1229,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1242,6 +1249,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1260,6 +1268,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1278,6 +1287,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1297,6 +1307,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1316,6 +1327,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1334,6 +1346,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1353,6 +1366,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1372,6 +1386,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String discussedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1390,6 +1405,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String closeDateToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1409,6 +1425,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String statusToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1428,6 +1445,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String closedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1447,6 +1465,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String inprogressToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1466,6 +1485,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String fixedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1485,6 +1505,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String approvedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1504,6 +1525,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String reviewedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1523,6 +1545,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String verifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1542,6 +1565,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String relatedChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1560,6 +1584,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String affectsPlanItemToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1578,6 +1603,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String affectedByDefectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1596,6 +1622,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String tracksRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1614,6 +1641,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String implementsRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1632,6 +1660,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String affectsRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1650,6 +1679,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     static public String tracksChangeSetToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1669,6 +1699,7 @@ public class ChangeRequest
     }
     
     
+    @Deprecated
     public String shortTitleToHtml()
     {
         String s = "";
@@ -1693,6 +1724,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -1717,6 +1749,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1741,6 +1774,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1765,6 +1799,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1791,6 +1826,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1816,6 +1852,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -1841,6 +1878,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -1865,6 +1903,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1889,6 +1928,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1919,6 +1959,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1945,6 +1986,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1969,6 +2011,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String discussedByToHtml()
     {
         String s = "";
@@ -1993,6 +2036,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String closeDateToHtml()
     {
         String s = "";
@@ -2017,6 +2061,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String statusToHtml()
     {
         String s = "";
@@ -2041,6 +2086,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String closedToHtml()
     {
         String s = "";
@@ -2065,6 +2111,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String inprogressToHtml()
     {
         String s = "";
@@ -2089,6 +2136,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String fixedToHtml()
     {
         String s = "";
@@ -2113,6 +2161,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String approvedToHtml()
     {
         String s = "";
@@ -2137,6 +2186,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String reviewedToHtml()
     {
         String s = "";
@@ -2161,6 +2211,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String verifiedToHtml()
     {
         String s = "";
@@ -2185,6 +2236,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String relatedChangeRequestToHtml()
     {
         String s = "";
@@ -2210,6 +2262,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String affectsPlanItemToHtml()
     {
         String s = "";
@@ -2235,6 +2288,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String affectedByDefectToHtml()
     {
         String s = "";
@@ -2260,6 +2314,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String tracksRequirementToHtml()
     {
         String s = "";
@@ -2285,6 +2340,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String implementsRequirementToHtml()
     {
         String s = "";
@@ -2310,6 +2366,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String affectsRequirementToHtml()
     {
         String s = "";
@@ -2335,6 +2392,7 @@ public class ChangeRequest
         return s;
     }
     
+    @Deprecated
     public String tracksChangeSetToHtml()
     {
         String s = "";

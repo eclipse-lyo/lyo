@@ -98,13 +98,13 @@ public class AutomationPlan
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -116,10 +116,10 @@ public class AutomationPlan
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
@@ -128,16 +128,16 @@ public class AutomationPlan
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:parameterDefinition
     // End of user code
-    private HashSet<Link> parameterDefinition = new HashSet<Link>();
+    private Set<Link> parameterDefinition = new HashSet<Link>();
     // Start of user code attributeAnnotation:usesExecutionEnvironment
     // End of user code
-    private HashSet<Link> usesExecutionEnvironment = new HashSet<Link>();
+    private Set<Link> usesExecutionEnvironment = new HashSet<Link>();
     // Start of user code attributeAnnotation:futureAction
     // End of user code
-    private HashSet<Link> futureAction = new HashSet<Link>();
+    private Set<Link> futureAction = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -196,11 +196,13 @@ public class AutomationPlan
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -272,7 +274,7 @@ public class AutomationPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -303,7 +305,7 @@ public class AutomationPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -363,7 +365,7 @@ public class AutomationPlan
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -379,7 +381,7 @@ public class AutomationPlan
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -422,7 +424,7 @@ public class AutomationPlan
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -437,7 +439,7 @@ public class AutomationPlan
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getParameterDefinition()
+    public Set<Link> getParameterDefinition()
     {
         // Start of user code getterInit:parameterDefinition
         // End of user code
@@ -453,7 +455,7 @@ public class AutomationPlan
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getUsesExecutionEnvironment()
+    public Set<Link> getUsesExecutionEnvironment()
     {
         // Start of user code getterInit:usesExecutionEnvironment
         // End of user code
@@ -469,7 +471,7 @@ public class AutomationPlan
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getFutureAction()
+    public Set<Link> getFutureAction()
     {
         // Start of user code getterInit:futureAction
         // End of user code
@@ -479,7 +481,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -507,7 +509,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -559,7 +561,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -575,7 +577,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -615,7 +617,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -631,7 +633,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:parameterDefinition
     // End of user code
-    public void setParameterDefinition(final HashSet<Link> parameterDefinition )
+    public void setParameterDefinition(final Set<Link> parameterDefinition )
     {
         // Start of user code setterInit:parameterDefinition
         // End of user code
@@ -647,7 +649,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:usesExecutionEnvironment
     // End of user code
-    public void setUsesExecutionEnvironment(final HashSet<Link> usesExecutionEnvironment )
+    public void setUsesExecutionEnvironment(final Set<Link> usesExecutionEnvironment )
     {
         // Start of user code setterInit:usesExecutionEnvironment
         // End of user code
@@ -663,7 +665,7 @@ public class AutomationPlan
     
     // Start of user code setterAnnotation:futureAction
     // End of user code
-    public void setFutureAction(final HashSet<Link> futureAction )
+    public void setFutureAction(final Set<Link> futureAction )
     {
         // Start of user code setterInit:futureAction
         // End of user code
@@ -678,6 +680,7 @@ public class AutomationPlan
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -696,6 +699,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -715,6 +719,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -733,6 +738,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -752,6 +758,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -771,6 +778,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -790,6 +798,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -808,6 +817,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -827,6 +837,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -846,6 +857,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -865,6 +877,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -884,6 +897,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String parameterDefinitionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -902,6 +916,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String usesExecutionEnvironmentToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -920,6 +935,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     static public String futureActionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -939,6 +955,7 @@ public class AutomationPlan
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -964,6 +981,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -988,6 +1006,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1013,6 +1032,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -1037,6 +1057,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1061,6 +1082,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1085,6 +1107,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1115,6 +1138,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1141,6 +1165,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1165,6 +1190,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1189,6 +1215,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1215,6 +1242,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String parameterDefinitionToHtml()
     {
         String s = "";
@@ -1245,6 +1273,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String usesExecutionEnvironmentToHtml()
     {
         String s = "";
@@ -1275,6 +1304,7 @@ public class AutomationPlan
         return s;
     }
     
+    @Deprecated
     public String futureActionToHtml()
     {
         String s = "";

@@ -105,7 +105,7 @@ public interface ITestCase
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -122,7 +122,7 @@ public interface ITestCase
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -160,7 +160,7 @@ public interface ITestCase
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "subject")
@@ -169,7 +169,7 @@ public interface ITestCase
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -185,7 +185,7 @@ public interface ITestCase
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("relatedChangeRequest")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
@@ -195,7 +195,7 @@ public interface ITestCase
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest();
+    public Set<Link> getRelatedChangeRequest();
 
     @OslcName("testsChangeRequest")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
@@ -205,7 +205,7 @@ public interface ITestCase
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getTestsChangeRequest();
+    public Set<Link> getTestsChangeRequest();
 
     @OslcName("usesTestScript")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
@@ -214,7 +214,7 @@ public interface ITestCase
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_qmDomainConstants.TESTSCRIPT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getUsesTestScript();
+    public Set<Link> getUsesTestScript();
 
     @OslcName("validatesRequirement")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
@@ -224,23 +224,23 @@ public interface ITestCase
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatesRequirement();
+    public Set<Link> getValidatesRequirement();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
-    public void setSubject(final HashSet<String> subject );
+    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
-    public void setType(final HashSet<Link> type );
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest );
-    public void setTestsChangeRequest(final HashSet<Link> testsChangeRequest );
-    public void setUsesTestScript(final HashSet<Link> usesTestScript );
-    public void setValidatesRequirement(final HashSet<Link> validatesRequirement );
+    public void setType(final Set<Link> type );
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
+    public void setTestsChangeRequest(final Set<Link> testsChangeRequest );
+    public void setUsesTestScript(final Set<Link> usesTestScript );
+    public void setValidatesRequirement(final Set<Link> validatesRequirement );
 }
 

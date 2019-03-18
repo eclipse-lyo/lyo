@@ -134,14 +134,14 @@ public interface ITestResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("status")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "status")
@@ -159,7 +159,7 @@ public interface ITestResult
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedByChangeRequest();
+    public Set<Link> getAffectedByChangeRequest();
 
     @OslcName("executesTestScript")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "executesTestScript")
@@ -205,10 +205,10 @@ public interface ITestResult
     public void setModified(final Date modified );
     public void setInstanceShape(final URI instanceShape );
     public void setTitle(final String title );
-    public void setType(final HashSet<Link> type );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setType(final Set<Link> type );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setStatus(final String status );
-    public void setAffectedByChangeRequest(final HashSet<Link> affectedByChangeRequest );
+    public void setAffectedByChangeRequest(final Set<Link> affectedByChangeRequest );
     public void setExecutesTestScript(final Link executesTestScript );
     public void setProducedByTestExecutionRecord(final Link producedByTestExecutionRecord );
     public void setReportsOnTestCase(final Link reportsOnTestCase );

@@ -116,28 +116,28 @@ public class TestResult
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:status
     // End of user code
     private String status;
     // Start of user code attributeAnnotation:affectedByChangeRequest
     // End of user code
-    private HashSet<Link> affectedByChangeRequest = new HashSet<Link>();
+    private Set<Link> affectedByChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:executesTestScript
     // End of user code
-    private Link executesTestScript = new Link();
+    private Link executesTestScript;
     // Start of user code attributeAnnotation:producedByTestExecutionRecord
     // End of user code
-    private Link producedByTestExecutionRecord = new Link();
+    private Link producedByTestExecutionRecord;
     // Start of user code attributeAnnotation:reportsOnTestCase
     // End of user code
-    private Link reportsOnTestCase = new Link();
+    private Link reportsOnTestCase;
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
-    private Link reportsOnTestPlan = new Link();
+    private Link reportsOnTestPlan;
     
     // Start of user code classAttributes
     // End of user code
@@ -196,11 +196,13 @@ public class TestResult
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -320,7 +322,7 @@ public class TestResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -334,7 +336,7 @@ public class TestResult
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -366,7 +368,7 @@ public class TestResult
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedByChangeRequest()
+    public Set<Link> getAffectedByChangeRequest()
     {
         // Start of user code getterInit:affectedByChangeRequest
         // End of user code
@@ -502,7 +504,7 @@ public class TestResult
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -518,7 +520,7 @@ public class TestResult
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -546,7 +548,7 @@ public class TestResult
     
     // Start of user code setterAnnotation:affectedByChangeRequest
     // End of user code
-    public void setAffectedByChangeRequest(final HashSet<Link> affectedByChangeRequest )
+    public void setAffectedByChangeRequest(final Set<Link> affectedByChangeRequest )
     {
         // Start of user code setterInit:affectedByChangeRequest
         // End of user code
@@ -609,6 +611,7 @@ public class TestResult
     }
     
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -628,6 +631,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -647,6 +651,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -666,6 +671,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -685,6 +691,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -704,6 +711,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -722,6 +730,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -741,6 +750,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String statusToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -760,6 +770,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String affectedByChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -778,6 +789,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String executesTestScriptToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -796,6 +808,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String producedByTestExecutionRecordToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -814,6 +827,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String reportsOnTestCaseToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -832,6 +846,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     static public String reportsOnTestPlanToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -851,6 +866,7 @@ public class TestResult
     }
     
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -875,6 +891,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -899,6 +916,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -923,6 +941,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -947,6 +966,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -971,6 +991,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1001,6 +1022,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1027,6 +1049,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String statusToHtml()
     {
         String s = "";
@@ -1051,6 +1074,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String affectedByChangeRequestToHtml()
     {
         String s = "";
@@ -1076,6 +1100,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String executesTestScriptToHtml()
     {
         String s = "";
@@ -1100,6 +1125,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String producedByTestExecutionRecordToHtml()
     {
         String s = "";
@@ -1124,6 +1150,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String reportsOnTestCaseToHtml()
     {
         String s = "";
@@ -1148,6 +1175,7 @@ public class TestResult
         return s;
     }
     
+    @Deprecated
     public String reportsOnTestPlanToHtml()
     {
         String s = "";

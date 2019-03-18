@@ -104,7 +104,7 @@ public interface IAutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -121,7 +121,7 @@ public interface IAutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
@@ -145,7 +145,7 @@ public interface IAutomationResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "subject")
@@ -154,7 +154,7 @@ public interface IAutomationResult
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -176,7 +176,7 @@ public interface IAutomationResult
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("state")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "state")
@@ -184,7 +184,7 @@ public interface IAutomationResult
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(true)
-    public HashSet<Link> getState();
+    public Set<Link> getState();
 
     @OslcName("desiredState")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "desiredState")
@@ -200,7 +200,7 @@ public interface IAutomationResult
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getVerdict();
+    public Set<Link> getVerdict();
 
     @OslcName("contribution")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "contribution")
@@ -208,7 +208,7 @@ public interface IAutomationResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getContribution();
+    public Set<Link> getContribution();
 
     @OslcName("inputParameter")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "inputParameter")
@@ -217,7 +217,7 @@ public interface IAutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getInputParameter();
+    public Set<Link> getInputParameter();
 
     @OslcName("outputParameter")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "outputParameter")
@@ -226,7 +226,7 @@ public interface IAutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getOutputParameter();
+    public Set<Link> getOutputParameter();
 
     @OslcName("producedByAutomationRequest")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "producedByAutomationRequest")
@@ -249,22 +249,22 @@ public interface IAutomationResult
     public Link getReportsOnAutomationPlan();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
-    public void setSubject(final HashSet<String> subject );
+    public void setType(final Set<Link> type );
+    public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
-    public void setState(final HashSet<Link> state );
+    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setState(final Set<Link> state );
     public void setDesiredState(final Link desiredState );
-    public void setVerdict(final HashSet<Link> verdict );
-    public void setContribution(final HashSet<Link> contribution );
-    public void setInputParameter(final HashSet<Link> inputParameter );
-    public void setOutputParameter(final HashSet<Link> outputParameter );
+    public void setVerdict(final Set<Link> verdict );
+    public void setContribution(final Set<Link> contribution );
+    public void setInputParameter(final Set<Link> inputParameter );
+    public void setOutputParameter(final Set<Link> outputParameter );
     public void setProducedByAutomationRequest(final Link producedByAutomationRequest );
     public void setReportsOnAutomationPlan(final Link reportsOnAutomationPlan );
 }

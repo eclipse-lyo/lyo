@@ -103,13 +103,13 @@ public class TestPlan
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -121,28 +121,28 @@ public class TestPlan
     private Date modified;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:usesTestCase
     // End of user code
-    private HashSet<Link> usesTestCase = new HashSet<Link>();
+    private Set<Link> usesTestCase = new HashSet<Link>();
     // Start of user code attributeAnnotation:validatesRequirementCollection
     // End of user code
-    private HashSet<Link> validatesRequirementCollection = new HashSet<Link>();
+    private Set<Link> validatesRequirementCollection = new HashSet<Link>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private HashSet<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -201,11 +201,13 @@ public class TestPlan
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -277,7 +279,7 @@ public class TestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -308,7 +310,7 @@ public class TestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -369,7 +371,7 @@ public class TestPlan
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -399,7 +401,7 @@ public class TestPlan
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -427,7 +429,7 @@ public class TestPlan
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -443,7 +445,7 @@ public class TestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_qmDomainConstants.TESTCASE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getUsesTestCase()
+    public Set<Link> getUsesTestCase()
     {
         // Start of user code getterInit:usesTestCase
         // End of user code
@@ -460,7 +462,7 @@ public class TestPlan
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatesRequirementCollection()
+    public Set<Link> getValidatesRequirementCollection()
     {
         // Start of user code getterInit:validatesRequirementCollection
         // End of user code
@@ -477,7 +479,7 @@ public class TestPlan
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest()
+    public Set<Link> getRelatedChangeRequest()
     {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
@@ -487,7 +489,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -515,7 +517,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -567,7 +569,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -595,7 +597,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -623,7 +625,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -639,7 +641,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:usesTestCase
     // End of user code
-    public void setUsesTestCase(final HashSet<Link> usesTestCase )
+    public void setUsesTestCase(final Set<Link> usesTestCase )
     {
         // Start of user code setterInit:usesTestCase
         // End of user code
@@ -655,7 +657,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:validatesRequirementCollection
     // End of user code
-    public void setValidatesRequirementCollection(final HashSet<Link> validatesRequirementCollection )
+    public void setValidatesRequirementCollection(final Set<Link> validatesRequirementCollection )
     {
         // Start of user code setterInit:validatesRequirementCollection
         // End of user code
@@ -671,7 +673,7 @@ public class TestPlan
     
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest )
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
     {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
@@ -686,6 +688,7 @@ public class TestPlan
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -704,6 +707,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -723,6 +727,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -741,6 +746,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -760,6 +766,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -779,6 +786,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -798,6 +806,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -817,6 +826,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -836,6 +846,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -854,6 +865,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -873,6 +885,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -892,6 +905,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String usesTestCaseToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -910,6 +924,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String validatesRequirementCollectionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -928,6 +943,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     static public String relatedChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -947,6 +963,7 @@ public class TestPlan
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -972,6 +989,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -996,6 +1014,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1021,6 +1040,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -1045,6 +1065,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1069,6 +1090,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1093,6 +1115,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1119,6 +1142,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1143,6 +1167,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1173,6 +1198,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1197,6 +1223,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1223,6 +1250,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String usesTestCaseToHtml()
     {
         String s = "";
@@ -1248,6 +1276,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String validatesRequirementCollectionToHtml()
     {
         String s = "";
@@ -1273,6 +1302,7 @@ public class TestPlan
         return s;
     }
     
+    @Deprecated
     public String relatedChangeRequestToHtml()
     {
         String s = "";

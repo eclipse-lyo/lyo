@@ -96,13 +96,13 @@ public class Resource
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -120,13 +120,13 @@ public class Resource
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<String> type = new HashSet<String>();
+    private Set<String> type = new HashSet<String>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:shortTitle
     // End of user code
     private String shortTitle;
@@ -188,11 +188,13 @@ public class Resource
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -244,7 +246,7 @@ public class Resource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -275,7 +277,7 @@ public class Resource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -362,7 +364,7 @@ public class Resource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public HashSet<String> getType()
+    public Set<String> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -390,7 +392,7 @@ public class Resource
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -415,7 +417,7 @@ public class Resource
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -443,7 +445,7 @@ public class Resource
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -519,7 +521,7 @@ public class Resource
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<String> type )
+    public void setType(final Set<String> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -547,7 +549,7 @@ public class Resource
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -574,6 +576,7 @@ public class Resource
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -592,6 +595,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -611,6 +615,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -629,6 +634,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -648,6 +654,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -667,6 +674,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -686,6 +694,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String sourceToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -705,6 +714,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -724,6 +734,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -743,6 +754,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -762,6 +774,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -781,6 +794,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -801,6 +815,7 @@ public class Resource
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -826,6 +841,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -850,6 +866,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -875,6 +892,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -899,6 +917,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -923,6 +942,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -947,6 +967,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String sourceToHtml()
     {
         String s = "";
@@ -971,6 +992,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -995,6 +1017,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1021,6 +1044,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1045,6 +1069,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1071,6 +1096,7 @@ public class Resource
         return s;
     }
     
+    @Deprecated
     public String shortTitleToHtml()
     {
         String s = "";

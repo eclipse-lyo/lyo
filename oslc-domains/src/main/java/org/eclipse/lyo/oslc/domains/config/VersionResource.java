@@ -99,13 +99,13 @@ public class VersionResource
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -114,13 +114,13 @@ public class VersionResource
     private String identifier;
     // Start of user code attributeAnnotation:isVersionOf
     // End of user code
-    private Link isVersionOf = new Link();
+    private Link isVersionOf;
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
@@ -129,10 +129,10 @@ public class VersionResource
     private Date committed;
     // Start of user code attributeAnnotation:committer
     // End of user code
-    private HashSet<Link> committer = new HashSet<Link>();
+    private Set<Link> committer = new HashSet<Link>();
     // Start of user code attributeAnnotation:component
     // End of user code
-    private HashSet<String> component = new HashSet<String>();
+    private Set<String> component = new HashSet<String>();
     // Start of user code attributeAnnotation:versionId
     // End of user code
     private String versionId;
@@ -141,10 +141,10 @@ public class VersionResource
     private URI instanceShape;
     // Start of user code attributeAnnotation:modifiedBy
     // End of user code
-    private Link modifiedBy = new Link();
+    private Link modifiedBy;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:shortId
     // End of user code
     private String shortId;
@@ -153,13 +153,13 @@ public class VersionResource
     private String shortTitle;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:wasDerivedFrom
     // End of user code
-    private HashSet<Link> wasDerivedFrom = new HashSet<Link>();
+    private Set<Link> wasDerivedFrom = new HashSet<Link>();
     // Start of user code attributeAnnotation:wasRevisionOf
     // End of user code
-    private HashSet<Link> wasRevisionOf = new HashSet<Link>();
+    private Set<Link> wasRevisionOf = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -218,11 +218,13 @@ public class VersionResource
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -299,7 +301,7 @@ public class VersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -330,7 +332,7 @@ public class VersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -407,7 +409,7 @@ public class VersionResource
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -452,7 +454,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(true)
-    public HashSet<Link> getCommitter()
+    public Set<Link> getCommitter()
     {
         // Start of user code getterInit:committer
         // End of user code
@@ -467,7 +469,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public HashSet<String> getComponent()
+    public Set<String> getComponent()
     {
         // Start of user code getterInit:component
         // End of user code
@@ -525,7 +527,7 @@ public class VersionResource
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -570,7 +572,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -586,7 +588,7 @@ public class VersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getWasDerivedFrom()
+    public Set<Link> getWasDerivedFrom()
     {
         // Start of user code getterInit:wasDerivedFrom
         // End of user code
@@ -602,7 +604,7 @@ public class VersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getWasRevisionOf()
+    public Set<Link> getWasRevisionOf()
     {
         // Start of user code getterInit:wasRevisionOf
         // End of user code
@@ -612,7 +614,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -640,7 +642,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -704,7 +706,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -744,7 +746,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:committer
     // End of user code
-    public void setCommitter(final HashSet<Link> committer )
+    public void setCommitter(final Set<Link> committer )
     {
         // Start of user code setterInit:committer
         // End of user code
@@ -760,7 +762,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:component
     // End of user code
-    public void setComponent(final HashSet<String> component )
+    public void setComponent(final Set<String> component )
     {
         // Start of user code setterInit:component
         // End of user code
@@ -812,7 +814,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -852,7 +854,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -868,7 +870,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:wasDerivedFrom
     // End of user code
-    public void setWasDerivedFrom(final HashSet<Link> wasDerivedFrom )
+    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom )
     {
         // Start of user code setterInit:wasDerivedFrom
         // End of user code
@@ -884,7 +886,7 @@ public class VersionResource
     
     // Start of user code setterAnnotation:wasRevisionOf
     // End of user code
-    public void setWasRevisionOf(final HashSet<Link> wasRevisionOf )
+    public void setWasRevisionOf(final Set<Link> wasRevisionOf )
     {
         // Start of user code setterInit:wasRevisionOf
         // End of user code
@@ -899,6 +901,7 @@ public class VersionResource
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -917,6 +920,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -936,6 +940,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -954,6 +959,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -973,6 +979,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -992,6 +999,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String isVersionOfToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1010,6 +1018,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1029,6 +1038,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1048,6 +1058,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1067,6 +1078,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String committedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1086,6 +1098,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String committerToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1104,6 +1117,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String componentToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1123,6 +1137,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String versionIdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1142,6 +1157,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1161,6 +1177,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String modifiedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1179,6 +1196,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1198,6 +1216,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String shortIdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1217,6 +1236,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1236,6 +1256,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1254,6 +1275,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String wasDerivedFromToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1272,6 +1294,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     static public String wasRevisionOfToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1291,6 +1314,7 @@ public class VersionResource
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -1316,6 +1340,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -1340,6 +1365,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1365,6 +1391,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -1389,6 +1416,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1413,6 +1441,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String isVersionOfToHtml()
     {
         String s = "";
@@ -1437,6 +1466,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1461,6 +1491,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1487,6 +1518,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1511,6 +1543,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String committedToHtml()
     {
         String s = "";
@@ -1535,6 +1568,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String committerToHtml()
     {
         String s = "";
@@ -1565,6 +1599,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String componentToHtml()
     {
         String s = "";
@@ -1591,6 +1626,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String versionIdToHtml()
     {
         String s = "";
@@ -1615,6 +1651,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1639,6 +1676,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String modifiedByToHtml()
     {
         String s = "";
@@ -1663,6 +1701,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1689,6 +1728,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String shortIdToHtml()
     {
         String s = "";
@@ -1713,6 +1753,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String shortTitleToHtml()
     {
         String s = "";
@@ -1737,6 +1778,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1767,6 +1809,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String wasDerivedFromToHtml()
     {
         String s = "";
@@ -1797,6 +1840,7 @@ public class VersionResource
         return s;
     }
     
+    @Deprecated
     public String wasRevisionOfToHtml()
     {
         String s = "";

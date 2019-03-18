@@ -40,8 +40,4 @@ public interface ProvDomainConstants
     public static String PROVENANCE_NAMSPACE = "http://www.w3.org/ns/prov#";
     public static String PROVENANCE_NAMSPACE_PREFIX = "prov";
 
-    public static String RESOURCESHAPE1_PATH = "resourceShape1";
-    public static String RESOURCESHAPE1_NAMESPACE = PROVENANCE_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String RESOURCESHAPE1_LOCALNAME = "ResourceShape1"; //localName of the rdfs:class the resource describes
-    public static String RESOURCESHAPE1_TYPE = RESOURCESHAPE1_NAMESPACE + RESOURCESHAPE1_LOCALNAME; //fullname of the rdfs:class the resource describes
 }

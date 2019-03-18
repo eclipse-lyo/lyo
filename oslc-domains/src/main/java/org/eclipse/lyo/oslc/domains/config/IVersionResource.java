@@ -100,7 +100,7 @@ public interface IVersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -117,7 +117,7 @@ public interface IVersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -159,7 +159,7 @@ public interface IVersionResource
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -183,7 +183,7 @@ public interface IVersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(true)
-    public HashSet<Link> getCommitter();
+    public Set<Link> getCommitter();
 
     @OslcName("component")
     @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "component")
@@ -191,7 +191,7 @@ public interface IVersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public HashSet<String> getComponent();
+    public Set<String> getComponent();
 
     @OslcName("versionId")
     @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "versionId")
@@ -221,7 +221,7 @@ public interface IVersionResource
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("shortId")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortId")
@@ -245,7 +245,7 @@ public interface IVersionResource
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("wasDerivedFrom")
     @OslcPropertyDefinition(ProvDomainConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
@@ -254,7 +254,7 @@ public interface IVersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getWasDerivedFrom();
+    public Set<Link> getWasDerivedFrom();
 
     @OslcName("wasRevisionOf")
     @OslcPropertyDefinition(ProvDomainConstants.PROVENANCE_NAMSPACE + "wasRevisionOf")
@@ -263,29 +263,29 @@ public interface IVersionResource
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getWasRevisionOf();
+    public Set<Link> getWasRevisionOf();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setIsVersionOf(final Link isVersionOf );
     public void setModified(final Date modified );
-    public void setSubject(final HashSet<String> subject );
+    public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
     public void setCommitted(final Date committed );
-    public void setCommitter(final HashSet<Link> committer );
-    public void setComponent(final HashSet<String> component );
+    public void setCommitter(final Set<Link> committer );
+    public void setComponent(final Set<String> component );
     public void setVersionId(final String versionId );
     public void setInstanceShape(final URI instanceShape );
     public void setModifiedBy(final Link modifiedBy );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setShortId(final String shortId );
     public void setShortTitle(final String shortTitle );
-    public void setType(final HashSet<Link> type );
-    public void setWasDerivedFrom(final HashSet<Link> wasDerivedFrom );
-    public void setWasRevisionOf(final HashSet<Link> wasRevisionOf );
+    public void setType(final Set<Link> type );
+    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom );
+    public void setWasRevisionOf(final Set<Link> wasRevisionOf );
 }
 

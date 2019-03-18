@@ -101,7 +101,7 @@ public interface ITestScript
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -118,7 +118,7 @@ public interface ITestScript
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -156,7 +156,7 @@ public interface ITestScript
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -172,7 +172,7 @@ public interface ITestScript
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("executionInstructions")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "executionInstructions")
@@ -181,7 +181,7 @@ public interface ITestScript
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public HashSet<Link> getExecutionInstructions();
+    public Set<Link> getExecutionInstructions();
 
     @OslcName("relatedChangeRequest")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
@@ -191,7 +191,7 @@ public interface ITestScript
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest();
+    public Set<Link> getRelatedChangeRequest();
 
     @OslcName("validatesRequirement")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
@@ -201,21 +201,21 @@ public interface ITestScript
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatesRequirement();
+    public Set<Link> getValidatesRequirement();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setTitle(final String title );
-    public void setType(final HashSet<Link> type );
-    public void setExecutionInstructions(final HashSet<Link> executionInstructions );
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest );
-    public void setValidatesRequirement(final HashSet<Link> validatesRequirement );
+    public void setType(final Set<Link> type );
+    public void setExecutionInstructions(final Set<Link> executionInstructions );
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
+    public void setValidatesRequirement(final Set<Link> validatesRequirement );
 }
 

@@ -157,11 +157,13 @@ public class Person
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -267,6 +269,7 @@ public class Person
     }
     
     
+    @Deprecated
     static public String familyNameToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -286,6 +289,7 @@ public class Person
         return s;
     }
     
+    @Deprecated
     static public String givenNameToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -305,6 +309,7 @@ public class Person
         return s;
     }
     
+    @Deprecated
     static public String nameToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -325,6 +330,7 @@ public class Person
     }
     
     
+    @Deprecated
     public String familyNameToHtml()
     {
         String s = "";
@@ -349,6 +355,7 @@ public class Person
         return s;
     }
     
+    @Deprecated
     public String givenNameToHtml()
     {
         String s = "";
@@ -373,6 +380,7 @@ public class Person
         return s;
     }
     
+    @Deprecated
     public String nameToHtml()
     {
         String s = "";

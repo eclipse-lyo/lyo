@@ -103,13 +103,13 @@ public class TestExecutionRecord
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -118,31 +118,31 @@ public class TestExecutionRecord
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:blockedByChangeRequest
     // End of user code
-    private HashSet<Link> blockedByChangeRequest = new HashSet<Link>();
+    private Set<Link> blockedByChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private HashSet<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
-    private Link reportsOnTestPlan = new Link();
+    private Link reportsOnTestPlan;
     // Start of user code attributeAnnotation:runsOnTestEnvironment
     // End of user code
-    private Link runsOnTestEnvironment = new Link();
+    private Link runsOnTestEnvironment;
     // Start of user code attributeAnnotation:runsTestCase
     // End of user code
-    private Link runsTestCase = new Link();
+    private Link runsTestCase;
     
     // Start of user code classAttributes
     // End of user code
@@ -201,11 +201,13 @@ public class TestExecutionRecord
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -267,7 +269,7 @@ public class TestExecutionRecord
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -298,7 +300,7 @@ public class TestExecutionRecord
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -343,7 +345,7 @@ public class TestExecutionRecord
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -371,7 +373,7 @@ public class TestExecutionRecord
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -403,7 +405,7 @@ public class TestExecutionRecord
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getBlockedByChangeRequest()
+    public Set<Link> getBlockedByChangeRequest()
     {
         // Start of user code getterInit:blockedByChangeRequest
         // End of user code
@@ -420,7 +422,7 @@ public class TestExecutionRecord
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest()
+    public Set<Link> getRelatedChangeRequest()
     {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
@@ -478,7 +480,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -506,7 +508,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -546,7 +548,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -574,7 +576,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -602,7 +604,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:blockedByChangeRequest
     // End of user code
-    public void setBlockedByChangeRequest(final HashSet<Link> blockedByChangeRequest )
+    public void setBlockedByChangeRequest(final Set<Link> blockedByChangeRequest )
     {
         // Start of user code setterInit:blockedByChangeRequest
         // End of user code
@@ -618,7 +620,7 @@ public class TestExecutionRecord
     
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest )
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
     {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
@@ -669,6 +671,7 @@ public class TestExecutionRecord
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -687,6 +690,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -706,6 +710,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -724,6 +729,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -743,6 +749,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -762,6 +769,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -780,6 +788,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -799,6 +808,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -818,6 +828,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -837,6 +848,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String blockedByChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -855,6 +867,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String relatedChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -873,6 +886,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String reportsOnTestPlanToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -891,6 +905,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String runsOnTestEnvironmentToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -909,6 +924,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     static public String runsTestCaseToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -928,6 +944,7 @@ public class TestExecutionRecord
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -953,6 +970,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -977,6 +995,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1002,6 +1021,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1026,6 +1046,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1050,6 +1071,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1080,6 +1102,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1104,6 +1127,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1130,6 +1154,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1154,6 +1179,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String blockedByChangeRequestToHtml()
     {
         String s = "";
@@ -1179,6 +1205,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String relatedChangeRequestToHtml()
     {
         String s = "";
@@ -1204,6 +1231,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String reportsOnTestPlanToHtml()
     {
         String s = "";
@@ -1228,6 +1256,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String runsOnTestEnvironmentToHtml()
     {
         String s = "";
@@ -1252,6 +1281,7 @@ public class TestExecutionRecord
         return s;
     }
     
+    @Deprecated
     public String runsTestCaseToHtml()
     {
         String s = "";

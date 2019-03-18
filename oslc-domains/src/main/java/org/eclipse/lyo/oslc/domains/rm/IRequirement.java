@@ -141,7 +141,7 @@ public interface IRequirement
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
@@ -150,7 +150,7 @@ public interface IRequirement
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
@@ -159,7 +159,7 @@ public interface IRequirement
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -183,14 +183,14 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -205,7 +205,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getElaboratedBy();
+    public Set<Link> getElaboratedBy();
 
     @OslcName("elaborates")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaborates")
@@ -213,7 +213,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getElaborates();
+    public Set<Link> getElaborates();
 
     @OslcName("specifiedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifiedBy")
@@ -221,7 +221,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSpecifiedBy();
+    public Set<Link> getSpecifiedBy();
 
     @OslcName("specifies")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifies")
@@ -229,7 +229,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSpecifies();
+    public Set<Link> getSpecifies();
 
     @OslcName("affectedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "affectedBy")
@@ -237,7 +237,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedBy();
+    public Set<Link> getAffectedBy();
 
     @OslcName("trackedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "trackedBy")
@@ -245,7 +245,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getTrackedBy();
+    public Set<Link> getTrackedBy();
 
     @OslcName("implementedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "implementedBy")
@@ -253,7 +253,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getImplementedBy();
+    public Set<Link> getImplementedBy();
 
     @OslcName("validatedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "validatedBy")
@@ -261,7 +261,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatedBy();
+    public Set<Link> getValidatedBy();
 
     @OslcName("satisfiedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfiedBy")
@@ -269,7 +269,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSatisfiedBy();
+    public Set<Link> getSatisfiedBy();
 
     @OslcName("satisfies")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfies")
@@ -277,7 +277,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSatisfies();
+    public Set<Link> getSatisfies();
 
     @OslcName("decomposedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposedBy")
@@ -285,7 +285,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getDecomposedBy();
+    public Set<Link> getDecomposedBy();
 
     @OslcName("decomposes")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposes")
@@ -293,7 +293,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getDecomposes();
+    public Set<Link> getDecomposes();
 
     @OslcName("constrainedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrainedBy")
@@ -301,7 +301,7 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getConstrainedBy();
+    public Set<Link> getConstrainedBy();
 
     @OslcName("constrains")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrains")
@@ -309,34 +309,34 @@ public interface IRequirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getConstrains();
+    public Set<Link> getConstrains();
 
 
     public void setTitle(final String title );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setShortTitle(final String shortTitle );
-    public void setSubject(final HashSet<String> subject );
-    public void setCreator(final HashSet<Link> creator );
-    public void setContributor(final HashSet<Link> contributor );
+    public void setSubject(final Set<String> subject );
+    public void setCreator(final Set<Link> creator );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setType(final Set<Link> type );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setInstanceShape(final URI instanceShape );
-    public void setElaboratedBy(final HashSet<Link> elaboratedBy );
-    public void setElaborates(final HashSet<Link> elaborates );
-    public void setSpecifiedBy(final HashSet<Link> specifiedBy );
-    public void setSpecifies(final HashSet<Link> specifies );
-    public void setAffectedBy(final HashSet<Link> affectedBy );
-    public void setTrackedBy(final HashSet<Link> trackedBy );
-    public void setImplementedBy(final HashSet<Link> implementedBy );
-    public void setValidatedBy(final HashSet<Link> validatedBy );
-    public void setSatisfiedBy(final HashSet<Link> satisfiedBy );
-    public void setSatisfies(final HashSet<Link> satisfies );
-    public void setDecomposedBy(final HashSet<Link> decomposedBy );
-    public void setDecomposes(final HashSet<Link> decomposes );
-    public void setConstrainedBy(final HashSet<Link> constrainedBy );
-    public void setConstrains(final HashSet<Link> constrains );
+    public void setElaboratedBy(final Set<Link> elaboratedBy );
+    public void setElaborates(final Set<Link> elaborates );
+    public void setSpecifiedBy(final Set<Link> specifiedBy );
+    public void setSpecifies(final Set<Link> specifies );
+    public void setAffectedBy(final Set<Link> affectedBy );
+    public void setTrackedBy(final Set<Link> trackedBy );
+    public void setImplementedBy(final Set<Link> implementedBy );
+    public void setValidatedBy(final Set<Link> validatedBy );
+    public void setSatisfiedBy(final Set<Link> satisfiedBy );
+    public void setSatisfies(final Set<Link> satisfies );
+    public void setDecomposedBy(final Set<Link> decomposedBy );
+    public void setDecomposes(final Set<Link> decomposes );
+    public void setConstrainedBy(final Set<Link> constrainedBy );
+    public void setConstrains(final Set<Link> constrains );
 }
 

@@ -102,13 +102,13 @@ public class AutomationResult
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -117,10 +117,10 @@ public class AutomationResult
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
@@ -129,31 +129,31 @@ public class AutomationResult
     private URI instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:state
     // End of user code
-    private HashSet<Link> state = new HashSet<Link>();
+    private Set<Link> state = new HashSet<Link>();
     // Start of user code attributeAnnotation:desiredState
     // End of user code
-    private Link desiredState = new Link();
+    private Link desiredState;
     // Start of user code attributeAnnotation:verdict
     // End of user code
-    private HashSet<Link> verdict = new HashSet<Link>();
+    private Set<Link> verdict = new HashSet<Link>();
     // Start of user code attributeAnnotation:contribution
     // End of user code
-    private HashSet<Link> contribution = new HashSet<Link>();
+    private Set<Link> contribution = new HashSet<Link>();
     // Start of user code attributeAnnotation:inputParameter
     // End of user code
-    private HashSet<Link> inputParameter = new HashSet<Link>();
+    private Set<Link> inputParameter = new HashSet<Link>();
     // Start of user code attributeAnnotation:outputParameter
     // End of user code
-    private HashSet<Link> outputParameter = new HashSet<Link>();
+    private Set<Link> outputParameter = new HashSet<Link>();
     // Start of user code attributeAnnotation:producedByAutomationRequest
     // End of user code
-    private Link producedByAutomationRequest = new Link();
+    private Link producedByAutomationRequest;
     // Start of user code attributeAnnotation:reportsOnAutomationPlan
     // End of user code
-    private Link reportsOnAutomationPlan = new Link();
+    private Link reportsOnAutomationPlan;
     
     // Start of user code classAttributes
     // End of user code
@@ -212,11 +212,13 @@ public class AutomationResult
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -298,7 +300,7 @@ public class AutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -329,7 +331,7 @@ public class AutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -374,7 +376,7 @@ public class AutomationResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -390,7 +392,7 @@ public class AutomationResult
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -433,7 +435,7 @@ public class AutomationResult
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -448,7 +450,7 @@ public class AutomationResult
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(true)
-    public HashSet<Link> getState()
+    public Set<Link> getState()
     {
         // Start of user code getterInit:state
         // End of user code
@@ -478,7 +480,7 @@ public class AutomationResult
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getVerdict()
+    public Set<Link> getVerdict()
     {
         // Start of user code getterInit:verdict
         // End of user code
@@ -493,7 +495,7 @@ public class AutomationResult
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getContribution()
+    public Set<Link> getContribution()
     {
         // Start of user code getterInit:contribution
         // End of user code
@@ -509,7 +511,7 @@ public class AutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getInputParameter()
+    public Set<Link> getInputParameter()
     {
         // Start of user code getterInit:inputParameter
         // End of user code
@@ -525,7 +527,7 @@ public class AutomationResult
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getOutputParameter()
+    public Set<Link> getOutputParameter()
     {
         // Start of user code getterInit:outputParameter
         // End of user code
@@ -569,7 +571,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -597,7 +599,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -637,7 +639,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -653,7 +655,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -693,7 +695,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -709,7 +711,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:state
     // End of user code
-    public void setState(final HashSet<Link> state )
+    public void setState(final Set<Link> state )
     {
         // Start of user code setterInit:state
         // End of user code
@@ -737,7 +739,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:verdict
     // End of user code
-    public void setVerdict(final HashSet<Link> verdict )
+    public void setVerdict(final Set<Link> verdict )
     {
         // Start of user code setterInit:verdict
         // End of user code
@@ -753,7 +755,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:contribution
     // End of user code
-    public void setContribution(final HashSet<Link> contribution )
+    public void setContribution(final Set<Link> contribution )
     {
         // Start of user code setterInit:contribution
         // End of user code
@@ -769,7 +771,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:inputParameter
     // End of user code
-    public void setInputParameter(final HashSet<Link> inputParameter )
+    public void setInputParameter(final Set<Link> inputParameter )
     {
         // Start of user code setterInit:inputParameter
         // End of user code
@@ -785,7 +787,7 @@ public class AutomationResult
     
     // Start of user code setterAnnotation:outputParameter
     // End of user code
-    public void setOutputParameter(final HashSet<Link> outputParameter )
+    public void setOutputParameter(final Set<Link> outputParameter )
     {
         // Start of user code setterInit:outputParameter
         // End of user code
@@ -824,6 +826,7 @@ public class AutomationResult
     }
     
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -842,6 +845,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -861,6 +865,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -879,6 +884,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -898,6 +904,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -917,6 +924,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -935,6 +943,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -954,6 +963,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -973,6 +983,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -992,6 +1003,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1011,6 +1023,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String stateToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1029,6 +1042,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String desiredStateToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1047,6 +1061,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String verdictToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1065,6 +1080,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String contributionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1083,6 +1099,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String inputParameterToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1101,6 +1118,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String outputParameterToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1119,6 +1137,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String producedByAutomationRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1137,6 +1156,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     static public String reportsOnAutomationPlanToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1156,6 +1176,7 @@ public class AutomationResult
     }
     
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -1181,6 +1202,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -1205,6 +1227,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1230,6 +1253,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1254,6 +1278,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1278,6 +1303,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1308,6 +1334,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1334,6 +1361,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1358,6 +1386,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1382,6 +1411,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1408,6 +1438,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String stateToHtml()
     {
         String s = "";
@@ -1438,6 +1469,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String desiredStateToHtml()
     {
         String s = "";
@@ -1462,6 +1494,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String verdictToHtml()
     {
         String s = "";
@@ -1492,6 +1525,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String contributionToHtml()
     {
         String s = "";
@@ -1522,6 +1556,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String inputParameterToHtml()
     {
         String s = "";
@@ -1547,6 +1582,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String outputParameterToHtml()
     {
         String s = "";
@@ -1572,6 +1608,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String producedByAutomationRequestToHtml()
     {
         String s = "";
@@ -1596,6 +1633,7 @@ public class AutomationResult
         return s;
     }
     
+    @Deprecated
     public String reportsOnAutomationPlanToHtml()
     {
         String s = "";

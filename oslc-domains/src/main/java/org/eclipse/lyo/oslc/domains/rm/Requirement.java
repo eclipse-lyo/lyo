@@ -110,13 +110,13 @@ public class Requirement
     private String shortTitle;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -125,55 +125,55 @@ public class Requirement
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:elaboratedBy
     // End of user code
-    private HashSet<Link> elaboratedBy = new HashSet<Link>();
+    private Set<Link> elaboratedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:elaborates
     // End of user code
-    private HashSet<Link> elaborates = new HashSet<Link>();
+    private Set<Link> elaborates = new HashSet<Link>();
     // Start of user code attributeAnnotation:specifiedBy
     // End of user code
-    private HashSet<Link> specifiedBy = new HashSet<Link>();
+    private Set<Link> specifiedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:specifies
     // End of user code
-    private HashSet<Link> specifies = new HashSet<Link>();
+    private Set<Link> specifies = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectedBy
     // End of user code
-    private HashSet<Link> affectedBy = new HashSet<Link>();
+    private Set<Link> affectedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:trackedBy
     // End of user code
-    private HashSet<Link> trackedBy = new HashSet<Link>();
+    private Set<Link> trackedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:implementedBy
     // End of user code
-    private HashSet<Link> implementedBy = new HashSet<Link>();
+    private Set<Link> implementedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:validatedBy
     // End of user code
-    private HashSet<Link> validatedBy = new HashSet<Link>();
+    private Set<Link> validatedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:satisfiedBy
     // End of user code
-    private HashSet<Link> satisfiedBy = new HashSet<Link>();
+    private Set<Link> satisfiedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:satisfies
     // End of user code
-    private HashSet<Link> satisfies = new HashSet<Link>();
+    private Set<Link> satisfies = new HashSet<Link>();
     // Start of user code attributeAnnotation:decomposedBy
     // End of user code
-    private HashSet<Link> decomposedBy = new HashSet<Link>();
+    private Set<Link> decomposedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:decomposes
     // End of user code
-    private HashSet<Link> decomposes = new HashSet<Link>();
+    private Set<Link> decomposes = new HashSet<Link>();
     // Start of user code attributeAnnotation:constrainedBy
     // End of user code
-    private HashSet<Link> constrainedBy = new HashSet<Link>();
+    private Set<Link> constrainedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:constrains
     // End of user code
-    private HashSet<Link> constrains = new HashSet<Link>();
+    private Set<Link> constrains = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -232,11 +232,13 @@ public class Requirement
         return result;
     }
     
+    @Deprecated
     public String toHtml()
     {
         return toHtml(false);
     }
     
+    @Deprecated
     public String toHtml(boolean asLocalResource)
     {
         String result = "";
@@ -423,7 +425,7 @@ public class Requirement
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -439,7 +441,7 @@ public class Requirement
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -455,7 +457,7 @@ public class Requirement
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -500,7 +502,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -514,7 +516,7 @@ public class Requirement
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -543,7 +545,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getElaboratedBy()
+    public Set<Link> getElaboratedBy()
     {
         // Start of user code getterInit:elaboratedBy
         // End of user code
@@ -558,7 +560,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getElaborates()
+    public Set<Link> getElaborates()
     {
         // Start of user code getterInit:elaborates
         // End of user code
@@ -573,7 +575,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSpecifiedBy()
+    public Set<Link> getSpecifiedBy()
     {
         // Start of user code getterInit:specifiedBy
         // End of user code
@@ -588,7 +590,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSpecifies()
+    public Set<Link> getSpecifies()
     {
         // Start of user code getterInit:specifies
         // End of user code
@@ -603,7 +605,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedBy()
+    public Set<Link> getAffectedBy()
     {
         // Start of user code getterInit:affectedBy
         // End of user code
@@ -618,7 +620,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getTrackedBy()
+    public Set<Link> getTrackedBy()
     {
         // Start of user code getterInit:trackedBy
         // End of user code
@@ -633,7 +635,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getImplementedBy()
+    public Set<Link> getImplementedBy()
     {
         // Start of user code getterInit:implementedBy
         // End of user code
@@ -648,7 +650,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatedBy()
+    public Set<Link> getValidatedBy()
     {
         // Start of user code getterInit:validatedBy
         // End of user code
@@ -663,7 +665,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSatisfiedBy()
+    public Set<Link> getSatisfiedBy()
     {
         // Start of user code getterInit:satisfiedBy
         // End of user code
@@ -678,7 +680,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getSatisfies()
+    public Set<Link> getSatisfies()
     {
         // Start of user code getterInit:satisfies
         // End of user code
@@ -693,7 +695,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getDecomposedBy()
+    public Set<Link> getDecomposedBy()
     {
         // Start of user code getterInit:decomposedBy
         // End of user code
@@ -708,7 +710,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getDecomposes()
+    public Set<Link> getDecomposes()
     {
         // Start of user code getterInit:decomposes
         // End of user code
@@ -723,7 +725,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getConstrainedBy()
+    public Set<Link> getConstrainedBy()
     {
         // Start of user code getterInit:constrainedBy
         // End of user code
@@ -738,7 +740,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getConstrains()
+    public Set<Link> getConstrains()
     {
         // Start of user code getterInit:constrains
         // End of user code
@@ -796,7 +798,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -812,7 +814,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -828,7 +830,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -868,7 +870,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -884,7 +886,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -912,7 +914,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:elaboratedBy
     // End of user code
-    public void setElaboratedBy(final HashSet<Link> elaboratedBy )
+    public void setElaboratedBy(final Set<Link> elaboratedBy )
     {
         // Start of user code setterInit:elaboratedBy
         // End of user code
@@ -928,7 +930,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:elaborates
     // End of user code
-    public void setElaborates(final HashSet<Link> elaborates )
+    public void setElaborates(final Set<Link> elaborates )
     {
         // Start of user code setterInit:elaborates
         // End of user code
@@ -944,7 +946,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:specifiedBy
     // End of user code
-    public void setSpecifiedBy(final HashSet<Link> specifiedBy )
+    public void setSpecifiedBy(final Set<Link> specifiedBy )
     {
         // Start of user code setterInit:specifiedBy
         // End of user code
@@ -960,7 +962,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:specifies
     // End of user code
-    public void setSpecifies(final HashSet<Link> specifies )
+    public void setSpecifies(final Set<Link> specifies )
     {
         // Start of user code setterInit:specifies
         // End of user code
@@ -976,7 +978,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:affectedBy
     // End of user code
-    public void setAffectedBy(final HashSet<Link> affectedBy )
+    public void setAffectedBy(final Set<Link> affectedBy )
     {
         // Start of user code setterInit:affectedBy
         // End of user code
@@ -992,7 +994,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:trackedBy
     // End of user code
-    public void setTrackedBy(final HashSet<Link> trackedBy )
+    public void setTrackedBy(final Set<Link> trackedBy )
     {
         // Start of user code setterInit:trackedBy
         // End of user code
@@ -1008,7 +1010,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:implementedBy
     // End of user code
-    public void setImplementedBy(final HashSet<Link> implementedBy )
+    public void setImplementedBy(final Set<Link> implementedBy )
     {
         // Start of user code setterInit:implementedBy
         // End of user code
@@ -1024,7 +1026,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:validatedBy
     // End of user code
-    public void setValidatedBy(final HashSet<Link> validatedBy )
+    public void setValidatedBy(final Set<Link> validatedBy )
     {
         // Start of user code setterInit:validatedBy
         // End of user code
@@ -1040,7 +1042,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:satisfiedBy
     // End of user code
-    public void setSatisfiedBy(final HashSet<Link> satisfiedBy )
+    public void setSatisfiedBy(final Set<Link> satisfiedBy )
     {
         // Start of user code setterInit:satisfiedBy
         // End of user code
@@ -1056,7 +1058,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:satisfies
     // End of user code
-    public void setSatisfies(final HashSet<Link> satisfies )
+    public void setSatisfies(final Set<Link> satisfies )
     {
         // Start of user code setterInit:satisfies
         // End of user code
@@ -1072,7 +1074,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:decomposedBy
     // End of user code
-    public void setDecomposedBy(final HashSet<Link> decomposedBy )
+    public void setDecomposedBy(final Set<Link> decomposedBy )
     {
         // Start of user code setterInit:decomposedBy
         // End of user code
@@ -1088,7 +1090,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:decomposes
     // End of user code
-    public void setDecomposes(final HashSet<Link> decomposes )
+    public void setDecomposes(final Set<Link> decomposes )
     {
         // Start of user code setterInit:decomposes
         // End of user code
@@ -1104,7 +1106,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:constrainedBy
     // End of user code
-    public void setConstrainedBy(final HashSet<Link> constrainedBy )
+    public void setConstrainedBy(final Set<Link> constrainedBy )
     {
         // Start of user code setterInit:constrainedBy
         // End of user code
@@ -1120,7 +1122,7 @@ public class Requirement
     
     // Start of user code setterAnnotation:constrains
     // End of user code
-    public void setConstrains(final HashSet<Link> constrains )
+    public void setConstrains(final Set<Link> constrains )
     {
         // Start of user code setterInit:constrains
         // End of user code
@@ -1135,6 +1137,7 @@ public class Requirement
     }
     
     
+    @Deprecated
     static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1154,6 +1157,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1173,6 +1177,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1192,6 +1197,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1211,6 +1217,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1230,6 +1237,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1248,6 +1256,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1266,6 +1275,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1285,6 +1295,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1304,6 +1315,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1322,6 +1334,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1341,6 +1354,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1360,6 +1374,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String elaboratedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1378,6 +1393,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String elaboratesToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1396,6 +1412,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String specifiedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1414,6 +1431,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String specifiesToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1432,6 +1450,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String affectedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1450,6 +1469,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String trackedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1468,6 +1488,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String implementedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1486,6 +1507,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String validatedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1504,6 +1526,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String satisfiedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1522,6 +1545,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String satisfiesToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1540,6 +1564,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String decomposedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1558,6 +1583,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String decomposesToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1576,6 +1602,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String constrainedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1594,6 +1621,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     static public String constrainsToHtmlForCreation (final HttpServletRequest httpServletRequest)
     {
         String s = "";
@@ -1613,6 +1641,7 @@ public class Requirement
     }
     
     
+    @Deprecated
     public String titleToHtml()
     {
         String s = "";
@@ -1637,6 +1666,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String descriptionToHtml()
     {
         String s = "";
@@ -1661,6 +1691,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String identifierToHtml()
     {
         String s = "";
@@ -1685,6 +1716,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String shortTitleToHtml()
     {
         String s = "";
@@ -1709,6 +1741,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String subjectToHtml()
     {
         String s = "";
@@ -1735,6 +1768,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String creatorToHtml()
     {
         String s = "";
@@ -1760,6 +1794,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String contributorToHtml()
     {
         String s = "";
@@ -1785,6 +1820,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String createdToHtml()
     {
         String s = "";
@@ -1809,6 +1845,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String modifiedToHtml()
     {
         String s = "";
@@ -1833,6 +1870,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String typeToHtml()
     {
         String s = "";
@@ -1863,6 +1901,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String serviceProviderToHtml()
     {
         String s = "";
@@ -1889,6 +1928,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String instanceShapeToHtml()
     {
         String s = "";
@@ -1913,6 +1953,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String elaboratedByToHtml()
     {
         String s = "";
@@ -1943,6 +1984,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String elaboratesToHtml()
     {
         String s = "";
@@ -1973,6 +2015,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String specifiedByToHtml()
     {
         String s = "";
@@ -2003,6 +2046,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String specifiesToHtml()
     {
         String s = "";
@@ -2033,6 +2077,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String affectedByToHtml()
     {
         String s = "";
@@ -2063,6 +2108,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String trackedByToHtml()
     {
         String s = "";
@@ -2093,6 +2139,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String implementedByToHtml()
     {
         String s = "";
@@ -2123,6 +2170,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String validatedByToHtml()
     {
         String s = "";
@@ -2153,6 +2201,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String satisfiedByToHtml()
     {
         String s = "";
@@ -2183,6 +2232,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String satisfiesToHtml()
     {
         String s = "";
@@ -2213,6 +2263,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String decomposedByToHtml()
     {
         String s = "";
@@ -2243,6 +2294,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String decomposesToHtml()
     {
         String s = "";
@@ -2273,6 +2325,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String constrainedByToHtml()
     {
         String s = "";
@@ -2303,6 +2356,7 @@ public class Requirement
         return s;
     }
     
+    @Deprecated
     public String constrainsToHtml()
     {
         String s = "";
