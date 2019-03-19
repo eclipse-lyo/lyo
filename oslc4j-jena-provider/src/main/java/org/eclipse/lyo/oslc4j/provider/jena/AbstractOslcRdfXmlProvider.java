@@ -286,6 +286,9 @@ public abstract class AbstractOslcRdfXmlProvider
 		mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_XML_TYPE,
 													 FileUtils.langXMLAbbrev));
 
+		mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_XML_TYPE,
+				 RDFLanguages.strLangRDFXML));
+		
 		for (Map.Entry<MediaType, String> mediaPair : mediaPairs) {
 			if (baseMediaType.isCompatible(mediaPair.getKey())) {
 				log.trace("Using '{}' writer for '{}' Accept media type",
