@@ -11,7 +11,7 @@ Jenkins build: https://ci.eclipse.org/lyo/job/lyo-client-master/lastBuild/
 
 See wiki https://wiki.eclipse.org/Lyo/BuildClient
 
-Javadoc: https://download.eclipse.org/lyo/docs/client/2.3.0/
+Javadoc: https://download.eclipse.org/lyo/docs/client/2.4.0/
 
 ## Repository structure
 
