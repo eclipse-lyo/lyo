@@ -5,20 +5,14 @@
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
-Jenkins build: https://ci.eclipse.org/lyo/job/lyo-client-master/lastBuild/
-
 ## Getting started
 
-See [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html)
+See [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html) for instructions how to use Lyo Client. Javadocs can be found [here](https://download.eclipse.org/lyo/docs/client/2.4.0/).
 
-Javadoc: https://download.eclipse.org/lyo/docs/client/2.4.0/
+Sample code:
 
-## Repository structure
-
-* Java client: `oslc-java-client`
-* ~~Perl client: `oslc-perl-client`~~ **DEPRECATED**
-* ~~Simple Java client sample: `oslc-java-samples`~~ Moved to [OSLC/lyo-client-samples](https://github.com/OSLC/lyo-client-samples)
-* ~~OAuth-based Java client sample: `oauth-test`~~ Moved to [OSLC/lyo-client-samples](https://github.com/OSLC/lyo-client-samples)
+- [old client](https://github.com/OSLC/lyo-samples/tree/master/oslc-java-samples)
+- [new client (since Lyo 4.0)](https://github.com/OSLC/lyo-samples/tree/master/oslc4j-client-samples)
 
 ## Contributing
 
