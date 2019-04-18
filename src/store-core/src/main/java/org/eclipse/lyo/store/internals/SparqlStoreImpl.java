@@ -15,6 +15,7 @@ package org.eclipse.lyo.store.internals;
  * #L%
  */
 
+import com.google.common.base.Strings;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Query;
@@ -295,6 +296,11 @@ public class SparqlStoreImpl implements Store {
 			describeBuilder.addVar("s")
 			.addGraph("?g", sparqlWhereQuery);
 		}
+
+        if (log.isTraceEnabled() && !Strings.isNullOrEmpty(where)) {
+            log.trace("SPARQL WHERE query for oslc.where='{}': {}", where,
+                    sparqlWhereQuery.buildString());
+        }
 
 		Query describeQuery = describeBuilder.build() ;
 		String describeQueryString = describeQuery.toString();
