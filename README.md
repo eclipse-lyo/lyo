@@ -9,7 +9,7 @@ Jenkins build: https://ci.eclipse.org/lyo/job/lyo-client-master/lastBuild/
 
 ## Getting started
 
-See wiki https://wiki.eclipse.org/Lyo/BuildClient
+See [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html)
 
 Javadoc: https://download.eclipse.org/lyo/docs/client/2.4.0/
 
