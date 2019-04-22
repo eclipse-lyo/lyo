@@ -156,7 +156,7 @@ public class JazzFormAuthClient extends OslcClient {
 		// Check to see if the response is from a Jazz Authorization Server that supports OIDC.
 		// In CLM 6.x, the JAS supports Basic auth to be compatible with earlier releases.
 		// If we're talking to a JAS that supports OIDC, re-do the request with a Basic auth header to gain access.
-		if (HttpStatus.SC_UNAUTHORIZED == statusCode) { // this might be a JSA server. 
+		if (HttpStatus.SC_UNAUTHORIZED == statusCode) { // this might be a JAS server. 
 			if (true == handleJsaServer()) {
 				// Re-do the original request using Basic auth, starting at the last authorization redirect.
 				authenticatedIdentity = new HttpGet(lastRedirectResponse.getFirstHeader(JAZZ_JSA_REDIRECT_HEADER).getValue() + "&prompt=none");
@@ -166,6 +166,7 @@ public class JazzFormAuthClient extends OslcClient {
 				statusCode = resp.getStatusLine().getStatusCode();
 				EntityUtils.consume(resp.getEntity());		
 				statusCode = followRedirects(statusCode, getHeader(resp,"Location"));
+				return statusCode;
 			}
 		}
 		
