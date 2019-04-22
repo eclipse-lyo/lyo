@@ -50,3 +50,4 @@ Other repositories that are no longer actively maintained but are kept to preser
 
 - [New Lyo wiki](https://github.com/eclipse/lyo/wiki)
 - [Old Lyo wiki](https://wiki.eclipse.org/Lyo)
+- [Official homepage](https://www.eclipse.org/lyo/)
