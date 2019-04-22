@@ -1,3 +1,7 @@
+## Getting started
+
+- Follow the [user dev guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
+
 ## Repositories
 
 Four main repositories are:
@@ -40,3 +44,9 @@ Other repositories that are no longer actively maintained but are kept to preser
 * [lyo.adapter-magicdraw](https://github.com/eclipse/lyo.adapter-magicdraw)
 * [lyo.adapter-simulink](https://github.com/eclipse/lyo.adapter-simulink)
 * [lyo.docs ](https://github.com/eclipse/lyo.docs)
+
+
+## Useful information for Lyo committers  
+
+- [New Lyo wiki](https://github.com/eclipse/lyo/wiki)
+- [Old Lyo wiki](https://wiki.eclipse.org/Lyo)
