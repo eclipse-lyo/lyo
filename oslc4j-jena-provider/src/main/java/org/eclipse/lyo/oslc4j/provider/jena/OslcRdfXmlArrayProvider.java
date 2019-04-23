@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
  * Copyright (c) 2012, 2013 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
@@ -15,6 +15,7 @@
  *	   Alberto Giammaria	- initial API and implementation
  *	   Chris Peters			- initial API and implementation
  *	   Gianluca Bernardini	- initial API and implementation
+ *     Andrew Berezovskyi   - change isQueryResult logic
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
@@ -33,7 +34,6 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
@@ -85,14 +85,9 @@ public class OslcRdfXmlArrayProvider
 						final MultivaluedMap<String, Object> map,
 						final OutputStream					 outputStream)
 		   throws IOException,
-				  WebApplicationException
-	{
-		OslcNotQueryResult notQueryResult = type.getComponentType().getAnnotation(OslcNotQueryResult.class);
-		
-		writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
-				objects,
-				mediaType,
-				map,
+				  WebApplicationException {
+
+		writeTo(JenaProviderHelper.isQueryResult(type, annotations), objects, mediaType, map,
 				outputStream);
 	}
 

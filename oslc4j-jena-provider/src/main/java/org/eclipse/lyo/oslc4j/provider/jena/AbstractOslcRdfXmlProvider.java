@@ -207,10 +207,12 @@ public abstract class AbstractOslcRdfXmlProvider
 		}
 
 		String descriptionURI  = null;
+		// TODO Andrew@2019-04-18: stop using responseInfoURI nullity to detect Query results
 		String responseInfoURI = null;
 
 		if (queryResult && ! isClientSide)
 		{
+			log.trace("Marshalling response objects as OSLC Query result (server-side only)");
 
 			final String method = httpServletRequest.getMethod();
 			if ("GET".equals(method))

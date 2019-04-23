@@ -123,10 +123,9 @@ public class OslcRdfXmlCollectionProvider
 	{
 		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-		OslcNotQueryResult notQueryResult = ((Class<?>)actualTypeArguments[0]).getAnnotation(OslcNotQueryResult.class);
-		
-		writeTo(notQueryResult != null && notQueryResult.value() ? false : true,
-				collection.toArray(new Object[collection.size()]),
+
+		writeTo(JenaProviderHelper.isQueryResult((Class<?>)actualTypeArguments[0], annotations),
+				collection.toArray(new Object[0]),
 				mediaType,
 				map,
 				outputStream);
