@@ -14,8 +14,11 @@
 
 package org.eclipse.lyo.oslc4j.trs.client.config;
 
+import com.google.common.base.Strings;
 import java.util.concurrent.ScheduledExecutorService;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
+import javax.ws.rs.client.ClientBuilder;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 /**
  * Created on 2018-02-27
@@ -29,20 +32,24 @@ public class TrsConsumerConfiguration {
     private final String sparqlUpdateUrl;
     private final String sparqlUsername;
     private final String sparqlPassword;
-    private final TrsBasicAuthOslcClient httpClient;
     private final String mqttClientId;
     private final ScheduledExecutorService scheduler;
+    private final String basicUsername;
+    private final String basicPassword;
+    private OslcClient httpClient;
 
     public TrsConsumerConfiguration(final String sparqlQueryUrl, final String sparqlUpdateUrl,
-            final String sparqlUsername, final String sparqlPassword, final TrsBasicAuthOslcClient httpClient,
-            final String mqttClientId, final ScheduledExecutorService scheduler) {
+            final String sparqlUsername, final String sparqlPassword, final String mqttClientId,
+            final ScheduledExecutorService scheduler, final String basicUsername,
+            final String basicPassword) {
         this.sparqlQueryUrl = sparqlQueryUrl;
         this.sparqlUpdateUrl = sparqlUpdateUrl;
         this.sparqlUsername = sparqlUsername;
         this.sparqlPassword = sparqlPassword;
-        this.httpClient = httpClient;
         this.mqttClientId = mqttClientId;
         this.scheduler = scheduler;
+        this.basicUsername = basicUsername;
+        this.basicPassword = basicPassword;
     }
 
     public ScheduledExecutorService getScheduler() {
@@ -69,7 +76,14 @@ public class TrsConsumerConfiguration {
         return sparqlPassword;
     }
 
-    public TrsBasicAuthOslcClient getHttpClient() {
+    public OslcClient getHttpClient() {
+        if (httpClient == null) {
+            final ClientBuilder builder = ClientBuilder.newBuilder();
+            if (!Strings.isNullOrEmpty(basicUsername)) {
+                builder.register(HttpAuthenticationFeature.basic(basicUsername, basicPassword));
+            }
+            new OslcClient(builder);
+        }
         return httpClient;
     }
 }

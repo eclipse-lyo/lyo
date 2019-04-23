@@ -18,9 +18,11 @@ package org.eclipse.lyo.oslc4j.trs.client.handlers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import net.oauth.OAuthException;
-import org.eclipse.lyo.oslc4j.trs.client.exceptions.TrsEndpointException;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
+import javax.ws.rs.core.Response;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.oslc4j.trs.client.exceptions.TrsEndpointConfigException;
+import org.eclipse.lyo.oslc4j.trs.client.exceptions.TrsEndpointErrorExpection;
+import org.eclipse.lyo.oslc4j.trs.client.util.ClientUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +41,7 @@ public abstract class TRSTaskHandler implements Runnable {
      * instance of the http client used by this TRS Task handler to communicate
      * with the TRS providers
      */
-    protected    TrsBasicAuthOslcClient oslcClient;
+    protected OslcClient oslcClient;
     /**
      * http sparql endpoints of the triplestore used to store the data
      */
@@ -76,19 +78,24 @@ public abstract class TRSTaskHandler implements Runnable {
      * @throws IOException
      */
     protected Object fetchTRSRemoteResource(String url, Class<?> objClass)
-            throws IOException, OAuthException, URISyntaxException {
+            throws IOException, URISyntaxException {
+        final Response response = oslcClient.getResource(url);
+        final Object resource;
         try {
-            return oslcClient.fetchResourceUsingBaseAuth(
-                    url, objClass, baseAuth_userName, baseAuth_pwd);
-        } catch (TrsEndpointException e) {
-            log.error("The TRS endpoint {} is unreachable", url);
-            log.trace("TRS endpoint exception: {}", e);
-            // TODO Andrew@2018-06-19: propagate the exception correctly to callers.
-            return null;
+            resource = ClientUtil.extractResourceFromResponse(response, objClass);
+            response.close();
+            return resource;
+        } catch (TrsEndpointConfigException e) {
+            log.error("TRS Provider configuration is wrong: ", e);
+        } catch (TrsEndpointErrorExpection e) {
+            log.warn("The TRS endpoint {} is unreachable", url);
+            log.debug("TRS endpoint exception", e);
         }
+        // TODO Andrew@2019-04-18: convert return type into Optional<Object>
+        throw new IllegalStateException();
     }
 
-    public TRSTaskHandler(TrsBasicAuthOslcClient oslcClient, String sparqlUpdateService, String sparqlQueryService,
+    public TRSTaskHandler(OslcClient oslcClient, String sparqlUpdateService, String sparqlQueryService,
             String sparql_baseAuth_userName, String sparql_baseAuth_pwd, String baseAuth_userName,
             String baseAuth_pwd) {
         super();

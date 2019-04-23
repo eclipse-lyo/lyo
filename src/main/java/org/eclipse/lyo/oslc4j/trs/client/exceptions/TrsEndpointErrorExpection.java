@@ -1,6 +1,5 @@
 package org.eclipse.lyo.oslc4j.trs.client.exceptions;
 
-import org.apache.wink.client.ClientResponse;
 
 /**
  * TRS Server endpoint returns a server error.
@@ -23,10 +22,6 @@ public class TrsEndpointErrorExpection extends TrsEndpointException {
 
     public TrsEndpointErrorExpection(final Throwable cause) {
         super(cause);
-    }
-
-    public TrsEndpointErrorExpection(final ClientResponse response) {
-        super(response);
     }
 
     protected TrsEndpointErrorExpection(final String message, final Throwable cause,

@@ -30,10 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.xml.datatype.DatatypeConfigurationException;
-import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.wink.client.ClientRuntimeException;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -42,6 +40,7 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
@@ -50,7 +49,6 @@ import org.eclipse.lyo.oslc4j.trs.client.exceptions.ServerRollBackException;
 import org.eclipse.lyo.oslc4j.trs.client.util.ChangeEventComparator;
 import org.eclipse.lyo.oslc4j.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,10 +78,10 @@ public class TrsProviderHandler extends TRSTaskHandler {
     /**
      * @param sparqlUpdateService Set to null to disable the triplestore update
      */
-    public TrsProviderHandler(String trsUriBase, String sparqlQueryService,
-            String sparqlUpdateService, TrsBasicAuthOslcClient trsHttpClient, String providerUsername,
-            String providerPassword, String sparqlUsername, String sparqlPassword) {
-        super(trsHttpClient,
+    public TrsProviderHandler(String trsUriBase, OslcClient client,
+            String sparqlUpdateService, String sparqlQueryService, String sparqlUsername,
+            String sparqlPassword, String providerUsername, String providerPassword) {
+        super(client,
                 sparqlUpdateService,
                 sparqlQueryService,
                 sparqlUsername,
@@ -138,7 +136,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @return the pages of the base of this trs provider
      */
     public List<Base> updateBases(TrackedResourceSet updatedTrs)
-            throws JenaModelException, IOException, OAuthException, URISyntaxException {
+            throws JenaModelException, IOException, URISyntaxException {
         List<Base> bases = new ArrayList<>();
         URI firstBasePageUri = updatedTrs.getBase();
         Base currentBase = fetchRemoteBase(firstBasePageUri.toString());
@@ -168,7 +166,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @return the pages of the change log of this trs provider
      */
     public List<ChangeLog> fetchUpdatedChangeLogs(TrackedResourceSet updatedTrs)
-            throws ServerRollBackException, IOException, JenaModelException, OAuthException,
+            throws ServerRollBackException, IOException, JenaModelException,
             URISyntaxException {
 
         ChangeLog firstChangeLog = updatedTrs.getChangeLog();
@@ -201,7 +199,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @return true if the last processed change event is found, false otherwise
      */
     public boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs)
-            throws JenaModelException, IOException, OAuthException, URISyntaxException {
+            throws JenaModelException, IOException, URISyntaxException {
         boolean foundChangeEvent = false;
         URI previousChangeLog;
         do {
@@ -274,17 +272,11 @@ public class TrsProviderHandler extends TRSTaskHandler {
      */
     public void pollAndProcessChanges()
             throws URISyntaxException, JenaModelException, IOException, ServerRollBackException,
-            RepresentationRetrievalException, OAuthException {
+            RepresentationRetrievalException {
 
         log.info("started dealing with TRS Provider: " + trsUriBase);
 
-        TrackedResourceSet updatedTrs = null;
-        try {
-            updatedTrs = extractRemoteTrs();
-        } catch (ClientRuntimeException e) {
-            log.warn("Failed to connect to {}", trsUriBase);
-            return;
-        }
+        TrackedResourceSet updatedTrs = extractRemoteTrs();
         boolean indexingStage = false;
         List<URI> baseMembers = new ArrayList<>();
 
@@ -379,7 +371,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @param changeEvent the change event to be processed
      */
     public void processChangeEvent(ChangeEvent changeEvent)
-            throws IOException, OAuthException, URISyntaxException {
+            throws IOException, URISyntaxException {
         URI changed = changeEvent.getChanged();
         log.info("processing resource " + changed.toString() + " change event ");
 
@@ -667,7 +659,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @return trs pojo
      */
     TrackedResourceSet extractRemoteTrs()
-            throws IOException, JenaModelException, URISyntaxException, OAuthException {
+            throws IOException, JenaModelException, URISyntaxException {
         Model rdfModel = (Model) fetchTRSRemoteResource(trsUriBase, Model.class);
         return extractTrsFromRdfModel(rdfModel);
     }
@@ -682,7 +674,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      */
     private ChangeLog fetchRemoteChangeLog(String changeLogURl)
             throws IOException, IllegalArgumentException, SecurityException, JenaModelException,
-            OAuthException, URISyntaxException {
+            URISyntaxException {
         Model rdfModel = (Model) fetchTRSRemoteResource(changeLogURl, Model.class);
         return extractChangeLogFromRdfModel(rdfModel);
     }
@@ -696,7 +688,7 @@ public class TrsProviderHandler extends TRSTaskHandler {
      * @return base pojo
      */
     private Base fetchRemoteBase(String baseUrl)
-            throws IOException, JenaModelException, OAuthException, URISyntaxException {
+            throws IOException, JenaModelException, URISyntaxException {
         final Model rdFModel = (Model) fetchTRSRemoteResource(baseUrl, Model.class);
         return extractBaseFromRdfModel(rdFModel);
     }

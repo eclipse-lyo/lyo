@@ -28,16 +28,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import net.oauth.OAuthException;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.trs.client.exceptions.JenaModelException;
 import org.eclipse.lyo.oslc4j.trs.client.exceptions.ServerRollBackException;
 import org.eclipse.lyo.oslc4j.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,25 +53,19 @@ public class ConcurrentTrsProviderHandler extends TrsProviderHandler {
     private final static Logger log = LoggerFactory.getLogger(ConcurrentTrsProviderHandler.class);
 
     public ConcurrentTrsProviderHandler(String trsUriBase, String sparqlQueryService,
-            String sparqlUpdateService, TrsBasicAuthOslcClient trsHttpClient, String userName,
+            String sparqlUpdateService, OslcClient client, String userName,
             String pwd, String sparql_user, String sparql_pwd) {
         super(
-                trsUriBase,
-                sparqlQueryService,
-                sparqlUpdateService,
-                trsHttpClient,
-                userName,
-                pwd,
-                sparql_user,
-                sparql_pwd
-        );
+                trsUriBase, client, sparqlUpdateService, sparqlQueryService, sparql_user,
+                sparql_pwd, userName,
+                pwd);
 
     }
 
     @Override
     public void pollAndProcessChanges()
             throws URISyntaxException, JenaModelException, IOException, ServerRollBackException,
-            RepresentationRetrievalException, OAuthException {
+            RepresentationRetrievalException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date processingDateStart = new Date();
         log.info("started dealing with TRS Provider: " + trsUriBase);
@@ -123,30 +116,20 @@ public class ConcurrentTrsProviderHandler extends TrsProviderHandler {
 
             for (URI baseMemberUri : baseMembers) {
                 BaseMemberHandler baseMemberHandler = new BaseMemberHandler(
-                        oslcClient,
+                        baseMemberUri.toString(), queries, modelSize, oslcClient,
                         sparqlQueryService,
                         sparqlUpdateService,
                         baseAuth_userName,
-                        baseAuth_pwd,
-                        baseMemberUri.toString(),
-                        queries,
-                        modelSize
-                );
+                        baseAuth_pwd);
                 changeHandlerExecutor.execute(baseMemberHandler);
             }
         }
 
         for (ChangeEvent compressedChangeEvent : compressedChanges) {
-            ChangeEventHandler changeEventHandler = new ChangeEventHandler(
-                    oslcClient,
-                    sparqlQueryService,
-                    sparqlUpdateService,
+            ChangeEventHandler changeEventHandler = new ChangeEventHandler(compressedChangeEvent,
+                    queries, modelSize, oslcClient, sparqlUpdateService, sparqlQueryService,
                     baseAuth_userName,
-                    baseAuth_pwd,
-                    compressedChangeEvent,
-                    queries,
-                    modelSize
-            );
+                    baseAuth_pwd);
             changeHandlerExecutor.execute(changeEventHandler);
             lastProcessedChangeEventUri = compressedChangeEvent.getAbout();
         }

@@ -30,8 +30,7 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.trs.client.handlers.TrsProviderHandler;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -184,7 +183,7 @@ public class TrsProviderHandlerTest {
     private static String trsUriPrefix = uriPrefix + "/trackedResourceSets";
 
     private void initChangeLog(ChangeLog cl, URI previous) throws URISyntaxException {
-        List<ChangeEvent> changeEvents_p1 = new ArrayList<ChangeEvent>();
+        List<ChangeEvent> changeEvents_p1 = new ArrayList<>();
 
         Modification me_p1 = new Modification();
         Creation ce_p1 = new Creation();
@@ -234,15 +233,9 @@ public class TrsProviderHandlerTest {
 
     @BeforeClass
     public static void setUpBeforeClass() {
-        trsProvider = new TrsProviderHandler("",
-                "",
-                "",
-                new TrsBasicAuthOslcClient(),
+        trsProvider = new TrsProviderHandler("", new OslcClient(), "", "", null, null,
                 null,
-                null,
-                null,
-                null
-        );
+                null);
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -255,15 +248,9 @@ public class TrsProviderHandlerTest {
 
     @After
     public void tearDown() {
-        trsProvider = new TrsProviderHandler("",
-                "",
-                "",
-                new TrsBasicAuthOslcClient(),
+        trsProvider = new TrsProviderHandler("", new OslcClient(), "", "", null, null,
                 null,
-                null,
-                null,
-                null
-        );
+                null);
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -337,7 +324,7 @@ public class TrsProviderHandlerTest {
         if (previous != null) {
 
             ldp.setAbout(URI.create(bUriPrefix + "/" //$NON-NLS-1$
-                    + String.valueOf(baseNum)));// );
+                    + baseNum));// );
             ldp.setPageOf(base);
             ldp.setNextPage(previous);
         } else {

@@ -1,6 +1,5 @@
 package org.eclipse.lyo.oslc4j.trs.client.exceptions;
 
-import org.apache.wink.client.ClientResponse;
 
 /**
  * TRS Client has a wrong configuration of a TRS Server endpoint.
@@ -23,10 +22,6 @@ public class TrsEndpointConfigException extends TrsEndpointException {
 
     public TrsEndpointConfigException(final Throwable cause) {
         super(cause);
-    }
-
-    public TrsEndpointConfigException(final ClientResponse response) {
-        super(response);
     }
 
     protected TrsEndpointConfigException(final String message, final Throwable cause,

@@ -30,8 +30,7 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.trs.client.handlers.TrsProviderHandler;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -43,8 +42,9 @@ import org.junit.Test;
 public class TrsProviderTest {
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        trsProvider = new TrsProviderHandler("", "", "", new TrsBasicAuthOslcClient(), "", "", null, null);
+    public static void setUpBeforeClass() {
+        trsProvider = new TrsProviderHandler("", new OslcClient(), "", "", null, null,
+                "", "");
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -82,12 +82,13 @@ public class TrsProviderTest {
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void tearDownAfterClass() {
     }
 
     @After
-    public void tearDown() throws Exception {
-        trsProvider = new TrsProviderHandler("", "", "", new TrsBasicAuthOslcClient(), "", "", null, null);
+    public void tearDown() {
+        trsProvider = new TrsProviderHandler("", new OslcClient(), "", "", null, null,
+                "", "");
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -108,7 +109,7 @@ public class TrsProviderTest {
 
     @Test
     public final void testBaseChangeEventsOptimization() {
-        List<ChangeEvent> changeEventsList = new ArrayList<ChangeEvent>();
+        List<ChangeEvent> changeEventsList = new ArrayList<>();
         changeEventsList.add(creation);
         changeEventsList.add(modif);
 
@@ -166,7 +167,7 @@ public class TrsProviderTest {
 
         List<ChangeEvent> changeEventsList = trsProvider.optimizedChangesList(changeLogsList);
 
-        Assert.assertTrue(changeEventsList.size() == 2);
+        Assert.assertEquals(2, changeEventsList.size());
 
         Assert.assertTrue(changeEventsList.contains(memb1_d1));
         Assert.assertTrue(changeEventsList.contains(memb2_m2));
@@ -225,7 +226,7 @@ public class TrsProviderTest {
 
         base.setCutoffEvent(new URI(changeEventUri()));
 
-        List<URI> b_p1_members = new ArrayList<URI>();
+        List<URI> b_p1_members = new ArrayList<>();
         b_p1_members.add(new URI(baseMemberUri()));
         b_p1_members.add(new URI(baseMemberUri()));
         b_p1_members.add(new URI(baseMemberUri()));
@@ -234,7 +235,7 @@ public class TrsProviderTest {
         if (previous != null) {
 
             ldp.setAbout(URI.create(bUriPrefix + "/" //$NON-NLS-1$
-                    + String.valueOf(baseNum)));// );
+                    + baseNum));// );
             ldp.setPageOf(base);
             ldp.setNextPage(previous);
         } else
@@ -244,7 +245,7 @@ public class TrsProviderTest {
     }
 
     private void initChangeLog(ChangeLog cl, URI previous) throws URISyntaxException {
-        List<ChangeEvent> changeEvents_p1 = new ArrayList<ChangeEvent>();
+        List<ChangeEvent> changeEvents_p1 = new ArrayList<>();
 
         Modification me_p1 = new Modification();
         Creation ce_p1 = new Creation();
@@ -276,29 +277,28 @@ public class TrsProviderTest {
         }
     }
 
-    static String uriPrefix = "https://host";
+    private static String uriPrefix = "https://host";
 
-    static String ceUriPrefix = uriPrefix + "/changeEvents";
-    static String bmUriPrefix = uriPrefix + "/baseMembers";
-    static String bUriPrefix = uriPrefix + "/bases";
+    private static String ceUriPrefix = uriPrefix + "/changeEvents";
+    private static String bUriPrefix = uriPrefix + "/bases";
 
-    static String clUriPrefix = uriPrefix + "/changeLogs";
-    static String trsUriPrefix = uriPrefix + "/trackedResourceSets";
+    private static String clUriPrefix = uriPrefix + "/changeLogs";
+    private static String trsUriPrefix = uriPrefix + "/trackedResourceSets";
 
-    static int changeEventNum = 0;
-    static int baseMemberNum = 0;
-    static int changeLogNum = 0;
-    static int trackedResourceSetNum = 0;
-    static int baseNum = 0;
+    private static int changeEventNum = 0;
+    private static int baseMemberNum = 0;
+    private static int changeLogNum = 0;
+    private static int trackedResourceSetNum = 0;
+    private static int baseNum = 0;
 
-    static TrackedResourceSet trs;
-    static ChangeLog cl_p1;
-    static ChangeLog cl_p2;
-    static Creation creation;
-    static Deletion deletion;
-    static Modification modif;
-    static Base b_p1;
-    static Base b_p2;
-    static TrsProviderHandler trsProvider;
+    private static TrackedResourceSet trs;
+    private static ChangeLog cl_p1;
+    private static ChangeLog cl_p2;
+    private static Creation creation;
+    private static Deletion deletion;
+    private static Modification modif;
+    private static Base b_p1;
+    private static Base b_p2;
+    private static TrsProviderHandler trsProvider;
 
 }

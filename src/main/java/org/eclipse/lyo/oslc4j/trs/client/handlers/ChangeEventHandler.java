@@ -21,12 +21,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Deletion;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +52,9 @@ public class ChangeEventHandler extends TRSTaskHandler {
      */
     AtomicLong modelSize;
 
-    public ChangeEventHandler(TrsBasicAuthOslcClient oslcClient, String sparqlQueryService,
-            String sparqlUpdateService, String basicAuthUsername, String basicAuthPassword,
-            ChangeEvent handledChangeEvent, List<String> queries, AtomicLong modelSize) {
+    public ChangeEventHandler(ChangeEvent handledChangeEvent, List<String> queries,
+            AtomicLong modelSize, OslcClient oslcClient, String sparqlUpdateService, String sparqlQueryService,
+            String basicAuthUsername, String basicAuthPassword) {
         // here we assume the triplestore is not auth-protected, hence nulls
         super(oslcClient,
                 sparqlUpdateService,
@@ -73,7 +72,7 @@ public class ChangeEventHandler extends TRSTaskHandler {
         this.modelSize = modelSize;
     }
 
-    private void processChangeEvent() throws IOException, OAuthException, URISyntaxException {
+    private void processChangeEvent() throws IOException, URISyntaxException {
         URI changed = handledChangeEvent.getChanged();
         logger.debug("creating query for resource " + changed.toString() + " change event ");
         String query;
@@ -105,7 +104,7 @@ public class ChangeEventHandler extends TRSTaskHandler {
     protected void processTRSTask() {
         try {
             processChangeEvent();
-        } catch (IOException | OAuthException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             logger.error("Error processing Change Events", e);
         }
     }

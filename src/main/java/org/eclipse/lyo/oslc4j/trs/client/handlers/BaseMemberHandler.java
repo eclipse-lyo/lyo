@@ -20,10 +20,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import net.oauth.OAuthException;
 import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.trs.client.util.SparqlUtil;
-import org.eclipse.lyo.oslc4j.trs.client.util.TrsBasicAuthOslcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BaseMemberHandler extends TRSTaskHandler {
 
-    final static Logger logger = LoggerFactory.getLogger(BaseMemberHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger(BaseMemberHandler.class);
     /*
      * the uri of the base member to be processed
      */ String baseMemberUri;
@@ -47,9 +46,9 @@ public class BaseMemberHandler extends TRSTaskHandler {
      * the size of the rdf representation of the rdf member
      */ AtomicLong modelSize;
 
-    public BaseMemberHandler(TrsBasicAuthOslcClient oslcClient, String sparqlQueryService,
-            String sparqlUpdateService, String baseAuth_userName, String baseAuth_pwd,
-            String baseMemberUri, List<String> queries, AtomicLong modelSize) {
+    public BaseMemberHandler(String baseMemberUri, List<String> queries, AtomicLong modelSize,
+            OslcClient oslcClient, String sparqlQueryService, String sparqlUpdateService, String baseAuth_userName,
+            String baseAuth_pwd) {
         // TODO Andrew@2018-03-01: use a common SPARQL interface
         super(oslcClient,
                 sparqlQueryService,
@@ -69,7 +68,7 @@ public class BaseMemberHandler extends TRSTaskHandler {
     protected void processTRSTask() {
         try {
             processBaseMemberAddition();
-        } catch (IOException | OAuthException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             logger.error("Error processing TRS task", e);
         }
     }
@@ -78,7 +77,7 @@ public class BaseMemberHandler extends TRSTaskHandler {
      * create the necessary sparql update for processing the base member
      */
     private void processBaseMemberAddition()
-            throws IOException, OAuthException, URISyntaxException {
+            throws IOException, URISyntaxException {
 
         logger.debug("processing base member " + baseMemberUri + " addition.  Creating necessary " +
                 "" + "" + "sparql update query ");

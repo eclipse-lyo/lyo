@@ -18,7 +18,6 @@
 
 package org.eclipse.lyo.oslc4j.trs.client.util;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -82,15 +81,10 @@ public class TrsConsumerUtils {
 
     private static TrsProviderHandler providerFor(final TrsConsumerConfiguration consumerConfig,
             final TrsProviderConfiguration cfg) {
-        return new TrsProviderHandler(cfg.getTrsUri(),
-                consumerConfig.getSparqlQueryUrl(),
-                consumerConfig.getSparqlUpdateUrl(),
-                consumerConfig.getHttpClient(),
-                cfg.getBasicAuthUsername(),
-                cfg.getBasicAuthPassword(),
-                consumerConfig.getSparqlUsername(),
-                consumerConfig.getSparqlPassword()
-        );
+        return new TrsProviderHandler(cfg.getTrsUri(), consumerConfig.getHttpClient(),
+                consumerConfig.getSparqlUpdateUrl(), consumerConfig.getSparqlQueryUrl(),
+                consumerConfig.getSparqlUsername(), consumerConfig.getSparqlPassword(), cfg.getBasicAuthUsername(),
+                cfg.getBasicAuthPassword());
     }
 
     private static TrsProviderHandler concurrentProviderFor(

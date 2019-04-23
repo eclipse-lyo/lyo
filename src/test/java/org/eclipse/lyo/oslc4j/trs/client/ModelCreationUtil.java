@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.client.misc;
+package org.eclipse.lyo.oslc4j.trs.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +48,6 @@ import com.j2bugzilla.base.BugzillaException;
 import com.j2bugzilla.base.ConnectionException;
 import com.j2bugzilla.rpc.LogIn;
 import com.j2bugzilla.rpc.ReportBug;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * contains utility classes to create bugzilla bugs, and to link data in the
