@@ -145,8 +145,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         response.setStatus(retryResponse.getStatus());			
     }
 
-	private int followRedirects(int statusCode, String location) throws ClientProtocolException, IOException
-	{
+	private int followRedirects(int statusCode, String location) {
 		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
 		{
 			lastRedirectResponse = authClient.target(location).request().get();
@@ -159,7 +158,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 	}
 
 	@Override
-	public void filter(ClientRequestContext requestContext) throws IOException {
+	public void filter(ClientRequestContext requestContext) {
 		// do nothing, JEE Form is always preemptive
 	}
 }

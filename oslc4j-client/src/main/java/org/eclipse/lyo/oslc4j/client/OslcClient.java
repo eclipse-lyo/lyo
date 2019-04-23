@@ -66,8 +66,6 @@ import org.slf4j.LoggerFactory;
 public class OslcClient {
 
 	private Client client;
-
-	protected HttpClient httpClient;
 	private String baseUrl;
 	private String rootServicesUrl;
 	private String catalogDomain;
@@ -117,34 +115,24 @@ public class OslcClient {
 		}
 
 		this.client = clientBuilder.build();
-
-		this.httpClient = HttpClientBuilder.create().build();
 	}
 
 	/**
-	 * Returns the JAX-RS client for this OslcClient
+	 * Returns the JAX-RS client for this OslcClient. Do not touch unless needed.
 	 * @return the JAX-RS client
 	 */
+	@Deprecated
 	public Client getClient() {
 		return client;
 	}
-
-	/**
-	 * Returns the HTTP client associated with this OSLC Client
-	 * @return the HTTP client
-	 */
-	public HttpClient getHttpClient() {
-		return httpClient;
-	}
-
 
 	/**
 	 * Gets an OSLC resource using <code>application/rdf+xml</code>. Use
 	 * {@link #getResource(String, String)} to specify the media type or
 	 * {@link #getResource(String, Map)} to add other request headers.
 	 */
-	public Response getResource(String url) throws IOException,
-			URISyntaxException {
+	@SuppressWarnings("unused")
+	public Response getResource(String url) {
 		return getResource(url, null, OSLCConstants.CT_RDF);
 	}
 
@@ -158,8 +146,8 @@ public class OslcClient {
 	 *            the requested media type to use in the HTTP Accept request
 	 *            header
 	 */
-	public Response getResource(String url, final String mediaType)
-			throws IOException, URISyntaxException {
+	@SuppressWarnings("unused")
+	public Response getResource(String url, final String mediaType) {
 		return getResource(url, null, mediaType);
 	}
 
@@ -175,13 +163,11 @@ public class OslcClient {
 	 *            <code>OSLC-Core-Version</code> is not in the map, it defaults
 	 *            to <code>2.0</code>.
 	 */
-	public Response getResource(String url, Map<String, String> requestHeaders)
-			throws IOException, URISyntaxException {
+	public Response getResource(String url, Map<String, String> requestHeaders) {
 		return getResource(url, requestHeaders, OSLCConstants.CT_RDF);
 	}
 
-	protected Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType)
-			throws IOException, URISyntaxException {
+	protected Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType) {
 		Response response = null;
 		boolean redirect = false;
 		do {
@@ -239,8 +225,8 @@ public class OslcClient {
 	 * Delete an OSLC resource and return a Wink ClientResponse
 	 * @param url
 	 */
-	public Response deleteResource(String url)
-			throws IOException, URISyntaxException {
+	@SuppressWarnings("unused")
+	public Response deleteResource(String url) {
 		Response response = null;
 		boolean redirect = false;
 
@@ -266,14 +252,16 @@ public class OslcClient {
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
 	 */
-	public Response createResource(String url, final Object artifact, String mediaType) throws IOException, URISyntaxException {
+	@SuppressWarnings("unused")
+	public Response createResource(String url, final Object artifact, String mediaType) {
 		return createResource(url, artifact, mediaType, "*/*");
 	}
 
 	/**
 	 * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
 	 */
-	public Response createResource(String url, final Object artifact, String mediaType, String acceptType) throws IOException, URISyntaxException {
+	@SuppressWarnings("unused")
+	public Response createResource(String url, final Object artifact, String mediaType, String acceptType) {
 
 		Response response = null;
 		boolean redirect = false;
@@ -299,6 +287,7 @@ public class OslcClient {
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 */
+	@SuppressWarnings("unused")
 	public Response updateResource(String url, final Object artifact, String mediaType) {
 
 		return updateResource(url, artifact, mediaType, "*/*");
@@ -333,7 +322,7 @@ public class OslcClient {
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 */
-	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) throws IOException, URISyntaxException {
+	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) {
 
 		Response response = null;
 		boolean redirect = false;
