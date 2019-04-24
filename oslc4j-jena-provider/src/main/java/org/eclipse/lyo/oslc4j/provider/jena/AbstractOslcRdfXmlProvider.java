@@ -162,9 +162,8 @@ public abstract class AbstractOslcRdfXmlProvider
 		}
 		catch (final Exception exception)
 		{
-			log.warn(MessageExtractor.getMessage("ErrorSerializingResource"), exception);
-			// TODO Andrew@2018-03-03: use another exception
-			throw new WebApplicationException(exception);
+			log.warn(MessageExtractor.getMessage("ErrorSerializingResource"));
+			throw new IllegalStateException(exception);
 		}
 	}
 
