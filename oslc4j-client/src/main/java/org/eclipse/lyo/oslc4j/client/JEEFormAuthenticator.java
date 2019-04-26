@@ -44,6 +44,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private final String password;
     private final String baseUri;
 	private Response lastRedirectResponse = null;
+	private boolean followingRedirects = false;
     Client authClient = null;
     
      
@@ -76,6 +77,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     public void filter(ClientRequestContext request, ClientResponseContext response) throws IOException {
         final List<Object> cookies = new ArrayList<>();
         
+        if (followingRedirects) return;
+        
         boolean authRequired = JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
         boolean authAlreadyAttempted = "true".equals(request.getProperty(FORM_AUTHENTICATOR_REUSED));
 
@@ -95,6 +98,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         	.target(this.baseUri)
         	.path(J_SECURITY_CHECK)
             .request(MediaType.APPLICATION_FORM_URLENCODED)
+            .property(FORM_AUTHENTICATOR_REUSED, "true")  // only post once
             .header("Accept", "*/*")
             .header("X-Requested-With", "XMLHttpRequest")
     		.header("OSLC-Core-Version", "2.0")
@@ -146,6 +150,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     }
 
 	private int followRedirects(int statusCode, String location) {
+		followingRedirects = true;
 		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
 		{
 			lastRedirectResponse = authClient.target(location).request().get();
@@ -153,7 +158,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 			location = lastRedirectResponse.getHeaderString("Location");
 			lastRedirectResponse.close();
 		}
-	
+		followingRedirects = false;
 		return statusCode;
 	}
 
