@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * @version $version-stub$
  * @since 2.3.0
  */
-@Path("trs")
+@Path("/trs")
 @OslcService(TRSConstants.TRS_NAMESPACE)
 public class TrackedResourceSetService {
     private static final Logger log     = LoggerFactory.getLogger(TrackedResourceSetService.class);
