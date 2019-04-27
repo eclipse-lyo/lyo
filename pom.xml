@@ -27,7 +27,12 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <lyo.version>${project.version}</lyo.version>
+
+    <version.lyo>${project.version}</version.lyo>
+
+    <version.jersey>2.25.1</version.jersey>
+    <version.junit>5.4.2</version.junit>
+    <version.slf4j>1.7.25</version.slf4j>
   </properties>
 
   <build>
@@ -62,29 +67,33 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${lyo.version}</version>
+      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
-      <version>${lyo.version}</version>
+      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${lyo.version}</version>
+      <version>${version.lyo}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.25</version>
+      <version>${version.slf4j}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
-      <scope>provided</scope>
+      <version>3.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
     </dependency>
 
     <dependency>
@@ -94,15 +103,59 @@
     </dependency>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.25</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.11.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-common</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+-->
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework</groupId>
+      <artifactId>jersey-test-framework-core</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+      <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+      <artifactId>jersey-test-framework-provider-jetty</artifactId>
+      <version>${version.jersey}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${version.slf4j}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -14,7 +14,7 @@
  * Omar Kacimi         -  Initial implementation
  * Andrew Berezovskyi  -  Lyo contribution updates
  */
-package org.eclipse.lyo.oslc4j.trs.server.test;
+package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
 import java.net.URISyntaxException;

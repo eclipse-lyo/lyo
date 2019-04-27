@@ -39,10 +39,12 @@ import org.apache.jena.rdf.model.RDFWriter;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
+import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
@@ -233,4 +235,24 @@ public class TRSUtil {
         return null;
     }
 
+    /**
+     * The value for the link header returned for each response for a base page
+     *
+     * @return the link header value
+     */
+    // FIXME Andrew@2019-04-27: please please please
+    public static String linkHeaderValue(Base base) {
+        Page nextPage = base.getNextPage();
+        URI pageOf = nextPage.getPageOf().getAbout();
+        StringBuilder sb = new StringBuilder();
+        final String newline = "\n";
+        String headerValue = urize(pageOf.toString()) + "; rel=\"first\"," + newline + urize(
+                nextPage.getNextPage().toString()) + "; rel=\"next\"," + newline + "<http://www"
+                + "" + "" + "" + ".w3.org/ns/ldp#Page>; " + "rel=\"type\"" + newline;
+        return headerValue;
+    }
+
+    public static String urize(String uri) {
+        return "<" + uri + ">";
+    }
 }

@@ -19,8 +19,7 @@ package org.eclipse.lyo.oslc4j.trs.server.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -36,8 +35,10 @@ import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
+import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.trs.server.ChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.TRSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,18 +49,12 @@ import org.slf4j.LoggerFactory;
  * @version $version-stub$
  * @since 2.3.0
  */
+@Path("trs")
 @OslcService(TRSConstants.TRS_NAMESPACE)
-public abstract class TrackedResourceSetService {
+public class TrackedResourceSetService {
     private static final Logger log     = LoggerFactory.getLogger(TrackedResourceSetService.class);
-    private static final String newline = System.getProperty("line.separator");
-
-    @Context protected HttpServletRequest  httpServletRequest;
-    @Context protected HttpServletResponse httpServletResponse;
-    @Context protected UriInfo             uriInfo;
-
-    public TrackedResourceSetService() {
-
-    }
+    public static final String BASE_PATH = "base";
+    public static final String CHANGELOG_PATH = "changeLog";
 
     /**
      * The instance of the change histories class used by a trs service class implementing this
@@ -68,80 +63,14 @@ public abstract class TrackedResourceSetService {
      *
      * @return the instance of the class implementing the change histories class
      */
-    protected abstract ChangeHistories getChangeHistories();
+    private ChangeHistories changeHistories;
 
-    /**
-     * The url prefix of the trs url
-     *
-     * @return the url prefix of the trs url
-     */
-    protected abstract String getServiceBase();
-
-    /**
-     * manage calls for a specific page of the base
-     *
-     * @param pagenum the requested page of the base
-     *
-     * @return the requested page of the base
-     */
-    @GET
-    @Path(TRSConstants.TRS_TERM_BASE + "/{page}")
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public Response getBasePage(@PathParam("page") String pagenum) {
-        log.info("received request for base page at url:" + httpServletRequest.getRequestURI() + ""
-                         + " . Processing " + "request");
-        Base base;
-        try {
-            base = getChangeHistories().getBaseResource(pagenum, httpServletRequest);
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(e);
-        }
-        if (base == null) {
-            throw new WebApplicationException(Status.NOT_FOUND);
-        }
-        Page nextPage = base.getNextPage();
-        if (nextPage == null) {
-            throw new WebApplicationException(Status.NOT_FOUND);
-        }
-        // Due to OSLC4J limitation, not Base but NextPage will be returned.
-        // See org.eclipse.lyo.rio.trs.resources.BaseResource.getBasePage(Long)
-        log.info("finished processing request for base page at url:"
-                         + httpServletRequest.getRequestURI() + " .");
-        log.info("the returned base at url" + httpServletRequest.getRequestURI() + " contains :"
-                         + base.getMembers().size() + " members.");
-        return Response.ok(nextPage).header("Link", linkHeaderValue(base)).build();
+    public TrackedResourceSetService() {
     }
 
-    /**
-     * Returns the requested page of the change log
-     *
-     * @param pagenum the page number of the wanted page
-     *
-     * @return the requested page of the change log
-     */
-    @GET
-    @Path(TRSConstants.TRS_TERM_CHANGE_LOG + "/{page}")
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public ChangeLog getChangeLogPage(@PathParam("page") String pagenum) {
-        log.info("received request for changeLog page at url:" + httpServletRequest.getRequestURI()
-                         + " . Processing " + "request");
-
-        ChangeLog changeLog;
-        try {
-            changeLog = getChangeHistories().getChangeLog(pagenum, httpServletRequest);
-        } catch (URISyntaxException e) {
-            throw new WebApplicationException(e);
-        }
-        if (changeLog == null) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        }
-        log.info("finished processing request for changeLog page at url:"
-                         + httpServletRequest.getRequestURI() + " .");
-        log.info("the returned change with url" + httpServletRequest.getRequestURI() + " log "
-                         + "contains :" + changeLog.getChange().size() + " changes.");
-        return changeLog;
+    @Inject
+    public TrackedResourceSetService(ChangeHistories _changeHistories) {
+        changeHistories = _changeHistories;
     }
 
     /**
@@ -151,46 +80,82 @@ public abstract class TrackedResourceSetService {
      */
     @GET
     @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public TrackedResourceSet getTrackedResourceSet() throws URISyntaxException {
-        log.info("received request for trs at url:" + httpServletRequest.getRequestURI() + " . "
-                         + "Processing request");
+            OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    public TrackedResourceSet getTrackedResourceSet(@Context UriInfo uriInfo) {
         TrackedResourceSet result = new TrackedResourceSet();
-        result.setAbout(buildURI("trs"));
-        result.setBase(buildURI("trs/base"));
 
-        ChangeLog changeLog = getChangeHistories().getChangeLog("1", httpServletRequest);
+        result.setAbout(uriInfo.getRequestUri());
+        result.setBase(uriInfo.getAbsolutePathBuilder().path(BASE_PATH).build());
+
+        ChangeLog changeLog = getChangeHistories().getChangeLog("1");
         if (changeLog == null) {
             changeLog = new ChangeLog();
         }
-        result.setChangeLog(changeLog);
-        log.info("returning response for request for trs with url:"
-                         + httpServletRequest.getRequestURI() + " .");
-        log.info("the returned change log at url" + httpServletRequest.getRequestURI() + " "
-                         + "contains :" + ((ChangeLog) changeLog).getChange().size() + " changes.");
+        try {
+            result.setChangeLog(changeLog);
+        } catch (URISyntaxException e) {
+            // FIXME Andrew@2019-04-27: remove this exception from the signature
+            throw new IllegalArgumentException("Can't set the change log", e);
+        }
         return result;
     }
 
     /**
-     * manage http calls for the first page of the base. The call is redirected to the handler of
-     * http calls for a specific base page as a call for the page 1 of the base
+     * manage calls for a specific page of the base
      *
-     * @return the first page of the base
+     * @param pageNo the requested page of the base
+     * @return the requested page of the base
      */
-    @Path(TRSConstants.TRS_TERM_BASE)
     @GET
+    @Path(BASE_PATH + "/{page}")
     @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
                       OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public Page getBase() {
-        URI requestURI = uriInfo.getRequestUri();
-        boolean endsWithSlash = requestURI.getPath().endsWith("/");
-        String redirectLocation = requestURI.toString() + (endsWithSlash ? "1" : "/1");
-        try {
-            throw new WebApplicationException(Response.temporaryRedirect(new URI(redirectLocation))
-                                                      .build());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(e);
+    public Response getBasePage(@PathParam("page") String pageNo) {
+        Base base = getChangeHistories().getBaseResource(pageNo);
+        if (base == null) {
+            final Error entity = new Error();
+            entity.setMessage("Wrong TRS Base page URI");
+            entity.setStatusCode(String.valueOf(Status.NOT_FOUND.getStatusCode()));
+            return Response.status(Status.NOT_FOUND).entity(entity).build();
         }
+        // Due to OSLC4J limitation, not Base but NextPage will be returned.
+        // See org.eclipse.lyo.rio.trs.resources.BaseResource.getBasePage(Long)
+        // FIXME Andrew@2019-04-27: do the math right
+        Page nextPage = base.getNextPage();
+        if (nextPage == null) {
+            throw new WebApplicationException(Status.NOT_FOUND);
+        }
+        log.debug("TRS Base page contains {} members", base.getMembers().size());
+        return Response.ok(nextPage).header("Link", TRSUtil.linkHeaderValue(base)).build();
+    }
+
+    protected ChangeHistories getChangeHistories() {
+        return changeHistories;
+    }
+
+    /**
+     * Returns the requested page of the change log
+     *
+     * @param page the page number of the wanted page
+     * @return the requested page of the change log
+     */
+    @GET
+    @Path(CHANGELOG_PATH + "/{page}")
+    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
+                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    public Response getChangeLogPage(@PathParam("page") String page) {
+        log.trace("TRS Change Log page '{}' requested", page);
+
+        ChangeLog changeLog = null;
+        changeLog = getChangeHistories().getChangeLog(page);
+        if (changeLog == null) {
+            final Error entity = new Error();
+            entity.setMessage("Wrong TRS Change Log page URI");
+            entity.setStatusCode(String.valueOf(Status.NOT_FOUND.getStatusCode()));
+            return Response.status(Status.NOT_FOUND).entity(entity).build();
+        }
+        log.debug("TRS Change Log page contains {} members", changeLog.getChange().size());
+        return Response.ok(changeLog).build();
     }
 
     /**
@@ -199,43 +164,23 @@ public abstract class TrackedResourceSetService {
      *
      * @return the first page of the change lof
      */
-    @Path(TRSConstants.TRS_TERM_CHANGE_LOG)
     @GET
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public ChangeLog getChangeLog() {
-        URI requestURI = uriInfo.getRequestUri();
-        boolean endsWithSlash = requestURI.getPath().endsWith("/");
-        String redirectLocation = requestURI.toString() + (endsWithSlash ? "1" : "/1");
-        try {
-            throw new WebApplicationException(Response.temporaryRedirect(new URI(redirectLocation))
-                                                      .build());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private URI buildURI(String append) {
-        return URI.create(getServiceBase()).resolve(append);
-//        URI.create(getServiceBase()
+    @Path(CHANGELOG_PATH)
+    public Response getChangeLog(@Context UriInfo uriInfo) {
+        final URI newURI = uriInfo.getAbsolutePathBuilder().path("1").build();
+        return Response.seeOther(newURI).build();
     }
 
     /**
-     * The value for the link header returned for each response for a base page
+     * manage http calls for the first page of the base. The call is redirected to the handler of
+     * http calls for a specific base page as a call for the page 1 of the base
      *
-     * @return the link header value
+     * @return the first page of the base
      */
-    private String linkHeaderValue(Base base) {
-        Page nextPage = base.getNextPage();
-        URI pageOf = nextPage.getPageOf().getAbout();
-        String headerValue = urize(pageOf.toString()) + "; rel=\"first\"," + newline + urize(
-                nextPage.getNextPage().toString()) + "; rel=\"next\"," + newline + "<http://www"
-                + "" + "" + "" + ".w3.org/ns/ldp#Page>; " + "rel=\"type\"" + newline;
-        return headerValue;
+    @GET
+    @Path(BASE_PATH)
+    public Response getBase(@Context UriInfo uriInfo) {
+        final URI newURI = uriInfo.getAbsolutePathBuilder().path("1").build();
+        return Response.seeOther(newURI).build();
     }
-
-    private String urize(String uri) {
-        return "<" + uri + ">";
-    }
-
 }
