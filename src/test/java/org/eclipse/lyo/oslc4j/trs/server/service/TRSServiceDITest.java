@@ -7,7 +7,7 @@ import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
-import org.eclipse.lyo.oslc4j.trs.server.ChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.IChangeHistories;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -49,7 +49,7 @@ public class TRSServiceDITest extends JerseyTest {
                 .register(new AbstractBinder() {
                     @Override
                     protected void configure() {
-                        bind(FakeChangeHistories.class).to(ChangeHistories.class).in(Singleton.class);
+                        bind(FakeChangeHistories.class).to(IChangeHistories.class).in(Singleton.class);
                     }
                 })
                 .registerClasses(JenaProvidersRegistry.getProviders());

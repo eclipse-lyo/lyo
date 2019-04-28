@@ -6,10 +6,10 @@ import java.util.List;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Page;
-import org.eclipse.lyo.oslc4j.trs.server.ChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.IChangeHistories;
 import org.eclipse.lyo.oslc4j.trs.server.HistoryData;
 
-public class FakeChangeHistories implements ChangeHistories {
+public class FakeChangeHistories implements IChangeHistories {
     @Override
     public HistoryData[] getHistory(final Date dateAfter) {
         return new HistoryData[0];

@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
 import javax.ws.rs.Path;
-import org.eclipse.lyo.oslc4j.trs.server.ChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.IChangeHistories;
 import org.eclipse.lyo.oslc4j.trs.server.HistoryData;
 import org.eclipse.lyo.oslc4j.trs.server.SimpleChangeHistories;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class TRSServiceResource extends TrackedResourceSetService {
     }
 
     @Override
-    protected ChangeHistories getChangeHistories() {
+    protected IChangeHistories getChangeHistories() {
         log.trace("Change History objects requested");
         return new SimpleChangeHistories(10) {
             @Override

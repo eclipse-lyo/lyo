@@ -37,7 +37,7 @@ import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-import org.eclipse.lyo.oslc4j.trs.server.ChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.IChangeHistories;
 import org.eclipse.lyo.oslc4j.trs.server.TRSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,13 +63,13 @@ public class TrackedResourceSetService {
      *
      * @return the instance of the class implementing the change histories class
      */
-    private ChangeHistories changeHistories;
+    private IChangeHistories changeHistories;
 
     public TrackedResourceSetService() {
     }
 
     @Inject
-    public TrackedResourceSetService(ChangeHistories _changeHistories) {
+    public TrackedResourceSetService(IChangeHistories _changeHistories) {
         changeHistories = _changeHistories;
     }
 
@@ -129,7 +129,7 @@ public class TrackedResourceSetService {
         return Response.ok(nextPage).header("Link", TRSUtil.linkHeaderValue(base)).build();
     }
 
-    protected ChangeHistories getChangeHistories() {
+    protected IChangeHistories getChangeHistories() {
         return changeHistories;
     }
 

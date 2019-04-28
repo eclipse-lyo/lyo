@@ -2,11 +2,10 @@ package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 
-public interface ChangeHistories {
+public interface IChangeHistories {
     /**
      * Implemented by inheriting classes. returns the changes through time to the resources exposes
      * by the adapter starting from the given point in time

@@ -41,7 +41,6 @@ import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.trs.server.service.TrackedResourceSetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +53,7 @@ import org.slf4j.LoggerFactory;
  * @version $version-stub$
  * @since 2.3.0
  */
-public abstract class SimpleChangeHistories implements ChangeHistories {
+public abstract class SimpleChangeHistories implements IChangeHistories {
 
     private final static Logger log = LoggerFactory.getLogger(SimpleChangeHistories.class);
 
