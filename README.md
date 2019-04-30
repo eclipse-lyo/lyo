@@ -1,5 +1,12 @@
 # Eclipse Lyo core repository
 
+[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
+[![Build Status](https://travis-ci.org/eclipse/lyo.core.svg?branch=master)](https://travis-ci.org/eclipse/lyo.core)
+[![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/core/2.4.0/)
+[![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
+
+
 This repository contains core library OSLC4J and its accompanying tests.
 
 ## Introduction
@@ -10,7 +17,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
-If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.1.2/overview-summary.html)
+If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.4.0/overview-summary.html)
 
 ## CONTRIBUTING
 
