@@ -1,6 +1,7 @@
 # TRS Server library
 
 [![Build Status](https://travis-ci.org/eclipse/lyo.trs-server.svg?branch=master)](https://travis-ci.org/eclipse/lyo.trs-server)
+[![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/2.4.0/overview-summary.html)
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
@@ -15,10 +16,31 @@ Add a dependency for the TRS Server library:
     <dependency>
       <groupId>org.eclipse.lyo.trs</groupId>
       <artifactId>trs-server</artifactId>
-      <version>2.4.0.M1</version>
+      <version>2.4.0</version>
     </dependency>
+    
+Ensure your POM file points to the Eclipse Lyo repositories:
 
-First, create two classes:
+    <repositories>
+      <repository>
+        <id>lyo-releases</id>
+        <name>lyo-releases repository</name>
+        <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+      </repository>
+      <repository>
+        <id>lyo-snapshots</id>
+        <name>lyo-snapshots repository</name>
+        <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+      </repository>
+    </repositories>
+
+Then, create two classes:
 
 1. `YourChangeLog extends ChangeHistories`
 1. `YourTrsService extends TrackedResourceSetService`
