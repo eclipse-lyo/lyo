@@ -15,7 +15,7 @@ Add a dependency for the TRS Server library:
     <dependency>
       <groupId>org.eclipse.lyo.trs</groupId>
       <artifactId>trs-server</artifactId>
-      <version>2.4.0.M1</version>
+      <version>2.4.0</version>
     </dependency>
 
 First, create two classes:
