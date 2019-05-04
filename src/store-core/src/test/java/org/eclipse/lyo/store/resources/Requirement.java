@@ -32,7 +32,9 @@ public class Requirement
     private String identifier;
     private Date created;
     private HashSet<Link> decomposes = new HashSet<Link>();
-    
+    private String stringProperty;
+    private Integer intProperty;
+
     public Requirement()
            throws URISyntaxException
     {
@@ -100,6 +102,26 @@ public class Requirement
         return decomposes;
     }
     
+    @OslcName("stringProperty")
+    @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "stringProperty")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getStringProperty()
+    {
+        return stringProperty;
+    }
+    
+    @OslcName("intProperty")
+    @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "intProperty")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.Integer)
+    @OslcReadOnly(false)
+    public Integer getIntProperty()
+    {
+        return intProperty;
+    }
+
     public void setTitle(final String title )
     {
         this.title = title;
@@ -131,5 +153,14 @@ public class Requirement
         }
     }
     
+    public void setStringProperty(final String stringProperty )
+    {
+        this.stringProperty = stringProperty;
+    }
+    
+    public void setIntProperty(final Integer intProperty )
+    {
+        this.intProperty = intProperty;
+    }
     
 }

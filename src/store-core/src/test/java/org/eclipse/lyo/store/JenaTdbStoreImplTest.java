@@ -91,4 +91,16 @@ public class JenaTdbStoreImplTest extends StoreTestBase<JenaTdbStoreImpl> {
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
     }
 
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryWithWhereFilterOnStringsWithIntegerValue()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+
+    @Override
+    @Ignore("Not implemented yet")
+    public void testStoreQueryWithWhereFilterOnIntegers()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+    }
+    
 }

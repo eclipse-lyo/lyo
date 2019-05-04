@@ -36,6 +36,7 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.store.resources.BlankResource;
+import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
 import org.eclipse.lyo.store.resources.Requirement;
 import org.eclipse.lyo.store.resources.WithBlankResource;
 import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
@@ -376,6 +377,31 @@ public abstract class StoreTestBase<T extends Store> {
 
     }
 
+
+    @Test
+    public void testStoreQueryWithWhereFilterOnStringsWithIntegerValue()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
+                "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">", "prf:stringProperty=\"2\"", null, -1, -1);
+        Assertions.assertThat(requirements).hasSize(1);
+    }
+
+    @Test
+    public void testStoreQueryWithWhereFilterOnIntegers()
+            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
+        final T manager = buildStore();
+        final URI namedGraphUri = buildKey();
+        populateStore(manager, namedGraphUri);
+
+        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
+                "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">", "prf:intProperty=3", null, -1, -1);
+        Assertions.assertThat(requirements).hasSize(2);
+    }
+
     protected abstract T buildStore();
 
     private URI buildKey() {
@@ -392,27 +418,29 @@ public abstract class StoreTestBase<T extends Store> {
         return resource;
     }
     
-	private Requirement createRequirement(String identifier, String description) throws URISyntaxException {
+	private Requirement createRequirement(String identifier, String description, String stringProperty, int intProperty) throws URISyntaxException {
 		Requirement r = new Requirement(buildKey());
 		r.setIdentifier(identifier);
 		r.setDescription(description);
+		r.setStringProperty(stringProperty);
+		r.setIntProperty(intProperty);
 		return r;
 	}
 
     private void populateStore(final T manager, final URI namedGraphUri)
             throws StoreAccessException, URISyntaxException {
         manager.appendResource(namedGraphUri,
-                createRequirement("rob", "Tom got a small piece of pie. Rock music approaches at high velocity."));
+                createRequirement("rob", "Tom got a small piece of pie. Rock music approaches at high velocity.", "s-1", 1));
         manager.appendResource(namedGraphUri, createRequirement("hang",
-                "She borrowed the book from him many years ago and hasn't yet returned it. Please wait outside of the house. The river stole the gods."));
+                "She borrowed the book from him many years ago and hasn't yet returned it. Please wait outside of the house. The river stole the gods.", "2", 2));
         manager.appendResource(namedGraphUri, createRequirement("observations",
-                "We have never been to Asia, nor have we visited Africa. Malls are great places to shop; I can find everything I need under one roof."));
+                "We have never been to Asia, nor have we visited Africa. Malls are great places to shop; I can find everything I need under one roof.", "s-3", 3));
         manager.appendResource(namedGraphUri, createRequirement("kindly",
-                "I think I will buy the red car, or I will lease the blue one. The river stole the gods."));
+                "I think I will buy the red car, or I will lease the blue one. The river stole the gods.", "s-4", 3));
         manager.appendResource(namedGraphUri, createRequirement("itch",
-                "A song can make or ruin a person’s day if they let it get to them. The body may perhaps compensates for the loss of a true metaphysics."));
+                "A song can make or ruin a person’s day if they let it get to them. The body may perhaps compensates for the loss of a true metaphysics.", "s-5", 5));
         manager.appendResource(namedGraphUri, createRequirement("morning",
-                "They got there early, and they got really good seats. Lets all be unique together until we realise we are all the same."));
+                "They got there early, and they got really good seats. Lets all be unique together until we realise we are all the same.", "s-6", 6));
         manager.appendResource(namedGraphUri, buildResource());
     }
 

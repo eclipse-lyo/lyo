@@ -55,6 +55,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.lyo.core.query.ComparisonTerm;
 import org.eclipse.lyo.core.query.ComparisonTerm.Operator;
+import org.eclipse.lyo.core.query.DecimalValue;
 import org.eclipse.lyo.core.query.PName;
 import org.eclipse.lyo.core.query.ParseException;
 import org.eclipse.lyo.core.query.QueryUtils;
@@ -548,16 +549,20 @@ public class SparqlStoreImpl implements Store {
     				}
     				
     				switch (operandType) {
+    				case DECIMAL:
+    					DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
+    			        distinctResourcesQuery.addWhere( "?s", predicate, decimalOperand.value());
+    					break;
     				case STRING:
     					StringValue stringOperand = (StringValue) comparisonOperand;
-    			        distinctResourcesQuery.addWhere( "?s", predicate, stringOperand.value());
+    			        distinctResourcesQuery.addWhere( "?s", predicate, "\"" + stringOperand.value() + "\"");
     					break;
     				case URI_REF:
     					UriRefValue uriOperand = (UriRefValue) comparisonOperand;
     			        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
     					break;
     				default:
-    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI");
+    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
     				}
     			}
         	}
