@@ -855,7 +855,7 @@ public final class JenaModelHelper
 						}
 						else
 						{
-                            Optional<Class<?>> optionalResourceClass = RDFTypes.getClassOf(nestedResource);
+                            Optional<Class<?>> optionalResourceClass = RDFTypes.getClassOf(nestedResource, setMethodComponentParameterClass);
                             Class<?> resourceClass = optionalResourceClass.isPresent() ? optionalResourceClass.get() : setMethodComponentParameterClass;
                             final Object nestedBean = resourceClass.newInstance();
 							fromResource(classPropertyDefinitionsToSetMethods,

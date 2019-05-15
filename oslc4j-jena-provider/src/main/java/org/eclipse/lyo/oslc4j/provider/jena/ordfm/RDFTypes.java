@@ -40,7 +40,7 @@ public class RDFTypes {
     /**
      * The RDFs-Classes types mapping.
      */
-    static final Map<String, Class<?>> TYPES_MAPPINGS = new HashMap<>();
+    static final Map<String, List<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
 
     /**
      * Scans a package (recursively) searching for classes annotated with
@@ -66,7 +66,12 @@ public class RDFTypes {
                         try {
                             Class<?> rdfClass = Class.forName(classInfo.getName());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
-                            TYPES_MAPPINGS.put(rdfType, rdfClass);
+                            List<Class<?>> types = TYPES_MAPPINGS.get(rdfType);
+                            if (types == null) {
+                                types = new ArrayList<>();
+                                TYPES_MAPPINGS.put(rdfType, types);
+                            }
+                            types.add(rdfClass);
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
                         } catch (ClassNotFoundException ex) {
@@ -119,12 +124,15 @@ public class RDFTypes {
      * Gets the corresponding most concrete class (if any) of a
      * {@link Resource resource}'s {@link RDF#type}.
      * @param resource the resource to resolve its type.
+     * @param preferredTypes sometimes, the same RDF type is mapped by more than
+     * one class, in such cases this parameter indicates the preferred type to
+     * return in priority order. Avoid to use abstract types here.
      * @return an empty optional if there is not a mapped class for the given
      * resource; it wrapped instance otherwise.
-     * @throws IllegalArgumentException if more than one class (not in the same
+     * @throws IllegalStateException if more than one class (not in the same
      * inheritance tree) is annotated to be mapped by the same {@code RDF:type}.
      */
-    public static Optional<Class<?>> getClassOf(Resource resource) {
+    public static Optional<Class<?>> getClassOf(Resource resource, Class<?>... preferredTypes) {
         LOGGER.debug("> resolving class for resource {}", resource.getURI());
         StmtIterator rdfTypes = resource.listProperties(RDF.type);
         List<Class<?>> candidates = new ArrayList<>();
@@ -132,12 +140,29 @@ public class RDFTypes {
             while(rdfTypes.hasNext()) {
                 Statement statement = rdfTypes.nextStatement();
                 String typeURI = statement.getObject().asResource().getURI();
-                Class<?> rdfClass = TYPES_MAPPINGS.get(typeURI);
-                if (rdfClass == null) {
-                    LOGGER.trace("[-] Unmapped class for RDF:type {}", typeURI);
+                List<Class<?>> rdfClasses = TYPES_MAPPINGS.get(typeURI);
+                if (rdfClasses == null) {
+                    LOGGER.trace("[-] Unmapped class(es) for RDF:type {}", typeURI);
+                } else if (rdfClasses.size() == 1) {
+                    candidates.add(rdfClasses.get(0));
+                    LOGGER.trace("[+] Candidate class {} found for RDF:type {}", rdfClasses.get(0).getName(), typeURI);
+                } else if (preferredTypes.length == 0) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("'preferredTypes' argument is required when more than one class (");
+                    sb.append(rdfClasses.toString());
+                    sb.append(") are mapped to the same RDF:type (");
+                    sb.append(typeURI);
+                    sb.append(")");
+                    LOGGER.debug(sb.toString());
+                    throw new IllegalArgumentException(sb.toString());
                 } else {
-                    candidates.add(rdfClass);
-                    LOGGER.trace("[+] Candidate class {} found for RDF:type {}", rdfClass.getName(), typeURI);
+                    for(Class<?> preferredType : preferredTypes) {
+                        if (rdfClasses.contains(preferredType)) {
+                            candidates.add(preferredType);
+                            LOGGER.trace("[+] Preferred candidate class {} found for RDF:type {}", preferredType.getName(), typeURI);
+                            break;
+                        }
+                    }
                 }
             }
         }
