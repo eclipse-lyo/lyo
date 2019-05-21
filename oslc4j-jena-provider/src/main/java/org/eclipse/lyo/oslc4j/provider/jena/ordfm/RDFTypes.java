@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2019 Ricardo Herrera and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * Contributors:
+ *
+ *  Ricardo Herrera        -  initial implementation
+ */
 package org.eclipse.lyo.oslc4j.provider.jena.ordfm;
 
 import io.github.classgraph.ClassGraph;
@@ -21,10 +36,6 @@ import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * 
- * @author rherrera
- */
 public class RDFTypes {
 
     /**
@@ -61,7 +72,7 @@ public class RDFTypes {
                 ClassInfoList classInforList = scanResult.getClassesWithAnnotation(OslcResourceShape.class.getName());
                 for (ClassInfo classInfo : classInforList) {
                     if (classInfo.isAbstract()) {
-                        LOGGER.warn("[-] Abstract class: " + classInfo.getName());
+                        LOGGER.trace("[-] Abstract class: " + classInfo.getName());
                     } else {
                         try {
                             Class<?> rdfClass = Class.forName(classInfo.getName());
@@ -75,7 +86,7 @@ public class RDFTypes {
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
                         } catch (ClassNotFoundException ex) {
-                            LOGGER.warn("[-] Unexpected missing class: " + classInfo.getName());
+                            LOGGER.trace("[-] Unexpected missing class: " + classInfo.getName());
                         }
                     }
                 }
