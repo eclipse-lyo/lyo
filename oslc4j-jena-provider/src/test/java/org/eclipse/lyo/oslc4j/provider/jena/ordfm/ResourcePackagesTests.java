@@ -13,10 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for {@link RDFTypes}
+ * Tests for {@link ResourcePackages}
  * @author rherrera
  */
-public class RDFTypesTests {
+public class ResourcePackagesTests {
 
     private Resource resource;
 
@@ -28,45 +28,45 @@ public class RDFTypesTests {
 
     @Test
     public void testMapPackage() {
-        RDFTypes.mapPackage(Pet.class.getPackage());
-        Assert.assertEquals(1, RDFTypes.SCANNED_PACKAGES.size());
-        Assert.assertEquals(6, RDFTypes.TYPES_MAPPINGS.keySet().size());
+        ResourcePackages.mapPackage(Pet.class.getPackage());
+        Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
+        Assert.assertEquals(6, ResourcePackages.TYPES_MAPPINGS.keySet().size());
     }
 
     @Test
     public void testGetClassOf_noMapping() {
-        Assert.assertEquals(false, RDFTypes.getClassOf(resource).isPresent());
+        Assert.assertEquals(false, ResourcePackages.getClassOf(resource).isPresent());
     }
 
     @Test
     public void testGetClassOf_noResourceType() {
-        RDFTypes.mapPackage(Pet.class.getPackage());
-        Assert.assertEquals(false, RDFTypes.getClassOf(resource).isPresent());
+        ResourcePackages.mapPackage(Pet.class.getPackage());
+        Assert.assertEquals(false, ResourcePackages.getClassOf(resource).isPresent());
     }
 
     @Test
     public void testGetClassOf_simpleResourceType() {
-        RDFTypes.mapPackage(Pet.class.getPackage());
+        ResourcePackages.mapPackage(Pet.class.getPackage());
         resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Cat"));
-        Optional<Class<?>> mappedClass = RDFTypes.getClassOf(resource);
+        Optional<Class<?>> mappedClass = ResourcePackages.getClassOf(resource);
         Assert.assertEquals(true, mappedClass.isPresent());
         Assert.assertEquals(Cat.class, mappedClass.get());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetClassOf_multipleResourceTypes() {
-        RDFTypes.mapPackage(Pet.class.getPackage());
+        ResourcePackages.mapPackage(Pet.class.getPackage());
         resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Cat"));
         resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Dog"));
-        RDFTypes.getClassOf(resource);
+        ResourcePackages.getClassOf(resource);
     }
 
     @Test
     public void testGetClassOf_mostConcreteResourceType() {
-        RDFTypes.mapPackage(Pet.class.getPackage());
+        ResourcePackages.mapPackage(Pet.class.getPackage());
         resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Cat"));
         resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Animal"));
-        Optional<Class<?>> mappedClass = RDFTypes.getClassOf(resource);
+        Optional<Class<?>> mappedClass = ResourcePackages.getClassOf(resource);
         Assert.assertEquals(true, mappedClass.isPresent());
         Assert.assertEquals(Cat.class, mappedClass.get());
     }

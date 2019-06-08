@@ -76,7 +76,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
 import org.eclipse.lyo.oslc4j.core.model.*;
-import org.eclipse.lyo.oslc4j.provider.jena.ordfm.RDFTypes;
+import org.eclipse.lyo.oslc4j.provider.jena.ordfm.ResourcePackages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -331,7 +331,7 @@ public final class JenaModelHelper
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 		final Map<String,Object> visitedResources = new HashMap<>();
 		final HashSet<String> rdfTypes = new HashSet<>();
-        RDFTypes.mapPackage(beanClass.getPackage());
+        ResourcePackages.mapPackage(beanClass.getPackage());
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
 					 newInstance,
@@ -500,7 +500,7 @@ public final class JenaModelHelper
 			OslcCoreApplicationException, URISyntaxException,
 			NoSuchMethodException {
 		if (null != listSubjects) {
-            RDFTypes.mapPackage(beanClass.getPackage());
+            ResourcePackages.mapPackage(beanClass.getPackage());
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
                         
 			for (final Resource resource : listSubjects) {
@@ -855,7 +855,7 @@ public final class JenaModelHelper
 						}
 						else
 						{
-                            Optional<Class<?>> optionalResourceClass = RDFTypes.getClassOf(nestedResource, setMethodComponentParameterClass);
+                            Optional<Class<?>> optionalResourceClass = ResourcePackages.getClassOf(nestedResource, setMethodComponentParameterClass);
                             Class<?> resourceClass = optionalResourceClass.isPresent() ? optionalResourceClass.get() : setMethodComponentParameterClass;
                             final Object nestedBean = resourceClass.newInstance();
 							fromResource(classPropertyDefinitionsToSetMethods,

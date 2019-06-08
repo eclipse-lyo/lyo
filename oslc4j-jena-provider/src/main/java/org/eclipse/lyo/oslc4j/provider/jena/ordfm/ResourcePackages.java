@@ -36,12 +36,12 @@ import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RDFTypes {
+public class ResourcePackages {
 
     /**
      * The logger of this class.
      */
-	private static final Logger LOGGER = LoggerFactory.getLogger(RDFTypes.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResourcePackages.class);
 
     /**
      * The set of scanned packages.
@@ -147,7 +147,7 @@ public class RDFTypes {
         LOGGER.debug("> resolving class for resource {}", resource.getURI());
         StmtIterator rdfTypes = resource.listProperties(RDF.type);
         List<Class<?>> candidates = new ArrayList<>();
-        synchronized(RDFTypes.class) {
+        synchronized(ResourcePackages.class) {
             while(rdfTypes.hasNext()) {
                 Statement statement = rdfTypes.nextStatement();
                 String typeURI = statement.getObject().asResource().getURI();
