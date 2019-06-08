@@ -21,10 +21,12 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -52,7 +54,6 @@ import org.apache.jena.graph.BlankNodeId;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.util.ResourceUtils;
-import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
@@ -62,6 +63,7 @@ import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
@@ -74,6 +76,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
 import org.eclipse.lyo.oslc4j.core.model.*;
+import org.eclipse.lyo.oslc4j.provider.jena.ordfm.ResourcePackages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -328,7 +331,7 @@ public final class JenaModelHelper
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 		final Map<String,Object> visitedResources = new HashMap<>();
 		final HashSet<String> rdfTypes = new HashSet<>();
-
+        ResourcePackages.mapPackage(beanClass.getPackage());
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
 					 newInstance,
@@ -497,9 +500,9 @@ public final class JenaModelHelper
 			OslcCoreApplicationException, URISyntaxException,
 			NoSuchMethodException {
 		if (null != listSubjects) {
-
+            ResourcePackages.mapPackage(beanClass.getPackage());
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
-
+                        
 			for (final Resource resource : listSubjects) {
 				final Object   newInstance = beanClass.newInstance();
 				final Map<String,Object> visitedResources = new HashMap<>();
@@ -852,10 +855,11 @@ public final class JenaModelHelper
 						}
 						else
 						{
-							final Object nestedBean = setMethodComponentParameterClass.newInstance();
-
+                            Optional<Class<?>> optionalResourceClass = ResourcePackages.getClassOf(nestedResource, setMethodComponentParameterClass);
+                            Class<?> resourceClass = optionalResourceClass.isPresent() ? optionalResourceClass.get() : setMethodComponentParameterClass;
+                            final Object nestedBean = resourceClass.newInstance();
 							fromResource(classPropertyDefinitionsToSetMethods,
-										 setMethodComponentParameterClass,
+										 nestedBean.getClass(),
 										 nestedBean,
 										 nestedResource,
 										 visitedResources,
