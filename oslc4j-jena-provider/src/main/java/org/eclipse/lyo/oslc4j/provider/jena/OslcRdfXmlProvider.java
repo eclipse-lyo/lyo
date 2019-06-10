@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
+/*
+ * Copyright (c) 2012-2019 IBM Corporation and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,16 +8,7 @@
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * Contributors:
- *
- *	   Russell Boykin		- initial API and implementation
- *	   Alberto Giammaria	- initial API and implementation
- *	   Chris Peters			- initial API and implementation
- *	   Gianluca Bernardini	- initial API and implementation
- *	   Steve Pitschke		- Add support for FilteredResource and
- *							  ResponseInfo
- *******************************************************************************/
+ */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.io.IOException;
@@ -47,6 +38,9 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
+/**
+ * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Steve Pitschke
+ */
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
@@ -58,16 +52,6 @@ public class OslcRdfXmlProvider
 	public OslcRdfXmlProvider()
 	{
 		super();
-	}
-
-	@Override
-	public long getSize(final Object	   object,
-						final Class<?>	   type,
-						final Type		   genericType,
-						final Annotation[] annotation,
-						final MediaType	   mediaType)
-	{
-		return -1;
 	}
 
 	@Override
@@ -136,14 +120,7 @@ public class OslcRdfXmlProvider
 			actualType = type;
 		}
 		
-		return isWriteable(actualType,
-						   annotations,
-						   mediaType,
-						   OslcMediaType.APPLICATION_RDF_XML_TYPE,
-						   OslcMediaType.APPLICATION_XML_TYPE,
-						   OslcMediaType.TEXT_XML_TYPE,
-						   OslcMediaType.TEXT_TURTLE_TYPE,
-						   OslcMediaType.APPLICATION_JSON_LD_TYPE);
+		return ProviderHelper.isSingleResourceType(actualType);
 	}
 
 	@Override
@@ -194,7 +171,7 @@ public class OslcRdfXmlProvider
 				final String queryString = httpServletRequest.getQueryString();
 				
 				if ((queryString != null) &&
-					(isOslcQuery(queryString)))
+					(ProviderHelper.isOslcQuery(queryString)))
 				{
 					responseInfoURI += "?" + queryString;
 				}
@@ -208,7 +185,7 @@ public class OslcRdfXmlProvider
 					Collection<?> collection =
 						((ResponseInfoCollection<?>)filteredResource).collection();
 					
-					objects = collection.toArray(new Object[collection.size()]);
+					objects = collection.toArray(new Object[0]);
 				}
 			}
 			else
@@ -250,12 +227,7 @@ public class OslcRdfXmlProvider
 							  final Annotation[] annotations,
 							  final MediaType	 mediaType)
 	{
-		return isReadable(type,
-						  mediaType,
-						  OslcMediaType.APPLICATION_RDF_XML_TYPE,
-						  OslcMediaType.APPLICATION_XML_TYPE,
-						  OslcMediaType.TEXT_XML_TYPE, 
-						  OslcMediaType.TEXT_TURTLE_TYPE);
+		return true;
 	}
 
 	@Override
@@ -276,7 +248,7 @@ public class OslcRdfXmlProvider
 		if ((objects != null) &&
 			(objects.length > 0))
 		{
-			// Fix for defect 412755
+			// Fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755
 			if (OSLC4JUtils.useBeanClassForParsing() && objects.length > 1) {
 				throw new IOException("Object length should not be greater than 1.");
 			} 
@@ -285,5 +257,11 @@ public class OslcRdfXmlProvider
 		}
 
 		return null;
+	}
+
+	@Override
+	public long getSize(final Object object, final Class<?> type, final Type genericType,
+			final Annotation[] annotation, final MediaType mediaType) {
+		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
 	}
 }

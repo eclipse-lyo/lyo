@@ -1,4 +1,4 @@
-/*!*****************************************************************************
+/*
  * Copyright (c) 2012, 2015 IBM Corporation.
  *
  * All rights reserved. This program and the accompanying materials
@@ -8,14 +8,7 @@
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * Contributors:
- *
- *	   Paul Slauenwhite		- initial API and implementation
- *	   Patrick Streule		- initial API and implementation
- *	   Martin Aeschlimann	- initial API and implementation
- *	   Sandeep Somavarapu	- initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -61,7 +54,6 @@ import org.apache.jena.vocabulary.RDF;
  * @author	Paul Slauenwhite
  * @author	Martin Aeschlimann
  * @author	Sandeep Somavarapu
- * @version 1.0
  * @since	1.0
  * @see		RDFWriter
  */
