@@ -88,6 +88,7 @@ import org.eclipse.lyo.oslc.domains.config.ChangeSet;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode

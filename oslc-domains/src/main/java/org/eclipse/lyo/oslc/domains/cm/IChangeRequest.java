@@ -80,6 +80,7 @@ import org.eclipse.lyo.oslc.domains.config.IChangeSet;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 
 @OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
