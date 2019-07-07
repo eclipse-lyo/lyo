@@ -74,6 +74,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
