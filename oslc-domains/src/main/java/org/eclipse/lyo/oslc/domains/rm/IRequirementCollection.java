@@ -306,6 +306,7 @@ public interface IRequirementCollection
     @OslcDescription("The object is constrained by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getConstrains();
 
