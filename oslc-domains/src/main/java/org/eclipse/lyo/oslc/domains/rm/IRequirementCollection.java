@@ -297,6 +297,7 @@ public interface IRequirementCollection
     @OslcDescription("The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getConstrainedBy();
 
