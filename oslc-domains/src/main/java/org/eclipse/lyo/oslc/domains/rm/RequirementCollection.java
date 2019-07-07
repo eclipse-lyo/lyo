@@ -70,12 +70,9 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.Person;
 
 // Start of user code imports
 // End of user code
@@ -170,6 +167,9 @@ public class RequirementCollection
     // Start of user code attributeAnnotation:constrains
     // End of user code
     private Set<Link> constrains = new HashSet<Link>();
+    // Start of user code attributeAnnotation:uses
+    // End of user code
+    private Set<Link> uses = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -322,6 +322,11 @@ public class RequirementCollection
         this.constrains.add(constrains);
     }
     
+    public void addUses(final Link uses)
+    {
+        this.uses.add(uses);
+    }
+    
     
     // Start of user code getterAnnotation:title
     // End of user code
@@ -406,7 +411,6 @@ public class RequirementCollection
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getCreator()
     {
@@ -422,7 +426,6 @@ public class RequirementCollection
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getContributor()
     {
@@ -730,6 +733,23 @@ public class RequirementCollection
         // Start of user code getterInit:constrains
         // End of user code
         return constrains;
+    }
+    
+    // Start of user code getterAnnotation:uses
+    // End of user code
+    @OslcName("uses")
+    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "uses")
+    @OslcDescription("A collection uses a resource - the resource is in the requirement collection. ")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
+    @OslcReadOnly(false)
+    @OslcTitle("")
+    public Set<Link> getUses()
+    {
+        // Start of user code getterInit:uses
+        // End of user code
+        return uses;
     }
     
     
@@ -1118,6 +1138,22 @@ public class RequirementCollection
         }
     
         // Start of user code setterFinalize:constrains
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:uses
+    // End of user code
+    public void setUses(final Set<Link> uses )
+    {
+        // Start of user code setterInit:uses
+        // End of user code
+        this.uses.clear();
+        if (uses != null)
+        {
+            this.uses.addAll(uses);
+        }
+    
+        // Start of user code setterFinalize:uses
         // End of user code
     }
     

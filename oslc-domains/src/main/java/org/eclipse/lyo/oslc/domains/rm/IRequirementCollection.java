@@ -62,12 +62,9 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc.domains.IPerson;
 
 // Start of user code imports
 // End of user code
@@ -97,6 +94,7 @@ public interface IRequirementCollection
     public void addDecomposes(final Link decomposes );
     public void addConstrainedBy(final Link constrainedBy );
     public void addConstrains(final Link constrains );
+    public void addUses(final Link uses );
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -144,7 +142,6 @@ public interface IRequirementCollection
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getCreator();
 
@@ -153,7 +150,6 @@ public interface IRequirementCollection
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getContributor();
 
@@ -325,6 +321,16 @@ public interface IRequirementCollection
     @OslcReadOnly(false)
     public Set<Link> getConstrains();
 
+    @OslcName("uses")
+    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "uses")
+    @OslcDescription("A collection uses a resource - the resource is in the requirement collection. ")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
+    @OslcReadOnly(false)
+    @OslcTitle("")
+    public Set<Link> getUses();
+
 
     public void setTitle(final String title );
     public void setDescription(final String description );
@@ -352,5 +358,6 @@ public interface IRequirementCollection
     public void setDecomposes(final Set<Link> decomposes );
     public void setConstrainedBy(final Set<Link> constrainedBy );
     public void setConstrains(final Set<Link> constrains );
+    public void setUses(final Set<Link> uses );
 }
 
