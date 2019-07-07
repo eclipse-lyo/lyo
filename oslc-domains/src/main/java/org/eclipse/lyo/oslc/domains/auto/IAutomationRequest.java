@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -98,7 +94,7 @@ public interface IAutomationRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -115,7 +111,7 @@ public interface IAutomationRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -128,7 +124,7 @@ public interface IAutomationRequest
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -147,7 +143,7 @@ public interface IAutomationRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -169,7 +165,7 @@ public interface IAutomationRequest
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("state")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "state")
@@ -177,7 +173,7 @@ public interface IAutomationRequest
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(true)
-    public HashSet<Link> getState();
+    public Set<Link> getState();
 
     @OslcName("desiredState")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "desiredState")
@@ -194,7 +190,7 @@ public interface IAutomationRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getInputParameter();
+    public Set<Link> getInputParameter();
 
     @OslcName("executesAutomationPlan")
     @OslcPropertyDefinition(Oslc_autoDomainConstants.AUTOMATION_NAMSPACE + "executesAutomationPlan")
@@ -207,19 +203,19 @@ public interface IAutomationRequest
     public Link getExecutesAutomationPlan();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
+    public void setType(final Set<Link> type );
     public void setTitle(final String title );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
-    public void setState(final HashSet<Link> state );
+    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setState(final Set<Link> state );
     public void setDesiredState(final Link desiredState );
-    public void setInputParameter(final HashSet<Link> inputParameter );
+    public void setInputParameter(final Set<Link> inputParameter );
     public void setExecutesAutomationPlan(final Link executesAutomationPlan );
 }
 

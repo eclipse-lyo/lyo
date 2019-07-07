@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -130,7 +126,7 @@ public interface IChangeRequest
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -142,7 +138,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
@@ -151,7 +147,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
@@ -160,7 +156,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -184,14 +180,14 @@ public interface IChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -280,7 +276,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest();
+    public Set<Link> getRelatedChangeRequest();
 
     @OslcName("affectsPlanItem")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsPlanItem")
@@ -289,7 +285,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsPlanItem();
+    public Set<Link> getAffectsPlanItem();
 
     @OslcName("affectedByDefect")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectedByDefect")
@@ -298,7 +294,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedByDefect();
+    public Set<Link> getAffectedByDefect();
 
     @OslcName("tracksRequirement")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksRequirement")
@@ -307,7 +303,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksRequirement();
+    public Set<Link> getTracksRequirement();
 
     @OslcName("implementsRequirement")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "implementsRequirement")
@@ -316,7 +312,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getImplementsRequirement();
+    public Set<Link> getImplementsRequirement();
 
     @OslcName("affectsRequirement")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsRequirement")
@@ -325,7 +321,7 @@ public interface IChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsRequirement();
+    public Set<Link> getAffectsRequirement();
 
     @OslcName("tracksChangeSet")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksChangeSet")
@@ -333,20 +329,20 @@ public interface IChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksChangeSet();
+    public Set<Link> getTracksChangeSet();
 
 
     public void setShortTitle(final String shortTitle );
     public void setDescription(final String description );
     public void setTitle(final String title );
     public void setIdentifier(final String identifier );
-    public void setSubject(final HashSet<String> subject );
-    public void setCreator(final HashSet<Link> creator );
-    public void setContributor(final HashSet<Link> contributor );
+    public void setSubject(final Set<String> subject );
+    public void setCreator(final Set<Link> creator );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setType(final Set<Link> type );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setInstanceShape(final URI instanceShape );
     public void setDiscussedBy(final Link discussedBy );
     public void setCloseDate(final Date closeDate );
@@ -357,12 +353,12 @@ public interface IChangeRequest
     public void setApproved(final Boolean approved );
     public void setReviewed(final Boolean reviewed );
     public void setVerified(final Boolean verified );
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest );
-    public void setAffectsPlanItem(final HashSet<Link> affectsPlanItem );
-    public void setAffectedByDefect(final HashSet<Link> affectedByDefect );
-    public void setTracksRequirement(final HashSet<Link> tracksRequirement );
-    public void setImplementsRequirement(final HashSet<Link> implementsRequirement );
-    public void setAffectsRequirement(final HashSet<Link> affectsRequirement );
-    public void setTracksChangeSet(final HashSet<Link> tracksChangeSet );
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
+    public void setAffectsPlanItem(final Set<Link> affectsPlanItem );
+    public void setAffectedByDefect(final Set<Link> affectedByDefect );
+    public void setTracksRequirement(final Set<Link> tracksRequirement );
+    public void setImplementsRequirement(final Set<Link> implementsRequirement );
+    public void setAffectsRequirement(final Set<Link> affectsRequirement );
+    public void setTracksChangeSet(final Set<Link> tracksChangeSet );
 }
 

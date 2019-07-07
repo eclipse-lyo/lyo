@@ -40,8 +40,8 @@ public interface RdfsDomainConstants
     public static String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
     public static String RDFS_NAMSPACE_PREFIX = "rdfs";
 
-    public static String CLASS_PATH = "rdfsClass";
+    public static String CLASS_PATH = "class";
     public static String CLASS_NAMESPACE = RDFS_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String CLASS_LOCALNAME = "RdfsClass"; //localName of the rdfs:class the resource describes
+    public static String CLASS_LOCALNAME = "Class"; //localName of the rdfs:class the resource describes
     public static String CLASS_TYPE = CLASS_NAMESPACE + CLASS_LOCALNAME; //fullname of the rdfs:class the resource describes
 }

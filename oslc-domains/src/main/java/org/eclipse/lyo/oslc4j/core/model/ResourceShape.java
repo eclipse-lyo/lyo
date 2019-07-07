@@ -69,7 +69,9 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 
 
-
+import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
+import org.eclipse.lyo.oslc4j.core.model.Property;
 
 // Start of user code imports
 // End of user code
@@ -79,19 +81,28 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(OslcDomainConstants.DISCUSSION_NAMESPACE)
-@OslcName(OslcDomainConstants.DISCUSSION_LOCALNAME)
-@OslcResourceShape(title = "Discussion Resource Shape", describes = OslcDomainConstants.DISCUSSION_TYPE)
-public class Discussion
+@OslcNamespace(OslcDomainConstants.RESOURCESHAPE_NAMESPACE)
+@OslcName(OslcDomainConstants.RESOURCESHAPE_LOCALNAME)
+@OslcResourceShape(title = "ResourceShape Resource Shape", describes = OslcDomainConstants.RESOURCESHAPE_TYPE)
+public class ResourceShape
     extends AbstractResource
-    implements IDiscussion
+    implements IResourceShape
 {
+    // Start of user code attributeAnnotation:title
+    // End of user code
+    private String title;
+    // Start of user code attributeAnnotation:describes
+    // End of user code
+    private Set<URI> describes = new HashSet<URI>();
+    // Start of user code attributeAnnotation:property
+    // End of user code
+    private Set<Property> property = new HashSet<Property>();
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Discussion()
+    public ResourceShape()
            throws URISyntaxException
     {
         super();
@@ -100,7 +111,7 @@ public class Discussion
         // End of user code
     }
     
-    public Discussion(final URI about)
+    public ResourceShape(final URI about)
            throws URISyntaxException
     {
         super(about);
@@ -112,8 +123,8 @@ public class Discussion
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        OslcDomainConstants.DISCUSSION_PATH,
-        Discussion.class);
+        OslcDomainConstants.RESOURCESHAPE_PATH,
+        ResourceShape.class);
     }
     
     
@@ -129,7 +140,7 @@ public class Discussion
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Discussion Resource} - update Discussion.toString() to present resource as desired.";
+            result = result + "{a Local ResourceShape Resource} - update ResourceShape.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }
@@ -143,7 +154,106 @@ public class Discussion
         return result;
     }
     
+    public void addDescribes(final URI describes)
+    {
+        this.describes.add(describes);
+    }
     
+    public void addProperty(final Property property)
+    {
+        this.property.add(property);
+    }
+    
+    
+    // Start of user code getterAnnotation:title
+    // End of user code
+    @OslcName("title")
+    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
+    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getTitle()
+    {
+        // Start of user code getterInit:title
+        // End of user code
+        return title;
+    }
+    
+    // Start of user code getterAnnotation:describes
+    // End of user code
+    @OslcName("describes")
+    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "describes")
+    @OslcDescription("This shape describes resources that are of any of these types. Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T. ")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcReadOnly(false)
+    public Set<URI> getDescribes()
+    {
+        // Start of user code getterInit:describes
+        // End of user code
+        return describes;
+    }
+    
+    // Start of user code getterAnnotation:property
+    // End of user code
+    @OslcName("property")
+    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "property")
+    @OslcDescription("The properties that are allowed or required by this shape. ")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.LocalResource)
+    @OslcRange({OslcDomainConstants.PROPERTY_TYPE})
+    @OslcReadOnly(false)
+    public Set<Property> getProperty()
+    {
+        // Start of user code getterInit:property
+        // End of user code
+        return property;
+    }
+    
+    
+    // Start of user code setterAnnotation:title
+    // End of user code
+    public void setTitle(final String title )
+    {
+        // Start of user code setterInit:title
+        // End of user code
+        this.title = title;
+    
+        // Start of user code setterFinalize:title
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:describes
+    // End of user code
+    public void setDescribes(final Set<URI> describes )
+    {
+        // Start of user code setterInit:describes
+        // End of user code
+        this.describes.clear();
+        if (describes != null)
+        {
+            this.describes.addAll(describes);
+        }
+    
+        // Start of user code setterFinalize:describes
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:property
+    // End of user code
+    public void setProperty(final Set<Property> property )
+    {
+        // Start of user code setterInit:property
+        // End of user code
+        this.property.clear();
+        if (property != null)
+        {
+            this.property.addAll(property);
+        }
+    
+        // Start of user code setterFinalize:property
+        // End of user code
+    }
     
     
 }

@@ -69,7 +69,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 
 
-
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 
 // Start of user code imports
 // End of user code
@@ -79,19 +79,22 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(OslcDomainConstants.DISCUSSION_NAMESPACE)
-@OslcName(OslcDomainConstants.DISCUSSION_LOCALNAME)
-@OslcResourceShape(title = "Discussion Resource Shape", describes = OslcDomainConstants.DISCUSSION_TYPE)
-public class Discussion
+@OslcNamespace(OslcDomainConstants.ALLOWED_VALUES_NAMESPACE)
+@OslcName(OslcDomainConstants.ALLOWED_VALUES_LOCALNAME)
+@OslcResourceShape(title = "Allowed Values Resource Shape", describes = OslcDomainConstants.ALLOWED_VALUES_TYPE)
+public class AllowedValues
     extends AbstractResource
-    implements IDiscussion
+    implements IAllowedValues
 {
+    // Start of user code attributeAnnotation:allowedValue
+    // End of user code
+    private Set<Link> allowedValue = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Discussion()
+    public AllowedValues()
            throws URISyntaxException
     {
         super();
@@ -100,7 +103,7 @@ public class Discussion
         // End of user code
     }
     
-    public Discussion(final URI about)
+    public AllowedValues(final URI about)
            throws URISyntaxException
     {
         super(about);
@@ -112,8 +115,8 @@ public class Discussion
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        OslcDomainConstants.DISCUSSION_PATH,
-        Discussion.class);
+        OslcDomainConstants.ALLOWED_VALUES_PATH,
+        AllowedValues.class);
     }
     
     
@@ -129,7 +132,7 @@ public class Discussion
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Discussion Resource} - update Discussion.toString() to present resource as desired.";
+            result = result + "{a Local Allowed Values Resource} - update Allowed Values.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }
@@ -143,7 +146,43 @@ public class Discussion
         return result;
     }
     
+    public void addAllowedValue(final Link allowedValue)
+    {
+        this.allowedValue.add(allowedValue);
+    }
     
+    
+    // Start of user code getterAnnotation:allowedValue
+    // End of user code
+    @OslcName("allowedValue")
+    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "allowedValue")
+    @OslcDescription("value allowed for a property")
+    @OslcOccurs(Occurs.OneOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public Set<Link> getAllowedValue()
+    {
+        // Start of user code getterInit:allowedValue
+        // End of user code
+        return allowedValue;
+    }
+    
+    
+    // Start of user code setterAnnotation:allowedValue
+    // End of user code
+    public void setAllowedValue(final Set<Link> allowedValue )
+    {
+        // Start of user code setterInit:allowedValue
+        // End of user code
+        this.allowedValue.clear();
+        if (allowedValue != null)
+        {
+            this.allowedValue.addAll(allowedValue);
+        }
+    
+        // Start of user code setterFinalize:allowedValue
+        // End of user code
+    }
     
     
 }

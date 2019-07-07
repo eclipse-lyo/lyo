@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -111,7 +107,7 @@ public interface IParameterInstance
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -125,14 +121,14 @@ public interface IParameterInstance
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
 
     public void setName(final String name );
     public void setValue(final String value );
     public void setDescription(final String description );
-    public void setType(final HashSet<Link> type );
+    public void setType(final Set<Link> type );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setServiceProvider(final Set<URI> serviceProvider );
 }
 

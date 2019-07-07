@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -103,7 +99,7 @@ public interface ITestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -120,7 +116,7 @@ public interface ITestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -133,7 +129,7 @@ public interface ITestPlan
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -153,7 +149,7 @@ public interface ITestPlan
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject();
+    public Set<String> getSubject();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -169,7 +165,7 @@ public interface ITestPlan
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -183,7 +179,7 @@ public interface ITestPlan
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("usesTestCase")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestCase")
@@ -192,7 +188,7 @@ public interface ITestPlan
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_qmDomainConstants.TESTCASE_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getUsesTestCase();
+    public Set<Link> getUsesTestCase();
 
     @OslcName("validatesRequirementCollection")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirementCollection")
@@ -202,7 +198,7 @@ public interface ITestPlan
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getValidatesRequirementCollection();
+    public Set<Link> getValidatesRequirementCollection();
 
     @OslcName("relatedChangeRequest")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
@@ -212,22 +208,22 @@ public interface ITestPlan
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest();
+    public Set<Link> getRelatedChangeRequest();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setSubject(final HashSet<String> subject );
+    public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
-    public void setType(final HashSet<Link> type );
+    public void setType(final Set<Link> type );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
-    public void setUsesTestCase(final HashSet<Link> usesTestCase );
-    public void setValidatesRequirementCollection(final HashSet<Link> validatesRequirementCollection );
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest );
+    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setUsesTestCase(final Set<Link> usesTestCase );
+    public void setValidatesRequirementCollection(final Set<Link> validatesRequirementCollection );
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
 }
 

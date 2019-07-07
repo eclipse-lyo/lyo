@@ -31,13 +31,13 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 // Start of user code imports
 // End of user code
 
-public interface DctermsDomainConstants
+public interface Nsp10DomainConstants
 {
     // Start of user code user constants
     // End of user code
 
-    public static String DUBLIN_CORE_DOMAIN = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms";
+    public static String MATLAB_DOMAIN_DOMAIN = "http://your.organisation.domain/nsp10#";
+    public static String MATLAB_DOMAIN_NAMSPACE = "http://your.organisation.domain/nsp10#";
+    public static String MATLAB_DOMAIN_NAMSPACE_PREFIX = "nsp10";
 
 }

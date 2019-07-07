@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -101,7 +97,7 @@ public interface ITestExecutionRecord
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor();
+    public Set<Link> getContributor();
 
     @OslcName("created")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
@@ -118,12 +114,12 @@ public interface ITestExecutionRecord
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator();
+    public Set<Link> getCreator();
 
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -142,7 +138,7 @@ public interface ITestExecutionRecord
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType();
+    public Set<Link> getType();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
@@ -156,7 +152,7 @@ public interface ITestExecutionRecord
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider();
+    public Set<URI> getServiceProvider();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -174,7 +170,7 @@ public interface ITestExecutionRecord
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getBlockedByChangeRequest();
+    public Set<Link> getBlockedByChangeRequest();
 
     @OslcName("relatedChangeRequest")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
@@ -184,7 +180,7 @@ public interface ITestExecutionRecord
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest();
+    public Set<Link> getRelatedChangeRequest();
 
     @OslcName("reportsOnTestPlan")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "reportsOnTestPlan")
@@ -214,17 +210,17 @@ public interface ITestExecutionRecord
     public Link getRunsTestCase();
 
 
-    public void setContributor(final HashSet<Link> contributor );
+    public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
-    public void setCreator(final HashSet<Link> creator );
+    public void setCreator(final Set<Link> creator );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setType(final HashSet<Link> type );
+    public void setType(final Set<Link> type );
     public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final HashSet<URI> serviceProvider );
+    public void setServiceProvider(final Set<URI> serviceProvider );
     public void setTitle(final String title );
-    public void setBlockedByChangeRequest(final HashSet<Link> blockedByChangeRequest );
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest );
+    public void setBlockedByChangeRequest(final Set<Link> blockedByChangeRequest );
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
     public void setReportsOnTestPlan(final Link reportsOnTestPlan );
     public void setRunsOnTestEnvironment(final Link runsOnTestEnvironment );
     public void setRunsTestCase(final Link runsTestCase );

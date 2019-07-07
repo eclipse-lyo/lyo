@@ -41,10 +41,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -118,13 +114,13 @@ public class ChangeRequest
     private String identifier;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private HashSet<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private HashSet<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private HashSet<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -133,16 +129,16 @@ public class ChangeRequest
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private HashSet<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private HashSet<URI> serviceProvider = new HashSet<URI>();
+    private Set<URI> serviceProvider = new HashSet<URI>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
     private URI instanceShape;
     // Start of user code attributeAnnotation:discussedBy
     // End of user code
-    private Link discussedBy = new Link();
+    private Link discussedBy;
     // Start of user code attributeAnnotation:closeDate
     // End of user code
     private Date closeDate;
@@ -169,25 +165,25 @@ public class ChangeRequest
     private Boolean verified;
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private HashSet<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectsPlanItem
     // End of user code
-    private HashSet<Link> affectsPlanItem = new HashSet<Link>();
+    private Set<Link> affectsPlanItem = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectedByDefect
     // End of user code
-    private HashSet<Link> affectedByDefect = new HashSet<Link>();
+    private Set<Link> affectedByDefect = new HashSet<Link>();
     // Start of user code attributeAnnotation:tracksRequirement
     // End of user code
-    private HashSet<Link> tracksRequirement = new HashSet<Link>();
+    private Set<Link> tracksRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:implementsRequirement
     // End of user code
-    private HashSet<Link> implementsRequirement = new HashSet<Link>();
+    private Set<Link> implementsRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:affectsRequirement
     // End of user code
-    private HashSet<Link> affectsRequirement = new HashSet<Link>();
+    private Set<Link> affectsRequirement = new HashSet<Link>();
     // Start of user code attributeAnnotation:tracksChangeSet
     // End of user code
-    private HashSet<Link> tracksChangeSet = new HashSet<Link>();
+    private Set<Link> tracksChangeSet = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -210,7 +206,6 @@ public class ChangeRequest
         // Start of user code constructor2
         // End of user code
     }
-    
     
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
@@ -237,36 +232,10 @@ public class ChangeRequest
             // End of user code
         }
         else {
-            result = getAbout().toString();
+            result = String.valueOf(getAbout());
         }
     
         // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public String toHtml()
-    {
-        return toHtml(false);
-    }
-    
-    public String toHtml(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toHtml_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = toString(true);
-            // Start of user code toHtml_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
-        // Start of user code toHtml_finalize
         // End of user code
     
         return result;
@@ -383,7 +352,7 @@ public class ChangeRequest
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier()
@@ -402,7 +371,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public HashSet<String> getSubject()
+    public Set<String> getSubject()
     {
         // Start of user code getterInit:subject
         // End of user code
@@ -418,7 +387,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getCreator()
+    public Set<Link> getCreator()
     {
         // Start of user code getterInit:creator
         // End of user code
@@ -434,7 +403,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getContributor()
+    public Set<Link> getContributor()
     {
         // Start of user code getterInit:contributor
         // End of user code
@@ -479,7 +448,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getType()
+    public Set<Link> getType()
     {
         // Start of user code getterInit:type
         // End of user code
@@ -493,7 +462,7 @@ public class ChangeRequest
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcReadOnly(false)
-    public HashSet<URI> getServiceProvider()
+    public Set<URI> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -659,7 +628,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getRelatedChangeRequest()
+    public Set<Link> getRelatedChangeRequest()
     {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
@@ -675,7 +644,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsPlanItem()
+    public Set<Link> getAffectsPlanItem()
     {
         // Start of user code getterInit:affectsPlanItem
         // End of user code
@@ -691,7 +660,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectedByDefect()
+    public Set<Link> getAffectedByDefect()
     {
         // Start of user code getterInit:affectedByDefect
         // End of user code
@@ -707,7 +676,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksRequirement()
+    public Set<Link> getTracksRequirement()
     {
         // Start of user code getterInit:tracksRequirement
         // End of user code
@@ -723,7 +692,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getImplementsRequirement()
+    public Set<Link> getImplementsRequirement()
     {
         // Start of user code getterInit:implementsRequirement
         // End of user code
@@ -739,7 +708,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<Link> getAffectsRequirement()
+    public Set<Link> getAffectsRequirement()
     {
         // Start of user code getterInit:affectsRequirement
         // End of user code
@@ -754,7 +723,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getTracksChangeSet()
+    public Set<Link> getTracksChangeSet()
     {
         // Start of user code getterInit:tracksChangeSet
         // End of user code
@@ -812,7 +781,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final HashSet<String> subject )
+    public void setSubject(final Set<String> subject )
     {
         // Start of user code setterInit:subject
         // End of user code
@@ -828,7 +797,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final HashSet<Link> creator )
+    public void setCreator(final Set<Link> creator )
     {
         // Start of user code setterInit:creator
         // End of user code
@@ -844,7 +813,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final HashSet<Link> contributor )
+    public void setContributor(final Set<Link> contributor )
     {
         // Start of user code setterInit:contributor
         // End of user code
@@ -884,7 +853,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final HashSet<Link> type )
+    public void setType(final Set<Link> type )
     {
         // Start of user code setterInit:type
         // End of user code
@@ -900,7 +869,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final HashSet<URI> serviceProvider )
+    public void setServiceProvider(final Set<URI> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -1036,7 +1005,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final HashSet<Link> relatedChangeRequest )
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
     {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
@@ -1052,7 +1021,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectsPlanItem
     // End of user code
-    public void setAffectsPlanItem(final HashSet<Link> affectsPlanItem )
+    public void setAffectsPlanItem(final Set<Link> affectsPlanItem )
     {
         // Start of user code setterInit:affectsPlanItem
         // End of user code
@@ -1068,7 +1037,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectedByDefect
     // End of user code
-    public void setAffectedByDefect(final HashSet<Link> affectedByDefect )
+    public void setAffectedByDefect(final Set<Link> affectedByDefect )
     {
         // Start of user code setterInit:affectedByDefect
         // End of user code
@@ -1084,7 +1053,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:tracksRequirement
     // End of user code
-    public void setTracksRequirement(final HashSet<Link> tracksRequirement )
+    public void setTracksRequirement(final Set<Link> tracksRequirement )
     {
         // Start of user code setterInit:tracksRequirement
         // End of user code
@@ -1100,7 +1069,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:implementsRequirement
     // End of user code
-    public void setImplementsRequirement(final HashSet<Link> implementsRequirement )
+    public void setImplementsRequirement(final Set<Link> implementsRequirement )
     {
         // Start of user code setterInit:implementsRequirement
         // End of user code
@@ -1116,7 +1085,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:affectsRequirement
     // End of user code
-    public void setAffectsRequirement(final HashSet<Link> affectsRequirement )
+    public void setAffectsRequirement(final Set<Link> affectsRequirement )
     {
         // Start of user code setterInit:affectsRequirement
         // End of user code
@@ -1132,7 +1101,7 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:tracksChangeSet
     // End of user code
-    public void setTracksChangeSet(final HashSet<Link> tracksChangeSet )
+    public void setTracksChangeSet(final Set<Link> tracksChangeSet )
     {
         // Start of user code setterInit:tracksChangeSet
         // End of user code
@@ -1144,1225 +1113,6 @@ public class ChangeRequest
     
         // Start of user code setterFinalize:tracksChangeSet
         // End of user code
-    }
-    
-    
-    static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"shortTitle\">shortTitle: </LABEL>";
-    
-        // Start of user code "Mid:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"shortTitle\" type=\"text\" style=\"width: 400px\" id=\"shortTitle\" >";
-        // Start of user code "Finalize:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"description\">description: </LABEL>";
-    
-        // Start of user code "Mid:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"description\" type=\"text\" style=\"width: 400px\" id=\"description\" >";
-        // Start of user code "Finalize:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"title\">title: </LABEL>";
-    
-        // Start of user code "Mid:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"title\" type=\"text\" style=\"width: 400px\" id=\"title\" >";
-        // Start of user code "Finalize:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"identifier\">identifier: </LABEL>";
-    
-        // Start of user code "Mid:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"identifier\" type=\"text\" style=\"width: 400px\" id=\"identifier\" >";
-        // Start of user code "Finalize:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"subject\">subject: </LABEL>";
-    
-        // Start of user code "Mid:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"subject\" type=\"text\" style=\"width: 400px\" id=\"subject\" >";
-        // Start of user code "Finalize:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"creator\">creator: </LABEL>";
-    
-        // Start of user code "Mid:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"contributor\">contributor: </LABEL>";
-    
-        // Start of user code "Mid:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"created\">created: </LABEL>";
-    
-        // Start of user code "Mid:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"created\" type=\"text\" style=\"width: 400px\" id=\"created\" >";
-        // Start of user code "Finalize:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"modified\">modified: </LABEL>";
-    
-        // Start of user code "Mid:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"modified\" type=\"text\" style=\"width: 400px\" id=\"modified\" >";
-        // Start of user code "Finalize:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"type\">type: </LABEL>";
-    
-        // Start of user code "Mid:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"serviceProvider\">serviceProvider: </LABEL>";
-    
-        // Start of user code "Mid:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"serviceProvider\" type=\"text\" style=\"width: 400px\" id=\"serviceProvider\" >";
-        // Start of user code "Finalize:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"instanceShape\">instanceShape: </LABEL>";
-    
-        // Start of user code "Mid:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"instanceShape\" type=\"text\" style=\"width: 400px\" id=\"instanceShape\" >";
-        // Start of user code "Finalize:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String discussedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:discussedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"discussedBy\">discussedBy: </LABEL>";
-    
-        // Start of user code "Mid:discussedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:discussedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String closeDateToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:closeDateToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"closeDate\">closeDate: </LABEL>";
-    
-        // Start of user code "Mid:closeDateToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"closeDate\" type=\"text\" style=\"width: 400px\" id=\"closeDate\" >";
-        // Start of user code "Finalize:closeDateToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String statusToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:statusToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"status\">status: </LABEL>";
-    
-        // Start of user code "Mid:statusToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"status\" type=\"text\" style=\"width: 400px\" id=\"status\" >";
-        // Start of user code "Finalize:statusToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String closedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:closedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"closed\">closed: </LABEL>";
-    
-        // Start of user code "Mid:closedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"closed\" type=\"radio\" value=\"true\">True<input name=\"closed\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:closedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String inprogressToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:inprogressToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"inprogress\">inprogress: </LABEL>";
-    
-        // Start of user code "Mid:inprogressToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"inprogress\" type=\"radio\" value=\"true\">True<input name=\"inprogress\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:inprogressToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String fixedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:fixedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"fixed\">fixed: </LABEL>";
-    
-        // Start of user code "Mid:fixedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"fixed\" type=\"radio\" value=\"true\">True<input name=\"fixed\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:fixedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String approvedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:approvedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"approved\">approved: </LABEL>";
-    
-        // Start of user code "Mid:approvedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"approved\" type=\"radio\" value=\"true\">True<input name=\"approved\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:approvedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String reviewedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:reviewedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"reviewed\">reviewed: </LABEL>";
-    
-        // Start of user code "Mid:reviewedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"reviewed\" type=\"radio\" value=\"true\">True<input name=\"reviewed\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:reviewedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String verifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:verifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"verified\">verified: </LABEL>";
-    
-        // Start of user code "Mid:verifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"verified\" type=\"radio\" value=\"true\">True<input name=\"verified\" type=\"radio\" value=\"false\">False";
-        // Start of user code "Finalize:verifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String relatedChangeRequestToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:relatedChangeRequestToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"relatedChangeRequest\">relatedChangeRequest: </LABEL>";
-    
-        // Start of user code "Mid:relatedChangeRequestToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:relatedChangeRequestToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String affectsPlanItemToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:affectsPlanItemToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"affectsPlanItem\">affectsPlanItem: </LABEL>";
-    
-        // Start of user code "Mid:affectsPlanItemToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:affectsPlanItemToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String affectedByDefectToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:affectedByDefectToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"affectedByDefect\">affectedByDefect: </LABEL>";
-    
-        // Start of user code "Mid:affectedByDefectToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:affectedByDefectToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String tracksRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:tracksRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"tracksRequirement\">tracksRequirement: </LABEL>";
-    
-        // Start of user code "Mid:tracksRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:tracksRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String implementsRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:implementsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"implementsRequirement\">implementsRequirement: </LABEL>";
-    
-        // Start of user code "Mid:implementsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:implementsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String affectsRequirementToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:affectsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"affectsRequirement\">affectsRequirement: </LABEL>";
-    
-        // Start of user code "Mid:affectsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:affectsRequirementToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    static public String tracksChangeSetToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:tracksChangeSetToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"tracksChangeSet\">tracksChangeSet: </LABEL>";
-    
-        // Start of user code "Mid:tracksChangeSetToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:tracksChangeSetToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    
-    public String shortTitleToHtml()
-    {
-        String s = "";
-    
-        // Start of user code shortTitletoHtml_mid
-        // End of user code
-    
-        try {
-            if (shortTitle == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + shortTitle.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code shortTitletoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String descriptionToHtml()
-    {
-        String s = "";
-    
-        // Start of user code descriptiontoHtml_mid
-        // End of user code
-    
-        try {
-            if (description == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + description.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code descriptiontoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String titleToHtml()
-    {
-        String s = "";
-    
-        // Start of user code titletoHtml_mid
-        // End of user code
-    
-        try {
-            if (title == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + title.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code titletoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String identifierToHtml()
-    {
-        String s = "";
-    
-        // Start of user code identifiertoHtml_mid
-        // End of user code
-    
-        try {
-            if (identifier == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + identifier.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code identifiertoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String subjectToHtml()
-    {
-        String s = "";
-    
-        // Start of user code subjecttoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            Iterator<String> itr = subject.iterator();
-            while(itr.hasNext()) {
-                s = s + "<li>";
-                s= s + itr.next().toString();
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code subjecttoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String creatorToHtml()
-    {
-        String s = "";
-    
-        // Start of user code creatortoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : creator) {
-                s = s + "<li>";
-                s = s + (new Person (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code creatortoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String contributorToHtml()
-    {
-        String s = "";
-    
-        // Start of user code contributortoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : contributor) {
-                s = s + "<li>";
-                s = s + (new Person (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code contributortoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String createdToHtml()
-    {
-        String s = "";
-    
-        // Start of user code createdtoHtml_mid
-        // End of user code
-    
-        try {
-            if (created == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + created.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code createdtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String modifiedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code modifiedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (modified == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + modified.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code modifiedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String typeToHtml()
-    {
-        String s = "";
-    
-        // Start of user code typetoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : type) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code typetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String serviceProviderToHtml()
-    {
-        String s = "";
-    
-        // Start of user code serviceProvidertoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            Iterator<URI> itr = serviceProvider.iterator();
-            while(itr.hasNext()) {
-                s = s + "<li>";
-                s= s + itr.next().toString();
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code serviceProvidertoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String instanceShapeToHtml()
-    {
-        String s = "";
-    
-        // Start of user code instanceShapetoHtml_mid
-        // End of user code
-    
-        try {
-            if (instanceShape == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + instanceShape.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code instanceShapetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String discussedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code discussedBytoHtml_mid
-        // End of user code
-    
-        try {
-            if ((discussedBy == null) || (discussedBy.getValue() == null)) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + (new Discussion (discussedBy.getValue())).toHtml(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code discussedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String closeDateToHtml()
-    {
-        String s = "";
-    
-        // Start of user code closeDatetoHtml_mid
-        // End of user code
-    
-        try {
-            if (closeDate == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + closeDate.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code closeDatetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String statusToHtml()
-    {
-        String s = "";
-    
-        // Start of user code statustoHtml_mid
-        // End of user code
-    
-        try {
-            if (status == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + status.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code statustoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String closedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code closedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (closed == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + closed.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code closedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String inprogressToHtml()
-    {
-        String s = "";
-    
-        // Start of user code inprogresstoHtml_mid
-        // End of user code
-    
-        try {
-            if (inprogress == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + inprogress.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code inprogresstoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String fixedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code fixedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (fixed == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + fixed.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code fixedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String approvedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code approvedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (approved == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + approved.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code approvedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String reviewedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code reviewedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (reviewed == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + reviewed.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code reviewedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String verifiedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code verifiedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (verified == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + verified.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code verifiedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String relatedChangeRequestToHtml()
-    {
-        String s = "";
-    
-        // Start of user code relatedChangeRequesttoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : relatedChangeRequest) {
-                s = s + "<li>";
-                s = s + (new ChangeRequest (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code relatedChangeRequesttoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String affectsPlanItemToHtml()
-    {
-        String s = "";
-    
-        // Start of user code affectsPlanItemtoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : affectsPlanItem) {
-                s = s + "<li>";
-                s = s + (new ChangeRequest (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code affectsPlanItemtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String affectedByDefectToHtml()
-    {
-        String s = "";
-    
-        // Start of user code affectedByDefecttoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : affectedByDefect) {
-                s = s + "<li>";
-                s = s + (new ChangeRequest (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code affectedByDefecttoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String tracksRequirementToHtml()
-    {
-        String s = "";
-    
-        // Start of user code tracksRequirementtoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : tracksRequirement) {
-                s = s + "<li>";
-                s = s + (new Requirement (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code tracksRequirementtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String implementsRequirementToHtml()
-    {
-        String s = "";
-    
-        // Start of user code implementsRequirementtoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : implementsRequirement) {
-                s = s + "<li>";
-                s = s + (new Requirement (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code implementsRequirementtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String affectsRequirementToHtml()
-    {
-        String s = "";
-    
-        // Start of user code affectsRequirementtoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : affectsRequirement) {
-                s = s + "<li>";
-                s = s + (new Requirement (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code affectsRequirementtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    public String tracksChangeSetToHtml()
-    {
-        String s = "";
-    
-        // Start of user code tracksChangeSettoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : tracksChangeSet) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code tracksChangeSettoHtml_finalize
-        // End of user code
-    
-        return s;
     }
     
     
