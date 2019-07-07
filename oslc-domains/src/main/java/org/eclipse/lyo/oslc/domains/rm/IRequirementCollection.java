@@ -82,7 +82,7 @@ public interface IRequirementCollection
     public void addCreator(final Link creator );
     public void addContributor(final Link contributor );
     public void addType(final Link type );
-    public void addServiceProvider(final URI serviceProvider );
+    public void addServiceProvider(final Link serviceProvider );
     public void addElaboratedBy(final Link elaboratedBy );
     public void addElaborates(final Link elaborates );
     public void addSpecifiedBy(final Link specifiedBy );
@@ -185,21 +185,26 @@ public interface IRequirementCollection
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<URI> getServiceProvider();
+    public Set<Link> getServiceProvider();
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public URI getInstanceShape();
+    public Link getInstanceShape();
 
     @OslcName("elaboratedBy")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaboratedBy")
     @OslcDescription("The subject is elaborated by the object. For example, a user requirement is elaborated by use case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getElaboratedBy();
 
@@ -208,6 +213,7 @@ public interface IRequirementCollection
     @OslcDescription("The object is elaborated by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getElaborates();
 
@@ -216,6 +222,7 @@ public interface IRequirementCollection
     @OslcDescription("The subject is specified by the object. For example, a requirement is elaborated by a model element .")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSpecifiedBy();
 
@@ -224,6 +231,7 @@ public interface IRequirementCollection
     @OslcDescription("The object is specified by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSpecifies();
 
@@ -241,6 +249,7 @@ public interface IRequirementCollection
     @OslcDescription("Resource, such as a change request, which tracks this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getTrackedBy();
 
@@ -249,6 +258,7 @@ public interface IRequirementCollection
     @OslcDescription("Resource, such as a change request, which implements this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getImplementedBy();
 
@@ -257,6 +267,7 @@ public interface IRequirementCollection
     @OslcDescription("Resource, such as a test case, which validates this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getValidatedBy();
 
@@ -265,6 +276,7 @@ public interface IRequirementCollection
     @OslcDescription("The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSatisfiedBy();
 
@@ -273,6 +285,7 @@ public interface IRequirementCollection
     @OslcDescription("The object is satisfied by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSatisfies();
 
@@ -281,6 +294,7 @@ public interface IRequirementCollection
     @OslcDescription("The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getDecomposedBy();
 
@@ -289,6 +303,7 @@ public interface IRequirementCollection
     @OslcDescription("The object is decomposed by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getDecomposes();
 
@@ -321,8 +336,8 @@ public interface IRequirementCollection
     public void setCreated(final Date created );
     public void setModified(final Date modified );
     public void setType(final Set<Link> type );
-    public void setServiceProvider(final Set<URI> serviceProvider );
-    public void setInstanceShape(final URI instanceShape );
+    public void setServiceProvider(final Set<Link> serviceProvider );
+    public void setInstanceShape(final Link instanceShape );
     public void setElaboratedBy(final Set<Link> elaboratedBy );
     public void setElaborates(final Set<Link> elaborates );
     public void setSpecifiedBy(final Set<Link> specifiedBy );

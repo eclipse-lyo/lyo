@@ -108,10 +108,10 @@ public class LinkType
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private URI instanceShape;
+    private Link instanceShape;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<URI> serviceProvider = new HashSet<URI>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:comment
     // End of user code
     private String comment;
@@ -185,7 +185,7 @@ public class LinkType
         this.creator.add(creator);
     }
     
-    public void addServiceProvider(final URI serviceProvider)
+    public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
@@ -274,8 +274,10 @@ public class LinkType
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public URI getInstanceShape()
+    public Link getInstanceShape()
     {
         // Start of user code getterInit:instanceShape
         // End of user code
@@ -288,8 +290,10 @@ public class LinkType
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<URI> getServiceProvider()
+    public Set<Link> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -396,7 +400,7 @@ public class LinkType
     
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final URI instanceShape )
+    public void setInstanceShape(final Link instanceShape )
     {
         // Start of user code setterInit:instanceShape
         // End of user code
@@ -408,7 +412,7 @@ public class LinkType
     
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final Set<URI> serviceProvider )
+    public void setServiceProvider(final Set<Link> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code

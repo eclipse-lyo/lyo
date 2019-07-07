@@ -87,7 +87,7 @@ public interface ITestPlan
     public void addCreator(final Link creator );
     public void addSubject(final String subject );
     public void addType(final Link type );
-    public void addServiceProvider(final URI serviceProvider );
+    public void addServiceProvider(final Link serviceProvider );
     public void addUsesTestCase(final Link usesTestCase );
     public void addValidatesRequirementCollection(final Link validatesRequirementCollection );
     public void addRelatedChangeRequest(final Link relatedChangeRequest );
@@ -171,15 +171,19 @@ public interface ITestPlan
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public URI getInstanceShape();
+    public Link getInstanceShape();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<URI> getServiceProvider();
+    public Set<Link> getServiceProvider();
 
     @OslcName("usesTestCase")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestCase")
@@ -220,8 +224,8 @@ public interface ITestPlan
     public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
     public void setType(final Set<Link> type );
-    public void setInstanceShape(final URI instanceShape );
-    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setInstanceShape(final Link instanceShape );
+    public void setServiceProvider(final Set<Link> serviceProvider );
     public void setUsesTestCase(final Set<Link> usesTestCase );
     public void setValidatesRequirementCollection(final Set<Link> validatesRequirementCollection );
     public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
