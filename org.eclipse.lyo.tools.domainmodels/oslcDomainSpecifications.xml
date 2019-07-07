@@ -75,7 +75,7 @@
     <resources name="ChangeRequest" resourceProperties="//@domainSpecifications[name='OSLC']/@resourceProperties[name='shortTitle'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='description'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='title'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='identifier'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='subject'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='creator'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='contributor'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='created'] //@domainSpecifications[name='Dublin%20Core']/@resourceProperties[name='modified'] //@domainSpecifications[name='OSLC']/@resourceProperties[name='serviceProvider'] //@domainSpecifications[name='OSLC']/@resourceProperties[name='instanceShape'] //@domainSpecifications[name='OSLC']/@resourceProperties[name='discussedBy'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='closeDate'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='status'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='closed'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='inProgress'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='fixed'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='approved'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='reviewed'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='verified'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='relatedChangeRequest'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='affectsPlanItem'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='affectedByDefect'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='tracksRequirement'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='implementsRequirement'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='affectsRequirement'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='tracksChangeSet'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='parent'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='priority'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='state'] //@domainSpecifications[name='Change%20Management%20shapes']/@resourceProperties[name='authorizer']">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     </resources>
-    <resources name="Defect">
+    <resources name="Defect" extends="//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Defect']"/>
     </resources>
     <resources name="Priority">
@@ -84,6 +84,15 @@
     <resources name="State"/>
     <resources name="ChangeNotice" extends="//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeNotice']"/>
+    </resources>
+    <resources name="Task" extends="//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']">
+      <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Task']"/>
+    </resources>
+    <resources name="ReviewTask" extends="//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']">
+      <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ReviewTask']"/>
+    </resources>
+    <resources name="Enhancement" extends="//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']">
+      <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Enhancement']"/>
     </resources>
     <resourceProperties name="closeDate" occurs="zeroOrOne" valueType="DateTime" description="The date at which no further activity or work is intended to be conducted.">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='closeDate']"/>
