@@ -19,4 +19,16 @@
     <properties name="uses" label="uses"/>
     <properties name="validatedBy" label="validatedBy"/>
   </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/cm#" label="Change Management vocab" source="http://docs.oasis-open.org/oslc-domains/cm/v3.0/cs02/part2-change-mgt-vocab/cm-v3.0-cs02-part2-change-mgt-vocab.html" preferredNamespacePrefix="oslc_cm">
+    <classes name="ChangeNotice" label="ChangeNotice"/>
+    <classes name="ChangeRequest" label="ChangeRequest"/>
+    <classes name="Defect" label="Defect"/>
+    <classes name="Enhancement" label="Enhancement"/>
+    <classes name="Priority" label="Priority"/>
+    <classes name="ReviewTask" label="ReviewTask"/>
+    <classes name="Severity" label="Severity"/>
+    <classes name="State" label="State"/>
+    <classes name="Task" label="Task"/>
+    <properties name="affectedByDefect" label="affectedByDefect"/>
+  </vocabularies>
 </oscl4j_vocabulary:Vocabularies>
