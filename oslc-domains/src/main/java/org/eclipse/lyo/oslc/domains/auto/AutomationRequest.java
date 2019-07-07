@@ -142,7 +142,6 @@ public class AutomationRequest
     // Start of user code classMethods
     // End of user code
     public AutomationRequest()
-           throws URISyntaxException
     {
         super();
     
@@ -151,7 +150,6 @@ public class AutomationRequest
     }
     
     public AutomationRequest(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

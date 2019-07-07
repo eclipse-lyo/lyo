@@ -140,7 +140,6 @@ public class TestResult
     // Start of user code classMethods
     // End of user code
     public TestResult()
-           throws URISyntaxException
     {
         super();
     
@@ -149,7 +148,6 @@ public class TestResult
     }
     
     public TestResult(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

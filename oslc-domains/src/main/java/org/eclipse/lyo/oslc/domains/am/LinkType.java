@@ -124,7 +124,6 @@ public class LinkType
     // Start of user code classMethods
     // End of user code
     public LinkType()
-           throws URISyntaxException
     {
         super();
     
@@ -133,7 +132,6 @@ public class LinkType
     }
     
     public LinkType(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

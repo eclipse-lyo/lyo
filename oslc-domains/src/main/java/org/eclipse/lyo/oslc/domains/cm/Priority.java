@@ -92,7 +92,6 @@ public class Priority
     // Start of user code classMethods
     // End of user code
     public Priority()
-           throws URISyntaxException
     {
         super();
     
@@ -101,7 +100,6 @@ public class Priority
     }
     
     public Priority(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

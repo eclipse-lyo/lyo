@@ -198,7 +198,6 @@ public class ChangeRequest
     // Start of user code classMethods
     // End of user code
     public ChangeRequest()
-           throws URISyntaxException
     {
         super();
     
@@ -207,7 +206,6 @@ public class ChangeRequest
     }
     
     public ChangeRequest(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

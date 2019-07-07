@@ -145,7 +145,6 @@ public class TestPlan
     // Start of user code classMethods
     // End of user code
     public TestPlan()
-           throws URISyntaxException
     {
         super();
     
@@ -154,7 +153,6 @@ public class TestPlan
     }
     
     public TestPlan(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

@@ -162,7 +162,6 @@ public class VersionResource
     // Start of user code classMethods
     // End of user code
     public VersionResource()
-           throws URISyntaxException
     {
         super();
     
@@ -171,7 +170,6 @@ public class VersionResource
     }
     
     public VersionResource(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

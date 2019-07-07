@@ -176,7 +176,6 @@ public class RequirementCollection
     // Start of user code classMethods
     // End of user code
     public RequirementCollection()
-           throws URISyntaxException
     {
         super();
     
@@ -185,7 +184,6 @@ public class RequirementCollection
     }
     
     public RequirementCollection(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

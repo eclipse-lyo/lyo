@@ -92,7 +92,6 @@ public class Defect
     // Start of user code classMethods
     // End of user code
     public Defect()
-           throws URISyntaxException
     {
         super();
     
@@ -101,7 +100,6 @@ public class Defect
     }
     
     public Defect(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

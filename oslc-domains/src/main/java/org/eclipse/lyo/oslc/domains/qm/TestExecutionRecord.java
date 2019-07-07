@@ -145,7 +145,6 @@ public class TestExecutionRecord
     // Start of user code classMethods
     // End of user code
     public TestExecutionRecord()
-           throws URISyntaxException
     {
         super();
     
@@ -154,7 +153,6 @@ public class TestExecutionRecord
     }
     
     public TestExecutionRecord(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

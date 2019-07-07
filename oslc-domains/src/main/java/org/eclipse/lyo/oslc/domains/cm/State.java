@@ -92,7 +92,6 @@ public class State
     // Start of user code classMethods
     // End of user code
     public State()
-           throws URISyntaxException
     {
         super();
     
@@ -101,7 +100,6 @@ public class State
     }
     
     public State(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

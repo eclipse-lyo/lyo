@@ -92,7 +92,6 @@ public class ChangeSet
     // Start of user code classMethods
     // End of user code
     public ChangeSet()
-           throws URISyntaxException
     {
         super();
     
@@ -101,7 +100,6 @@ public class ChangeSet
     }
     
     public ChangeSet(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

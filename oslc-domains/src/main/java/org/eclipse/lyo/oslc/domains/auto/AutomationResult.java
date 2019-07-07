@@ -156,7 +156,6 @@ public class AutomationResult
     // Start of user code classMethods
     // End of user code
     public AutomationResult()
-           throws URISyntaxException
     {
         super();
     
@@ -165,7 +164,6 @@ public class AutomationResult
     }
     
     public AutomationResult(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

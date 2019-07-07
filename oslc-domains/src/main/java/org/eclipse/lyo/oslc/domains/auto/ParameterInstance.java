@@ -113,7 +113,6 @@ public class ParameterInstance
     // Start of user code classMethods
     // End of user code
     public ParameterInstance()
-           throws URISyntaxException
     {
         super();
     
@@ -122,7 +121,6 @@ public class ParameterInstance
     }
     
     public ParameterInstance(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

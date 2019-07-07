@@ -132,7 +132,6 @@ public class Resource
     // Start of user code classMethods
     // End of user code
     public Resource()
-           throws URISyntaxException
     {
         super();
     
@@ -141,7 +140,6 @@ public class Resource
     }
     
     public Resource(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

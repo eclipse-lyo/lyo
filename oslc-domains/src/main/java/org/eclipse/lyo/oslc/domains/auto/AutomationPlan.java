@@ -140,7 +140,6 @@ public class AutomationPlan
     // Start of user code classMethods
     // End of user code
     public AutomationPlan()
-           throws URISyntaxException
     {
         super();
     
@@ -149,7 +148,6 @@ public class AutomationPlan
     }
     
     public AutomationPlan(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

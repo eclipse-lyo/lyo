@@ -173,7 +173,6 @@ public class Requirement
     // Start of user code classMethods
     // End of user code
     public Requirement()
-           throws URISyntaxException
     {
         super();
     
@@ -182,7 +181,6 @@ public class Requirement
     }
     
     public Requirement(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

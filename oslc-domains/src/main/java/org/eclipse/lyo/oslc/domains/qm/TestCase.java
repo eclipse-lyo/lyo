@@ -149,7 +149,6 @@ public class TestCase
     // Start of user code classMethods
     // End of user code
     public TestCase()
-           throws URISyntaxException
     {
         super();
     
@@ -158,7 +157,6 @@ public class TestCase
     }
     
     public TestCase(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

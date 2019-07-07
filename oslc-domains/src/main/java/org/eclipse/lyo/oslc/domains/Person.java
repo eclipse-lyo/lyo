@@ -101,7 +101,6 @@ public class Person
     // Start of user code classMethods
     // End of user code
     public Person()
-           throws URISyntaxException
     {
         super();
     
@@ -110,7 +109,6 @@ public class Person
     }
     
     public Person(final URI about)
-           throws URISyntaxException
     {
         super(about);
     
