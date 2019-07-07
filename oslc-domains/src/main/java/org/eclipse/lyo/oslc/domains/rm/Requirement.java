@@ -482,7 +482,7 @@ public class Requirement
     // Start of user code getterAnnotation:elaboratedBy
     // End of user code
     @OslcName("elaboratedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaboratedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaboratedBy")
     @OslcDescription("The subject is elaborated by the object. For example, a user requirement is elaborated by use case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -498,7 +498,7 @@ public class Requirement
     // Start of user code getterAnnotation:elaborates
     // End of user code
     @OslcName("elaborates")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaborates")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaborates")
     @OslcDescription("The object is elaborated by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -514,7 +514,7 @@ public class Requirement
     // Start of user code getterAnnotation:specifiedBy
     // End of user code
     @OslcName("specifiedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifiedBy")
     @OslcDescription("The subject is specified by the object. For example, a requirement is elaborated by a model element .")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -530,7 +530,7 @@ public class Requirement
     // Start of user code getterAnnotation:specifies
     // End of user code
     @OslcName("specifies")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifies")
     @OslcDescription("The object is specified by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -546,7 +546,7 @@ public class Requirement
     // Start of user code getterAnnotation:affectedBy
     // End of user code
     @OslcName("affectedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "affectedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "affectedBy")
     @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -562,7 +562,7 @@ public class Requirement
     // Start of user code getterAnnotation:trackedBy
     // End of user code
     @OslcName("trackedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "trackedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "trackedBy")
     @OslcDescription("Resource, such as a change request, which tracks this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -578,7 +578,7 @@ public class Requirement
     // Start of user code getterAnnotation:implementedBy
     // End of user code
     @OslcName("implementedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "implementedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "implementedBy")
     @OslcDescription("Resource, such as a change request, which implements this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -594,7 +594,7 @@ public class Requirement
     // Start of user code getterAnnotation:validatedBy
     // End of user code
     @OslcName("validatedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "validatedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "validatedBy")
     @OslcDescription("Resource, such as a test case, which validates this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -610,7 +610,7 @@ public class Requirement
     // Start of user code getterAnnotation:satisfiedBy
     // End of user code
     @OslcName("satisfiedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfiedBy")
     @OslcDescription("The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -626,7 +626,7 @@ public class Requirement
     // Start of user code getterAnnotation:satisfies
     // End of user code
     @OslcName("satisfies")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfies")
     @OslcDescription("The object is satisfied by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -642,7 +642,7 @@ public class Requirement
     // Start of user code getterAnnotation:decomposedBy
     // End of user code
     @OslcName("decomposedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposedBy")
     @OslcDescription("The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -658,7 +658,7 @@ public class Requirement
     // Start of user code getterAnnotation:decomposes
     // End of user code
     @OslcName("decomposes")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposes")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposes")
     @OslcDescription("The object is decomposed by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -674,7 +674,7 @@ public class Requirement
     // Start of user code getterAnnotation:constrainedBy
     // End of user code
     @OslcName("constrainedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrainedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrainedBy")
     @OslcDescription("The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -690,7 +690,7 @@ public class Requirement
     // Start of user code getterAnnotation:constrains
     // End of user code
     @OslcName("constrains")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrains")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrains")
     @OslcDescription("The object is constrained by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
