@@ -62,16 +62,21 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
-import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
+import org.eclipse.lyo.oslc.domains.cm.IDefect;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+import org.eclipse.lyo.oslc.domains.IPerson;
+import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
+import org.eclipse.lyo.oslc.domains.cm.IPriority;
+import org.eclipse.lyo.oslc.domains.cm.IState;
+import org.eclipse.lyo.oslc.domains.config.IChangeSet;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 
 // Start of user code imports
@@ -86,8 +91,8 @@ public interface IChangeRequest
     public void addSubject(final String subject );
     public void addCreator(final Link creator );
     public void addContributor(final Link contributor );
-    public void addType(final Link type );
     public void addServiceProvider(final Link serviceProvider );
+    public void addInstanceShape(final Link instanceShape );
     public void addRelatedChangeRequest(final Link relatedChangeRequest );
     public void addAffectsPlanItem(final Link affectsPlanItem );
     public void addAffectedByDefect(final Link affectedByDefect );
@@ -95,6 +100,8 @@ public interface IChangeRequest
     public void addImplementsRequirement(final Link implementsRequirement );
     public void addAffectsRequirement(final Link affectsRequirement );
     public void addTracksChangeSet(final Link tracksChangeSet );
+    public void addParent(final Link parent );
+    public void addPriority(final Link priority );
 
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
@@ -123,7 +130,7 @@ public interface IChangeRequest
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -142,6 +149,7 @@ public interface IChangeRequest
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getCreator();
 
@@ -150,6 +158,7 @@ public interface IChangeRequest
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getContributor();
 
@@ -169,14 +178,6 @@ public interface IChangeRequest
     @OslcReadOnly(false)
     public Date getModified();
 
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType();
-
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
@@ -189,11 +190,11 @@ public interface IChangeRequest
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Link getInstanceShape();
+    public Set<Link> getInstanceShape();
 
     @OslcName("discussedBy")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "discussedBy")
@@ -205,7 +206,7 @@ public interface IChangeRequest
     public Link getDiscussedBy();
 
     @OslcName("closeDate")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "closeDate")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closeDate")
     @OslcDescription("The date at which no further activity or work is intended to be conducted.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -213,7 +214,7 @@ public interface IChangeRequest
     public Date getCloseDate();
 
     @OslcName("status")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "status")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "status")
     @OslcDescription("Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
@@ -221,23 +222,23 @@ public interface IChangeRequest
     public String getStatus();
 
     @OslcName("closed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "closed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closed")
     @OslcDescription("Whether or not the Change Request is completely done, no further fixes or fix verification is needed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
     public Boolean isClosed();
 
-    @OslcName("inprogress")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "inprogress")
+    @OslcName("inProgress")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
     @OslcDescription("Whether or not the Change Request in a state indicating that active work is occurring. If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isInprogress();
+    public Boolean isInProgress();
 
     @OslcName("fixed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "fixed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "fixed")
     @OslcDescription("Whether or not the Change Request has been fixed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -245,7 +246,7 @@ public interface IChangeRequest
     public Boolean isFixed();
 
     @OslcName("approved")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "approved")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
     @OslcDescription("Whether or not the Change Request has been approved.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -253,7 +254,7 @@ public interface IChangeRequest
     public Boolean isApproved();
 
     @OslcName("reviewed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "reviewed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "reviewed")
     @OslcDescription("Whether or not the Change Request has been reviewed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -261,7 +262,7 @@ public interface IChangeRequest
     public Boolean isReviewed();
 
     @OslcName("verified")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "verified")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "verified")
     @OslcDescription("Whether or not the resolution or fix of the Change Request has been verified.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -269,34 +270,35 @@ public interface IChangeRequest
     public Boolean isVerified();
 
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedChangeRequest")
     @OslcDescription("This relationship is loosely coupled and has no specific meaning. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getRelatedChangeRequest();
 
     @OslcName("affectsPlanItem")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsPlanItem")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsPlanItem")
     @OslcDescription("Change request affects a plan item. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getAffectsPlanItem();
 
     @OslcName("affectedByDefect")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectedByDefect")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectedByDefect")
     @OslcDescription("Change request is affected by a reported defect. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
+    @OslcRange({Oslc_cmDomainConstants.DEFECT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getAffectedByDefect();
 
     @OslcName("tracksRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksRequirement")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
     @OslcDescription("Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -305,30 +307,58 @@ public interface IChangeRequest
     public Set<Link> getTracksRequirement();
 
     @OslcName("implementsRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "implementsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "implementsRequirement")
     @OslcDescription("Implements associated Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getImplementsRequirement();
 
     @OslcName("affectsRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsRequirement")
     @OslcDescription("Change request affecting a Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getAffectsRequirement();
 
     @OslcName("tracksChangeSet")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksChangeSet")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
     @OslcDescription("Tracks SCM change set resource. It is likely that the target resource will be an oslc_scm:ChangeSet but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
+    @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getTracksChangeSet();
+
+    @OslcName("parent")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "parent")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getParent();
+
+    @OslcName("priority")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.PRIORITY_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getPriority();
+
+    @OslcName("state")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "state")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})
+    @OslcReadOnly(false)
+    public Link getState();
 
 
     public void setShortTitle(final String shortTitle );
@@ -340,14 +370,13 @@ public interface IChangeRequest
     public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
     public void setModified(final Date modified );
-    public void setType(final Set<Link> type );
     public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setInstanceShape(final Link instanceShape );
+    public void setInstanceShape(final Set<Link> instanceShape );
     public void setDiscussedBy(final Link discussedBy );
     public void setCloseDate(final Date closeDate );
     public void setStatus(final String status );
     public void setClosed(final Boolean closed );
-    public void setInprogress(final Boolean inprogress );
+    public void setInProgress(final Boolean inProgress );
     public void setFixed(final Boolean fixed );
     public void setApproved(final Boolean approved );
     public void setReviewed(final Boolean reviewed );
@@ -359,5 +388,8 @@ public interface IChangeRequest
     public void setImplementsRequirement(final Set<Link> implementsRequirement );
     public void setAffectsRequirement(final Set<Link> affectsRequirement );
     public void setTracksChangeSet(final Set<Link> tracksChangeSet );
+    public void setParent(final Set<Link> parent );
+    public void setPriority(final Set<Link> priority );
+    public void setState(final Link state );
 }
 

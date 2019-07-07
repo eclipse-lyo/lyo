@@ -76,6 +76,7 @@ public interface IParameterInstance
 {
 
     public void addType(final Link type );
+    public void addInstanceShape(final Link instanceShape );
     public void addServiceProvider(final Link serviceProvider );
 
     @OslcName("name")
@@ -112,11 +113,11 @@ public interface IParameterInstance
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Link getInstanceShape();
+    public Set<Link> getInstanceShape();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
@@ -132,7 +133,7 @@ public interface IParameterInstance
     public void setValue(final String value );
     public void setDescription(final String description );
     public void setType(final Set<Link> type );
-    public void setInstanceShape(final Link instanceShape );
+    public void setInstanceShape(final Set<Link> instanceShape );
     public void setServiceProvider(final Set<Link> serviceProvider );
 }
 
