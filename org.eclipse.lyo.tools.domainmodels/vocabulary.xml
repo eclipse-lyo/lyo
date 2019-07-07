@@ -30,5 +30,38 @@
     <classes name="State" label="State"/>
     <classes name="Task" label="Task"/>
     <properties name="affectedByDefect" label="affectedByDefect"/>
+    <properties name="affectsPlanItem" label="affectsPlanItem"/>
+    <properties name="affectsRequirement" label="affectsRequirement"/>
+    <properties name="affectsTestResult" label="affectsTestResult"/>
+    <properties name="authorizer" label="authorizer"/>
+    <properties name="blocksTestExecutionRecord" label="blocksTestExecutionRecord"/>
+    <properties name="closeDate" label="closeDate"/>
+    <properties name="implementsRequirement" label="implementsRequirement"/>
+    <properties name="parent" label="parent"/>
+    <properties name="priority" label="priority"/>
+    <properties name="relatedChangeRequest" label="relatedChangeRequest"/>
+    <properties name="relatedTestCase" label="relatedTestCase"/>
+    <properties name="relatedTestExecutionRecord" label="relatedTestExecutionRecord" comment="archaic"/>
+    <properties name="relatedTestPlan" label="relatedTestPlan" comment="archaic"/>
+    <properties name="relatedTestScript" label="relatedTestScript" comment="archaic"/>
+    <properties name="severity" label="severity"/>
+    <properties name="state" label="state"/>
+    <properties name="status" label="status" comment="archaic"/>
+    <properties name="testedByTestCase" label="testedByTestCase" comment="archaic"/>
+    <properties name="tracksChangeSet" label="tracksChangeSet"/>
+    <properties name="tracksRequirement" label="tracksRequirement"/>
+    <properties name="approved" label="approved"/>
+    <properties name="closed" label="closed"/>
+    <properties name="fixed" label="fixed"/>
+    <properties name="inProgress" label="inProgress"/>
+    <properties name="reviewed" label="reviewed"/>
+    <properties name="verified" label="verified"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://xmlns.com/foaf/0.1/" label="FOAF" source="http://xmlns.com/foaf/spec/" preferredNamespacePrefix="foaf">
+    <classes name="Agent" label="Agent"/>
+    <classes name="Person" label="Person" subClassOf="//@vocabularies.2/@classes.0"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/config#" label="OSLC Configuration Management" description="WD as of 03 July 2019" source="https://oslc-op.github.io/oslc-specs/specs/config/config-vocab.html" preferredNamespacePrefix="oslc_config">
+    <classes name="ChangeSet" label="ChangeSet"/>
   </vocabularies>
 </oscl4j_vocabulary:Vocabularies>
