@@ -67,7 +67,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.cm.Task;
 
 
 import org.eclipse.lyo.oslc.domains.cm.Defect;
@@ -91,19 +91,19 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.DEFECT_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.DEFECT_LOCALNAME)
-@OslcResourceShape(title = "Defect Resource Shape", describes = Oslc_cmDomainConstants.DEFECT_TYPE)
-public class Defect
-    extends ChangeRequest
-    implements IDefect
+@OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
+@OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
+@OslcResourceShape(title = "ReviewTask Resource Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+public class ReviewTask
+    extends Task
+    implements IReviewTask
 {
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Defect()
+    public ReviewTask()
     {
         super();
     
@@ -111,7 +111,7 @@ public class Defect
         // End of user code
     }
     
-    public Defect(final URI about)
+    public ReviewTask(final URI about)
     {
         super(about);
     
@@ -122,8 +122,8 @@ public class Defect
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.DEFECT_PATH,
-        Defect.class);
+        Oslc_cmDomainConstants.REVIEWTASK_PATH,
+        ReviewTask.class);
     }
     
     
@@ -139,7 +139,7 @@ public class Defect
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Defect Resource} - update Defect.toString() to present resource as desired.";
+            result = result + "{a Local ReviewTask Resource} - update ReviewTask.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }

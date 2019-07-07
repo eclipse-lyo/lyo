@@ -40,6 +40,10 @@ public interface Oslc_cmDomainConstants
     public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/cm#";
     public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_cm";
 
+    public static String CHANGENOTICE_PATH = "changeNotice";
+    public static String CHANGENOTICE_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String CHANGENOTICE_LOCALNAME = "ChangeNotice"; //localName of the rdfs:class the resource describes
+    public static String CHANGENOTICE_TYPE = CHANGENOTICE_NAMESPACE + CHANGENOTICE_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String CHANGEREQUEST_PATH = "changeRequest";
     public static String CHANGEREQUEST_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String CHANGEREQUEST_LOCALNAME = "ChangeRequest"; //localName of the rdfs:class the resource describes
@@ -48,12 +52,24 @@ public interface Oslc_cmDomainConstants
     public static String DEFECT_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String DEFECT_LOCALNAME = "Defect"; //localName of the rdfs:class the resource describes
     public static String DEFECT_TYPE = DEFECT_NAMESPACE + DEFECT_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String ENHANCEMENT_PATH = "enhancement";
+    public static String ENHANCEMENT_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String ENHANCEMENT_LOCALNAME = "Enhancement"; //localName of the rdfs:class the resource describes
+    public static String ENHANCEMENT_TYPE = ENHANCEMENT_NAMESPACE + ENHANCEMENT_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String PRIORITY_PATH = "priority";
     public static String PRIORITY_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String PRIORITY_LOCALNAME = "Priority"; //localName of the rdfs:class the resource describes
     public static String PRIORITY_TYPE = PRIORITY_NAMESPACE + PRIORITY_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String REVIEWTASK_PATH = "reviewTask";
+    public static String REVIEWTASK_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String REVIEWTASK_LOCALNAME = "ReviewTask"; //localName of the rdfs:class the resource describes
+    public static String REVIEWTASK_TYPE = REVIEWTASK_NAMESPACE + REVIEWTASK_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String STATE_PATH = "state";
     public static String STATE_NAMESPACE = CHANGE_MANAGEMENT_SHAPES_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String STATE_LOCALNAME = "State"; //localName of the rdfs:class the resource describes
     public static String STATE_TYPE = STATE_NAMESPACE + STATE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String TASK_PATH = "task";
+    public static String TASK_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String TASK_LOCALNAME = "Task"; //localName of the rdfs:class the resource describes
+    public static String TASK_TYPE = TASK_NAMESPACE + TASK_LOCALNAME; //fullname of the rdfs:class the resource describes
 }

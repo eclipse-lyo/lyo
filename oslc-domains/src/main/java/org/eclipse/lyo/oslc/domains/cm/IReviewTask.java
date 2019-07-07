@@ -78,10 +78,10 @@ import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 // Start of user code imports
 // End of user code
 
-@OslcNamespace(Oslc_cmDomainConstants.DEFECT_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.DEFECT_LOCALNAME)
-@OslcResourceShape(title = "Defect Resource Shape", describes = Oslc_cmDomainConstants.DEFECT_TYPE)
-public interface IDefect
+@OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
+@OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
+@OslcResourceShape(title = "ReviewTask Resource Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+public interface IReviewTask
 {
 
 

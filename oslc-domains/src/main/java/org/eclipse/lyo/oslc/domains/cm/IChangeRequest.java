@@ -69,6 +69,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.IDefect;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
@@ -103,6 +104,7 @@ public interface IChangeRequest
     public void addTracksChangeSet(final Link tracksChangeSet );
     public void addParent(final Link parent );
     public void addPriority(final Link priority );
+    public void addAuthorizer(final Link authorizer );
 
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
@@ -361,6 +363,14 @@ public interface IChangeRequest
     @OslcReadOnly(false)
     public Link getState();
 
+    @OslcName("authorizer")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.AGENT_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getAuthorizer();
+
 
     public void setShortTitle(final String shortTitle );
     public void setDescription(final String description );
@@ -392,5 +402,6 @@ public interface IChangeRequest
     public void setParent(final Set<Link> parent );
     public void setPriority(final Set<Link> priority );
     public void setState(final Link state );
+    public void setAuthorizer(final Set<Link> authorizer );
 }
 

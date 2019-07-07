@@ -91,19 +91,19 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.DEFECT_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.DEFECT_LOCALNAME)
-@OslcResourceShape(title = "Defect Resource Shape", describes = Oslc_cmDomainConstants.DEFECT_TYPE)
-public class Defect
+@OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
+@OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
+@OslcResourceShape(title = "ChangeNotice Resource Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+public class ChangeNotice
     extends ChangeRequest
-    implements IDefect
+    implements IChangeNotice
 {
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Defect()
+    public ChangeNotice()
     {
         super();
     
@@ -111,7 +111,7 @@ public class Defect
         // End of user code
     }
     
-    public Defect(final URI about)
+    public ChangeNotice(final URI about)
     {
         super(about);
     
@@ -122,8 +122,8 @@ public class Defect
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.DEFECT_PATH,
-        Defect.class);
+        Oslc_cmDomainConstants.CHANGENOTICE_PATH,
+        ChangeNotice.class);
     }
     
     
@@ -139,7 +139,7 @@ public class Defect
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Defect Resource} - update Defect.toString() to present resource as desired.";
+            result = result + "{a Local ChangeNotice Resource} - update ChangeNotice.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }

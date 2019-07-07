@@ -77,6 +77,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
@@ -193,6 +194,9 @@ public class ChangeRequest
     // Start of user code attributeAnnotation:state
     // End of user code
     private Link state;
+    // Start of user code attributeAnnotation:authorizer
+    // End of user code
+    private Set<Link> authorizer = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -316,6 +320,11 @@ public class ChangeRequest
     public void addPriority(final Link priority)
     {
         this.priority.add(priority);
+    }
+    
+    public void addAuthorizer(final Link authorizer)
+    {
+        this.authorizer.add(authorizer);
     }
     
     
@@ -786,6 +795,21 @@ public class ChangeRequest
         return state;
     }
     
+    // Start of user code getterAnnotation:authorizer
+    // End of user code
+    @OslcName("authorizer")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.AGENT_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getAuthorizer()
+    {
+        // Start of user code getterInit:authorizer
+        // End of user code
+        return authorizer;
+    }
+    
     
     // Start of user code setterAnnotation:shortTitle
     // End of user code
@@ -1200,6 +1224,22 @@ public class ChangeRequest
         this.state = state;
     
         // Start of user code setterFinalize:state
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:authorizer
+    // End of user code
+    public void setAuthorizer(final Set<Link> authorizer )
+    {
+        // Start of user code setterInit:authorizer
+        // End of user code
+        this.authorizer.clear();
+        if (authorizer != null)
+        {
+            this.authorizer.addAll(authorizer);
+        }
+    
+        // Start of user code setterFinalize:authorizer
         // End of user code
     }
     

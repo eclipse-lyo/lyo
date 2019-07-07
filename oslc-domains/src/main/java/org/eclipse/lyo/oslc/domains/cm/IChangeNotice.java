@@ -78,10 +78,10 @@ import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 // Start of user code imports
 // End of user code
 
-@OslcNamespace(Oslc_cmDomainConstants.DEFECT_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.DEFECT_LOCALNAME)
-@OslcResourceShape(title = "Defect Resource Shape", describes = Oslc_cmDomainConstants.DEFECT_TYPE)
-public interface IDefect
+@OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
+@OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
+@OslcResourceShape(title = "ChangeNotice Resource Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+public interface IChangeNotice
 {
 
 
