@@ -5,7 +5,7 @@
     <resourceProperties name="creator" occurs="zeroOrMany" valueType="Resource" representation="either" range="//@domainSpecifications.1/@resources.0" description="Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."/>
     <resourceProperties name="created" occurs="zeroOrOne" valueType="DateTime" description="Timestamp of resource creation"/>
     <resourceProperties name="description" occurs="zeroOrOne" valueType="XMLLiteral" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element."/>
-    <resourceProperties name="identifier" valueType="String" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."/>
+    <resourceProperties name="identifier" occurs="zeroOrOne" valueType="String" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."/>
     <resourceProperties name="modified" occurs="zeroOrOne" valueType="DateTime" description="Timestamp of latest resource modification"/>
     <resourceProperties name="relation" valueType="Resource" description="Relation which identifies a related resource."/>
     <resourceProperties title="" name="subject" occurs="zeroOrMany" valueType="String" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource."/>
