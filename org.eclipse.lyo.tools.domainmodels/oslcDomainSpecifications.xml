@@ -92,7 +92,7 @@
     <resourceProperties name="elaborates" occurs="zeroOrMany" valueType="Resource" description="The object is elaborated by the subject."/>
     <resourceProperties name="specifiedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is specified by the object. For example, a requirement is elaborated by a model element ."/>
     <resourceProperties name="specifies" occurs="zeroOrMany" valueType="Resource" description="The object is specified by the subject."/>
-    <resourceProperties name="affectedBy" occurs="zeroOrMany" valueType="Resource" description="Requirement is affected by a resource, such as a defect or issue."/>
+    <resourceProperties name="affectedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="Requirement is affected by a resource, such as a defect or issue."/>
     <resourceProperties name="trackedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a change request, which tracks this requirement."/>
     <resourceProperties name="implementedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a change request, which implements this requirement."/>
     <resourceProperties name="validatedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a test case, which validates this requirement."/>
