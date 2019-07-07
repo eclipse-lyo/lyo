@@ -1,3 +1,5 @@
+*.lost
+
 /target/
 
 /.settings/
