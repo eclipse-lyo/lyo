@@ -571,6 +571,7 @@ public class RequirementCollection
     @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getAffectedBy()
     {
