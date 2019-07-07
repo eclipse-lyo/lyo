@@ -63,7 +63,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 // Start of user code imports
@@ -78,7 +77,6 @@ public interface IRequirementCollection
     public void addSubject(final String subject );
     public void addCreator(final Link creator );
     public void addContributor(final Link contributor );
-    public void addType(final Link type );
     public void addServiceProvider(final Link serviceProvider );
     public void addElaboratedBy(final Link elaboratedBy );
     public void addElaborates(final Link elaborates );
@@ -168,14 +166,6 @@ public interface IRequirementCollection
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
     public Date getModified();
-
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType();
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
@@ -341,7 +331,6 @@ public interface IRequirementCollection
     public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
     public void setModified(final Date modified );
-    public void setType(final Set<Link> type );
     public void setServiceProvider(final Set<Link> serviceProvider );
     public void setInstanceShape(final Link instanceShape );
     public void setElaboratedBy(final Set<Link> elaboratedBy );

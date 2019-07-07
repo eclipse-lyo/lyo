@@ -71,7 +71,6 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 // Start of user code imports
@@ -116,9 +115,6 @@ public class RequirementCollection
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
-    // Start of user code attributeAnnotation:type
-    // End of user code
-    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
     private Set<Link> serviceProvider = new HashSet<Link>();
@@ -240,11 +236,6 @@ public class RequirementCollection
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
-    }
-    
-    public void addType(final Link type)
-    {
-        this.type.add(type);
     }
     
     public void addServiceProvider(final Link serviceProvider)
@@ -462,21 +453,6 @@ public class RequirementCollection
         // Start of user code getterInit:modified
         // End of user code
         return modified;
-    }
-    
-    // Start of user code getterAnnotation:type
-    // End of user code
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType()
-    {
-        // Start of user code getterInit:type
-        // End of user code
-        return type;
     }
     
     // Start of user code getterAnnotation:serviceProvider
@@ -870,22 +846,6 @@ public class RequirementCollection
         this.modified = modified;
     
         // Start of user code setterFinalize:modified
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:type
-    // End of user code
-    public void setType(final Set<Link> type )
-    {
-        // Start of user code setterInit:type
-        // End of user code
-        this.type.clear();
-        if (type != null)
-        {
-            this.type.addAll(type);
-        }
-    
-        // Start of user code setterFinalize:type
         // End of user code
     }
     
