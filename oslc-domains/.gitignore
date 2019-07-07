@@ -1,3 +1,4 @@
+/oslc-domains/src/main/java/org/eclipse/lyo/oslc4j/core/model/
 *.lost
 
 /target/
