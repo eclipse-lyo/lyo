@@ -4,4 +4,4 @@ jdk:
   - openjdk8
 
 script:
-  - mvn -f oslc4j-core-build/pom.xml clean verify
+  - mvn -f oslc4j-core-build/pom.xml clean verify -B
