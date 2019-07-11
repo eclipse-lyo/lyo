@@ -2,16 +2,7 @@ language: java
 
 jdk:
   - openjdk8
-  - oraclejdk8
-  # - openjdk-ea
-  # - openjdk10
-  # - openjdk9
-# failing
-  # - openjdk11
-  # - openjdk12
-  # - oraclejdk11
 
 script:
-  # build clients
   - (cd oslc-java-client && mvn clean verify -B)
   - (cd oslc4j-client && mvn clean verify -B)
