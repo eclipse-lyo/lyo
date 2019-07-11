@@ -2,8 +2,6 @@ language: java
 
 jdk:
   - openjdk8
-# fails
-#  - openjdk11
 
 script:
   - mvn clean verify -B
