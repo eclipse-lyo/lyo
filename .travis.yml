@@ -4,4 +4,4 @@ jdk:
   - openjdk8
 
 script:
-  - mvn -f src/pom.xml clean verify
+  - mvn -f src/pom.xml clean verify -B
