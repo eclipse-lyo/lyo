@@ -7,12 +7,15 @@
 
 ## Getting started
 
-See [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html) for instructions how to use Lyo Client. Javadocs can be found [here](https://download.eclipse.org/lyo/docs/client/2.4.0/).
+See [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html) for instructions how to use Lyo Client. Javadocs:
+
+- **for [oslc4j-client](https://download.eclipse.org/lyo/docs/oslc4j-client/latest)**
+- for [oslc-java-client](https://download.eclipse.org/lyo/docs/oslc-java-client/latest) (legacy client)
 
 Sample code:
 
-- [old client](https://github.com/OSLC/lyo-samples/tree/master/oslc-java-samples)
-- [new client (since Lyo 4.0)](https://github.com/OSLC/lyo-samples/tree/master/oslc4j-client-samples)
+- [oslc4j-client](https://github.com/OSLC/lyo-samples/tree/master/oslc4j-client-samples) (since Lyo 4.0)
+- [oslc-java-client](https://github.com/OSLC/lyo-samples/tree/master/oslc-java-samples) (legacy)
 
 ## Contributing
 
