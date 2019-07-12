@@ -1,5 +1,9 @@
 # Lyo Validation library
 
+[Javadoc](https://download.eclipse.org/lyo/docs/validation/latest)
+
+---
+
 The library validates RDF resources against constraints defined either as [SHACL](https://www.w3.org/TR/shacl/) or [OSLC Resource Shapes](http://docs.oasis-open.org/oslc-core/oslc-core/v3.0/cs01/part6-resource-shape/oslc-core-v3.0-cs01-part6-resource-shape.html).
 
 ## Getting started
