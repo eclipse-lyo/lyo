@@ -3,9 +3,9 @@
 [![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
 [![Build Status](https://travis-ci.org/eclipse/lyo.core.svg?branch=master)](https://travis-ci.org/eclipse/lyo.core)
 [![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/core/2.4.0/)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/core/latest/)
 [![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
 [![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
-
 
 This repository contains core library OSLC4J and its accompanying tests.
 
@@ -50,14 +50,6 @@ Alternatively, you can submit your contribution as a patch attachment on the cor
 (This project no longer support Gerrit.)
 
 The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
-
-### Useful links
-
-* [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
-* [open bugs](https://bugs.eclipse.org/bugs/buglist.cgi?product=Lyo)
-* [report a new bug](https://bugs.eclipse.org/bugs/enter_bug.cgi?product=Lyo)
-
-**Be sure to search for existing bugs before you create another one.** Remember that contributions are always welcome!
 
 ### Building the project
 
