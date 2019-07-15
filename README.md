@@ -7,7 +7,7 @@
 [![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
 [![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
 
-This repository contains core library OSLC4J and its accompanying tests.
+This repository contains Lyo Core library.
 
 ## Introduction
 
@@ -17,7 +17,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
-If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.4.0/overview-summary.html). Maven artifacts can be obtained from the following repositories:
+Maven artifacts can be obtained from the following repositories:
 
 ```xml
 <repositories>
@@ -45,8 +45,8 @@ If you are interested in using the library, please use the [wiki](https://wiki.e
 We adopt the Eclipse guidlines for [contributing via Git](https://wiki.eclipse.org/Development_Resources/Contributing_via_Git), to accept contributions in this project.
 
 Please follow these guidelines to submit your contributions. **Before your contribution can be accepted to an Eclipse Foundation project, you need to electronically sign the [Eclipse Contributor Agreement (ECA)](https://eclipse.org/legal/ECA.php).**
-The preferred approach is to contribute a patch via GitHub using the standard GitHub pull request (remember to sign off on each commit and configure Git to use the same email addressed used to sign an ECA). 
-Alternatively, you can submit your contribution as a patch attachment on the corresponding Bugzilla or Github issue. 
+The preferred approach is to contribute a patch via GitHub using the standard GitHub pull request (remember to sign off on each commit and configure Git to use the same email addressed used to sign an ECA).
+Alternatively, you can submit your contribution as a patch attachment on the corresponding Bugzilla or Github issue.
 (This project no longer support Gerrit.)
 
 The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
