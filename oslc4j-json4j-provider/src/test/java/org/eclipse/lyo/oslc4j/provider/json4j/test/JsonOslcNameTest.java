@@ -41,10 +41,11 @@ import org.junit.Test;
 
 /**
  * Tests Json working with different combinations of OslcName annotation.
- * 
+ *
  * @author Fabio Negrello
- * 
+ *
  */
+@SuppressWarnings("deprecation")
 public class JsonOslcNameTest {
 
 	private final String NAME_LOCAL_PART = "name";
@@ -55,7 +56,7 @@ public class JsonOslcNameTest {
 	/**
 	 * Checks that OslcName annotation with empty string does not add RDF type
 	 * to the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -80,7 +81,7 @@ public class JsonOslcNameTest {
 	/**
 	 * Checks that OslcName annotation with empty string does not add default
 	 * RDF type to the resource but adds the ones specified by addTypes method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -97,7 +98,7 @@ public class JsonOslcNameTest {
 
 	/**
 	 * Checks that OslcName annotation adds RDF type to the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -113,7 +114,7 @@ public class JsonOslcNameTest {
 	/**
 	 * Checks that the absence of OslcName annotation adds default RDF type to
 	 * the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -143,7 +144,7 @@ public class JsonOslcNameTest {
 
 	/**
 	 * Creates a new instance adding some test values.
-	 * 
+	 *
 	 * @param resource
 	 *			  class.
 	 * @return new instance

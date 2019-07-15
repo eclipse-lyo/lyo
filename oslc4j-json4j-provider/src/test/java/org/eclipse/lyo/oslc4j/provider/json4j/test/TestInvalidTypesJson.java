@@ -25,6 +25,7 @@ import org.eclipse.lyo.oslc4j.provider.json4j.OslcRdfJsonProvider;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class TestInvalidTypesJson
 {
 	@Test(expected = WebApplicationException.class)
