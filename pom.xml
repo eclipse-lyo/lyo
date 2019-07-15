@@ -125,14 +125,6 @@
       <version>${version.jersey}</version>
       <scope>test</scope>
     </dependency>
-<!--
-    <dependency>
-      <groupId>org.glassfish.jersey.inject</groupId>
-      <artifactId>jersey-hk2</artifactId>
-      <version>${version.jersey}</version>
-      <scope>test</scope>
-    </dependency>
--->
     <dependency>
       <groupId>org.glassfish.jersey.test-framework</groupId>
       <artifactId>jersey-test-framework-core</artifactId>
@@ -155,6 +147,12 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${version.slf4j}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>26.0-jre</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class represents an event occuring on a specific resource at some point in time.
+ * This class represents an event occurring on a specific resource at some point in time.
  *
  * @version $version-stub$
  * @since 2.3.0
@@ -44,8 +44,9 @@ public class HistoryData {
     final public static  String DELETED  = "Deleted";
     private final static Logger log      = LoggerFactory.getLogger(HistoryData.class);
     private Date timestamp;
+
     /**
-     * OSLC Resource URI
+     * Tracked resource URI
      */
     private URI  uri;
 
@@ -71,6 +72,7 @@ public class HistoryData {
     /**
      * @return the timestamp
      */
+    @Deprecated
     public Date getTimestamp() {
         return timestamp;
     }

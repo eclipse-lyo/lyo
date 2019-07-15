@@ -27,6 +27,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -58,7 +59,11 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
  */
 public class TRSUtil {
     public static final SimpleDateFormat XSD_DATETIME_FORMAT;
+    public final static URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
     public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
+
+    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparingInt(
+            ChangeEvent::getOrder).reversed();
 
     static {
         XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -187,6 +192,7 @@ public class TRSUtil {
      *
      * @return the converted object
      */
+    @Deprecated
     public static Object historyDataToChangeEvent(Object objToConvert) {
 
         if (objToConvert instanceof ChangeEvent) {

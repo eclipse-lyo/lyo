@@ -1,13 +1,19 @@
 package org.eclipse.lyo.oslc4j.trs.server.service;
 
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import javax.inject.Singleton;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
-import org.eclipse.lyo.oslc4j.trs.server.IChangeHistories;
+import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrsTest;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -45,20 +51,23 @@ public class TRSServiceDITest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
+        try {
+            OSLC4JUtils.setPublicURI(getBaseUri().toString());
+        } catch (MalformedURLException e) {
+            System.err.println("Can't set the OSLC4J public URI");
+        }
+        OSLC4JUtils.setServletPath("/");
+
         return new ResourceConfig(TrackedResourceSetService.class)
                 .register(new AbstractBinder() {
                     @Override
                     protected void configure() {
-                        bind(FakeChangeHistories.class).to(IChangeHistories.class).in(Singleton.class);
+                        bind(new InmemPagedTrs(5, 5,
+                                UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("trs").build(),
+                                new ArrayList<>(0))).to(PagedTrs.class);
                     }
                 })
                 .registerClasses(JenaProvidersRegistry.getProviders());
-    }
-
-    @Before
-    public void setUpUri() throws Exception {
-        OSLC4JUtils.setPublicURI(getBaseUri().toString());
-        OSLC4JUtils.setServletPath("/");
     }
 
     @Test

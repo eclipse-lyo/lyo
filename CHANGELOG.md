@@ -2,7 +2,7 @@
 
 ## 4.0 (draft)
 
-- `ChangeHistories` has been extracted to the `IChangeHistories` interface and the implementing class has been renamed to `SimpleChangeHistories`.
+- `ChangeHistories` has been extracted to the `PagedTrs` interface and the implementing class has been renamed to `InmemPagedTrs`.
 - `TrackedResourceSetService` is no longer abstract (still extendable).
   - `TrackedResourceSetService` supports constructor dependency injection of the `IChangeHistories` instance.
   - You can still extend it and override `getChangeHistories()` returning an instance of `SimpleChangeHistories` to get the same behaviour as in the earlier release.

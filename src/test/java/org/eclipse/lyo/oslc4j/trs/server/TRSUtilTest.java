@@ -19,6 +19,7 @@ package org.eclipse.lyo.oslc4j.trs.server;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.UUID;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Modification;
