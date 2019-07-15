@@ -20,7 +20,6 @@ import javax.ws.rs.client.ClientBuilder;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
-@Deprecated
 public class TrsConsumerConfiguration {
     private final String sparqlQueryUrl;
     private final String sparqlUpdateUrl;
@@ -64,6 +63,7 @@ public class TrsConsumerConfiguration {
         return sparqlPassword;
     }
 
+    // TODO Andrew@2019-07-15: create a client factory per domain or something similar
     public OslcClient getHttpClient() {
         if (httpClient == null) {
             final ClientBuilder builder = ClientBuilder.newBuilder();

@@ -25,52 +25,44 @@ import org.eclipse.lyo.oslc4j.core.exception.LyoModelException
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper
 import org.eclipse.lyo.trs.client.handlers.IPushProviderHandler
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 import java.net.URI
 import java.nio.charset.StandardCharsets
-import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.Executors
 
-class MqttTrsEventListener(private val providerHandler: IPushProviderHandler,
-                           private val executorService: ScheduledExecutorService) : MqttCallback {
+class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : IMqttMessageListener {
     private val log = LoggerFactory.getLogger(MqttTrsEventListener::class.java)
+    private val executorService = Executors.newSingleThreadScheduledExecutor()
 
     override fun messageArrived(s: String, mqttMessage: MqttMessage) {
         val payload = String(mqttMessage.payload)
-        log.info("Message received: $payload")
-        if (payload.equals("NEW", ignoreCase = true)) {
-            log.warn("Plain 'NEW' ping message received")
-            throw IllegalArgumentException(
-                    "'NEW' payload is no longer supported; send an RDF graph")
-        }
+        log.trace("Message payload: $payload")
+        rejectLegacyPayloads(payload)
         executorService.submit {
-            log.info("Full ChangeEvent received")
+            log.info("Processing Change Event")
             try {
-                if (payload.startsWith("<ModelCom")) {
-                    throw IllegalArgumentException("Malformed RDF from the serialised Jena Model; use RDFDataMgr")
-                } else {
-                    val eventMessage = unmarshalChangeEvent(payload)
-                    providerHandler.handlePush(eventMessage)
-                }
+                val eventMessage = unmarshalChangeEvent(payload)
+                providerHandler.handlePush(eventMessage)
             } catch (e: LyoModelException) {
-                log.warn("Error processing event", e)
+                log.warn("Error processing Change Event", e)
             }
         }
     }
 
-    override fun deliveryComplete(token: IMqttDeliveryToken) {
-        log.trace("deliveryComplete: {}", token)
-    }
-
-    override fun connectionLost(throwable: Throwable) {
-        log.error("Connection with broker lost", throwable)
+    private fun rejectLegacyPayloads(payload: String) {
+        if (payload.equals("NEW", ignoreCase = true)) {
+            log.warn("Plain 'NEW' ping message received")
+            throw IllegalArgumentException("'NEW' payload is no longer supported; send an RDF graph")
+        }
+        if (payload.startsWith("<ModelCom")) {
+            throw IllegalArgumentException("Malformed RDF from the serialised Jena Model; use RDFDataMgr")
+        }
     }
 
     private fun unmarshalChangeEvent(payload: String): ChangeEventMessageTR {
-        log.debug("MQTT payload: {}", payload)
         var changeEvent: ChangeEvent
         val payloadModel = ModelFactory.createDefaultModel()
         val inputStream = ByteArrayInputStream(payload.toByteArray(StandardCharsets.UTF_8))
