@@ -23,7 +23,7 @@ import org.eclipse.lyo.core.trs.Deletion
 import org.eclipse.lyo.core.trs.Modification
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper
-import org.eclipse.lyo.trs.client.handlers.TrsProviderHandler
+import org.eclipse.lyo.trs.client.handlers.IPushProviderHandler
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
@@ -34,11 +34,10 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.ScheduledExecutorService
 
-class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
+class MqttTrsEventListener(private val providerHandler: IPushProviderHandler,
                            private val executorService: ScheduledExecutorService) : MqttCallback {
     private val log = LoggerFactory.getLogger(MqttTrsEventListener::class.java)
 
-//    @Throws(Exception::class)
     override fun messageArrived(s: String, mqttMessage: MqttMessage) {
         val payload = String(mqttMessage.payload)
         log.info("Message received: $payload")
@@ -54,7 +53,7 @@ class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
                     throw IllegalArgumentException("Malformed RDF from the serialised Jena Model; use RDFDataMgr")
                 } else {
                     val eventMessage = unmarshalChangeEvent(payload)
-                    providerHandler.processChangeEvent(eventMessage)
+                    providerHandler.handlePush(eventMessage)
                 }
             } catch (e: LyoModelException) {
                 log.warn("Error processing event", e)
@@ -70,7 +69,6 @@ class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
         log.error("Connection with broker lost", throwable)
     }
 
-//    @Throws(LyoModelException::class)
     private fun unmarshalChangeEvent(payload: String): ChangeEventMessageTR {
         log.debug("MQTT payload: {}", payload)
         var changeEvent: ChangeEvent
@@ -92,9 +90,7 @@ class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
                     log.error("Can't unmarshal the payload", e2)
                     throw e2
                 }
-
             }
-
         }
 
         val trModel = ModelFactory.createDefaultModel()
@@ -108,10 +104,9 @@ class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
         model.removeAll(r(subject), null, null)
     }
 
-    /**
-     * Dummy Jena Resource for a URI. Can be to do raw ops on a model.
-     */
-    private fun r(tResourceUri: URI): Resource {
-        return ResourceFactory.createResource(tResourceUri.toString())
+    companion object {
+        private fun r(resourceUri: URI): Resource {
+            return ResourceFactory.createResource(resourceUri.toString())
+        }
     }
 }

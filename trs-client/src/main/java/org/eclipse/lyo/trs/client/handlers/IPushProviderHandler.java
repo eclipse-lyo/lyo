@@ -14,6 +14,6 @@ package org.eclipse.lyo.trs.client.handlers;
 
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 
-public interface IProviderHandler {
-    void update();
+public interface IPushProviderHandler extends IProviderHandler {
+    void handlePush(final ChangeEventMessageTR eventMessage);
 }

@@ -69,15 +69,6 @@ public class TrsProviderHandler implements IProviderHandler {
         return "TrsProviderHandler{" + "trsUriBase='" + trsUriBase + '\'' + '}';
     }
 
-    @Override
-    public void processChangeEvent(final ChangeEventMessageTR eventMessage) {
-        final ChangeEvent changeEvent = eventMessage.getChangeEvent();
-        log.debug("Processing a fat ping for {}", changeEvent);
-
-        // FIXME Andrew@2018-03-18: danger to skip over unprocessed base items
-        lastProcessedChangeEventUri = changeEvent.getAbout();
-    }
-
     /**
      * Implementation of the method inherited from the TRSTaskHandler class. a
      * call to the periodic processing of the change events is done. If an

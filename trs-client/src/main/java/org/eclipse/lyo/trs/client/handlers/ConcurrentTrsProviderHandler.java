@@ -75,11 +75,6 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         }
     }
 
-    @Override
-    public void processChangeEvent(final ChangeEventMessageTR eventMessage) {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Request the pages of the change log from the TRS provider sequentially
      * through the traversal of the paging information until the last processed
