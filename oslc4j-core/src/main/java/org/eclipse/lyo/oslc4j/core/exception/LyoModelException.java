@@ -12,7 +12,10 @@
 
 package org.eclipse.lyo.oslc4j.core.exception;
 
-public class LyoModelException extends Exception {
+/**
+ * An unchecked exception to indicate a problem with (un)marshalling an RDF graph model.
+ */
+public class LyoModelException extends RuntimeException {
 
     public LyoModelException() {
     }
