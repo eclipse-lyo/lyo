@@ -15,8 +15,8 @@ package org.eclipse.lyo.trs.client.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +27,6 @@ import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
-import org.eclipse.lyo.core.trs.Creation;
-import org.eclipse.lyo.core.trs.Deletion;
-import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
@@ -49,118 +46,8 @@ public class ProviderUtil {
         return deletions != null && deletions.length > 0;
     }
 
-    /**
-     * extract the change log projo from the rdf model of the change log
-     * returned by the server
-     *
-     * @param rdFModel of thr change log
-     *
-     * @return change log pojo
-     */
-    public static ChangeLog extractChangeLogFromRdfModel(Model rdFModel) throws LyoModelException {
-        log.debug("started extracting change log from rdf model");
-        ChangeLog[] changeLogs;
-
-        Modification[] modifications;
-        Deletion[] deletions;
-        Creation[] creations;
-
-        changeLogs = JenaModelHelper.unmarshal(rdFModel, ChangeLog.class);
-        creations = JenaModelHelper.unmarshal(rdFModel, Creation.class);
-        modifications = JenaModelHelper.unmarshal(rdFModel, Modification.class);
-        deletions = JenaModelHelper.unmarshal(rdFModel, Deletion.class);
-
-        if (isNotEmptySingletonArray(changeLogs) && changeLogs[0] != null) {
-            ChangeLog changeLog = changeLogs[0];
-            changeLog.getChange().clear();
-            if (isNotEmpty(modifications)) {
-                changeLog.getChange().addAll(Arrays.asList((Modification[]) modifications));
-            }
-
-            if (isNotEmpty(creations)) {
-                changeLog.getChange().addAll(Arrays.asList((Creation[]) creations));
-            }
-
-            if (isNotEmpty(deletions)) {
-                changeLog.getChange().addAll(Arrays.asList((Deletion[]) deletions));
-            }
-            log.debug("finished extracting change log set from rdf model");
-            return changeLog;
-        } else {
-            log.warn("the change log was missing; returning an empty one");
-            return new ChangeLog();
-        }
-    }
-
     public static boolean isNilUri(URI currentPageUri) {
         return currentPageUri == null || currentPageUri.toString().equals(RDF.nil.getURI());
-    }
-
-    /**
-     * extract the base projo from the rdf model of the base returned by the
-     * server
-     *
-     * @param rdFModel of the base
-     *
-     * @return base pojo
-     */
-    public static Base extractBaseFromRdfModel(Model rdFModel) throws LyoModelException {
-        log.debug("started extracting base from rdf model");
-        Page nextPage;
-        Base baseObj = null;
-        Object[] nextPageArray;
-        Object[] basesArray;
-        nextPageArray = JenaModelHelper.unmarshal(rdFModel, Page.class);
-        basesArray = JenaModelHelper.unmarshal(rdFModel, Base.class);
-
-        if (isNotEmptySingletonArray(basesArray) && basesArray[0] instanceof Base) {
-            baseObj = (Base) basesArray[0];
-        }
-
-        if (baseObj == null) {
-            // FIXME Andrew@2019-07-15: nulls
-            return null;
-        }
-
-        if (isNotEmptySingletonArray(nextPageArray) && nextPageArray[0] instanceof Page) {
-            nextPage = (Page) nextPageArray[0];
-            baseObj.setNextPage(nextPage);
-            log.debug("finished extracting base from rdf model");
-            return baseObj;
-        }
-        log.debug("finished extracting base from rdf model");
-        // FIXME Andrew@2019-07-15: nulls
-        return null;
-    }
-
-    /**
-     * use osl4j functionality to retrieve a TRS object from the rdf model of
-     * the TRS returned by the server
-     *
-     * @param rdFModel the rdf model
-     *
-     * @return the TRS pojo extracted from the TRS rdf model
-     */
-    public static TrackedResourceSet extractTrsFromRdfModel(Model rdFModel)
-            throws LyoModelException {
-        log.debug("started extracting tracked resource set from rdf model");
-
-        TrackedResourceSet[] trackedResourceSets = JenaModelHelper.unmarshal(rdFModel,
-                TrackedResourceSet.class);
-
-        if (isNotEmptySingletonArray(trackedResourceSets) && trackedResourceSets[0] != null) {
-            TrackedResourceSet trs = trackedResourceSets[0];
-            ChangeLog trsChangeLog = extractChangeLogFromRdfModel(rdFModel);
-            try {
-                trs.setChangeLog(trsChangeLog);
-            } catch (URISyntaxException e) {
-                // TODO https://github.com/eclipse/lyo.core/issues/102
-                throw new IllegalStateException("Should never happen");
-            }
-            log.debug("finished extracting tracked resource set from rdf model");
-            return trs;
-        }
-        throw new IllegalArgumentException("TRS resource cannot be extracted from the Model");
     }
 
     /**
@@ -195,7 +82,7 @@ public class ProviderUtil {
         List<ChangeEvent> firstChangelogEvents = firstChangeLog.getChange();
 
         // sort the events, needed for the cut-off later
-        firstChangelogEvents.sort(new ChangeEventComparator());
+        firstChangelogEvents.sort(Comparator.comparing(ChangeEvent::getOrder));
         firstChangeLog.setChange(firstChangelogEvents);
 
         // TODO Andrew@2018-02-28: just delete this line, getter after setter is some superstition
@@ -220,7 +107,7 @@ public class ProviderUtil {
         for (ChangeLog changeLog : changeLogs) {
             changesToProcess.addAll(changeLog.getChange());
         }
-        changesToProcess.sort(new ChangeEventComparator());
+        changesToProcess.sort(Comparator.comparing(ChangeEvent::getOrder));
 
         // NB! Andrew@2018-02-27: this is not going to work for getting all changes via MQTT embedding
         // TODO Andrew@2019-01-15: refactor to support MQTT
@@ -273,8 +160,7 @@ public class ProviderUtil {
         List<ChangeEvent> reducedChangesList;
         if (!resToChangeEventMap.isEmpty()) {
             reducedChangesList = new ArrayList<>(resToChangeEventMap.values());
-            reducedChangesList.sort(new ChangeEventComparator());
-
+            reducedChangesList.sort(Comparator.comparing(ChangeEvent::getOrder));
         } else {
             reducedChangesList = new ArrayList<>();
         }

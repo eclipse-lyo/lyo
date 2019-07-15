@@ -32,6 +32,7 @@ import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
+import org.eclipse.lyo.trs.client.util.TrackedResourceClient;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +62,7 @@ public class TrsProviderTest {
 
     @Before
     public void setUp() throws Exception {
-        trsProvider = new TrsProviderHandler(RDF_NIL, new TrsClient(new OslcClient()), new TestProviderHandler());
+        trsProvider = new TrsProviderHandler(RDF_NIL, new TrackedResourceClient(new OslcClient()), new TestProviderHandler());
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();

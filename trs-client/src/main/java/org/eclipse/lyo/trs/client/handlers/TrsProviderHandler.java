@@ -17,7 +17,6 @@
 package org.eclipse.lyo.trs.client.handlers;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.jena.rdf.model.Model;
@@ -27,11 +26,10 @@ import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
-import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.trs.client.exceptions.ServerRollBackException;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
+import org.eclipse.lyo.trs.client.util.ITrackedResourceClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +46,7 @@ import org.slf4j.LoggerFactory;
 public class TrsProviderHandler implements IProviderHandler {
     private final static Logger log = LoggerFactory.getLogger(TrsProviderHandler.class);
 
-    private final ITrsClient trsClient;
+    private final ITrackedResourceClient trsClient;
     private final IProviderEventHandler handler;
     /**
      * The URI of the last processed change event
@@ -59,7 +57,7 @@ public class TrsProviderHandler implements IProviderHandler {
      */
     private URI trsUriBase;
 
-    public TrsProviderHandler(URI trsUriBase, final ITrsClient trsClient,
+    public TrsProviderHandler(URI trsUriBase, final ITrackedResourceClient trsClient,
             final IProviderEventHandler handler) {
         this.trsUriBase = trsUriBase;
         this.trsClient = trsClient;
@@ -105,8 +103,7 @@ public class TrsProviderHandler implements IProviderHandler {
      *
      * @param changeEvent the change event to be processed
      */
-    private void processChangeEvent(ChangeEvent changeEvent)
-            throws RepresentationRetrievalException {
+    private void processChangeEvent(ChangeEvent changeEvent) {
         URI changed = changeEvent.getChanged();
         log.info("processing resource " + changed.toString() + " change event ");
 
@@ -129,9 +126,7 @@ public class TrsProviderHandler implements IProviderHandler {
      * processing of the base in case this is the first time the TRS provider
      * thread is ran
      */
-    private void pollAndProcessChanges()
-            throws URISyntaxException, ServerRollBackException, RepresentationRetrievalException,
-            LyoModelException {
+    private void pollAndProcessChanges() {
 
         log.info("started dealing with TRS Provider: " + trsUriBase);
 
@@ -246,8 +241,7 @@ public class TrsProviderHandler implements IProviderHandler {
      *
      * @return the pages of the change log of this trs provider
      */
-    private List<ChangeLog> fetchUpdatedChangeLogs(TrackedResourceSet updatedTrs)
-            throws ServerRollBackException, LyoModelException, RepresentationRetrievalException {
+    private List<ChangeLog> fetchUpdatedChangeLogs(TrackedResourceSet updatedTrs) {
 
         ChangeLog firstChangeLog = updatedTrs.getChangeLog();
         List<ChangeLog> changeLogs = new ArrayList<>();
@@ -278,8 +272,7 @@ public class TrsProviderHandler implements IProviderHandler {
      *
      * @return true if the last processed change event is found, false otherwise
      */
-    private boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs)
-            throws LyoModelException, RepresentationRetrievalException {
+    private boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
         boolean foundChangeEvent = false;
         URI previousChangeLog;
         do {

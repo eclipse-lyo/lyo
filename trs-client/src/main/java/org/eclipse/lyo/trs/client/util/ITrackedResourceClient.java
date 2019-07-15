@@ -10,7 +10,7 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.trs.client.handlers;
+package org.eclipse.lyo.trs.client.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,12 +23,11 @@ import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
 import org.jetbrains.annotations.NotNull;
 
-public interface ITrsClient {
+public interface ITrackedResourceClient {
     @NotNull
     Model fetchTRSRemoteResource(URI resource) throws RepresentationRetrievalException;
 
-    List<Base> updateBases(TrackedResourceSet updatedTrs)
-            throws LyoModelException, RepresentationRetrievalException;
+    List<Base> updateBases(TrackedResourceSet updatedTrs);
 
     /**
      * retieve the trs from the trs provider using the trs uri attribute and
@@ -36,8 +35,7 @@ public interface ITrsClient {
      *
      * @return trs pojo
      */
-    TrackedResourceSet extractRemoteTrs(URI trsUri)
-            throws LyoModelException, URISyntaxException, RepresentationRetrievalException;
+    TrackedResourceSet extractRemoteTrs(URI trsUri);
 
     /**
      * Retrieve the change log from the trs provider using the changeLogURI
@@ -47,9 +45,7 @@ public interface ITrsClient {
      *
      * @return change log pojo
      */
-    ChangeLog fetchRemoteChangeLog(URI changeLogURl)
-            throws IllegalArgumentException, SecurityException, LyoModelException,
-            RepresentationRetrievalException;
+    ChangeLog fetchRemoteChangeLog(URI changeLogURl);
 
     /**
      * Retrieve the base from the trs provider using the baseURI argument
@@ -59,6 +55,5 @@ public interface ITrsClient {
      *
      * @return base pojo
      */
-    Base fetchRemoteBase(URI baseUrl)
-            throws LyoModelException, RepresentationRetrievalException;
+    Base fetchRemoteBase(URI baseUrl);
 }

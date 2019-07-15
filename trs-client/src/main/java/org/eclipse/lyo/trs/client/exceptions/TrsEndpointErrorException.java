@@ -7,24 +7,24 @@ package org.eclipse.lyo.trs.client.exceptions;
  * @version $version-stub$
  * @since 2.4.0
  */
-public class TrsEndpointErrorExpection extends TrsEndpointException {
-    public TrsEndpointErrorExpection() {
+public class TrsEndpointErrorException extends TrsEndpointException {
+    public TrsEndpointErrorException() {
         super();
     }
 
-    public TrsEndpointErrorExpection(final String message) {
+    public TrsEndpointErrorException(final String message) {
         super(message);
     }
 
-    public TrsEndpointErrorExpection(final String message, final Throwable cause) {
+    public TrsEndpointErrorException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public TrsEndpointErrorExpection(final Throwable cause) {
+    public TrsEndpointErrorException(final Throwable cause) {
         super(cause);
     }
 
-    protected TrsEndpointErrorExpection(final String message, final Throwable cause,
+    protected TrsEndpointErrorException(final String message, final Throwable cause,
             final boolean enableSuppression, final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }

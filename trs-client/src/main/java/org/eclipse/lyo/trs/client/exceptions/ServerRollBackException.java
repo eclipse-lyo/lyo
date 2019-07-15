@@ -20,7 +20,7 @@ package org.eclipse.lyo.trs.client.exceptions;
  *
  * @since 2.3.0
  */
-public class ServerRollBackException extends Exception {
+public class ServerRollBackException extends RuntimeException {
 
     private static final long serialVersionUID = -5190311252768510792L;
 

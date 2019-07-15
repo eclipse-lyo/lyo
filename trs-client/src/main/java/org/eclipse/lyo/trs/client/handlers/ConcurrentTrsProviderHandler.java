@@ -18,7 +18,6 @@
 package org.eclipse.lyo.trs.client.handlers;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,11 +31,11 @@ import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.trs.client.exceptions.ServerRollBackException;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
+import org.eclipse.lyo.trs.client.util.ITrackedResourceClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,11 +52,11 @@ import org.slf4j.LoggerFactory;
 public class ConcurrentTrsProviderHandler implements IProviderHandler {
     private final static Logger log = LoggerFactory.getLogger(ConcurrentTrsProviderHandler.class);
     private final URI trsUriBase;
-    private final ITrsClient trsClient;
+    private final ITrackedResourceClient trsClient;
     private final IProviderEventHandler handler;
     private URI lastProcessedChangeEventUri;
 
-    public ConcurrentTrsProviderHandler(URI trsUriBase, final ITrsClient trsClient,
+    public ConcurrentTrsProviderHandler(URI trsUriBase, final ITrackedResourceClient trsClient,
             IProviderEventHandler handler) {
         this.trsUriBase = trsUriBase;
         this.trsClient = trsClient;
@@ -95,8 +94,7 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
      *
      * @return true if the last processed change event is found, false otherwise
      */
-    public boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs)
-            throws LyoModelException, RepresentationRetrievalException {
+    public boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
         boolean foundChangeEvent = false;
         URI previousChangeLog;
         do {
@@ -116,9 +114,7 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         return foundChangeEvent;
     }
 
-    private void pollAndProcessChanges()
-            throws URISyntaxException, LyoModelException, ServerRollBackException,
-            RepresentationRetrievalException {
+    private void pollAndProcessChanges() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date processingDateStart = new Date();
         log.info("started dealing with TRS Provider: " + trsUriBase);
@@ -217,8 +213,7 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
      *
      * @return the pages of the change log of this trs provider
      */
-    private List<ChangeLog> fetchUpdatedChangeLogs(TrackedResourceSet updatedTrs)
-            throws ServerRollBackException, LyoModelException, RepresentationRetrievalException {
+    private List<ChangeLog> fetchUpdatedChangeLogs(TrackedResourceSet updatedTrs) {
 
         ChangeLog firstChangeLog = updatedTrs.getChangeLog();
         List<ChangeLog> changeLogs = new ArrayList<>();

@@ -70,7 +70,7 @@ class MqttTrsEventListener(private val providerHandler: TrsProviderHandler,
         log.error("Connection with broker lost", throwable)
     }
 
-    @Throws(LyoModelException::class)
+//    @Throws(LyoModelException::class)
     private fun unmarshalChangeEvent(payload: String): ChangeEventMessageTR {
         log.debug("MQTT payload: {}", payload)
         var changeEvent: ChangeEvent

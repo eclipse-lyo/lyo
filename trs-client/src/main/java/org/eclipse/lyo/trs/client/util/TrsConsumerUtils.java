@@ -19,14 +19,11 @@ import java.util.function.BiFunction;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.trs.client.config.TrsConsumerConfiguration;
 import org.eclipse.lyo.trs.client.config.TrsProviderConfiguration;
-import org.eclipse.lyo.trs.client.exceptions.ServerRollBackException;
 import org.eclipse.lyo.trs.client.handlers.ConcurrentTrsProviderHandler;
 import org.eclipse.lyo.trs.client.handlers.IProviderEventHandler;
 import org.eclipse.lyo.trs.client.handlers.IProviderHandler;
-import org.eclipse.lyo.trs.client.handlers.ITrsClient;
-import org.eclipse.lyo.trs.client.handlers.SparqlBatchingHandler;
-import org.eclipse.lyo.trs.client.handlers.SparqlDirectHandler;
-import org.eclipse.lyo.trs.client.handlers.TrsClient;
+import org.eclipse.lyo.trs.client.handlers.sparql.SparqlBatchingHandler;
+import org.eclipse.lyo.trs.client.handlers.sparql.SparqlDirectHandler;
 import org.eclipse.lyo.trs.client.handlers.TrsProviderHandler;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -80,7 +77,7 @@ public class TrsConsumerUtils {
 //                consumerConfig.getSparqlUpdateUrl(), consumerConfig.getSparqlQueryUrl(),
 //                consumerConfig.getSparqlUsername(), consumerConfig.getSparqlPassword(), cfg.getBasicAuthUsername(),
 //                cfg.getBasicAuthPassword(), trsClient);
-        final ITrsClient trsClient = trsClientFactory(consumerConfig.getHttpClient());
+        final ITrackedResourceClient trsClient = trsClientFactory(consumerConfig.getHttpClient());
         final IProviderEventHandler handler = new SparqlDirectHandler(
                 consumerConfig.getSparqlUpdateUrl());
         IProviderHandler providerHandler = new TrsProviderHandler(cfg.getTrsUri(), trsClient,
@@ -90,7 +87,7 @@ public class TrsConsumerUtils {
 
     private static IProviderHandler concurrentProviderFor(
             final TrsConsumerConfiguration consumerConfig, final TrsProviderConfiguration cfg) {
-        final ITrsClient trsClient = trsClientFactory(consumerConfig.getHttpClient());
+        final ITrackedResourceClient trsClient = trsClientFactory(consumerConfig.getHttpClient());
         final IProviderEventHandler handler = new SparqlBatchingHandler(
                 consumerConfig.getSparqlUpdateUrl(), consumerConfig.getSparqlUsername(),
                 consumerConfig.getSparqlPassword());
@@ -100,7 +97,7 @@ public class TrsConsumerUtils {
     }
 
     @NotNull
-    private static ITrsClient trsClientFactory(final OslcClient httpClient) {
-        return new TrsClient(httpClient);
+    private static ITrackedResourceClient trsClientFactory(final OslcClient httpClient) {
+        return new TrackedResourceClient(httpClient);
     }
 }

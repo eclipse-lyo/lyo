@@ -8,7 +8,7 @@ import javax.xml.ws.Response;
  * @version $version-stub$
  * @since 2.4.0
  */
-public class TrsEndpointException extends Exception {
+public class TrsEndpointException extends RuntimeException {
 
     public TrsEndpointException() {
         super();

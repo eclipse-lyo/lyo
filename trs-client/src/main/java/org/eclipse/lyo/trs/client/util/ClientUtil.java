@@ -3,13 +3,23 @@ package org.eclipse.lyo.trs.client.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 import javax.ws.rs.core.Response;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.eclipse.lyo.core.trs.Base;
+import org.eclipse.lyo.core.trs.ChangeLog;
+import org.eclipse.lyo.core.trs.Creation;
+import org.eclipse.lyo.core.trs.Deletion;
+import org.eclipse.lyo.core.trs.Modification;
+import org.eclipse.lyo.core.trs.Page;
+import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
-import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorExpection;
+import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +28,122 @@ import org.slf4j.LoggerFactory;
  *
  * @since TODO
  */
-public class ClientUtil {
+class ClientUtil {
 
     private final static Logger log = LoggerFactory.getLogger(ClientUtil.class);
 
-    public static Object extractResourceFromResponse(final Response response,
-            final Class<?> objClass)
-            throws TrsEndpointConfigException, TrsEndpointErrorExpection, LyoModelException {
+    /**
+     * extract the change log projo from the rdf model of the change log
+     * returned by the server
+     *
+     * @param rdFModel of thr change log
+     *
+     * @return change log pojo
+     */
+    static ChangeLog extractChangeLogFromRdfModel(Model rdFModel) throws LyoModelException {
+        log.debug("started extracting change log from rdf model");
+        ChangeLog[] changeLogs;
+
+        Modification[] modifications;
+        Deletion[] deletions;
+        Creation[] creations;
+
+        changeLogs = JenaModelHelper.unmarshal(rdFModel, ChangeLog.class);
+        creations = JenaModelHelper.unmarshal(rdFModel, Creation.class);
+        modifications = JenaModelHelper.unmarshal(rdFModel, Modification.class);
+        deletions = JenaModelHelper.unmarshal(rdFModel, Deletion.class);
+
+        if (ProviderUtil.isNotEmptySingletonArray(changeLogs) && changeLogs[0] != null) {
+            ChangeLog changeLog = changeLogs[0];
+            changeLog.getChange().clear();
+            if (ProviderUtil.isNotEmpty(modifications)) {
+                changeLog.getChange().addAll(Arrays.asList((Modification[]) modifications));
+            }
+
+            if (ProviderUtil.isNotEmpty(creations)) {
+                changeLog.getChange().addAll(Arrays.asList((Creation[]) creations));
+            }
+
+            if (ProviderUtil.isNotEmpty(deletions)) {
+                changeLog.getChange().addAll(Arrays.asList((Deletion[]) deletions));
+            }
+            log.debug("finished extracting change log set from rdf model");
+            return changeLog;
+        } else {
+            log.warn("the change log was missing; returning an empty one");
+            return new ChangeLog();
+        }
+    }
+
+    /**
+     * extract the base projo from the rdf model of the base returned by the
+     * server
+     *
+     * @param rdFModel of the base
+     *
+     * @return base pojo
+     */
+    static Base extractBaseFromRdfModel(Model rdFModel) throws LyoModelException {
+        log.debug("started extracting base from rdf model");
+        Page nextPage;
+        Base baseObj = null;
+        Object[] nextPageArray;
+        Object[] basesArray;
+        nextPageArray = JenaModelHelper.unmarshal(rdFModel, Page.class);
+        basesArray = JenaModelHelper.unmarshal(rdFModel, Base.class);
+
+        if (ProviderUtil.isNotEmptySingletonArray(basesArray) && basesArray[0] instanceof Base) {
+            baseObj = (Base) basesArray[0];
+        }
+
+        if (baseObj == null) {
+            // FIXME Andrew@2019-07-15: nulls
+            return null;
+        }
+
+        if (ProviderUtil.isNotEmptySingletonArray(nextPageArray) && nextPageArray[0] instanceof Page) {
+            nextPage = (Page) nextPageArray[0];
+            baseObj.setNextPage(nextPage);
+            log.debug("finished extracting base from rdf model");
+            return baseObj;
+        }
+        log.debug("finished extracting base from rdf model");
+        // FIXME Andrew@2019-07-15: nulls
+        return null;
+    }
+
+    /**
+     * use osl4j functionality to retrieve a TRS object from the rdf model of
+     * the TRS returned by the server
+     *
+     * @param rdFModel the rdf model
+     *
+     * @return the TRS pojo extracted from the TRS rdf model
+     */
+    static TrackedResourceSet extractTrsFromRdfModel(Model rdFModel)
+            throws LyoModelException {
+        log.debug("started extracting tracked resource set from rdf model");
+
+        TrackedResourceSet[] trackedResourceSets = JenaModelHelper.unmarshal(rdFModel,
+                TrackedResourceSet.class);
+
+        if (ProviderUtil.isNotEmptySingletonArray(trackedResourceSets) && trackedResourceSets[0] != null) {
+            TrackedResourceSet trs = trackedResourceSets[0];
+            ChangeLog trsChangeLog = extractChangeLogFromRdfModel(rdFModel);
+            try {
+                trs.setChangeLog(trsChangeLog);
+            } catch (URISyntaxException e) {
+                // TODO https://github.com/eclipse/lyo.core/issues/102
+                throw new IllegalStateException("Should never happen");
+            }
+            log.debug("finished extracting tracked resource set from rdf model");
+            return trs;
+        }
+        throw new IllegalArgumentException("TRS resource cannot be extracted from the Model");
+    }
+
+    static Object extractResourceFromResponse(final Response response, final Class<?> objClass)
+            throws TrsEndpointConfigException, TrsEndpointErrorException, LyoModelException {
         final Response.StatusType responseInfo = response.getStatusInfo();
         final Response.Status.Family httpCodeType = responseInfo.getFamily();
         if (httpCodeType.equals(Response.Status.Family.CLIENT_ERROR)) {
@@ -32,7 +151,7 @@ public class ClientUtil {
             throw new TrsEndpointConfigException("Error " + responseInfo.getReasonPhrase());
         } else if (httpCodeType.equals(Response.Status.Family.SERVER_ERROR)) {
 //            TODO these are not TRS exceptions but OSLC Client exceptions
-            throw new TrsEndpointErrorExpection("Error " + responseInfo.getReasonPhrase());
+            throw new TrsEndpointErrorException("Error " + responseInfo.getReasonPhrase());
         }
         if (AbstractResource.class.isAssignableFrom(objClass)) {
             Object objToRet = response.readEntity(objClass);
@@ -51,7 +170,7 @@ public class ClientUtil {
      * @param clientResponse response object from which the rdf model is read
      *
      */
-    public static Model extractModelFromResponse(final Response clientResponse)
+    private static Model extractModelFromResponse(final Response clientResponse)
             throws LyoModelException {
 
         // FIXME Andrew@2019-07-15: proper exception handling

@@ -1,9 +1,10 @@
-package org.eclipse.lyo.trs.client.handlers;
+package org.eclipse.lyo.trs.client.handlers.sparql;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Deletion;
+import org.eclipse.lyo.trs.client.handlers.IProviderEventHandler;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 import org.eclipse.lyo.trs.client.util.SparqlUtil;

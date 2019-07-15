@@ -10,7 +10,7 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.trs.client.handlers;
+package org.eclipse.lyo.trs.client.util;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -25,18 +25,16 @@ import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
-import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorExpection;
-import org.eclipse.lyo.trs.client.util.ClientUtil;
-import org.eclipse.lyo.trs.client.util.ProviderUtil;
+import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TrsClient implements ITrsClient {
-    private final static Logger log = LoggerFactory.getLogger(TrsClient.class);
+public class TrackedResourceClient implements ITrackedResourceClient {
+    private final static Logger log = LoggerFactory.getLogger(TrackedResourceClient.class);
     private final OslcClient oslcClient;
 
-    public TrsClient(final OslcClient oslcClient) {this.oslcClient = oslcClient;}
+    public TrackedResourceClient(final OslcClient oslcClient) {this.oslcClient = oslcClient;}
 
     @NotNull
     @Override
@@ -56,7 +54,7 @@ public class TrsClient implements ITrsClient {
         } catch (TrsEndpointConfigException e) {
             log.error("Bad request", e);
             throw new RepresentationRetrievalException(e);
-        } catch (TrsEndpointErrorExpection e) {
+        } catch (TrsEndpointErrorException e) {
             log.warn("Failed to fetch {}", uri);
             log.debug("Server error", e);
             throw new RepresentationRetrievalException(e);
@@ -100,7 +98,7 @@ public class TrsClient implements ITrsClient {
     public TrackedResourceSet extractRemoteTrs(URI trsUri)
             throws LyoModelException, RepresentationRetrievalException {
         Model rdfModel = fetchTRSRemoteResource(trsUri);
-        return ProviderUtil.extractTrsFromRdfModel(rdfModel);
+        return ClientUtil.extractTrsFromRdfModel(rdfModel);
     }
 
     @Override
@@ -108,13 +106,13 @@ public class TrsClient implements ITrsClient {
             throws IllegalArgumentException, SecurityException, LyoModelException,
             RepresentationRetrievalException {
         Model rdfModel = fetchTRSRemoteResource(changeLogURl);
-        return ProviderUtil.extractChangeLogFromRdfModel(rdfModel);
+        return ClientUtil.extractChangeLogFromRdfModel(rdfModel);
     }
 
     @Override
     public Base fetchRemoteBase(URI baseUrl)
             throws LyoModelException, RepresentationRetrievalException {
         final Model rdFModel = fetchTRSRemoteResource(baseUrl);
-        return ProviderUtil.extractBaseFromRdfModel(rdFModel);
+        return ClientUtil.extractBaseFromRdfModel(rdFModel);
     }
 }

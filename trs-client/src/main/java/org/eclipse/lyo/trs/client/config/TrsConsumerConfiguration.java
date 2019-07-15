@@ -70,7 +70,7 @@ public class TrsConsumerConfiguration {
             if (!Strings.isNullOrEmpty(basicUsername)) {
                 builder.register(HttpAuthenticationFeature.basic(basicUsername, basicPassword));
             }
-            new OslcClient(builder);
+            httpClient = new OslcClient(builder);
         }
         return httpClient;
     }
