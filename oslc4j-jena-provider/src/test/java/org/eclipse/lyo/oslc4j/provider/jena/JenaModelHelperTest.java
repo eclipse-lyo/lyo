@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2018 Andrew Berezovskyi and others.
+/*
+ * Copyright (c) 2018 Andrew Berezovskyi and others
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,13 +8,9 @@
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * Contributors:
- *
- *     Ricardo Javier Herrera  -  snippets for the unit test
- *     Andrew Berezovskyi      -  initial unit test implementation
- *******************************************************************************/
- package org.eclipse.lyo.oslc4j.provider.jena;
+ */
+
+package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +18,7 @@ import java.net.URI;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
 import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
@@ -69,10 +66,7 @@ public class JenaModelHelperTest {
     }
 
     @Test
-    public void testAbstractTypes()
-            throws InvocationTargetException, DatatypeConfigurationException,
-            OslcCoreApplicationException, IllegalAccessException, IOException,
-            LyoJenaModelException {
+    public void testAbstractTypes() throws IOException, LyoModelException {
         final Model expectedModel = RDFHelper.loadResourceModel("abstract-types.ttl");
         final Person person = JenaModelHelper.unmarshalSingle(expectedModel, Person.class);
         assertNotNull(person);

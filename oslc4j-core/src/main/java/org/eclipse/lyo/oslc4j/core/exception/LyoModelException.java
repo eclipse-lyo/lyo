@@ -12,24 +12,24 @@
 
 package org.eclipse.lyo.oslc4j.core.exception;
 
-public class JenaModelException extends Exception {
+public class LyoModelException extends Exception {
 
-    public JenaModelException() {
+    public LyoModelException() {
     }
 
-    public JenaModelException(final String message) {
+    public LyoModelException(final String message) {
         super(message);
     }
 
-    public JenaModelException(final String message, final Throwable cause) {
+    public LyoModelException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public JenaModelException(final Throwable cause) {
+    public LyoModelException(final Throwable cause) {
         super(cause);
     }
 
-    public JenaModelException(final String message, final Throwable cause, final boolean enableSuppression,
+    public LyoModelException(final String message, final Throwable cause, final boolean enableSuppression,
             final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }

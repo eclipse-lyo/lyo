@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2012-2018 IBM Corporation and others.
+/*
+ * Copyright (c) 2012 IBM Corporation and others
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,17 +8,7 @@
  * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * Contributors:
- *
- *	   Russell Boykin           -   initial API and implementation
- *	   Alberto Giammaria        -   initial API and implementation
- *	   Chris Peters             -   initial API and implementation
- *	   Gianluca Bernardini      -   initial API and implementation
- *	   Samuel Padgett		        -   oslc:totalCount should be a typed literal
- *	   Romain Barth			        -   unparseable literal
- *     Ricardo Javier Herrera   -   collection fixes
- *******************************************************************************/
+ */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.io.IOException;
@@ -70,6 +60,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
@@ -81,6 +72,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class JenaModelHelper
 {
 	private static final String PROPERTY_TOTAL_COUNT = "totalCount";
@@ -309,7 +301,7 @@ public final class JenaModelHelper
 	 * @throws IllegalArgumentException if anything but 1 resource was unmarshaled exactly.
 	 */
 	public static <T> T unmarshalSingle(final Model model, Class<T> clazz)
-			throws LyoJenaModelException, IllegalArgumentException {
+			throws IllegalArgumentException, LyoModelException {
 		final T[] ts = unmarshal(model, clazz);
 		if (ts.length != 1) {
 			throw new IllegalArgumentException("Model shall contain exactly 1 instance of the "
@@ -352,19 +344,18 @@ public final class JenaModelHelper
 	 *
 	 * @return an array of unmarshalled resource class instances
 	 *
-	 * @throws LyoJenaModelException if the model cannot be unmarshalled into instances of the
+	 * @throws LyoModelException if the model cannot be unmarshalled into instances of the
 	 *                               provided class
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T[] unmarshal(final Model model, Class<T> clazz)
-			throws LyoJenaModelException {
+	@SuppressWarnings({"unchecked", "deprecation"})
+	public static <T> T[] unmarshal(final Model model, Class<T> clazz) throws LyoModelException {
 		try {
-			final Object[] objects = JenaModelHelper.fromJenaModel(model, clazz);
+			 final Object[] objects = JenaModelHelper.fromJenaModel(model, clazz);
 			return (T[]) objects;
 		} catch (DatatypeConfigurationException | IllegalAccessException |
 				InvocationTargetException | InstantiationException | OslcCoreApplicationException
 				| NoSuchMethodException | URISyntaxException e) {
-			throw new LyoJenaModelException(e);
+			throw new LyoModelException(e);
 		}
 	}
 
@@ -449,7 +440,8 @@ public final class JenaModelHelper
 	 * @throws IllegalArgumentException if the link does not point a resource in the model.
 	 */
 	public static <R extends IResource> R followLink(final Model m, final Link l,
-			final Class<R> rClass) throws IllegalArgumentException, LyoJenaModelException {
+			final Class<R> rClass)
+			throws IllegalArgumentException, LyoModelException {
 		final R[] rs = unmarshal(m, rClass);
 		for (R r : rs) {
 			if (l.getValue().equals(r.getAbout())) {
@@ -502,7 +494,7 @@ public final class JenaModelHelper
 		if (null != listSubjects) {
             ResourcePackages.mapPackage(beanClass.getPackage());
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
-                        
+
 			for (final Resource resource : listSubjects) {
 				final Object   newInstance = beanClass.newInstance();
 				final Map<String,Object> visitedResources = new HashMap<>();
