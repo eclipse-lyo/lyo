@@ -1,14 +1,15 @@
 # Build artefacts
-/target/
-/bin/
+target/
+bin/
 
 dependency-reduced-pom.xml
 
 # IDE files
-/.project
-/.classpath
-/.settings/
+.project
+.classpath
+.settings/
 
-/.idea/
-/*.iml
+.idea/
+*.iml
 
+.vscode/
