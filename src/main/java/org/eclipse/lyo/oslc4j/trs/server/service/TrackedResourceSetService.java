@@ -28,6 +28,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import org.apache.jena.ext.com.google.common.base.Strings;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Page;
@@ -63,6 +64,7 @@ public class TrackedResourceSetService {
      * ChangeHistories class
      */
     private PagedTrs changeHistories;
+    private String base;
 
     public TrackedResourceSetService() {
     }
@@ -70,6 +72,11 @@ public class TrackedResourceSetService {
     @Inject
     public TrackedResourceSetService(PagedTrs _changeHistories) {
         changeHistories = _changeHistories;
+    }
+
+    public TrackedResourceSetService(PagedTrs _changeHistories, String base) {
+        changeHistories = _changeHistories;
+        this.base = base;
     }
 
     /**
@@ -130,8 +137,8 @@ public class TrackedResourceSetService {
         }
 
         // Return the nextPage Page object, which describes the next base page in terms,
-        // of the current base page we are manipulating.  We do not directly 
-        // return the base object due to a limitation in OSLC4J.  Currently 
+        // of the current base page we are manipulating.  We do not directly
+        // return the base object due to a limitation in OSLC4J.  Currently
         // OSLC4J requires that triples in the RDF graph with different subjects
         // reference one another.  According to the 2.0 spec, the Page object
         // already references the Base object so we will get the appropriate
@@ -189,7 +196,11 @@ public class TrackedResourceSetService {
         return Response.ok(changeLog).build();
     }
 
-    private static UriBuilder uriBuilder() {
-        return UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(RESOURCE_PATH);
+    private UriBuilder uriBuilder() {
+        if(Strings.isNullOrEmpty(base)) {
+            return UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(RESOURCE_PATH);
+        } else {
+            return UriBuilder.fromUri(base);
+        }
     }
 }
