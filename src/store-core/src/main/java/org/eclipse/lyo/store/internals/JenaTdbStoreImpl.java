@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
  * @version $version-stub$
  * @since 0.11.0
  */
+@Deprecated
 public class JenaTdbStoreImpl implements Store {
     private static final Logger log = LoggerFactory.getLogger(JenaTdbStoreImpl.class);
     private final Dataset dataset;

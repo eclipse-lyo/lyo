@@ -40,6 +40,7 @@ public class StoreFactory {
      *
      * @return Store implementation that keeps triples in memory.
      */
+    @Deprecated
     public static Store inMemory() {
         final Dataset dataset = TDBFactory.createDataset();
         return new JenaTdbStoreImpl(dataset);
@@ -56,6 +57,7 @@ public class StoreFactory {
      *
      * @throws IllegalArgumentException If the TDB cannot be initialised in a given directory.
      */
+    @Deprecated
     public static Store onDisk(final Path path) throws IllegalArgumentException {
         try {
             final Dataset dataset = DatasetBuilder.buildPersistent(path);
