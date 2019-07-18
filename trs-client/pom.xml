@@ -58,11 +58,6 @@
       <!--<scope>provided</scope>-->
     </dependency>
     <dependency>
-      <!-- TODO update to org.eclipse.rdf4j:rdf4j-repository-sparql:jar:2.5.1 -->
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-repository-sparql</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
     </dependency>
@@ -72,15 +67,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
+      <artifactId>apache-jena-libs</artifactId>
+      <type>pom</type>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
@@ -88,21 +76,27 @@
         </exclusion>
       </exclusions>
     </dependency>
-
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>oslc4j-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.rdf4j</groupId>
+      <artifactId>rdf4j-repository-sparql</artifactId>
     </dependency>
 
     <!--TEST-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-tdb</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
