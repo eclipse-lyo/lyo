@@ -15,12 +15,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-
-    <version.lyo>${project.version}</version.lyo>
-    <version.jena>3.6.0</version.jena><!-- TODO check compat-->
-    <version.jersey>2.25.1</version.jersey>
-    <version.rxjava>3.0.0-RC1</version.rxjava>
-    <version.pahomqtt>1.2.1</version.pahomqtt>
   </properties>
 
   <build>
@@ -52,38 +46,33 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.eclipse.paho</groupId>
+      <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+
+    <dependency>
       <!-- TODO move TrsProviderHandler out into client-core -->
       <groupId>org.eclipse.lyo.trs</groupId>
       <artifactId>trs-client</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
-      <version>${version.jena}</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${version.lyo}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.paho</groupId>
-      <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-      <version>${version.pahomqtt}</version>
     </dependency>
   </dependencies>
 </project>

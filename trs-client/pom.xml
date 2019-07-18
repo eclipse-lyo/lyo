@@ -17,7 +17,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <version.lyo>${project.version}</version.lyo>
-    <version.jena>3.6.0</version.jena>
     <version.jersey>2.25.1</version.jersey>
   </properties>
 
@@ -56,39 +55,32 @@
       <!--BUG: requires servlet API for correct work (java.lang.NoClassDefFoundError: Ljavax/servlet/http/HttpServletRequest)-->
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
       <!--<scope>provided</scope>-->
     </dependency>
     <dependency>
       <!-- TODO update to org.eclipse.rdf4j:rdf4j-repository-sparql:jar:2.5.1 -->
       <groupId>org.openrdf.sesame</groupId>
       <artifactId>sesame-repository-sparql</artifactId>
-      <version>4.1.1</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-arq</artifactId>
-      <version>${version.jena}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.25</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.2</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
@@ -96,46 +88,35 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpcore</artifactId>
-      <version>4.4.5</version>
-    </dependency>
 
     <dependency>
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>oslc4j-client</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
 
     <!--TEST-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-tdb</artifactId>
-      <version>${version.jena}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.25</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>${version.jersey}</version>
     </dependency>
     <dependency>
       <groupId>com.j2bugzilla</groupId>
       <artifactId>j2bugzilla</artifactId>
-      <version>2.2.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
