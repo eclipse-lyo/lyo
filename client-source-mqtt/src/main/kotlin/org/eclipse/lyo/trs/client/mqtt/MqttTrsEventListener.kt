@@ -37,7 +37,7 @@ class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : 
     private val log = LoggerFactory.getLogger(MqttTrsEventListener::class.java)
     private val executorService = Executors.newSingleThreadScheduledExecutor()
 
-    override fun messageArrived(s: String, mqttMessage: MqttMessage) {
+    override fun messageArrived(topic: String, mqttMessage: MqttMessage) {
         val payload = String(mqttMessage.payload)
         log.trace("Message payload: $payload")
         rejectLegacyPayloads(payload)
@@ -45,7 +45,7 @@ class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : 
             log.info("Processing Change Event")
             try {
                 val eventMessage = unmarshalChangeEvent(payload)
-                providerHandler.handlePush(eventMessage)
+                providerHandler.handlePush(eventMessage, topic)
             } catch (e: LyoModelException) {
                 log.warn("Error processing Change Event", e)
             }

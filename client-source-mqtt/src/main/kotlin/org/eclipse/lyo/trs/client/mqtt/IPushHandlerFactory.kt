@@ -10,10 +10,13 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.trs.client.handlers;
+package org.eclipse.lyo.trs.client.mqtt
 
-import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
+import org.eclipse.lyo.core.trs.TrackedResourceSet
+import org.eclipse.lyo.trs.client.handlers.IPushProviderHandler
 
-public interface IPushProviderHandler {
-    void handlePush(final ChangeEventMessageTR eventMessage, final String topic);
+// FIXME Andrew@2019-07-21: replace all the topic parameters with a factory
+interface IPushHandlerFactory {
+    fun handlerFor(topic: String): IPushProviderHandler
+    fun handlerFor(provider: TrackedResourceSet): IPushProviderHandler
 }
