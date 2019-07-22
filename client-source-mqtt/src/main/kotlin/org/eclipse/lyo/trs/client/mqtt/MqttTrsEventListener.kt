@@ -33,7 +33,9 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.Executors
 
-class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : IMqttMessageListener {
+class MqttTrsEventListener(
+        private val providerHandler: IPushProviderHandler,
+        private val lang: Lang) : IMqttMessageListener {
     private val log = LoggerFactory.getLogger(MqttTrsEventListener::class.java)
     private val executorService = Executors.newSingleThreadScheduledExecutor()
 
@@ -48,6 +50,8 @@ class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : 
                 providerHandler.handlePush(eventMessage, topic)
             } catch (e: LyoModelException) {
                 log.warn("Error processing Change Event", e)
+            } catch (e: Exception) {
+                log.error("Unexpected exception", e)
             }
         }
     }
@@ -66,18 +70,21 @@ class MqttTrsEventListener(private val providerHandler: IPushProviderHandler) : 
         var changeEvent: ChangeEvent
         val payloadModel = ModelFactory.createDefaultModel()
         val inputStream = ByteArrayInputStream(payload.toByteArray(StandardCharsets.UTF_8))
-        RDFDataMgr.read(payloadModel, inputStream, Lang.JSONLD)
+        RDFDataMgr.read(payloadModel, inputStream, lang)
 
         // FIXME Andrew@2019-07-15: test the patch from Ricardo finally
         try {
             changeEvent = JenaModelHelper.unmarshalSingle(payloadModel, Modification::class.java)
+            log.debug("Encountered a Modification event")
         } catch (e: LyoModelException) {
             try {
                 changeEvent = JenaModelHelper.unmarshalSingle(payloadModel, Creation::class.java)
+                log.debug("Encountered a Creation event")
             } catch (e1: LyoModelException) {
                 try {
                     changeEvent = JenaModelHelper.unmarshalSingle(payloadModel,
                             Deletion::class.java)
+                    log.debug("Encountered a Deletion event")
                 } catch (e2: LyoModelException) {
                     log.error("Can't unmarshal the payload", e2)
                     throw e2
