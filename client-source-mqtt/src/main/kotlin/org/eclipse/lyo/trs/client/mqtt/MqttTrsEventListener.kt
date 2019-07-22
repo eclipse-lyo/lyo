@@ -23,6 +23,7 @@ import org.eclipse.lyo.core.trs.Deletion
 import org.eclipse.lyo.core.trs.Modification
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper
+import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException
 import org.eclipse.lyo.trs.client.handlers.IPushProviderHandler
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener
@@ -76,18 +77,18 @@ class MqttTrsEventListener(
         try {
             changeEvent = JenaModelHelper.unmarshalSingle(payloadModel, Modification::class.java)
             log.debug("Encountered a Modification event")
-        } catch (e: LyoModelException) {
+        } catch (e: IllegalArgumentException) {
             try {
                 changeEvent = JenaModelHelper.unmarshalSingle(payloadModel, Creation::class.java)
                 log.debug("Encountered a Creation event")
-            } catch (e1: LyoModelException) {
+            } catch (e1: IllegalArgumentException) {
                 try {
                     changeEvent = JenaModelHelper.unmarshalSingle(payloadModel,
                             Deletion::class.java)
                     log.debug("Encountered a Deletion event")
-                } catch (e2: LyoModelException) {
+                } catch (e2: IllegalArgumentException) {
                     log.error("Can't unmarshal the payload", e2)
-                    throw e2
+                    throw RepresentationRetrievalException("Payload does not contain a ChangeEvent",e2)
                 }
             }
         }
