@@ -95,7 +95,7 @@ class MqttTrsEventListener(
 
         val trModel = ModelFactory.createDefaultModel()
         trModel.add(payloadModel)
-        removeResource(changeEvent.changed, trModel)
+        removeResource(changeEvent.about, trModel)
 
         return ChangeEventMessageTR(changeEvent, trModel)
     }
