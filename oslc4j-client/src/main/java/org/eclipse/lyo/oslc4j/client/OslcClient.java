@@ -39,8 +39,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -65,6 +63,7 @@ import org.slf4j.LoggerFactory;
  */
 public class OslcClient {
 
+	private final String version;
 	private Client client;
 	private String baseUrl;
 	private String rootServicesUrl;
@@ -87,10 +86,6 @@ public class OslcClient {
 
 	private final static Logger logger = LoggerFactory.getLogger(OslcClient.class);
 
-
-
-
-
 	/**
 	 * A simple OslcClient that provides http access to unprotected resources
 	 */
@@ -100,13 +95,30 @@ public class OslcClient {
 	}
 
 	/**
+	 * @param version OSLC version, see {@link OSLCConstants}
+	 */
+	public OslcClient(String version) {
+		this(ClientBuilder.newBuilder(), version);
+	}
+
+	/**
 	 * An OslcClient that allows client applications to provide a configured (but not built)
 	 * ClientBuilder typically used for supporting https, and various kinds of authentication.
 	 *
-	 * @param clientBuilder
+	 * @param clientBuilder HTTP client configuration
 	 */
-	public OslcClient(ClientBuilder clientBuilder)
-	{
+	public OslcClient(ClientBuilder clientBuilder) {
+		this(clientBuilder, OSLCConstants.OSLC2_0);
+	}
+
+	/**
+	 * An OslcClient that allows client applications to provide a configured (but not built)
+	 * ClientBuilder typically used for supporting https, and various kinds of authentication.
+	 *
+	 * @param clientBuilder HTTP client configuration
+	 * @param version OSLC version, see {@link OSLCConstants}
+	 */
+	public OslcClient(ClientBuilder clientBuilder, String version) {
 		for (Class<?> provider : JenaProvidersRegistry.getProviders()) {
 			clientBuilder.register(provider);
 		}
@@ -115,6 +127,8 @@ public class OslcClient {
 		}
 
 		this.client = clientBuilder.build();
+
+		this.version = version;
 	}
 
 	/**
@@ -203,7 +217,7 @@ public class OslcClient {
 			}
 
 			if (!versionSet) {
-				innvocationBuilder.header(OSLCConstants.OSLC_CORE_VERSION, "2.0");
+				innvocationBuilder.header(OSLCConstants.OSLC_CORE_VERSION, version);
 			}
 
 			response = innvocationBuilder.get();
@@ -232,7 +246,7 @@ public class OslcClient {
 
 		do {
 			response = client.target(url).request()
-					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0")
+					.header(OSLCConstants.OSLC_CORE_VERSION, version)
 					.delete();
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -269,7 +283,7 @@ public class OslcClient {
 		do {
 			response = client.target(url).request()
 					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0")
+					.header(OSLCConstants.OSLC_CORE_VERSION, version)
 					.post(Entity.entity(artifact, mediaType));
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -304,7 +318,7 @@ public class OslcClient {
 		do {
 			response = client.target(url).request()
 					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0")
+					.header(OSLCConstants.OSLC_CORE_VERSION, version)
 					.put(Entity.entity(artifact, mediaType));
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -330,7 +344,7 @@ public class OslcClient {
 		do {
 			response = client.target(url).request()
 					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION,"2.0").header(HttpHeaders.IF_MATCH, ifMatch)
+					.header(OSLCConstants.OSLC_CORE_VERSION, version).header(HttpHeaders.IF_MATCH, ifMatch)
 					.put(Entity.entity(artifact, mediaType));
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
