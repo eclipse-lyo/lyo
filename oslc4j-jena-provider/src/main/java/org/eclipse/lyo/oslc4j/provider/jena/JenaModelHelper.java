@@ -311,19 +311,48 @@ public final class JenaModelHelper
 	}
 
 	/**
+	 * Wrapper around {@link #fromJenaResource(Resource, Class)} to provide generics support and group
+	 * exceptions.
+	 *
+	 * @param resource Jena resource to be unmarshalled
+	 * @param clazz Lyo resource class/interface instance to assist reflection
+	 * @param <T>   Same resource class/interface to make the method generic
+	 *
+	 * @return an unmarshalled resource class instance
+	 *
+	 * @throws LyoModelException if the model cannot be unmarshalled into instances of the
+	 *                               provided class
+	 */
+	@SuppressWarnings({"unchecked", "deprecation"})
+	public static <T> T unmarshal(final Resource resource, Class<T> clazz) throws LyoModelException {
+		try {
+			 return (T)JenaModelHelper.fromJenaResource(resource, clazz);
+		} catch (DatatypeConfigurationException | IllegalAccessException |
+				InvocationTargetException | InstantiationException | OslcCoreApplicationException
+				| NoSuchMethodException | URISyntaxException e) {
+			throw new LyoModelException(e);
+		}
+	}
+
+	/**
+     * @see #unmarshal(Resource, Class)
 	 * @see #unmarshalSingle(Model, Class)
 	 */
 	@Deprecated
-	public static Object fromJenaResource(final Resource resource, final Class<?> beanClass)
+	public static Object fromJenaResource(final Resource resource, Class<?> beanClass)
 			throws DatatypeConfigurationException, IllegalAccessException,
 			IllegalArgumentException,
 			InstantiationException, InvocationTargetException, OslcCoreApplicationException,
 			URISyntaxException, SecurityException, NoSuchMethodException {
+        ResourcePackages.mapPackage(beanClass.getPackage());
+        Optional<Class<?>> mostConcreteResourceClass = ResourcePackages.getClassOf(resource, beanClass);
+        if (mostConcreteResourceClass.isPresent()) {
+            beanClass = mostConcreteResourceClass.get();
+        }
 		final Object   newInstance = beanClass.newInstance();
 		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 		final Map<String,Object> visitedResources = new HashMap<>();
 		final HashSet<String> rdfTypes = new HashSet<>();
-        ResourcePackages.mapPackage(beanClass.getPackage());
 		fromResource(classPropertyDefinitionsToSetMethods,
 					 beanClass,
 					 newInstance,
@@ -485,7 +514,7 @@ public final class JenaModelHelper
 		}
 	}
 
-	private static List<Object> createObjectResultList(final Class<?> beanClass,
+	private static List<Object> createObjectResultList(Class<?> beanClass,
 			List<Object> results, List<Resource> listSubjects)
 			throws IllegalAccessException, InstantiationException,
 			DatatypeConfigurationException, InvocationTargetException,
@@ -494,8 +523,15 @@ public final class JenaModelHelper
 		if (null != listSubjects) {
             ResourcePackages.mapPackage(beanClass.getPackage());
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
-
+            Class<?> originalBeanClass = beanClass;
 			for (final Resource resource : listSubjects) {
+                Optional<Class<?>> mostConcreteResourceClass = ResourcePackages.getClassOf(resource, beanClass);
+                if (mostConcreteResourceClass.isPresent()) {
+                    beanClass = mostConcreteResourceClass.get();
+                    if (!originalBeanClass.isAssignableFrom(beanClass)) {
+                        continue;
+                    }
+                }
 				final Object   newInstance = beanClass.newInstance();
 				final Map<String,Object> visitedResources = new HashMap<>();
 				final HashSet<String> rdfTypes = new HashSet<>();

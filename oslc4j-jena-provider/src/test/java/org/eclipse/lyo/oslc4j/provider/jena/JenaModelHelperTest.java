@@ -15,9 +15,11 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
 import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
@@ -29,8 +31,10 @@ import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.*;
 import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.*;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Animal;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
 
 /**
  *
@@ -72,6 +76,13 @@ public class JenaModelHelperTest {
         assertNotNull(person);
         assertNotNull(person.getPet());
         assertEquals(Dog.class, person.getPet().getClass());
+    }
+
+    @Test
+    public void testAbstractTypesForMainClass() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("abstract-types.ttl");
+        final Pet pet = JenaModelHelper.unmarshal(model.getResource("urn:rex"), Pet.class);
+        assertEquals(Dog.class, pet.getClass());
     }
 
 }
