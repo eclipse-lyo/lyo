@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2018 IBM Corporation and others
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ *
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ */
+
 package org.eclipse.lyo.oslc4j.client;
 
 import java.io.IOException;
@@ -20,17 +32,18 @@ import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 
 /**
  * A filter that can be registered in order to non-preemptively handle JEE Form
  * based authentication challenges.
- * 
+ *
  * @author jamsden
  *
  */
 public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponseFilter {
     private static final String COOKIE = "Cookie";
- 
+
     // security params
     private static final String J_SECURITY_CHECK = "j_security_check";
     private static final String J_USERNAME = "j_username";
@@ -39,22 +52,22 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
 	private static final String JAZZ_AUTH_REQUIRED = "authrequired";
 	private static final String JAZZ_AUTH_FAILED = "authfailed";
- 
+
     private final String userId;
     private final String password;
     private final String baseUri;
 	private Response lastRedirectResponse = null;
 	private boolean followingRedirects = false;
     Client authClient = null;
-    
-     
+
+
     // requires by @Provider
     public JEEFormAuthenticator() {
         this.userId = null;
         this.password = null;
         this.baseUri = null;
     }
- 
+
     /**
      * @param baseUri base URI for the server, e.g., https://host:9443/ccm
      * @param username user's credentials
@@ -67,18 +80,18 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     }
 
 	/* (non-Javadoc)
-	 * Checks to see if the response is a 401 UNAUTHORIZED. If so, it attempts to 
-	 * authenticate the user, and then retries the request with the updated 
+	 * Checks to see if the response is a 401 UNAUTHORIZED. If so, it attempts to
+	 * authenticate the user, and then retries the request with the updated
 	 * session information.
-	 * 
+	 *
 	 * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
 	 */
 	@Override
     public void filter(ClientRequestContext request, ClientResponseContext response) throws IOException {
         final List<Object> cookies = new ArrayList<>();
-        
+
         if (followingRedirects) return;
-        
+
         boolean authRequired = JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
         boolean authAlreadyAttempted = "true".equals(request.getProperty(FORM_AUTHENTICATOR_REUSED));
 
@@ -101,7 +114,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
             .property(FORM_AUTHENTICATOR_REUSED, "true")  // only post once
             .header("Accept", "*/*")
             .header("X-Requested-With", "XMLHttpRequest")
-    		.header("OSLC-Core-Version", "2.0")
+    		.header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
             .post(Entity.form(form));
         authResponse.getCookies().values().stream().forEach((cookie) -> {
             cookies.add(cookie.toCookie());
@@ -109,17 +122,17 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 		int statusCode = authResponse.getStatus();
 		// Check the result
 		String jazzAuthMessage = authResponse.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
-		
+
 		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED)) {
 			authResponse.close();
         	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
         	return;
 		}
-		
+
 		String location = authResponse.getHeaderString("Location");
 		authResponse.close();
 		statusCode = followRedirects(statusCode, location);
- 
+
 		// retry the request with the updated cookies
 		Client requestClient = request.getClient();
 		Invocation.Builder retryBuilder = requestClient
@@ -128,7 +141,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         retryBuilder.property(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
         MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<String, Object>();
         newHeaders.putAll(request.getHeaders());
-        newHeaders.add(COOKIE, cookies);        
+        newHeaders.add(COOKIE, cookies);
 		retryBuilder.headers(newHeaders);
         Invocation invocation = null;
         String requestMethod = request.getMethod();
@@ -146,7 +159,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         MultivaluedMap<String, String> headers = response.getHeaders();
         headers.clear();
         headers.putAll(retryResponse.getStringHeaders());
-        response.setStatus(retryResponse.getStatus());			
+        response.setStatus(retryResponse.getStatus());
     }
 
 	private int followRedirects(int statusCode, String location) {

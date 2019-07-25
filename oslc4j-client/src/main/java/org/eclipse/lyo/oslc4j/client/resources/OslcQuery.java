@@ -1,18 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2012, 2014 IBM Corporation.
+/*
+ * Copyright (c) 2012 IBM Corporation and others
  *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
- *
- *  Contributors:
- *
- *     Sean Kennedy     - initial API and implementation
- *******************************************************************************/
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ */
+
 package org.eclipse.lyo.oslc4j.client.resources;
 
 
@@ -47,7 +44,7 @@ public class OslcQuery {
 	private final String orderBy;
 	private final String searchTerms;
 	private final String prefix;
-
+	private final String version;
 
 	/**
 	 * Create an OSLC query that uses the remote system's default page size.
@@ -82,17 +79,22 @@ public class OslcQuery {
 		this(oslcClient, capabilityUrl, pageSize, null);
 	}
 
-	/**
-	 * Create an OSLC query that uses OSLC query parameters and the given page size
-	 *
-	 * @param oslcClient the authenticated OSLC client
-	 * @param capabilityUrl the URL that is the base
-	 * @param pageSize the number of results to include on each page (OslcQueryResult)
-	 * @param oslcQueryParams an OslcQueryParameters object
-	 * @see OslcQueryParameters
-	 */
 	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
-					 int pageSize, OslcQueryParameters oslcQueryParams) {
+			int pageSize, OslcQueryParameters oslcQueryParams) {
+		this(oslcClient, capabilityUrl, pageSize, oslcQueryParams, OSLCConstants.OSLC2_0);
+	}
+
+		/**
+         * Create an OSLC query that uses OSLC query parameters and the given page size
+         *
+         * @param oslcClient the authenticated OSLC client
+         * @param capabilityUrl the URL that is the base
+         * @param pageSize the number of results to include on each page (OslcQueryResult)
+         * @param oslcQueryParams an OslcQueryParameters object
+         * @see OslcQueryParameters
+         */
+	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
+					 int pageSize, OslcQueryParameters oslcQueryParams, String version) {
 		this.oslcClient = oslcClient;
 		this.capabilityUrl = capabilityUrl;
 		this.pageSize = (pageSize < 1) ? 0 : pageSize;
@@ -111,6 +113,7 @@ public class OslcQuery {
 		this.queryResource = createQueryResource(this.getCapabilityUrl());
 		this.queryUrl = this.getQueryUrl();
 
+		this.version = version;
 	}
 
 	OslcQuery(OslcQueryResult previousResult) {
@@ -189,13 +192,9 @@ public class OslcQuery {
 	}
 
 	Response getResponse() {
-
-		Response cr = null;
-		cr = queryResource.request(OSLCConstants.CT_RDF)
-				.header(OSLCConstants.OSLC_CORE_VERSION,"2.0")
+		return queryResource.request(OSLCConstants.CT_RDF)
+				.header(OSLCConstants.OSLC_CORE_VERSION, version)
 				.get();
-
-		return cr;
 	}
 
 }
