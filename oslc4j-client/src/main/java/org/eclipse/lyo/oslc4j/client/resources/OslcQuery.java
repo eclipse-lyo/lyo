@@ -90,8 +90,8 @@ public class OslcQuery {
          * @param oslcClient the authenticated OSLC client
          * @param capabilityUrl the URL that is the base
          * @param pageSize the number of results to include on each page (OslcQueryResult)
-         * @param oslcQueryParams an OslcQueryParameters object
-         * @see OslcQueryParameters
+         * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
+		 * @param version OSLC Version (see {@link OSLCConstants})
          */
 	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
 					 int pageSize, OslcQueryParameters oslcQueryParams, String version) {
