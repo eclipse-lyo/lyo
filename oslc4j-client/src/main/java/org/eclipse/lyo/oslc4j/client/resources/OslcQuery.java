@@ -26,6 +26,7 @@ import javax.ws.rs.client.WebTarget;
  * Immutable.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class OslcQuery {
 
 	private final OslcClient oslcClient;
@@ -79,20 +80,28 @@ public class OslcQuery {
 		this(oslcClient, capabilityUrl, pageSize, null);
 	}
 
+	/**
+	 * Create an OSLC query that uses OSLC query parameters and the given page size
+	 *
+	 * @param oslcClient the authenticated OSLC client
+	 * @param capabilityUrl the URL that is the base
+	 * @param pageSize the number of results to include on each page (OslcQueryResult)
+	 * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
+	 */
 	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
 			int pageSize, OslcQueryParameters oslcQueryParams) {
 		this(oslcClient, capabilityUrl, pageSize, oslcQueryParams, OSLCConstants.OSLC2_0);
 	}
 
-		/**
-         * Create an OSLC query that uses OSLC query parameters and the given page size
-         *
-         * @param oslcClient the authenticated OSLC client
-         * @param capabilityUrl the URL that is the base
-         * @param pageSize the number of results to include on each page (OslcQueryResult)
-         * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
-		 * @param version OSLC Version (see {@link OSLCConstants})
-         */
+	/**
+	 * Create an OSLC query that uses OSLC query parameters and the given page size
+	 *
+	 * @param oslcClient the authenticated OSLC client
+	 * @param capabilityUrl the URL that is the base
+	 * @param pageSize the number of results to include on each page (OslcQueryResult)
+	 * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
+	 * @param version OSLC Version (see {@link OSLCConstants})
+	 */
 	public OslcQuery(OslcClient oslcClient, String capabilityUrl,
 					 int pageSize, OslcQueryParameters oslcQueryParams, String version) {
 		this.oslcClient = oslcClient;
