@@ -42,7 +42,7 @@ public interface OslcDomainConstants
 
     public static String ALLOWED_VALUES_PATH = "allowedValues";
     public static String ALLOWED_VALUES_NAMESPACE = OSLC_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String ALLOWED_VALUES_LOCALNAME = "AllowedValues"; //localName of the rdfs:class the resource describes
+    public static String ALLOWED_VALUES_LOCALNAME = "Allowed Values"; //localName of the rdfs:class the resource describes
     public static String ALLOWED_VALUES_TYPE = ALLOWED_VALUES_NAMESPACE + ALLOWED_VALUES_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String DISCUSSION_PATH = "discussion";
     public static String DISCUSSION_NAMESPACE = OSLC_NAMSPACE; //namespace of the rdfs:class the resource describes

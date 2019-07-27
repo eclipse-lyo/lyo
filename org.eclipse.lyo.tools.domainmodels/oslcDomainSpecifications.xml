@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
   <domainSpecifications name="Dublin Core" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes.0">
-    <resourceProperties name="contributor" occurs="zeroOrMany" valueType="Resource" range="//@domainSpecifications.1/@resources.0" description="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."/>
-    <resourceProperties name="creator" occurs="zeroOrMany" valueType="Resource" representation="either" range="//@domainSpecifications.1/@resources.0" description="Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."/>
+    <resourceProperties name="contributor" occurs="zeroOrMany" valueType="Resource" representation="either" description="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."/>
+    <resourceProperties name="creator" occurs="zeroOrMany" valueType="Resource" representation="either" description="Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."/>
     <resourceProperties name="created" occurs="zeroOrOne" valueType="DateTime" description="Timestamp of resource creation"/>
     <resourceProperties name="description" occurs="zeroOrOne" valueType="XMLLiteral" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element."/>
-    <resourceProperties name="identifier" valueType="String" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."/>
+    <resourceProperties name="identifier" occurs="zeroOrOne" valueType="String" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."/>
     <resourceProperties name="modified" occurs="zeroOrOne" valueType="DateTime" description="Timestamp of latest resource modification"/>
     <resourceProperties name="relation" valueType="Resource" description="Relation which identifies a related resource."/>
     <resourceProperties title="" name="subject" occurs="zeroOrMany" valueType="String" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource."/>
@@ -42,8 +42,8 @@
     <resources name="Discussion"/>
     <resources name="Property" resourceProperties="//@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.4/@resourceProperties.8 //@domainSpecifications.4/@resourceProperties.7 //@domainSpecifications.4/@resourceProperties.9 //@domainSpecifications.4/@resourceProperties.10 //@domainSpecifications.4/@resourceProperties.11 //@domainSpecifications.4/@resourceProperties.12 //@domainSpecifications.4/@resourceProperties.13 //@domainSpecifications.4/@resourceProperties.14 //@domainSpecifications.4/@resourceProperties.15 //@domainSpecifications.4/@resourceProperties.16 //@domainSpecifications.4/@resourceProperties.17 //@domainSpecifications.4/@resourceProperties.18 //@domainSpecifications.4/@resourceProperties.19 //@domainSpecifications.4/@resourceProperties.20"/>
     <resources name="Allowed Values" resourceProperties="//@domainSpecifications.4/@resourceProperties.7"/>
-    <resourceProperties name="serviceProvider" occurs="zeroOrMany" valueType="URI" description="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property."/>
-    <resourceProperties name="instanceShape" occurs="zeroOrOne" valueType="URI" description="The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached."/>
+    <resourceProperties name="serviceProvider" occurs="zeroOrMany" valueType="Resource" representation="reference" description="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property."/>
+    <resourceProperties name="instanceShape" occurs="zeroOrOne" valueType="Resource" representation="reference" description="The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached."/>
     <resourceProperties name="shortTitle" occurs="zeroOrOne" valueType="XMLLiteral" description="Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element."/>
     <resourceProperties name="shortId" valueType="String" description="Shorter form of dcterms:identifier for the resource, such as a number."/>
     <resourceProperties name="modifiedBy" valueType="Resource" description="The URI of a resource describing the entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property."/>
@@ -85,24 +85,58 @@
     <resourceProperties name="tracksChangeSet" occurs="zeroOrMany" valueType="Resource" description="Tracks SCM change set resource. It is likely that the target resource will be an oslc_scm:ChangeSet but that is not necessarily the case."/>
     <generationSetting javaClassPackageName="org.eclipse.lyo.oslc.domains.cm" javaFilesPath=""/>
   </domainSpecifications>
-  <domainSpecifications name="Requirements Management" namespaceURI="http://open-services.net/ns/rm#" namespacePrefix="//@domainPrefixes.6">
-    <resources name="Requirement" resourceProperties="//@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.4 //@domainSpecifications.4/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.7 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5 //@domainSpecifications.2/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.0 //@domainSpecifications.6/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.2 //@domainSpecifications.6/@resourceProperties.3 //@domainSpecifications.6/@resourceProperties.4 //@domainSpecifications.6/@resourceProperties.5 //@domainSpecifications.6/@resourceProperties.6 //@domainSpecifications.6/@resourceProperties.7 //@domainSpecifications.6/@resourceProperties.8 //@domainSpecifications.6/@resourceProperties.9 //@domainSpecifications.6/@resourceProperties.10 //@domainSpecifications.6/@resourceProperties.11 //@domainSpecifications.6/@resourceProperties.12 //@domainSpecifications.6/@resourceProperties.13"/>
-    <resources name="RequirementCollection" resourceProperties="//@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.4 //@domainSpecifications.4/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.7 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5 //@domainSpecifications.2/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.0 //@domainSpecifications.6/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.2 //@domainSpecifications.6/@resourceProperties.3 //@domainSpecifications.6/@resourceProperties.4 //@domainSpecifications.6/@resourceProperties.5 //@domainSpecifications.6/@resourceProperties.6 //@domainSpecifications.6/@resourceProperties.7 //@domainSpecifications.6/@resourceProperties.8 //@domainSpecifications.6/@resourceProperties.9 //@domainSpecifications.6/@resourceProperties.10 //@domainSpecifications.6/@resourceProperties.11 //@domainSpecifications.6/@resourceProperties.12 //@domainSpecifications.6/@resourceProperties.13"/>
-    <resourceProperties name="elaboratedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is elaborated by the object. For example, a user requirement is elaborated by use case."/>
-    <resourceProperties name="elaborates" occurs="zeroOrMany" valueType="Resource" description="The object is elaborated by the subject."/>
-    <resourceProperties name="specifiedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is specified by the object. For example, a requirement is elaborated by a model element ."/>
-    <resourceProperties name="specifies" occurs="zeroOrMany" valueType="Resource" description="The object is specified by the subject."/>
-    <resourceProperties name="affectedBy" occurs="zeroOrMany" valueType="Resource" description="Requirement is affected by a resource, such as a defect or issue."/>
-    <resourceProperties name="trackedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a change request, which tracks this requirement."/>
-    <resourceProperties name="implementedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a change request, which implements this requirement."/>
-    <resourceProperties name="validatedBy" occurs="zeroOrMany" valueType="Resource" description="Resource, such as a test case, which validates this requirement."/>
-    <resourceProperties name="satisfiedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement."/>
-    <resourceProperties name="satisfies" occurs="zeroOrMany" valueType="Resource" description="The object is satisfied by the subject."/>
-    <resourceProperties name="decomposedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements."/>
-    <resourceProperties name="decomposes" occurs="zeroOrMany" valueType="Resource" description="The object is decomposed by the subject."/>
-    <resourceProperties name="constrainedBy" occurs="zeroOrMany" valueType="Resource" description="The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement."/>
-    <resourceProperties name="constrains" occurs="zeroOrMany" valueType="Resource" description="The object is constrained by the subject."/>
-    <resourceProperties title="" name="uses" occurs="zeroOrMany" valueType="Resource" description="A collection uses a resource - the resource is in the requirement collection. "/>
+  <domainSpecifications name="Requirements Management shapes" namespaceURI="http://open-services.net/ns/rm#" namespacePrefix="//@domainPrefixes.6">
+    <resources name="Requirement" resourceProperties="//@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.4 //@domainSpecifications.4/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.7 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5 //@domainSpecifications.4/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.0 //@domainSpecifications.6/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.2 //@domainSpecifications.6/@resourceProperties.3 //@domainSpecifications.6/@resourceProperties.4 //@domainSpecifications.6/@resourceProperties.5 //@domainSpecifications.6/@resourceProperties.6 //@domainSpecifications.6/@resourceProperties.7 //@domainSpecifications.6/@resourceProperties.8 //@domainSpecifications.6/@resourceProperties.9 //@domainSpecifications.6/@resourceProperties.10 //@domainSpecifications.6/@resourceProperties.11 //@domainSpecifications.6/@resourceProperties.12 //@domainSpecifications.6/@resourceProperties.13">
+      <describes href="vocabulary.xml#//@vocabularies.0/@classes.0"/>
+    </resources>
+    <resources name="RequirementCollection" resourceProperties="//@domainSpecifications.0/@resourceProperties.8 //@domainSpecifications.0/@resourceProperties.3 //@domainSpecifications.0/@resourceProperties.4 //@domainSpecifications.4/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.7 //@domainSpecifications.0/@resourceProperties.1 //@domainSpecifications.0/@resourceProperties.0 //@domainSpecifications.0/@resourceProperties.2 //@domainSpecifications.0/@resourceProperties.5 //@domainSpecifications.4/@resourceProperties.0 //@domainSpecifications.4/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.0 //@domainSpecifications.6/@resourceProperties.1 //@domainSpecifications.6/@resourceProperties.2 //@domainSpecifications.6/@resourceProperties.3 //@domainSpecifications.6/@resourceProperties.4 //@domainSpecifications.6/@resourceProperties.5 //@domainSpecifications.6/@resourceProperties.6 //@domainSpecifications.6/@resourceProperties.7 //@domainSpecifications.6/@resourceProperties.8 //@domainSpecifications.6/@resourceProperties.9 //@domainSpecifications.6/@resourceProperties.10 //@domainSpecifications.6/@resourceProperties.11 //@domainSpecifications.6/@resourceProperties.12 //@domainSpecifications.6/@resourceProperties.13 //@domainSpecifications.6/@resourceProperties.14">
+      <describes href="vocabulary.xml#//@vocabularies.0/@classes.1"/>
+    </resources>
+    <resourceProperties name="elaboratedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The subject is elaborated by the object. For example, a user requirement is elaborated by use case.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.5"/>
+    </resourceProperties>
+    <resourceProperties name="elaborates" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The object is elaborated by the subject.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.6"/>
+    </resourceProperties>
+    <resourceProperties name="specifiedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The subject is specified by the object. For example, a requirement is elaborated by a model element .">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.10"/>
+    </resourceProperties>
+    <resourceProperties name="specifies" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The object is specified by the subject.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.11"/>
+    </resourceProperties>
+    <resourceProperties name="affectedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="Requirement is affected by a resource, such as a defect or issue.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.0"/>
+    </resourceProperties>
+    <resourceProperties name="trackedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="Resource, such as a change request, which tracks this requirement.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.12"/>
+    </resourceProperties>
+    <resourceProperties name="implementedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="Resource, such as a change request, which implements this requirement.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.7"/>
+    </resourceProperties>
+    <resourceProperties name="validatedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="Resource, such as a test case, which validates this requirement.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.14"/>
+    </resourceProperties>
+    <resourceProperties name="satisfiedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.8"/>
+    </resourceProperties>
+    <resourceProperties name="satisfies" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The object is satisfied by the subject.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.9"/>
+    </resourceProperties>
+    <resourceProperties name="decomposedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.3"/>
+    </resourceProperties>
+    <resourceProperties name="decomposes" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The object is decomposed by the subject.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.4"/>
+    </resourceProperties>
+    <resourceProperties name="constrainedBy" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.1"/>
+    </resourceProperties>
+    <resourceProperties name="constrains" occurs="zeroOrMany" valueType="Resource" representation="reference" description="The object is constrained by the subject.">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.2"/>
+    </resourceProperties>
+    <resourceProperties title="" name="uses" occurs="zeroOrMany" valueType="Resource" representation="reference" description="A collection uses a resource - the resource is in the requirement collection. ">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies.0/@properties.13"/>
+    </resourceProperties>
     <generationSetting javaClassPackageName="org.eclipse.lyo.oslc.domains.rm" javaFilesPath=""/>
   </domainSpecifications>
   <domainSpecifications name="Quality Management" namespaceURI="http://open-services.net/ns/qm#" namespacePrefix="//@domainPrefixes.7">

@@ -39,10 +39,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -86,7 +82,7 @@ public interface ITestResult
 {
 
     public void addType(final Link type );
-    public void addServiceProvider(final URI serviceProvider );
+    public void addServiceProvider(final Link serviceProvider );
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest );
 
     @OslcName("created")
@@ -100,7 +96,7 @@ public interface ITestResult
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -117,8 +113,10 @@ public interface ITestResult
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public URI getInstanceShape();
+    public Link getInstanceShape();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -140,8 +138,10 @@ public interface ITestResult
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<URI> getServiceProvider();
+    public Set<Link> getServiceProvider();
 
     @OslcName("status")
     @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "status")
@@ -203,10 +203,10 @@ public interface ITestResult
     public void setCreated(final Date created );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setInstanceShape(final URI instanceShape );
+    public void setInstanceShape(final Link instanceShape );
     public void setTitle(final String title );
     public void setType(final Set<Link> type );
-    public void setServiceProvider(final Set<URI> serviceProvider );
+    public void setServiceProvider(final Set<Link> serviceProvider );
     public void setStatus(final String status );
     public void setAffectedByChangeRequest(final Set<Link> affectedByChangeRequest );
     public void setExecutesTestScript(final Link executesTestScript );

@@ -26,7 +26,7 @@
 package org.eclipse.lyo.oslc.domains.rm;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
+import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 
 // Start of user code imports
 // End of user code
@@ -36,16 +36,16 @@ public interface Oslc_rmDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String REQUIREMENTS_MANAGEMENT_DOMAIN = "http://open-services.net/ns/rm#";
-    public static String REQUIREMENTS_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/rm#";
-    public static String REQUIREMENTS_MANAGEMENT_NAMSPACE_PREFIX = "oslc_rm";
+    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/rm#";
+    public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/rm#";
+    public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_rm";
 
     public static String REQUIREMENT_PATH = "requirement";
-    public static String REQUIREMENT_NAMESPACE = REQUIREMENTS_MANAGEMENT_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String REQUIREMENT_NAMESPACE = Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String REQUIREMENT_LOCALNAME = "Requirement"; //localName of the rdfs:class the resource describes
     public static String REQUIREMENT_TYPE = REQUIREMENT_NAMESPACE + REQUIREMENT_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String REQUIREMENTCOLLECTION_PATH = "requirementCollection";
-    public static String REQUIREMENTCOLLECTION_NAMESPACE = REQUIREMENTS_MANAGEMENT_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String REQUIREMENTCOLLECTION_NAMESPACE = Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String REQUIREMENTCOLLECTION_LOCALNAME = "RequirementCollection"; //localName of the rdfs:class the resource describes
     public static String REQUIREMENTCOLLECTION_TYPE = REQUIREMENTCOLLECTION_NAMESPACE + REQUIREMENTCOLLECTION_LOCALNAME; //fullname of the rdfs:class the resource describes
 }

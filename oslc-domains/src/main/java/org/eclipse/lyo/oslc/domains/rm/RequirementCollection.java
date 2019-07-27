@@ -41,10 +41,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -74,14 +70,11 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.Person;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
@@ -123,15 +116,12 @@ public class RequirementCollection
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
-    // Start of user code attributeAnnotation:type
-    // End of user code
-    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<URI> serviceProvider = new HashSet<URI>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private URI instanceShape;
+    private Link instanceShape;
     // Start of user code attributeAnnotation:elaboratedBy
     // End of user code
     private Set<Link> elaboratedBy = new HashSet<Link>();
@@ -174,6 +164,9 @@ public class RequirementCollection
     // Start of user code attributeAnnotation:constrains
     // End of user code
     private Set<Link> constrains = new HashSet<Link>();
+    // Start of user code attributeAnnotation:uses
+    // End of user code
+    private Set<Link> uses = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -196,7 +189,6 @@ public class RequirementCollection
         // Start of user code constructor2
         // End of user code
     }
-    
     
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
@@ -223,38 +215,10 @@ public class RequirementCollection
             // End of user code
         }
         else {
-            result = getAbout().toString();
+            result = String.valueOf(getAbout());
         }
     
         // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    @Deprecated
-    public String toHtml()
-    {
-        return toHtml(false);
-    }
-    
-    @Deprecated
-    public String toHtml(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toHtml_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = toString(true);
-            // Start of user code toHtml_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
-        // Start of user code toHtml_finalize
         // End of user code
     
         return result;
@@ -275,12 +239,7 @@ public class RequirementCollection
         this.contributor.add(contributor);
     }
     
-    public void addType(final Link type)
-    {
-        this.type.add(type);
-    }
-    
-    public void addServiceProvider(final URI serviceProvider)
+    public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
@@ -355,6 +314,11 @@ public class RequirementCollection
         this.constrains.add(constrains);
     }
     
+    public void addUses(final Link uses)
+    {
+        this.uses.add(uses);
+    }
+    
     
     // Start of user code getterAnnotation:title
     // End of user code
@@ -391,7 +355,7 @@ public class RequirementCollection
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier()
@@ -439,7 +403,6 @@ public class RequirementCollection
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getCreator()
     {
@@ -455,7 +418,6 @@ public class RequirementCollection
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getContributor()
     {
@@ -494,29 +456,16 @@ public class RequirementCollection
         return modified;
     }
     
-    // Start of user code getterAnnotation:type
-    // End of user code
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType()
-    {
-        // Start of user code getterInit:type
-        // End of user code
-        return type;
-    }
-    
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
     @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<URI> getServiceProvider()
+    public Set<Link> getServiceProvider()
     {
         // Start of user code getterInit:serviceProvider
         // End of user code
@@ -529,8 +478,10 @@ public class RequirementCollection
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public URI getInstanceShape()
+    public Link getInstanceShape()
     {
         // Start of user code getterInit:instanceShape
         // End of user code
@@ -540,10 +491,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:elaboratedBy
     // End of user code
     @OslcName("elaboratedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaboratedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaboratedBy")
     @OslcDescription("The subject is elaborated by the object. For example, a user requirement is elaborated by use case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getElaboratedBy()
     {
@@ -555,10 +507,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:elaborates
     // End of user code
     @OslcName("elaborates")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "elaborates")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaborates")
     @OslcDescription("The object is elaborated by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getElaborates()
     {
@@ -570,10 +523,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:specifiedBy
     // End of user code
     @OslcName("specifiedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifiedBy")
     @OslcDescription("The subject is specified by the object. For example, a requirement is elaborated by a model element .")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSpecifiedBy()
     {
@@ -585,10 +539,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:specifies
     // End of user code
     @OslcName("specifies")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "specifies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifies")
     @OslcDescription("The object is specified by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSpecifies()
     {
@@ -600,10 +555,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:affectedBy
     // End of user code
     @OslcName("affectedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "affectedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "affectedBy")
     @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getAffectedBy()
     {
@@ -615,10 +571,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:trackedBy
     // End of user code
     @OslcName("trackedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "trackedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "trackedBy")
     @OslcDescription("Resource, such as a change request, which tracks this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getTrackedBy()
     {
@@ -630,10 +587,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:implementedBy
     // End of user code
     @OslcName("implementedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "implementedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "implementedBy")
     @OslcDescription("Resource, such as a change request, which implements this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getImplementedBy()
     {
@@ -645,10 +603,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:validatedBy
     // End of user code
     @OslcName("validatedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "validatedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "validatedBy")
     @OslcDescription("Resource, such as a test case, which validates this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getValidatedBy()
     {
@@ -660,10 +619,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:satisfiedBy
     // End of user code
     @OslcName("satisfiedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfiedBy")
     @OslcDescription("The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSatisfiedBy()
     {
@@ -675,10 +635,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:satisfies
     // End of user code
     @OslcName("satisfies")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "satisfies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfies")
     @OslcDescription("The object is satisfied by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getSatisfies()
     {
@@ -690,10 +651,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:decomposedBy
     // End of user code
     @OslcName("decomposedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposedBy")
     @OslcDescription("The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getDecomposedBy()
     {
@@ -705,10 +667,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:decomposes
     // End of user code
     @OslcName("decomposes")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposes")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposes")
     @OslcDescription("The object is decomposed by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getDecomposes()
     {
@@ -720,10 +683,11 @@ public class RequirementCollection
     // Start of user code getterAnnotation:constrainedBy
     // End of user code
     @OslcName("constrainedBy")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrainedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrainedBy")
     @OslcDescription("The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getConstrainedBy()
     {
@@ -735,16 +699,34 @@ public class RequirementCollection
     // Start of user code getterAnnotation:constrains
     // End of user code
     @OslcName("constrains")
-    @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "constrains")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrains")
     @OslcDescription("The object is constrained by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getConstrains()
     {
         // Start of user code getterInit:constrains
         // End of user code
         return constrains;
+    }
+    
+    // Start of user code getterAnnotation:uses
+    // End of user code
+    @OslcName("uses")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "uses")
+    @OslcDescription("A collection uses a resource - the resource is in the requirement collection. ")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
+    @OslcReadOnly(false)
+    @OslcTitle("")
+    public Set<Link> getUses()
+    {
+        // Start of user code getterInit:uses
+        // End of user code
+        return uses;
     }
     
     
@@ -868,25 +850,9 @@ public class RequirementCollection
         // End of user code
     }
     
-    // Start of user code setterAnnotation:type
-    // End of user code
-    public void setType(final Set<Link> type )
-    {
-        // Start of user code setterInit:type
-        // End of user code
-        this.type.clear();
-        if (type != null)
-        {
-            this.type.addAll(type);
-        }
-    
-        // Start of user code setterFinalize:type
-        // End of user code
-    }
-    
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final Set<URI> serviceProvider )
+    public void setServiceProvider(final Set<Link> serviceProvider )
     {
         // Start of user code setterInit:serviceProvider
         // End of user code
@@ -902,7 +868,7 @@ public class RequirementCollection
     
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final URI instanceShape )
+    public void setInstanceShape(final Link instanceShape )
     {
         // Start of user code setterInit:instanceShape
         // End of user code
@@ -1136,1255 +1102,20 @@ public class RequirementCollection
         // End of user code
     }
     
-    
-    @Deprecated
-    static public String titleToHtmlForCreation (final HttpServletRequest httpServletRequest)
+    // Start of user code setterAnnotation:uses
+    // End of user code
+    public void setUses(final Set<Link> uses )
     {
-        String s = "";
-    
-        // Start of user code "Init:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"title\">title: </LABEL>";
-    
-        // Start of user code "Mid:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"title\" type=\"text\" style=\"width: 400px\" id=\"title\" >";
-        // Start of user code "Finalize:titleToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String descriptionToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"description\">description: </LABEL>";
-    
-        // Start of user code "Mid:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"description\" type=\"text\" style=\"width: 400px\" id=\"description\" >";
-        // Start of user code "Finalize:descriptionToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String identifierToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"identifier\">identifier: </LABEL>";
-    
-        // Start of user code "Mid:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"identifier\" type=\"text\" style=\"width: 400px\" id=\"identifier\" >";
-        // Start of user code "Finalize:identifierToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String shortTitleToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"shortTitle\">shortTitle: </LABEL>";
-    
-        // Start of user code "Mid:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"shortTitle\" type=\"text\" style=\"width: 400px\" id=\"shortTitle\" >";
-        // Start of user code "Finalize:shortTitleToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String subjectToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"subject\">subject: </LABEL>";
-    
-        // Start of user code "Mid:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"subject\" type=\"text\" style=\"width: 400px\" id=\"subject\" >";
-        // Start of user code "Finalize:subjectToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String creatorToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"creator\">creator: </LABEL>";
-    
-        // Start of user code "Mid:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:creatorToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String contributorToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"contributor\">contributor: </LABEL>";
-    
-        // Start of user code "Mid:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:contributorToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String createdToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"created\">created: </LABEL>";
-    
-        // Start of user code "Mid:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"created\" type=\"text\" style=\"width: 400px\" id=\"created\" >";
-        // Start of user code "Finalize:createdToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String modifiedToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"modified\">modified: </LABEL>";
-    
-        // Start of user code "Mid:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"modified\" type=\"text\" style=\"width: 400px\" id=\"modified\" >";
-        // Start of user code "Finalize:modifiedToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String typeToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"type\">type: </LABEL>";
-    
-        // Start of user code "Mid:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:typeToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String serviceProviderToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"serviceProvider\">serviceProvider: </LABEL>";
-    
-        // Start of user code "Mid:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"serviceProvider\" type=\"text\" style=\"width: 400px\" id=\"serviceProvider\" >";
-        // Start of user code "Finalize:serviceProviderToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String instanceShapeToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"instanceShape\">instanceShape: </LABEL>";
-    
-        // Start of user code "Mid:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"instanceShape\" type=\"text\" style=\"width: 400px\" id=\"instanceShape\" >";
-        // Start of user code "Finalize:instanceShapeToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String elaboratedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:elaboratedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"elaboratedBy\">elaboratedBy: </LABEL>";
-    
-        // Start of user code "Mid:elaboratedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:elaboratedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String elaboratesToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:elaboratesToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"elaborates\">elaborates: </LABEL>";
-    
-        // Start of user code "Mid:elaboratesToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:elaboratesToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String specifiedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:specifiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"specifiedBy\">specifiedBy: </LABEL>";
-    
-        // Start of user code "Mid:specifiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:specifiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String specifiesToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:specifiesToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"specifies\">specifies: </LABEL>";
-    
-        // Start of user code "Mid:specifiesToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:specifiesToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String affectedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:affectedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"affectedBy\">affectedBy: </LABEL>";
-    
-        // Start of user code "Mid:affectedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:affectedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String trackedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:trackedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"trackedBy\">trackedBy: </LABEL>";
-    
-        // Start of user code "Mid:trackedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:trackedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String implementedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:implementedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"implementedBy\">implementedBy: </LABEL>";
-    
-        // Start of user code "Mid:implementedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:implementedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String validatedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:validatedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"validatedBy\">validatedBy: </LABEL>";
-    
-        // Start of user code "Mid:validatedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:validatedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String satisfiedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:satisfiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"satisfiedBy\">satisfiedBy: </LABEL>";
-    
-        // Start of user code "Mid:satisfiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:satisfiedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String satisfiesToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:satisfiesToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"satisfies\">satisfies: </LABEL>";
-    
-        // Start of user code "Mid:satisfiesToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:satisfiesToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String decomposedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:decomposedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"decomposedBy\">decomposedBy: </LABEL>";
-    
-        // Start of user code "Mid:decomposedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:decomposedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String decomposesToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:decomposesToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"decomposes\">decomposes: </LABEL>";
-    
-        // Start of user code "Mid:decomposesToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:decomposesToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String constrainedByToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:constrainedByToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"constrainedBy\">constrainedBy: </LABEL>";
-    
-        // Start of user code "Mid:constrainedByToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:constrainedByToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String constrainsToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:constrainsToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"constrains\">constrains: </LABEL>";
-    
-        // Start of user code "Mid:constrainsToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:constrainsToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    
-    @Deprecated
-    public String titleToHtml()
-    {
-        String s = "";
-    
-        // Start of user code titletoHtml_mid
-        // End of user code
-    
-        try {
-            if (title == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + title.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Start of user code setterInit:uses
+        // End of user code
+        this.uses.clear();
+        if (uses != null)
+        {
+            this.uses.addAll(uses);
         }
     
-        // Start of user code titletoHtml_finalize
+        // Start of user code setterFinalize:uses
         // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String descriptionToHtml()
-    {
-        String s = "";
-    
-        // Start of user code descriptiontoHtml_mid
-        // End of user code
-    
-        try {
-            if (description == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + description.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code descriptiontoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String identifierToHtml()
-    {
-        String s = "";
-    
-        // Start of user code identifiertoHtml_mid
-        // End of user code
-    
-        try {
-            if (identifier == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + identifier.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code identifiertoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String shortTitleToHtml()
-    {
-        String s = "";
-    
-        // Start of user code shortTitletoHtml_mid
-        // End of user code
-    
-        try {
-            if (shortTitle == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + shortTitle.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code shortTitletoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String subjectToHtml()
-    {
-        String s = "";
-    
-        // Start of user code subjecttoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            Iterator<String> itr = subject.iterator();
-            while(itr.hasNext()) {
-                s = s + "<li>";
-                s= s + itr.next().toString();
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code subjecttoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String creatorToHtml()
-    {
-        String s = "";
-    
-        // Start of user code creatortoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : creator) {
-                s = s + "<li>";
-                s = s + (new Person (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code creatortoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String contributorToHtml()
-    {
-        String s = "";
-    
-        // Start of user code contributortoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : contributor) {
-                s = s + "<li>";
-                s = s + (new Person (next.getValue())).toHtml(false);
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code contributortoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String createdToHtml()
-    {
-        String s = "";
-    
-        // Start of user code createdtoHtml_mid
-        // End of user code
-    
-        try {
-            if (created == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + created.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code createdtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String modifiedToHtml()
-    {
-        String s = "";
-    
-        // Start of user code modifiedtoHtml_mid
-        // End of user code
-    
-        try {
-            if (modified == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + modified.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code modifiedtoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String typeToHtml()
-    {
-        String s = "";
-    
-        // Start of user code typetoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : type) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code typetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String serviceProviderToHtml()
-    {
-        String s = "";
-    
-        // Start of user code serviceProvidertoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            Iterator<URI> itr = serviceProvider.iterator();
-            while(itr.hasNext()) {
-                s = s + "<li>";
-                s= s + itr.next().toString();
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code serviceProvidertoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String instanceShapeToHtml()
-    {
-        String s = "";
-    
-        // Start of user code instanceShapetoHtml_mid
-        // End of user code
-    
-        try {
-            if (instanceShape == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + instanceShape.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code instanceShapetoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String elaboratedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code elaboratedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : elaboratedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code elaboratedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String elaboratesToHtml()
-    {
-        String s = "";
-    
-        // Start of user code elaboratestoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : elaborates) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code elaboratestoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String specifiedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code specifiedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : specifiedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code specifiedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String specifiesToHtml()
-    {
-        String s = "";
-    
-        // Start of user code specifiestoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : specifies) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code specifiestoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String affectedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code affectedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : affectedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code affectedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String trackedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code trackedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : trackedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code trackedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String implementedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code implementedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : implementedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code implementedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String validatedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code validatedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : validatedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code validatedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String satisfiedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code satisfiedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : satisfiedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code satisfiedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String satisfiesToHtml()
-    {
-        String s = "";
-    
-        // Start of user code satisfiestoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : satisfies) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code satisfiestoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String decomposedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code decomposedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : decomposedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code decomposedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String decomposesToHtml()
-    {
-        String s = "";
-    
-        // Start of user code decomposestoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : decomposes) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code decomposestoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String constrainedByToHtml()
-    {
-        String s = "";
-    
-        // Start of user code constrainedBytoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : constrainedBy) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code constrainedBytoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String constrainsToHtml()
-    {
-        String s = "";
-    
-        // Start of user code constrainstoHtml_mid
-        // End of user code
-    
-        try {
-            s = s + "<ul>";
-            for(Link next : constrains) {
-                s = s + "<li>";
-                if (next.getValue() == null) {
-                    s= s + "<em>null</em>";
-                }
-                else {
-                    s = s + "<a href=\"" + next.getValue().toString() + "\">" + next.getValue().toString() + "</a>";
-                }
-                s = s + "</li>";
-            }
-            s = s + "</ul>";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code constrainstoHtml_finalize
-        // End of user code
-    
-        return s;
     }
     
     

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oscl4j_vocabulary:Vocabularies xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oscl4j_vocabulary="http://org.eclipse.lyo/oslc4j/vocabulary">
+  <vocabularies namespaceURI="http://open-services.net/ns/rm#" label="Requirements Management vocabulary" description="Requirements Management vocabulary as of CS01 (24 August 2018)" source="http://docs.oasis-open.org/oslc-domains/oslc-rm/v2.1/oslc-rm-v2.1-part2-requirements-management-vocab.html" preferredNamespacePrefix="oslc_rm">
+    <classes name="Requirement" label="Requirement"/>
+    <classes name="RequirementCollection" label="Requirement Collection"/>
+    <properties name="affectedBy" label="affectedBy"/>
+    <properties name="constrainedBy" label="constrainedBy"/>
+    <properties name="constrains" label="constrains"/>
+    <properties name="decomposedBy" label="decomposedBy"/>
+    <properties name="decomposes" label="decomposes"/>
+    <properties name="elaboratedBy" label="elaboratedBy"/>
+    <properties name="elaborates" label="elaborates"/>
+    <properties name="implementedBy" label="implementedBy"/>
+    <properties name="satisfiedBy" label="satisfiedBy"/>
+    <properties name="satisfies" label="satisfies"/>
+    <properties name="specifiedBy" label="specifiedBy"/>
+    <properties name="specifies" label="specifies"/>
+    <properties name="trackedBy" label="trackedBy"/>
+    <properties name="uses" label="uses"/>
+    <properties name="validatedBy" label="validatedBy"/>
+  </vocabularies>
+</oscl4j_vocabulary:Vocabularies>

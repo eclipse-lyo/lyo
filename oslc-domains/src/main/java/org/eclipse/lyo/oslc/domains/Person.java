@@ -41,10 +41,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -122,7 +118,6 @@ public class Person
         // End of user code
     }
     
-    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
@@ -148,38 +143,10 @@ public class Person
             // End of user code
         }
         else {
-            result = getAbout().toString();
+            result = String.valueOf(getAbout());
         }
     
         // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    @Deprecated
-    public String toHtml()
-    {
-        return toHtml(false);
-    }
-    
-    @Deprecated
-    public String toHtml(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toHtml_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = toString(true);
-            // Start of user code toHtml_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
-        // Start of user code toHtml_finalize
         // End of user code
     
         return result;
@@ -266,143 +233,6 @@ public class Person
     
         // Start of user code setterFinalize:name
         // End of user code
-    }
-    
-    
-    @Deprecated
-    static public String familyNameToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:familyNameToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"familyName\">familyName: </LABEL>";
-    
-        // Start of user code "Mid:familyNameToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"familyName\" type=\"text\" style=\"width: 400px\" id=\"familyName\" >";
-        // Start of user code "Finalize:familyNameToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String givenNameToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:givenNameToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"givenName\">givenName: </LABEL>";
-    
-        // Start of user code "Mid:givenNameToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"givenName\" type=\"text\" style=\"width: 400px\" id=\"givenName\" >";
-        // Start of user code "Finalize:givenNameToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    static public String nameToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:nameToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"name\">name: </LABEL>";
-    
-        // Start of user code "Mid:nameToHtmlForCreation(...)"
-        // End of user code
-    
-        s= s + "<input name=\"name\" type=\"text\" style=\"width: 400px\" id=\"name\" >";
-        // Start of user code "Finalize:nameToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    
-    @Deprecated
-    public String familyNameToHtml()
-    {
-        String s = "";
-    
-        // Start of user code familyNametoHtml_mid
-        // End of user code
-    
-        try {
-            if (familyName == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + familyName.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code familyNametoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String givenNameToHtml()
-    {
-        String s = "";
-    
-        // Start of user code givenNametoHtml_mid
-        // End of user code
-    
-        try {
-            if (givenName == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + givenName.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code givenNametoHtml_finalize
-        // End of user code
-    
-        return s;
-    }
-    
-    @Deprecated
-    public String nameToHtml()
-    {
-        String s = "";
-    
-        // Start of user code nametoHtml_mid
-        // End of user code
-    
-        try {
-            if (name == null) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + name.toString();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code nametoHtml_finalize
-        // End of user code
-    
-        return s;
     }
     
     

@@ -41,10 +41,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Iterator;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -117,7 +113,6 @@ public class RdfsClass
         // End of user code
     }
     
-    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
@@ -143,38 +138,10 @@ public class RdfsClass
             // End of user code
         }
         else {
-            result = getAbout().toString();
+            result = String.valueOf(getAbout());
         }
     
         // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    @Deprecated
-    public String toHtml()
-    {
-        return toHtml(false);
-    }
-    
-    @Deprecated
-    public String toHtml(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toHtml_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = toString(true);
-            // Start of user code toHtml_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
-        // Start of user code toHtml_finalize
         // End of user code
     
         return result;
@@ -208,52 +175,6 @@ public class RdfsClass
     
         // Start of user code setterFinalize:subClassOf
         // End of user code
-    }
-    
-    
-    @Deprecated
-    static public String subClassOfToHtmlForCreation (final HttpServletRequest httpServletRequest)
-    {
-        String s = "";
-    
-        // Start of user code "Init:subClassOfToHtmlForCreation(...)"
-        // End of user code
-    
-        s = s + "<label for=\"subClassOf\">subClassOf: </LABEL>";
-    
-        // Start of user code "Mid:subClassOfToHtmlForCreation(...)"
-        // End of user code
-    
-        // Start of user code "Finalize:subClassOfToHtmlForCreation(...)"
-        // End of user code
-    
-        return s;
-    }
-    
-    
-    @Deprecated
-    public String subClassOfToHtml()
-    {
-        String s = "";
-    
-        // Start of user code subClassOftoHtml_mid
-        // End of user code
-    
-        try {
-            if ((subClassOf == null) || (subClassOf.getValue() == null)) {
-                s = s + "<em>null</em>";
-            }
-            else {
-                s = s + (new RdfsClass (subClassOf.getValue())).toHtml(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    
-        // Start of user code subClassOftoHtml_finalize
-        // End of user code
-    
-        return s;
     }
     
     
