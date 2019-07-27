@@ -152,8 +152,9 @@ public interface ILinkType
 
     @OslcName("label")
     @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "label")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
+    @OslcDescription("May be used to provide a human-readable version of a resource's name.")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getLabel();
 

@@ -189,7 +189,7 @@ public interface ITestCase
     public Set<Link> getType();
 
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
     @OslcDescription("A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -199,7 +199,7 @@ public interface ITestCase
     public Set<Link> getRelatedChangeRequest();
 
     @OslcName("testsChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
     @OslcDescription("Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -209,7 +209,7 @@ public interface ITestCase
     public Set<Link> getTestsChangeRequest();
 
     @OslcName("usesTestScript")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
     @OslcDescription("Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
@@ -218,7 +218,7 @@ public interface ITestCase
     public Set<Link> getUsesTestScript();
 
     @OslcName("validatesRequirement")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
     @OslcDescription("Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

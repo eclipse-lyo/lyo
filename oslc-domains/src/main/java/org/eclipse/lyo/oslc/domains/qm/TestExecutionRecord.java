@@ -372,7 +372,7 @@ public class TestExecutionRecord
     // Start of user code getterAnnotation:blockedByChangeRequest
     // End of user code
     @OslcName("blockedByChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "blockedByChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "blockedByChangeRequest")
     @OslcDescription("Change Request that prevents execution of the Test Execution Record. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -389,7 +389,7 @@ public class TestExecutionRecord
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
     @OslcDescription("A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -406,7 +406,7 @@ public class TestExecutionRecord
     // Start of user code getterAnnotation:reportsOnTestPlan
     // End of user code
     @OslcName("reportsOnTestPlan")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "reportsOnTestPlan")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "reportsOnTestPlan")
     @OslcDescription("Test Plan that the Test Execution Record reports on. It is likely that the target resource will be an oslc_qm:TestPlan but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
@@ -422,7 +422,7 @@ public class TestExecutionRecord
     // Start of user code getterAnnotation:runsOnTestEnvironment
     // End of user code
     @OslcName("runsOnTestEnvironment")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsOnTestEnvironment")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsOnTestEnvironment")
     @OslcDescription("Indicates the environment details of the test case for this execution record.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
@@ -438,7 +438,7 @@ public class TestExecutionRecord
     // Start of user code getterAnnotation:runsTestCase
     // End of user code
     @OslcName("runsTestCase")
-    @OslcPropertyDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsTestCase")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsTestCase")
     @OslcDescription("Test Case run by the Test Execution Record. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
