@@ -82,6 +82,7 @@ import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
@@ -135,7 +136,7 @@ public class TestScript
     // Start of user code attributeAnnotation:validatesRequirement
     // End of user code
     private Set<Link> validatesRequirement = new HashSet<Link>();
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -143,38 +144,38 @@ public class TestScript
     public TestScript()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public TestScript(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTSCRIPT_PATH,
         TestScript.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local TestScript Resource} - update TestScript.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -183,54 +184,54 @@ public class TestScript
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-    
+
     public void addExecutionInstructions(final Link executionInstructions)
     {
         this.executionInstructions.add(executionInstructions);
     }
-    
+
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-    
+
     public void addValidatesRequirement(final Link validatesRequirement)
     {
         this.validatesRequirement.add(validatesRequirement);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -246,7 +247,7 @@ public class TestScript
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -261,7 +262,7 @@ public class TestScript
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -277,7 +278,7 @@ public class TestScript
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -292,7 +293,7 @@ public class TestScript
         // End of user code
         return description;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -307,7 +308,7 @@ public class TestScript
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -322,7 +323,7 @@ public class TestScript
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -338,7 +339,7 @@ public class TestScript
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -354,7 +355,7 @@ public class TestScript
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -369,7 +370,7 @@ public class TestScript
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:type
     // End of user code
     @OslcName("type")
@@ -384,7 +385,7 @@ public class TestScript
         // End of user code
         return type;
     }
-    
+
     // Start of user code getterAnnotation:executionInstructions
     // End of user code
     @OslcName("executionInstructions")
@@ -400,7 +401,7 @@ public class TestScript
         // End of user code
         return executionInstructions;
     }
-    
+
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
@@ -417,7 +418,7 @@ public class TestScript
         // End of user code
         return relatedChangeRequest;
     }
-    
+
     // Start of user code getterAnnotation:validatesRequirement
     // End of user code
     @OslcName("validatesRequirement")
@@ -434,8 +435,8 @@ public class TestScript
         // End of user code
         return validatesRequirement;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -447,11 +448,11 @@ public class TestScript
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -459,11 +460,11 @@ public class TestScript
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -475,11 +476,11 @@ public class TestScript
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -487,11 +488,11 @@ public class TestScript
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-    
+
         // Start of user code setterFinalize:description
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -499,11 +500,11 @@ public class TestScript
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -511,11 +512,11 @@ public class TestScript
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -527,11 +528,11 @@ public class TestScript
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -543,11 +544,11 @@ public class TestScript
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -555,11 +556,11 @@ public class TestScript
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:type
     // End of user code
     public void setType(final Set<Link> type )
@@ -571,11 +572,11 @@ public class TestScript
         {
             this.type.addAll(type);
         }
-    
+
         // Start of user code setterFinalize:type
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:executionInstructions
     // End of user code
     public void setExecutionInstructions(final Set<Link> executionInstructions )
@@ -587,11 +588,11 @@ public class TestScript
         {
             this.executionInstructions.addAll(executionInstructions);
         }
-    
+
         // Start of user code setterFinalize:executionInstructions
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
     public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
@@ -603,11 +604,11 @@ public class TestScript
         {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
-    
+
         // Start of user code setterFinalize:relatedChangeRequest
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:validatesRequirement
     // End of user code
     public void setValidatesRequirement(final Set<Link> validatesRequirement )
@@ -619,10 +620,10 @@ public class TestScript
         {
             this.validatesRequirement.addAll(validatesRequirement);
         }
-    
+
         // Start of user code setterFinalize:validatesRequirement
         // End of user code
     }
-    
-    
+
+
 }

@@ -75,6 +75,7 @@ import org.eclipse.lyo.oslc.domains.qm.ITestPlan;
 import org.eclipse.lyo.oslc.domains.qm.ITestCase;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 
 @OslcNamespace(Oslc_qmDomainConstants.TESTEXECUTIONRECORD_NAMESPACE)
