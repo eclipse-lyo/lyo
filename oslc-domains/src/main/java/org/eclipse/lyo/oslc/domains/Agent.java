@@ -79,19 +79,13 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(FoafDomainConstants.PERSON_NAMESPACE)
-@OslcName(FoafDomainConstants.PERSON_LOCALNAME)
-@OslcResourceShape(title = "Person Resource Shape", describes = FoafDomainConstants.PERSON_TYPE)
-public class Person
+@OslcNamespace(FoafDomainConstants.AGENT_NAMESPACE)
+@OslcName(FoafDomainConstants.AGENT_LOCALNAME)
+@OslcResourceShape(title = "Agent Resource Shape", describes = FoafDomainConstants.AGENT_TYPE)
+public class Agent
     extends AbstractResource
-    implements IPerson
+    implements IAgent
 {
-    // Start of user code attributeAnnotation:familyName
-    // End of user code
-    private String familyName;
-    // Start of user code attributeAnnotation:givenName
-    // End of user code
-    private String givenName;
     // Start of user code attributeAnnotation:name
     // End of user code
     private String name;
@@ -100,7 +94,7 @@ public class Person
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Person()
+    public Agent()
     {
         super();
     
@@ -108,7 +102,7 @@ public class Person
         // End of user code
     }
     
-    public Person(final URI about)
+    public Agent(final URI about)
     {
         super(about);
     
@@ -119,8 +113,8 @@ public class Person
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        FoafDomainConstants.PERSON_PATH,
-        Person.class);
+        FoafDomainConstants.AGENT_PATH,
+        Agent.class);
     }
     
     
@@ -136,7 +130,7 @@ public class Person
         // End of user code
     
         if (asLocalResource) {
-            result = result + "{a Local Person Resource} - update Person.toString() to present resource as desired.";
+            result = result + "{a Local Agent Resource} - update Agent.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
         }
@@ -150,36 +144,6 @@ public class Person
         return result;
     }
     
-    
-    // Start of user code getterAnnotation:familyName
-    // End of user code
-    @OslcName("familyName")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "familyName")
-    @OslcDescription("Family name of person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getFamilyName()
-    {
-        // Start of user code getterInit:familyName
-        // End of user code
-        return familyName;
-    }
-    
-    // Start of user code getterAnnotation:givenName
-    // End of user code
-    @OslcName("givenName")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "givenName")
-    @OslcDescription("Given name of person expressed as simple text string. ")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getGivenName()
-    {
-        // Start of user code getterInit:givenName
-        // End of user code
-        return givenName;
-    }
     
     // Start of user code getterAnnotation:name
     // End of user code
@@ -196,30 +160,6 @@ public class Person
         return name;
     }
     
-    
-    // Start of user code setterAnnotation:familyName
-    // End of user code
-    public void setFamilyName(final String familyName )
-    {
-        // Start of user code setterInit:familyName
-        // End of user code
-        this.familyName = familyName;
-    
-        // Start of user code setterFinalize:familyName
-        // End of user code
-    }
-    
-    // Start of user code setterAnnotation:givenName
-    // End of user code
-    public void setGivenName(final String givenName )
-    {
-        // Start of user code setterInit:givenName
-        // End of user code
-        this.givenName = givenName;
-    
-        // Start of user code setterFinalize:givenName
-        // End of user code
-    }
     
     // Start of user code setterAnnotation:name
     // End of user code

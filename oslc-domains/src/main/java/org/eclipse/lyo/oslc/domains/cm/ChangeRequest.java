@@ -70,19 +70,26 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.cm.Priority;
+import org.eclipse.lyo.oslc.domains.cm.State;
+import org.eclipse.lyo.oslc.domains.config.ChangeSet;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code imports
+import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
@@ -124,15 +131,12 @@ public class ChangeRequest
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
-    // Start of user code attributeAnnotation:type
-    // End of user code
-    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
     private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Link instanceShape;
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:discussedBy
     // End of user code
     private Link discussedBy;
@@ -145,9 +149,9 @@ public class ChangeRequest
     // Start of user code attributeAnnotation:closed
     // End of user code
     private Boolean closed;
-    // Start of user code attributeAnnotation:inprogress
+    // Start of user code attributeAnnotation:inProgress
     // End of user code
-    private Boolean inprogress;
+    private Boolean inProgress;
     // Start of user code attributeAnnotation:fixed
     // End of user code
     private Boolean fixed;
@@ -181,13 +185,24 @@ public class ChangeRequest
     // Start of user code attributeAnnotation:tracksChangeSet
     // End of user code
     private Set<Link> tracksChangeSet = new HashSet<Link>();
+    // Start of user code attributeAnnotation:parent
+    // End of user code
+    private Set<Link> parent = new HashSet<Link>();
+    // Start of user code attributeAnnotation:priority
+    // End of user code
+    private Set<Link> priority = new HashSet<Link>();
+    // Start of user code attributeAnnotation:state
+    // End of user code
+    private Link state;
+    // Start of user code attributeAnnotation:authorizer
+    // End of user code
+    private Set<Link> authorizer = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
     public ChangeRequest()
-           throws URISyntaxException
     {
         super();
     
@@ -196,7 +211,6 @@ public class ChangeRequest
     }
     
     public ChangeRequest(final URI about)
-           throws URISyntaxException
     {
         super(about);
     
@@ -253,14 +267,14 @@ public class ChangeRequest
         this.contributor.add(contributor);
     }
     
-    public void addType(final Link type)
-    {
-        this.type.add(type);
-    }
-    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
+    }
+    
+    public void addInstanceShape(final Link instanceShape)
+    {
+        this.instanceShape.add(instanceShape);
     }
     
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
@@ -296,6 +310,21 @@ public class ChangeRequest
     public void addTracksChangeSet(final Link tracksChangeSet)
     {
         this.tracksChangeSet.add(tracksChangeSet);
+    }
+    
+    public void addParent(final Link parent)
+    {
+        this.parent.add(parent);
+    }
+    
+    public void addPriority(final Link priority)
+    {
+        this.priority.add(priority);
+    }
+    
+    public void addAuthorizer(final Link authorizer)
+    {
+        this.authorizer.add(authorizer);
     }
     
     
@@ -349,7 +378,7 @@ public class ChangeRequest
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier()
@@ -382,6 +411,7 @@ public class ChangeRequest
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getCreator()
     {
@@ -397,6 +427,7 @@ public class ChangeRequest
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getContributor()
     {
@@ -435,21 +466,6 @@ public class ChangeRequest
         return modified;
     }
     
-    // Start of user code getterAnnotation:type
-    // End of user code
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType()
-    {
-        // Start of user code getterInit:type
-        // End of user code
-        return type;
-    }
-    
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -471,11 +487,11 @@ public class ChangeRequest
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Link getInstanceShape()
+    public Set<Link> getInstanceShape()
     {
         // Start of user code getterInit:instanceShape
         // End of user code
@@ -501,7 +517,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:closeDate
     // End of user code
     @OslcName("closeDate")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "closeDate")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closeDate")
     @OslcDescription("The date at which no further activity or work is intended to be conducted.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -516,7 +532,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:status
     // End of user code
     @OslcName("status")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "status")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "status")
     @OslcDescription("Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
@@ -531,7 +547,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:closed
     // End of user code
     @OslcName("closed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "closed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closed")
     @OslcDescription("Whether or not the Change Request is completely done, no further fixes or fix verification is needed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -543,25 +559,25 @@ public class ChangeRequest
         return closed;
     }
     
-    // Start of user code getterAnnotation:inprogress
+    // Start of user code getterAnnotation:inProgress
     // End of user code
-    @OslcName("inprogress")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "inprogress")
+    @OslcName("inProgress")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
     @OslcDescription("Whether or not the Change Request in a state indicating that active work is occurring. If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isInprogress()
+    public Boolean isInProgress()
     {
-        // Start of user code getterInit:inprogress
+        // Start of user code getterInit:inProgress
         // End of user code
-        return inprogress;
+        return inProgress;
     }
     
     // Start of user code getterAnnotation:fixed
     // End of user code
     @OslcName("fixed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "fixed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "fixed")
     @OslcDescription("Whether or not the Change Request has been fixed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -576,7 +592,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:approved
     // End of user code
     @OslcName("approved")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "approved")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
     @OslcDescription("Whether or not the Change Request has been approved.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -591,7 +607,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:reviewed
     // End of user code
     @OslcName("reviewed")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "reviewed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "reviewed")
     @OslcDescription("Whether or not the Change Request has been reviewed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -606,7 +622,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:verified
     // End of user code
     @OslcName("verified")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "verified")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "verified")
     @OslcDescription("Whether or not the resolution or fix of the Change Request has been verified.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -621,11 +637,11 @@ public class ChangeRequest
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedChangeRequest")
     @OslcDescription("This relationship is loosely coupled and has no specific meaning. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getRelatedChangeRequest()
     {
@@ -637,11 +653,11 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectsPlanItem
     // End of user code
     @OslcName("affectsPlanItem")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsPlanItem")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsPlanItem")
     @OslcDescription("Change request affects a plan item. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
     public Set<Link> getAffectsPlanItem()
     {
@@ -653,11 +669,12 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectedByDefect
     // End of user code
     @OslcName("affectedByDefect")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectedByDefect")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectedByDefect")
     @OslcDescription("Change request is affected by a reported defect. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcRepresentation(Representation.Reference)
+    @OslcRange({Oslc_cmDomainConstants.DEFECT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getAffectedByDefect()
     {
@@ -669,7 +686,7 @@ public class ChangeRequest
     // Start of user code getterAnnotation:tracksRequirement
     // End of user code
     @OslcName("tracksRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksRequirement")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
     @OslcDescription("Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -685,10 +702,11 @@ public class ChangeRequest
     // Start of user code getterAnnotation:implementsRequirement
     // End of user code
     @OslcName("implementsRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "implementsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "implementsRequirement")
     @OslcDescription("Implements associated Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getImplementsRequirement()
@@ -701,10 +719,11 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectsRequirement
     // End of user code
     @OslcName("affectsRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "affectsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsRequirement")
     @OslcDescription("Change request affecting a Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getAffectsRequirement()
@@ -717,16 +736,78 @@ public class ChangeRequest
     // Start of user code getterAnnotation:tracksChangeSet
     // End of user code
     @OslcName("tracksChangeSet")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_NAMSPACE + "tracksChangeSet")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
     @OslcDescription("Tracks SCM change set resource. It is likely that the target resource will be an oslc_scm:ChangeSet but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
+    @OslcRepresentation(Representation.Reference)
+    @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
     @OslcReadOnly(false)
     public Set<Link> getTracksChangeSet()
     {
         // Start of user code getterInit:tracksChangeSet
         // End of user code
         return tracksChangeSet;
+    }
+    
+    // Start of user code getterAnnotation:parent
+    // End of user code
+    @OslcName("parent")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "parent")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getParent()
+    {
+        // Start of user code getterInit:parent
+        // End of user code
+        return parent;
+    }
+    
+    // Start of user code getterAnnotation:priority
+    // End of user code
+    @OslcName("priority")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.PRIORITY_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getPriority()
+    {
+        // Start of user code getterInit:priority
+        // End of user code
+        return priority;
+    }
+    
+    // Start of user code getterAnnotation:state
+    // End of user code
+    @OslcName("state")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "state")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})
+    @OslcReadOnly(false)
+    public Link getState()
+    {
+        // Start of user code getterInit:state
+        // End of user code
+        return state;
+    }
+    
+    // Start of user code getterAnnotation:authorizer
+    // End of user code
+    @OslcName("authorizer")
+    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcRange({FoafDomainConstants.AGENT_TYPE})
+    @OslcReadOnly(false)
+    public Set<Link> getAuthorizer()
+    {
+        // Start of user code getterInit:authorizer
+        // End of user code
+        return authorizer;
     }
     
     
@@ -850,22 +931,6 @@ public class ChangeRequest
         // End of user code
     }
     
-    // Start of user code setterAnnotation:type
-    // End of user code
-    public void setType(final Set<Link> type )
-    {
-        // Start of user code setterInit:type
-        // End of user code
-        this.type.clear();
-        if (type != null)
-        {
-            this.type.addAll(type);
-        }
-    
-        // Start of user code setterFinalize:type
-        // End of user code
-    }
-    
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -884,11 +949,15 @@ public class ChangeRequest
     
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final Link instanceShape )
+    public void setInstanceShape(final Set<Link> instanceShape )
     {
         // Start of user code setterInit:instanceShape
         // End of user code
-        this.instanceShape = instanceShape;
+        this.instanceShape.clear();
+        if (instanceShape != null)
+        {
+            this.instanceShape.addAll(instanceShape);
+        }
     
         // Start of user code setterFinalize:instanceShape
         // End of user code
@@ -942,15 +1011,15 @@ public class ChangeRequest
         // End of user code
     }
     
-    // Start of user code setterAnnotation:inprogress
+    // Start of user code setterAnnotation:inProgress
     // End of user code
-    public void setInprogress(final Boolean inprogress )
+    public void setInProgress(final Boolean inProgress )
     {
-        // Start of user code setterInit:inprogress
+        // Start of user code setterInit:inProgress
         // End of user code
-        this.inprogress = inprogress;
+        this.inProgress = inProgress;
     
-        // Start of user code setterFinalize:inprogress
+        // Start of user code setterFinalize:inProgress
         // End of user code
     }
     
@@ -1111,6 +1180,66 @@ public class ChangeRequest
         }
     
         // Start of user code setterFinalize:tracksChangeSet
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:parent
+    // End of user code
+    public void setParent(final Set<Link> parent )
+    {
+        // Start of user code setterInit:parent
+        // End of user code
+        this.parent.clear();
+        if (parent != null)
+        {
+            this.parent.addAll(parent);
+        }
+    
+        // Start of user code setterFinalize:parent
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:priority
+    // End of user code
+    public void setPriority(final Set<Link> priority )
+    {
+        // Start of user code setterInit:priority
+        // End of user code
+        this.priority.clear();
+        if (priority != null)
+        {
+            this.priority.addAll(priority);
+        }
+    
+        // Start of user code setterFinalize:priority
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:state
+    // End of user code
+    public void setState(final Link state )
+    {
+        // Start of user code setterInit:state
+        // End of user code
+        this.state = state;
+    
+        // Start of user code setterFinalize:state
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:authorizer
+    // End of user code
+    public void setAuthorizer(final Set<Link> authorizer )
+    {
+        // Start of user code setterInit:authorizer
+        // End of user code
+        this.authorizer.clear();
+        if (authorizer != null)
+        {
+            this.authorizer.addAll(authorizer);
+        }
+    
+        // Start of user code setterFinalize:authorizer
         // End of user code
     }
     

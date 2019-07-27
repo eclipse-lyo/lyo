@@ -92,7 +92,6 @@ public class Discussion
     // Start of user code classMethods
     // End of user code
     public Discussion()
-           throws URISyntaxException
     {
         super();
     
@@ -101,7 +100,6 @@ public class Discussion
     }
     
     public Discussion(final URI about)
-           throws URISyntaxException
     {
         super(about);
     

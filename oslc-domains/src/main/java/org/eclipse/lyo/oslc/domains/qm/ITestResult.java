@@ -81,6 +81,7 @@ import org.eclipse.lyo.oslc.domains.qm.ITestPlan;
 public interface ITestResult
 {
 
+    public void addInstanceShape(final Link instanceShape );
     public void addType(final Link type );
     public void addServiceProvider(final Link serviceProvider );
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest );
@@ -96,7 +97,7 @@ public interface ITestResult
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
@@ -112,11 +113,11 @@ public interface ITestResult
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Link getInstanceShape();
+    public Set<Link> getInstanceShape();
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
@@ -203,7 +204,7 @@ public interface ITestResult
     public void setCreated(final Date created );
     public void setIdentifier(final String identifier );
     public void setModified(final Date modified );
-    public void setInstanceShape(final Link instanceShape );
+    public void setInstanceShape(final Set<Link> instanceShape );
     public void setTitle(final String title );
     public void setType(final Set<Link> type );
     public void setServiceProvider(final Set<Link> serviceProvider );

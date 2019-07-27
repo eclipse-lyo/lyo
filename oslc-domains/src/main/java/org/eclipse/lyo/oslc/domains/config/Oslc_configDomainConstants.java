@@ -26,7 +26,7 @@
 package org.eclipse.lyo.oslc.domains.config;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
+import org.eclipse.lyo.oslc.domains.Oslc_configVocabularyConstants;
 
 // Start of user code imports
 // End of user code
@@ -40,6 +40,10 @@ public interface Oslc_configDomainConstants
     public static String CONFIGURATION_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/config#";
     public static String CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config";
 
+    public static String CHANGESET_PATH = "changeSet";
+    public static String CHANGESET_NAMESPACE = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String CHANGESET_LOCALNAME = "ChangeSet"; //localName of the rdfs:class the resource describes
+    public static String CHANGESET_TYPE = CHANGESET_NAMESPACE + CHANGESET_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String VERSIONRESOURCE_PATH = "versionResource";
     public static String VERSIONRESOURCE_NAMESPACE = CONFIGURATION_MANAGEMENT_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String VERSIONRESOURCE_LOCALNAME = "VersionResource"; //localName of the rdfs:class the resource describes

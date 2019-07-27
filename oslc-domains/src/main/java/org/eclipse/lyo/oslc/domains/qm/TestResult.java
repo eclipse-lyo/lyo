@@ -106,7 +106,7 @@ public class TestResult
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Link instanceShape;
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
@@ -140,7 +140,6 @@ public class TestResult
     // Start of user code classMethods
     // End of user code
     public TestResult()
-           throws URISyntaxException
     {
         super();
     
@@ -149,7 +148,6 @@ public class TestResult
     }
     
     public TestResult(final URI about)
-           throws URISyntaxException
     {
         super(about);
     
@@ -191,6 +189,11 @@ public class TestResult
         return result;
     }
     
+    public void addInstanceShape(final Link instanceShape)
+    {
+        this.instanceShape.add(instanceShape);
+    }
+    
     public void addType(final Link type)
     {
         this.type.add(type);
@@ -227,7 +230,7 @@ public class TestResult
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier()
@@ -257,11 +260,11 @@ public class TestResult
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
     @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Link getInstanceShape()
+    public Set<Link> getInstanceShape()
     {
         // Start of user code getterInit:instanceShape
         // End of user code
@@ -451,11 +454,15 @@ public class TestResult
     
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final Link instanceShape )
+    public void setInstanceShape(final Set<Link> instanceShape )
     {
         // Start of user code setterInit:instanceShape
         // End of user code
-        this.instanceShape = instanceShape;
+        this.instanceShape.clear();
+        if (instanceShape != null)
+        {
+            this.instanceShape.addAll(instanceShape);
+        }
     
         // Start of user code setterFinalize:instanceShape
         // End of user code
