@@ -64,4 +64,27 @@
   <vocabularies namespaceURI="http://open-services.net/ns/config#" label="OSLC Configuration Management" description="WD as of 03 July 2019" source="https://oslc-op.github.io/oslc-specs/specs/config/config-vocab.html" preferredNamespacePrefix="oslc_config">
     <classes name="ChangeSet" label="ChangeSet"/>
   </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/qm#" label="Quality Management" source="https://raw.githack.com/oslc-op/oslc-specs/master/specs/qm/quality-management-spec.html" preferredNamespacePrefix="oslc_qm">
+    <classes name="TestCase" label="TestCase"/>
+    <classes name="TestExecutionRecord" label="TestExecutionRecord"/>
+    <classes name="TestPlan" label="TestPlan"/>
+    <classes name="TestResult" label="TestResult"/>
+    <classes name="TestScript" label="TestScript"/>
+
+    <properties name="affectedByChangeRequest" label="affectedByChangeRequest"/>
+    <properties name="blockedByChangeRequest" label="blockedByChangeRequest"/>
+    <properties name="executesTestScript" label="executesTestScript"/>
+    <properties name="executionInstructions" label="executionInstructions"/>
+    <properties name="producedByTestExecutionRecord" label="producedByTestExecutionRecord"/>
+    <properties name="relatedChangeRequest" label="relatedChangeRequest"/>
+    <properties name="reportsOnTestCase" label="reportsOnTestCase"/>
+    <properties name="reportsOnTestPlan" label="reportsOnTestPlan"/>
+    <properties name="runsOnTestEnvironment" label="runsOnTestEnvironment"/>
+    <properties name="runsTestCase" label="runsTestCase"/>
+    <properties name="testsChangeRequest" label="testsChangeRequest"/>
+    <properties name="usesTestCase" label="usesTestCase"/>
+    <properties name="usesTestScript" label="usesTestScript"/>
+    <properties name="validatesRequirement" label="validatesRequirement"/>
+    <properties name="validatesRequirementCollection" label="validatesRequirementCollection"/>
+  </vocabularies>
 </oscl4j_vocabulary:Vocabularies>
