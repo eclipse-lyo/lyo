@@ -170,4 +170,6 @@ public interface OSLCConstants {
     String OSLC2_0 = "2.0";
     String OSLC2_1 = "2.1";
     String OSLC3_0 = "3.0";
+
+    String CONFIGURATION_CONTEXT_HEADER = "Configuration-Context";
 }

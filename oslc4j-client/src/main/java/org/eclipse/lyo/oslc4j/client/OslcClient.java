@@ -181,7 +181,12 @@ public class OslcClient {
 		return getResource(url, requestHeaders, OSLCConstants.CT_RDF);
 	}
 
-	protected Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType) {
+	public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType) {
+		return getResource(url, requestHeaders, defaultMediaType, null);
+	}
+
+	public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType,
+									String configurationContext) {
 		Response response = null;
 		boolean redirect = false;
 		do {
@@ -220,6 +225,10 @@ public class OslcClient {
 				innvocationBuilder.header(OSLCConstants.OSLC_CORE_VERSION, version);
 			}
 
+			if(configurationContext != null) {
+				innvocationBuilder.header(OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
+			}
+
 			response = innvocationBuilder.get();
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -239,15 +248,25 @@ public class OslcClient {
 	 * Delete an OSLC resource and return a Wink ClientResponse
 	 * @param url
 	 */
+
 	@SuppressWarnings("unused")
 	public Response deleteResource(String url) {
+		return deleteResource(url, null);
+	}
+
+	public Response deleteResource(String url, String configurationContext) {
 		Response response = null;
 		boolean redirect = false;
 
 		do {
-			response = client.target(url).request()
-					.header(OSLCConstants.OSLC_CORE_VERSION, version)
-					.delete();
+			Builder invocationBuilder = client.target(url).request()
+					.header(OSLCConstants.OSLC_CORE_VERSION, version);
+
+			if(configurationContext != null) {
+				invocationBuilder.header(OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
+			}
+
+			response = invocationBuilder.delete();
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
 				url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
@@ -276,14 +295,25 @@ public class OslcClient {
 	 */
 	@SuppressWarnings("unused")
 	public Response createResource(String url, final Object artifact, String mediaType, String acceptType) {
+		return createResource(url, artifact, mediaType, acceptType, null);
+	}
+	@SuppressWarnings("unused")
+	public Response createResource(String url, final Object artifact, String mediaType, String acceptType,
+								   String configurationContext) {
 
 		Response response = null;
 		boolean redirect = false;
 
 		do {
-			response = client.target(url).request()
+			Builder invocationBuilder = client.target(url).request()
 					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION, version)
+					.header(OSLCConstants.OSLC_CORE_VERSION, version);
+
+			if(configurationContext != null) {
+				invocationBuilder.header(OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
+			}
+
+			response = invocationBuilder
 					.post(Entity.entity(artifact, mediaType));
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -303,7 +333,6 @@ public class OslcClient {
 	 */
 	@SuppressWarnings("unused")
 	public Response updateResource(String url, final Object artifact, String mediaType) {
-
 		return updateResource(url, artifact, mediaType, "*/*");
 	}
 
@@ -311,40 +340,37 @@ public class OslcClient {
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 */
 	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType) {
-
-		Response response = null;
-		boolean redirect = false;
-
-		do {
-			response = client.target(url).request()
-					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION, version)
-					.put(Entity.entity(artifact, mediaType));
-
-			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
-				url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
-				response.readEntity(String.class);
-				redirect = true;
-			} else {
-				redirect = false;
-			}
-		} while (redirect);
-
-		return response;
+		return updateResource(url, artifact, mediaType, acceptType, null, null);
 	}
 
 	/**
 	 * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
 	 */
+	@SuppressWarnings("unused")
 	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch) {
+		return updateResource(url, artifact, mediaType, acceptType, ifMatch, null);
+	}
+
+
+	public Response updateResource(String url, final Object artifact, String mediaType, String acceptType, String ifMatch,
+								   String configurationContext) {
 
 		Response response = null;
 		boolean redirect = false;
 
 		do {
-			response = client.target(url).request()
+			Builder invocationBuilder = client.target(url).request()
 					.accept(acceptType)
-					.header(OSLCConstants.OSLC_CORE_VERSION, version).header(HttpHeaders.IF_MATCH, ifMatch)
+					.header(OSLCConstants.OSLC_CORE_VERSION, version);
+
+			if(ifMatch != null) {
+				invocationBuilder.header(HttpHeaders.IF_MATCH, ifMatch);
+			}
+			if(configurationContext != null) {
+				invocationBuilder.header(OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
+			}
+
+			response = invocationBuilder
 					.put(Entity.entity(artifact, mediaType));
 
 			if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
@@ -358,7 +384,6 @@ public class OslcClient {
 
 		return response;
 	}
-
 	/**
 	 * Create a Wink Resource for the given OslcQuery object
 	 */

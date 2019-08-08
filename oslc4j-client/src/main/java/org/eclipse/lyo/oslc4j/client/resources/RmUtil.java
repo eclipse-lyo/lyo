@@ -36,8 +36,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public final class RmUtil {
-
 	public static ResourceShape lookupRequirementsInstanceShapes(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcClient client, String requiredInstanceShape)
+			throws IOException, URISyntaxException, ResourceNotFoundException{
+		return lookupRequirementsInstanceShapes(serviceProviderUrl, oslcDomain, oslcResourceType, client, requiredInstanceShape,null);
+	}
+	public static ResourceShape lookupRequirementsInstanceShapes(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcClient client, String requiredInstanceShape, String configurationContext)
 			throws IOException, URISyntaxException, ResourceNotFoundException
 	{
 
@@ -56,7 +59,7 @@ public final class RmUtil {
 									URI[] instanceShapes = creationFactory.getResourceShapes();
 									if (instanceShapes != null ){
 										for ( URI typeURI : instanceShapes) {
-											response = client.getResource(typeURI.toString(),OSLCConstants.CT_RDF);
+											response = client.getResource(typeURI.toString(), null, OSLCConstants.CT_RDF, configurationContext);
 											ResourceShape resourceShape =  response.readEntity(ResourceShape.class);
 											String typeTitle = resourceShape.getTitle();
 											if ( ( typeTitle != null) && (typeTitle.equalsIgnoreCase(requiredInstanceShape)) ) {

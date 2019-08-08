@@ -33,6 +33,7 @@ public class OslcQueryParameters {
 	private String searchTerms;
 	private String orderBy;
 	private String prefix;
+	private String configurationContext;
 
 	private static final Logger logger = Logger.getLogger(OslcQuery.class.getName());
 
@@ -57,6 +58,28 @@ public class OslcQueryParameters {
 		this.orderBy     = orderBy;
 		this.prefix      = prefix;
 	}
+
+	/**
+	 * Initialize an OSLC Parameter using the supplied terms
+	 *
+	 * @param where
+	 * @param select
+	 * @param searchTerms
+	 * @param orderBy
+	 * @param prefix
+	 * @param configurationContext
+	 */
+	public OslcQueryParameters (String where, String select, String searchTerms, String orderBy, String prefix,
+								String configurationContext) {
+		this.where                = where;
+		this.select               = select;
+		this.searchTerms          = searchTerms;
+		this.orderBy              = orderBy;
+		this.prefix               = prefix;
+		this.configurationContext = configurationContext;
+	}
+
+
 	/**
 	 *
 	 * @return
@@ -135,6 +158,22 @@ public class OslcQueryParameters {
 	 */
 	public void setPrefix(String prefix) {
 		this.prefix = encodeQueryParams(prefix);
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public String getConfigurationContext() {
+		return configurationContext;
+	}
+
+	/**
+	 *
+	 * @param configurationContext
+	 */
+	public void setConfigurationContext(String configurationContext) {
+		this.configurationContext = encodeQueryParams(configurationContext);
 	}
 
 	private String encodeQueryParams(String oslcQueryParam) {

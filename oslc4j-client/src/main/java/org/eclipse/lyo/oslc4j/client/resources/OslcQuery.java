@@ -46,6 +46,7 @@ public class OslcQuery {
 	private final String searchTerms;
 	private final String prefix;
 	private final String version;
+	private final String configurationContext;
 
 	/**
 	 * Create an OSLC query that uses the remote system's default page size.
@@ -116,8 +117,9 @@ public class OslcQuery {
 			this.orderBy = oslcQueryParams.getOrderBy();
 			this.searchTerms = oslcQueryParams.getSearchTerms();
 			this.prefix = oslcQueryParams.getPrefix();
+			this.configurationContext = oslcQueryParams.getConfigurationContext();
 		} else {
-			this.where = this.select = this.orderBy = this.searchTerms = this.prefix = null;
+			this.where = this.select = this.orderBy = this.searchTerms = this.prefix = this.configurationContext = null;
 		}
 		this.queryResource = createQueryResource(this.getCapabilityUrl());
 		this.queryUrl = this.getQueryUrl();
@@ -167,6 +169,9 @@ public class OslcQuery {
 		}
 		if (this.prefix != null && !this.prefix.isEmpty()) {
 			result = result.queryParam("oslc.prefix", this.prefix);
+		}
+		if (this.configurationContext != null && !this.configurationContext.isEmpty()) {
+			result = result.queryParam("oslc_config.context", this.configurationContext);
 		}
 		return result;
 	}
