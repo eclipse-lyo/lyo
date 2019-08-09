@@ -38,6 +38,7 @@ public interface OSLCConstants {
 	String OSLC_QM_V2 = "http://open-services.net/ns/qm#";
 	String OSLC_RM_V2 = "http://open-services.net/ns/rm#";
 	String OSLC_AUTO = "http://open-services.net/ns/auto#";
+	String OSLC_CONFIG = "http://open-services.net/ns/config#";
 
 	// Version 1.0 namespace definitions
 	String OSLC_DISC = "http://open-services.net/xmlns/discovery/1.0/";
