@@ -75,7 +75,7 @@ public class ResourcePackages {
                         LOGGER.trace("[-] Abstract class: " + classInfo.getName());
                     } else {
                         try {
-                            Class<?> rdfClass = Class.forName(classInfo.getName());
+                            Class<?> rdfClass = Class.forName(classInfo.getName(), true, Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
                             List<Class<?>> types = TYPES_MAPPINGS.get(rdfType);
                             if (types == null) {

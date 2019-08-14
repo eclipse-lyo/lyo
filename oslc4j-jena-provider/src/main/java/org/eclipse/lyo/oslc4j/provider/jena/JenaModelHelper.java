@@ -11,12 +11,10 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -53,7 +51,6 @@ import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
 import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
@@ -525,6 +522,7 @@ public final class JenaModelHelper
 			final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
             Class<?> originalBeanClass = beanClass;
 			for (final Resource resource : listSubjects) {
+                beanClass = originalBeanClass;
                 Optional<Class<?>> mostConcreteResourceClass = ResourcePackages.getClassOf(resource, beanClass);
                 if (mostConcreteResourceClass.isPresent()) {
                     beanClass = mostConcreteResourceClass.get();
