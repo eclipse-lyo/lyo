@@ -26,8 +26,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
+import java.util.stream.Collectors;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -138,6 +141,18 @@ public class OslcClient {
 	@Deprecated
 	public Client getClient() {
 		return client;
+	}
+
+	public <T> T followLink(URI link, Class<T> clazz) {
+		final Response resource = getResource(link.toString());
+		return resource.readEntity(clazz);
+	}
+
+	public <T> Collection<T> followLinks(URI[] links, Class<T> clazz) {
+		return Arrays.stream(links).parallel().map(uri -> {
+			final Response resource = getResource(uri.toString());
+			return resource.readEntity(clazz);
+		}).collect(Collectors.toList());
 	}
 
 	/**
