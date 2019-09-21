@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -50,6 +51,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.eclipse.lyo.oslc4j.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc4j.client.exception.RootServicesException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
@@ -143,16 +145,40 @@ public class OslcClient {
 		return client;
 	}
 
-	public <T> T followLink(URI link, Class<T> clazz) {
+	/**
+	 * Gets an OSLC resource from a given URI and unwraps a corresponding entity.
+	 */
+	public <T> T getResource(final URI link, final Class<T> clazz) {
 		final Response resource = getResource(link.toString());
 		return resource.readEntity(clazz);
 	}
 
-	public <T> Collection<T> followLinks(URI[] links, Class<T> clazz) {
+	/**
+	 * Gets an OSLC resource from a URI in a given Link and unwraps a corresponding entity.
+	 */
+	public <T> T getResource(final Link link, final Class<T> clazz) {
+		final URI value = Objects.requireNonNull(link.getValue());
+
+		final Response resource = getResource(value.toString());
+		return resource.readEntity(clazz);
+	}
+
+	/**
+	 * Gets OSLC resources in parallel from an array of URIs and unwraps their corresponding entities.
+	 */
+	public <T> Collection<T> getResource(final URI[] links, final Class<T> clazz) {
 		return Arrays.stream(links).parallel().map(uri -> {
 			final Response resource = getResource(uri.toString());
 			return resource.readEntity(clazz);
 		}).collect(Collectors.toList());
+	}
+
+	/**
+	 * Gets OSLC resources in parallel from a collection of Links and unwraps their corresponding entities.
+	 */
+	public <T> Collection<T> getResource(final Collection<Link> links, final Class<T> clazz) {
+		final URI[] uris = links.stream().map(l -> l.getValue()).toArray(URI[]::new);
+		return getResource(uris, clazz);
 	}
 
 	/**
