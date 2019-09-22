@@ -42,14 +42,6 @@
             <artifactId>oslc4j-json4j-provider</artifactId>
             <version>${version.lyo}</version>
         </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-        </dependency>
         <dependency> <!--See https://bugs.eclipse.org/bugs/show_bug.cgi?id=513048-->
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
