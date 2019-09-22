@@ -186,8 +186,10 @@ public class OslcClient {
 	 * Gets OSLC resources in parallel from a collection of URIs and unwraps their corresponding entities.
 	 */
 	public <T> List<T> getResources(final Collection<URI> links, final Class<T> clazz) {
-		final URI[] uris = links.toArray(new URI[0]);
-		return getResources(uris, clazz);
+		return links.parallelStream().map(uri -> {
+			final Response resource = getResource(uri.toString());
+			return resource.readEntity(clazz);
+		}).collect(Collectors.toList());
 	}
 
 	/**
