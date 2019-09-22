@@ -19,6 +19,7 @@ package org.eclipse.lyo.oslc4j.client.test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 
 import javax.ws.rs.ClientErrorException;
@@ -28,6 +29,7 @@ import org.eclipse.lyo.oslc4j.client.OslcClient;
 import org.eclipse.lyo.oslc4j.client.resources.AutomationRequest;
 import org.junit.Ignore;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
 
 public class OslcClientTest {
 	/*
@@ -45,5 +47,19 @@ public class OslcClientTest {
 		request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), null);
 
 		client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
+	}
+
+	@Test
+	public void initTest() {
+		final OslcClient client = new OslcClient();
+		assertThat(client).isNotNull();
+	}
+
+	@Test
+	public void connectionTest() {
+		final OslcClient client = new OslcClient();
+		final Response resource = client.getResource("https://open-services.net");
+		assertThat(resource).isNotNull();
+		assertThat(resource.getStatus()).isLessThan(400);
 	}
 }

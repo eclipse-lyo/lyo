@@ -28,9 +28,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -146,11 +148,18 @@ public class OslcClient {
 	}
 
 	/**
+	 * Gets an OSLC resource from a given URI string and unwraps a corresponding entity.
+	 */
+	public <T> T getResource(final String link, final Class<T> clazz) {
+		final Response resource = getResource(link.toString());
+		return resource.readEntity(clazz);
+	}
+
+	/**
 	 * Gets an OSLC resource from a given URI and unwraps a corresponding entity.
 	 */
 	public <T> T getResource(final URI link, final Class<T> clazz) {
-		final Response resource = getResource(link.toString());
-		return resource.readEntity(clazz);
+		return getResource(link.toString(), clazz);
 	}
 
 	/**
@@ -166,7 +175,7 @@ public class OslcClient {
 	/**
 	 * Gets OSLC resources in parallel from an array of URIs and unwraps their corresponding entities.
 	 */
-	public <T> Collection<T> getResource(final URI[] links, final Class<T> clazz) {
+	public <T> List<T> getResources(final URI[] links, final Class<T> clazz) {
 		return Arrays.stream(links).parallel().map(uri -> {
 			final Response resource = getResource(uri.toString());
 			return resource.readEntity(clazz);
@@ -174,11 +183,21 @@ public class OslcClient {
 	}
 
 	/**
-	 * Gets OSLC resources in parallel from a collection of Links and unwraps their corresponding entities.
+	 * Gets OSLC resources in parallel from a collection of URIs and unwraps their corresponding entities.
 	 */
-	public <T> Collection<T> getResource(final Collection<Link> links, final Class<T> clazz) {
+	public <T> List<T> getResources(final Collection<URI> links, final Class<T> clazz) {
+		final URI[] uris = links.toArray(new URI[0]);
+		return getResources(uris, clazz);
+	}
+
+	/**
+	 * Gets OSLC resources in parallel from a set of Links and unwraps their corresponding entities.
+	 * <p>
+	 * Method renamed due to type erasure in Java
+	 */
+	public <T> List<T> getResourcesFromLinks(final Collection<Link> links, final Class<T> clazz) {
 		final URI[] uris = links.stream().map(l -> l.getValue()).toArray(URI[]::new);
-		return getResource(uris, clazz);
+		return getResources(uris, clazz);
 	}
 
 	/**
