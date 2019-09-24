@@ -1,4 +1,4 @@
-# Eclipse Lyo core repository
+# Eclipse Lyo Core
 
 [![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
 [![Build Status](https://travis-ci.org/eclipse/lyo.core.svg?branch=master)](https://travis-ci.org/eclipse/lyo.core)
@@ -7,40 +7,21 @@
 [![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
 
 
-This repository contains core library OSLC4J and its accompanying tests.
+This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) Core library.
 
 ## Introduction
 
-The Eclipse Lyo project is focused on providing an SDK to enable adoption of OSLC specifications. OSLC (Open Services for Lifecycle Collaboration) is an open community dedicated to reducing barriers for lifecycle tool integration. The community authors specifications for exposing lifecycle artifacts through uniform (REST) interfaces and relying on Internet and Linked Data standards.
+The [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) project is focused on providing an SDK to enable adoption of [OSLC specifications](https://open-services.net/). OSLC (Open Services for Lifecycle Collaboration) is an open community dedicated to reducing barriers for lifecycle tool integration. The community authors specifications for exposing lifecycle artifacts through uniform (REST) interfaces and relying on Internet and Linked Data standards.
 
 OSLC's scope started with Application Lifecycle Management (ALM) and is expanding to include integrations across Product Lifecycle Management (PLM) and IT Service Management (ISM/DevOps), Lyo is designed to be a companion to the continuing specification efforts of the OSLC community. Its main purpose is to expand adoption of OSLC specifications and to enable the Eclipse community to easily build OSLC compliant tools.
 
 ## Getting started
 
-If you are interested in using the library, please use the [wiki](https://wiki.eclipse.org/Lyo) and the [javadocs](http://download.eclipse.org/lyo/docs/core/2.4.0/overview-summary.html). Maven artifacts can be obtained from the following repositories:
+You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
-```xml
-<repositories>
-  <repository>
-    <id>lyo-releases</id>
-    <name>lyo-releases repository</name>
-    <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    <snapshots>
-      <enabled>false</enabled>
-    </snapshots>
-  </repository>
-  <repository>
-    <id>lyo-snapshots</id>
-    <name>lyo-snapshots repository</name>
-    <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    <releases>
-      <enabled>false</enabled>
-    </releases>
-  </repository>
-</repositories>
-```
+You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
 
-## CONTRIBUTING
+## Contributing
 
 We adopt the Eclipse guidlines for [contributing via Git](https://wiki.eclipse.org/Development_Resources/Contributing_via_Git), to accept contributions in this project.
 
@@ -51,15 +32,8 @@ Alternatively, you can submit your contribution as a patch attachment on the cor
 
 The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
 
-### Useful links
-
-* [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
-* [open bugs](https://bugs.eclipse.org/bugs/buglist.cgi?product=Lyo)
-* [report a new bug](https://bugs.eclipse.org/bugs/enter_bug.cgi?product=Lyo)
-
-**Be sure to search for existing bugs before you create another one.** Remember that contributions are always welcome!
-
-### Building the project
+## Building the project
+(Unless you need to work from source code, you need not build this project. You are instead adviced to add the necessary Lyo dependecies as adviced under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).)
 
 This project uses Maven as the build system for all Java projects except those which are Eclipse Plugin project. The latter projects contain all the Eclipse project files under Git for import and building using the *Import > Existing Projects into Workspace*. All other projects should be imported using the *Import > Existing Maven Projects* menu.
 
