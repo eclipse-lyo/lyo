@@ -21,7 +21,7 @@ You are also welcome to contact the development team via [lyo-dev mailing list](
 
 ## Contributing
 
-See [contributing](https://github.com/eclipse/lyo.core#contributing) under the main [Eclipse Lyo Core](https://github.com/eclipse/lyo.core) repository.
+See [contributing](https://github.com/eclipse/lyo#contributing) under the main [Eclipse Lyo](https://github.com/eclipse/lyo) repository.
 
 ## Building the project
 (Unless you need to work from source code, you need not build this project. You are instead adviced to add the necessary Lyo dependecies as described under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).)
