@@ -17,6 +17,8 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
+You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
+
 ## Contributing
 
 See [contributing](https://github.com/eclipse/lyo.core#contributing) under the main [Eclipse Lyo Core](https://github.com/eclipse/lyo.core) repository.
