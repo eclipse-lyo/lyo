@@ -177,12 +177,12 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
 
     private ChangeEvent createChangeEvent(final HistoryData event) {
         final long order = nextCutoff();
-        final URI uri = createUuidUrn();
+        final URI ceUri = createUuidUrn();
 
         if (order >= Integer.MAX_VALUE) {
             throw new IllegalStateException("Switch ChangeEvents to use longs");
         }
-        return createChangeEvent((int) order, uri, event.getUri(), event.getType());
+        return createChangeEvent((int) order, event.getUri(), ceUri, event.getType());
     }
 
     private void initBase(final Collection<URI> baseResourceUris) {
