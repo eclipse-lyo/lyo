@@ -54,8 +54,8 @@ import org.slf4j.LoggerFactory;
 @OslcService(TRSConstants.TRS_NAMESPACE)
 public class TrackedResourceSetService {
     private static final Logger log     = LoggerFactory.getLogger(TrackedResourceSetService.class);
-    private static final String BASE_PATH = "base";
-    private static final String CHANGELOG_PATH = "changeLog";
+    public static final String BASE_PATH = "base";
+    public static final String CHANGELOG_PATH = "changeLog";
     public static final String RESOURCE_PATH = "/trs";
 
     /**

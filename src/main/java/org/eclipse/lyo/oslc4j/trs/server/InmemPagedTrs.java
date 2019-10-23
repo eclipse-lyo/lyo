@@ -69,6 +69,16 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
     private final int basePageLimit;
 
     /**
+     * The relative path of the base, may contain URI template parameters.
+     */
+    private final String baseRelativePath;
+
+    /**
+     * The relative path of the changeLog, may contain URI template parameters.
+     */
+    private final String changeLogRelativePath;
+
+    /**
      * List of base resources
      */
     private final List<Base> baseResources = new ArrayList<>();
@@ -82,6 +92,24 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
      * @param basePageLimit      Max items per Base page
      * @param changelogPageLimit Max items per Changelog page
      * @param uriBase            Set it via eg <pre>UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("trs").build()</pre>
+     * @param baseRelativePath   The relative path of the base, may contain URI template parameters.
+     * @param changeLogRelativePath   The relative path of the changeLog, may contain URI template parameters.
+     * @param baseResourceUris   Initial set of the TRS Base resource URIs
+     */
+    public InmemPagedTrs(final int basePageLimit, final int changelogPageLimit, final URI uriBase,
+            final String baseRelativePath, final String changeLogRelativePath, final Collection<URI> baseResourceUris) {
+        this.basePageLimit = basePageLimit;
+        this.changelogPageLimit = changelogPageLimit;
+        this.uriBase = uriBase;
+        this.baseRelativePath = baseRelativePath;
+        this.changeLogRelativePath = changeLogRelativePath;
+        initBase(baseResourceUris);
+    }
+
+    /**
+     * @param basePageLimit      Max items per Base page
+     * @param changelogPageLimit Max items per Changelog page
+     * @param uriBase            Set it via eg <pre>UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("trs").build()</pre>
      * @param baseResourceUris   Initial set of the TRS Base resource URIs
      */
     public InmemPagedTrs(final int basePageLimit, final int changelogPageLimit, final URI uriBase,
@@ -89,6 +117,8 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
         this.basePageLimit = basePageLimit;
         this.changelogPageLimit = changelogPageLimit;
         this.uriBase = uriBase;
+        this.baseRelativePath = "base";
+        this.changeLogRelativePath = "changelog";
         initBase(baseResourceUris);
     }
 
@@ -303,18 +333,18 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
     }
 
     private URI createBaseUri() {
-        final URI uri = getUriBuilder().path("base").build();
+        final URI uri = getUriBuilder().path(this.baseRelativePath).build();
         return uri;
     }
 
     private URI createBasePageUri(final int pageId) {
-        final URI uri = getUriBuilder().path("base").path(String.valueOf(pageId)).build();
+        final URI uri = getUriBuilder().path(this.baseRelativePath).path(String.valueOf(pageId)).build();
         return uri;
     }
 
     private URI createChangelogUri() {
         final int nextPageId = this.changelogResources.size() + 1;
-        final URI uri = getUriBuilder().path("changelog").path(String.valueOf(nextPageId)).build();
+        final URI uri = getUriBuilder().path(this.changeLogRelativePath).path(String.valueOf(nextPageId)).build();
         return uri;
     }
 
