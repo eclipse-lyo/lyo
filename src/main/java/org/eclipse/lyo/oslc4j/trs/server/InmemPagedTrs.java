@@ -236,6 +236,7 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
             final Base lastBase = getLastBaseResource();
             if (isBaseFull(lastBase)) {
                 page = createBase();
+                lastBase.getNextPage().setNextPage(page.getNextPage().getAbout());
             } else {
                 page = lastBase;
             }
@@ -253,7 +254,7 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
         final Base base = new Base();
         base.setAbout(this.createBaseUri());
         base.setNextPage(createBasePage(base, nextBasePageId()));
-
+        base.setCutoffEvent(URI.create(TRSConstants.RDF_NIL));
         log.debug("Adding a new Base resource");
         baseResources.add(base);
         return base;
