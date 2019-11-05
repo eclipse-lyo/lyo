@@ -15,6 +15,8 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
+To use this library, follow the setup and development instructions under the [OSLC Developer Guide for Client setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html)
+
 You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
 You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
