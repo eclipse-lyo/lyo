@@ -20,7 +20,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
-To use this library, follow the setup and development instructions under the [OSLC Developer Guide for TRS server setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-trs-support)
+To use this library, follow the setup and development instructions under the [OSLC Developer Guide for TRS server setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-trs-support). The instructions assume you have followed the overall instructions to setup an OSLC4J server/client, as defined on that page. 
 
 You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
