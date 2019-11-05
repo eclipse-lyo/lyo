@@ -8,9 +8,10 @@
 
 This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) *TRS Server* library.
 
-The purpose of the *TRS Server* library is to provide a developer with a ready
-to use set of classes over which he can provide a minimal implementation that
-will result in a TRS interface with minimal effort.
+The *TRS Server* library is a set of ready-to-use classes that provide the required REST services for TRS, with minimal effort. 
+The current implementation supports an In-memory TRS Server that does not persist its TRS resources.
+These classes are however designed to be extended for a persistent solution. 
+For a thourough walkthough of TRS solutions, which among other things ensures persisting the TRS Logs, visit the [additional information on TRS](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo#trs-sdk)
 
 ## Introduction
 
