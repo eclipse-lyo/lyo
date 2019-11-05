@@ -6,54 +6,34 @@
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
+This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) *TRS Server* library.
+
 The purpose of the *TRS Server* library is to provide a developer with a ready
 to use set of classes over which he can provide a minimal implementation that
 will result in a TRS interface with minimal effort.
 
+## Introduction
+
+The [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) project is focused on providing an SDK to enable adoption of [OSLC specifications](https://open-services.net/). OSLC (Open Services for Lifecycle Collaboration) is an open community dedicated to reducing barriers for lifecycle tool integration. The community authors specifications for exposing lifecycle artifacts through uniform (REST) interfaces and relying on Internet and Linked Data standards.
+
+OSLC's scope started with Application Lifecycle Management (ALM) and is expanding to include integrations across Product Lifecycle Management (PLM) and IT Service Management (ISM/DevOps), Lyo is designed to be a companion to the continuing specification efforts of the OSLC community. Its main purpose is to expand adoption of OSLC specifications and to enable the Eclipse community to easily build OSLC compliant tools.
+
 ## Getting started
 
-Add a dependency for the TRS Server library:
+To use this library, follow the setup and development instructions under the [OSLC Developer Guide for TRS server setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-trs-support)
 
-    <dependency>
-      <groupId>org.eclipse.lyo.trs</groupId>
-      <artifactId>trs-server</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-    
-Ensure your POM file points to the Eclipse Lyo repositories:
+You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
-    <repositories>
-      <repository>
-        <id>lyo-releases</id>
-        <name>lyo-releases repository</name>
-        <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-      </repository>
-      <repository>
-        <id>lyo-snapshots</id>
-        <name>lyo-snapshots repository</name>
-        <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        <releases>
-          <enabled>false</enabled>
-        </releases>
-      </repository>
-    </repositories>
+You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
 
-Then, create two classes:
+## Contributing
 
-1. `YourChangeLog extends ChangeHistories`
-1. `YourTrsService extends TrackedResourceSetService`
+See [contributing](https://github.com/eclipse/lyo#contributing) under the main [Eclipse Lyo](https://github.com/eclipse/lyo) repository.
 
-Next, register `YourTrsService` in the `Application` class:
+## Building the project
+(Unless you need to work from source code, you need not build this project. You are instead adviced to add the necessary Lyo dependecies as described under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).)
 
-    // TRS
-    RESOURCE_CLASSES.add(YourTrsService.class);
-
-After that, implement `HistoryData[] getHistory(HttpServletRequest, Date)` method in your newly created `YourChangeLog` class and return  an array of `HistoryData` objects.
-
-After that, the server will be ready to respond to the requests of the TRS Client according to the OSLC TRS 2.0 WD spec.
+This project uses Maven as the build system for all Java projects except those which are Eclipse Plugin project. The latter projects contain all the Eclipse project files under Git for import and building using the *Import > Existing Projects into Workspace*. All other projects should be imported using the *Import > Existing Maven Projects* menu.
 
 ## Internal implementation
 
