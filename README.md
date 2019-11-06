@@ -9,9 +9,11 @@
 This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) *TRS Server* library.
 
 The *TRS Server* library is a set of ready-to-use classes that provide the required REST services for TRS, with minimal effort. 
-The current implementation supports an In-memory TRS Server that does not persist its TRS resources.
+
+**Note:** The current implementation supports an In-memory TRS Server that does not persist its TRS resources.
 These classes are however designed to be extended for a persistent solution. 
-For a thourough walkthough of TRS solutions, which among other things ensures persisting the TRS Logs, visit the [additional information on TRS](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo#trs-sdk)
+
+For a thourough walkthough of TRS solutions, which among other things ensures persisting the TRS Logs, visit the [additional information on TRS](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo#trs-sdk).
 
 ## Introduction
 
@@ -23,7 +25,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 To use this library, follow the setup and development instructions under the [OSLC Developer Guide for TRS server setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-trs-support). The instructions assume you have followed the overall instructions to setup an OSLC4J server/client, as defined on that page. 
 
-You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
+You can find more resources for developing OSLC applications with Lyo in general under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html), and in particular [for TRS development](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo#trs-sdk).
 
 You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
 
