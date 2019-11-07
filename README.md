@@ -23,14 +23,14 @@ If you encounter any API questions along the way, consult the [Javadoc][javadoc]
 
 Lyo uses Maven as a primary choice for the build system.
 
-First, make sure your POM file includes the Eclipse Maven repositories ```<repositories>...</repositories>``` as indicated in the general [Creating OSLC4J Project](https://wiki.eclipse.org/Lyo/creating_OSLC4J_project#Lyo_repositories) instructions.
+First, make sure your POM file includes the Eclipse Maven repositories ```<repositories>...</repositories>``` as indicated in the general [Creating OSLC4J Project](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html) instructions.
 
 Now, add the following dependency:
 ```xml
 <dependency>
     <groupId>org.eclipse.lyo.store</groupId>
     <artifactId>store-core</artifactId>
-    <version>2.2.0</version>
+    <version>2.4.0</version>
 </dependency>
 ```
 Now you are all set to start using the library.
@@ -118,4 +118,4 @@ if (store.namedGraphExists(GRAPH_NAME)) {
 [1]: https://jena.apache.org/documentation/tdb/architecture.html#caching-on-32-and-64-bit-java-systems
 
 [javadoc]: http://download.eclipse.org/lyo/docs/store/latest/overview-summary.html
-[forum]: https://www.eclipse.org/forums/index.php/f/228/
+[forum]: https://forum.open-services.net/c/sdks/lyo
