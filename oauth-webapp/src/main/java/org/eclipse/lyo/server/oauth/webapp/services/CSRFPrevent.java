@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response.Status;
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
 public class CSRFPrevent {
-	private static final String CSRF_PREVENT_HEADER = "X-CSRF-Prevent"; //$NON-NLS-1$
+	private static final String CSRF_PREVENT_HEADER = "X-CSRF-Prevent";
 	
 	public static void check(HttpServletRequest httpRequest) {
 		String csrfPrevent = httpRequest.getHeader(CSRF_PREVENT_HEADER);

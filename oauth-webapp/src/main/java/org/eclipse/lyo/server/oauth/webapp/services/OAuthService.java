@@ -1,18 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2012, 2013 IBM Corporation.
- *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
- *  Contributors:
- *  
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
+/*
+ Copyright (c) 2012-2019 IBM Corporation and others
+
+ All rights reserved. This program and the accompanying materials
+ are made available under the terms of the Eclipse Public License v1.0
+ and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+
+ The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ and the Eclipse Distribution License is available at
+ http://www.eclipse.org/org/documents/edl-v10.php.
+ */
+
 package org.eclipse.lyo.server.oauth.webapp.services;
 
 import java.io.IOException;
@@ -111,36 +108,9 @@ public class OAuthService {
 		}
 	}
 
-	protected boolean confirmCallback(OAuthRequest oAuthRequest)
-			throws OAuthException {
-		boolean callbackConfirmed = OAuthConfiguration
-				.getInstance()
-				.getTokenStrategy()
-				.getCallback(httpRequest,
-						oAuthRequest.getAccessor().requestToken) != null;
-		if (callbackConfirmed) {
-			oAuthRequest.getConsumer().setOAuthVersion(
-					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A);
-		} else {
-			if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
-				throw new OAuthProblemException(
-						OAuth.Problems.OAUTH_PARAMETERS_ABSENT);
-			}
-
-			oAuthRequest.getConsumer().setOAuthVersion(
-					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0);
-		}
-
-		return callbackConfirmed;
-	}
-
-	/*
-	 * TODO: Give providers a way to show their own branded login page.
-	 */
-
 	/**
 	 * Responds with a web page to log in.
-	 * 
+	 *
 	 * @return the response
 	 * @throws IOException
 	 *             on I/O errors
@@ -161,7 +131,7 @@ public class OAuthService {
 			OAuthConfiguration config = OAuthConfiguration.getInstance();
 			String consumerKey = config.getTokenStrategy()
 					.validateRequestToken(httpRequest, message);
-			
+
 			LyoOAuthConsumer consumer = OAuthConfiguration.getInstance()
 					.getConsumerStore().getConsumer(consumerKey);
 
@@ -172,15 +142,14 @@ public class OAuthService {
 					getCallbackURL(message, consumer));
 			boolean callbackConfirmed =
 					consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
-			httpRequest.setAttribute("callbackConfirmed", new Boolean(
-					callbackConfirmed));
+			httpRequest.setAttribute("callbackConfirmed", new Boolean(callbackConfirmed));
 
 			// The application name is displayed on the OAuth login page.
 			httpRequest.setAttribute("applicationName",
 					config.getApplication().getName());
 
-			httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
-					HTTPConstants.NO_CACHE);
+			httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL,
+					OAuthServerConstants.NO_CACHE);
 			if (config.getApplication().isAuthenticated(httpRequest)) {
 				// Show the grant access page.
 				httpRequest.getRequestDispatcher("/oauth/authorize.jsp").forward(
@@ -190,61 +159,24 @@ public class OAuthService {
 				httpRequest.getRequestDispatcher("/oauth/login.jsp").forward(
 						httpRequest, httpResponse);
 			}
-			
+
 			return null;
 		} catch (OAuthException e) {
 			return respondWithOAuthProblem(e);
 		}
 	}
 
-	private String getCallbackURL(OAuthMessage message,
-			LyoOAuthConsumer consumer) throws IOException, OAuthException {
-		String callback = null;
-		switch (consumer.getOAuthVersion()) {
-		case OAUTH_1_0:
-			if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
-				throw new OAuthProblemException(OAuth.Problems.VERSION_REJECTED);
-			}
-
-			// If this is OAuth 1.0, the callback should be a request parameter.
-			callback = message.getParameter(OAuth.OAUTH_CALLBACK);
-			break;
-
-		case OAUTH_1_0A:
-			// If this is OAuth 1.0a, the callback was passed when the consumer
-			// asked for a request token.
-			String requestToken = message.getToken();
-			callback = OAuthConfiguration.getInstance().getTokenStrategy()
-					.getCallback(httpRequest, requestToken);
-		}
-
-		if (callback == null) {
-			return null;
-		}
-
-		UriBuilder uriBuilder = UriBuilder.fromUri(callback)
-				.queryParam(OAuth.OAUTH_TOKEN, message.getToken());
-		if (consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
-			String verificationCode = OAuthConfiguration.getInstance()
-					.getTokenStrategy()
-					.generateVerificationCode(httpRequest, message.getToken());
-			uriBuilder.queryParam(OAuth.OAUTH_VERIFIER, verificationCode);
-		}
-		
-		return uriBuilder.build().toString();
-	}
-
 	/**
 	 * Validates the ID and password on the authorization form. This is intended
 	 * to be invoked by an XHR on the login page.
-	 * 
+	 *
 	 * @return the response, 409 if login failed or 204 if successful
 	 */
 	@POST
 	@Path("/login")
 	public Response login(@FormParam("id") String id,
-			@FormParam("password") String password,
-			@FormParam("requestToken") String requestToken) {
+						  @FormParam("password") String password,
+						  @FormParam("requestToken") String requestToken) {
 		CSRFPrevent.check(httpRequest);
 
 		try {
@@ -272,7 +204,7 @@ public class OAuthService {
 
 		return Response.noContent().build();
 	}
-	
+
 	@POST
 	@Path("/internal/approveToken")
 	public Response authorize(@FormParam("requestToken") String requestToken) {
@@ -301,17 +233,17 @@ public class OAuthService {
 
 		return Response.noContent().build();
 	}
-	
+
 	@GET
 	@Path("/accessToken")
 	public Response doGetAccessToken() throws IOException, ServletException {
 		return doPostAccessToken();
 	}
-	
+
 	/**
 	 * Responds with an access token and token secret for valid OAuth requests.
 	 * The request must be signed and the request token valid.
-	 * 
+	 *
 	 * @return the response
 	 * @throws IOException
 	 *             on I/O errors
@@ -336,10 +268,10 @@ public class OAuthService {
 					|| oAuthRequest.getConsumer().getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
 				strategy.validateVerificationCode(oAuthRequest);
 			}
-			
+
 			// Generate a new access token for this accessor.
 			strategy.generateAccessToken(oAuthRequest);
-			
+
 			// Send the new token and secret back to the consumer.
 			OAuthAccessor accessor = oAuthRequest.getAccessor();
 			return respondWithToken(accessor.accessToken, accessor.tokenSecret);
@@ -351,7 +283,7 @@ public class OAuthService {
 	/**
 	 * Generates a provisional consumer key. This request must be later approved
 	 * by an administrator.
-	 * 
+	 *
 	 * @return a JSON response with the provisional key
 	 * @throws IOException
 	 * @throws NullPointerException
@@ -373,7 +305,7 @@ public class OAuthService {
 			if (request.has("name") && request.get("name") != null) {
 				name = request.getString("name");
 			}
-			
+
 			if (name == null || name.trim().equals("")) {
 				name = getRemoteHost();
 			}
@@ -390,17 +322,17 @@ public class OAuthService {
 			consumer.setName(name);
 			consumer.setProvisional(true);
 			consumer.setTrusted(trusted);
-			
+
 			// Add the consumer to the store.
 			OAuthConfiguration.getInstance().getConsumerStore().addConsumer(consumer);
 
 			// Respond with the consumer key.
 			JSONObject response = new JSONObject();
 			response.put("key", key);
-			
+
 			return Response.ok(response.write())
-			        .header(HTTPConstants.HDR_CACHE_CONTROL,
-			                HTTPConstants.NO_CACHE).build();
+					.header(OAuthServerConstants.HDR_CACHE_CONTROL,
+							OAuthServerConstants.NO_CACHE).build();
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return Response.status(Status.BAD_REQUEST).build();
@@ -414,7 +346,7 @@ public class OAuthService {
 	/**
 	 * Shows the approval page for a single provisional consumer. Shows the
 	 * consumer management page instead if no key is passed in.
-	 * 
+	 *
 	 * @param key
 	 *            the consumer
 	 * @return the approve consumer page
@@ -435,7 +367,7 @@ public class OAuthService {
 
 		try {
 			Application app = OAuthConfiguration.getInstance().getApplication();
-			
+
 			// The application name is displayed on approval page.
 			httpRequest.setAttribute("applicationName", app.getName());
 
@@ -450,8 +382,8 @@ public class OAuthService {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
 
-			httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
-			        HTTPConstants.NO_CACHE);
+			httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL,
+					OAuthServerConstants.NO_CACHE);
 			httpRequest.setAttribute("consumerName",
 					provisionalConsumer.getName());
 			httpRequest.setAttribute("consumerKey",
@@ -476,7 +408,7 @@ public class OAuthService {
 	/**
 	 * Shows the consumer management page, which allows administrator to approve
 	 * or remove OAuth consumers.
-	 * 
+	 *
 	 * @return the consumer management page
 	 * @throws ServletException
 	 *             on JSP errors
@@ -498,23 +430,23 @@ public class OAuthService {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
 
-		httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL,
-				HTTPConstants.NO_CACHE);
+		httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL,
+				OAuthServerConstants.NO_CACHE);
 		httpRequest.getRequestDispatcher("/oauth/manage.jsp").forward(
 				httpRequest, httpResponse);
 		return null;
 	}
-	
+
 	/**
 	 * Validates that the ID and password are for an administrator. This is used
 	 * by the admin login page to protect the OAuth administration pages.
-	 * 
+	 *
 	 * @return the response, 409 if login failed or 204 if successful
 	 */
 	@POST
 	@Path("/adminLogin")
 	public Response login(@FormParam("id") String id,
-			@FormParam("password") String password) {
+						  @FormParam("password") String password) {
 		CSRFPrevent.check(httpRequest);
 
 		try {
@@ -538,6 +470,29 @@ public class OAuthService {
 			return Response.status(Status.CONFLICT).entity(message)
 					.type(MediaType.TEXT_PLAIN).build();
 		}
+	}
+
+	protected boolean confirmCallback(OAuthRequest oAuthRequest)
+			throws OAuthException {
+		boolean callbackConfirmed = OAuthConfiguration
+				.getInstance()
+				.getTokenStrategy()
+				.getCallback(httpRequest,
+						oAuthRequest.getAccessor().requestToken) != null;
+		if (callbackConfirmed) {
+			oAuthRequest.getConsumer().setOAuthVersion(
+					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A);
+		} else {
+			if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
+				throw new OAuthProblemException(
+						OAuth.Problems.OAUTH_PARAMETERS_ABSENT);
+			}
+
+			oAuthRequest.getConsumer().setOAuthVersion(
+					LyoOAuthConsumer.OAuthVersion.OAUTH_1_0);
+		}
+
+		return callbackConfirmed;
 	}
 
 	/**
@@ -582,8 +537,8 @@ public class OAuthService {
 		String responseBody = OAuth.formEncode(oAuthParameters);
 		return Response.ok(responseBody)
 				.type(MediaType.APPLICATION_FORM_URLENCODED)
-				.header(HTTPConstants.HDR_CACHE_CONTROL,
-						HTTPConstants.NO_CACHE).build();
+				.header(OAuthServerConstants.HDR_CACHE_CONTROL,
+						OAuthServerConstants.NO_CACHE).build();
 	}
 
 	protected Response respondWithOAuthProblem(OAuthException e)
@@ -596,6 +551,43 @@ public class OAuthService {
 		}
 		
 		return Response.status(Status.UNAUTHORIZED).build();
+	}
+
+	private String getCallbackURL(OAuthMessage message,
+								  LyoOAuthConsumer consumer) throws IOException, OAuthException {
+		String callback = null;
+		switch (consumer.getOAuthVersion()) {
+			case OAUTH_1_0:
+				if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
+					throw new OAuthProblemException(OAuth.Problems.VERSION_REJECTED);
+				}
+
+				// If this is OAuth 1.0, the callback should be a request parameter.
+				callback = message.getParameter(OAuth.OAUTH_CALLBACK);
+				break;
+
+			case OAUTH_1_0A:
+				// If this is OAuth 1.0a, the callback was passed when the consumer
+				// asked for a request token.
+				String requestToken = message.getToken();
+				callback = OAuthConfiguration.getInstance().getTokenStrategy()
+						.getCallback(httpRequest, requestToken);
+		}
+
+		if (callback == null) {
+			return null;
+		}
+
+		UriBuilder uriBuilder = UriBuilder.fromUri(callback)
+				.queryParam(OAuth.OAUTH_TOKEN, message.getToken());
+		if (consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
+			String verificationCode = OAuthConfiguration.getInstance()
+					.getTokenStrategy()
+					.generateVerificationCode(httpRequest, message.getToken());
+			uriBuilder.queryParam(OAuth.OAUTH_VERIFIER, verificationCode);
+		}
+
+		return uriBuilder.build().toString();
 	}
 
 	private String getRemoteHost() {
@@ -614,7 +606,7 @@ public class OAuthService {
 	}
 
 	private Response showAdminLogin() throws ServletException, IOException {
-		httpResponse.setHeader(HTTPConstants.HDR_CACHE_CONTROL, HTTPConstants.NO_CACHE);
+		httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
 		StringBuffer callback = httpRequest.getRequestURL();
 		String query = httpRequest.getQueryString();
 		if (query != null) {
