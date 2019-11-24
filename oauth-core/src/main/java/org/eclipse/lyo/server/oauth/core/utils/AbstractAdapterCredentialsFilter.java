@@ -342,7 +342,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	 * @param request {@link HttpServletRequest}
 	 * @param response {@link HttpServletResponse}
 	 * @param chain {@link FilterChain}
-	 * @param sessionConnector {@link Connector} to be used for processing rest of the chain (i.e. REST request)
+	 * @param connector {@link Connection} to be used for processing rest of the chain (i.e. REST request)
 	 * @throws IOException
 	 * @throws ServletException
 	 */

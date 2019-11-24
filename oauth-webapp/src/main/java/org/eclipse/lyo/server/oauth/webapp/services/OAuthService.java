@@ -59,7 +59,7 @@ import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
  * request tokens for access tokens based on the OAuth configuration set in the
  * {@link OAuthConfiguration} singleton.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  * @see <a href="http://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol</a>
  */
 @Path("/oauth")

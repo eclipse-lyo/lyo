@@ -31,7 +31,7 @@ import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
  * Manages the OAuth provider configuration, including the validator, consumer store, and
  * token strategy.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class OAuthConfiguration {
 	private OAuthValidator validator;

@@ -21,7 +21,7 @@ import net.oauth.OAuthServiceProvider;
 /**
  * An OAuth consumer with extra properties, including a name and a trusted flag.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class LyoOAuthConsumer extends OAuthConsumer {
 	private static final long serialVersionUID = 7634987410903334464L;

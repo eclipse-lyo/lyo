@@ -42,7 +42,7 @@ import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 /**
  * Manages OAuth consumers for this provider.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 @Path("/oauth/consumers")
 public class ConsumersService {

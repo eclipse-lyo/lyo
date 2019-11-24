@@ -24,7 +24,7 @@ import net.oauth.OAuthMessage;
 /**
  * Manages persistence of OAuth consumers.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public interface ConsumerStore {
 	/**
@@ -83,8 +83,6 @@ public interface ConsumerStore {
 	/**
 	 * Removes a consumer.
 	 * 
-	 * @param key
-	 *            the consumer key
 	 * @return the removed consumer or null if it wasn't previously in the store
 	 * 
 	 * @throws ConsumerStoreException

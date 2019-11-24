@@ -15,11 +15,13 @@
  *******************************************************************************/
 package org.eclipse.lyo.server.oauth.core;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * An exception indicating that authentication failed.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
- * @see Application#login(String, char[])
+ * @author Samuel Padgett
+ * @see Application#login(HttpServletRequest, String, String)
  */
 public class AuthenticationException extends Exception {
 	private static final long serialVersionUID = -7357859796941279773L;

@@ -1,18 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+/*
+ * Copyright (c) 2012-2019 IBM Corporation and others
  *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *  
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
- *  Contributors:
- *  
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ */
 package org.eclipse.lyo.server.oauth.core;
 
 import java.io.IOException;
@@ -50,7 +46,7 @@ import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
  * }
  * </pre>
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class OAuthRequest {
 	private HttpServletRequest httpRequest;
@@ -109,8 +105,6 @@ public class OAuthRequest {
 	 * {@link OAuthServlet#handleException(javax.servlet.http.HttpServletResponse, Exception, String)}
 	 * to send an unauthorized response.
 	 * 
-	 * @throws URISyntaxException
-	 * @throws IOException
 	 * @throws OAuthException
 	 *             if the request fails validation
 	 */

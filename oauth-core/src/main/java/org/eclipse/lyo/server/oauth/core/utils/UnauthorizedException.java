@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Corresponds to an HTTP 401 response.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class UnauthorizedException extends RestException {
 	public UnauthorizedException() {

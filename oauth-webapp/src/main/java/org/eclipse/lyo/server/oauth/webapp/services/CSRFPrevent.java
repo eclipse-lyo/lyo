@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response.Status;
 /**
  * Checks requests to see if they have the right X-CSRF-Prevent header values. 
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class CSRFPrevent {
 	private static final String CSRF_PREVENT_HEADER = "X-CSRF-Prevent";

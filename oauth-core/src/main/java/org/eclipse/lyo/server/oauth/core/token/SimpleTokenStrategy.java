@@ -35,7 +35,7 @@ import net.oauth.OAuthProblemException;
  * process. Least recently used tokens are invalidated when cached limits are
  * reached.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class SimpleTokenStrategy implements TokenStrategy {
 	private final static int REQUEST_TOKEN_MAX_ENTIRES = 500;
@@ -45,7 +45,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	 * Holds information associated with a request token such as the callback
 	 * URL and OAuth verification code.
 	 * 
-	 * @author Samuel Padgett <spadgett@us.ibm.com>
+	 * @author Samuel Padgett
 	 */
 	protected class RequestTokenData {
 		private String consumerKey;

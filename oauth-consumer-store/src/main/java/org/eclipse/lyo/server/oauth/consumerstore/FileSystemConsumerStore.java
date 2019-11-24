@@ -51,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * NOTE: The shared consumer secret is stored as Base64 and is only obfuscated, not encrypted (unless
  * the ctor with an encryption key is used).
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class FileSystemConsumerStore extends AbstractConsumerStore {
 	protected final static String LYO_OAUTH_NAMESPACE = "http://eclipse.org/lyo/server/oauth#";

@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Least recently used cache for storing OAuth tokens.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 	private static final long serialVersionUID = -3846345693980360667L;

@@ -5,7 +5,7 @@ import net.oauth.OAuthException;
 /**
  * Indicates an error occurred loading or saving consumer data.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class ConsumerStoreException extends OAuthException {
 	private static final long serialVersionUID = 1613130197672391627L;

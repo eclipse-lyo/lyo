@@ -28,7 +28,7 @@ import net.oauth.OAuthMessage;
 /**
  * Manages the list of OAuth consumers.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public abstract class AbstractConsumerStore implements ConsumerStore {
 	private Map<String, LyoOAuthConsumer> consumerMap = Collections

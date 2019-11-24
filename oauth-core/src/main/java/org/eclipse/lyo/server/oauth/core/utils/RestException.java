@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Holds a status code and error message for an error response.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
+ * @author Samuel Padgett
  */
 public class RestException extends Exception {
 	private int statusCode;

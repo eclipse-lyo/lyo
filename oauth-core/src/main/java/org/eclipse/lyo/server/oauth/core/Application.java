@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Handles authentication with the backend system.
  * 
- * @author Samuel Padgett <spadgett@us.ibm.com>
- * @see OAuthConfiguration#setApplication(Authentication)
+ * @author Samuel Padgett
+ * @see OAuthConfiguration#setApplication(Application)
  */
 public interface Application {
 	/**
