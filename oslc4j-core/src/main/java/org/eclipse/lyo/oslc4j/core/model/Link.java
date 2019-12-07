@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+/*
+ * Copyright (c) 2012-2019 IBM Corporation and others
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,17 +9,15 @@
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
- * Contributors:
- *
- *	   Samuel Padgett - initial API and implementation
- *	   Andrew Berezovskyi - basic test code
- *******************************************************************************/
+ * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.oslc4j.core.model;
+
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 
 import java.net.URI;
 import java.util.Objects;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 
 /**
  * Special OSLC link type. Differs from {@link URI} since it can hold a label,
@@ -75,5 +73,12 @@ public class Link extends AbstractReifiedResource<URI> {
      */
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    @Override
+    public String toString() {
+        return "Link{to='" + getValue() +
+                "'; label='" + label + '\'' +
+                '}';
     }
 }
