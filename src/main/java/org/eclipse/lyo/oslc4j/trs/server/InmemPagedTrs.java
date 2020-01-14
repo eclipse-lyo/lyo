@@ -276,14 +276,17 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
         return basePage;
     }
 
+    //the last page of the changeLog's URI is set to null, since it needs to be a local resource in the trackedResourceSet.
+    //All other pages will have a URI
     private ChangeLog findOrCreateChangelogPage() {
         final ChangeLog page;
         if (this.changelogResources.isEmpty()) {
-            page = createChangelogPage(TRSUtil.NIL_URI, createChangelogUri());
+            page = createChangelogPage(TRSUtil.NIL_URI, null);
         } else {
             final ChangeLog lastPage = getLastChangelogPage();
             if (isChangelogPageFull(lastPage)) {
-                page = createChangelogPage(lastPage.getAbout(), createChangelogUri());
+                lastPage.setAbout(createChangelogUri());
+                page = createChangelogPage(lastPage.getAbout(), null);
             } else {
                 page = lastPage;
             }
@@ -344,7 +347,7 @@ public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
     }
 
     private URI createChangelogUri() {
-        final int nextPageId = this.changelogResources.size() + 1;
+        final int nextPageId = this.changelogResources.size();
         final URI uri = getUriBuilder().path(this.changeLogRelativePath).path(String.valueOf(nextPageId)).build();
         return uri;
     }
