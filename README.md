@@ -30,6 +30,7 @@ Other repositories maintained under the Eclipse Foundation project include:
 * [lyo.trs-server](https://github.com/eclipse/lyo.trs-server)
 * [lyo.trs-client](https://github.com/eclipse/lyo.trs-client)
 * [lyo.domains](https://github.com/eclipse/lyo.domains)
+* [lyo.docs ](https://github.com/eclipse/lyo.docs)
 
 Repositories that contain [Type A](https://www.eclipse.org/projects/handbook/#pmi-due-diligence) checked contents:
 
@@ -45,7 +46,6 @@ Repositories that are maintained under OSLC organisation include:
 * [OSLC4NET SDK](https://github.com/OSLC/oslc4net)
 * [Lyo sample projects](https://github.com/OSLC/lyo-samples)
 * [lyo-adaptor-sample-modelling](https://github.com/OSLC/lyo-adaptor-sample-modelling)
-* [Tutorial: Integrating Products with OSLC](https://github.com/OSLC/integrating-products-with-oslc-tutorial)
 * [lyo-adaptor-bugzilla](https://github.com/OSLC/lyo-adaptor-bugzilla)
 * [iotp-adaptor](https://github.com/OSLC/iotp-adaptor)
 
@@ -56,7 +56,7 @@ Other repositories that are no longer actively maintained but are kept to preser
 * [lyo.testsuite](https://github.com/eclipse/lyo.testsuite)
 * [lyo.adapter-magicdraw](https://github.com/eclipse/lyo.adapter-magicdraw)
 * [lyo.adapter-simulink](https://github.com/eclipse/lyo.adapter-simulink)
-* [lyo.docs ](https://github.com/eclipse/lyo.docs)
+* [Tutorial: Integrating Products with OSLC](https://github.com/OSLC/integrating-products-with-oslc-tutorial)
 
 
 ## Useful information for Lyo committers  
