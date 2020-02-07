@@ -70,6 +70,7 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsClass;
 
 // Start of user code imports
@@ -149,7 +150,7 @@ public class RdfsClass
     // Start of user code getterAnnotation:subClassOf
     // End of user code
     @OslcName("subClassOf")
-    @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "subClassOf")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "subClassOf")
     @OslcDescription("used to state that all the instances of one class are instances of another")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)

@@ -26,7 +26,7 @@
 package org.eclipse.lyo.oslc.domains;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
+import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 
 // Start of user code imports
 // End of user code
@@ -41,7 +41,7 @@ public interface RdfsDomainConstants
     public static String RDFS_NAMSPACE_PREFIX = "rdfs";
 
     public static String CLASS_PATH = "class";
-    public static String CLASS_NAMESPACE = RDFS_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String CLASS_NAMESPACE = RdfsVocabularyConstants.RDFS_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String CLASS_LOCALNAME = "Class"; //localName of the rdfs:class the resource describes
     public static String CLASS_TYPE = CLASS_NAMESPACE + CLASS_LOCALNAME; //fullname of the rdfs:class the resource describes
 }

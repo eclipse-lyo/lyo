@@ -58,8 +58,11 @@
     <properties name="verified" label="verified"/>
   </vocabularies>
   <vocabularies namespaceURI="http://xmlns.com/foaf/0.1/" label="FOAF" source="http://xmlns.com/foaf/spec/" preferredNamespacePrefix="foaf">
-    <classes name="Agent" label="Agent"/>
-    <classes name="Person" label="Person" subClassOf="//@vocabularies[label='FOAF']/@classes[name='Agent']"/>
+    <classes name="Agent" label="Agent" comment="The Agent class is the class of agents; things that do stuff. A well known sub-class is Person, representing people. Other kinds of agents include Organization and Group. The Agent class is useful in a few places in FOAF where Person would have been overly specific. For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots."/>
+    <classes name="Person" label="Person" comment="The Person class represents people. Something is a Person if it is a person. We don't nitpic about whether they're alive, dead, real, or imaginary. The Person class is a sub-class of the Agent class, since all people are considered 'agents' in FOAF." subClassOf="//@vocabularies[label='FOAF']/@classes[name='Agent']"/>
+    <properties name="name" label="name" comment="The name of something is a simple textual string."/>
+    <properties name="familyName" label="familyName" comment="The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value."/>
+    <properties name="givenName" label="givenName" comment="The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value."/>
   </vocabularies>
   <vocabularies namespaceURI="http://open-services.net/ns/config#" label="OSLC Configuration Management" description="WD as of 03 July 2019" source="https://oslc-op.github.io/oslc-specs/specs/config/config-vocab.html" preferredNamespacePrefix="oslc_config">
     <classes name="ChangeSet" label="ChangeSet"/>
@@ -70,7 +73,6 @@
     <classes name="TestPlan" label="TestPlan"/>
     <classes name="TestResult" label="TestResult"/>
     <classes name="TestScript" label="TestScript"/>
-
     <properties name="affectedByChangeRequest" label="affectedByChangeRequest"/>
     <properties name="blockedByChangeRequest" label="blockedByChangeRequest"/>
     <properties name="executesTestScript" label="executesTestScript"/>
@@ -86,5 +88,32 @@
     <properties name="usesTestScript" label="usesTestScript"/>
     <properties name="validatesRequirement" label="validatesRequirement"/>
     <properties name="validatesRequirementCollection" label="validatesRequirementCollection"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://www.w3.org/2000/01/rdf-schema#" label="RDFS" preferredNamespacePrefix="rdfs">
+    <classes name="Class" label="Class" comment="The class resource, everything."/>
+    <properties name="label" label="label" comment="A human-readable name for the subject."/>
+    <properties name="seeAlso" label="seeAlso" comment="Further information about the subject resource."/>
+    <properties name="comment" label="comment" comment="A description of the subject resource."/>
+    <properties name="member" label="member" comment="A member of the subject resource."/>
+    <properties name="subClassOf" label="subClassOf" comment="The subject is a subclass of a class."/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#" label="RDF" preferredNamespacePrefix="rdf">
+    <properties name="type" label="type" comment="The subject is an instance of a class."/>
+    <properties name="value" label="value" comment="Idiomatic property used for structured values."/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://purl.org/dc/terms/" label="Dublin Core" preferredNamespacePrefix="dcterms">
+    <properties name="contributor" label="contributor" comment="An entity responsible for making contributions to the resource."/>
+    <properties name="creator" label="creator" comment="Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided."/>
+    <properties name="created" label="created" comment="Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."/>
+    <properties name="description" label="description" comment="Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."/>
+    <properties name="identifier" label="identifier" comment="Recommended practice is to identify the resource by means of a string conforming to an identification system. Examples include International Standard Book Number (ISBN), Digital Object Identifier (DOI), and Uniform Resource Name (URN). Persistent identifiers should be provided as HTTP URIs."/>
+    <properties name="modified" label="modified" comment="Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."/>
+    <properties name="relation" label="relation" comment="Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided."/>
+    <properties name="subject" label="subject" comment="Recommended practice is to refer to the subject with a URI. If this is not possible or feasible, a literal value that identifies the subject may be provided. Both should preferably refer to a subject in a controlled vocabulary."/>
+    <properties name="title" label="title" comment="A name given to the resource."/>
+    <properties name="isVersionOf" label="isVersionOf" comment="Changes in version imply substantive changes in content rather than differences in format. This property is intended to be used with non-literal values. This property is an inverse property of Has Version."/>
+    <properties name="hasPart" label="hasPart" comment="This property is intended to be used with non-literal values. This property is an inverse property of Is Part Of."/>
+    <properties name="source" label="source" comment="This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system."/>
+    <properties name="type" label="type" comment="Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary [DCMI-TYPE]. To describe the file format, physical medium, or dimensions of the resource, use the property Format."/>
   </vocabularies>
 </oscl4j_vocabulary:Vocabularies>

@@ -1,9 +1,3 @@
-/src/main/java/org/eclipse/lyo/oslc4j/core/model/*
-!/src/main/java/org/eclipse/lyo/oslc4j/core/model/OslcDomainConstants.java
-!/src/main/java/org/eclipse/lyo/oslc4j/core/model/IDiscussion.java
-!/src/main/java/org/eclipse/lyo/oslc4j/core/model/Discussion.java
 *.lost
-
 /target/
-
 /.settings/

@@ -73,6 +73,9 @@ import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.Person;
 
@@ -197,7 +200,7 @@ public class LinkType
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -213,7 +216,7 @@ public class LinkType
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -228,7 +231,7 @@ public class LinkType
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -244,7 +247,7 @@ public class LinkType
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -259,7 +262,7 @@ public class LinkType
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -306,7 +309,7 @@ public class LinkType
     // Start of user code getterAnnotation:comment
     // End of user code
     @OslcName("comment")
-    @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "comment")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "comment")
     @OslcDescription("May be used to provide a human-readable description of a resource.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -321,7 +324,7 @@ public class LinkType
     // Start of user code getterAnnotation:label
     // End of user code
     @OslcName("label")
-    @OslcPropertyDefinition(RdfsDomainConstants.RDFS_NAMSPACE + "label")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "label")
     @OslcDescription("May be used to provide a human-readable version of a resource's name.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)

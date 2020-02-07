@@ -76,6 +76,11 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
@@ -140,7 +145,7 @@ public class TestPlan
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
     private Set<Link> relatedChangeRequest = new HashSet<Link>();
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -148,38 +153,38 @@ public class TestPlan
     public TestPlan()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public TestPlan(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTPLAN_PATH,
         TestPlan.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local TestPlan Resource} - update TestPlan.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -188,63 +193,63 @@ public class TestPlan
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addUsesTestCase(final Link usesTestCase)
     {
         this.usesTestCase.add(usesTestCase);
     }
-
+    
     public void addValidatesRequirementCollection(final Link validatesRequirementCollection)
     {
         this.validatesRequirementCollection.add(validatesRequirementCollection);
     }
-
+    
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -256,11 +261,11 @@ public class TestPlan
         // End of user code
         return contributor;
     }
-
+    
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -271,11 +276,11 @@ public class TestPlan
         // End of user code
         return created;
     }
-
+    
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -287,11 +292,11 @@ public class TestPlan
         // End of user code
         return creator;
     }
-
+    
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -302,11 +307,11 @@ public class TestPlan
         // End of user code
         return description;
     }
-
+    
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -317,11 +322,11 @@ public class TestPlan
         // End of user code
         return identifier;
     }
-
+    
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -332,11 +337,11 @@ public class TestPlan
         // End of user code
         return modified;
     }
-
+    
     // Start of user code getterAnnotation:subject
     // End of user code
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -348,11 +353,11 @@ public class TestPlan
         // End of user code
         return subject;
     }
-
+    
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -363,11 +368,11 @@ public class TestPlan
         // End of user code
         return title;
     }
-
+    
     // Start of user code getterAnnotation:type
     // End of user code
     @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -378,7 +383,7 @@ public class TestPlan
         // End of user code
         return type;
     }
-
+    
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -394,7 +399,7 @@ public class TestPlan
         // End of user code
         return instanceShape;
     }
-
+    
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -410,7 +415,7 @@ public class TestPlan
         // End of user code
         return serviceProvider;
     }
-
+    
     // Start of user code getterAnnotation:usesTestCase
     // End of user code
     @OslcName("usesTestCase")
@@ -426,7 +431,7 @@ public class TestPlan
         // End of user code
         return usesTestCase;
     }
-
+    
     // Start of user code getterAnnotation:validatesRequirementCollection
     // End of user code
     @OslcName("validatesRequirementCollection")
@@ -443,7 +448,7 @@ public class TestPlan
         // End of user code
         return validatesRequirementCollection;
     }
-
+    
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
@@ -460,8 +465,8 @@ public class TestPlan
         // End of user code
         return relatedChangeRequest;
     }
-
-
+    
+    
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -473,11 +478,11 @@ public class TestPlan
         {
             this.contributor.addAll(contributor);
         }
-
+    
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -485,11 +490,11 @@ public class TestPlan
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-
+    
         // Start of user code setterFinalize:created
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -501,11 +506,11 @@ public class TestPlan
         {
             this.creator.addAll(creator);
         }
-
+    
         // Start of user code setterFinalize:creator
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -513,11 +518,11 @@ public class TestPlan
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-
+    
         // Start of user code setterFinalize:description
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -525,11 +530,11 @@ public class TestPlan
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-
+    
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -537,11 +542,11 @@ public class TestPlan
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-
+    
         // Start of user code setterFinalize:modified
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:subject
     // End of user code
     public void setSubject(final Set<String> subject )
@@ -553,11 +558,11 @@ public class TestPlan
         {
             this.subject.addAll(subject);
         }
-
+    
         // Start of user code setterFinalize:subject
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -565,11 +570,11 @@ public class TestPlan
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-
+    
         // Start of user code setterFinalize:title
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:type
     // End of user code
     public void setType(final Set<Link> type )
@@ -581,11 +586,11 @@ public class TestPlan
         {
             this.type.addAll(type);
         }
-
+    
         // Start of user code setterFinalize:type
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -597,11 +602,11 @@ public class TestPlan
         {
             this.instanceShape.addAll(instanceShape);
         }
-
+    
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -613,11 +618,11 @@ public class TestPlan
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-
+    
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:usesTestCase
     // End of user code
     public void setUsesTestCase(final Set<Link> usesTestCase )
@@ -629,11 +634,11 @@ public class TestPlan
         {
             this.usesTestCase.addAll(usesTestCase);
         }
-
+    
         // Start of user code setterFinalize:usesTestCase
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:validatesRequirementCollection
     // End of user code
     public void setValidatesRequirementCollection(final Set<Link> validatesRequirementCollection )
@@ -645,11 +650,11 @@ public class TestPlan
         {
             this.validatesRequirementCollection.addAll(validatesRequirementCollection);
         }
-
+    
         // Start of user code setterFinalize:validatesRequirementCollection
         // End of user code
     }
-
+    
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
     public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
@@ -661,10 +666,10 @@ public class TestPlan
         {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
-
+    
         // Start of user code setterFinalize:relatedChangeRequest
         // End of user code
     }
-
-
+    
+    
 }

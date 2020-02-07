@@ -65,6 +65,10 @@ import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+
 
 // Start of user code imports
 // End of user code
@@ -80,7 +84,7 @@ public interface IParameterInstance
     public void addServiceProvider(final Link serviceProvider );
 
     @OslcName("name")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -88,14 +92,14 @@ public interface IParameterInstance
     public String getName();
 
     @OslcName("value")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "value")
+    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "value")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getValue();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -103,7 +107,7 @@ public interface IParameterInstance
     public String getDescription();
 
     @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

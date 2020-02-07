@@ -67,6 +67,9 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.IPerson;
@@ -93,7 +96,7 @@ public interface ITestExecutionRecord
     public void addRelatedChangeRequest(final Link relatedChangeRequest );
 
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -102,7 +105,7 @@ public interface ITestExecutionRecord
     public Set<Link> getContributor();
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -110,7 +113,7 @@ public interface ITestExecutionRecord
     public Date getCreated();
 
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -119,7 +122,7 @@ public interface ITestExecutionRecord
     public Set<Link> getCreator();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -127,7 +130,7 @@ public interface ITestExecutionRecord
     public String getIdentifier();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -135,7 +138,7 @@ public interface ITestExecutionRecord
     public Date getModified();
 
     @OslcName("type")
-    @OslcPropertyDefinition(RdfDomainConstants.RDF_NAMSPACE + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -161,7 +164,7 @@ public interface ITestExecutionRecord
     public Set<Link> getServiceProvider();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)

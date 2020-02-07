@@ -70,6 +70,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 
 // Start of user code imports
 // End of user code
@@ -154,7 +155,7 @@ public class Person
     // Start of user code getterAnnotation:familyName
     // End of user code
     @OslcName("familyName")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "familyName")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "familyName")
     @OslcDescription("Family name of person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -169,7 +170,7 @@ public class Person
     // Start of user code getterAnnotation:givenName
     // End of user code
     @OslcName("givenName")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "givenName")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "givenName")
     @OslcDescription("Given name of person expressed as simple text string. ")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -184,7 +185,7 @@ public class Person
     // Start of user code getterAnnotation:name
     // End of user code
     @OslcName("name")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)

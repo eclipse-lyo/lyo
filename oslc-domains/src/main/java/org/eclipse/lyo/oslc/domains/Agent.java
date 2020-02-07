@@ -70,6 +70,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 
 
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 
 // Start of user code imports
 // End of user code
@@ -148,7 +149,7 @@ public class Agent
     // Start of user code getterAnnotation:name
     // End of user code
     @OslcName("name")
-    @OslcPropertyDefinition(FoafDomainConstants.FOAF_NAMSPACE + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
