@@ -587,7 +587,6 @@ public class SparqlStoreImpl implements Store {
         
         SelectBuilder constructSelectQuery = new SelectBuilder();
         constructSelectQuery.addVar( "s p o" )
-        	.addWhere( "?s", "?p", "?o")
         	.addSubQuery(distinctResourcesQuery);
 
         return constructSelectQuery;
