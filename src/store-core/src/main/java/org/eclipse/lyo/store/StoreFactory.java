@@ -76,7 +76,7 @@ public class StoreFactory {
      *
      * @throws IOException If the SPARQL endpoint cannot be accessed.
      */
-    public static Store sparql(final String queryUrl, final String updateUrl) throws IOException {
+    public static Store sparql(final String queryUrl, final String updateUrl) {
         return new SparqlStoreImpl(queryUrl, updateUrl);
     }
 
@@ -94,7 +94,7 @@ public class StoreFactory {
      * @throws IOException If the SPARQL endpoint cannot be accessed.
      */
     public static Store sparql(final String queryUrl, final String updateUrl, final String username,
-            final String password) throws IOException {
+            final String password) {
         return new SparqlStoreImpl(queryUrl, updateUrl, username, password);
     }
 
