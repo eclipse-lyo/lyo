@@ -74,7 +74,6 @@ public class StoreFactory {
      * @param updateUrl SPARQL Update endpoint URI
      * @return Store implementation that communicates with the triplestore via SPARQL.
      *
-     * @throws IOException If the SPARQL endpoint cannot be accessed.
      */
     public static Store sparql(final String queryUrl, final String updateUrl) {
         return new SparqlStoreImpl(queryUrl, updateUrl);
@@ -91,7 +90,6 @@ public class StoreFactory {
      * @param password  Password
      * @return Store implementation that communicates with the triplestore via SPARQL.
      *
-     * @throws IOException If the SPARQL endpoint cannot be accessed.
      */
     public static Store sparql(final String queryUrl, final String updateUrl, final String username,
             final String password) {
