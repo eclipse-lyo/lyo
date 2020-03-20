@@ -67,6 +67,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 
+import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.IPerson;
 

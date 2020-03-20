@@ -76,9 +76,9 @@ import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;

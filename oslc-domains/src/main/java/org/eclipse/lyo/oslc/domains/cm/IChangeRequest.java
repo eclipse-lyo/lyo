@@ -68,6 +68,8 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.cm.IDefect;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.IAgent;

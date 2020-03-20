@@ -65,10 +65,11 @@ import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 
+import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
+
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 
 // Start of user code imports
 // End of user code

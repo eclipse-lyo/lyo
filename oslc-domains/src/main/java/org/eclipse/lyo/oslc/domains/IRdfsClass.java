@@ -62,6 +62,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IRdfsClass;
 
 // Start of user code imports

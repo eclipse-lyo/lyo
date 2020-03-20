@@ -62,6 +62,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 
 // Start of user code imports
 // End of user code
