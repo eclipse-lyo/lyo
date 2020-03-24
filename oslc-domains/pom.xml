@@ -78,4 +78,16 @@
                 </dependency>
         
     </dependencies>
+	<distributionManagement>
+		<repository>
+			<id>repo.eclipse.org</id>
+			<name>Eclipse Lyo Releases</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>repo.eclipse.org</id>
+			<name>Eclipse Lyo Snapshots</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
