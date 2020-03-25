@@ -2,80 +2,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        <modelVersion>4.0.0</modelVersion>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>oslc-domains</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
-        <packaging>jar</packaging>
-        <name>oslc-domains</name>
-        <properties>
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-            <maven.compiler.source>1.8</maven.compiler.source>
-            <maven.compiler.target>1.8</maven.compiler.target>
-            <version.lyo>4.0.0-SNAPSHOT</version.lyo>
-            <!-- Start of user code properties
+    <modelVersion>4.0.0</modelVersion>
+    <!-- Start of user code header
+    -->
+    <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
+    <!-- End of user code
+    -->
+    <groupId>org.eclipse.lyo</groupId>
+    <artifactId>oslc-domains</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>oslc-domains</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <version.lyo>4.0.0-SNAPSHOT</version.lyo>
+        <!-- Start of user code properties
             -->
             <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
             <!-- End of user code
-            -->
-        </properties>
-        <repositories>
-            <!-- Start of user code repositories
+        -->
+    </properties>
+    <repositories>
+        <!-- Start of user code repositories
             -->
             <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
             <!-- End of user code
-            -->
-            <repository>
-                <id>lyo-releases</id>
-                <name>Eclipse Lyo Releases</name>
-                <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-                <snapshots>
-                    <enabled>false</enabled>
-                </snapshots>
-            </repository>
-            <repository>
-                <id>lyo-snapshots</id>
-                <name>Eclipse Lyo Snapshots</name>
-                <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-                <releases>
-                    <enabled>false</enabled>
-                </releases>
-            </repository>
-        </repositories>
+        -->
+        <repository>
+            <id>lyo-releases</id>
+            <name>Eclipse Lyo Releases</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>lyo-snapshots</id>
+            <name>Eclipse Lyo Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
     <dependencies>
-                <!-- Specific dependencies -->
-                <!-- Start of user code dependencies
+        <!-- Specific dependencies -->
+        <!-- Start of user code dependencies
                 -->
                 <!-- TODO: Add additional dependencies here to avoid them be overrriden upon future re-generation -->
                 <!-- End of user code
-                -->
-                <!-- General dependencies -->
-                <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                    <version>1.7.21</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <!-- Servlet dependencies -->
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <version>3.1.0</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                    <version>1.2</version>
-                </dependency>
+        -->
+        <!-- General dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Servlet dependencies -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
         
-                <!-- Lyo dependencies -->
-                <dependency>
-                    <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-                    <artifactId>oslc4j-core</artifactId>
-                    <version>${version.lyo}</version>
-                </dependency>
+        <!-- Lyo dependencies -->
+        <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>oslc4j-core</artifactId>
+            <version>${version.lyo}</version>
+        </dependency>
         
     </dependencies>
 	<distributionManagement>

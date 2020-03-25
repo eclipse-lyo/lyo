@@ -71,6 +71,7 @@ import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
@@ -127,6 +128,24 @@ public class Resource
     // Start of user code attributeAnnotation:shortTitle
     // End of user code
     private String shortTitle;
+    // Start of user code attributeAnnotation:external
+    // End of user code
+    private Set<Link> external = new HashSet<Link>();
+    // Start of user code attributeAnnotation:trace
+    // End of user code
+    private Set<Link> trace = new HashSet<Link>();
+    // Start of user code attributeAnnotation:refine
+    // End of user code
+    private Set<Link> refine = new HashSet<Link>();
+    // Start of user code attributeAnnotation:derives
+    // End of user code
+    private Set<Link> derives = new HashSet<Link>();
+    // Start of user code attributeAnnotation:elaborates
+    // End of user code
+    private Set<Link> elaborates = new HashSet<Link>();
+    // Start of user code attributeAnnotation:satisfy
+    // End of user code
+    private Set<Link> satisfy = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -205,6 +224,36 @@ public class Resource
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
+    }
+    
+    public void addExternal(final Link external)
+    {
+        this.external.add(external);
+    }
+    
+    public void addTrace(final Link trace)
+    {
+        this.trace.add(trace);
+    }
+    
+    public void addRefine(final Link refine)
+    {
+        this.refine.add(refine);
+    }
+    
+    public void addDerives(final Link derives)
+    {
+        this.derives.add(derives);
+    }
+    
+    public void addElaborates(final Link elaborates)
+    {
+        this.elaborates.add(elaborates);
+    }
+    
+    public void addSatisfy(final Link satisfy)
+    {
+        this.satisfy.add(satisfy);
     }
     
     
@@ -389,6 +438,96 @@ public class Resource
         return shortTitle;
     }
     
+    // Start of user code getterAnnotation:external
+    // End of user code
+    @OslcName("external")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "external")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("external")
+    public Set<Link> getExternal()
+    {
+        // Start of user code getterInit:external
+        // End of user code
+        return external;
+    }
+    
+    // Start of user code getterAnnotation:trace
+    // End of user code
+    @OslcName("trace")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "trace")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("trace")
+    public Set<Link> getTrace()
+    {
+        // Start of user code getterInit:trace
+        // End of user code
+        return trace;
+    }
+    
+    // Start of user code getterAnnotation:refine
+    // End of user code
+    @OslcName("refine")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "refine")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("refine")
+    public Set<Link> getRefine()
+    {
+        // Start of user code getterInit:refine
+        // End of user code
+        return refine;
+    }
+    
+    // Start of user code getterAnnotation:derives
+    // End of user code
+    @OslcName("derives")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "derives")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("derives")
+    public Set<Link> getDerives()
+    {
+        // Start of user code getterInit:derives
+        // End of user code
+        return derives;
+    }
+    
+    // Start of user code getterAnnotation:elaborates
+    // End of user code
+    @OslcName("elaborates")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "elaborates")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("elaborates")
+    public Set<Link> getElaborates()
+    {
+        // Start of user code getterInit:elaborates
+        // End of user code
+        return elaborates;
+    }
+    
+    // Start of user code getterAnnotation:satisfy
+    // End of user code
+    @OslcName("satisfy")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "satisfy")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("satisfy")
+    public Set<Link> getSatisfy()
+    {
+        // Start of user code getterInit:satisfy
+        // End of user code
+        return satisfy;
+    }
+    
     
     // Start of user code setterAnnotation:contributor
     // End of user code
@@ -551,6 +690,102 @@ public class Resource
         this.shortTitle = shortTitle;
     
         // Start of user code setterFinalize:shortTitle
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:external
+    // End of user code
+    public void setExternal(final Set<Link> external )
+    {
+        // Start of user code setterInit:external
+        // End of user code
+        this.external.clear();
+        if (external != null)
+        {
+            this.external.addAll(external);
+        }
+    
+        // Start of user code setterFinalize:external
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:trace
+    // End of user code
+    public void setTrace(final Set<Link> trace )
+    {
+        // Start of user code setterInit:trace
+        // End of user code
+        this.trace.clear();
+        if (trace != null)
+        {
+            this.trace.addAll(trace);
+        }
+    
+        // Start of user code setterFinalize:trace
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:refine
+    // End of user code
+    public void setRefine(final Set<Link> refine )
+    {
+        // Start of user code setterInit:refine
+        // End of user code
+        this.refine.clear();
+        if (refine != null)
+        {
+            this.refine.addAll(refine);
+        }
+    
+        // Start of user code setterFinalize:refine
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:derives
+    // End of user code
+    public void setDerives(final Set<Link> derives )
+    {
+        // Start of user code setterInit:derives
+        // End of user code
+        this.derives.clear();
+        if (derives != null)
+        {
+            this.derives.addAll(derives);
+        }
+    
+        // Start of user code setterFinalize:derives
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:elaborates
+    // End of user code
+    public void setElaborates(final Set<Link> elaborates )
+    {
+        // Start of user code setterInit:elaborates
+        // End of user code
+        this.elaborates.clear();
+        if (elaborates != null)
+        {
+            this.elaborates.addAll(elaborates);
+        }
+    
+        // Start of user code setterFinalize:elaborates
+        // End of user code
+    }
+    
+    // Start of user code setterAnnotation:satisfy
+    // End of user code
+    public void setSatisfy(final Set<Link> satisfy )
+    {
+        // Start of user code setterInit:satisfy
+        // End of user code
+        this.satisfy.clear();
+        if (satisfy != null)
+        {
+            this.satisfy.addAll(satisfy);
+        }
+    
+        // Start of user code setterFinalize:satisfy
         // End of user code
     }
     

@@ -63,6 +63,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
@@ -82,6 +83,12 @@ public interface IResource
     public void addType(final String type );
     public void addInstanceShape(final Link instanceShape );
     public void addServiceProvider(final Link serviceProvider );
+    public void addExternal(final Link external );
+    public void addTrace(final Link trace );
+    public void addRefine(final Link refine );
+    public void addDerives(final Link derives );
+    public void addElaborates(final Link elaborates );
+    public void addSatisfy(final Link satisfy );
 
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
@@ -180,6 +187,54 @@ public interface IResource
     @OslcReadOnly(false)
     public String getShortTitle();
 
+    @OslcName("external")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "external")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("external")
+    public Set<Link> getExternal();
+
+    @OslcName("trace")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "trace")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("trace")
+    public Set<Link> getTrace();
+
+    @OslcName("refine")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "refine")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("refine")
+    public Set<Link> getRefine();
+
+    @OslcName("derives")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "derives")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("derives")
+    public Set<Link> getDerives();
+
+    @OslcName("elaborates")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "elaborates")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("elaborates")
+    public Set<Link> getElaborates();
+
+    @OslcName("satisfy")
+    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "satisfy")
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    @OslcTitle("satisfy")
+    public Set<Link> getSatisfy();
+
 
     public void setContributor(final Set<Link> contributor );
     public void setCreated(final Date created );
@@ -193,5 +248,11 @@ public interface IResource
     public void setInstanceShape(final Set<Link> instanceShape );
     public void setServiceProvider(final Set<Link> serviceProvider );
     public void setShortTitle(final String shortTitle );
+    public void setExternal(final Set<Link> external );
+    public void setTrace(final Set<Link> trace );
+    public void setRefine(final Set<Link> refine );
+    public void setDerives(final Set<Link> derives );
+    public void setElaborates(final Set<Link> elaborates );
+    public void setSatisfy(final Set<Link> satisfy );
 }
 
