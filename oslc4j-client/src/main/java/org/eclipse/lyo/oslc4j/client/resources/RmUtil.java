@@ -46,9 +46,8 @@ public final class RmUtil {
 			throws IOException, URISyntaxException, ResourceNotFoundException, OAuthException
 	{
 
-		Response response = client.getResource(serviceProviderUrl,OSLCConstants.CT_RDF);
+		Response response = client.getResource(serviceProviderUrl,null, OSLCConstants.CT_RDF, configurationContext);
 		ServiceProvider serviceProvider = response.readEntity(ServiceProvider.class);
-
 		if (serviceProvider != null) {
 			for (Service service:serviceProvider.getServices()) {
 				URI domain = service.getDomain();
@@ -64,7 +63,9 @@ public final class RmUtil {
 											response = client.getResource(typeURI.toString(), null, OSLCConstants.CT_RDF, configurationContext);
 											ResourceShape resourceShape =  response.readEntity(ResourceShape.class);
 											String typeTitle = resourceShape.getTitle();
-											if ( ( typeTitle != null) && (typeTitle.equalsIgnoreCase(requiredInstanceShape)) ) {
+											String typeAbout = resourceShape.getAbout().toString();
+											if ( ( typeTitle != null) && (typeTitle.equalsIgnoreCase(requiredInstanceShape)) ||
+													(typeAbout != null && typeAbout.equalsIgnoreCase(requiredInstanceShape)) ) {
 												return resourceShape;
 											}
 										}
