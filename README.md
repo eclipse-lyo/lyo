@@ -25,6 +25,9 @@ Simply add the following dependency to your project, and you are ready to create
 	<version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
+
+**NOTE!** Make sure you configure the pom.xml as for any OSLC project, as described [here](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#customize-project-pom-file)
+
 **NOTE!** Make sure this library uses the same version of Lyo Core as your project, by updating the ```<version.lyo.core>``` property in the pom.xml file.
 
 ### Use the Java classes with some modifications
