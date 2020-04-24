@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  * @version $version-stub$
  * @since 2.3.0
  */
-public class InmemPagedTrs implements PagedTrs, ResourceEventHandler {
+public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
     private final static Logger log = LoggerFactory.getLogger(InmemPagedTrs.class);
 
     /**
