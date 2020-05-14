@@ -116,4 +116,7 @@
     <properties name="source" label="source" comment="This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system."/>
     <properties name="type" label="type" comment="Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary [DCMI-TYPE]. To describe the file format, physical medium, or dimensions of the resource, use the property Format."/>
   </vocabularies>
+  <configuration>
+    <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
+  </configuration>
 </oscl4j_vocabulary:Vocabularies>

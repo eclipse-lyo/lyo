@@ -48,6 +48,10 @@
             </releases>
         </repository>
     </repositories>
+    <!-- Start of user code pre_dependencies
+    -->
+    <!-- End of user code
+    -->
     <dependencies>
         <!-- Specific dependencies -->
         <!-- Start of user code dependencies
@@ -83,6 +87,8 @@
         </dependency>
         
     </dependencies>
+    <!-- Start of user code post_dependencies
+    -->
 	<distributionManagement>
 		<repository>
 			<id>repo.eclipse.org</id>
@@ -95,4 +101,6 @@
 			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+    <!-- End of user code
+    -->
 </project>
