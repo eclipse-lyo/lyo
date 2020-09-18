@@ -299,4 +299,46 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         return result;
     }
+
+    /**
+     * Return the enumeration of queried results from this page
+     *
+     * @return member statements from current page.
+     */
+    public Iterable<Resource> getMembers() {
+        initializeRdf();
+
+        Selector select = getMemberSelector();
+        final StmtIterator iter = rdfModel.listStatements(select);
+        Iterable<Resource> result = new Iterable<Resource>() {
+                public Iterator<Resource>
+                iterator() {
+                    return new Iterator<Resource>() {
+                            public boolean hasNext() {
+                                return iter.hasNext();
+                            }
+
+                            @SuppressWarnings("unchecked")
+                            public Resource next() {
+                                Statement member = iter.next();
+
+                                try {
+                                    return (Resource)member.getObject();
+                                } catch (IllegalArgumentException e) {
+                                   throw new IllegalStateException(e.getMessage());
+                                } catch (SecurityException e) {
+                                    throw new IllegalStateException(e.getMessage());
+                                }
+                            }
+
+                            public void remove() {
+                                iter.remove();
+                            }
+                        };
+                }
+            };
+
+        return result;
+    }
+
 }

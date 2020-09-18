@@ -93,7 +93,7 @@ public class OslcQueryParameters {
 	 * @param where
 	 */
 	public void setWhere(String where) {
-		this.where = encodeQueryParams(where);
+		this.where = where;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class OslcQueryParameters {
 	 * @param select
 	 */
 	public void setSelect(String select) {
-		this.select = encodeQueryParams(select);
+		this.select = select;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class OslcQueryParameters {
 	 * @param searchTerms
 	 */
 	public void setSearchTerms(String searchTerms) {
-		this.searchTerms = encodeQueryParams(searchTerms);
+		this.searchTerms = searchTerms;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class OslcQueryParameters {
 	 * @param orderBy
 	 */
 	public void setOrderBy(String orderBy) {
-		this.orderBy = encodeQueryParams(orderBy);
+		this.orderBy = orderBy;
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class OslcQueryParameters {
 	 * @param prefix
 	 */
 	public void setPrefix(String prefix) {
-		this.prefix = encodeQueryParams(prefix);
+		this.prefix = prefix;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class OslcQueryParameters {
 	 * @param configurationContext
 	 */
 	public void setConfigurationContext(String configurationContext) {
-		this.configurationContext = encodeQueryParams(configurationContext);
+		this.configurationContext = configurationContext;
 	}
 
 	private String encodeQueryParams(String oslcQueryParam) {
