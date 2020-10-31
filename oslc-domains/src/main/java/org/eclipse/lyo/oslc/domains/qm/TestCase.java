@@ -200,6 +200,7 @@ public class TestCase
         }
     
         // Start of user code toString_finalize
+        result = String.format("%s (TestCase; id=%s)", this.getTitle(), this.getIdentifier());
         // End of user code
     
         return result;
