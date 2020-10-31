@@ -172,6 +172,8 @@ public class LinkType
         }
     
         // Start of user code toString_finalize
+        result = String.format("%s (LinkType; id=%s)", this.getLabel(), this.getIdentifier());
+
         // End of user code
     
         return result;
