@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2012 IBM Corporation.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,13 +9,8 @@
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
- * Contributors:
- *
- *     Russell Boykin       - initial API and implementation
- *     Alberto Giammaria    - initial API and implementation
- *     Chris Peters         - initial API and implementation
- *     Gianluca Bernardini  - initial API and implementation
- *******************************************************************************/
+ * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.oslc4j.client.resources;
 
 import java.net.URI;
@@ -43,6 +38,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
+@Deprecated
 @OslcNamespace(CmConstants.CHANGE_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Change Request Resource Shape", describes = CmConstants.TYPE_CHANGE_REQUEST)
 public final class ChangeRequest

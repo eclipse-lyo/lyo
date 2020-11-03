@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2013 IBM Corporation.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,11 +9,8 @@
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
- * Contributors:
- *
- *     Gabriel Ruelas       - initial API and implementation
- *     Carlos A Arreola     - initial API and implementation
- *******************************************************************************/
+ * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.oslc4j.client.resources;
 
 import javax.xml.namespace.QName;
@@ -22,6 +19,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 import org.apache.jena.datatypes.BaseDatatype;
 
+@Deprecated
 public interface RmConstants
 {
     public static String REQUIREMENTS_MANAGEMENT_DOMAIN                    = "http://open-services.net/ns/rm#";
