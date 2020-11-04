@@ -1,3 +1,6 @@
+require 'dotenv/load'
+
+
 projects = [
   'eclipse/lyo',
 
