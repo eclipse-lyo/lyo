@@ -1,3 +1,9 @@
+# Eclipse Lyo issue tracker label sync
+
+## Rationale
+
+Update all label strings/colours across all Eclipse Lyo repos. Helps when you look at them on "my issues page" (e.g. https://github.com/issues?q=is%3Aissue+is%3Aopen+archived%3Afalse+sort%3Aupdated-desc+assignee%3Aberezovskyi) or the multi-project board (e.g. https://github.com/orgs/eclipse/projects/1).
+
 ## Getting started
 
 Install dotenv gem:
