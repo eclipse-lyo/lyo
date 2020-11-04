@@ -10,6 +10,7 @@ projects = [
   'eclipse/lyo.trs-client',
   'eclipse/lyo.trs-server',
   'eclipse/lyo.validation',
+  'eclipse/lyo.oslc-ui',
 
   'eclipse/lyo.docs',
   'eclipse/lyo.rio',
