@@ -10,7 +10,7 @@
     -->
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>oslc-domains</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0.M2</version>
     <packaging>jar</packaging>
     <name>oslc-domains</name>
     <properties>
