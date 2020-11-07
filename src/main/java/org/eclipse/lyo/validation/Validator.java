@@ -24,6 +24,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.shacl.Shape;
 import org.eclipse.lyo.shacl.ValidationReport;
 
@@ -44,7 +45,7 @@ public interface Validator {
      * @throws SecurityException 
      * @throws InstantiationException 
      *
-     * @see org.eclipse.lyo.validation.shacl.ShaclShapeFactory#createShaclShape(Class)
+     * @see ShaclShapeFactory#createShaclShape(Class)
      */
     ValidationReport validate(AbstractResource resource)
             throws OslcCoreApplicationException, URISyntaxException, ParseException,
