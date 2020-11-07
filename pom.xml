@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.lyo.experimental</groupId>
+	<groupId>org.eclipse.lyo</groupId>
 	<artifactId>lyo-validation</artifactId>
 	<version>4.0.0.M2</version>
 
@@ -12,9 +12,9 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<version.jetty>9.4.0.v20161208</version.jetty>
-		<version.lyo>2.4.0</version.lyo>
+		<version.lyo>${project.version}</version.lyo>
 		<version.shaclex>0.0.87</version.shaclex>
-		<jena.version>3.6.0</jena.version>
+		<jena.version>3.13.0</jena.version>
 	</properties>
 
 	<dependencies>
