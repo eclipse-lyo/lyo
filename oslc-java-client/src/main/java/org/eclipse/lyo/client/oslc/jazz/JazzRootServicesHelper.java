@@ -23,8 +23,8 @@ import java.io.InputStream;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.wink.client.ClientResponse;
-import org.eclipse.lyo.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.client.exception.RootServicesException;
+import org.eclipse.lyo.client.exception.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.exception.RootServicesException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.client.oslc.OslcOAuthClient;

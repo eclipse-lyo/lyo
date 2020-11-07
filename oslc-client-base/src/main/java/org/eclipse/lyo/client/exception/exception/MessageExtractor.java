@@ -16,7 +16,7 @@
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.client.exception;
+package org.eclipse.lyo.client.exception.exception;
 
 import java.text.MessageFormat;
 import java.util.Locale;
