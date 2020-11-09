@@ -62,5 +62,6 @@ Other repositories that are no longer actively maintained but are kept to preser
 ## Useful information for Lyo committers  
 
 - [New Lyo wiki](https://github.com/eclipse/lyo/wiki)
+- [Release Engineering Handbook](https://docs.google.com/document/d/1lnTf2NX4_1lL6Uu-4VYNs8FNgHZ1Z64xF4hQZGCKymE/edit?usp=sharing)
 - [Old Lyo wiki](https://wiki.eclipse.org/Lyo)
 - [Official homepage](https://www.eclipse.org/lyo/)
