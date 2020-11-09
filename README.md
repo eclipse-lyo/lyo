@@ -1,5 +1,6 @@
 # Lyo Domains
 
+[![CI](https://github.com/eclipse/lyo.domains/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.domains/actions?query=workflow%3ACI)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/domains/latest/apidocs/)
 
 
