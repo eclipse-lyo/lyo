@@ -35,18 +35,18 @@ public class OslcClientTest {
 	 * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
 	 * given bad data on the client (Bug 417749). ClientRuntimeException expected.
 	 */
-	@Ignore("Unit test actually POSTs data to example.com, which we shouldn't do as we " +
-			"don't own that domain. It also fails in our Hudson build environment.")
-	@Test(expected = ClientErrorException.class, timeout = 5000)
-	public void postInvalidOlscResource() throws IOException, URISyntaxException {
-		final OslcClient client = new OslcClient();
-		final AutomationRequest request = new AutomationRequest();
-
-		// Causes NullPointerException.
-		request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), null);
-
-		client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
-	}
+//	@Ignore("Unit test actually POSTs data to example.com, which we shouldn't do as we " +
+//			"don't own that domain. It also fails in our Hudson build environment.")
+//	@Test(expected = ClientErrorException.class, timeout = 5000)
+//	public void postInvalidOlscResource() throws IOException, URISyntaxException {
+//		final OslcClient client = new OslcClient();
+//		final AutomationRequest request = new AutomationRequest();
+//
+//		// Causes NullPointerException.
+//		request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), null);
+//
+//		client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
+//	}
 
 	@Test
 	public void initTest() {

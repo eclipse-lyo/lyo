@@ -16,27 +16,21 @@
  *******************************************************************************/
 package org.eclipse.lyo.oslc4j.client.resources;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import javax.ws.rs.core.Response;
-
+import net.oauth.OAuthException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc4j.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
-import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import net.oauth.OAuthException;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
+@Deprecated
 public final class RmUtil {
 	public static ResourceShape lookupRequirementsInstanceShapes(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcClient client, String requiredInstanceShape)
 			throws IOException, URISyntaxException, ResourceNotFoundException, OAuthException{
@@ -81,15 +75,4 @@ public final class RmUtil {
 
 		throw new ResourceNotFoundException(serviceProviderUrl, "InstanceShapes");
 	}
-
-
-
-	public static Element convertStringToHTML(String text) throws ParserConfigurationException {
-
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-		Element divElement = document.createElementNS(RmConstants.NAMESPACE_URI_XHTML, "div");
-		divElement.setTextContent(text);
-		return divElement;
-	}
-
 }
