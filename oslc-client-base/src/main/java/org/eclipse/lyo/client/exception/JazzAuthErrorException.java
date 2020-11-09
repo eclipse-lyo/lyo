@@ -13,11 +13,11 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.client.exception.exception;
+package org.eclipse.lyo.client.exception;
 
 
 /**
- * Thrown when an HTTP response comes back from the Jazz server with an HTTP response header 
+ * Thrown when an HTTP response comes back from the Jazz server with an HTTP response header
  * X-com-ibm-team-repository-web-auth-msg with a value of "authfailed". The server sends this
  * when the user could not be authenticated. The exception will contain
  * the username and the URL of the server.

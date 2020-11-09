@@ -16,7 +16,7 @@
  *     Chris Peters         - initial API and implementation
  *     Gianluca Bernardini  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.client.exception.exception;
+package org.eclipse.lyo.client.exception;
 
 /**
  * Base class for all application exceptions.

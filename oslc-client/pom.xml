@@ -22,7 +22,13 @@
         <version.jersey>2.25.1</version.jersey>
     </properties>
     <dependencies>
-        <dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.clients</groupId>
+        <artifactId>oslc-client-base</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.26</version>

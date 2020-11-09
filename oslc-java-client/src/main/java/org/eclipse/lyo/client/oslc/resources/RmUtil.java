@@ -26,7 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.oauth.OAuthException;
 
 import org.apache.wink.client.ClientResponse;
-import org.eclipse.lyo.client.exception.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.OSLCConstants;
 import org.eclipse.lyo.client.oslc.OslcClient;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;

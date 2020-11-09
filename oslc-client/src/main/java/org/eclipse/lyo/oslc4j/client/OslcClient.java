@@ -42,7 +42,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
-import org.eclipse.lyo.oslc4j.client.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
@@ -219,7 +219,7 @@ public class OslcClient implements IOslcClient {
 	    return getResource(url, requestHeaders, defaultMediaType, null, true);
 	}
 
-    public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType, 
+    public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType,
             String configurationContext) {
        return getResource(url, requestHeaders, defaultMediaType, configurationContext, true);
    }
@@ -227,7 +227,7 @@ public class OslcClient implements IOslcClient {
    public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType, boolean handleRedirects) {
        return getResource(url, requestHeaders, defaultMediaType, null, handleRedirects);
    }
-   
+
    public Response getResource (String url, Map<String, String> requestHeaders, String defaultMediaType,
 									String configurationContext, boolean handleRedirects) {
 		Response response = null;

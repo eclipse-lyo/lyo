@@ -13,11 +13,11 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.client.exception.exception;
+package org.eclipse.lyo.client.exception;
 
 
 /**
- * Thrown when the HTTP status code for the response from the Jazz server 
+ * Thrown when the HTTP status code for the response from the Jazz server
  * indicates an error in the request.  Contains the status code and URL of
  * the server.
  *

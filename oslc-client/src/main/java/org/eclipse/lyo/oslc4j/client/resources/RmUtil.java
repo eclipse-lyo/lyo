@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 
 import org.eclipse.lyo.oslc4j.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
-import org.eclipse.lyo.oslc4j.client.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Service;

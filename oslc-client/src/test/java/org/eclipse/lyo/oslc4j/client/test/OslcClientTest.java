@@ -26,7 +26,6 @@ import javax.ws.rs.ClientErrorException;
 
 import org.eclipse.lyo.oslc4j.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.client.OslcClient;
-import org.eclipse.lyo.oslc4j.client.resources.AutomationRequest;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;

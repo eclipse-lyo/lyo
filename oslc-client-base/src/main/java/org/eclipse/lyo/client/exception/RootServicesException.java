@@ -13,7 +13,7 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client.exception;
+package org.eclipse.lyo.client.exception;
 
 
 @SuppressWarnings("serial")

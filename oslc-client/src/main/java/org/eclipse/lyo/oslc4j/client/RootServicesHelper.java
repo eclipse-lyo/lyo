@@ -28,8 +28,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import org.eclipse.lyo.oslc4j.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.oslc4j.client.exception.RootServicesException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;

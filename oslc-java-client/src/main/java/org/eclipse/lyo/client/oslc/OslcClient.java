@@ -58,7 +58,7 @@ import org.apache.wink.client.ClientResponse;
 import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 import org.apache.wink.client.httpclient.ApacheHttpClientConfig;
-import org.eclipse.lyo.client.exception.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.client.oslc.resources.OslcQuery;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
