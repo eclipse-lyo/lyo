@@ -1,7 +1,7 @@
 # Eclipse Lyo Client
 
 [![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-client-master.svg)](https://ci.eclipse.org/lyo/job/lyo-client-master/)
-[![Build Status](https://travis-ci.org/eclipse/lyo.client.svg?branch=master)](https://travis-ci.org/eclipse/lyo.client)
+![CI](https://github.com/eclipse/lyo.client/workflows/CI/badge.svg)
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
 
