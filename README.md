@@ -1,6 +1,6 @@
 # TRS Server library
 
-[![Build Status](https://travis-ci.org/eclipse/lyo.trs-server.svg?branch=master)](https://travis-ci.org/eclipse/lyo.trs-server)
+![CI](https://github.com/eclipse/lyo.trs-server/workflows/CI/badge.svg)
 [![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/2.4.0/overview-summary.html)
 [![](https://img.shields.io/badge/javadoc-SNAPSHOT-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/latest/overview-summary.html)
 [![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
