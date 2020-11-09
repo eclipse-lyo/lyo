@@ -1,6 +1,7 @@
 # Lyo Store
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f9560aee08b4c28a094b9fc2e3d43f2)](https://www.codacy.com/app/berezovskyi/lyo-store?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=eclipse/lyo-store&amp;utm_campaign=Badge_Grade)
+[![CI](https://github.com/eclipse/lyo.store/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.store/actions?query=workflow%3ACI)
 [![Build Status](https://travis-ci.org/eclipse/lyo.store.svg?branch=master)](https://travis-ci.org/eclipse/lyo.store)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/store/latest/)
 [![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
