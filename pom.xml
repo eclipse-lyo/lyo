@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.lyo.clients</groupId>
+  <artifactId>clients-parent</artifactId>
+  <version>4.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <maven.deploy.skip>false</maven.deploy.skip>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <modules>
+    <module>oslc-client-base</module>
+    <module>oslc-client</module>
+
+    <!-- Legacy code -->
+    <module>oslc-java-client</module>
+    <module>oslc-java-client-resources</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>lyo-releases</id>
+      <name>lyo-releases repository</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-releases/
+      </url>
+    </repository>
+    <repository>
+      <id>lyo-snapshots</id>
+      <name>lyo-snapshots repository</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/
+      </url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>repo.eclipse.org</id>
+      <name>Eclipse Lyo Releases</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>repo.eclipse.org</id>
+      <name>Eclipse Lyo Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
