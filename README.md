@@ -1,5 +1,7 @@
 # Lyo Validation library
 
+[![CI](https://github.com/eclipse/lyo.validation/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.validation/actions?query=workflow%3ACI)
+
 [Javadoc](https://download.eclipse.org/lyo/docs/validation/latest)
 
 ---
