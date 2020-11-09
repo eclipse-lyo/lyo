@@ -17,24 +17,27 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 
 ## Repositories
 
-Four main repositories are:
 
-* [lyo.core](https://github.com/eclipse/lyo.core)
-* [lyo.server](https://github.com/eclipse/lyo.server)
-* [lyo.client](https://github.com/eclipse/lyo.client)
-* [lyo.designer](https://github.com/eclipse/lyo.designer)
+| Repo       | Status | PRs | Milestone | Bugs |
+|------------|----|-----|-----------|------|
+| [lyo.core](https://github.com/eclipse/lyo.core)       |  [![CI](https://github.com/eclipse/lyo.core/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.core/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.core?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.core/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.core/Type:%20Bug?color=red&label=bugs) |
+| [lyo.designer](https://github.com/eclipse/lyo.designer)   |  [![CI](https://github.com/eclipse/lyo.designer/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.designer/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.designer?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.designer/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.designer/Type:%20Bug?color=red&label=bugs) |
+| [lyo.client](https://github.com/eclipse/lyo.client)     |  [![CI](https://github.com/eclipse/lyo.client/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.client/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.client?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.client/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.client/Type:%20Bug?color=red&label=bugs) |
+| [lyo.server](https://github.com/eclipse/lyo.server)      |  [![CI](https://github.com/eclipse/lyo.server/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.server/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.server?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.server/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.domains](https://github.com/eclipse/lyo.domains)    |  [![CI](https://github.com/eclipse/lyo.domains/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.domains/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.domains?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.domains/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.domains/Type:%20Bug?color=red&label=bugs) |
+| [lyo.store](https://github.com/eclipse/lyo.store)      |  [![CI](https://github.com/eclipse/lyo.store/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.store/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.store?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.store/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.store/Type:%20Bug?color=red&label=bugs) |
+| [lyo.trs-server](https://github.com/eclipse/lyo.trs-server) |  [![CI](https://github.com/eclipse/lyo.trs-server/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.trs-server/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.trs-server?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.trs-server/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.trs-client](https://github.com/eclipse/lyo.trs-client) |  [![CI](https://github.com/eclipse/lyo.trs-client/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.trs-client/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.trs-client?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.trs-client/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.validation](https://github.com/eclipse/lyo.validation) |  [![CI](https://github.com/eclipse/lyo.validation/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.validation/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.validation?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.validation/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.oslc-ui](https://github.com/eclipse/lyo.oslc-ui)    |  [![CI](https://github.com/eclipse/lyo.oslc-ui/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.oslc-ui/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.oslc-ui?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.oslc-ui/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.ldp](https://github.com/eclipse/lyo.ldp)     |  [![CI](https://github.com/eclipse/lyo.ldp/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.ldp/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.ldp?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.ldp/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.rio](https://github.com/eclipse/lyo.rio)     |  [![CI](https://github.com/eclipse/lyo.rio/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.rio/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.rio?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.rio/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+| [lyo.testsuite](https://github.com/eclipse/lyo.testsuite)     |  [![CI](https://github.com/eclipse/lyo.testsuite/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.testsuite/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.testsuite?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.testsuite/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.trs-server/Type:%20Bug?color=red&label=bugs) |
+
 
 Other repositories maintained under the Eclipse Foundation project include:
 
-* [lyo.store](https://github.com/eclipse/lyo.store)
-* [lyo.trs-server](https://github.com/eclipse/lyo.trs-server)
-* [lyo.trs-client](https://github.com/eclipse/lyo.trs-client)
-* [lyo.domains](https://github.com/eclipse/lyo.domains)
 * [lyo.docs ](https://github.com/eclipse/lyo.docs)
-
-Repositories that contain [Type A](https://www.eclipse.org/projects/handbook/#pmi-due-diligence) checked contents:
-
-* [lyo.validation](lyo.validation)
 
 Please refer to the README files of each individual repository to get an overview of their layout and released artefacts.
 
@@ -51,9 +54,6 @@ Repositories that are maintained under OSLC organisation include:
 
 Other repositories that are no longer actively maintained but are kept to preserve the history:
 
-* [lyo.ldp](https://github.com/eclipse/lyo.ldp)
-* [lyo.rio](https://github.com/eclipse/lyo.rio)
-* [lyo.testsuite](https://github.com/eclipse/lyo.testsuite)
 * [lyo.adapter-magicdraw](https://github.com/eclipse/lyo.adapter-magicdraw)
 * [lyo.adapter-simulink](https://github.com/eclipse/lyo.adapter-simulink)
 * [Tutorial: Integrating Products with OSLC](https://github.com/OSLC/integrating-products-with-oslc-tutorial)
