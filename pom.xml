@@ -15,6 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <lyo.version>${project.version}</lyo.version>
   </properties>
 
   <modules>
@@ -25,6 +26,16 @@
     <module>oslc-java-client</module>
     <module>oslc-java-client-resources</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+        <artifactId>oslc4j-core</artifactId>
+        <version>${lyo.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>

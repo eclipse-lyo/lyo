@@ -33,8 +33,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
                         <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                          <doclint>none</doclint>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -48,6 +49,12 @@
         <artifactId>oslc-client-base</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.clients</groupId>
+        <artifactId>oslc-java-client-resources</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -180,8 +187,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <source>8</source>
-                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                  <source>8</source>
+                  <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>

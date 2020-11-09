@@ -3,10 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.lyo.clients</groupId>
+    <artifactId>clients-parent</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+  </parent>
 
-  <groupId>org.example</groupId>
   <artifactId>oslc-java-client-resources</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+    </dependency>
+  </dependencies>
 </project>
