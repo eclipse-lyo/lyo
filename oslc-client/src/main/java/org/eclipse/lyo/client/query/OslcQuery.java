@@ -10,7 +10,7 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.client.resources;
+package org.eclipse.lyo.client.query;
 
 
 import javax.ws.rs.core.Response;

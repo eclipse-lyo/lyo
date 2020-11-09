@@ -16,7 +16,7 @@
  *     Samuel Padgett   - support setting member property
  *     Samuel Padgett   - preserve member property on call to getNext()
  *******************************************************************************/
-package org.eclipse.lyo.client.resources;
+package org.eclipse.lyo.client.query;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;

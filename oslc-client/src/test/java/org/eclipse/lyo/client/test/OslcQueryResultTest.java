@@ -26,9 +26,9 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.lyo.client.OslcClient;
-import org.eclipse.lyo.client.resources.OslcQuery;
-import org.eclipse.lyo.client.resources.OslcQueryParameters;
-import org.eclipse.lyo.client.resources.OslcQueryResult;
+import org.eclipse.lyo.client.query.OslcQuery;
+import org.eclipse.lyo.client.query.OslcQueryParameters;
+import org.eclipse.lyo.client.query.OslcQueryResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
