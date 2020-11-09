@@ -20,7 +20,7 @@
  *     Samuel Padgett                  - handle any redirect status code
  *     Jad El-khoury                   - Migrate client from Wink to implementation-independent JAX-RS 2.0
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

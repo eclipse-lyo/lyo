@@ -1,4 +1,4 @@
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import javax.ws.rs.client.ClientBuilder;
 
@@ -19,7 +19,7 @@ public class OslcOAuthClientBuilder {
     private String consumerSecret;
 
     private String oauthRealmName;
-    
+
     private ClientBuilder clientBuilder;
     private UnderlyingHttpClient underlyingHttpClient;
 
@@ -45,9 +45,9 @@ public class OslcOAuthClientBuilder {
     }
 
     public OslcOAuthClientBuilder setOAuthServiceProvider(String requestTokenURL, String authorizationTokenURL, String accessTokenURL) {
-        this.requestTokenURL = requestTokenURL;  
+        this.requestTokenURL = requestTokenURL;
         this.authorizationTokenURL = authorizationTokenURL;
-        this.accessTokenURL = accessTokenURL;  
+        this.accessTokenURL = accessTokenURL;
         return this;
     }
 

@@ -10,13 +10,13 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.oslc4j.client.resources;
+package org.eclipse.lyo.client.resources;
 
 
 import javax.ws.rs.core.Response;
 
-import org.eclipse.lyo.oslc4j.client.OSLCConstants;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.client.OslcClient;
+import org.eclipse.lyo.client.OSLCConstants;
 
 import javax.ws.rs.client.WebTarget;
 

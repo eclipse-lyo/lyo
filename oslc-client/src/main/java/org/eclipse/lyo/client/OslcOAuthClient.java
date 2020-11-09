@@ -16,7 +16,7 @@
  *     Samuel Padgett      - don't re-register JAX-RS applications for every request
  *     Samuel Padgett      - add two-legged OAuth support
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -65,7 +65,7 @@ public class OslcOAuthClient implements IOslcClient {
             UnderlyingHttpClient underlyingHttpClient) {
 
         oauthAccessor = accessor;
-       
+
         oauthRealmName = "Jazz";
         // Change if a different name was detected
         if (!StringUtils.isEmpty(realm)) {
@@ -84,7 +84,7 @@ public class OslcOAuthClient implements IOslcClient {
     public OslcClient getOslcClient() {
         return oslcClient;
     }
-	
+
     private Map<String, String> appendAuthorizationHeader(String url, String httpMethod, Map<String, String> requestHeaders) throws IOException, OAuthException, URISyntaxException {
         if (requestHeaders == null) {
             requestHeaders = new HashMap<>();
@@ -123,7 +123,7 @@ public class OslcOAuthClient implements IOslcClient {
     public Optional<String> performOAuthNegotiation(String callbackURL) throws IOException, OAuthException, URISyntaxException {
         return performOAuthNegotiationInternal(false, callbackURL);
     }
-    
+
     private Optional<String> performOAuthNegotiationInternal(boolean restart, String callbackURL) throws IOException, OAuthException, URISyntaxException {
         //No request token yet, get the request token and throw exception to redirect for authorization.
         if (oauthAccessor.requestToken == null) {
@@ -134,10 +134,10 @@ public class OslcOAuthClient implements IOslcClient {
             });
             OAuthMessage message = client.getRequestTokenResponse(oauthAccessor, OAuthMessage.GET, null);
 
-            String userAuthorizationURL = oauthAccessor.consumer.serviceProvider.userAuthorizationURL + 
+            String userAuthorizationURL = oauthAccessor.consumer.serviceProvider.userAuthorizationURL +
             "?oauth_token=" + oauthAccessor.requestToken +
             "&oauth_callback="+URLEncoder.encode(callbackURL, "UTF-8");
-            
+
             return Optional.of(userAuthorizationURL);
         }
 
@@ -195,7 +195,7 @@ public class OslcOAuthClient implements IOslcClient {
     public Response getResource(String url, Map<String, String> requestHeaders, String mediaType, String configurationContext) {
         return this.getResource(url, requestHeaders, mediaType,configurationContext, true);
     }
-    
+
     @Override
     public Response getResource(String url, Map<String, String> requestHeaders, String mediaType, boolean handleRedirects) {
         return this.getResource(url, requestHeaders, mediaType, null, handleRedirects);
@@ -211,7 +211,7 @@ public class OslcOAuthClient implements IOslcClient {
         }
         return oslcClient.getResource(url, headers, mediaType,configurationContext, handleRedirects);
     }
-    
+
     @Override
     public Response deleteResource(String url) {
         throw new UnsupportedOperationException();

@@ -14,12 +14,12 @@
  *     Gabriel Ruelas       - initial API and implementation
  *     Carlos A Arreola     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client.resources;
+package org.eclipse.lyo.client.resources;
 
 import net.oauth.OAuthException;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.oslc4j.client.OSLCConstants;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Service;

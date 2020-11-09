@@ -15,21 +15,20 @@
  *     Samuel Padgett - test member property on call to OslcQueryResult.getNext()
  *     Samuel Padgett - remove previous test as it causes problems in our Hudson builds
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client.test;
+package org.eclipse.lyo.client.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 
 
 import javax.ws.rs.core.Response;
 
-import org.eclipse.lyo.oslc4j.client.OslcClient;
-import org.eclipse.lyo.oslc4j.client.resources.OslcQuery;
-import org.eclipse.lyo.oslc4j.client.resources.OslcQueryParameters;
-import org.eclipse.lyo.oslc4j.client.resources.OslcQueryResult;
+import org.eclipse.lyo.client.OslcClient;
+import org.eclipse.lyo.client.resources.OslcQuery;
+import org.eclipse.lyo.client.resources.OslcQueryParameters;
+import org.eclipse.lyo.client.resources.OslcQueryResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

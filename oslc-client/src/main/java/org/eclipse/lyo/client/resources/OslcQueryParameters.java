@@ -13,7 +13,7 @@
  *
  *     Michael Fiedler     - initial API and implementation
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client.resources;
+package org.eclipse.lyo.client.resources;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

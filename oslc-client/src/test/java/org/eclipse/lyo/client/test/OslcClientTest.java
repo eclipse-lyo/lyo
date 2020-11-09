@@ -14,19 +14,11 @@
  *     Samuel Padgett                  - initial API and implementation
  *     Samuel Padgett                  - set timeout on postInvalidOslcResource()
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client.test;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
+package org.eclipse.lyo.client.test;
 
 import javax.ws.rs.core.Response;
-import javax.xml.namespace.QName;
 
-import javax.ws.rs.ClientErrorException;
-
-import org.eclipse.lyo.oslc4j.client.OSLCConstants;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
-import org.junit.Ignore;
+import org.eclipse.lyo.client.OslcClient;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 

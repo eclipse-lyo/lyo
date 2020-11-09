@@ -10,7 +10,7 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,8 +31,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 
 /**
  * A filter that can be registered in order to non-preemptively handle JEE Form

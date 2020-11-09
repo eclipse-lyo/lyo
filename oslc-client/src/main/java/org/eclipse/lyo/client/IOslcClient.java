@@ -20,7 +20,7 @@
  *     Samuel Padgett                  - handle any redirect status code
  *     Jad El-khoury                   - Migrate client from Wink to implementation-independent JAX-RS 2.0
  *******************************************************************************/
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import java.util.Map;
 import javax.ws.rs.client.Client;
@@ -77,7 +77,7 @@ public interface IOslcClient {
     public Response getResource (String url, Map<String, String> requestHeaders, String mediaType, String configurationContext);
 
    public Response getResource (String url, Map<String, String> requestHeaders, String mediaType, boolean handleRedirects);
-   
+
    public Response getResource (String url, Map<String, String> requestHeaders, String mediaType, String configurationContext, boolean handleRedirects);
 
 	/**

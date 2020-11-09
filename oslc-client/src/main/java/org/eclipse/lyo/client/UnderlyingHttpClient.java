@@ -1,4 +1,4 @@
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 import javax.ws.rs.client.Client;
 import org.apache.http.client.HttpClient;

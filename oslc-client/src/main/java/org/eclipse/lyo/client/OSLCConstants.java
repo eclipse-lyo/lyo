@@ -16,7 +16,7 @@
  *    Samuel Padgett  - deprecate constants for non-existent terms
  *******************************************************************************/
 
-package org.eclipse.lyo.oslc4j.client;
+package org.eclipse.lyo.client;
 
 /**
  * General OSLC constants
