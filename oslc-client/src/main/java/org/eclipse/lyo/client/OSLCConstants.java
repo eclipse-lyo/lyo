@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2011, 2014 IBM Corporation.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -9,13 +9,8 @@
  * and the Eclipse Distribution License is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
- * Contributors:
- *
- *    Steve Speicher - initial API and implementation
- *    Michael Fiedler - add AM resource types
- *    Samuel Padgett  - deprecate constants for non-existent terms
- *******************************************************************************/
-
+ * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.client;
 
 /**

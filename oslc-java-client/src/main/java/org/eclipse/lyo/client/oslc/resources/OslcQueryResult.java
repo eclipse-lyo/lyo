@@ -50,6 +50,7 @@ import org.apache.jena.vocabulary.RDFS;
  *
  * This class is not currently thread safe.
  */
+@Deprecated
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	/**
 	 * The default member property to look for in OSLC query results

@@ -20,6 +20,7 @@ package org.eclipse.lyo.client.oslc.jazz;
  * Constants for Jazz rootservices entries
  *
  */
+@Deprecated
 public interface JazzRootServicesConstants {
 
 	//rootservices catalog properties.  See starting at:

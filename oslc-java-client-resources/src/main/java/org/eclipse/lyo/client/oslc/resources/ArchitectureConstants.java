@@ -15,7 +15,7 @@
  *******************************************************************************/
 package org.eclipse.lyo.client.oslc.resources;
 
-
+@Deprecated
 public interface ArchitectureConstants
 {
     public static final String ARCHITECTURE_DOMAIN        = "http://open-services.net/ns/am#";

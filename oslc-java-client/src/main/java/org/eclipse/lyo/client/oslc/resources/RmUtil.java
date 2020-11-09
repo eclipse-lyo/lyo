@@ -36,6 +36,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+@Deprecated
 public final class RmUtil {
 
 	public static ResourceShape lookupRequirementsInstanceShapes(final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType, OslcClient client, String requiredInstanceShape)

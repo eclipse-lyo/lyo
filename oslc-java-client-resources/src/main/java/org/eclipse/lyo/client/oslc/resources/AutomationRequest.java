@@ -38,11 +38,12 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
+/**
+ * @see <a href="http://open-services.net/wiki/automation/OSLC-Automation-Specification-Version-2.0/#Resource_AutomationRequest">http://open-services.net/wiki/automation/OSLC-Automation-Specification-Version-2.0/#Resource_AutomationRequest</a>
+ */
+@Deprecated
 @OslcResourceShape(title = "Automation Request Resource Shape", describes = AutomationConstants.TYPE_AUTOMATION_REQUEST)
 @OslcNamespace(AutomationConstants.AUTOMATION_NAMESPACE)
-/**
- * @see http://open-services.net/wiki/automation/OSLC-Automation-Specification-Version-2.0/#Resource_AutomationRequest
- */
 public class AutomationRequest
 extends AbstractResource
 {

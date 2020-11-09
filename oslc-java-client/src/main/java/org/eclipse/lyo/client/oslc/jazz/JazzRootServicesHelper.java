@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * This class is not currently thread safe.
  */
+@Deprecated
 public class JazzRootServicesHelper {
 	private String baseUrl;
 	private String rootServicesUrl;

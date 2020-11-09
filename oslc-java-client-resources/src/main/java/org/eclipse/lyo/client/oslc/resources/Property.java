@@ -53,6 +53,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
  * it does not have an oslc:propertyDefinition field. This class is intended to
  * only be used for OSLC automation plans.
  */
+@Deprecated
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Property Resource Shape", describes = OslcConstants.TYPE_PROPERTY)
 public final class Property extends AbstractResource implements Comparable<Property> {

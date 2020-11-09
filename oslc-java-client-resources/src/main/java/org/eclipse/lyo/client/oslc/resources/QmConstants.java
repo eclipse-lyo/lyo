@@ -17,6 +17,7 @@ package org.eclipse.lyo.client.oslc.resources;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
+@Deprecated
 public interface QmConstants
 {
     public static String CHANGE_MANAGEMENT_DOMAIN                    = "http://open-services.net/ns/cm#";

@@ -31,6 +31,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 
+@Deprecated
 @OslcNamespace(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Requirement Collection Resource Shape", describes = RmConstants.TYPE_REQUIREMENT_COLLECTION)
 public class RequirementCollection

@@ -16,6 +16,7 @@
 package org.eclipse.lyo.client.oslc.resources;
 
 
+@Deprecated
 public interface AutomationConstants
 {
     String AUTOMATION_DOMAIN          = "http://open-services.net/ns/auto#";

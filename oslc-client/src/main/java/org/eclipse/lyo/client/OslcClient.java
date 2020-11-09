@@ -1,25 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
  *
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
+ * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+ * and the Eclipse Distribution License is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
  *
- *  Contributors:
- *
- *     Michael Fiedler                 - initial API and implementation
- *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
- *     Michael Fiedler	               - follow redirects.
- *     Samuel Padgett 	               - support oslc:usage and discovering full creation factory resources
- *     Samuel Padgett                  - use correct trust managers and hostname verifier when updating secure socket protocol
- *     Samuel Padgett                  - don't re-register JAX-RS applications for every request
- *     Samuel Padgett                  - handle any redirect status code
- *     Jad El-khoury                   - Migrate client from Wink to implementation-independent JAX-RS 2.0
- *******************************************************************************/
+ * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.client;
 
 import java.io.IOException;

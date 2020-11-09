@@ -22,6 +22,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 import org.apache.jena.datatypes.BaseDatatype;
 
+@Deprecated
 public interface RmConstants
 {
     public static String REQUIREMENTS_MANAGEMENT_DOMAIN                    = "http://open-services.net/ns/rm#";

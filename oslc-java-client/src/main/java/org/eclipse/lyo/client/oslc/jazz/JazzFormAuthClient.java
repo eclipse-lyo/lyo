@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
  * This class is not currently thread safe.
  *
  */
+@Deprecated
 public class JazzFormAuthClient extends OslcClient {
 
 	private final static Logger logger = LoggerFactory.getLogger(JazzFormAuthClient.class);

@@ -43,6 +43,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
+@Deprecated
 @OslcNamespace(CmConstants.CHANGE_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Change Request Resource Shape", describes = CmConstants.TYPE_CHANGE_REQUEST)
 public class ChangeRequest

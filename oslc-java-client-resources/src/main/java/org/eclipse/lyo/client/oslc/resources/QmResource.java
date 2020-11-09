@@ -35,8 +35,9 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
- * @see http://open-services.net/bin/view/Main/QmSpecificationV2
+ * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2">http://open-services.net/bin/view/Main/QmSpecificationV2</a>
  */
+@Deprecated
 public abstract class QmResource
        extends AbstractResource
 {

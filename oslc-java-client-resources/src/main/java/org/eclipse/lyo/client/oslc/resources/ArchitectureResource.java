@@ -36,12 +36,13 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
+/**
+ * @see <a href="http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/">http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/</a>
+ */
+@Deprecated
 @OslcResourceShape(title = "Architecture Management Resource Resource Shape", describes = ArchitectureConstants.TYPE_ARCHITECTURE_RESOURCE)
 @OslcNamespace(ArchitectureConstants.ARCHITECTURE_NAMESPACE)
 @OslcName(ArchitectureConstants.ARCHITECTURE_RESOURCE)
-/**
- * @see http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/
- */
 public class ArchitectureResource
 extends AbstractResource
 {

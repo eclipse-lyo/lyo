@@ -26,6 +26,7 @@ import java.util.logging.Logger;
  * @see OslcQuery
  *
  */
+@Deprecated
 public class OslcQueryParameters {
 
 	private String where;

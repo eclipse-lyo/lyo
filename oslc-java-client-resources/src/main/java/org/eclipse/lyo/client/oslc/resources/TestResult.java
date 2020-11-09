@@ -34,11 +34,12 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
+/**
+ * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult</a>
+ */
+@Deprecated
 @OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_RESULT)
 @OslcNamespace(QmConstants.QUALITY_MANAGEMENT_NAMESPACE)
-/**
- * @see http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult
- */
 public class TestResult
        extends QmResource
 {

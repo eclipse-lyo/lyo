@@ -27,7 +27,7 @@ import org.eclipse.lyo.client.oslc.OslcOAuthClient;
  *
  * Immutable.
  */
-
+@Deprecated
 public class OslcQuery {
 
 	private final OslcClient oslcClient;

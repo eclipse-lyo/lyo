@@ -41,6 +41,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 
+@Deprecated
 @OslcNamespace(RmConstants.REQUIREMENTS_MANAGEMENT_NAMESPACE)
 @OslcResourceShape(title = "Requirement Resource Shape", describes = RmConstants.TYPE_REQUIREMENT)
 public class Requirement
