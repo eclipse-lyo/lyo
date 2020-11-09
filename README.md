@@ -4,8 +4,8 @@
 ![CI](https://github.com/eclipse/lyo.client/workflows/CI/badge.svg)
 [![](https://img.shields.io/badge/javadoc-next-blue.svg)](https://download.eclipse.org/lyo/docs/oslc4j-client/latest/)
 [![](https://img.shields.io/badge/javadoc-legacy-blue.svg)](https://download.eclipse.org/lyo/docs/oslc-java-client/latest/)
-[![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
-[![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
+[![](https://img.shields.io/badge/talk-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![](https://img.shields.io/badge/talk-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
 
 This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) Client library.
 
