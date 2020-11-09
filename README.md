@@ -1,9 +1,11 @@
 # Eclipse Lyo Client
 
 [![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-client-master.svg)](https://ci.eclipse.org/lyo/job/lyo-client-master/)
-[![Build Status](https://travis-ci.org/eclipse/lyo.client.svg?branch=master)](https://travis-ci.org/eclipse/lyo.client)
-[![Discourse status](https://img.shields.io/discourse/https/meta.discourse.org/status.svg)](https://forum.open-services.net/)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/eclipse/lyo)
+![CI](https://github.com/eclipse/lyo.client/workflows/CI/badge.svg)
+[![](https://img.shields.io/badge/javadoc-next-blue.svg)](https://download.eclipse.org/lyo/docs/oslc4j-client/latest/)
+[![](https://img.shields.io/badge/javadoc-legacy-blue.svg)](https://download.eclipse.org/lyo/docs/oslc-java-client/latest/)
+[![](https://img.shields.io/badge/talk-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![](https://img.shields.io/badge/talk-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
 
 This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) Client library.
 
