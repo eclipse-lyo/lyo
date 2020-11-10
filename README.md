@@ -1,7 +1,7 @@
 # Eclipse Lyo Core
 
-[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
 ![CI](https://github.com/eclipse/lyo.core/workflows/CI/badge.svg)
+[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg?label=Jenkins%20build)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
 [![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/core/2.4.0/)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/core/latest/)
 ![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)
