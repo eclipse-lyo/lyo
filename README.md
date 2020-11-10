@@ -51,7 +51,7 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 | [OSLC/lyo-adaptor-ninacrm](https://github.com/OSLC/lyo-adaptor-ninacrm)     |  [![CI](https://semaphoreci.com/api/v1/berezovskyi/lyo-adaptor-ninacrm/branches/master/badge.svg)](https://github.com/OSLC/lyo-adaptor-ninacrm/actions?query=workflow%3ACI) | N/A |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/OSLC/lyo-adaptor-ninacrm?color=blue)   |  ![GitHub issues by-label](https://img.shields.io/github/issues/OSLC/lyo-adaptor-ninacrm/bug?color=red&label=bugs) |
 | [OSLC/oslc-adapter-jama](https://github.com/OSLC/oslc-adapter-jama)     |  [![CI](https://github.com/OSLC/oslc-adapter-jama/workflows/CI/badge.svg)](https://github.com/OSLC/oslc-adapter-jama/actions?query=workflow%3ACI) | ![](https://img.shields.io/badge/Lyo_version-2.4.0-green) |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/OSLC/oslc-adapter-jama?color=blue)   |  ![GitHub issues by-label](https://img.shields.io/github/issues/OSLC/oslc-adapter-jama/bug?color=red&label=bugs) |
 
-Legend:
+<!-- Legend:
 ![](https://img.shields.io/badge/Lyo_version-4.0.0--SNAPSHOT-lightgreen)
 ![](https://img.shields.io/badge/Lyo_version-4.0.0.M2-brightgreen)
 ![](https://img.shields.io/badge/Lyo_version-2.4.0-green)
@@ -59,7 +59,7 @@ Legend:
 ![](https://img.shields.io/badge/Lyo_version-2.2.0-orange)
 ![](https://img.shields.io/badge/Lyo_version-2.1.0-orange)
 ![](https://img.shields.io/badge/Lyo_version-3.0.0--SNAPSHOT-f42020)
-![](https://img.shields.io/badge/Lyo_version-unknown-lightgrey)
+![](https://img.shields.io/badge/Lyo_version-unknown-lightgrey) -->
 
 Other repositories maintained under the Eclipse Foundation project include:
 
