@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/eclipse/lyo.domains/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.domains/actions?query=workflow%3ACI)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/domains/latest/apidocs/)
-![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)
+[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
 
 
 This repository contains Java implemenations of the OSLC Domain Specifications as defined by the [OASIS OSLC Lifecycle Integration for Domains (OSLC Domains) Technical Committee](https://www.oasis-open.org/committees/oslc-domains/charter.php).
