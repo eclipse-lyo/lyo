@@ -73,6 +73,7 @@ import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
  * An OSLC Client.  Provides an Apache HttpClient, an Apache Wink REST ClientConfig and defines
  * a getResource method which returns an Apache Wink ClientResponse.
  */
+@Deprecated
 public class OslcClient {
 
 	protected DefaultHttpClient httpClient;

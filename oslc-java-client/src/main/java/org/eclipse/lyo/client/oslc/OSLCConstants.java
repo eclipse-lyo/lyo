@@ -22,6 +22,7 @@ package org.eclipse.lyo.client.oslc;
  * General OSLC constants
  *
  */
+@Deprecated
 public interface OSLCConstants {
 	static String RFC_DATE_FORMAT = "yyyy-MM-dd'T'h:m:ss.S'Z'";
 

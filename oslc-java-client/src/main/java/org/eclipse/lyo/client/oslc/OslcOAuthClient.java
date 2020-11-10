@@ -40,6 +40,7 @@ import org.apache.wink.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class OslcOAuthClient extends OslcClient {
 
 	protected            OAuthAccessor accessor;

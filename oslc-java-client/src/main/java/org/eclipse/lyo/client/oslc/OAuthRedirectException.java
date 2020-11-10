@@ -19,7 +19,7 @@ package org.eclipse.lyo.client.oslc;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
 
-
+@Deprecated
 public class OAuthRedirectException extends OAuthException {
 	private static final long serialVersionUID = -8602283923593056515L;
 
