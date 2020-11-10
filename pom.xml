@@ -25,6 +25,7 @@
     <!-- Legacy code -->
     <module>oslc-java-client</module>
     <module>oslc-java-client-resources</module>
+    <module>oslc4j-client</module>
   </modules>
 
   <dependencyManagement>
