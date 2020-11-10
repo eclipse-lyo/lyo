@@ -1,5 +1,6 @@
 # Eclipse Lyo Core
 
+[![](https://img.shields.io/badge/project-Eclipse%20Lyo-blue?color=418eeb)](https://github.com/eclipse/lyo)
 ![CI](https://github.com/eclipse/lyo.core/workflows/CI/badge.svg)
 [![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-core-master.svg?label=Jenkins%20build)](https://ci.eclipse.org/lyo/job/lyo-core-master/)
 [![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/core/2.4.0/)
