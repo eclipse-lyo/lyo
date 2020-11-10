@@ -2,8 +2,7 @@
 
 ![CI](https://github.com/eclipse/lyo.trs-client/workflows/CI/badge.svg)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/trs-client/latest/)
-[![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
-[![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
+![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)
 
 
 ## Motivation
