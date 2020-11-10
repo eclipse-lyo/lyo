@@ -1,8 +1,8 @@
 # Lyo Validation library
 
 [![CI](https://github.com/eclipse/lyo.validation/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.validation/actions?query=workflow%3ACI)
-
-[Javadoc](https://download.eclipse.org/lyo/docs/validation/latest)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/validation/latest)
+[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
 
 ---
 
