@@ -2,9 +2,8 @@
 
 ![CI](https://github.com/eclipse/lyo.trs-server/workflows/CI/badge.svg)
 [![](https://img.shields.io/badge/javadoc-2.4.0-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/2.4.0/overview-summary.html)
-[![](https://img.shields.io/badge/javadoc-SNAPSHOT-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/latest/overview-summary.html)
-[![](https://img.shields.io/badge/misc-discourse-lightgrey.svg)](https://forum.open-services.net/)
-[![](https://img.shields.io/badge/misc-gitter-lightgrey.svg)](https://gitter.im/eclipse/lyo)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/trs-server/latest/overview-summary.html)
+![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)
 
 This repository contains the [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) *TRS Server* library.
 
