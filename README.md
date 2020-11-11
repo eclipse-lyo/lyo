@@ -57,7 +57,9 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 ![](https://img.shields.io/badge/Lyo_version-2.4.0-green)
 ![](https://img.shields.io/badge/Lyo_version-2.3.0-orange)
 ![](https://img.shields.io/badge/Lyo_version-2.2.0-orange)
-![](https://img.shields.io/badge/Lyo_version-2.1.0-orange)
+![](https://img.shields.io/badge/Lyo_version-2.1.2-yellowgreen)
+![](https://img.shields.io/badge/Lyo_version-2.1.1-red)
+![](https://img.shields.io/badge/Lyo_version-2.1.0-red)
 ![](https://img.shields.io/badge/Lyo_version-3.0.0--SNAPSHOT-f42020)
 ![](https://img.shields.io/badge/Lyo_version-unknown-lightgrey) -->
 
