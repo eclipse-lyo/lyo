@@ -69,6 +69,7 @@ public class ServiceProviderCatalog extends AbstractResource {
 		this.serviceProviders.add(serviceProvider);
 	}
 
+    @OslcName("description")
 	@OslcDescription("Description of the service provider catalog")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
 	@OslcReadOnly
@@ -136,6 +137,7 @@ public class ServiceProviderCatalog extends AbstractResource {
 	}
 
 	@OslcDescription("Title of the service provider catalog")
+	@OslcName("title")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
 	@OslcTitle("Title")
