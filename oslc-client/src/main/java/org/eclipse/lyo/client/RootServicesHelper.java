@@ -13,35 +13,33 @@
  */
 package org.eclipse.lyo.client;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-
-import org.apache.http.StatusLine;
-import org.apache.http.impl.client.DefaultRedirectStrategy;
-import org.eclipse.lyo.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.client.exception.RootServicesException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.eclipse.lyo.client.exception.ResourceNotFoundException;
+import org.eclipse.lyo.client.exception.RootServicesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Helper class to assist in retrieval of attributes from the IBM Rational
@@ -141,6 +139,7 @@ public class RootServicesHelper {
 			InputStream is = response.readEntity(InputStream.class);
 			rdfModel = ModelFactory.createDefaultModel();
 			rdfModel.read(is,rootServicesUrl);
+            is.close();
 
 			//get the catalog URL
 			this.catalogUrl = getRootServicesProperty(rdfModel, this.catalogNamespace, this.catalogProperty);
@@ -171,7 +170,7 @@ public class RootServicesHelper {
 		}
 
 
-	}
+    }
 
 	private String getRootServicesProperty(Model rdfModel, String namespace, String predicate) throws ResourceNotFoundException {
 		String returnVal = null;

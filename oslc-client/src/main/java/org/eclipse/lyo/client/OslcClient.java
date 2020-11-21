@@ -13,23 +13,6 @@
  */
 package org.eclipse.lyo.client;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
@@ -43,6 +26,23 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * An OSLC Client that extends the JAX-RS 2.0 REST client with OSLC specific CRUD and
@@ -266,6 +266,8 @@ public class OslcClient implements IOslcClient {
 
 			if (handleRedirects && Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
 				url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
+				logger.debug("Following redirect to {}", url);
+//                response.close();
 				response.readEntity(String.class);
 				redirect = true;
 			} else {
