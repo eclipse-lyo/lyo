@@ -9,6 +9,7 @@
 
 ### Changed
 
+- JEEFormAuthenticator catches ProcessingException when closing the connection from last redirect
 
 ### Deprecated
 

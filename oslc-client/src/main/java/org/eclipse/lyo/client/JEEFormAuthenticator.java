@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
@@ -32,6 +33,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A filter that can be registered in order to non-preemptively handle JEE Form
@@ -41,6 +44,8 @@ import org.apache.http.HttpStatus;
  *
  */
 public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponseFilter {
+    private final Logger log = LoggerFactory.getLogger(JEEFormAuthenticator.class);
+
     private static final String COOKIE = "Cookie";
 
     // security params
@@ -168,8 +173,12 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 			lastRedirectResponse = authClient.target(location).request().get();
 			statusCode = lastRedirectResponse.getStatus();
 			location = lastRedirectResponse.getHeaderString("Location");
-			lastRedirectResponse.close();
-		}
+            try {
+                lastRedirectResponse.close();
+            } catch (ProcessingException e) {
+                log.warn("Last redirect connection could not be closed");
+            }
+        }
 		followingRedirects = false;
 		return statusCode;
 	}
