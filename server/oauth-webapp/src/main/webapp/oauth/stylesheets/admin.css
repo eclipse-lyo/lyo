@@ -1,0 +1,59 @@
+body {
+	background-color: #F8F8F8;
+}
+
+.content {
+	background-color: #FDFDFD;
+	border-color: #BBBBBB;
+	border-radius: 5px 5px 5px 5px;
+	border-style: solid;
+	border-width: 1px;
+	margin: 0 auto;
+	padding: 10px;
+	position: relative;
+}
+
+.consumers thead {
+	background-color: #F8F8F8;
+}
+
+.message {
+	color: #666666;
+}
+
+th.consumerName, th.consumerKey {
+	width: 25em;
+}
+
+th.trusted, th.actions {
+	width: 5em;
+}
+
+th {
+	text-align: left;
+}
+
+tbody tr:hover {
+	background-color: #FFF4E2;
+}
+
+td img {
+	visibility: hidden;
+}
+
+tr:hover td img {
+	visibility: visible;
+}
+
+.action {
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50 );
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	padding: 0 0.25em;
+}
+
+.action:hover {
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100 );
+	-moz-opacity: 1;
+	opacity: 1;
+}

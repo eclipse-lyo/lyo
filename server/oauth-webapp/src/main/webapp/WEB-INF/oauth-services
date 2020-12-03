@@ -1,0 +1,2 @@
+org.eclipse.lyo.server.oauth.webapp.services.ConsumersService
+org.eclipse.lyo.server.oauth.webapp.services.OAuthService

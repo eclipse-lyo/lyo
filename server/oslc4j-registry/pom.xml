@@ -1,0 +1,203 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+    <artifactId>lyo-server-build</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+  <artifactId>oslc4j-registry</artifactId>
+  <packaging>war</packaging>
+
+  <name>OSLC4J Registry</name>
+  <description>Eclipse Lyo OSLC4J registry application for OSLC providers.</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <lyo.version>${project.parent.version}</lyo.version>
+
+    <jetty.version>9.3.25.v20180904</jetty.version>
+    <jetty.port>8888</jetty.port>
+    <jetty.contextPath>/OSLC4JRegistry</jetty.contextPath>
+    <lyo.publicURI>http://localhost:${jetty.port}${jetty.contextPath}</lyo.publicURI>
+    <lyo.registryURI>${lyo.publicURI}/catalog/singleton</lyo.registryURI>
+  </properties>
+
+  <!-- Disable doclint for Java 1.8 (for now) -->
+  <profiles>
+    <profile>
+      <id>doclint-java8-disable</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.servlet</artifactId>
+      <version>3.1-b33</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+      <version>${lyo.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-wink</artifactId>
+      <version>${lyo.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-json4j-provider</artifactId>
+      <version>${lyo.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+      <version>${lyo.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+<!--
+    <sourceDirectory>${basedir}/src/</sourceDirectory>
+    <testResources>
+      <testResource>
+        <directory>test/resources</directory>
+      </testResource>
+    </testResources>
+-->
+    <plugins>
+      <!-- Source Jar Plugin -->
+<!--      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      &lt;!&ndash; Javadoc Plugin &ndash;&gt;
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <additionalparam>${javadoc.opts}</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>-->
+<!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <warSourceDirectory>WebContent</warSourceDirectory>
+          <webXml>WebContent\WEB-INF\web.xml</webXml>
+          <webResources>
+            <resource>
+              <directory>src</directory>
+              <include>log4j.properties</include>
+              <targetPath>WEB-INF/classes</targetPath>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+-->
+<!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <configuration>
+          <wtpversion>2.0</wtpversion>
+        </configuration>
+        <version>2.8</version>
+      </plugin>
+-->
+
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty.version}</version>
+
+        <configuration>
+          <webAppConfig>
+            <contextPath>${jetty.contextPath}</contextPath>
+          </webAppConfig>
+
+          <!-- Jetty config adds logging -->
+          <jettyConfig>${project.build.directory}/test-classes/jetty.xml</jettyConfig>
+
+          <!-- enable hot deploy -->
+          <reload>automatic</reload>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
+<!--
+          <scanTargets>
+            <scanTarget>WebContent</scanTarget>
+          </scanTargets>
+-->
+
+          <systemProperties>
+            <systemProperty>
+              <name>config.dir</name>
+              <value>${basedir}/src/test/resources</value>
+            </systemProperty>
+            <systemProperty>
+              <name>jetty.logs</name>
+              <value>${basedir}/target</value>
+            </systemProperty>
+
+            <systemProperty>
+              <name>jetty.port</name>
+              <value>${jetty.port}</value>
+            </systemProperty>
+
+
+            <systemProperty>
+              <name>org.eclipse.lyo.oslc4j.publicURI</name>
+              <value>${lyo.publicURI}</value>
+            </systemProperty>
+            <systemProperty>
+              <name>org.eclipse.lyo.oslc4j.client.registryuri</name>
+              <value>${lyo.registryURI}</value>
+            </systemProperty>
+
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
