@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+  #%L
+  Contributors:
+  %%
+  Copyright (C) 2016 - 2017 KTH Royal Institute of Technology
+  %%
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+  #L%
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lyo Store overview</title>
+</head>
+<body>
+<p>This is the <em>Lyo Store</em> project overview.</p>
+
+<p>Lyo Store is a project that is intended to assist the developer that mainly deals with {@link
+    org.eclipse.lyo.oslc4j.core.model.AbstractResource} in their daily line of
+    work and wants to put RDF representations of those objects into the triplestore.</p>
+
+<p>In order to be able to insert those objects into the triplestore, they need to have the correct annotations on the
+    class and property level. It is possible to do it manually, refer to the annotation interfaces defined under
+    <code>org.eclipse.lyo.oslc4j.core.annotation</code>. Better still, you can <a
+        href="https://wiki.eclipse.org/Lyo/ToolchainModellingAndCodeGenerationWorkshop">use Lyo Toolchain to graphically
+        model the domain and automatically generate OSLC4J-compliant Java code</a>.
+</p>
+
+<p>The main part of this project is the {@link Store} interface. You can instantiate concrete implementations of this
+    interface using the {@link StoreFactory} class.</p>
+</body>
+</html>

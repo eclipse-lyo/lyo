@@ -1,0 +1,3 @@
+= Lyo Store =
+
+This page has moved to the [https://github.com/eclipse/lyo-store Lyo Store repository on Github].
