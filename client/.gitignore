@@ -1,0 +1,23 @@
+# Configs
+*.env
+
+# Lyo Designer Generator
+*.lost
+
+# Build systems & IDEs
+target/
+overlays/
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+
+bin/
+.settings/
+.classpath
+.project
+
+.idea/
+*.iml
+
+.vscode/
+
+.DS_Store
