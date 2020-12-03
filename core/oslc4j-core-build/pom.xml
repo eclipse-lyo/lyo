@@ -5,7 +5,7 @@
   <artifactId>oslc4j-core-build</artifactId>
   <version>4.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>OSLC4J Build</name>
+  <name>Lyo :: Core :: _Parent</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
