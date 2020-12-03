@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oscl4j_vocabulary:Vocabularies xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oscl4j_vocabulary="http://org.eclipse.lyo/oslc4j/vocabulary">
+  <vocabularies namespaceURI="http://open-services.net/ns/rm#" label="Requirements Management vocabulary" description="Requirements Management vocabulary as of CS01 (24 August 2018)" source="http://docs.oasis-open.org/oslc-domains/oslc-rm/v2.1/oslc-rm-v2.1-part2-requirements-management-vocab.html" preferredNamespacePrefix="oslc_rm">
+    <classes name="Requirement" label="Requirement"/>
+    <classes name="RequirementCollection" label="Requirement Collection"/>
+    <properties name="affectedBy" label="affectedBy"/>
+    <properties name="constrainedBy" label="constrainedBy"/>
+    <properties name="constrains" label="constrains"/>
+    <properties name="decomposedBy" label="decomposedBy"/>
+    <properties name="decomposes" label="decomposes"/>
+    <properties name="elaboratedBy" label="elaboratedBy"/>
+    <properties name="elaborates" label="elaborates"/>
+    <properties name="implementedBy" label="implementedBy"/>
+    <properties name="satisfiedBy" label="satisfiedBy"/>
+    <properties name="satisfies" label="satisfies"/>
+    <properties name="specifiedBy" label="specifiedBy"/>
+    <properties name="specifies" label="specifies"/>
+    <properties name="trackedBy" label="trackedBy"/>
+    <properties name="uses" label="uses"/>
+    <properties name="validatedBy" label="validatedBy"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/cm#" label="Change Management vocab" source="http://docs.oasis-open.org/oslc-domains/cm/v3.0/cs02/part2-change-mgt-vocab/cm-v3.0-cs02-part2-change-mgt-vocab.html" preferredNamespacePrefix="oslc_cm">
+    <classes name="ChangeNotice" label="ChangeNotice" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <classes name="ChangeRequest" label="ChangeRequest"/>
+    <classes name="Defect" label="Defect" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <classes name="Enhancement" label="Enhancement" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <classes name="Priority" label="Priority"/>
+    <classes name="ReviewTask" label="ReviewTask" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Task']"/>
+    <classes name="Severity" label="Severity"/>
+    <classes name="State" label="State"/>
+    <classes name="Task" label="Task" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <properties name="affectedByDefect" label="affectedByDefect"/>
+    <properties name="affectsPlanItem" label="affectsPlanItem"/>
+    <properties name="affectsRequirement" label="affectsRequirement"/>
+    <properties name="affectsTestResult" label="affectsTestResult"/>
+    <properties name="authorizer" label="authorizer"/>
+    <properties name="blocksTestExecutionRecord" label="blocksTestExecutionRecord"/>
+    <properties name="closeDate" label="closeDate"/>
+    <properties name="implementsRequirement" label="implementsRequirement"/>
+    <properties name="parent" label="parent"/>
+    <properties name="priority" label="priority"/>
+    <properties name="relatedChangeRequest" label="relatedChangeRequest"/>
+    <properties name="relatedTestCase" label="relatedTestCase"/>
+    <properties name="relatedTestExecutionRecord" label="relatedTestExecutionRecord" comment="archaic"/>
+    <properties name="relatedTestPlan" label="relatedTestPlan" comment="archaic"/>
+    <properties name="relatedTestScript" label="relatedTestScript" comment="archaic"/>
+    <properties name="severity" label="severity"/>
+    <properties name="state" label="state"/>
+    <properties name="status" label="status" comment="archaic"/>
+    <properties name="testedByTestCase" label="testedByTestCase" comment="archaic"/>
+    <properties name="tracksChangeSet" label="tracksChangeSet"/>
+    <properties name="tracksRequirement" label="tracksRequirement"/>
+    <properties name="approved" label="approved"/>
+    <properties name="closed" label="closed"/>
+    <properties name="fixed" label="fixed"/>
+    <properties name="inProgress" label="inProgress"/>
+    <properties name="reviewed" label="reviewed"/>
+    <properties name="verified" label="verified"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://xmlns.com/foaf/0.1/" label="FOAF" source="http://xmlns.com/foaf/spec/" preferredNamespacePrefix="foaf">
+    <classes name="Agent" label="Agent" comment="The Agent class is the class of agents; things that do stuff. A well known sub-class is Person, representing people. Other kinds of agents include Organization and Group. The Agent class is useful in a few places in FOAF where Person would have been overly specific. For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots."/>
+    <classes name="Person" label="Person" comment="The Person class represents people. Something is a Person if it is a person. We don't nitpic about whether they're alive, dead, real, or imaginary. The Person class is a sub-class of the Agent class, since all people are considered 'agents' in FOAF." subClassOf="//@vocabularies[label='FOAF']/@classes[name='Agent']"/>
+    <properties name="name" label="name" comment="The name of something is a simple textual string."/>
+    <properties name="familyName" label="familyName" comment="The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value."/>
+    <properties name="givenName" label="givenName" comment="The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value."/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/config#" label="OSLC Configuration Management" description="WD as of 03 July 2019" source="https://oslc-op.github.io/oslc-specs/specs/config/config-vocab.html" preferredNamespacePrefix="oslc_config">
+    <classes name="ChangeSet" label="ChangeSet"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://open-services.net/ns/qm#" label="Quality Management" source="https://raw.githack.com/oslc-op/oslc-specs/master/specs/qm/quality-management-spec.html" preferredNamespacePrefix="oslc_qm">
+    <classes name="TestCase" label="TestCase"/>
+    <classes name="TestExecutionRecord" label="TestExecutionRecord"/>
+    <classes name="TestPlan" label="TestPlan"/>
+    <classes name="TestResult" label="TestResult"/>
+    <classes name="TestScript" label="TestScript"/>
+    <properties name="affectedByChangeRequest" label="affectedByChangeRequest"/>
+    <properties name="blockedByChangeRequest" label="blockedByChangeRequest"/>
+    <properties name="executesTestScript" label="executesTestScript"/>
+    <properties name="executionInstructions" label="executionInstructions"/>
+    <properties name="producedByTestExecutionRecord" label="producedByTestExecutionRecord"/>
+    <properties name="relatedChangeRequest" label="relatedChangeRequest"/>
+    <properties name="reportsOnTestCase" label="reportsOnTestCase"/>
+    <properties name="reportsOnTestPlan" label="reportsOnTestPlan"/>
+    <properties name="runsOnTestEnvironment" label="runsOnTestEnvironment"/>
+    <properties name="runsTestCase" label="runsTestCase"/>
+    <properties name="testsChangeRequest" label="testsChangeRequest"/>
+    <properties name="usesTestCase" label="usesTestCase"/>
+    <properties name="usesTestScript" label="usesTestScript"/>
+    <properties name="validatesRequirement" label="validatesRequirement"/>
+    <properties name="validatesRequirementCollection" label="validatesRequirementCollection"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://www.w3.org/2000/01/rdf-schema#" label="RDFS" preferredNamespacePrefix="rdfs">
+    <classes name="Class" label="Class" comment="The class resource, everything."/>
+    <properties name="label" label="label" comment="A human-readable name for the subject."/>
+    <properties name="seeAlso" label="seeAlso" comment="Further information about the subject resource."/>
+    <properties name="comment" label="comment" comment="A description of the subject resource."/>
+    <properties name="member" label="member" comment="A member of the subject resource."/>
+    <properties name="subClassOf" label="subClassOf" comment="The subject is a subclass of a class."/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#" label="RDF" preferredNamespacePrefix="rdf">
+    <properties name="type" label="type" comment="The subject is an instance of a class."/>
+    <properties name="value" label="value" comment="Idiomatic property used for structured values."/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://purl.org/dc/terms/" label="Dublin Core" preferredNamespacePrefix="dcterms">
+    <properties name="contributor" label="contributor" comment="An entity responsible for making contributions to the resource."/>
+    <properties name="creator" label="creator" comment="Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided."/>
+    <properties name="created" label="created" comment="Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."/>
+    <properties name="description" label="description" comment="Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."/>
+    <properties name="identifier" label="identifier" comment="Recommended practice is to identify the resource by means of a string conforming to an identification system. Examples include International Standard Book Number (ISBN), Digital Object Identifier (DOI), and Uniform Resource Name (URN). Persistent identifiers should be provided as HTTP URIs."/>
+    <properties name="modified" label="modified" comment="Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."/>
+    <properties name="relation" label="relation" comment="Recommended practice is to identify the related resource by means of a URI. If this is not possible or feasible, a string conforming to a formal identification system may be provided."/>
+    <properties name="subject" label="subject" comment="Recommended practice is to refer to the subject with a URI. If this is not possible or feasible, a literal value that identifies the subject may be provided. Both should preferably refer to a subject in a controlled vocabulary."/>
+    <properties name="title" label="title" comment="A name given to the resource."/>
+    <properties name="isVersionOf" label="isVersionOf" comment="Changes in version imply substantive changes in content rather than differences in format. This property is intended to be used with non-literal values. This property is an inverse property of Has Version."/>
+    <properties name="hasPart" label="hasPart" comment="This property is intended to be used with non-literal values. This property is an inverse property of Is Part Of."/>
+    <properties name="source" label="source" comment="This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system."/>
+    <properties name="type" label="type" comment="Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary [DCMI-TYPE]. To describe the file format, physical medium, or dimensions of the resource, use the property Format."/>
+  </vocabularies>
+  <configuration>
+    <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
+  </configuration>
+</oscl4j_vocabulary:Vocabularies>
