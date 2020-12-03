@@ -24,6 +24,10 @@
     <module>domains/oslc-domains</module>
     <module>client</module>
     <module>server</module>
+
+    <module>trs/server</module>
+    <!-- <module>trs/client</module> -->
+    <module>store</module>
   </modules>
 
   <dependencyManagement>
