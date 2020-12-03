@@ -101,17 +101,25 @@
 			<id>lyo-releases</id>
 			<name>lyo-releases repository</name>
 			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+			<snapshots>
+			  <enabled>false</enabled>
+			</snapshots>
 		</repository>
-
 		<repository>
-			<id>repo.eclipse.org</id>
-			<name>Eclipse Lyo Snapshots</name>
+			<id>lyo-snapshots</id>
+			<name>lyo-snapshots repository</name>
 			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+			<releases>
+			  <enabled>false</enabled>
+			</releases>
 		</repository>
 
 		<repository>
 			<id>labra</id>
 			<url>https://dl.bintray.com/labra/maven</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>  
 		</repository>
 	</repositories>
 
