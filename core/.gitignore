@@ -1,0 +1,13 @@
+# Build artefacts
+target/
+bin/
+
+# IDE files
+.project
+.classpath
+.settings/
+
+.idea/
+*.iml
+
+pom.xml.versionsBackup

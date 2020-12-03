@@ -1,0 +1,119 @@
+{
+  "@graph" : [ {
+    "@id" : "_:b0",
+    "@type" : "oslc:PrefixDefinition",
+    "prefix" : "oslc"
+  }, {
+    "@id" : "_:b1",
+    "@type" : "oslc:QueryCapability",
+    "label" : "blogquery",
+    "queryBase" : "http://example.com/query",
+    "shape" : "http://example.com/shapes/blogquery",
+    "title" : "Blog Entry and Comment Query"
+  }, {
+    "@id" : "_:b2",
+    "@type" : "oslc:Service",
+    "creationFactory" : [ "_:b3", "_:b4" ],
+    "queryCapability" : "_:b1",
+    "usage" : [ "http://example.com/ns#usage1", "http://example.com/ns#usage2" ]
+  }, {
+    "@id" : "_:b3",
+    "@type" : "oslc:CreationFactory",
+    "creation" : "http://example.com/creation/comments",
+    "label" : "Blog Comments",
+    "shape" : "http://example.com/shapes/blogcomment",
+    "title" : "Location for creation of Blog Comments"
+  }, {
+    "@id" : "_:b4",
+    "@type" : "oslc:CreationFactory",
+    "creation" : "http://example.com/creation/entries",
+    "label" : "Blog Entries",
+    "shape" : "http://example.com/shapes/blogentry",
+    "title" : "Location for creation of Blog Entries"
+  }, {
+    "@id" : "_:b5",
+    "@type" : "oslc:PrefixDefinition",
+    "prefix" : "dcterms"
+  }, {
+    "@id" : "_:b6",
+    "@type" : "oslc:Contributor",
+    "icon" : "http://example.com/icons/blogservice.ico",
+    "identifier" : "com.example.oslc.blogservice",
+    "dcterms:title" : "OSLC Core Workgroup documentation department"
+  }, {
+    "@id" : "_:b7",
+    "@type" : "oslc:PrefixDefinition",
+    "prefix" : "rdf"
+  }, {
+    "@id" : "http://example.com/bugs/service-descriptor.xml",
+    "@type" : "oslc:ServiceProvider",
+    "prefixDefinition" : [ "_:b5", "_:b7", "_:b0" ],
+    "service" : "_:b2",
+    "contributor" : "_:b6",
+    "description" : "Example OSLC Blog Service",
+    "title" : "Blogging Service"
+  } ],
+  "@context" : {
+    "prefix" : {
+      "@id" : "http://open-services.net/ns/core#prefix"
+    },
+    "shape" : {
+      "@id" : "http://open-services.net/ns/core#shape",
+      "@type" : "@id"
+    },
+    "queryBase" : {
+      "@id" : "http://open-services.net/ns/core#queryBase",
+      "@type" : "@id"
+    },
+    "label" : {
+      "@id" : "http://open-services.net/ns/core#label"
+    },
+    "title" : {
+      "@id" : "http://purl.org/dc/terms/title",
+      "@type" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"
+    },
+    "queryCapability" : {
+      "@id" : "http://open-services.net/ns/core#queryCapability",
+      "@type" : "@id"
+    },
+    "creationFactory" : {
+      "@id" : "http://open-services.net/ns/core#creationFactory",
+      "@type" : "@id"
+    },
+    "usage" : {
+      "@id" : "http://open-services.net/ns/core#usage",
+      "@type" : "@id"
+    },
+    "contributor" : {
+      "@id" : "http://purl.org/dc/terms/contributor",
+      "@type" : "@id"
+    },
+    "prefixDefinition" : {
+      "@id" : "http://open-services.net/ns/core#prefixDefinition",
+      "@type" : "@id"
+    },
+    "service" : {
+      "@id" : "http://open-services.net/ns/core#service",
+      "@type" : "@id"
+    },
+    "description" : {
+      "@id" : "http://purl.org/dc/terms/description",
+      "@type" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"
+    },
+    "creation" : {
+      "@id" : "http://open-services.net/ns/core#creation",
+      "@type" : "@id"
+    },
+    "icon" : {
+      "@id" : "http://open-services.net/ns/core#icon",
+      "@type" : "@id"
+    },
+    "identifier" : {
+      "@id" : "http://purl.org/dc/terms/identifier"
+    },
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "oslc" : "http://open-services.net/ns/core#"
+  }
+}

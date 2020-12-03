@@ -1,0 +1,8 @@
+@prefix oslc: <http://open-services.net/ns/core#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+
+<http://example.com/shapes/allowedValues>
+	oslc:allowedValue <http://example.com/ns#uri1>, <http://example.com/ns#uri2>;
+	a oslc:AllowedValues.

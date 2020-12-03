@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:oslc="http://open-services.net/ns/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/">
+	<oslc:ServiceProvider rdf:about="http://example.com/bugs/service-descriptor.xml">
+		<oslc:prefixDefinition>
+			<oslc:PrefixDefinition>
+				<oslc:prefixBase xml:lang="en">http://purl.org/dc/terms#</oslc:prefixBase>
+				<oslc:prefix xml:lang="en">dcterms</oslc:prefix>
+			</oslc:PrefixDefinition>
+		</oslc:prefixDefinition>
+		<oslc:prefixDefinition>
+			<oslc:PrefixDefinition>
+				<oslc:prefixBase xml:lang="en">http://www.w3.org/1999/02/22-rdf-syntax-ns#</oslc:prefixBase>
+				<oslc:prefix xml:lang="en">rdf</oslc:prefix>
+			</oslc:PrefixDefinition>
+		</oslc:prefixDefinition>
+		<oslc:prefixDefinition>
+			<oslc:PrefixDefinition>
+				<oslc:prefixBase xml:lang="en">http://open-services.net/ns/core#</oslc:prefixBase>
+				<oslc:prefix xml:lang="en">oslc</oslc:prefix>
+			</oslc:PrefixDefinition>
+		</oslc:prefixDefinition>
+		<oslc:service>
+			<oslc:Service>
+				<oslc:usage rdf:resource="http://example.com/ns#usage1" />
+				<oslc:usage rdf:resource="http://example.com/ns#usage2" />
+				<oslc:creationFactory>
+					<oslc:CreationFactory>
+						<oslc:creation rdf:resource="http://example.com/creation/comments" />
+						<oslc:label xml:lang="en">Blog Comments</oslc:label>
+						<oslc:shape rdf:resource="http://example.com/shapes/blogcomment" />
+						<dcterms:title xml:lang="en">Location for creation of Blog Comments</dcterms:title>
+					</oslc:CreationFactory>
+				</oslc:creationFactory>
+				<oslc:creationFactory>
+					<oslc:CreationFactory>
+						<oslc:creation rdf:resource="http://example.com/creation/entries" />
+						<oslc:label xml:lang="en">Blog Entries</oslc:label>
+						<oslc:shape rdf:resource="http://example.com/shapes/blogentry" />
+						<dcterms:title xml:lang="en">Location for creation of Blog Entries</dcterms:title>
+					</oslc:CreationFactory>
+				</oslc:creationFactory>
+				<oslc:domain xml:lang="en">http://example.com/xmlns/example-cm#</oslc:domain>
+				<oslc:queryCapability>
+					<oslc:QueryCapability>
+						<oslc:label xml:lang="en">blogquery</oslc:label>
+						<oslc:queryBase rdf:resource="http://example.com/query" />
+						<oslc:shape rdf:resource="http://example.com/shapes/blogquery" />
+						<dcterms:title xml:lang="en">Blog Entry and Comment Query</dcterms:title>
+					</oslc:QueryCapability>
+				</oslc:queryCapability>
+			</oslc:Service>
+		</oslc:service>
+		<dcterms:contributor>
+			<oslc:Contributor>
+				<oslc:icon rdf:resource="http://example.com/icons/blogservice.ico" />
+				<dcterms:identifier xml:lang="en">com.example.oslc.blogservice</dcterms:identifier>
+				<dcterms:title xml:lang="en">OSLC Core Workgroup documentation department</dcterms:title>
+			</oslc:Contributor>
+		</dcterms:contributor>
+		<dcterms:description xml:lang="en">Example OSLC Blog Service</dcterms:description>
+		<dcterms:title xml:lang="en">Blogging Service</dcterms:title>
+	</oslc:ServiceProvider>
+</rdf:RDF>

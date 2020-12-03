@@ -1,0 +1,57 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms:      <http://purl.org/dc/terms/> .
+@prefix oslc:    <http://open-services.net/ns/core#> .
+
+
+<http://example.com/bugs/service-descriptor.xml>
+      rdf:type oslc:ServiceProvider ;
+      oslc:prefixDefinition
+              [ rdf:type oslc:PrefixDefinition ;
+                oslc:prefixBase "http://purl.org/dc/terms#"@en ;
+                oslc:prefix "dcterms"@en
+              ] ;
+      oslc:prefixDefinition
+              [ rdf:type oslc:PrefixDefinition ;
+                oslc:prefixBase "http://www.w3.org/1999/02/22-rdf-syntax-ns#"@en ;
+                oslc:prefix "rdf"@en
+              ] ;
+      oslc:prefixDefinition
+              [ rdf:type oslc:PrefixDefinition ;
+                oslc:prefixBase "http://open-services.net/ns/core#"@en ;
+                oslc:prefix "oslc"@en
+              ] ;
+      oslc:service
+              [ rdf:type oslc:Service ;
+                oslc:usage <http://example.com/ns#usage1> ;
+                oslc:usage <http://example.com/ns#usage2> ;
+                oslc:creationFactory
+                        [ rdf:type oslc:CreationFactory ;
+                          oslc:creation <http://example.com/creation/comments> ;
+                          oslc:label "Blog Comments"@en ;
+                          oslc:shape <http://example.com/shapes/blogcomment> ;
+                          dcterms:title "Location for creation of Blog Comments"@en
+                        ] ;
+                oslc:creationFactory
+                        [ rdf:type oslc:CreationFactory ;
+                          oslc:creation <http://example.com/creation/entries> ;
+                          oslc:label "Blog Entries"@en ;
+                          oslc:shape <http://example.com/shapes/blogentry> ;
+                          dcterms:title "Location for creation of Blog Entries"@en
+                        ] ;
+                oslc:domain "http://example.com/xmlns/example-cm#"@en ;
+                oslc:queryCapability
+                        [ rdf:type oslc:QueryCapability ;
+                          oslc:label "blogquery"@en ;
+                          oslc:queryBase <http://example.com/query> ;
+                          oslc:shape <http://example.com/shapes/blogquery> ;
+                          dcterms:title "Blog Entry and Comment Query"@en
+                        ]
+              ] ;
+      dcterms:contributor
+              [ rdf:type oslc:Contributor ;
+                oslc:icon <http://example.com/icons/blogservice.ico> ;
+                dcterms:identifier "com.example.oslc.blogservice"@en ;
+                dcterms:title "OSLC Core Workgroup documentation department"@en
+              ] ;
+      dcterms:description "Example OSLC Blog Service"@en ;
+      dcterms:title "Blogging Service"@en .
