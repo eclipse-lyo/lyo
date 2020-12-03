@@ -1,0 +1,46 @@
+##############################################################################
+# Copyright (c) 2017 Yash Khatri.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+#
+# The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+# and the Eclipse Distribution License is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# Contributors:
+#    Yash Khatri - initial API and implementation and/or initial documentation
+##############################################################################
+
+@prefix oslc_data: <http://open-services.net/ns/servicemanagement/1.0/> 
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+@prefix dcterms: <http://purl.org/dc/terms/> 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+@prefix sam:   <http://www.sampledomain.org/sam#> 
+@prefix oslc:  <http://open-services.net/ns/core#> 
+@prefix : <http://example.org/> 
+@prefix sh: <http://www.w3.org/ns/shacl#>
+
+:S a sh:Shape;
+   sh:targetClass sam:AResource;
+   sh:property [
+     sh:path sam:aStringProperty;
+	 sh:datatype xsd:string;
+     sh:minCount 1 ;
+     sh:maxCount 1 ;
+   ] ; 
+   sh:property [
+     sh:path sam:anIntegerProperty;
+	 sh:datatype xsd:positiveInteger;
+     sh:minCount 1 ;
+     sh:maxCount 1 ;
+   ] ;
+   sh:property [
+     sh:path sam:aSetOfDates;
+	 sh:datatype xsd:dateTime;
+     sh:minCount 0 ;
+     sh:maxCount 1 ;
+   ] .
+   
