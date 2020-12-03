@@ -11,5 +11,4 @@
  *
  * SPDX-License-Identifier: EPL-1.0 OR BSD-3-Clause
  */
-@Deprecated
 package org.eclipse.lyo.client.oslc.resources;
