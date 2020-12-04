@@ -9,7 +9,7 @@
  * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
  * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
  *
- * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Simple
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
 package org.eclipse.lyo.trs.client.util;
