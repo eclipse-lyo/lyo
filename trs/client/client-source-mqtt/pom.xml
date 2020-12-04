@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>client-source-mqtt</artifactId>
+  <name>Lyo :: TRS :: Client MQTT source</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

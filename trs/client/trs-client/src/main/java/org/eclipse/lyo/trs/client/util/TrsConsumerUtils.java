@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.trs.client.config.TrsConsumerConfiguration;
 import org.eclipse.lyo.trs.client.config.TrsProviderConfiguration;
 import org.eclipse.lyo.trs.client.handlers.ConcurrentTrsProviderHandler;

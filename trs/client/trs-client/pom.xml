@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>trs-client</artifactId>
+  <name>Lyo :: TRS :: Client</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -82,7 +83,7 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.clients</groupId>
-      <artifactId>oslc4j-client</artifactId>
+      <artifactId>oslc-client</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
