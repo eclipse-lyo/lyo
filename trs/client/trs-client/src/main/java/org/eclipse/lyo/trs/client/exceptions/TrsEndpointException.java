@@ -1,6 +1,5 @@
 package org.eclipse.lyo.trs.client.exceptions;
 
-import javax.xml.ws.Response;
 
 /**
  * High-level exception for connection problems to the TRS Server endpoints.

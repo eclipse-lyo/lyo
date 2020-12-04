@@ -30,7 +30,7 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
 import org.eclipse.lyo.trs.client.util.TrackedResourceClient;
 import org.junit.Assert;
