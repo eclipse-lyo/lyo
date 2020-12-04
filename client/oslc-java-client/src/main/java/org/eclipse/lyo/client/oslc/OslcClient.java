@@ -1,24 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2011, 2014 IBM Corporation and others.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- *  and the Eclipse Distribution License is available at
- *  http://www.eclipse.org/org/documents/edl-v10.php.
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
+ * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
  *
- *  Contributors:
- *
- *     Michael Fiedler                 - initial API and implementation
- *     Lars Ohlen (Tieto Corporation)  - Resolved Bugzilla 393875,389275
- *     Michael Fiedler	               - follow redirects.
- *     Samuel Padgett 	               - support oslc:usage and discovering full creation factory resources
- *     Samuel Padgett                  - use correct trust managers and hostname verifier when updating secure socket protocol
- *     Samuel Padgett                  - don't re-register JAX-RS applications for every request
- *     Samuel Padgett                  - handle any redirect status code
- *******************************************************************************/
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Simple
+ */
 package org.eclipse.lyo.client.oslc;
 
 import java.io.IOException;
