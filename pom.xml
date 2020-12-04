@@ -26,7 +26,7 @@
     <module>server</module>
 
     <module>trs/server</module>
-    <!-- <module>trs/client</module> -->
+    <module>trs/client</module>
     <module>store</module>
     <module>validation</module>
   </modules>
