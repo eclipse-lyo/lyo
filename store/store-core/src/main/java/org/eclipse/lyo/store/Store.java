@@ -1,18 +1,17 @@
 package org.eclipse.lyo.store;
 
-/*-
- * #%L
- * Contributors:
- *     Andrew Berezovskyi - initial implementation
- *     Jad El-khoury      - extensive review and improvement of the API, javadoc improvement
- * %%
- * Copyright (C) 2016 KTH Royal Institute of Technology and others.
- * %%
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * #L%
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
+ * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
 import org.apache.jena.rdf.model.Model;

@@ -1,22 +1,13 @@
-/**
- * Contains internal classes that are responsible for preparing
- * SPARQL queries from parametrised statements and executing them.
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
- * @author Andrew Berezovskyi (andriib@kth.se)
- * @version $version-stub$
- * @since 2016-11-02
- */
-package org.eclipse.lyo.store.internals.query;
-
-/*-
- * #%L
- * Contributors: Andrew Berezovskyi
- * %%
- * Copyright (C) 2016 KTH Royal Institute of Technology
- * %%
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * #L%
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
+ * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
