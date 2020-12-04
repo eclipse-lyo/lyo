@@ -21,6 +21,7 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 
 ## Repositories
 
+### Main project repositories
 
 | Repo       | Status | PRs | Milestone | Bugs |
 |------------|----|-----|-----------|------|
@@ -37,7 +38,8 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 | [lyo.ldp](https://github.com/eclipse/lyo.ldp)     |  [![CI](https://github.com/eclipse/lyo.ldp/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.ldp/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.ldp?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.ldp/1)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.ldp/Type:%20Bug?color=red&label=bugs) |
 
 
-**Test and sample repositories:**
+### Test and sample repositories
+
 | Repo       | Status | Lyo version |  PRs | Bugs |
 |------------|----|-----|-----------|------|
 | [lyo.rio](https://github.com/eclipse/lyo.rio)     |  [![CI](https://github.com/eclipse/lyo.rio/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.rio/actions?query=workflow%3ACI) | ![](https://img.shields.io/badge/Lyo_version-3.0.0--SNAPSHOT-f42020) |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.rio?color=blue)   |    ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.rio/Type:%20Bug?color=red&label=bugs) |
