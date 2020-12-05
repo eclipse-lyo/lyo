@@ -12,7 +12,8 @@
   </parent>
 
   <artifactId>store-core</artifactId>
-
+  <name>Lyo :: Store :: Core</name>
+  
   <properties>
     <lyo.version>${project.parent.version}</lyo.version>
 

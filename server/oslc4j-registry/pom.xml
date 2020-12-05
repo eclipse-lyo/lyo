@@ -12,7 +12,7 @@
   <artifactId>oslc4j-registry</artifactId>
   <packaging>war</packaging>
 
-  <name>OSLC4J Registry</name>
+  <name>Lyo :: Misc :: Registry</name>
   <description>Eclipse Lyo OSLC4J registry application for OSLC providers.</description>
 
   <properties>

@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-consumer-store</artifactId>
-    <name>Lyo OAuth Consumer Store</name>
+    <name>Lyo :: OAuth :: Consumer Store</name>
     <description>File-based consumer store for Eclipse Lyo OAuth providers.</description>
 
     <properties>

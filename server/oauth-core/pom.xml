@@ -10,7 +10,7 @@
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-core</artifactId>
     <packaging>jar</packaging>
-    <name>Eclipse Lyo OAuth Provider - Core Library</name>
+    <name>Lyo :: OAuth :: Core</name>
     <description>Core components of the Eclipse Lyo OAuth provider.</description>
 
     <url>http://maven.apache.org</url>

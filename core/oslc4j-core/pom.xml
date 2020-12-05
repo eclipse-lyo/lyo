@@ -8,7 +8,7 @@
         <relativePath>../oslc4j-core-build/pom.xml</relativePath>
     </parent>
     <artifactId>oslc4j-core</artifactId>
-    <name>OSLC4J Core</name>
+    <name>Lyo :: Core :: OSLC</name>
     <description>Core components of the Eclipse Lyo OSLC4J SDK.</description>
 
     <properties>

@@ -6,7 +6,7 @@
   <groupId>org.eclipse.lyo.trs</groupId>
   <artifactId>trs-parent</artifactId>
   <packaging>pom</packaging>
-  <name>Lyo :: TRS :: _Parent</name>
+  <name>Lyo :: TRS :: Client :: _Parent</name>
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>

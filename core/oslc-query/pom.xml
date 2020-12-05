@@ -10,7 +10,7 @@
 
   <groupId>org.eclipse.lyo.core.query</groupId>
   <artifactId>oslc-query</artifactId>
-  <name>OSLC4J Query</name>
+  <name>Lyo :: Core :: Query</name>
   <description>OSLC query support for the Eclipse Lyo OSLC4J SDK.</description>
 
   <dependencies>

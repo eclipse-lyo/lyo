@@ -12,7 +12,7 @@
     <artifactId>oslc-domains</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>oslc-domains</name>
+    <name>Lyo :: Domains</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>trs-client</artifactId>
-  <name>Lyo :: TRS :: Client</name>
+  <name>Lyo :: TRS :: Client :: Client library</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -8,7 +8,7 @@
         <relativePath>../oslc4j-core-build/pom.xml</relativePath>
     </parent>
     <artifactId>oslc4j-json4j-provider</artifactId>
-    <name>OSLC4J JSON4J Provider</name>
+    <name>Lyo :: Core :: JSON4J Provider (legacy)</name>
     <description>JAX-RS provider for reading and writing OSLC 2.0 JSON content using the Eclipse Lyo OSLC4J SDK.</description>
 
     <properties>

@@ -10,7 +10,7 @@
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-webapp</artifactId>
     <packaging>war</packaging>
-    <name>Eclipse Lyo OAuth Provider - Template Webapp</name>
+    <name>Lyo :: OAuth :: Webapp</name>
     <description>A template webapp for implementing an OAuth provider.</description>
     <url>http://maven.apache.org</url>
 

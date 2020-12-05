@@ -7,7 +7,7 @@
         <version>4.0.0-SNAPSHOT</version>
         <relativePath>../oslc4j-core-build/pom.xml</relativePath>
     </parent>
-    <name>OSLC4J Utilities</name>
+    <name>Lyo :: Core :: Utilities</name>
     <artifactId>oslc4j-utils</artifactId>
     <description>Additional utilities such as the OSLC4J Marshaller and Unmarshaller</description>
 

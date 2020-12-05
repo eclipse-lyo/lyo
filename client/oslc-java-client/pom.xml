@@ -8,7 +8,7 @@
     </parent>
     <artifactId>oslc-java-client</artifactId>
     <version>4.0.0-SNAPSHOT</version>
-    <name>OSLC Java Client (Legacy)</name>
+    <name>Lyo :: Client :: OSLC Wink (legacy)</name>
 
     <description>Eclipse Lyo OSLC Java client based on OSLC4J and Apache Wink.</description>
 

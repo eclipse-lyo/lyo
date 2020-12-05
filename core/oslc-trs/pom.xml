@@ -11,7 +11,7 @@
 
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>oslc-trs</artifactId>
-  <name>OSLC TRS Toolkit</name>
+  <name>Lyo :: Core :: TRS</name>
   <description>Software development kit to assist with TRS adoption.</description>
 
   <properties>

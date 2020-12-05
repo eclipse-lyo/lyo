@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.eclipse.lyo.oslc4j.core</groupId>
   <artifactId>oslc4j-wink</artifactId>
-  <name>OSLC4J Wink Application</name>
+  <name>Lyo :: Misc :: Wink registration (legacy)</name>
   <description>OSLC4J Wink application for supporting OSLC resource shapes and service provider
     registration.
   </description>

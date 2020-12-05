@@ -11,7 +11,7 @@
 
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>shacl</artifactId>
-  <name>shacl</name>
+  <name>Lyo :: Core :: SHACL</name>
   <packaging>jar</packaging>
 
   <properties>

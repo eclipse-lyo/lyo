@@ -8,7 +8,7 @@
         <relativePath>../oslc4j-core-build/pom.xml</relativePath>
     </parent>
     <artifactId>oslc4j-jena-provider</artifactId>
-    <name>OSLC4J Jena Provider</name>
+    <name>Lyo :: Core :: Jena Provider</name>
     <description>JAX-RS provider for reading and writing RDF content using the Eclipse Lyo OSLC4J SDK.</description>
 
     <properties>
