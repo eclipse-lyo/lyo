@@ -35,8 +35,8 @@
     <profile>
       <id>ossrh-deploy</id>
       <properties>
-        <altSnapshotDeploymentRepository>ossrh::default::https://oss.sonatype.org/content/repositories/snapshots</altSnapshotDeploymentRepository>
-        <altReleaseDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altReleaseDeploymentRepository>
+        <!-- <altSnapshotDeploymentRepository>ossrh::default::https://oss.sonatype.org/content/repositories/snapshots</altSnapshotDeploymentRepository> -->
+        <!-- <altReleaseDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altReleaseDeploymentRepository> -->
       </properties>
       <build>
         <plugins>
@@ -253,15 +253,19 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
       </plugin>
+
     </plugins>
   </build>
 
