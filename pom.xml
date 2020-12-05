@@ -35,8 +35,8 @@
     <profile>
       <id>ossrh-deploy</id>
       <properties>
-        <!-- <altSnapshotDeploymentRepository>ossrh::default::https://oss.sonatype.org/content/repositories/snapshots</altSnapshotDeploymentRepository> -->
-        <!-- <altReleaseDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altReleaseDeploymentRepository> -->
+        <altSnapshotDeploymentRepository>ossrh::default::https://oss.sonatype.org/content/repositories/snapshots</altSnapshotDeploymentRepository>
+        <altReleaseDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altReleaseDeploymentRepository>
       </properties>
       <build>
         <plugins>
