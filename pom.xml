@@ -6,7 +6,7 @@
   <version>4.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: _Parent</name>
-
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -18,6 +18,46 @@
     <version.jersey>2.27</version.jersey>
     <version.servlet>3.1.0</version.servlet>
   </properties>
+
+
+  <!-- OSSRH mandated metadata -->
+  <url>https://eclipse.org/lyo</url>
+  <licenses>
+    <license>
+      <name>Eclipse Public License 2.0</name>
+      <url>http://www.eclipse.org/legal/epl-2.0</url>
+    </license>
+    <license>
+      <name>Eclipse Distribution License 1.0</name>
+      <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Andrew Berezovskyi</name>
+      <email>andrew@berezovskyi.me</email>
+      <organization>KTH Royal Institute of Technology</organization>
+      <organizationUrl>http://kth.se</organizationUrl>
+    </developer>
+    <developer>
+      <name>Jad El-khoury</name>
+      <email>jad@kth.se</email>
+      <organization>KTH Royal Institute of Technology</organization>
+      <organizationUrl>http://kth.se</organizationUrl>
+    </developer>
+    <developer>
+      <name>Jim Amsden</name>
+      <email>jamsden@us.ibm.com</email>
+      <organization>IBM</organization>
+      <organizationUrl>http://ibm.com</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/eclipse/lyo.git</connection>
+    <developerConnection>scm:git:git@github.com:eclipse/lyo.git</developerConnection>
+    <url>https://github.com/eclipse/lyo</url>
+  </scm>
+
 
   <modules>
     <module>core/oslc4j-core-build</module>

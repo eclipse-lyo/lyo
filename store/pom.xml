@@ -132,11 +132,4 @@
       <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
-
-  <licenses>
-    <license>
-      <name>Eclipse Public License 1.0</name>
-      <url>https://www.eclipse.org/legal/epl-v10.html</url>
-    </license>
-  </licenses>
 </project>

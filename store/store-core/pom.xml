@@ -128,45 +128,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <version>1.10</version>
-        <configuration>
-          <licenseName>eplv1</licenseName>
-          <licenseResolver>${project.baseUri}src/license</licenseResolver>
-          <organizationName>KTH Royal Institute of Technology and others.</organizationName>
-          <inceptionYear>2016</inceptionYear>
-          <descriptionTemplate>
-            ${basedir}/src/license/eplv1/description.txt.ftl
-          </descriptionTemplate>
-          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-        </configuration>
-      </plugin>
-      <!-- <plugin>
-        <groupId>com.qulice</groupId>
-        <artifactId>qulice-maven-plugin</artifactId>
-        <version>0.17</version>
-        <configuration>
-          <license>file:${basedir}/LICENSE.txt</license>
-          <excludes>
-            <exclude>checkstyle:.*</exclude>
-            <exclude>findbugs:~*</exclude>
-            <exclude>cobertura:.*</exclude>
-            <exclude>dependencies:net.sourceforge.cobertura:cobertura</exclude>
-            <exclude>duplicatefinder:.*</exclude>
-          </excludes>
-        </configuration>
-        <!-x-
-        <executions>
-            <execution>
-                <goals>
-                    <goal>check</goal>
-                </goals>
-            </execution>
-        </executions>
-        -x->
-      </plugin> -->
-      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.7.7.201606060606</version>
@@ -242,11 +203,4 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <licenses>
-    <license>
-      <name>Eclipse Public License 1.0</name>
-      <url>https://www.eclipse.org/legal/epl-v10.html</url>
-    </license>
-  </licenses>
 </project>
