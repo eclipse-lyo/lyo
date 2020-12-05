@@ -73,11 +73,7 @@
 
   <profiles>
     <profile>
-      <id>ossrh-deploy</id>
-      <properties>
-        <altSnapshotDeploymentRepository>ossrh::default::https://oss.sonatype.org/content/repositories/snapshots</altSnapshotDeploymentRepository>
-        <altReleaseDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altReleaseDeploymentRepository>
-      </properties>
+      <id>gpg-sign</id>
       <build>
         <plugins>
           <plugin>
@@ -102,6 +98,51 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>eclipse-deploy</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <repositories>
+        <repository>
+          <id>lyo-releases</id>
+          <name>lyo-releases repository</name>
+          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+        </repository>
+        <repository>
+          <id>lyo-snapshots</id>
+          <name>lyo-snapshots repository</name>
+          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+        </repository>
+      </repositories>
+
+      <distributionManagement>
+        <repository>
+          <id>repo.eclipse.org</id>
+          <name>Eclipse Lyo Releases</name>
+          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+        </repository>
+        <snapshotRepository>
+          <id>repo.eclipse.org</id>
+          <name>Eclipse Lyo Snapshots</name>
+          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>ossrh-deploy</id>
+      <distributionManagement>
+        <snapshotRepository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
     </profile>
   </profiles>
 
@@ -309,29 +350,4 @@
     </plugins>
   </build>
 
-  <repositories>
-    <repository>
-      <id>lyo-releases</id>
-      <name>lyo-releases repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    </repository>
-    <repository>
-      <id>lyo-snapshots</id>
-      <name>lyo-snapshots repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 </project>
