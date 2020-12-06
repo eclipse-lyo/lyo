@@ -4,8 +4,8 @@ _What does this PR do..._
 
 ## Checklist
 
-- [ ] This PR adds an entry to the CHANGELOG (or is a minor edit that does not change code behaviour). _See https://keepachangelog.com/en/1.0.0/ for instructions._
-- [ ] This PR was tested on at least one Lyo OSLC server
+- [ ] This PR adds an entry to the CHANGELOG. _See https://keepachangelog.com/en/1.0.0/ for instructions. Minor edits are exempt._
+- [ ] This PR was tested on at least one Lyo OSLC server or adds unit/integration tests.
 - [ ] This PR does NOT break the API
 
 ## Issues
