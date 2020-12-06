@@ -149,6 +149,14 @@
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <!--Manual enforcement due to security issues and lack of convergence transitively-->
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.13</version>
+      </dependency>
+
       <dependency>
         <groupId>javax.servlet.jsp.jstl</groupId>
         <artifactId>javax.servlet.jsp.jstl-api</artifactId>
@@ -339,6 +347,11 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.1.1</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -350,6 +363,35 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <banDuplicatePomDependencyVersions/>
+                <requireMavenVersion>
+                  <version>3.0</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.8</version>
+                </requireJavaVersion>
+                <requireUpperBoundDeps/>
+                <reactorModuleConvergence>
+                  <message>The reactor is not valid</message>
+                  <ignoreModuleDependencies>false</ignoreModuleDependencies>
+                </reactorModuleConvergence>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -364,8 +406,11 @@
           <reportSet>
             <reports>
               <report>index</report>
+              <report>summary</report>
               <report>dependencies</report>
-              <report>dependency-info</report>
+              <report>licenses</report>
+              <report>modules</report>
+              <report>dependency-management</report>
               <report>dependency-convergence</report>
             </reports>
           </reportSet>
