@@ -16,14 +16,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-
   <properties>
-    <maven.deploy.skip>false</maven.deploy.skip>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-<!--    <lyo.version>${project.version}</lyo.version>-->
   </properties>
 
   <modules>
@@ -35,43 +28,4 @@
     <module>oslc-java-client-resources</module>
   </modules>
 
-<!--
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core</artifactId>
-        <version>${lyo.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
--->
-
-  <repositories>
-    <repository>
-      <id>lyo-releases</id>
-      <name>lyo-releases repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/
-      </url>
-    </repository>
-    <repository>
-      <id>lyo-snapshots</id>
-      <name>lyo-snapshots repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/
-      </url>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 </project>
