@@ -17,27 +17,27 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.lyo>${project.version}</version.lyo>
-        <version.jena>3.14.0</version.jena>
-        <version.jersey>2.25.1</version.jersey>
+        <v.lyo>${project.version}</v.lyo>
+        <v.jena>3.14.0</v.jena>
+        <v.jersey>2.25.1</v.jersey>
     </properties>
     <dependencies>
       <dependency>
         <groupId>org.eclipse.lyo.clients</groupId>
         <artifactId>oslc-client-base</artifactId>
-        <version>${project.version}</version>
+        <version>${v.lyo}</version>
       </dependency>
 
       <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
+            <version>${v.slf4j}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>apache-jena-libs</artifactId>
             <type>pom</type>
-            <version>${version.jena}</version>
+            <version>${v.jena}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -67,28 +67,36 @@
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>${version.lyo}</version>
+            <version>${v.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
-            <version>${version.lyo}</version>
+            <version>${v.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-json4j-provider</artifactId>
-            <version>${version.lyo}</version>
+            <version>${v.lyo}</version>
         </dependency>
-        <dependency> <!--See https://bugs.eclipse.org/bugs/show_bug.cgi?id=513048-->
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+          <!--FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=513048-->
+          <!--          <scope>provided</scope>-->
         </dependency>
-        <!--TEST-->
+        <dependency>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
+          <scope>provided</scope>
+        </dependency>
+
+      <!--TEST-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.26</version>
+            <version>${v.slf4j}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -103,10 +111,17 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
-       <dependency>
+        <dependency>
+            <!--CQ 13719-->
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+      <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>${version.jersey}</version>
+            <version>${v.jersey}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

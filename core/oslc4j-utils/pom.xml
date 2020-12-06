@@ -24,6 +24,13 @@
             <artifactId>oslc4j-jena-provider</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
         <!-- TEST -->
         <dependency>
             <groupId>junit</groupId>
@@ -45,11 +52,11 @@
             <artifactId>jersey-common</artifactId>
              <scope>test</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>

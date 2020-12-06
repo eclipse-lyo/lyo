@@ -10,6 +10,12 @@
   <packaging>pom</packaging>
   <name>Lyo :: Store :: _Parent</name>
 
+  <parent>
+    <groupId>org.eclipse.lyo</groupId>
+    <artifactId>lyo-parent</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+  </parent>
+
   <properties>
     <maven.deploy.skip>false</maven.deploy.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +49,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.26</version>
+        <version>${v.slf4j}</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>

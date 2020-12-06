@@ -17,8 +17,8 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <version.lyo>${project.version}</version.lyo>
-    <version.jersey>2.25.1</version.jersey>
+    <v.lyo>${project.version}</v.lyo>
+    <v.jersey>2.25.1</v.jersey>
   </properties>
 
   <build>

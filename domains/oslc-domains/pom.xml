@@ -6,6 +6,11 @@
     <!-- Start of user code header
     -->
     <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
+    <parent>
+        <groupId>org.eclipse.lyo</groupId>
+        <artifactId>lyo-parent</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
     <!-- End of user code
     -->
     <groupId>org.eclipse.lyo</groupId>
@@ -63,22 +68,21 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
+            <version>${v.slf4j}</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <scope>provided</scope>
         </dependency>
-        
+
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>

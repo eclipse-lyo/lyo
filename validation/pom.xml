@@ -1,10 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.lyo</groupId>
+<!--	<groupId>org.eclipse.lyo</groupId>-->
 	<artifactId>lyo-validation</artifactId>
 	<version>4.0.0-SNAPSHOT</version>
-    <name>Lyo :: Validation</name>
+	<name>Lyo :: Validation</name>
+
+	<parent>
+		<groupId>org.eclipse.lyo</groupId>
+		<artifactId>lyo-parent</artifactId>
+		<version>4.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,28 +19,28 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
-		<version.jetty>9.4.0.v20161208</version.jetty>
-		<version.lyo>${project.version}</version.lyo>
-		<version.shaclex>0.0.87</version.shaclex>
-		<jena.version>3.13.0</jena.version>
+		<v.jetty>9.4.0.v20161208</v.jetty>
+		<v.lyo>${project.version}</v.lyo>
+		<v.shaclex>0.0.87</v.shaclex>
+		<v.jena>3.14.0</v.jena><!--TODO remove-->
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-core</artifactId>
-			<version>${jena.version}</version>
+			<version>${v.jena}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-arq</artifactId>
-			<version>${jena.version}</version>
+			<version>${v.jena}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>es.weso</groupId>
 			<artifactId>shaclex_2.12</artifactId>
-			<version>${version.shaclex}</version>
+			<version>${v.shaclex}</version>
 			<type>pom</type>
 		</dependency>
 
@@ -48,17 +55,17 @@
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 			<artifactId>oslc4j-core</artifactId>
-			<version>${version.lyo}</version>
+			<version>${v.lyo}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.lyo.oslc4j.core</groupId>
 			<artifactId>oslc4j-jena-provider</artifactId>
-			<version>${version.lyo}</version>
+			<version>${v.lyo}</version>
 		</dependency>
 		<dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>shacl</artifactId>
-            <version>${version.lyo}</version>
+            <version>${v.lyo}</version>
         </dependency>
 
 		<dependency>
@@ -154,11 +161,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
-                <executions>
+								<version>3.2.0</version>
+								<configuration>
+									<doclint>none</doclint>
+								</configuration>
+								<executions>
                     <execution>
                         <id>attach-javadocs</id>
                         <goals>

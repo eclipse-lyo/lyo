@@ -23,16 +23,17 @@
   <version>4.0.0-SNAPSHOT</version>
   <name>Lyo :: TRS :: Server</name>
 
+  <parent>
+    <groupId>org.eclipse.lyo</groupId>
+    <artifactId>lyo-parent</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+  </parent>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-
-    <version.lyo>${project.version}</version.lyo>
-
-    <version.jersey>2.25.1</version.jersey>
-    <version.slf4j>1.7.25</version.slf4j>
   </properties>
 
   <build>
@@ -67,28 +68,32 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${version.lyo}</version>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
-      <version>${version.lyo}</version>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${version.lyo}</version>
+      <version>${v.lyo}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${version.slf4j}</version>
+      <version>${v.slf4j}</version>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.inject</groupId>
@@ -117,37 +122,37 @@
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
-      <version>${version.jersey}</version>
+      <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-common</artifactId>
-      <version>${version.jersey}</version>
+      <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework</groupId>
       <artifactId>jersey-test-framework-core</artifactId>
-      <version>${version.jersey}</version>
+      <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-      <version>${version.jersey}</version>
+      <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-jetty</artifactId>
-      <version>${version.jersey}</version>
+      <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${version.slf4j}</version>
+      <version>${v.slf4j}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
