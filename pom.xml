@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
   <version>4.0.0.RC</version>
   <packaging>pom</packaging>
   <name>Lyo :: _Parent</name>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -24,6 +25,12 @@
 
   <!-- OSSRH mandated metadata -->
   <url>https://eclipse.org/lyo</url>
+  <description>
+    The Eclipse Lyo project is focused on providing an SDK to enable adoption of OSLC specifications. OSLC (Open
+    Services for Lifecycle Collaboration) is an open community dedicated to reducing barriers for lifecycle tool
+    integration. The community authors specifications for exposing lifecycle artifacts through uniform (REST)
+    interfaces and relying on Internet and Linked Data standards.
+  </description>
   <licenses>
     <license>
       <name>Eclipse Public License 2.0</name>
@@ -157,14 +164,14 @@
         <artifactId>httpclient</artifactId>
         <version>${v.httpclient}</version>
       </dependency>
-<!--
-      <dependency>
-        &lt;!&ndash;Manual enforcement due to security issues and lack of convergence transitively&ndash;&gt;
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>${v.httpclient}</version>
-      </dependency>
--->
+      <!--
+            <dependency>
+              &lt;!&ndash;Manual enforcement due to security issues and lack of convergence transitively&ndash;&gt;
+              <groupId>org.apache.httpcomponents</groupId>
+              <artifactId>httpcore</artifactId>
+              <version>${v.httpclient}</version>
+            </dependency>
+      -->
 
       <dependency>
         <groupId>javax.servlet.jsp.jstl</groupId>
