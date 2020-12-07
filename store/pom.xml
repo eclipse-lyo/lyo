@@ -98,54 +98,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
-
-  <repositories>
-    <repository>
-      <id>lyo-releases</id>
-      <name>lyo-releases repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>lyo-snapshots</id>
-      <name>lyo-snapshots repository</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>repo.eclipse.org</id>
-      <name>Eclipse Lyo Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 </project>

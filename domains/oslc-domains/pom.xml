@@ -30,29 +30,6 @@
             <!-- End of user code
         -->
     </properties>
-    <repositories>
-        <!-- Start of user code repositories
-            -->
-            <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
-            <!-- End of user code
-        -->
-        <repository>
-            <id>lyo-releases</id>
-            <name>Eclipse Lyo Releases</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>lyo-snapshots</id>
-            <name>Eclipse Lyo Snapshots</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
     <!-- Start of user code pre_dependencies
     -->
     <!-- End of user code
@@ -93,18 +70,6 @@
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
-	<distributionManagement>
-		<repository>
-			<id>repo.eclipse.org</id>
-			<name>Eclipse Lyo Releases</name>
-			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>repo.eclipse.org</id>
-			<name>Eclipse Lyo Snapshots</name>
-			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
     <!-- End of user code
     -->
 </project>
