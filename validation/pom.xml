@@ -20,9 +20,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.jetty>9.4.0.v20161208</v.jetty>
-    <v.lyo>${project.version}</v.lyo>
     <v.shaclex>0.0.87</v.shaclex>
-    <v.jena>3.14.0</v.jena><!--TODO remove-->
   </properties>
 
   <dependencies>
@@ -114,38 +112,13 @@
         </configuration>
         <version>2.8</version>
       </plugin>
-
-      <!-- Source Jar Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-
-      <!-- Javadoc Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.2.0</version>
-        <configuration>
-          <doclint>none</doclint>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

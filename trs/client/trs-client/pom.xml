@@ -23,30 +23,13 @@
 
   <build>
     <plugins>
-      <!-- Source Jar Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>install</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
-
-      <!-- Javadoc Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <additionalparam>-Xdoclint:none</additionalparam>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -106,13 +89,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-client</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.j2bugzilla</groupId>
       <artifactId>j2bugzilla</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <!-- test or not? -->
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
     </dependency>
   </dependencies>
 </project>
