@@ -62,6 +62,18 @@
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </build>    
     <!-- End of user code
     -->
 </project>
