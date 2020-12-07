@@ -185,4 +185,13 @@ public class ResourcePackages {
         }
     }
 
+    /**
+     * Reset all package registration.
+     *
+     * @since 4.0.0.RC
+     */
+    public static void reset() {
+        SCANNED_PACKAGES.clear();
+        TYPES_MAPPINGS.clear();
+    }
 }

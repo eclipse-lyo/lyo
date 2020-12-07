@@ -8,15 +8,20 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Cat;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Tests for {@link ResourcePackages}
  * @author rherrera
  */
 public class ResourcePackagesTests {
+
+    private final Logger log = LoggerFactory.getLogger(ResourcePackagesTests.class);
 
     private Resource resource;
 
@@ -26,9 +31,18 @@ public class ResourcePackagesTests {
         resource = model.createResource("http://example.com/1");
     }
 
+    @After
+    public void tearDown() throws Exception {
+        ResourcePackages.reset();
+    }
+
     @Test
     public void testMapPackage() {
         ResourcePackages.mapPackage(Pet.class.getPackage());
+        for (String aPackage : ResourcePackages.SCANNED_PACKAGES) {
+            log.info("Scanned package: {}", aPackage);
+        }
+
         Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
         Assert.assertEquals(6, ResourcePackages.TYPES_MAPPINGS.keySet().size());
     }
