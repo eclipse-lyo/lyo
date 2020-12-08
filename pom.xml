@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
-  <version>4.0.0.RC</version>
+  <version>4.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: _Parent</name>
 
@@ -15,9 +15,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
-    <v.jena>3.14.0</v.jena>
+    <v.jena>3.17.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
-    <v.slf4j>1.7.26</v.slf4j>
+    <v.slf4j>1.7.30</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
     <v.httpclient>4.5.13</v.httpclient>
   </properties>
@@ -316,7 +316,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.13</version>
+        <version>1.15</version>
       </dependency>
       <dependency>
         <groupId>org.objenesis</groupId>
@@ -328,6 +328,12 @@
         <artifactId>javax.annotation-api</artifactId>
         <version>1.3.2</version>
       </dependency>
+      <dependency>
+        <!--es.weso:shaclex_2.12:pom:0.0.87-->
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.8.0</version>
+      </dependency>
 
       <!--Convergence-->
       <dependency>
@@ -335,12 +341,6 @@
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-arq</artifactId>
         <version>${v.jena}</version>
-      </dependency>
-      <dependency>
-        <!--es.weso:shaclex_2.12:pom:0.0.87-->
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.6</version>
       </dependency>
       <dependency>
         <!--net.oauth.core:oauth-httpclient4:jar:20090913-->
