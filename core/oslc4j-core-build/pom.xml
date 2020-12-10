@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>4.0.0.RC</version>
+    <version>4.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
