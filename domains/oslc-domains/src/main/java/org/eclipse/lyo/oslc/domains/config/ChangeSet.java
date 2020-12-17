@@ -60,6 +60,7 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 
 
 
+
 // Start of user code imports
 // End of user code
 
