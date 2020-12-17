@@ -1,6 +1,6 @@
 # Lyo Server Changelog
 
-## 4.0.0 (WIP)
+## [4.0.0]
 
 ### Changed
 

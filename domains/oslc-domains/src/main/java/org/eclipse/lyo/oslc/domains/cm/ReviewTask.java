@@ -59,19 +59,16 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Task;
 
 
-import org.eclipse.lyo.oslc.domains.cm.Defect;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.Agent;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc4j.core.model.Discussion;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.cm.Priority;
-import org.eclipse.lyo.oslc.domains.cm.State;
-import org.eclipse.lyo.oslc.domains.config.ChangeSet;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
+import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.cm.Defect;
+import org.eclipse.lyo.oslc4j.core.model.Discussion;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc.domains.cm.Priority;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
 
