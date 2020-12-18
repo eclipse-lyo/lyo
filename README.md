@@ -33,6 +33,10 @@ To use OSLC Client, follow the setup and development instructions under the [OSL
 
 See under [domains/README](domains/README.md).
 
+### Store
+
+See under [store/README](store/README.md).
+
 ## Repositories
 
 ### Main project repositories
