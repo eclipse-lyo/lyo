@@ -76,6 +76,7 @@
   <modules>
     <module>core/oslc4j-core-build</module>
     <module>domains/oslc-domains</module>
+    <module>domains/ui-classes</module>
     <module>client</module>
     <module>server</module>
 
@@ -309,6 +310,28 @@
         <groupId>org.glassfish.jersey.inject</groupId>
         <artifactId>jersey-hk2</artifactId>
         <version>${v.jersey}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.12.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.0</version>
+       </dependency>
+
+       <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.11</version>
       </dependency>
 
       <!--Maven Enforcer-->

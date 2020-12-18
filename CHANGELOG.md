@@ -4,6 +4,8 @@
 
 ### Added
 
+- [Domains] Add `org.eclipse.lyo.domains:ui-classes` module with POJOs needed by [lyo.oslc-ui](https://github.com/eclipse/lyo.oslc-ui).
+
 ### Changed
 
 - Update SHACLEX from 0.0.87 to 0.1.93 (breaking change but should not affect the consumers of Lyo Validation)
@@ -25,7 +27,7 @@
 
 ## [4.0.0] - 2020-12-16
 
-See changelog summary under https://github.com/eclipse/lyo/releases/tag/v4.0.0 
+See changelog summary under https://github.com/eclipse/lyo/releases/tag/v4.0.0
 
 ### Added
 
