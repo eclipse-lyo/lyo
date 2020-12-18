@@ -68,13 +68,12 @@ See changelog summary under https://github.com/eclipse/lyo/releases/tag/v4.0.0
 
 ### Changed
 
-- [Core] **Switch to JAX-RS 2.**
+- [Core] 🧨 **Switch to JAX-RS 2.**
 - [Core] Only arrays returned from JAX-RS methods annotated with
 `@OslcQueryCapability` will be automatically treated as OSLC Query results
 unless the returned array type is annotated with the
 `@OslcNotQueryResult` ([#88](https://github.com/eclipse/lyo.core/pull/88)).
 - [Core] A checked `LyoJenaModelException` was replaced with an unchecked `LyoModelException`.
-- [Client] JEEFormAuthenticator catches ProcessingException when closing the connection from last redirect
 - [Server] `HTTPConstants` is no longer a public class
 - [Server] `ServletListener` was renamed to `OAuthServletListener`
 - [TRS/Server] `ChangeHistories` has been extracted to the `PagedTrs` interface and the implementing class has been renamed to `InmemPagedTrs`.
@@ -97,6 +96,7 @@ unless the returned array type is annotated with the
 ### Fixed
 
 - [Core] regression when `pathParameterValues` are not used ([#66](https://github.com/eclipse/lyo.core/pull/66))
+- [Client] JEEFormAuthenticator catches ProcessingException when closing the connection from last redirect
 
 ## [3.0.0] - SKIPPED
 
@@ -114,7 +114,7 @@ See [release notes](https://open-services.net/news/2018-eclipse-lyo-2.4.0/) for 
 
 ### Changed
 
-- Update Apache Jena dependency to v3.0.1
+- 🧨 Update Apache Jena dependency to v3.0.1. Breaking change in Jena package naming `com.hp.hpl.jena => org.apache.jena` [[JENA-192](https://issues.apache.org/jira/browse/JENA-192)]
 
 ## [2.2.0]
 
