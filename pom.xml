@@ -164,14 +164,6 @@
         <artifactId>httpclient</artifactId>
         <version>${v.httpclient}</version>
       </dependency>
-      <!--
-            <dependency>
-              &lt;!&ndash;Manual enforcement due to security issues and lack of convergence transitively&ndash;&gt;
-              <groupId>org.apache.httpcomponents</groupId>
-              <artifactId>httpcore</artifactId>
-              <version>${v.httpclient}</version>
-            </dependency>
-      -->
 
       <dependency>
         <groupId>javax.servlet.jsp.jstl</groupId>
@@ -233,6 +225,11 @@
         <!--CQ 13717-->
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
+        <version>${v.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
