@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Update Apache Jena dependency to v3.17
+
 ### Deprecated
 
 ### Removed
