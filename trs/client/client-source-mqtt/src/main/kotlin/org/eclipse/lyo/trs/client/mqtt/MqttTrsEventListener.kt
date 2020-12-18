@@ -37,6 +37,9 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.Executors
 
+/**
+ * Process an MQTT topic and unmarshall messages from it into an IPushProviderHandler instance.
+ */
 class MqttTrsEventListener(
         private val providerHandler: IPushProviderHandler,
         private val lang: Lang) : IMqttMessageListener {
