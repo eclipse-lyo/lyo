@@ -37,6 +37,23 @@ See under [domains/README](domains/README.md).
 
 See under [store/README](store/README.md).
 
+### TRS Server
+
+To use this library, follow the setup and development instructions under the [OSLC Developer Guide for TRS server setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-trs-support). The instructions assume you have followed the overall instructions to setup an OSLC4J server/client, as defined on that page. 
+
+You can find more resources for developing OSLC applications with Lyo in general under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html), and in particular [for TRS development](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo#trs-sdk).
+
+See [trs/server/README](trs/server/README.md) for dev notes.
+
+### TRS Client
+
+See under [trs/client/README](trs/client/README.md).
+
+### Validation
+
+See under [validation/README](validation/README.md).
+
+
 ## Repositories
 
 ### Main project repositories

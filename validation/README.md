@@ -1,45 +1,24 @@
 # Lyo Validation library
 
-[![CI](https://github.com/eclipse/lyo.validation/workflows/CI/badge.svg?branch=master)](https://github.com/eclipse/lyo.validation/actions?query=workflow%3ACI)
-[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/validation/latest)
-[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
-
----
-
 The library validates RDF resources against constraints defined either as [SHACL](https://www.w3.org/TR/shacl/) or [OSLC Resource Shapes](http://docs.oasis-open.org/oslc-core/oslc-core/v3.0/cs01/part6-resource-shape/oslc-core-v3.0-cs01-part6-resource-shape.html).
 
 ## Getting started
 
-Add the following repository to your POM file:
-
-```xml
-<repositories>
-    <repository>
-        <id>lyo-releases</id>
-        <name>Eclipse Lyo Releases</name>
-        <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-</repositories>
-```
-
-Now add a dependency for the library:
+Add a dependency for the library:
 
 ```xml
 <dependency>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-validation</artifactId>
-    <version>2.3.0</version>
+    <version>${version.lyo}</version>
 </dependency>
 ```
 
-Start by reading the library's main interface class [`Validator`](http://download.eclipse.org/lyo/docs/validation/2.3.0/org/eclipse/lyo/validation/Validator.html) on Javadoc.
+Start by reading the library's main interface class [`Validator`](https://download.eclipse.org/lyo/docs/all/latest/apidocs/org/eclipse/lyo/validation/Validator.html) on Javadoc.
 
-You can also review the library's [unit test cases](https://github.com/eclipse/lyo-validation/tree/master/src/test/java/org/eclipse/lyo/validation) that shows how to use this interface. 
+You can also review the library's [unit test cases](src/test/java/org/eclipse/lyo/validation) that shows how to use this interface. 
 
-Finally, you can review the [sample application](https://github.com/eclipse/lyo-validation/blob/master/src/test/java/org/eclipse/lyo/validation/ValidationExample.java), which shows 3 validation examples, where:
+Finally, you can review the [sample application](src/test/java/org/eclipse/lyo/validation/ValidationExample.java), which shows 3 validation examples, where:
 
 * an RDF resource (jena model) is validated against a SHACL shape (another jena model).
 * An java object (representing an RDF resource) is validated against SHACL annotations defined on its Java class.

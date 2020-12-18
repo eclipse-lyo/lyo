@@ -1,10 +1,5 @@
 # TRS Client
 
-![CI](https://github.com/eclipse/lyo.trs-client/workflows/CI/badge.svg)
-[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/trs-client/latest/)
-[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
-
-
 ## Motivation
 
 The *TRS Client* utility uses the TRS interfaces of existing OSLC adapters in order to cache the data exposed by these OSLC adadapters in a preconfigured HTTP SPARQL enabled triplestore and to keep this data cache up to date with the data coming from the adapters. for more information please check the  [OSLC TRS 2.0 draft spec][1]
@@ -24,7 +19,6 @@ The implementation of the following features is planned:
 * Concurrent retrieval of Base and ChangeLog resources from TRS Providers
 * Support of OAuth authentication
 * Management of Server Rollback to an earlier state
-
 
 ## FAQ
 
