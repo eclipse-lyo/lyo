@@ -106,6 +106,44 @@ unless the returned array type is annotated with the
 
 See [release notes](https://open-services.net/news/2018-eclipse-lyo-2.4.0/) for further details.
 
+### Changed
+
+- Update Apache Jena dependency to v3.6.0
+
+## [2.3.0]
+
+### Changed
+
+- Update Apache Jena dependency to v3.0.1
+
+## [2.2.0]
+
+### Changed
+
+- Update Apache Jena dependency to v2.13.0
+
+## [2.1.2]
+
+### Added
+
+- Java 8 support
+
+## [2.1.1] - YANKED
+
+*Not all components were released on Maven properly.*
+
+## [2.1.0]
+
+## [2.0.0]
+
+## [1.1.0]
+
+## [1.0.1]
+
+## [1.0.0]
+
+Initial release. Used Apache Jena 2.7.1
+
 
 ---
 
