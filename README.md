@@ -15,11 +15,23 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 ## Getting started
 
-You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html#oslc4j-sdk). To use OSLC Client, follow the setup and development instructions under the [OSLC Developer Guide for Client setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).
+You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html#oslc4j-sdk).
 
 The [Lyo Samples](https://github.com/OSLC/lyo-samples) repository contains sample code that demonstrates how to use the Lyo client to interact with OSLC Service Providers in various ways.
 
 You are welcome to post questions on the [OSLC forum](https://forum.open-services.net/c/sdks/lyo/9).
+
+### Core
+
+See [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html#oslc4j-sdk).
+
+### Client
+
+To use OSLC Client, follow the setup and development instructions under the [OSLC Developer Guide for Client setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).
+
+### Domains
+
+See under [domains/README](domains/README.md).
 
 ## Repositories
 
