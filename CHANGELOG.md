@@ -59,7 +59,7 @@ unless the returned array type is annotated with the
 
 ## [3.0.0] - SKIPPED
 
-> Where is Lyo 3.0? There was a Lyo 3.0.0-SNAPSHOT development effort long time ago, which has been since abandoned and merged into Lyo 2.2. Furthermore, next version of OSLC will be OSLC 3 and Lyo 3 might mislead users that it adds OSLC 3 support.
+> Where is Lyo 3.0? There was a Lyo 3.0.0-SNAPSHOT development effort long time ago (after 2.1.0 but before 2.2.0), which has been since abandoned and merged into Lyo 2.2. Furthermore, next version of OSLC will be OSLC 3 and Lyo 3 might mislead users that it adds OSLC 3 support.
 
 ## [2.4.0]
 
