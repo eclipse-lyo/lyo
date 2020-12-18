@@ -1,23 +1,25 @@
 # Eclipse Lyo
 
-[![](https://img.shields.io/badge/project-Eclipse%20Lyo-blue?color=418eeb)](https://github.com/eclipse/lyo)
+![CI Parent](https://github.com/eclipse/lyo/workflows/CI%20Parent/badge.svg)
+[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-monorepo.svg?label=Eclipse%20Jenkins)](https://ci.eclipse.org/lyo/job/lyo-monorepo/)
+[![](https://img.shields.io/badge/javadoc-4.0.0-blue.svg)](https://download.eclipse.org/lyo/docs/all/4.0.0/apidocs/)
+[![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/all/latest/apidocs/)
+[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
+
+
+## Introduction
+
+The [Eclipse Lyo](https://projects.eclipse.org/projects/technology.lyo) project is focused on providing an SDK to enable adoption of [OSLC specifications](https://open-services.net/). OSLC (Open Services for Lifecycle Collaboration) is an open community dedicated to reducing barriers for lifecycle tool integration. The community authors specifications for exposing lifecycle artifacts through uniform (REST) interfaces and relying on Internet and Linked Data standards.
+
+OSLC's scope started with Application Lifecycle Management (ALM) and is expanding to include integrations across Product Lifecycle Management (PLM) and IT Service Management (ISM/DevOps), Lyo is designed to be a companion to the continuing specification efforts of the OSLC community. Its main purpose is to expand adoption of OSLC specifications and to enable the Eclipse community to easily build OSLC compliant tools.
 
 ## Getting started
 
-You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](http://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
+You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html#oslc4j-sdk). To use OSLC Client, follow the setup and development instructions under the [OSLC Developer Guide for Client setup](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html).
 
-You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev)
+The [Lyo Samples](https://github.com/OSLC/lyo-samples) repository contains sample code that demonstrates how to use the Lyo client to interact with OSLC Service Providers in various ways.
 
-## Contributing
-
-We adopt the Eclipse guidlines for [contributing via Git](https://wiki.eclipse.org/Development_Resources/Contributing_via_Git), to accept contributions in this project.
-
-Please follow these guidelines to submit your contributions. **Before your contribution can be accepted to an Eclipse Foundation project, you need to electronically sign the [Eclipse Contributor Agreement (ECA)](https://eclipse.org/legal/ECA.php).**
-The preferred approach is to contribute a patch via GitHub using the standard GitHub pull request (remember to sign off on each commit and configure Git to use the same email addressed used to sign an ECA).
-Alternatively, you can submit your contribution as a patch attachment on the corresponding Bugzilla or Github issue.
-(This project no longer support Gerrit.)
-
-The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
+You are welcome to post questions on the [OSLC forum](https://forum.open-services.net/c/sdks/lyo/9).
 
 ## Repositories
 
@@ -85,14 +87,6 @@ The Eclipse Lyo project page is located at https://projects.eclipse.org/projects
 | [lyo.validation](https://github.com/eclipse/lyo.validation) |  [![CI](https://github.com/eclipse/lyo.validation/workflows/CI/badge.svg)](https://github.com/eclipse/lyo.validation/actions?query=workflow%3ACI)  |  ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.validation?color=blue)   |   ![GitHub milestone](https://img.shields.io/github/milestones/progress/eclipse/lyo.validation/2)     | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.validation/Type:%20Bug?color=red&label=bugs) |
 | [lyo.docs ](https://github.com/eclipse/lyo.docs)| N/A | ![GitHub pull requests](https://img.shields.io/github/issues-pr/eclipse/lyo.docs?color=blue)   |   N/A   | ![GitHub issues by-label](https://img.shields.io/github/issues/eclipse/lyo.docs/Type:%20Bug?color=red&label=bugs) |
 
-Other repositories maintained under the Eclipse Foundation project include:
-
-* 
-
-
-
-Please refer to the README files of each individual repository to get an overview of their layout and released artefacts.
-
 ***
 
 Repositories that are maintained under OSLC organisation include:
@@ -109,6 +103,26 @@ Other repositories that are no longer actively maintained but are kept to preser
 * [lyo.adapter-magicdraw](https://github.com/eclipse/lyo.adapter-magicdraw)
 * [lyo.adapter-simulink](https://github.com/eclipse/lyo.adapter-simulink)
 * [Tutorial: Integrating Products with OSLC](https://github.com/OSLC/integrating-products-with-oslc-tutorial)
+
+
+## Contributing
+
+We adopt the Eclipse guidlines for [contributing via Git](https://wiki.eclipse.org/Development_Resources/Contributing_via_Git), to accept contributions in this project.
+
+Please follow these guidelines to submit your contributions. **Before your contribution can be accepted to an Eclipse Foundation project, you need to electronically sign the [Eclipse Contributor Agreement (ECA)](https://eclipse.org/legal/ECA.php).**
+The preferred approach is to contribute a patch via GitHub using the standard GitHub pull request (remember to sign off on each commit and configure Git to use the same email addressed used to sign an ECA).
+Alternatively, you can submit your contribution as a patch attachment on the corresponding Bugzilla or Github issue.
+(This project no longer supports Gerrit.)
+
+
+This project uses Maven as the build system for all Java projects except those which are Eclipse Plugin project. The latter projects contain all the Eclipse project files under Git for import and building using the *Import > Existing Projects into Workspace*. All other projects should be imported using the *Import > Existing Maven Projects* menu.
+
+`core.query` project uses ANTLR for generating parser code. In order to configure Eclipse to use it, the `pom.xml` file contains some m2e-specific configuration. **After importing the projects, make sure to run *Maven > Update Project*.** If that does not work, you must add the directory `target/generated-sources/antlr3` under the *Java Project Build > Source*.
+
+
+The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
+
+You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev) or on Slack (ask for an invite on the mailing list or by a PM to [@andrew](https://forum.open-services.net/u/andrew)).
 
 
 ## Useful information for Lyo committers  
