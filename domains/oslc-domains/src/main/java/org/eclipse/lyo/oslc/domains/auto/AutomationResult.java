@@ -64,15 +64,11 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.auto.ParameterInstance;
-import org.eclipse.lyo.oslc.domains.auto.ParameterInstance;
-import org.eclipse.lyo.oslc.domains.auto.AutomationRequest;
 import org.eclipse.lyo.oslc.domains.auto.AutomationPlan;
-
+import org.eclipse.lyo.oslc.domains.auto.AutomationRequest;
+import org.eclipse.lyo.oslc.domains.auto.ParameterInstance;
+import org.eclipse.lyo.oslc.domains.Person;
 // Start of user code imports
 // End of user code
 

@@ -59,21 +59,16 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
-
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.cm.IDefect;
-import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.IAgent;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
-import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
-import org.eclipse.lyo.oslc.domains.cm.IPriority;
-import org.eclipse.lyo.oslc.domains.cm.IState;
 import org.eclipse.lyo.oslc.domains.config.IChangeSet;
+import org.eclipse.lyo.oslc.domains.cm.IDefect;
+import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
+import org.eclipse.lyo.oslc.domains.IPerson;
+import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
-
+import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code

@@ -54,6 +54,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
 
+
 // Start of user code imports
 // End of user code
 
