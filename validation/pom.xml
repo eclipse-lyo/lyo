@@ -1,5 +1,4 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <!--	<groupId>org.eclipse.lyo</groupId>-->
   <artifactId>lyo-validation</artifactId>
@@ -40,6 +39,12 @@
       <artifactId>shaclex_2.12</artifactId>
       <version>${v.shaclex}</version>
       <type>pom</type>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Guava Library -->
@@ -64,12 +69,6 @@
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>shacl</artifactId>
       <version>${v.lyo}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>xml-apis</groupId>
-      <artifactId>xml-apis</artifactId>
-      <version>1.4.01</version>
     </dependency>
 
     <dependency>
