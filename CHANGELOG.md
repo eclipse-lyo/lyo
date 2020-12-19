@@ -12,6 +12,8 @@
 
 ### Removed
 
+- Xerces and xml-apis dependencies are removed and banned via maven-enforcer-plugin
+
 ### Fixed
 
 

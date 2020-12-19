@@ -369,7 +369,8 @@
           <!-- <version>3.1.1</version> -->
           <configuration>
             <source>8</source>
-            <release>8</release> <!-- JDK 9+ -->
+            <!-- TODO scope it with a profile for JDK 9+-->
+            <!-- <release>8</release> -->
             <doclint>none</doclint> <!-- JDK 8 -->
             <detectJavaApiLink>false</detectJavaApiLink> <!-- JDK11 -->
           </configuration>
