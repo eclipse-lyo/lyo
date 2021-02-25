@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
     private static final Logger log = LoggerFactory.getLogger(DatasetQueryExecutorImpl.class);
     private final Dataset dataset;
-    private final GraphStore graphStore;
 
     /**
      * Use {@link StoreFactory} instead.
@@ -49,9 +48,8 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
         this(TDBFactory.createDataset());
     }
 
-    DatasetQueryExecutorImpl(final Dataset dataset) {
+    public DatasetQueryExecutorImpl(final Dataset dataset) {
         this.dataset = dataset;
-        this.graphStore = GraphStoreFactory.create(dataset);
     }
 
     @Override
@@ -64,6 +62,6 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
     public UpdateProcessor prepareSparqlUpdate(final String query) {
         log.debug("Running update: '{}'", query);
         final UpdateRequest update = UpdateFactory.create(query);
-        return UpdateExecutionFactory.create(update, graphStore);
+        return UpdateExecutionFactory.create(update, dataset);
     }
 }
