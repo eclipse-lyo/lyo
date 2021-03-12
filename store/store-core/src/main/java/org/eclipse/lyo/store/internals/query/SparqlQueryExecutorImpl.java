@@ -19,6 +19,8 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SparqlQueryExecutorImpl is a SPARQL endpoint-based implementation of {@link JenaQueryExecutor}.
@@ -28,6 +30,7 @@ import org.apache.jena.update.UpdateProcessor;
  * @since 0.14.0
  */
 public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
+    private final Logger log = LoggerFactory.getLogger(SparqlQueryExecutorImpl.class);
 
     private final String queryEndpoint;
     private final String updateEndpoint;
@@ -45,5 +48,10 @@ public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
         return UpdateExecutionFactory.createRemote(UpdateFactory.create(query), updateEndpoint);
+    }
+
+    @Override
+    public void release() {
+        log.trace("NOP, there is nothing to release");
     }
 }

@@ -4,6 +4,9 @@
 
 ### Added
 
+- Store adds interface support for closing the Store cleanly and releasing underlying connections. 
+- SparqlStoreImpl can now be set up with a custom query executor
+
 ### Changed
 
 - Update SHACLEX from 0.0.87 to 0.1.93 (breaking change but should not affect the consumers of Lyo Validation)

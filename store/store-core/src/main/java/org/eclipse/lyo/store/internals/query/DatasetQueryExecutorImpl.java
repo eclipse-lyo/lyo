@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
     private static final Logger log = LoggerFactory.getLogger(DatasetQueryExecutorImpl.class);
     private final Dataset dataset;
+    private volatile boolean released = false;
 
     /**
      * Use {@link StoreFactory} instead.
@@ -54,14 +55,26 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
+        if(released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         log.debug("Running query: '{}'", query);
         return QueryExecutionFactory.create(query, dataset);
     }
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
+        if(released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         log.debug("Running update: '{}'", query);
         final UpdateRequest update = UpdateFactory.create(query);
         return UpdateExecutionFactory.create(update, dataset);
+    }
+
+    @Override
+    public void release() {
+        released = true;
+        dataset.close();
     }
 }
