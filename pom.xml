@@ -15,7 +15,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
-    <v.jena>3.17.0</v.jena>
+    <v.jena>4.0.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.30</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
