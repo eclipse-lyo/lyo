@@ -19,13 +19,24 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import cats.effect.IO;
+import cats.effect.IO$;
+import cats.effect.kernel.Resource;
+import cats.effect.kernel.Resource$;
+import cats.effect.unsafe.IORuntime;
+import cats.effect.unsafe.IORuntime$;
+import es.weso.rdf.RDFBuilder;
+import es.weso.rdf.jena.RDFAsJenaModel$;
+import es.weso.schema.RDFReport;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFLanguages;
+import org.checkerframework.checker.units.qual.A;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
@@ -43,6 +54,7 @@ import es.weso.schema.Result;
 import es.weso.schema.Schema;
 import es.weso.schema.Schemas;
 import scala.Option;
+import scala.collection.immutable.HashMap;
 import scala.util.Either;
 
 /**
@@ -55,6 +67,7 @@ public class ShaclExValidatorImpl implements Validator {
     private static final String SHACLEX = "SHACLex";
     private static final Logger log = LoggerFactory.getLogger(ShaclExValidatorImpl.class);
     private static final String EMPTY_MAP = "";
+    private static final IORuntime IO_RUNTIME = IORuntime$.MODULE$.global();
 
     @Override
     public ValidationReport validate(AbstractResource resource) throws OslcCoreApplicationException, URISyntaxException,
@@ -94,57 +107,69 @@ public class ShaclExValidatorImpl implements Validator {
 
         Result result = validateInternal(dataModel, shapeModel);
 
-        final RDFReader valReport = result.validationReport().right().get();
-        Either<String, String> valReportAsTurtle = valReport.serialize(RDFLanguages.strLangTurtle);
+        final RDFReport validationReport = result.validationReport();
 
         if (log.isDebugEnabled()) {
-            log.debug("Validation report: \n{}", valReportAsTurtle.right().get());
+            log.debug("Validation report: \n{}", validationReport);
         }
 
-        try {
-            final InputStream in = new ByteArrayInputStream(valReportAsTurtle.right().get().getBytes("UTF-8"));
-            valResultJenaModel.read(in, null, RDFLanguages.strLangTurtle);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        final String turtleReport = reportToTurtle(validationReport);
+
+        final InputStream in = new ByteArrayInputStream(turtleReport.getBytes(StandardCharsets.UTF_8));
+        valResultJenaModel.read(in, null, RDFLanguages.strLangTurtle);
         return populateValidationReport(result);
     }
 
+    private String reportToTurtle(RDFReport validationReport) {
+        final Model model = ModelFactory.createDefaultModel();
+        final RDFAsJenaModel rdfAsJenaModel = getRdfAsJenaModel(model);
+        final IO<RDFBuilder> builderIO = validationReport.toRDF(rdfAsJenaModel);
+        final RDFBuilder rdfBuilder = builderIO.unsafeRunSync(IO_RUNTIME);
+        final IO<String> stringIO = rdfBuilder.serialize(RDFLanguages.strLangNTriples, Option.apply(null));
+        final String turtleReport = stringIO.unsafeRunSync(IO_RUNTIME);
+        return turtleReport;
+    }
+
+    private RDFAsJenaModel getRdfAsJenaModel(Model model) {
+        final IO<RDFAsJenaModel> modelIO = RDFAsJenaModel.fromModel(model, Option.apply(null),
+            Option.apply(null), new HashMap<>(), new HashMap<>());
+        final RDFAsJenaModel rdfAsJenaModel = modelIO.unsafeRunSync(IO_RUNTIME);
+        return rdfAsJenaModel;
+    }
+
     private Result validateInternal(Model resourceAsModel, Model shapeAsModel) throws IllegalArgumentException {
-        RDFAsJenaModel resourceAsRDFReader = new RDFAsJenaModel(resourceAsModel);
-        RDFAsJenaModel shapeAsRDFReader = new RDFAsJenaModel(shapeAsModel);
+        RDFAsJenaModel resourceAsRDFReader = getRdfAsJenaModel(resourceAsModel);
+        RDFAsJenaModel shapeAsRDFReader = getRdfAsJenaModel(shapeAsModel);
         return validate(resourceAsRDFReader, shapeAsRDFReader);
     }
 
     private Result validate(final RDFAsJenaModel rdf, final Schema schema) {
-        PrefixMap nodeMap = rdf.getPrefixMap();
+        PrefixMap nodeMap = rdf.getPrefixMap().unsafeRunSync(IO_RUNTIME);
         PrefixMap shapesMap = schema.pm();
-        return schema.validate(rdf, TRIGGER_MODE_TARGET_DECLS, EMPTY_MAP, OPTION_NONE, OPTION_NONE, nodeMap, shapesMap);
+        return schema.validate(rdf, TRIGGER_MODE_TARGET_DECLS, EMPTY_MAP, OPTION_NONE, OPTION_NONE, nodeMap, shapesMap, rdf)
+            .unsafeRunSync(IO_RUNTIME);
     }
 
     private Result validate(RDFAsJenaModel resourceAsRDFReader, RDFAsJenaModel shapeAsRDFReader) {
-        final Either<String, Schema> schemaTry = Schemas.fromRDF(shapeAsRDFReader, SHACLEX);
-        if (schemaTry.isRight()) {
-            Schema schema = schemaTry.right().get();
-            return validate(resourceAsRDFReader, schema);
-        } else {
-            throw new IllegalArgumentException("A given Shape cannot be used to create a correct " + "Schema");
-        }
+        final Schema schema = Schemas.fromRDF(shapeAsRDFReader, SHACLEX)
+            .onError(throwable -> {throw new IllegalArgumentException("A given Shape cannot be used to create a correct " + "Schema");})
+            .unsafeRunSync(IO_RUNTIME);
+        return validate(resourceAsRDFReader, schema);
     }
 
     ValidationReport populateValidationReport(Result result) throws IllegalAccessException, IllegalArgumentException,
             InstantiationException, InvocationTargetException, SecurityException, NoSuchMethodException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
         Model valReportJenaModel = ModelFactory.createDefaultModel();
-        final RDFReader valReport = result.validationReport().right().get();
-        Either<String, String> valReportAsTurtle = valReport.serialize(RDFLanguages.strLangTurtle);
+        final RDFReport valReport = result.validationReport();
+        String valReportAsTurtle = reportToTurtle(valReport);
 
         if (log.isDebugEnabled()) {
-            log.debug("Validation report: \n{}", valReportAsTurtle.right().get());
+            log.debug("Validation report: \n{}", valReportAsTurtle);
         }
 
         try {
-            final InputStream in = new ByteArrayInputStream(valReportAsTurtle.right().get().getBytes("UTF-8"));
+            final InputStream in = new ByteArrayInputStream(valReportAsTurtle.getBytes("UTF-8"));
             valReportJenaModel.read(in, null, RDFLanguages.strLangTurtle);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
