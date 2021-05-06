@@ -20,7 +20,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.jetty>9.4.0.v20161208</v.jetty>
-    <v.shaclex>0.0.87</v.shaclex>
+    <v.shaclex>0.1.93</v.shaclex>
   </properties>
 
   <dependencies>
@@ -40,7 +40,20 @@
       <artifactId>shaclex_2.12</artifactId>
       <version>${v.shaclex}</version>
       <type>pom</type>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.rdf4j</groupId>
+          <artifactId>rdf4j-runtime</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+ <!--   <dependency>
+      <groupId>org.eclipse.rdf4j</groupId>
+      <artifactId>rdf4j-runtime</artifactId>
+      &lt;!&ndash; <version>3.4.2</version> &ndash;&gt;
+      <version>3.4.4</version>
+      <type>pom</type>
+    </dependency>-->
 
     <!-- Guava Library -->
     <dependency>
@@ -125,13 +138,39 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.4.3</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- due to shaclex internal mess with dep versions -->
+            <id>enforce</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
+<!--   <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.rdf4j</groupId>
+        <artifactId>rdf4j-runtime</artifactId>
+        <version>3.4.2</version>
+&lt;!&ndash;        <scope>compile</scope>&ndash;&gt;
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>-->
+
   <repositories>
     <repository>
-      <id>labra</id>
-      <url>https://dl.bintray.com/labra/maven</url>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/weso/shaclex</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
