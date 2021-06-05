@@ -55,11 +55,9 @@
       <type>pom</type>
     </dependency>-->
 
-    <!-- Guava Library -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>30.0-jre</version>
     </dependency>
 
     <!-- OSLC Core Libraries -->

@@ -20,6 +20,7 @@
 
 ### Fixed
 
+- Make sure every Lyo dependency uses the same version of Guava (30.0)
 
 ## [4.0.0] - 2020-12-16
 
