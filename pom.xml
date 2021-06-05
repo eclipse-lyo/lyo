@@ -194,11 +194,6 @@
       </dependency>
 
       <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>30.0-jre</version>
-      </dependency>
-      <dependency>
         <!-- CQ 6577 -->
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
