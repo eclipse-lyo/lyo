@@ -15,6 +15,10 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
+
+    <v.kotlin>1.5.10</v.kotlin>
+    <v.dokka>1.4.32</v.dokka>
+
     <v.jena>3.17.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.30</v.slf4j>
