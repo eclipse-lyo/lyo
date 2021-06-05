@@ -6,7 +6,6 @@
 
 ### Changed
 
-- Update Apache Jena dependency to v3.17
 - Update SHACLEX from 0.0.87 to 0.1.93 (breaking change but should not affect the consumers of Lyo Validation)
 - Update Kotlin from 1.4.20 to 1.5.10  
 - Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
