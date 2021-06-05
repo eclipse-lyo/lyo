@@ -77,7 +77,9 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <module>validation</module>
+    <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
+    and/or https://github.com/weso/shaclex/issues/390 are resolved-->
+<!--    <module>validation</module>-->
   </modules>
 
   <profiles>
