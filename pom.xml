@@ -351,6 +351,12 @@
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
       </dependency>
+      <dependency>
+        <!-- https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898 -->
+        <groupId>org.apache.thrift</groupId>
+        <artifactId>libthrift</artifactId>
+        <version>0.14.1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
