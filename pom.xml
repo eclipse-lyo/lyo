@@ -14,11 +14,16 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
-    <v.jena>3.17.0</v.jena>
+
+    <v.kotlin>1.5.10</v.kotlin>
+    <v.dokka>1.4.32</v.dokka>
+
+    <v.jena>3.14.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.30</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
     <v.httpclient>4.5.13</v.httpclient>
+    <v.guava>30.0-jre</v.guava>
   </properties>
 
 
@@ -76,7 +81,9 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <module>validation</module>
+    <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
+    and/or https://github.com/weso/shaclex/issues/390 are resolved-->
+<!--    <module>validation</module>-->
   </modules>
 
   <profiles>
@@ -185,11 +192,6 @@
         <version>${v.lyo}</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>30.0-jre</version>
-      </dependency>
       <dependency>
         <!-- CQ 6577 -->
         <groupId>javax.xml.bind</groupId>
@@ -329,6 +331,11 @@
         <artifactId>commons-io</artifactId>
         <version>2.8.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${v.guava}</version>
+      </dependency>
 
       <!--Convergence-->
       <dependency>
@@ -342,6 +349,12 @@
         <groupId>net.oauth.core</groupId>
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
+      </dependency>
+      <dependency>
+        <!-- https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898 -->
+        <groupId>org.apache.thrift</groupId>
+        <artifactId>libthrift</artifactId>
+        <version>0.14.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

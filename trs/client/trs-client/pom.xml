@@ -16,6 +16,14 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
       </plugin>
@@ -27,17 +35,11 @@
           <execution>
             <phase>generate-sources</phase>
             <goals>
-              <goal>dokka</goal>
-              <goal>javadoc</goal>
               <goal>javadocJar</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
-          <sourceDirectories>
-            <dir>${basedir}/src/main/java</dir>
-            <dir>${basedir}/src/main/kotlin</dir>
-          </sourceDirectories>
           <dokkaPlugins>
             <plugin>
               <groupId>org.jetbrains.dokka</groupId>
@@ -122,4 +124,5 @@
       <artifactId>jersey-client</artifactId>
     </dependency>
   </dependencies>
+
 </project>
