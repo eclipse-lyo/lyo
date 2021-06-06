@@ -358,6 +358,12 @@
         <artifactId>libthrift</artifactId>
         <version>0.14.1</version>
       </dependency>
+      <!-- https://github.com/eclipse/lyo/pull/103 -->
+      <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.13</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

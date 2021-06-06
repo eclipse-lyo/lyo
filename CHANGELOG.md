@@ -11,6 +11,7 @@
 - Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
 - Update Eclipse Paho from 1.2.1 to 1.2.5 due to a potential security vulnerability.
 - Force libthrift from 0.13.0 to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
+- Force httpclient to 4.5.13 due to a [vulnerability](https://github.com/eclipse/lyo/pull/103).
 
 ### Deprecated
 
