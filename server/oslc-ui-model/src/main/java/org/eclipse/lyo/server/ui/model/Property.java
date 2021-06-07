@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,24 +25,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Property {
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyDefintion")
     private PropertyDefintion propertyDefintion;
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyValue")
     private PropertyValue propertyValue;
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyDefintion")
     public PropertyDefintion getPropertyDefintion() {
@@ -50,9 +50,9 @@ public class Property {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyDefintion")
     public void setPropertyDefintion(PropertyDefintion propertyDefintion) {
@@ -60,9 +60,9 @@ public class Property {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyValue")
     public PropertyValue getPropertyValue() {
@@ -70,9 +70,9 @@ public class Property {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("propertyValue")
     public void setPropertyValue(PropertyValue propertyValue) {

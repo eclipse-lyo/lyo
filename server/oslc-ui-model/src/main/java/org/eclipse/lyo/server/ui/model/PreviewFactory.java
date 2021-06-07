@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -50,7 +50,7 @@ public class PreviewFactory {
 				if (showPropertyValueAsLink) {
 					if (multiple) {
 						Collection<Link> links = (Collection<Link>) getterMethod.invoke(aResource);
-						List<org.eclipse.lyo.oslc_ui.Link> l = new ArrayList<org.eclipse.lyo.oslc_ui.Link>();
+						List<org.eclipse.lyo.server.ui.model.Link> l = new ArrayList<org.eclipse.lyo.server.ui.model.Link>();
 						for(Link link : links) {
 							if (StringUtils.isBlank(link.getLabel())) {
 								l.add(constructLink(link.getValue().toString(), link.getValue().toString()));
@@ -72,7 +72,7 @@ public class PreviewFactory {
 			}
 			Preview oslcPreviewDataSet = new Preview();
 			oslcPreviewDataSet.setProperties(previewItems);
-			return oslcPreviewDataSet; 
+			return oslcPreviewDataSet;
 	}
 
 	public static String getPreviewAsJsonString(final AbstractResource aResource, List<String> getterMethodNames, boolean showPropertyHeadingsAsLinks) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, JsonProcessingException {
@@ -82,12 +82,12 @@ public class PreviewFactory {
 		return previewAsString;
 	}
 
-	
+
 	private static Property constructProperty(PropertyDefintion propertyDefintion, PropertyValue propertyValue) {
 		Property item = new Property();
 		item.setPropertyDefintion(propertyDefintion);
 		item.setPropertyValue(propertyValue);
-		return item; 
+		return item;
 	}
 
     private static PropertyValue constructPropertyValue(PropertyDefintion.RepresentationType representationType, Boolean representAsList, Object data) {
@@ -97,12 +97,12 @@ public class PreviewFactory {
 		value.setData(data);
 		return value;
 	}
-	
+
 	private static PropertyDefintion getPropertyDefintion(PropertyDefintion.RepresentationType representationType, Object data) {
 		PropertyDefintion key = new PropertyDefintion();
 		key.setRepresentationType(representationType);
 		key.setData(data);
-		return key; 
+		return key;
 	}
 	private static PropertyDefintion constructPropertyDefintion(String dataAsString) {
     	return getPropertyDefintion(PropertyDefintion.RepresentationType.TEXT, dataAsString);
@@ -110,9 +110,9 @@ public class PreviewFactory {
 	private static PropertyDefintion constructPropertyDefintion(String linkUri, String linkTitle) {
     	return getPropertyDefintion(PropertyDefintion.RepresentationType.LINK, constructLink(linkUri, linkTitle));
 	}
-	
-    private static org.eclipse.lyo.oslc_ui.Link constructLink(String link, String title) {
-    	org.eclipse.lyo.oslc_ui.Link l = new org.eclipse.lyo.oslc_ui.Link();
+
+    private static org.eclipse.lyo.server.ui.model.Link constructLink(String link, String title) {
+    	org.eclipse.lyo.server.ui.model.Link l = new org.eclipse.lyo.server.ui.model.Link();
 		l.setLink(link);
 		l.setTitle(title);
 		return l;

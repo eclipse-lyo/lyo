@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,24 +25,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Link {
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("link")
     private String link;
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("title")
     private String title;
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("link")
     public String getLink() {
@@ -50,9 +50,9 @@ public class Link {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("link")
     public void setLink(String link) {
@@ -60,9 +60,9 @@ public class Link {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -70,9 +70,9 @@ public class Link {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("title")
     public void setTitle(String title) {

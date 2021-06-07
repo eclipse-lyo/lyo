@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,24 +29,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class PropertyDefintion {
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     private Object data;
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
     private PropertyDefintion.RepresentationType representationType;
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     public Object getData() {
@@ -54,9 +54,9 @@ public class PropertyDefintion {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     public void setData(Object data) {
@@ -64,9 +64,9 @@ public class PropertyDefintion {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
     public PropertyDefintion.RepresentationType getRepresentationType() {
@@ -74,9 +74,9 @@ public class PropertyDefintion {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
     public void setRepresentationType(PropertyDefintion.RepresentationType representationType) {

@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +26,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Preview {
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("properties")
     private List<Property> properties = new ArrayList<Property>();
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("properties")
     public List<Property> getProperties() {
@@ -44,9 +44,9 @@ public class Preview {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("properties")
     public void setProperties(List<Property> properties) {

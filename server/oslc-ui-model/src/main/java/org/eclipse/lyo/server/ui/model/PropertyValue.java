@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.oslc_ui;
+package org.eclipse.lyo.server.ui.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,26 +26,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class PropertyValue {
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     private Object data;
     @JsonProperty("representAsList")
     private Boolean representAsList;
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
-    private org.eclipse.lyo.oslc_ui.PropertyDefintion.RepresentationType representationType;
+    private PropertyDefintion.RepresentationType representationType;
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     public Object getData() {
@@ -53,9 +53,9 @@ public class PropertyValue {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("data")
     public void setData(Object data) {
@@ -73,22 +73,22 @@ public class PropertyValue {
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
-    public org.eclipse.lyo.oslc_ui.PropertyDefintion.RepresentationType getRepresentationType() {
+    public PropertyDefintion.RepresentationType getRepresentationType() {
         return representationType;
     }
 
     /**
-     * 
+     *
      * (Required)
-     * 
+     *
      */
     @JsonProperty("representationType")
-    public void setRepresentationType(org.eclipse.lyo.oslc_ui.PropertyDefintion.RepresentationType representationType) {
+    public void setRepresentationType(PropertyDefintion.RepresentationType representationType) {
         this.representationType = representationType;
     }
 

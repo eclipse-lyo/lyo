@@ -4,16 +4,16 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>lyo-parent</artifactId>
+        <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+        <artifactId>lyo-server-build</artifactId>
         <version>4.1.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>org.eclipse.lyo.domains</groupId>
-    <artifactId>ui-classes</artifactId>
+    <groupId>org.eclipse.lyo.server</groupId>
+    <artifactId>oslc-ui-model</artifactId>
     <version>4.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Lyo :: Domains:: Delegated UI classes</name>
+    <name>Lyo :: Server:: OSLC UI model classes</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
