@@ -274,7 +274,7 @@ public class SparqlStoreImpl implements Store {
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit, final int offset) {
         return getResources(namedGraph, prefixes, where, null, limit, offset);
     }
-    
+
     @Override
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
 
@@ -305,7 +305,7 @@ public class SparqlStoreImpl implements Store {
 		Query describeQuery = describeBuilder.build() ;
 		String describeQueryString = describeQuery.toString();
 		final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
-        
+
         Model execDescribe;
         try {
             execDescribe = queryExecution.execDescribe();
@@ -375,6 +375,12 @@ public class SparqlStoreImpl implements Store {
     @Override
     public void removeAll() {
         queryExecutor.prepareSparqlUpdate("CLEAR ALL").execute();
+    }
+
+    @Override
+    public void close() {
+        queryExecutor.release();
+        log.debug("Underlying SPARQL connection has been released");
     }
 
     private <T extends IResource> String oslcQueryPrefixes(final Class<T> clazz) {
@@ -454,7 +460,7 @@ public class SparqlStoreImpl implements Store {
 	        throw e;
 		}
         return execDescribe;
-        
+
     }
 
     private Model modelFromQueryFlatPaged(final URI namedGraph, final URI type, final int limit,
@@ -528,7 +534,7 @@ public class SparqlStoreImpl implements Store {
     				SimpleTerm simpleTerm = iterator.next();
     				Type termType = simpleTerm.type();
     				PName property = simpleTerm.property();
-    				
+
     				if (!termType.equals(Type.COMPARISON)){
     			        throw new UnsupportedOperationException("only support for terms of type Comparisons");
     				}
@@ -536,7 +542,7 @@ public class SparqlStoreImpl implements Store {
     				if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
     			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
     				}
-    				
+
     				Value comparisonOperand = aComparisonTerm.operand();
     				Value.Type operandType = comparisonOperand.type();
     				String predicate;
@@ -546,7 +552,7 @@ public class SparqlStoreImpl implements Store {
     				else {
     					predicate = property.toString();
     				}
-    				
+
     				switch (operandType) {
     				case DECIMAL:
     					DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
@@ -568,7 +574,7 @@ public class SparqlStoreImpl implements Store {
 		} catch (ParseException e) {
             throw new IllegalArgumentException("whereExpression could not be parsed", e);
 		}
-		
+
         //Setup searchTerms
         //Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the distinctResourcesQuery
 		if (!StringUtils.isEmpty(searchTerms)) {
@@ -576,14 +582,14 @@ public class SparqlStoreImpl implements Store {
             E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
 			distinctResourcesQuery.addFilter(regex);
 		}
-		
+
 		if (limit > 0) {
 			distinctResourcesQuery.setLimit(limit);
 		}
 		if (offset > 0) {
 			distinctResourcesQuery.setOffset(offset);
 		}
-        
+
         SelectBuilder constructSelectQuery = new SelectBuilder();
         constructSelectQuery.addVar( "s p o" )
         	.addSubQuery(distinctResourcesQuery);

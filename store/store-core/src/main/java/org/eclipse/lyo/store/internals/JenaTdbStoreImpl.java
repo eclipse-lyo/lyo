@@ -208,6 +208,12 @@ public class JenaTdbStoreImpl implements Store {
     }
 
     @Override
+    public void close() {
+        TDB.sync(dataset);
+        dataset.close();
+    }
+
+    @Override
     public <T extends IResource> T getResource(final URI namedGraph, final URI uri,
             final Class<T> clazz)
             throws NoSuchElementException, StoreAccessException, ModelUnmarshallingException {

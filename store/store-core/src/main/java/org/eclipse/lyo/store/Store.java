@@ -166,12 +166,12 @@ public interface Store {
      * @throws ModelUnmarshallingException if the classes cannot be instantiated or another error
      *                                     occurred when working with Jena model.
      */
-    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, 
-    		String prefixes, String where, String searchTerms, 
+    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
+    		String prefixes, String where, String searchTerms,
     		int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
 
     /**
-     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html) 
+     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
      * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
      * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
      *
@@ -187,7 +187,7 @@ public interface Store {
 	Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset);
 
     /**
-     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html) 
+     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
      * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
      * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
      *
@@ -312,4 +312,11 @@ public interface Store {
      * @since 0.23.0
      */
     void removeAll();
+
+    /**
+     * Close connection
+     *
+     * @since 4.1.0
+     */
+    void close();
 }

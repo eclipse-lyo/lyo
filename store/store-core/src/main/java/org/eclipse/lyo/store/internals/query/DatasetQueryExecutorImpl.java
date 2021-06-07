@@ -17,6 +17,7 @@ package org.eclipse.lyo.store.internals.query;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.tdb.TDB;
 import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.update.GraphStore;
 import org.apache.jena.update.GraphStoreFactory;
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
     private static final Logger log = LoggerFactory.getLogger(DatasetQueryExecutorImpl.class);
     private final Dataset dataset;
-    private final GraphStore graphStore;
+    private volatile boolean released = false;
 
     /**
      * Use {@link StoreFactory} instead.
@@ -49,21 +50,33 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
         this(TDBFactory.createDataset());
     }
 
-    DatasetQueryExecutorImpl(final Dataset dataset) {
+    public DatasetQueryExecutorImpl(final Dataset dataset) {
         this.dataset = dataset;
-        this.graphStore = GraphStoreFactory.create(dataset);
     }
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
+        if(released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         log.debug("Running query: '{}'", query);
         return QueryExecutionFactory.create(query, dataset);
     }
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
+        if(released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         log.debug("Running update: '{}'", query);
         final UpdateRequest update = UpdateFactory.create(query);
-        return UpdateExecutionFactory.create(update, graphStore);
+        return UpdateExecutionFactory.create(update, dataset);
+    }
+
+    @Override
+    public void release() {
+        TDB.sync(dataset);
+        released = true;
+        dataset.close();
     }
 }
