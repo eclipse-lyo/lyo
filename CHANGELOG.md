@@ -24,6 +24,7 @@
 ### Fixed
 
 - Make sure every Lyo dependency uses the same version of Guava (30.0)
+- Fix a few issues around rdf:nil handling in the TRS Client
 
 ## [4.0.0] - 2020-12-16
 

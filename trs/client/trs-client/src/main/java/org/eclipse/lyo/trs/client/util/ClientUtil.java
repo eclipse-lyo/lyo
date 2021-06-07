@@ -97,19 +97,20 @@ class ClientUtil {
         }
 
         if (baseObj == null) {
-            // FIXME Andrew@2019-07-15: nulls
+            log.error("Base page object is null");
+            //FIXME nulls
+//            throw new IllegalStateException();
             return null;
         }
 
         if (ProviderUtil.isNotEmptySingletonArray(nextPageArray) && nextPageArray[0] instanceof Page) {
             nextPage = (Page) nextPageArray[0];
             baseObj.setNextPage(nextPage);
-            log.debug("finished extracting base from rdf model");
-            return baseObj;
+        } else {
+            log.debug("Base page {} is the last one", baseObj.getAbout());
         }
         log.debug("finished extracting base from rdf model");
-        // FIXME Andrew@2019-07-15: nulls
-        return null;
+        return baseObj;
     }
 
     /**
