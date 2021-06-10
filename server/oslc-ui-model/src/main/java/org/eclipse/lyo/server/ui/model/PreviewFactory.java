@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -38,7 +38,7 @@ public class PreviewFactory {
 			for (String getterMethodName : getterMethodNames) {
 				getterMethod = aResource.getClass().getMethod(getterMethodName);
 				boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) || getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-				boolean showPropertyValueAsLink = getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource);
+				boolean showPropertyValueAsLink = (null != getterMethod.getAnnotation(OslcValueType.class)) && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
 				PropertyDefintion key;
 				if (showPropertyHeadingsAsLinks) {
 					key = constructPropertyDefintion(getterMethod.getAnnotation(OslcPropertyDefinition.class).value(), getterMethod.getAnnotation(OslcName.class).value());
@@ -52,17 +52,13 @@ public class PreviewFactory {
 						Collection<Link> links = (Collection<Link>) getterMethod.invoke(aResource);
 						List<org.eclipse.lyo.server.ui.model.Link> l = new ArrayList<org.eclipse.lyo.server.ui.model.Link>();
 						for(Link link : links) {
-							if (StringUtils.isBlank(link.getLabel())) {
-								l.add(constructLink(link.getValue().toString(), link.getValue().toString()));
-							}
-							else {
-								l.add(constructLink(link.getValue().toString(), link.getLabel()));
-							}
+                            l.add(constructLink(link));
 						}
 						value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
 					}
 					else {
-						value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, getterMethod.invoke(aResource));
+					    Link link = (Link) getterMethod.invoke(aResource);
+						value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, constructLink(link));
 					}
 				}
 				else {
@@ -94,7 +90,12 @@ public class PreviewFactory {
 		PropertyValue value = new PropertyValue();
 		value.setRepresentationType(representationType);
 		value.setRepresentAsList(representAsList);
-		value.setData(data);
+		if (null == data) {
+	        value.setData("<not set>");
+		}
+		else {
+	        value.setData(data);
+		}
 		return value;
 	}
 
@@ -110,6 +111,18 @@ public class PreviewFactory {
 	private static PropertyDefintion constructPropertyDefintion(String linkUri, String linkTitle) {
     	return getPropertyDefintion(PropertyDefintion.RepresentationType.LINK, constructLink(linkUri, linkTitle));
 	}
+
+    private static org.eclipse.lyo.server.ui.model.Link constructLink(Link link) {
+        if (null == link) {
+            return null;
+        }
+        if (StringUtils.isBlank(link.getLabel())) {
+            return constructLink(link.getValue().toString(), link.getValue().toString());
+        }
+        else {
+            return constructLink(link.getValue().toString(), link.getLabel());
+        }
+    }
 
     private static org.eclipse.lyo.server.ui.model.Link constructLink(String link, String title) {
     	org.eclipse.lyo.server.ui.model.Link l = new org.eclipse.lyo.server.ui.model.Link();
