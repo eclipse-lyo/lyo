@@ -6,7 +6,7 @@
   <artifactId>lyo-server-build</artifactId>
   <version>4.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Lyo :: OAuth :: _Parent</name>
+  <name>Lyo :: Server :: _Parent</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
@@ -21,6 +21,7 @@
     <module>oauth-webapp</module>
     <module>oslc4j-registry</module>
     <module>oslc4j-wink</module>
+    <module>oslc-ui-model</module>
   </modules>
 
   <dependencyManagement>
