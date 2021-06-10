@@ -5,6 +5,8 @@
 ### Added
 
 - [Domains] Add `org.eclipse.lyo.domains:ui-classes` module with POJOs needed by [lyo.oslc-ui](https://github.com/eclipse/lyo.oslc-ui).
+- Store adds interface support for closing the Store cleanly and releasing underlying connections. 
+- SparqlStoreImpl can now be set up with a custom query executor
 
 ### Changed
 
@@ -12,7 +14,9 @@
 - Update Kotlin from 1.4.20 to 1.5.10  
 - Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
 - Update Eclipse Paho from 1.2.1 to 1.2.5 due to a potential security vulnerability.
-- Force libthrift from 0.13.0 to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
+- Pin libthrift version to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
+- Pin httpclient version to 4.5.13 due to a [vulnerability](https://github.com/eclipse/lyo/pull/103).
+- Pin embedded Tomcat version (pulled in by Jena) to 8.5.66 due to [CVE-2021-25329](https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637)
 
 ### Deprecated
 
@@ -24,6 +28,7 @@
 ### Fixed
 
 - Make sure every Lyo dependency uses the same version of Guava (30.0)
+- Fix a few issues around rdf:nil handling in the TRS Client
 
 ## [4.0.0] - 2020-12-16
 

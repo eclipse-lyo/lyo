@@ -25,6 +25,10 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * SparqlQueryExecutorImpl is a SPARQL endpoint-based implementation of {@link JenaQueryExecutor}.
@@ -34,10 +38,12 @@ import org.apache.jena.update.UpdateProcessor;
  * @since 0.14.0
  */
 public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
+    private final Logger log = LoggerFactory.getLogger(SparqlQueryExecutorBasicAuthImpl.class);
 
     private final String queryEndpoint;
     private final String updateEndpoint;
     private final CloseableHttpClient client;
+    private volatile boolean released = false;
 
     public SparqlQueryExecutorBasicAuthImpl(final String sparqlEndpoint,
             final String updateEndpoint, final String login, final String password) {
@@ -52,15 +58,32 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
+        if (released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         return QueryExecutionFactory.sparqlService(queryEndpoint, query, client);
     }
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
+        if (released) {
+            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        }
         return UpdateExecutionFactory.createRemote(
-                UpdateFactory.create(query),
-                updateEndpoint,
-                client
+            UpdateFactory.create(query),
+            updateEndpoint,
+            client
         );
+    }
+
+    @Override
+    public void release() {
+        try {
+            released = true;
+            client.close();
+        } catch (IOException e) {
+            log.warn("Failed to close the HTTP client cleanly");
+            log.debug("Failed to close the HTTP client cleanly", e);
+        }
     }
 }

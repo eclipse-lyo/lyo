@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
@@ -98,6 +99,16 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
                     break;
                 }
                 previousChangeLog = currentChangeLog.getPrevious();
+                if(previousChangeLog == null || URI.create(RDF.nil.getURI()).equals(previousChangeLog)) {
+                    if(URI.create(RDF.nil.getURI()).equals(lastProcessedChangeEventUri)) {
+                        log.debug("First ChangeLog page reached");
+                        foundChangeEvent = true;
+                    }
+                    else {
+                        log.error("Changelog read to the end without finding the cutoff event URI");
+                    }
+                    break;
+                }
                 currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
             } else {
                 break;
