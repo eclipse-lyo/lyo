@@ -453,6 +453,31 @@
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
         </plugin>
+        <!--Ignore Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
+        <plugin>
+            <groupId>org.eclipse.m2e</groupId>
+            <artifactId>lifecycle-mapping</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+                <lifecycleMappingMetadata>
+                    <pluginExecutions>
+                        <pluginExecution>
+                            <pluginExecutionFilter>
+                                <groupId>org.jetbrains.dokka</groupId>
+                                <artifactId>dokka-maven-plugin</artifactId>
+                                <versionRange>[1.4.32,)</versionRange>
+                                <goals>
+                                    <goal>javadocJar</goal>
+                                </goals>
+                            </pluginExecutionFilter>
+                            <action>
+                                <ignore></ignore>
+                            </action>
+                        </pluginExecution>
+                    </pluginExecutions>
+                </lifecycleMappingMetadata>
+            </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
