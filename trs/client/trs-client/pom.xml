@@ -119,6 +119,12 @@
       <groupId>com.j2bugzilla</groupId>
       <artifactId>j2bugzilla</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- test or not? -->

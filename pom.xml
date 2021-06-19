@@ -268,19 +268,6 @@
         <type>pom</type>
       </dependency>
       <dependency>
-        <!--CQ 6780-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <!--CQ 6583-->
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.12.0</version>
-      </dependency>
-      <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
         <version>2.1.6</version>
@@ -507,6 +494,12 @@
                   <message>The reactor is not valid</message>
                   <ignoreModuleDependencies>false</ignoreModuleDependencies>
                 </reactorModuleConvergence>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xerces</exclude>
+                    <exclude>xml-apis</exclude>
+                  </excludes>
+                </bannedDependencies>
               </rules>
               <fail>true</fail>
             </configuration>
