@@ -12,8 +12,8 @@
 
 - Update SHaclEX from 0.0.87 to 0.1.102 (mainly due to Bintray shutdown; breaking change but should not affect the consumers of Lyo Validation).
   - SHaclEX 0.1.102 depends on Jena 3.16, which requires us to upgrade.
+  - Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
 - Update Kotlin from 1.4.20 to 1.5.10  
-- Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
 - Update Eclipse Paho from 1.2.1 to 1.2.5 due to a potential security vulnerability.
 - Pin libthrift version to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
 - Pin httpclient version to 4.5.13 due to a [vulnerability](https://github.com/eclipse/lyo/pull/103).
