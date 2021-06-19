@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,19 +24,9 @@ import java.text.ParseException;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-import cats.effect.IO;
-import cats.effect.IO$;
-import cats.effect.kernel.Resource;
-import cats.effect.kernel.Resource$;
-import cats.effect.unsafe.IORuntime;
-import cats.effect.unsafe.IORuntime$;
-import es.weso.rdf.RDFBuilder;
-import es.weso.rdf.jena.RDFAsJenaModel$;
-import es.weso.schema.RDFReport;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFLanguages;
-import org.checkerframework.checker.units.qual.A;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
@@ -47,15 +37,18 @@ import org.eclipse.lyo.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cats.effect.IO;
+import cats.effect.unsafe.IORuntime;
+import cats.effect.unsafe.IORuntime$;
 import es.weso.rdf.PrefixMap;
-import es.weso.rdf.RDFReader;
+import es.weso.rdf.RDFBuilder;
 import es.weso.rdf.jena.RDFAsJenaModel;
+import es.weso.schema.RDFReport;
 import es.weso.schema.Result;
 import es.weso.schema.Schema;
 import es.weso.schema.Schemas;
 import scala.Option;
 import scala.collection.immutable.HashMap;
-import scala.util.Either;
 
 /**
  * @since 2.3.0
@@ -146,7 +139,8 @@ public class ShaclExValidatorImpl implements Validator {
     private Result validate(final RDFAsJenaModel rdf, final Schema schema) {
         PrefixMap nodeMap = rdf.getPrefixMap().unsafeRunSync(IO_RUNTIME);
         PrefixMap shapesMap = schema.pm();
-        return schema.validate(rdf, TRIGGER_MODE_TARGET_DECLS, EMPTY_MAP, OPTION_NONE, OPTION_NONE, nodeMap, shapesMap, rdf)
+        final Option<RDFBuilder> rdfOption = Option.apply(rdf);
+        return schema.validate(rdf, TRIGGER_MODE_TARGET_DECLS, EMPTY_MAP, OPTION_NONE, OPTION_NONE, nodeMap, shapesMap, rdfOption)
             .unsafeRunSync(IO_RUNTIME);
     }
 

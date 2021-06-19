@@ -20,7 +20,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.jetty>9.4.0.v20161208</v.jetty>
-    <v.shaclex>0.1.93</v.shaclex>
+    <v.shaclex>0.1.102</v.shaclex>
   </properties>
 
   <dependencies>

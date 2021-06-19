@@ -95,18 +95,11 @@ public final class JenaModelHelper
                 null);
     }
 
-    static Model createJenaModel(final String			   descriptionAbout,
-                                 final String			   responseInfoAbout,
-                                 final ResponseInfo<?>		   responseInfo,
-                                 final Object[]			   objects,
-                                 final Map<String, Object> properties)
-            throws DatatypeConfigurationException,
-            IllegalAccessException,
-            IllegalArgumentException,
-            InvocationTargetException,
-            OslcCoreApplicationException
-    {
-        final Model				  model				= ModelFactory.createDefaultModel();
+    static Model createJenaModel(final String descriptionAbout, final String responseInfoAbout,
+            final ResponseInfo<?> responseInfo, final Object[] objects, final Map<String, Object> properties)
+            throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, OslcCoreApplicationException {
+        final Model model = ModelFactory.createDefaultModel();
 
         Resource descriptionResource = null;
 

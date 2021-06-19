@@ -19,7 +19,7 @@
     <v.kotlin>1.5.10</v.kotlin>
     <v.dokka>1.4.32</v.dokka>
 
-    <v.jena>3.14.0</v.jena>
+    <v.jena>3.16.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.30</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
@@ -84,7 +84,7 @@
     <module>store</module>
     <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
     and/or https://github.com/weso/shaclex/issues/390 are resolved-->
-<!--    <module>validation</module>-->
+    <module>validation</module>
   </modules>
 
   <profiles>
@@ -349,12 +349,12 @@
         <artifactId>javax.annotation-api</artifactId>
         <version>1.3.2</version>
       </dependency>
-      <dependency>
-        <!--es.weso:shaclex_2.12:pom:0.0.87-->
+      <!--es.weso:shaclex_2.12:pom:0.0.87-->
+      <!-- <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.8.0</version>
-      </dependency>
+      </dependency> -->
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
