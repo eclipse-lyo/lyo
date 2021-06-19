@@ -88,7 +88,7 @@
       <dependency>
         <groupId>org.eclipse.rdf4j</groupId>
         <artifactId>rdf4j-repository-sparql</artifactId>
-        <version>2.5.3</version>
+        <version>3.5.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
