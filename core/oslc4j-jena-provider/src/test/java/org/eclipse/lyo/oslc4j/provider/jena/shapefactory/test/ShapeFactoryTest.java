@@ -86,13 +86,21 @@ public class ShapeFactoryTest {
     }
 
     @Test
-    public void validInstanceMarshalsAndUnmarshalsTest() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException, InstantiationException, SecurityException, URISyntaxException {
+    public void validInstanceMarshalsAndUnmarshalsAsModelsTest() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException, InstantiationException, SecurityException, URISyntaxException {
          ShapeWithWorkingReferences sourceResource = createShapeInstanceWithWorkingReferences("1");
          final Model sourceModel = JenaModelHelper.createJenaModel(new Object[]{sourceResource});
          ShapeWithWorkingReferences resultingResource = JenaModelHelper.unmarshalSingle(sourceModel, ShapeWithWorkingReferences.class);
          final Model resultingModel = JenaModelHelper.createJenaModel(new Object[]{resultingResource});
          
          assertThat(sourceModel).isomorphicWith(resultingModel);
+    }
+
+    @Test
+    public void validInstanceMarshalsAndUnmarshalsAsResourcesTest2() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException, InstantiationException, SecurityException, URISyntaxException {
+         ShapeWithWorkingReferences sourceResource = createShapeInstanceWithWorkingReferences("1");
+         final Model sourceModel = JenaModelHelper.createJenaModel(new Object[]{sourceResource});
+         ShapeWithWorkingReferences resultingResource = JenaModelHelper.unmarshalSingle(sourceModel, ShapeWithWorkingReferences.class);
+         final Model resultingModel = JenaModelHelper.createJenaModel(new Object[]{resultingResource});
          
          //Assert that the identifier of the inlined resource remains intact.
          assertTrue(sourceResource.getInlines().getIdentifier().equals(resultingResource.getInlines().getIdentifier()));
@@ -117,5 +125,5 @@ public class ShapeFactoryTest {
          assertNotNull(resultingResource.getReferencesAsResource().getValue());
          assertTrue(sourceResource.getReferencesAsResource().getValue().equals(resultingResource.getReferencesAsResource().getValue()));
     }
-
+    
 }

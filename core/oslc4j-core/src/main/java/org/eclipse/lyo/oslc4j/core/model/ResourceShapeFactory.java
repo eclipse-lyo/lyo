@@ -271,7 +271,6 @@ public class ResourceShapeFactory {
 			property.setValueShape(new URI(baseURI + "/" + valueShapeAnnotation.value()));
 		}
 
-		//TODO: in EACH OF THESE 3 LINES, Representation can be null! Because that's what getDefaultRepresentation() can return.
         validateUserSpecifiedValueType(resourceClass, method, valueType, representation, componentType);
         validateUserSpecifiedRepresentation(resourceClass, method, representation, componentType);
 		if ((ValueType.LocalResource.equals(valueType)) 
