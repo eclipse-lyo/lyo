@@ -14,6 +14,7 @@
 
 ### Fixed
 
+- Allow a resource shape to have a property to be represented as "inlined"
 
 ## [4.0.0] - 2020-12-16
 
