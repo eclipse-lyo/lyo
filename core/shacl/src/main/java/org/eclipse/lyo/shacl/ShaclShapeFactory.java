@@ -384,7 +384,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
                 OslcValueType.class);
         if (valueTypeAnnotation != null) {
             valueType = valueTypeAnnotation.value();
-            validateUserSpecifiedValueType(resourceClass, method, valueType, componentType);
+            validateUserSpecifiedValueType(resourceClass, method, valueType, null, componentType);
             property.setDataType(new URI(valueType.toString()));
 
             final OslcAllowedValue oslcAllowedValue = InheritedMethodAnnotationHelper.getAnnotation(method,

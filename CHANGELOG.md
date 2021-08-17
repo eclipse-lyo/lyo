@@ -28,6 +28,7 @@
 
 ### Fixed
 
+- Allow a resource shape to have a property to be represented as "inlined"
 - Make sure every Lyo dependency uses the same version of Guava (30.0)
 - Fix a few issues around rdf:nil handling in the TRS Client
 
