@@ -41,4 +41,9 @@ public interface JenaQueryExecutor {
      * @return prepared processor
      */
     UpdateProcessor prepareSparqlUpdate(String query);
+
+    /**
+     * Release a connection to the underlying engine
+     */
+    void release();
 }

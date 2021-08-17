@@ -11,3 +11,4 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
+package org.eclipse.lyo.store;

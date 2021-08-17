@@ -13,27 +13,28 @@
 
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
-		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-         version="3.1">
-	<display-name>Eclipse Lyo Sample OAuth Provider</display-name>
-	<description>An example demonstrating the Lyo OAuth provider framework.</description>
-	<listener>
-		<listener-class>org.eclipse.lyo.server.oauth.webapp.services.OAuthServletListener</listener-class>
-	</listener>
-	<!--<servlet>
-		<servlet-name>JAX-RS Services</servlet-name>
-		<servlet-class>
-			org.apache.wink.server.internal.servlet.RestServlet
-		</servlet-class>
-		<init-param>
-			<param-name>applicationConfigLocation</param-name>
-			<param-value>/WEB-INF/oauth-services</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>JAX-RS Services</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>-->
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/ 
+             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+    version="3.1">
+    <display-name>Eclipse Lyo Sample OAuth Provider</display-name>
+    <description>An example demonstrating the Lyo OAuth provider framework.</description>
+    <listener>
+        <listener-class>org.eclipse.lyo.server.oauth.webapp.services.OAuthServletListener
+        </listener-class>
+    </listener>
+<!--     <servlet>
+        <servlet-name>JAX-RS Services</servlet-name>
+        <servlet-class>
+            org.apache.wink.server.internal.servlet.RestServlet
+        </servlet-class>
+        <init-param>
+            <param-name>applicationConfigLocation</param-name>
+            <param-value>/WEB-INF/oauth-services</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JAX-RS Services</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping> -->
 </web-app>

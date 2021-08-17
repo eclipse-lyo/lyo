@@ -10,7 +10,7 @@
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oauth-core</artifactId>
     <packaging>jar</packaging>
-    <name>Lyo :: OAuth :: Core</name>
+    <name>Lyo :: Server :: OAuth Core</name>
     <description>Core components of the Eclipse Lyo OAuth provider.</description>
 
     <properties>
@@ -20,13 +20,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <lyo.version>${project.parent.version}</lyo.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>oauth</id>
-            <url>http://oauth.googlecode.com/svn/code/maven</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- Project specific -->

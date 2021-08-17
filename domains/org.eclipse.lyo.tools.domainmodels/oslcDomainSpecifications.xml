@@ -100,7 +100,7 @@
     <resources id="_poPX8ZUdEeq-KoPaR9_Cfg" name="ResourceShape" resourceProperties="_pnZDYJUdEeq-KoPaR9_Cfg _poPX8pUdEeq-KoPaR9_Cfg _poSbQJUdEeq-KoPaR9_Cfg"/>
     <resources id="_poP_AJUdEeq-KoPaR9_Cfg" name="Discussion"/>
     <resources id="_poP_AZUdEeq-KoPaR9_Cfg" name="Property" resourceProperties="_pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _poSbQZUdEeq-KoPaR9_Cfg _poP_ApUdEeq-KoPaR9_Cfg _poP_A5UdEeq-KoPaR9_Cfg _poP_BJUdEeq-KoPaR9_Cfg _poP_BZUdEeq-KoPaR9_Cfg _poQmEJUdEeq-KoPaR9_Cfg _poQmEZUdEeq-KoPaR9_Cfg _poQmEpUdEeq-KoPaR9_Cfg _poQmE5UdEeq-KoPaR9_Cfg _poQmFJUdEeq-KoPaR9_Cfg _poQmFZUdEeq-KoPaR9_Cfg _poRNIJUdEeq-KoPaR9_Cfg _poRNIZUdEeq-KoPaR9_Cfg _poTpYJUdEeq-KoPaR9_Cfg"/>
-    <resources id="_poRNIpUdEeq-KoPaR9_Cfg" name="Allowed Values" resourceProperties="_poP_ApUdEeq-KoPaR9_Cfg"/>
+    <resources id="_poRNIpUdEeq-KoPaR9_Cfg" name="AllowedValues" resourceProperties="_poP_ApUdEeq-KoPaR9_Cfg"/>
     <resources id="_gtmHEiKJEeuEW8NmTOtW7w" name="ServiceProviderCatalog" resourceProperties="_pnZDYJUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _gtmHECKJEeuEW8NmTOtW7w _gtlgACKJEeuEW8NmTOtW7w"/>
     <resources id="_gtmHEyKJEeuEW8NmTOtW7w" name="Service" resourceProperties="_U_N-8CKKEeuEW8NmTOtW7w _U_N-8SKKEeuEW8NmTOtW7w _U_N-8iKKEeuEW8NmTOtW7w _W3oSECKKEeuEW8NmTOtW7w _jR7PkCKKEeuEW8NmTOtW7w _kXjpACLZEeu9M4063qtrOA"/>
     <resources id="_nr5V8CKJEeuEW8NmTOtW7w" name="Publisher" resourceProperties="_pnX1QJUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _bLP8ACKNEeuEW8NmTOtW7w"/>
