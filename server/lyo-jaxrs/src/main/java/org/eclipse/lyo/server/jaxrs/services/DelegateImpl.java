@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
+ * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.server.jaxrs.services;
 
 import java.lang.reflect.ParameterizedType;
@@ -156,7 +169,7 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
                             .header("ETag", repository.getETag(resultResource))
                             .header("OSLC-Core-Version", "2.0");
                 } else {
-                    // TODO add an ETag in the reponse if possible
+                    // TODO add an ETag in the response if possible
                     return Response.status(Status.PRECONDITION_FAILED)
                             .header("OSLC-Core-Version", "2.0");
                 }
@@ -203,20 +216,17 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        // TODO replace with a repository call
+        
         // TODO replace with a limit and offset
         // TODO request explicitly n+1 resources
-//        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
-        
-        
-        //TODO extend Jena provider to cover all collection and don't assume above that we return a list
+        // Parse strings before handing off to the Repository
+        //TODO extend Jena provider to cover all collections and don't assume above that we return a list
         List<RT> resources = repository.queryResources(where, prefix, page, pageSize);
         
         if(resources == null) {
             return Response.status(Status.NOT_FOUND);
         }
                
-        // TODO check if we can send just a list
         return Response.status(Status.OK)
                 .entity(resources);
 //                .entity(resources.toArray(new ChangeRequest [resources.size()]));
@@ -229,7 +239,6 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
 
     @Override
     public Optional<RT> fetchResource(IBT id) throws RepositoryConnectionException {
-        // TODO Auto-generated method stub
         return repository.getResource(id.toUri());
     }
 }
