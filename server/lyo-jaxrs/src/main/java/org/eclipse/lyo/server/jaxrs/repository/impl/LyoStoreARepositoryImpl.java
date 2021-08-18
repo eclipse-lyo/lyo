@@ -39,17 +39,17 @@ import org.slf4j.LoggerFactory;
 import com.google.common.reflect.TypeToken;
 
 // TODO add a javadoc and describe the difference between the two Store-backed implementations
-public class StoreARepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
+public class LyoStoreARepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
     // TODO use another namespace or raise an issue in the OP
     public static final QName OSLC_ETAG = new QName(OSLCConstants.OSLC_V2, "etag");
-    private final static Logger LOG = LoggerFactory.getLogger(StoreARepositoryImpl.class);
+    private final static Logger LOG = LoggerFactory.getLogger(LyoStoreARepositoryImpl.class);
     private final Store store;
     private final Class<R> resourceClass;
     private final TypeToken<R> resourceType = new TypeToken<R>(getClass()){};
     private final URI namedGraph;
 
     @Inject
-    public StoreARepositoryImpl(Store store, @Named("store-named-graph") URI namedGraph) {
+    public LyoStoreARepositoryImpl(Store store, @Named("store-named-graph") URI namedGraph) {
         this.store = store;
         this.namedGraph = namedGraph;
         Type rawType = resourceType.getRawType();

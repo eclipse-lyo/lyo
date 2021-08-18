@@ -35,12 +35,12 @@ public class StoreRepoTest {
 
         // this WON'T WORK!
         // StoreRepositoryImpl<ServiceProvider> repository = new StoreRepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default"));
-        ResourceRepository<ServiceProvider> repository = new StoreARepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default")) {};
+        ResourceRepository<ServiceProvider> repository = new LyoStoreARepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default")) {};
 
         Optional<ServiceProvider> resource = repository.getResource(URI.create("urn:lyo:nonexistent"));
 
         assertFalse(resource.isPresent());
-        assertEquals(((StoreARepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
+        assertEquals(((LyoStoreARepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
     }
 
     @Test
@@ -50,12 +50,12 @@ public class StoreRepoTest {
 
         // this WON'T WORK!
         // StoreRepositoryImpl<ServiceProvider> repository = new StoreRepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default"));
-        ResourceRepository<ServiceProvider> repository = new StoreKRepositoryImpl<ServiceProvider>(store, ServiceProvider.class, URI.create("urn:lyo:default"));
+        ResourceRepository<ServiceProvider> repository = new LyoStoreKRepositoryImpl<ServiceProvider>(store, ServiceProvider.class, URI.create("urn:lyo:default"));
 
         Optional<ServiceProvider> resource = repository.getResource(URI.create("urn:lyo:nonexistent"));
 
         assertFalse(resource.isPresent());
-        assertEquals(((StoreKRepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
+        assertEquals(((LyoStoreKRepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
     }
 
 }

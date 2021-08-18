@@ -34,14 +34,14 @@ import org.eclipse.lyo.store.StoreAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StoreKRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
-    private final static Logger LOG = LoggerFactory.getLogger(StoreARepositoryImpl.class);
+public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
+    private final static Logger LOG = LoggerFactory.getLogger(LyoStoreARepositoryImpl.class);
     private final Store store;
     private final Class<R> resourceClass;
     private final URI namedGraph;
 
     @Inject
-    public StoreKRepositoryImpl(Store store, Class klass, @Named("store-named-graph") URI namedGraph) {
+    public LyoStoreKRepositoryImpl(Store store, Class klass, @Named("store-named-graph") URI namedGraph) {
         this.store = store;
         this.namedGraph = namedGraph;
         resourceClass = klass;
@@ -104,14 +104,14 @@ public class StoreKRepositoryImpl<R extends AbstractResource> implements Resourc
     @Override
     public String getETag(R resource) {
         Map<QName, Object> props = resource.getExtendedProperties();
-        if(!props.containsKey(StoreARepositoryImpl.OSLC_ETAG)) {
+        if(!props.containsKey(LyoStoreARepositoryImpl.OSLC_ETAG)) {
             try {
                 updateETag(resource);
             } catch (StoreAccessException e) {
                 LOG.error("Failed to generate an initial ETag ({})", resource.getAbout());
             }
         }
-        return props.get(StoreARepositoryImpl.OSLC_ETAG).toString();
+        return props.get(LyoStoreARepositoryImpl.OSLC_ETAG).toString();
     }
 
     private void updateETag(R resource) throws StoreAccessException {
@@ -120,7 +120,7 @@ public class StoreKRepositoryImpl<R extends AbstractResource> implements Resourc
     
     private void updateETag(R resource, boolean update) throws StoreAccessException {
         String newETag = generateETag();
-        resource.getExtendedProperties().put(StoreARepositoryImpl.OSLC_ETAG, newETag);
+        resource.getExtendedProperties().put(LyoStoreARepositoryImpl.OSLC_ETAG, newETag);
         if(update) {
             store.updateResources(namedGraph, resource);
         }

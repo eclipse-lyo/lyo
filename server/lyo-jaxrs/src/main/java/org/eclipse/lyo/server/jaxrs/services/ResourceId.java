@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.server.jaxrs.repository;
+package org.eclipse.lyo.server.jaxrs.services;
 
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
