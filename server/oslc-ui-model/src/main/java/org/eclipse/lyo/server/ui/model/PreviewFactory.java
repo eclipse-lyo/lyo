@@ -19,10 +19,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
+import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,8 +44,11 @@ public class PreviewFactory {
             getterMethod = aResource.getClass().getMethod(getterMethodName);
             boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) ||
                 getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-            boolean showPropertyValueAsLink = (null != getterMethod.getAnnotation(OslcValueType.class)) &&
-                (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
+            boolean showPropertyValueAsLink = ((null != getterMethod.getAnnotation(OslcValueType.class)) && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource))) //aResource is of type Resource
+                    && //aResource is not defined to be Inlined
+                    ((null == getterMethod.getAnnotation(OslcRepresentation.class)) 
+                            || 
+                    (((null != getterMethod.getAnnotation(OslcRepresentation.class)) && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)))));
             PropertyDefintion key;
             if (showPropertyHeadingsAsLinks) {
                 key = constructPropertyDefintion(getterMethod.getAnnotation(OslcPropertyDefinition.class).value(),
