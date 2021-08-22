@@ -44,11 +44,12 @@ public class PreviewFactory {
             getterMethod = aResource.getClass().getMethod(getterMethodName);
             boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) ||
                 getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-            boolean showPropertyValueAsLink = ((null != getterMethod.getAnnotation(OslcValueType.class)) && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource))) //aResource is of type Resource
-                    && //aResource is not defined to be Inlined
-                    ((null == getterMethod.getAnnotation(OslcRepresentation.class)) 
-                            || 
-                    (((null != getterMethod.getAnnotation(OslcRepresentation.class)) && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)))));
+            final boolean isResourceValueType = (null != getterMethod.getAnnotation(OslcValueType.class)) 
+                    && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
+            final boolean isNotInlinedRepresentation = (null == getterMethod.getAnnotation(OslcRepresentation.class)) 
+                    || ((null != getterMethod.getAnnotation(OslcRepresentation.class)) 
+                            && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)));
+            boolean showPropertyValueAsLink = isResourceValueType && isNotInlinedRepresentation;
             PropertyDefintion key;
             if (showPropertyHeadingsAsLinks) {
                 key = constructPropertyDefintion(getterMethod.getAnnotation(OslcPropertyDefinition.class).value(),
