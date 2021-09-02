@@ -24,6 +24,7 @@ import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Element;
@@ -87,4 +88,10 @@ public class JenaModelHelperTest {
         assertEquals(Dog.class, pet.getClass());
     }
 
+    @Test
+    public void testExtendedEscape() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape.ttl");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+        assertEquals(resource.getExtendedProperties().size(), 2);
+    }
 }
