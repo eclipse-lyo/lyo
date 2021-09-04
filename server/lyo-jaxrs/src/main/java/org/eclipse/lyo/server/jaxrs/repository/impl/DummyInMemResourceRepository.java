@@ -13,15 +13,23 @@
  */
 package org.eclipse.lyo.server.jaxrs.repository.impl;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
+import org.eclipse.lyo.server.jaxrs.services.ResourceId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class DummyInMemResourceRepository<R extends AbstractResource> extends InMemResourceRepositoryImpl<R> {
-    public DummyInMemResourceRepository(Supplier<R> s, int n, Class<R> klass) {
+public class DummyInMemResourceRepository<RT extends AbstractResource, IDT extends ResourceId<RT>> extends InMemResourceRepositoryImpl<RT, IDT> {
+    private final static Logger LOG = LoggerFactory.getLogger(DummyInMemResourceRepository.class);
+
+    public DummyInMemResourceRepository(Supplier<RT> s, Function<RT, IDT> idGen, int n, Class<RT> klass) {
         for (int i = 0; i < n; i++) {
-            R resource = s.get();
-            this.update(resource.getAbout(), resource, klass);
+            RT resource = s.get();
+            IDT id = idGen.apply(resource);
+            this.createResource(resource, id, klass);
         }
     }
 }

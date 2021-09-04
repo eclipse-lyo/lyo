@@ -31,21 +31,22 @@ import org.eclipse.lyo.core.query.WhereClause;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.eclipse.lyo.server.jaxrs.services.ResourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.jsonldjava.shaded.com.google.common.base.Strings;
 
-public class InMemResourceRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
+public class InMemResourceRepositoryImpl<R extends AbstractResource, IBT extends ResourceId<R>> implements ResourceRepository<R, IBT> {
 
-    private final static Logger LOG = LoggerFactory.getLogger(InMemResourceRepositoryImpl.class); 
-    
+    private final static Logger LOG = LoggerFactory.getLogger(InMemResourceRepositoryImpl.class);
+
     protected final Map<URI, R> resources = new HashMap<>();
-    protected final Map<URI, String> etags = new HashMap<>(); 
+    protected final Map<URI, String> etags = new HashMap<>();
 
     @Override
-    public Optional<R> getResource(URI id) {
-        R r = resources.get(id);
+    public Optional<R> getResource(IBT id) {
+        R r = resources.get(id.toUri());
         if(r == null) {
             return Optional.empty();
         } else {
@@ -54,21 +55,20 @@ public class InMemResourceRepositoryImpl<R extends AbstractResource> implements 
     }
 
     @Override
-    public boolean deleteResource(URI id) {
-        if(resources.remove(id) != null) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean deleteResource(IBT id) {
+        return resources.remove(id.toUri()) != null;
     }
 
     @Override
-    public R update(URI uri, R updatedResource, Class<R> klass) {
+    public R update(R updatedResource, IBT id, Class<R> klass) {
+        URI uri = id.toUri();
         if(updatedResource == null || uri == null) {
-            throw new NullPointerException("Resource to be updated (inserted) must exist");
+            throw new NullPointerException("Resource or Id URI cannot be null");
         }
         if(!uri.equals(updatedResource.getAbout())) {
-            // TODO log a warning
+            if (updatedResource.getAbout() != null) {
+                LOG.info("Resource URI {} != {} (Id)", updatedResource.getAbout(), uri);
+            }
             updatedResource.setAbout(uri);
         }
         R aResource = resources.put(uri, updatedResource);
@@ -112,10 +112,11 @@ public class InMemResourceRepositoryImpl<R extends AbstractResource> implements 
     }
 
     @Override
-    public R createResource(R aResource, Class<R> klass) throws RepositoryOperationException {
-        if(aResource == null || aResource.getAbout() == null) {
-            throw new NullPointerException("Resource to be updated (inserted) must have a URI");
+    public R createResource(R aResource, IBT id, Class<R> klass) {
+        if(aResource == null) {
+            throw new NullPointerException("Resource cannot be null");
         }
+        aResource.setAbout(null);
         R oldResource = resources.put(aResource.getAbout(), aResource);
         if(oldResource != null) {
             LOG.warn("Overwriting an existing resource with a createResource() call");

@@ -22,6 +22,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.eclipse.lyo.server.jaxrs.services.ResourceId;
 import org.eclipse.lyo.store.Store;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
@@ -34,14 +35,15 @@ public class StoreRepoTest {
         // in-mem SPARQL-based Store
         Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());
 
-        // this WON'T WORK!
-        // StoreRepositoryImpl<ServiceProvider> repository = new StoreRepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default"));
-        ResourceRepository<ServiceProvider> repository = new LyoStoreARepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default")) {};
+        ResourceRepository<ServiceProvider, ServiceProviderId> repository = new LyoStoreARepositoryImpl<ServiceProvider, ServiceProviderId>(store,
+            URI.create("urn:lyo:default")) {
+        };
 
-        Optional<ServiceProvider> resource = repository.getResource(URI.create("urn:lyo:nonexistent"));
+        Optional<ServiceProvider> resource = repository.getResource(new ServiceProviderId());
 
         assertFalse(resource.isPresent());
-        assertEquals(((LyoStoreARepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
+        assertEquals(((LyoStoreARepositoryImpl<ServiceProvider, ServiceProviderId>) repository).getResourceClass(),
+            ServiceProvider.class);
     }
 
     @Test
@@ -49,14 +51,30 @@ public class StoreRepoTest {
         // in-mem SPARQL-based Store
         Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());
 
-        // this WON'T WORK!
-        // StoreRepositoryImpl<ServiceProvider> repository = new StoreRepositoryImpl<ServiceProvider>(store, URI.create("urn:lyo:default"));
-        ResourceRepository<ServiceProvider> repository = new LyoStoreKRepositoryImpl<ServiceProvider>(store, ServiceProvider.class, URI.create("urn:lyo:default"));
+        ResourceRepository<ServiceProvider, ServiceProviderId> repository = new LyoStoreKRepositoryImpl<>(store,
+            ServiceProvider.class, URI.create("urn:lyo:default"));
 
-        Optional<ServiceProvider> resource = repository.getResource(URI.create("urn:lyo:nonexistent"));
+        Optional<ServiceProvider> resource = repository.getResource(new ServiceProviderId(URI.create("urn:lyo:nonexistent")));
 
         assertFalse(resource.isPresent());
-        assertEquals(((LyoStoreKRepositoryImpl<ServiceProvider>)repository).getResourceClass(), ServiceProvider.class);
+        assertEquals(((LyoStoreKRepositoryImpl<ServiceProvider, ServiceProviderId>) repository).getResourceClass(),
+            ServiceProvider.class);
+    }
+
+    static class ServiceProviderId implements ResourceId<ServiceProvider> {
+        private URI uri;
+
+        public ServiceProviderId() {
+        }
+
+        public ServiceProviderId(URI uri) {
+            this.uri = uri;
+        }
+
+        @Override
+        public URI toUri() {
+            return uri;
+        }
     }
 
 }

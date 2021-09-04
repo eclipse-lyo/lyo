@@ -14,10 +14,19 @@
 package org.eclipse.lyo.server.jaxrs.services;
 
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 
 import java.net.URI;
 
 
 public interface ResourceId<RT extends AbstractResource> {
     URI toUri();
+    
+    default Link toLink() {
+        return new Link(this.toUri());
+    }
+    
+    default Link toLink(String label) {
+        return new Link(this.toUri(), label);
+    }
 }

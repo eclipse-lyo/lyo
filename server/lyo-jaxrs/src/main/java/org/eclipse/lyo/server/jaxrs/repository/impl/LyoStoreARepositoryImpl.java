@@ -25,12 +25,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.eclipse.lyo.server.jaxrs.services.Delegate;
 import org.eclipse.lyo.server.jaxrs.services.ResourceId;
 import org.eclipse.lyo.store.ModelUnmarshallingException;
 import org.eclipse.lyo.store.Store;
@@ -42,13 +41,13 @@ import com.github.jsonldjava.shaded.com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 
 // TODO add a javadoc and describe the difference between the two Store-backed implementations
-public class LyoStoreARepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
-    // TODO use another namespace or raise an issue in the OP
-    public static final QName OSLC_ETAG = new QName(OSLCConstants.OSLC_V2, "etag");
+// Requires a subclass to be created on the fly, see org.eclipse.lyo.server.jaxrs.repository.impl.StoreRepoTest.classCapturedCorrectlyAn
+@Deprecated
+public class LyoStoreARepositoryImpl<RT extends AbstractResource, IDT extends ResourceId<RT>> implements ResourceRepository<RT, IDT> {
     private final static Logger LOG = LoggerFactory.getLogger(LyoStoreARepositoryImpl.class);
     private final Store store;
-    private final Class<R> resourceClass;
-    private final TypeToken<R> resourceType = new TypeToken<R>(getClass()){};
+    private final Class<RT> resourceClass;
+    private final TypeToken<RT> resourceType = new TypeToken<RT>(getClass()){};
     private final URI namedGraph;
 
     @Inject
@@ -57,22 +56,23 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
         this.namedGraph = namedGraph;
         Type rawType = resourceType.getRawType();
         if (rawType instanceof Class) {
-            resourceClass = (Class<R>) rawType;
+            resourceClass = (Class<RT>) rawType;
         } else {
             throw new IllegalStateException("The repository must be parametrized with a class");
         }
     }
 
     @Override
-    public Optional<R> getResource(URI id) throws RepositoryOperationException {
+    public Optional<RT> getResource(IDT id) throws RepositoryOperationException {
+        URI uri = id.toUri();
         try {
-            R resource = store.getResource(namedGraph, id, resourceClass);
+            RT resource = store.getResource(namedGraph, uri, resourceClass);
             return Optional.of(resource);
         } catch (StoreAccessException e) {
             LOG.warn("Connection to the Store endpoint failed");
-            throw new RepositoryConnectionException();
+            throw new RepositoryConnectionException(e);
         } catch (ModelUnmarshallingException e) {
-            throw new IllegalStateException("Store Model cannot be unmarshalled");
+            throw new RepositoryOperationException("Store Model cannot be unmarshalled");
         } catch (NoSuchElementException ignored) {
             return Optional.empty();
         }
@@ -80,23 +80,30 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
 
 
     // package-private methods for testing
-    Class<R> getResourceClass() {
+    Class<RT> getResourceClass() {
         return resourceClass;
     }
 
     @Override
-    public boolean deleteResource(URI id) throws RepositoryOperationException {
+    public boolean deleteResource(IDT id) {
         try {
-            store.deleteResources(namedGraph, id);
+            store.deleteResources(namedGraph, id.toUri());
             return true;
         } catch (Exception e) {
-            LOG.debug("Unknown exception happed while deleting {} from Store:", id, e);
+            LOG.debug("Unknown exception happened while deleting {} from Store:", id, e);
             return false;
         }
     }
 
     @Override
-    public R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryOperationException {
+    public RT update(RT updatedResource, IDT id, Class<RT> klass) throws RepositoryOperationException {
+        URI uri = id.toUri();
+        if(uri == null) {
+            throw new IllegalArgumentException("Id object may not produce a null URI");
+        }
+        if(!uri.equals(updatedResource.getAbout())) {
+            throw new IllegalArgumentException("URI of the resource and the Id object do not match");
+        }
         try {
             updateETag(updatedResource, false);
             boolean success = store.updateResources(namedGraph, updatedResource);
@@ -112,48 +119,50 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
     }
 
     @Override
-    public List<R> queryResources(String oslcWhere, String oslcPrefixes, int page,
-            int pageSize) throws RepositoryOperationException {
+    public List<RT> queryResources(String oslcWhere, String oslcPrefixes, int page,
+                                   int pageSize) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getETag(R resource) {
+    public String getETag(RT resource) {
         Map<QName, Object> props = resource.getExtendedProperties();
-        if(!props.containsKey(OSLC_ETAG)) {
+        if(!props.containsKey(Delegate.OSLC_ETAG)) {
             try {
                 updateETag(resource);
             } catch (StoreAccessException e) {
                 LOG.error("Failed to generate an initial ETag ({})", resource.getAbout());
             }
         }
-        return props.get(OSLC_ETAG).toString();
+        return props.get(Delegate.OSLC_ETAG).toString();
     }
 
-    private void updateETag(R resource) throws StoreAccessException {
+    private void updateETag(RT resource) throws StoreAccessException {
         updateETag(resource, true);
     }
-    
-    private void updateETag(R resource, boolean update) throws StoreAccessException {
+
+    private void updateETag(RT resource, boolean update) throws StoreAccessException {
         String newETag = generateETag();
-        resource.getExtendedProperties().put(OSLC_ETAG, newETag);
+        resource.getExtendedProperties().put(Delegate.OSLC_ETAG, newETag);
         if(update) {
             store.updateResources(namedGraph, resource);
         }
     }
 
     private String generateETag() {
-        String newUUID = UUID.randomUUID().toString();
-        return newUUID;
+        return UUID.randomUUID().toString();
     }
 
     @Override
-    public R createResource(R aResource, Class<R> klass)
+    public RT createResource(RT aResource, IDT id, Class<RT> klass)
             throws RepositoryOperationException {
+        URI uri = id.toUri();
         try {
-            if(aResource.getAbout() == null) {
-                throw new IllegalArgumentException("Repository only deals with top-level resources with a set URI");
+            if(aResource.getAbout() != null && aResource.getAbout() != uri) {
+                LOG.debug("Overriding resource URI {} with {}", aResource.getAbout(), uri);
             }
+            aResource.setAbout(uri);
+
             updateETag(aResource, false);
             boolean success = store.putResources(namedGraph, ImmutableList.of(aResource));
             if (success) {

@@ -19,31 +19,37 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
+import org.eclipse.lyo.oslc4j.core.model.Compact;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 
-public interface Delegate<RT extends AbstractResource,IBT extends ResourceId<RT>> {
-    ResponseBuilder getResource(Class<RT> clazz, IBT id);
-    
+public interface Delegate<RT extends AbstractResource, IDT extends ResourceId<RT>> {
+    // TODO use another namespace or raise an issue in the OP
+    QName OSLC_ETAG = new QName(OSLCConstants.OSLC_V2, "etag");
+
+    ImmutablePair<ResponseBuilder, Optional<RT>> getResource(IDT id, Class<RT> clazz);
+
     // TODO @andrew think about wrapping Response.ResponseBuilder in a LyoResponse
     // or providing a factory method
-    ResponseBuilder getResourceCompact(Class<RT> clazz, IBT id);
+    ImmutablePair<ResponseBuilder, Optional<Compact>> getResourceCompact(IDT id, Class<RT> clazz);
 
-    ResponseBuilder deleteResource(IBT id);
+    ResponseBuilder deleteResource(IDT id);
 
-    ResponseBuilder putResource(Class<RT> klass, IBT id, RT aResource, String etag);
+    ImmutablePair<ResponseBuilder, Optional<RT>> putResource(RT aResource, IDT id, String etag, Class<RT> klass);
 
-    ImmutablePair<ResponseBuilder, RT> createResource(Class<RT> klass, RT aResource);
-    
-    ImmutablePair<ResponseBuilder, RT> createResourceJson(Class<RT> klass, RT aResource);
-    
-    ResponseBuilder queryResources(HttpServletRequest httpServletRequest, UriInfo uriInfo, 
+    ImmutablePair<ResponseBuilder, Optional<RT>> createResource(RT aResource, IDT id, Class<RT> klass);
+
+    ImmutablePair<ResponseBuilder, Optional<RT>> createResourceJson(RT aResource, IDT id, Class<RT> klass);
+
+    ResponseBuilder queryResources(HttpServletRequest httpServletRequest, UriInfo uriInfo,
             String where, String prefix, int page, int pageSize);
 
     List<RT> find(String terms) throws RepositoryOperationException;
 
-    Optional<RT> fetchResource(IBT id) throws RepositoryOperationException;
+    @Deprecated
+    Optional<RT> fetchResource(IDT id) throws RepositoryOperationException;
 }

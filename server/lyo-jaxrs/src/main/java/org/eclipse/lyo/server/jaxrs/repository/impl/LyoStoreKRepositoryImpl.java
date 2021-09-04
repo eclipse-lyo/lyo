@@ -28,6 +28,8 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.eclipse.lyo.server.jaxrs.services.Delegate;
+import org.eclipse.lyo.server.jaxrs.services.ResourceId;
 import org.eclipse.lyo.store.ModelUnmarshallingException;
 import org.eclipse.lyo.store.Store;
 import org.eclipse.lyo.store.StoreAccessException;
@@ -36,23 +38,23 @@ import org.slf4j.LoggerFactory;
 
 import com.github.jsonldjava.shaded.com.google.common.collect.ImmutableList;
 
-public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
-    private final static Logger LOG = LoggerFactory.getLogger(LyoStoreARepositoryImpl.class);
+public class LyoStoreKRepositoryImpl<RT extends AbstractResource, IDT extends ResourceId<RT>> implements ResourceRepository<RT, IDT> {
+    private final static Logger LOG = LoggerFactory.getLogger(LyoStoreKRepositoryImpl.class);
     private final Store store;
-    private final Class<R> resourceClass;
+    private final Class<RT> resourceClass;
     private final URI namedGraph;
 
     @Inject
-    public LyoStoreKRepositoryImpl(Store store, Class klass, @Named("store-named-graph") URI namedGraph) {
+    public LyoStoreKRepositoryImpl(Store store, Class<RT> klass, @Named("store-named-graph") URI namedGraph) {
         this.store = store;
         this.namedGraph = namedGraph;
         resourceClass = klass;
     }
 
     @Override
-    public Optional<R> getResource(URI id) throws RepositoryConnectionException {
+    public Optional<RT> getResource(IDT id) throws RepositoryConnectionException {
         try {
-            R resource = store.getResource(namedGraph, id, resourceClass);
+            RT resource = store.getResource(namedGraph, id.toUri(), resourceClass);
             return Optional.of(resource);
         } catch (StoreAccessException e) {
             LOG.warn("Connection to the Store endpoint failed");
@@ -66,23 +68,30 @@ public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements Reso
 
 
     // package-private methods for testing
-    Class<R> getResourceClass() {
+    Class<RT> getResourceClass() {
         return resourceClass;
     }
 
     @Override
-    public boolean deleteResource(URI id) {
+    public boolean deleteResource(IDT id) {
         try {
-            store.deleteResources(namedGraph, id);
+            store.deleteResources(namedGraph, id.toUri());
             return true;
         } catch (Exception e) {
             LOG.debug("Unknown exception happed while deleting {} from Store:", id, e);
             return false;
         }
     }
-    
+
     @Override
-    public R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryConnectionException, RepositoryOperationException {
+    public RT update(RT updatedResource, IDT id, Class<RT> klass) throws RepositoryConnectionException, RepositoryOperationException {
+        URI uri = id.toUri();
+        if(uri == null) {
+            throw new IllegalArgumentException("Id object may not produce a null URI");
+        }
+        if(!uri.equals(updatedResource.getAbout())) {
+            throw new IllegalArgumentException("URI of the resource and the Id object do not match");
+        }
         try {
             updateETag(updatedResource, false);
             boolean success = store.updateResources(namedGraph, updatedResource);
@@ -98,47 +107,49 @@ public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements Reso
     }
 
     @Override
-    public List<R> queryResources(String oslcWhere, String oslcPrefixes, int page,
-            int pageSize) {
+    public List<RT> queryResources(String oslcWhere, String oslcPrefixes, int page,
+                                   int pageSize) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getETag(R resource) {
+    public String getETag(RT resource) {
         Map<QName, Object> props = resource.getExtendedProperties();
-        if(!props.containsKey(LyoStoreARepositoryImpl.OSLC_ETAG)) {
+        if(!props.containsKey(Delegate.OSLC_ETAG)) {
             try {
                 updateETag(resource);
             } catch (StoreAccessException e) {
                 LOG.error("Failed to generate an initial ETag ({})", resource.getAbout());
             }
         }
-        return props.get(LyoStoreARepositoryImpl.OSLC_ETAG).toString();
+        return props.get(Delegate.OSLC_ETAG).toString();
     }
 
-    private void updateETag(R resource) throws StoreAccessException {
+    private void updateETag(RT resource) throws StoreAccessException {
         updateETag(resource, true);
     }
-    
-    private void updateETag(R resource, boolean update) throws StoreAccessException {
+
+    private void updateETag(RT resource, boolean update) throws StoreAccessException {
         String newETag = generateETag();
-        resource.getExtendedProperties().put(LyoStoreARepositoryImpl.OSLC_ETAG, newETag);
+        resource.getExtendedProperties().put(Delegate.OSLC_ETAG, newETag);
         if(update) {
             store.updateResources(namedGraph, resource);
         }
     }
 
     private String generateETag() {
-        String newUUID = UUID.randomUUID().toString();
-        return newUUID;
+        return UUID.randomUUID().toString();
     }
 
     @Override
-    public R createResource(R aResource, Class<R> klass) throws RepositoryOperationException {
+    public RT createResource(RT aResource, IDT id, Class<RT> klass) throws RepositoryOperationException {
+        URI uri = id.toUri();
         try {
-            if(aResource.getAbout() == null) {
-                throw new IllegalArgumentException("Repository only deals with top-level resources with a set URI");
+            if(aResource.getAbout() != null && aResource.getAbout() != uri) {
+                LOG.debug("Overriding resource URI {} with {}", aResource.getAbout(), uri);
             }
+            aResource.setAbout(uri);
+
             updateETag(aResource, false);
             boolean success = store.putResources(namedGraph, ImmutableList.of(aResource));
             if (success) {
