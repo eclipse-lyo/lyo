@@ -29,12 +29,17 @@ import org.eclipse.lyo.core.query.SimpleTerm;
 import org.eclipse.lyo.core.query.SimpleTerm.Type;
 import org.eclipse.lyo.core.query.WhereClause;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.jsonldjava.shaded.com.google.common.base.Strings;
 
 public class InMemResourceRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
 
+    private final static Logger LOG = LoggerFactory.getLogger(InMemResourceRepositoryImpl.class); 
+    
     protected final Map<URI, R> resources = new HashMap<>();
     protected final Map<URI, String> etags = new HashMap<>(); 
 
@@ -103,7 +108,20 @@ public class InMemResourceRepositoryImpl<R extends AbstractResource> implements 
 
     @Override
     public String getETag(R resource) {
-        // TODO Auto-generated method stub
-        return null;
+        return etags.get(resource.getAbout());
+    }
+
+    @Override
+    public R createResource(R aResource, Class<R> klass) throws RepositoryOperationException {
+        if(aResource == null || aResource.getAbout() == null) {
+            throw new NullPointerException("Resource to be updated (inserted) must have a URI");
+        }
+        R oldResource = resources.put(aResource.getAbout(), aResource);
+        if(oldResource != null) {
+            LOG.warn("Overwriting an existing resource with a createResource() call");
+        }
+        String etag = UUID.randomUUID().toString();
+        etags.put(aResource.getAbout(), etag);
+        return aResource;
     }
 }

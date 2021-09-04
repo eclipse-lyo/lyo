@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
+import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
 import org.eclipse.lyo.store.Store;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
@@ -29,7 +30,7 @@ import org.junit.Test;
 
 public class StoreRepoTest {
     @Test
-    public void classCapturedCorrectlyAn() throws RepositoryConnectionException {
+    public void classCapturedCorrectlyAn() throws RepositoryConnectionException, RepositoryOperationException {
         // in-mem SPARQL-based Store
         Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());
 
@@ -44,7 +45,7 @@ public class StoreRepoTest {
     }
 
     @Test
-    public void classCapturedCorrectlyK() throws RepositoryConnectionException {
+    public void classCapturedCorrectlyK() throws RepositoryConnectionException, RepositoryOperationException {
         // in-mem SPARQL-based Store
         Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());
 

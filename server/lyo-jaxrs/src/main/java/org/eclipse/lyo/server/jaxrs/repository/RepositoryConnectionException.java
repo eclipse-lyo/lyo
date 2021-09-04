@@ -13,5 +13,13 @@
  */
 package org.eclipse.lyo.server.jaxrs.repository;
 
-public class RepositoryConnectionException extends Exception {
+public class RepositoryConnectionException extends RuntimeException {
+
+    public RepositoryConnectionException() {
+        
+    }
+    
+    public RepositoryConnectionException(Throwable e) {
+        super(e);
+    }
 }

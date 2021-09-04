@@ -14,19 +14,20 @@
 package org.eclipse.lyo.server.jaxrs.repository;
 
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 public interface ResourceRepository<R extends AbstractResource> {
-    Optional<R> getResource(URI id) throws RepositoryConnectionException;
+    Optional<R> getResource(URI id) throws RepositoryOperationException;
     
-    boolean deleteResource(URI id);
+    boolean deleteResource(URI id) throws RepositoryOperationException;
   
-    R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryConnectionException, RepositoryOperationException;
+    R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryOperationException;
   
-    List<R> queryResources(String oslcWhere, String oslcPrefixes, int page, int pageSize);
+    List<R> queryResources(String oslcWhere, String oslcPrefixes, int page, int pageSize) throws RepositoryOperationException;
 
     String getETag(R resource);
+
+    R createResource(R aResource, Class<R> klass) throws RepositoryOperationException;
 }

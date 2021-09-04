@@ -34,6 +34,8 @@ import org.eclipse.lyo.store.StoreAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.jsonldjava.shaded.com.google.common.collect.ImmutableList;
+
 public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements ResourceRepository<R> {
     private final static Logger LOG = LoggerFactory.getLogger(LyoStoreARepositoryImpl.class);
     private final Store store;
@@ -129,5 +131,23 @@ public class LyoStoreKRepositoryImpl<R extends AbstractResource> implements Reso
     private String generateETag() {
         String newUUID = UUID.randomUUID().toString();
         return newUUID;
+    }
+
+    @Override
+    public R createResource(R aResource, Class<R> klass) throws RepositoryOperationException {
+        try {
+            if(aResource.getAbout() == null) {
+                throw new IllegalArgumentException("Repository only deals with top-level resources with a set URI");
+            }
+            updateETag(aResource, false);
+            boolean success = store.putResources(namedGraph, ImmutableList.of(aResource));
+            if (success) {
+                return aResource;
+            } else {
+                throw new RepositoryOperationException("Failed to put a Resource in an RDF Store");
+            }
+        } catch (StoreAccessException e) {
+            throw new RepositoryConnectionException(e);
+        }
     }
 }

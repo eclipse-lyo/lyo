@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
+import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 
 public interface Delegate<RT extends AbstractResource,IBT extends ResourceId<RT>> {
     ResponseBuilder getResource(Class<RT> clazz, IBT id);
@@ -34,12 +36,14 @@ public interface Delegate<RT extends AbstractResource,IBT extends ResourceId<RT>
 
     ResponseBuilder putResource(Class<RT> klass, IBT id, RT aResource, String etag);
 
+    ImmutablePair<ResponseBuilder, RT> createResource(Class<RT> klass, RT aResource);
+    
+    ImmutablePair<ResponseBuilder, RT> createResourceJson(Class<RT> klass, RT aResource);
+    
     ResponseBuilder queryResources(HttpServletRequest httpServletRequest, UriInfo uriInfo, 
             String where, String prefix, int page, int pageSize);
 
-    List<RT> find(String terms);
+    List<RT> find(String terms) throws RepositoryOperationException;
 
-    // FIXME this is an escape hatch designed for WsChangeRequest::serveJspTemplate while avoiding
-    // directly injecting a ResourceRepository
-    Optional<RT> fetchResource(IBT id) throws RepositoryConnectionException;
+    Optional<RT> fetchResource(IBT id) throws RepositoryOperationException;
 }

@@ -25,17 +25,20 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
 import org.eclipse.lyo.server.jaxrs.repository.ResourceRepository;
+import org.eclipse.lyo.server.jaxrs.services.ResourceId;
 import org.eclipse.lyo.store.ModelUnmarshallingException;
 import org.eclipse.lyo.store.Store;
 import org.eclipse.lyo.store.StoreAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.jsonldjava.shaded.com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 
 // TODO add a javadoc and describe the difference between the two Store-backed implementations
@@ -61,7 +64,7 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
     }
 
     @Override
-    public Optional<R> getResource(URI id) throws RepositoryConnectionException {
+    public Optional<R> getResource(URI id) throws RepositoryOperationException {
         try {
             R resource = store.getResource(namedGraph, id, resourceClass);
             return Optional.of(resource);
@@ -82,7 +85,7 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
     }
 
     @Override
-    public boolean deleteResource(URI id) {
+    public boolean deleteResource(URI id) throws RepositoryOperationException {
         try {
             store.deleteResources(namedGraph, id);
             return true;
@@ -93,7 +96,7 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
     }
 
     @Override
-    public R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryConnectionException, RepositoryOperationException {
+    public R update(URI uri, R updatedResource, Class<R> klass) throws RepositoryOperationException {
         try {
             updateETag(updatedResource, false);
             boolean success = store.updateResources(namedGraph, updatedResource);
@@ -110,7 +113,7 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
 
     @Override
     public List<R> queryResources(String oslcWhere, String oslcPrefixes, int page,
-            int pageSize) {
+            int pageSize) throws RepositoryOperationException {
         throw new UnsupportedOperationException();
     }
 
@@ -142,5 +145,24 @@ public class LyoStoreARepositoryImpl<R extends AbstractResource> implements Reso
     private String generateETag() {
         String newUUID = UUID.randomUUID().toString();
         return newUUID;
+    }
+
+    @Override
+    public R createResource(R aResource, Class<R> klass)
+            throws RepositoryOperationException {
+        try {
+            if(aResource.getAbout() == null) {
+                throw new IllegalArgumentException("Repository only deals with top-level resources with a set URI");
+            }
+            updateETag(aResource, false);
+            boolean success = store.putResources(namedGraph, ImmutableList.of(aResource));
+            if (success) {
+                return aResource;
+            } else {
+                throw new RepositoryOperationException("Failed to put a Resource in an RDF Store");
+            }
+        } catch (StoreAccessException e) {
+            throw new RepositoryConnectionException(e);
+        }
     }
 }

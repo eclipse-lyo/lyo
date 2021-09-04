@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -31,9 +32,11 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Compact;
+import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.Preview;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryConnectionException;
 import org.eclipse.lyo.server.jaxrs.repository.RepositoryOperationException;
@@ -44,12 +47,22 @@ import org.glassfish.hk2.api.Self;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.jsonldjava.shaded.com.google.common.base.Strings;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Strings;
 
 //@Service
 public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT>>
         implements Delegate<RT, IBT> {
-
+    
+    //TODO: use Lyo core constants if possible 
+    private static final String OSLC_HEADER = "OSLC-Core-Version";
+    private static final String OSLC_2_0 = "2.0";
+    
     private static final String smallPreviewHintHeight = "10em";
     private static final String smallPreviewHintWidth = "45em";
     private static final String largePreviewHintHeight = "20em";
@@ -104,9 +117,9 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
             if (resource.isPresent()) {
                 return Response.ok(resource.get())
                         .header("ETag", repository.getETag(resource.get()))
-                        .header("OSLC-Core-Version", "2.0");
+                        .header(OSLC_HEADER, OSLC_2_0);
             } else {
-                return Response.status(Response.Status.NOT_FOUND).header("OSLC-Core-Version", "2.0");
+                return Response.status(Response.Status.NOT_FOUND).header(OSLC_HEADER, OSLC_2_0);
             }
 
         } catch (Exception e) {
@@ -125,9 +138,9 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
 
                 return Response.ok(compact)
                         .header("ETag", repository.getETag(resourceO.get()))
-                        .header("OSLC-Core-Version", "2.0");
+                        .header(OSLC_HEADER, OSLC_2_0);
             } else {
-                return Response.status(Response.Status.NOT_FOUND).header("OSLC-Core-Version", "2.0");
+                return Response.status(Response.Status.NOT_FOUND).header(OSLC_HEADER, OSLC_2_0);
             }
 
         } catch (Exception e) {
@@ -141,9 +154,9 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
         try {
             boolean deleted = repository.deleteResource(id.toUri());
             if (deleted) {
-                return Response.status(Status.NO_CONTENT).header("OSLC-Core-Version", "2.0");
+                return Response.status(Status.NO_CONTENT).header(OSLC_HEADER, OSLC_2_0);
             } else {
-                return Response.status(Response.Status.NOT_FOUND).header("OSLC-Core-Version", "2.0");
+                return Response.status(Response.Status.NOT_FOUND).header(OSLC_HEADER, OSLC_2_0);
             }
 
         } catch (Exception e) {
@@ -167,19 +180,19 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
                     final RT resultResource = repository.update(id.toUri(), updatedResource, klass);
                     return Response.ok()
                             .header("ETag", repository.getETag(resultResource))
-                            .header("OSLC-Core-Version", "2.0");
+                            .header(OSLC_HEADER, OSLC_2_0);
                 } else {
                     // TODO add an ETag in the response if possible
                     return Response.status(Status.PRECONDITION_FAILED)
-                            .header("OSLC-Core-Version", "2.0");
+                            .header(OSLC_HEADER, OSLC_2_0);
                 }
             } else {
-                return Response.status(Status.NOT_FOUND).header("OSLC-Core-Version", "2.0");
+                return Response.status(Status.NOT_FOUND).header(OSLC_HEADER, OSLC_2_0);
             }
         } catch (RepositoryConnectionException e) {
-            return Response.status(Status.SERVICE_UNAVAILABLE).header("OSLC-Core-Version", "2.0");
+            return Response.status(Status.SERVICE_UNAVAILABLE).header(OSLC_HEADER, OSLC_2_0);
         } catch (RepositoryOperationException e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).header("OSLC-Core-Version", "2.0");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).header(OSLC_HEADER, OSLC_2_0);
         }
     }
 
@@ -221,24 +234,82 @@ public class DelegateImpl<RT extends AbstractResource, IBT extends ResourceId<RT
         // TODO request explicitly n+1 resources
         // Parse strings before handing off to the Repository
         //TODO extend Jena provider to cover all collections and don't assume above that we return a list
-        List<RT> resources = repository.queryResources(where, prefix, page, pageSize);
-        
-        if(resources == null) {
+        try {
+            List<RT> resources = repository.queryResources(where, prefix, page, pageSize);
+            if(resources == null) {
+                throw new IllegalStateException();
+            }
+            
+            return Response.status(Status.OK)
+                    .header(OSLC_HEADER, OSLC_2_0)
+                    .entity(resources);
+//                .entity(resources.toArray(new ChangeRequest [resources.size()]));
+        } catch (RepositoryOperationException e) {
+            //TODO: more granular mapping of error codes
             return Response.status(Status.NOT_FOUND);
         }
-               
-        return Response.status(Status.OK)
-                .entity(resources);
-//                .entity(resources.toArray(new ChangeRequest [resources.size()]));
-        }
+    }
 
     @Override
-    public List<RT> find(String terms) {
+    public List<RT> find(String terms) throws RepositoryOperationException {
         return repository.queryResources(null, null, 0, 20);
     }
 
     @Override
-    public Optional<RT> fetchResource(IBT id) throws RepositoryConnectionException {
+    public Optional<RT> fetchResource(IBT id) throws RepositoryOperationException {
         return repository.getResource(id.toUri());
+    }
+
+    @Override
+    public ImmutablePair<ResponseBuilder, RT> createResource(Class<RT> klass, RT aResource) {
+        try {
+            RT createdResource = repository.createResource(aResource, klass);
+            ResponseBuilder response = Response.status(Status.CREATED)
+                    .header(OSLC_HEADER, OSLC_2_0)
+                    .location(createdResource.getAbout());
+                return new ImmutablePair<ResponseBuilder, RT>(response, createdResource);
+        } catch (RepositoryOperationException e) {
+            ResponseBuilder response = Response.status(Status.INTERNAL_SERVER_ERROR)
+                .header(OSLC_HEADER, OSLC_2_0)
+                .entity(errorEntity("Resource creation failed"));
+            return new ImmutablePair<ResponseBuilder, RT>(response, null);
+        }
+    }
+
+    private org.eclipse.lyo.oslc4j.core.model.Error errorEntity(String message) {
+        Error error = new org.eclipse.lyo.oslc4j.core.model.Error();
+        error.setMessage(message);
+        return error;
+    }
+
+    @Override
+    public ImmutablePair<ResponseBuilder, RT> createResourceJson(Class<RT> klass, RT aResource) {
+        try {
+            RT createdResource = repository.createResource(aResource, klass);
+            String createdResourceInfo = jsonInfo(createdResource); 
+            ResponseBuilder response = Response.status(Status.CREATED)
+                    .header(OSLC_HEADER, OSLC_2_0)
+                    .location(createdResource.getAbout())
+                    .entity(createdResourceInfo)
+                    .type(MediaType.APPLICATION_JSON);
+                return new ImmutablePair<ResponseBuilder, RT>(response, createdResource);
+        } catch (RepositoryOperationException | JsonProcessingException e) {
+            ResponseBuilder response = Response.status(Status.INTERNAL_SERVER_ERROR)
+                .header(OSLC_HEADER, OSLC_2_0)
+                .entity(errorEntity("Resource creation failed"));
+            return new ImmutablePair<ResponseBuilder, RT>(response, null);
+        }
+    }
+
+    private String jsonInfo(RT createdResource) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = JsonNodeFactory.instance.objectNode();
+        ArrayNode resultsNode = JsonNodeFactory.instance.arrayNode();
+        ObjectNode result0Node = JsonNodeFactory.instance.objectNode();
+        result0Node.set("rdf:resource", JsonNodeFactory.instance.textNode(createdResource.getAbout().toString()));
+        result0Node.set("oslc:label", JsonNodeFactory.instance.textNode(createdResource.toString()));
+        resultsNode.set(0, result0Node);
+        rootNode.set("oslc:results", resultsNode);
+        return mapper.writeValueAsString(rootNode);
     }
 }
