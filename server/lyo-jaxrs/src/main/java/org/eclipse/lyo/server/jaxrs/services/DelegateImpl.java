@@ -85,15 +85,18 @@ public class DelegateImpl<RT extends AbstractResource, IDT extends ResourceId<RT
         if(contractTypes.length > 0 && contractTypes[0] instanceof ParameterizedType) {
             // OslcDelegateImpl<X,Y>
             ParameterizedType type0 = (ParameterizedType) contractTypes[0];
-            ParameterizedType type1 = (ParameterizedType) contractTypes[1];
+            ParameterizedType type1 = (ParameterizedType) contractTypes[0];
             // X
             Type rtType = type0.getActualTypeArguments()[0];
-            Type idType = type1.getActualTypeArguments()[0];
+            Type idType = type1.getActualTypeArguments()[1];
             // ResourceRepository<X>
             ParameterizedType repoRtType = TypeUtils.parameterize(ResourceRepository.class, rtType, idType);
 
             @SuppressWarnings("unchecked")
             ResourceRepository<RT,IDT> _repository = (ResourceRepository<RT,IDT>)repoProviderIter.ofType(repoRtType).get();
+            if(_repository == null) {
+                throw new NullPointerException();
+            }
             this.repository = _repository;
         } else {
             throw new IllegalStateException();
@@ -292,6 +295,9 @@ public class DelegateImpl<RT extends AbstractResource, IDT extends ResourceId<RT
     public ImmutablePair<ResponseBuilder, Optional<RT>> createResourceJson(RT aResource, IDT id, Class<RT> klass) {
         try {
             RT createdResource = repository.createResource(aResource, id, klass);
+            if(createdResource == null) {
+                throw new IllegalStateException();
+            }
             String createdResourceInfo = jsonInfo(createdResource);
             ResponseBuilder response = Response.status(Status.CREATED)
                     .header(OSLC_HEADER, OSLC_2_0)

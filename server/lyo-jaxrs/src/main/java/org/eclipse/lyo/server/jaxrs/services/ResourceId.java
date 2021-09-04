@@ -21,11 +21,11 @@ import java.net.URI;
 
 public interface ResourceId<RT extends AbstractResource> {
     URI toUri();
-    
+
     default Link toLink() {
         return new Link(this.toUri());
     }
-    
+
     default Link toLink(String label) {
         return new Link(this.toUri(), label);
     }
