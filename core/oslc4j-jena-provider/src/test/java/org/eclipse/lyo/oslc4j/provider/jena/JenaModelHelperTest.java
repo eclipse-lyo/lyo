@@ -19,6 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
@@ -88,10 +90,22 @@ public class JenaModelHelperTest {
         assertEquals(Dog.class, pet.getClass());
     }
 
-    @Test
+    @Test(expected = DatatypeFormatException.class)
     public void testExtendedEscape() throws IOException, LyoModelException {
         final Model model = RDFHelper.loadResourceModel("escape.ttl");
         final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
-        assertEquals(resource.getExtendedProperties().size(), 2);
+    }
+
+    @Test(expected = DatatypeFormatException.class)
+    public void testExtendedEscapeXML() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape.xml");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("https://server/ccmfed/resource/itemName/com.ibm.team.workitem.WorkItem/157769"), ServiceProvider.class);
+    }
+
+    @Test
+    public void testExtendedEscapeXMLValid() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape-valid.xml");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("https://server/ccmfed/resource/itemName/com.ibm.team.workitem.WorkItem/157769"), ServiceProvider.class);
+        assertEquals(56, resource.getExtendedProperties().size());
     }
 }
