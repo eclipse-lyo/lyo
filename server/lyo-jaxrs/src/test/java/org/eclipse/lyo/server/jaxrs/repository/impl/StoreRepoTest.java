@@ -31,22 +31,6 @@ import org.junit.Test;
 
 public class StoreRepoTest {
     @Test
-    public void classCapturedCorrectlyAn() throws RepositoryConnectionException, RepositoryOperationException {
-        // in-mem SPARQL-based Store
-        Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());
-
-        ResourceRepository<ServiceProvider, ServiceProviderId> repository = new LyoStoreARepositoryImpl<ServiceProvider, ServiceProviderId>(store,
-            URI.create("urn:lyo:default")) {
-        };
-
-        Optional<ServiceProvider> resource = repository.getResource(new ServiceProviderId());
-
-        assertFalse(resource.isPresent());
-        assertEquals(((LyoStoreARepositoryImpl<ServiceProvider, ServiceProviderId>) repository).getResourceClass(),
-            ServiceProvider.class);
-    }
-
-    @Test
     public void classCapturedCorrectlyK() throws RepositoryConnectionException, RepositoryOperationException {
         // in-mem SPARQL-based Store
         Store store = new SparqlStoreImpl(new DatasetQueryExecutorImpl());

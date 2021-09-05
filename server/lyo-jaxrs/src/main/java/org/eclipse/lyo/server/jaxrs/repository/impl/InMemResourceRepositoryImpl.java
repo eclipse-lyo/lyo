@@ -112,11 +112,13 @@ public class InMemResourceRepositoryImpl<R extends AbstractResource, IBT extends
     }
 
     @Override
-    public R createResource(R aResource, IBT id, Class<R> klass) {
+    public R createResource(R aResource, Class<R> klass) {
         if(aResource == null) {
             throw new NullPointerException("Resource cannot be null");
         }
-        aResource.setAbout(id.toUri());
+        if(aResource.getAbout() == null) {
+            throw new NullPointerException("Resource URI cannot be null");
+        }
         R oldResource = resources.put(aResource.getAbout(), aResource);
         if(oldResource != null) {
             LOG.warn("Overwriting an existing resource with a createResource() call");

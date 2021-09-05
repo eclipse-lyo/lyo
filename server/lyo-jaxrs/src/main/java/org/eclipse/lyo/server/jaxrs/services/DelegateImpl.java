@@ -267,9 +267,9 @@ public class DelegateImpl<RT extends AbstractResource, IDT extends ResourceId<RT
     }
 
     @Override
-    public ImmutablePair<ResponseBuilder, Optional<RT>> createResource(RT aResource, IDT id, Class<RT> klass) {
+    public ImmutablePair<ResponseBuilder, Optional<RT>> createResourceForCreationFactory(RT aResource, Class<RT> klass) {
         try {
-            RT createdResource = repository.createResource(aResource, id, klass);
+            RT createdResource = repository.createResource(aResource, klass);
             if(createdResource.getAbout() == null) {
                 throw new IllegalStateException("Created resource must have a URI");
             }
@@ -292,9 +292,9 @@ public class DelegateImpl<RT extends AbstractResource, IDT extends ResourceId<RT
     }
 
     @Override
-    public ImmutablePair<ResponseBuilder, Optional<RT>> createResourceJson(RT aResource, IDT id, Class<RT> klass) {
+    public ImmutablePair<ResponseBuilder, Optional<RT>> createResourceForDelegatedUI(RT aResource, Class<RT> klass) {
         try {
-            RT createdResource = repository.createResource(aResource, id, klass);
+            RT createdResource = repository.createResource(aResource, klass);
             if(createdResource == null) {
                 throw new IllegalStateException();
             }

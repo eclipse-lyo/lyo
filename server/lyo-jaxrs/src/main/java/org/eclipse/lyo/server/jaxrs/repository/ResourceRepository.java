@@ -30,5 +30,5 @@ public interface ResourceRepository<R extends AbstractResource, IBT extends Reso
 
     String getETag(R resource);
 
-    R createResource(R aResource, IBT id, Class<R> klass) throws RepositoryOperationException;
+    R createResource(R aResource, Class<R> klass) throws RepositoryOperationException;
 }

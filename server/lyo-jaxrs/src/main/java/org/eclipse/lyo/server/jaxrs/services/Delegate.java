@@ -41,9 +41,9 @@ public interface Delegate<RT extends AbstractResource, IDT extends ResourceId<RT
 
     ImmutablePair<ResponseBuilder, Optional<RT>> putResource(RT aResource, IDT id, String etag, Class<RT> klass);
 
-    ImmutablePair<ResponseBuilder, Optional<RT>> createResource(RT aResource, IDT id, Class<RT> klass);
+    ImmutablePair<ResponseBuilder, Optional<RT>> createResourceForCreationFactory(RT aResource, Class<RT> klass);
 
-    ImmutablePair<ResponseBuilder, Optional<RT>> createResourceJson(RT aResource, IDT id, Class<RT> klass);
+    ImmutablePair<ResponseBuilder, Optional<RT>> createResourceForDelegatedUI(RT aResource, Class<RT> klass);
 
     ResponseBuilder queryResources(HttpServletRequest httpServletRequest, UriInfo uriInfo,
             String where, String prefix, int page, int pageSize);

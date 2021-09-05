@@ -142,13 +142,11 @@ public class LyoStoreKRepositoryImpl<RT extends AbstractResource, IDT extends Re
     }
 
     @Override
-    public RT createResource(RT aResource, IDT id, Class<RT> klass) throws RepositoryOperationException {
-        URI uri = id.toUri();
+    public RT createResource(RT aResource, Class<RT> klass) throws RepositoryOperationException {
         try {
-            if(aResource.getAbout() != null && aResource.getAbout() != uri) {
-                LOG.debug("Overriding resource URI {} with {}", aResource.getAbout(), uri);
+            if(aResource.getAbout() == null) {
+                throw new NullPointerException("Resource URI cannot be null");
             }
-            aResource.setAbout(uri);
 
             updateETag(aResource, false);
             boolean success = store.putResources(namedGraph, ImmutableList.of(aResource));

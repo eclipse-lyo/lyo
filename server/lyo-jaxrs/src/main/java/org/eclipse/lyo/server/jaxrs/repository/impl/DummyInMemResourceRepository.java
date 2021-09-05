@@ -25,11 +25,10 @@ import org.slf4j.LoggerFactory;
 public class DummyInMemResourceRepository<RT extends AbstractResource, IDT extends ResourceId<RT>> extends InMemResourceRepositoryImpl<RT, IDT> {
     private final static Logger LOG = LoggerFactory.getLogger(DummyInMemResourceRepository.class);
 
-    public DummyInMemResourceRepository(Supplier<RT> s, Function<RT, IDT> idGen, int n, Class<RT> klass) {
+    public DummyInMemResourceRepository(Supplier<RT> s, int n, Class<RT> klass) {
         for (int i = 0; i < n; i++) {
             RT resource = s.get();
-            IDT id = idGen.apply(resource);
-            this.createResource(resource, id, klass);
+            this.createResource(resource, klass);
         }
     }
 }
