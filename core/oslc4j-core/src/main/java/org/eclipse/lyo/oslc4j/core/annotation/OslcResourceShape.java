@@ -28,6 +28,11 @@ public @interface OslcResourceShape {
 	 */
 	String title() default "";
 
+     /**
+     * Description of the resource shape.
+     */
+    String description() default "";
+
 	/**
 	 * Type or types of resource described by this shape.
 	 */
