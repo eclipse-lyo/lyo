@@ -108,16 +108,19 @@ public class RootServicesHelper {
 			this.catalogNamespace = OSLCConstants.OSLC_AM_V2;
 			this.catalogProperty =  RootServicesConstants.AM_ROOTSERVICES_CATALOG_PROP;
 
-		}
-		else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
+		} else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_AUTO)) {
 
-			this.catalogNamespace = OSLCConstants.OSLC_AUTO;
-			this.catalogProperty =  RootServicesConstants.AUTO_ROOTSERVICES_CATALOG_PROP;
+            this.catalogNamespace = OSLCConstants.OSLC_AUTO;
+            this.catalogProperty = RootServicesConstants.AUTO_ROOTSERVICES_CATALOG_PROP;
 
-		}
-		else {
-			logger.error("Jazz rootservices only supports CM, RM, QM, and Automation catalogs");
-		}
+        } else if (this.catalogDomain.equalsIgnoreCase(OSLCConstants.OSLC_CONFIG)) {
+
+            this.catalogNamespace = OSLCConstants.OSLC_CONFIG;
+            this.catalogProperty = RootServicesConstants.CM_ROOTSERVICES_CATALOG_PROP;
+
+        } else {
+            logger.error("Jazz rootservices only supports CM, RM, QM, GC and Automation catalogs");
+        }
 
 		processRootServices(client);
 	}
