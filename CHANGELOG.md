@@ -26,7 +26,6 @@
 ### Removed
 
 - All references to HTTP-only repos due to [a change](https://maven.apache.org/docs/3.8.1/release-notes.html#how-to-fix-when-i-get-a-http-repository-blocked) in Maven 3.8.1
-- Lyo Validation removed from the release due to the shutdown of Bintray and subsequent redeploy to Github Packages (not accessible without Github credentials).
 
 ### Fixed
 
