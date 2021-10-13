@@ -8,6 +8,7 @@
 - Store adds interface support for closing the Store cleanly and releasing underlying connections. 
 - SparqlStoreImpl can now be set up with a custom query executor
 - Add a oslc:name and dcterms:description attributes to the ResourceShape class so that such information can appear in the shape documentation.
+- Support for Configuration Management was first added in 2.4 and was accidentally removed during the monorepo migration and the 4.0 release. [PR #205](https://github.com/eclipse/lyo/pull/206) adds this support back. Thanks to @isccarrasco!
 
 ### Changed
 
