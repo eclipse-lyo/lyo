@@ -81,7 +81,7 @@
     </dependencies>
   </dependencyManagement>
 
-  <build>
+<!--  <build>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -90,7 +90,7 @@
           <version>2.2.1</version>
           <executions>
             <execution>
-              <!-- This id must match the -Prelease-profile id value or else sources will be "uploaded" twice, which causes Nexus to fail -->
+              &lt;!&ndash; This id must match the -Prelease-profile id value or else sources will be "uploaded" twice, which causes Nexus to fail &ndash;&gt;
               <id>attach-sources</id>
               <goals>
                 <goal>jar</goal>
@@ -116,5 +116,5 @@
         </plugin>
       </plugins>
     </pluginManagement>
-  </build>
+  </build>-->
 </project>
