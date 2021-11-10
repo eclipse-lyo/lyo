@@ -68,12 +68,25 @@ public class PreviewFactory {
                     value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
                 } else {
                     Link link = (Link) getterMethod.invoke(aResource);
-                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple,
-                        constructLink(link));
+                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, constructLink(link));
                 }
             } else {
-                value = constructPropertyValue(PropertyDefintion.RepresentationType.TEXT, multiple,
-                    getterMethod.invoke(aResource));
+            	if (!isNotInlinedRepresentation) {
+                    if (multiple) {
+                        Collection<AbstractResource> rs = (Collection<AbstractResource>) getterMethod.invoke(aResource);
+                        List<org.eclipse.lyo.server.ui.model.Link> l = new ArrayList<>();
+                        for (AbstractResource r: rs) {
+                            l.add(constructLink(r.getAbout().toString(), r.toString()));
+                        }
+                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
+                    } else {
+                    	AbstractResource r = (AbstractResource) getterMethod.invoke(aResource);
+                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, constructLink(r.getAbout().toString(), r.toString()));
+                    }
+            	}
+            	else {
+                    value = constructPropertyValue(PropertyDefintion.RepresentationType.TEXT, multiple, getterMethod.invoke(aResource));
+            	}
             }
             previewItems.add(constructProperty(key, value));
         }
