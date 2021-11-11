@@ -15,6 +15,7 @@ package org.eclipse.lyo.store;
  */
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.arq.querybuilder.SelectBuilder;
 import java.net.URISyntaxException;
 import java.net.URI;
 import java.util.Collection;
@@ -167,8 +168,58 @@ public interface Store {
      *                                     occurred when working with Jena model.
      */
     <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
-    		String prefixes, String where, String searchTerms,
-    		int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
+            String prefixes, String where, String searchTerms,
+            int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
+
+    /**
+     * Alternative to {@link Store#getResources(URI, Class, String, String, String, int, int)} with additional paramters for inlined resources.
+     *
+     * These paramters extend the default query from 
+     * 
+     * DESCRIBE ?s
+     * WHERE { 
+     *   ...
+     *   SELECT distinct ?s
+     *     WHERE {
+     *       ?s ?p ?o .
+     *       ?s rdf:type  <http://...> .
+     *       ...
+     *     }
+     * }
+     * 
+     * to
+     * 
+     * DESCRIBE ?s ?a ?b
+     * WHERE { 
+     * ...
+     *   SELECT distinct ?s ?a ?b
+     *   WHERE {
+     *     ?s  ?p        ?o .
+     *     ?s rdf:type  <http://...> .
+     *     ?s <http://...#prp1>  ?a .
+     *     ?a <http://prp2> ?b
+     *   }
+     * }
+     *  
+     *  hence allowing ?a and ?b to be described, as well as ?a 
+     *  
+     *  Corresponding paramters to acheive this:
+     *  List<String> additionalDistinctVars = new ArrayList<String>();
+     *  additionalDistinctVars.add("a");
+     *  additionalDistinctVars.add("b");
+     *  
+     *  SelectBuilder additionalQueryFilter = new SelectBuilder();
+     *  additionalQueryFilter
+     *  .addWhere( "?s", new ResourceImpl("http://...#" + "prp1"), "?a")
+     *  .addWhere( "?a", new ResourceImpl(http://...# + "prp2"), "?b");
+
+     * @param additionalDistinctVars
+     * @param additionalQueryFilter
+     */
+    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
+            String prefixes, String where, String searchTerms,
+            int limit, int offset, 
+            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) throws StoreAccessException, ModelUnmarshallingException;
 
     /**
      * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
@@ -184,7 +235,7 @@ public interface Store {
      * @return list of resources, size is less or equal to 'limit'
      *
      */
-	Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset);
+    Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset);
 
     /**
      * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
@@ -201,7 +252,17 @@ public interface Store {
      * @return list of resources, size is less or equal to 'limit'
      *
      */
-	Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset);
+    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset);
+
+    
+    /**
+     * Alternative to {@link Store#getResources(URI, String, String, String, int, int)} with additional paramters for inlined resources.
+     *
+     * See {@link Store#getResources(URI, Class, String, String, String, int, int, List<String>, SelectBuilder)} for an explanation of these additional paramters.
+
+     */
+    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset, 
+            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter);
 
     /**
      * Retrieve a single {@link IResource} instance specified by the concrete
