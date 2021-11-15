@@ -30,7 +30,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFReader;
+import org.apache.jena.rdf.model.RDFReaderI;
 import org.apache.jena.util.FileUtils;
 
 public class OSLC4JUnmarshaller {
@@ -42,7 +42,7 @@ public class OSLC4JUnmarshaller {
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(InputStream inputStream, Class<T> clazz) throws IllegalArgumentException, SecurityException, DatatypeConfigurationException, IllegalAccessException, InstantiationException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, NoSuchMethodException{
 		final Model model = ModelFactory.createDefaultModel();
-		final RDFReader reader = getReader(model);
+		final RDFReaderI reader = getReader(model);
 		if (reader == null) { // unsupported media type
 			return null;
 		}
@@ -67,7 +67,7 @@ public class OSLC4JUnmarshaller {
 		return ret;
 	}
 
-	private RDFReader getReader(final Model model) {
+	private RDFReaderI getReader(final Model model) {
 		if (mediaType.isCompatible(MT_RDF_XML) || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
 			return model.getReader(); // Default reader handles both xml and abbreviated xml
 		}

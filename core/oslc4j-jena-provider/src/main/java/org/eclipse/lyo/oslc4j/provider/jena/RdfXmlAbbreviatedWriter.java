@@ -60,7 +60,7 @@ import org.apache.jena.vocabulary.RDF;
  * @see		RDFWriter
  */
 @SuppressWarnings("FieldCanBeLocal")
-public class RdfXmlAbbreviatedWriter implements RDFWriter {
+public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 
 	private final Map<AnonId, String> resourceIdToShortIdMap;
 	private int shortIdCounter = 0;
