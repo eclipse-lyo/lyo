@@ -1,0 +1,6 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
+<>      a               <http://example.com/ns#Test> ;
+        foaf:firstName  "<span>David &amp; Mary</span>"^^rdf:XMLLiteral .

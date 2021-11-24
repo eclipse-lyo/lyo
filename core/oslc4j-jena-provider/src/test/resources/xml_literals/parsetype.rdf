@@ -1,0 +1,9 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" >
+  <rdf:Description rdf:about="">
+    <rdf:type rdf:resource="http://example.com/ns#Test"/>
+    <foaf:firstName rdf:parseType="Literal"><span>David &amp; Mary</span></foaf:firstName>
+  </rdf:Description>
+</rdf:RDF>
