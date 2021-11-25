@@ -14,8 +14,12 @@
 package org.eclipse.lyo.oslc4j.core;
 
 import java.net.MalformedURLException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.*;
+
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -173,5 +177,18 @@ public class OSLC4JUtilsTest {
         Mockito.when(mockedRequest.getServletPath()).thenReturn("/resources");
         Mockito.when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
         return mockedRequest;
+    }
+
+    @Test
+    public void isWellFormed() {
+        List<Pair<Boolean, String>> pairs = Lists.newArrayList(
+            Pair.of(true, "<span>John &amp; Mary</span>")
+            ,Pair.of(false, "<span>John & Mary</span>")
+            ,Pair.of(false, "John and Mary")
+        );
+        for (Pair<Boolean, String> pair : pairs) {
+            boolean checkResult = OSLC4JUtils.isWellFormed(pair.getRight());
+            assertEquals(pair.getLeft(), checkResult);
+        }
     }
 }
