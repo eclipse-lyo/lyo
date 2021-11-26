@@ -80,7 +80,6 @@ public class XmlLiteralTest {
     @Test
     public void invalidLiteralTest_NoRoot() throws DatatypeConfigurationException,
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-//        final Model diskModel = readModel("/xml_literals/invalid_noroot_parsetype.rdf", RDFLanguages.strLangRDFXML);
         final Model diskModel = readModel("/xml_literals/invalid_noroot.ttl", RDFLanguages.strLangTurtle);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
