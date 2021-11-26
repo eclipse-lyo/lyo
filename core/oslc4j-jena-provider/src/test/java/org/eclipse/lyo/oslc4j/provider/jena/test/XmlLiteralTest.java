@@ -26,7 +26,6 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.eclipse.lyo.oslc4j.provider.jena.AbstractOslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResourceWithLiterals;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,14 +44,7 @@ public class XmlLiteralTest {
     @Before
     public void before() {
         System.getProperties().remove(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES);
-//		System.setProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES, "false");
     }
-
-    @After
-    public void after() {
-        System.getProperties().remove(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES);
-    }
-
 
     /* ROUND-TRIPPING TESTS */
 
@@ -61,13 +53,7 @@ public class XmlLiteralTest {
         InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue(diskModel.isIsomorphicWith(lyoModel));
+        assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     @Test
@@ -75,25 +61,7 @@ public class XmlLiteralTest {
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/parsetype_annot.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue("Models should match: " + showModels(diskModel, lyoModel), diskModel.isIsomorphicWith(lyoModel));
-    }
-
-    private String showModels(Model expected, Model resulting) {
-        return String.format("EXPECTED model:\n\n%s\n" +
-            "=======================================================\n\n"
-            + "RESULTING model:\n\n%s\n", prettyPrintModel(expected), prettyPrintModel(resulting));
-    }
-
-    private String prettyPrintModel(Model model) {
-        StringWriter writer = new StringWriter(4096);
-        RDFDataMgr.write(writer, model, RDFFormat.TRIG_PRETTY);
-        return writer.toString();
+        assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     @Test
@@ -101,13 +69,7 @@ public class XmlLiteralTest {
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/parsetype_annot_string.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue(diskModel.isIsomorphicWith(lyoModel));
+        assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     /* INVALID LITERAL TESTS */
@@ -121,13 +83,7 @@ public class XmlLiteralTest {
 //        final Model diskModel = readModel("/xml_literals/invalid_noroot_parsetype.rdf", RDFLanguages.strLangRDFXML);
         final Model diskModel = readModel("/xml_literals/invalid_noroot.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue(diskModel.isIsomorphicWith(lyoModel));
+        assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     /**
@@ -136,34 +92,21 @@ public class XmlLiteralTest {
     @Test
     public void invalidLiteralTest_NoEscape() throws DatatypeConfigurationException,
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-//        final Model diskModel = readModel("/xml_literals/invalid_noroot_parsetype.rdf", RDFLanguages.strLangRDFXML);
         final Model diskModel = readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue(diskModel.isIsomorphicWith(lyoModel));
+        assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     /**
-     * Not escaping & turns XML invalid. NB! Unescaped & in Turtle will get escaped when you use libs to convert to RDF/XML.
+     * Not escaping & turns XML invalid. NB! Unescaped & in Turtle will get escaped when you use libs to convert to
+     * RDF/XML.
      */
     @Test(expected = RiotException.class)
-    public void invalidLiteralTest_BadXml() throws DatatypeConfigurationException,
-        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-//        final Model diskModel = readModel("/xml_literals/invalid_noroot_parsetype.rdf", RDFLanguages.strLangRDFXML);
+    public void invalidLiteralTest_BadXml() {
         final Model diskModel = readModel("/xml_literals/invalid_badxml.rdf", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
-        assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithLiterals resource = testResources[0];
-
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
-
-        assertTrue(diskModel.isIsomorphicWith(lyoModel));
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel,
+            TestResourceWithLiterals.class);
     }
 
 
@@ -244,4 +187,31 @@ public class XmlLiteralTest {
         m.read(is, null, lang);
         return m;
     }
+
+    /*HELPERS*/
+
+    private void assertModelUnmarshalsAndBackIsomorphically(Model diskModel, Class<TestResourceWithLiterals> klass)
+        throws DatatypeConfigurationException, IllegalAccessException, InvocationTargetException,
+        OslcCoreApplicationException {
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, klass);
+        assertEquals("Expected only one TestResource resource", 1, testResources.length);
+        final TestResourceWithLiterals resource = testResources[0];
+
+        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
+
+        assertTrue("Models should match: " + showModels(diskModel, lyoModel), diskModel.isIsomorphicWith(lyoModel));
+    }
+
+    private String showModels(Model expected, Model resulting) {
+        return String.format("EXPECTED model:\n\n%s\n" +
+            "=======================================================\n\n"
+            + "RESULTING model:\n\n%s\n", prettyPrintModel(expected), prettyPrintModel(resulting));
+    }
+
+    private String prettyPrintModel(Model model) {
+        StringWriter writer = new StringWriter(4096);
+        RDFDataMgr.write(writer, model, RDFFormat.TRIG_PRETTY);
+        return writer.toString();
+    }
+
 }

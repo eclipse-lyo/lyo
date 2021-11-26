@@ -433,7 +433,9 @@ public class ResourceShapeFactory {
 	    return Collection.class.isAssignableFrom(returnType);
     }
 
-    private static void validateUserSpecifiedOccurs(final Class<?> resourceClass, final Method method, final OslcOccurs occursAnnotation) throws OslcCoreInvalidOccursException {
+    private static void validateUserSpecifiedOccurs(final Class<?> resourceClass, final Method method,
+                                                    final OslcOccurs occursAnnotation)
+        throws OslcCoreInvalidOccursException {
 		final Class<?> returnType = method.getReturnType();
 		final Occurs   occurs	  = occursAnnotation.value();
 
@@ -451,18 +453,22 @@ public class ResourceShapeFactory {
 		}
 	}
 
-	protected static void validateUserSpecifiedValueType(final Class<?> resourceClass, final Method method, final ValueType userSpecifiedValueType, final Representation userSpecifiedRepresentation, final Class<?> componentType) throws OslcCoreInvalidValueTypeException {
-		final ValueType calculatedValueType = CLASS_TO_VALUE_TYPE.get(componentType);
-		// ValueType is valid if ...
-		// user-specified value type matches calculated value type
-		// or
-		// user-specified value type is local resource (we will validate the local resource later)
+    protected static void validateUserSpecifiedValueType(final Class<?> resourceClass, final Method method,
+                                                         final ValueType userSpecifiedValueType,
+                                                         final Representation userSpecifiedRepresentation,
+                                                         final Class<?> componentType)
+        throws OslcCoreInvalidValueTypeException {
+        final ValueType calculatedValueType = CLASS_TO_VALUE_TYPE.get(componentType);
+        // ValueType is valid if ...
+        // user-specified value type matches calculated value type
+        // or
+        // user-specified value type is local resource (we will validate the local resource later)
         // or
         // user-specified value type is non-local resource, and Representation is Inline (we will validate later)
-		// or
-		// user-specified value type is xml literal and calculated value type is string
-		// or
-		// user-specified value type is decimal and calculated value type is numeric
+        // or
+        // user-specified value type is xml literal and calculated value type is string
+        // or
+        // user-specified value type is decimal and calculated value type is numeric
         if ((userSpecifiedValueType.equals(calculatedValueType))
             ||
             (ValueType.LocalResource.equals(userSpecifiedValueType))
@@ -472,9 +478,7 @@ public class ResourceShapeFactory {
             ||
             ((ValueType.XMLLiteral.equals(userSpecifiedValueType))
                 &&
-                (ValueType.String.equals(calculatedValueType)
-//                    || ValueType.XMLLiteral.equals(calculatedValueType)
-                )
+                (ValueType.String.equals(calculatedValueType))
             )
             ||
             ((ValueType.Decimal.equals(userSpecifiedValueType))
@@ -487,33 +491,36 @@ public class ResourceShapeFactory {
                 )
             )
         ) {
-			// We have a valid user-specified value type for our Java type
-			return;
-		}
+            // We have a valid user-specified value type for our Java type
+            return;
+        }
 
-		throw new OslcCoreInvalidValueTypeException(resourceClass, method, userSpecifiedValueType);
-	}
+        throw new OslcCoreInvalidValueTypeException(resourceClass, method, userSpecifiedValueType);
+    }
 
-	private static void validateUserSpecifiedRepresentation(final Class<?> resourceClass, final Method method, final Representation userSpecifiedRepresentation, final Class<?> componentType) throws OslcCoreInvalidRepresentationException {
+    private static void validateUserSpecifiedRepresentation(final Class<?> resourceClass, final Method method,
+                                                            final Representation userSpecifiedRepresentation,
+                                                            final Class<?> componentType)
+        throws OslcCoreInvalidRepresentationException {
 	    // Throw an Exception if ...
 	    // User-specified representation is reference and component is not URI
 		// or
 		// user-specified representation is inline and component is a standard class
 
-	    if (null == userSpecifiedRepresentation) {
-	        return;
-	    }
-		if (((Representation.Reference.equals(userSpecifiedRepresentation))
-			 &&
-			 (!URI.class.equals(componentType))
-			)
-			||
-			((Representation.Inline.equals(userSpecifiedRepresentation))
-			 &&
-			 (CLASS_TO_VALUE_TYPE.containsKey(componentType))
-			)
-		   ) {
-			throw new OslcCoreInvalidRepresentationException(resourceClass, method, userSpecifiedRepresentation);
-		}
+        if (null == userSpecifiedRepresentation) {
+            return;
+        }
+        if (((Representation.Reference.equals(userSpecifiedRepresentation))
+            &&
+            (!URI.class.equals(componentType))
+            )
+            ||
+            ((Representation.Inline.equals(userSpecifiedRepresentation))
+                &&
+                (CLASS_TO_VALUE_TYPE.containsKey(componentType))
+            )
+        ) {
+            throw new OslcCoreInvalidRepresentationException(resourceClass, method, userSpecifiedRepresentation);
+        }
 	}
 }

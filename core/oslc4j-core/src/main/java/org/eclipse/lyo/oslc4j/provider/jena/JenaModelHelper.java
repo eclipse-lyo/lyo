@@ -817,15 +817,11 @@ public final class JenaModelHelper
                         final Literal literal	 = o.asLiteral();
                         final String stringValue = literal.getString();
 
-                        if (String.class == setMethodComponentParameterClass)
-                        {
+                        if (String.class == setMethodComponentParameterClass) {
                             parameter = stringValue;
-                        }
-                        else if (XMLLiteral.class == setMethodComponentParameterClass) {
-                            //TODO: handle the same way as the extended property
+                        } else if (XMLLiteral.class == setMethodComponentParameterClass) {
                             parameter = new XMLLiteral(literal.getString());
-                        }
-                        else if ((Boolean.class == setMethodComponentParameterClass) ||
+                        } else if ((Boolean.class == setMethodComponentParameterClass) ||
                                 (Boolean.TYPE == setMethodComponentParameterClass))
                         {
                             // XML supports both 'true' and '1' for a true Boolean.
@@ -1916,24 +1912,18 @@ public final class JenaModelHelper
             return;
         }
 
-        if (value instanceof String)
-        {
-            if (onlyNested)
-            {
+        if (value instanceof String) {
+            if (onlyNested) {
                 return;
             }
 
-            if (xmlLiteral)
-            {
+            if (xmlLiteral) {
                 nestedNode = model.createTypedLiteral(value.toString(),
-                        XMLLiteralType.theXMLLiteralType);
-            }
-            else
-            {
+                    XMLLiteralType.theXMLLiteralType);
+            } else {
                 nestedNode = model.createLiteral(value.toString());
             }
-        }
-        else if (value instanceof XMLLiteral) {
+        } else if (value instanceof XMLLiteral) {
             if (xmlLiteral) {
                 nestedNode = model.createTypedLiteral(((XMLLiteral) value).getValue(),
                     XMLLiteralType.theXMLLiteralType);
