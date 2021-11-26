@@ -657,6 +657,7 @@ public final class JenaModelHelper
             final String uri	   = predicate.getURI();
             final Method setMethod = setMethodMap.get(uri);
 
+            //TODO: split into readExtendedProperty and readAnnotatedProperty
             if (setMethod == null)
             {
                 if (RDF_TYPE_URI.equals(uri))
@@ -809,6 +810,7 @@ public final class JenaModelHelper
 
                 for (RDFNode o : objects)
                 {
+                    // read/set a non-generic non-collection annotated property
                     Object parameter = null;
                     if (o.isLiteral())
                     {
@@ -818,6 +820,10 @@ public final class JenaModelHelper
                         if (String.class == setMethodComponentParameterClass)
                         {
                             parameter = stringValue;
+                        }
+                        else if (XMLLiteral.class == setMethodComponentParameterClass) {
+                            //TODO: handle the same way as the extended property
+                            parameter = new XMLLiteral(literal.getString());
                         }
                         else if ((Boolean.class == setMethodComponentParameterClass) ||
                                 (Boolean.TYPE == setMethodComponentParameterClass))
@@ -1337,6 +1343,7 @@ public final class JenaModelHelper
 
                         if (value != null)
                         {
+                            // serializing an annotated property value
                             Map<String, Object> nestedProperties = null;
                             boolean onlyNested = false;
 
@@ -1924,6 +1931,14 @@ public final class JenaModelHelper
             else
             {
                 nestedNode = model.createLiteral(value.toString());
+            }
+        }
+        else if (value instanceof XMLLiteral) {
+            if (xmlLiteral) {
+                nestedNode = model.createTypedLiteral(((XMLLiteral) value).getValue(),
+                    XMLLiteralType.theXMLLiteralType);
+            } else {
+                throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
             }
         }
         // Floats need special handling for infinite values.

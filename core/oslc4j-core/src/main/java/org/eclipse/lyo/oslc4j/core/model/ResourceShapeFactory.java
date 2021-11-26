@@ -13,6 +13,10 @@
  */
 package org.eclipse.lyo.oslc4j.core.model;
 
+import org.eclipse.lyo.oslc4j.core.annotation.*;
+import org.eclipse.lyo.oslc4j.core.exception.*;
+
+import javax.ws.rs.core.UriBuilder;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -20,15 +24,7 @@ import java.lang.reflect.TypeVariable;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.eclipse.lyo.oslc4j.core.CoreHelper;
@@ -98,6 +94,8 @@ public class ResourceShapeFactory {
 		CLASS_TO_VALUE_TYPE.put(String.class,	  ValueType.String);
 		CLASS_TO_VALUE_TYPE.put(Date.class,		  ValueType.DateTime);
 		CLASS_TO_VALUE_TYPE.put(URI.class,		  ValueType.Resource);
+
+		CLASS_TO_VALUE_TYPE.put(XMLLiteral.class,		  ValueType.XMLLiteral);
 	}
 
 	protected ResourceShapeFactory() {
@@ -465,27 +463,30 @@ public class ResourceShapeFactory {
 		// user-specified value type is xml literal and calculated value type is string
 		// or
 		// user-specified value type is decimal and calculated value type is numeric
-		if ((userSpecifiedValueType.equals(calculatedValueType))
-			||
-			(ValueType.LocalResource.equals(userSpecifiedValueType))
-			||
-            (ValueType.Resource.equals(userSpecifiedValueType) && (null != userSpecifiedRepresentation) && (Representation.Inline.equals(userSpecifiedRepresentation)))
+        if ((userSpecifiedValueType.equals(calculatedValueType))
             ||
-			((ValueType.XMLLiteral.equals(userSpecifiedValueType))
-			 &&
-			 (ValueType.String.equals(calculatedValueType))
-			)
-			||
-			((ValueType.Decimal.equals(userSpecifiedValueType))
-			 &&
-			 ((ValueType.Double.equals(calculatedValueType))
-			  ||
-			  (ValueType.Float.equals(calculatedValueType))
-			  ||
-			  (ValueType.Integer.equals(calculatedValueType))
-			 )
-			)
-		   ) {
+            (ValueType.LocalResource.equals(userSpecifiedValueType))
+            ||
+            (ValueType.Resource.equals(userSpecifiedValueType)
+                && (Representation.Inline.equals(userSpecifiedRepresentation)))
+            ||
+            ((ValueType.XMLLiteral.equals(userSpecifiedValueType))
+                &&
+                (ValueType.String.equals(calculatedValueType)
+//                    || ValueType.XMLLiteral.equals(calculatedValueType)
+                )
+            )
+            ||
+            ((ValueType.Decimal.equals(userSpecifiedValueType))
+                &&
+                ((ValueType.Double.equals(calculatedValueType))
+                    ||
+                    (ValueType.Float.equals(calculatedValueType))
+                    ||
+                    (ValueType.Integer.equals(calculatedValueType))
+                )
+            )
+        ) {
 			// We have a valid user-specified value type for our Java type
 			return;
 		}

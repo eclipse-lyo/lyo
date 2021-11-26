@@ -17,15 +17,16 @@ import org.eclipse.lyo.oslc4j.core.annotation.*;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 
-@OslcName("TestX")
-@OslcNamespace(TestResourceWithXMLLiteral.TEST_NAMESPACE)
-@OslcResourceShape(title = "Test Resource", describes = TestResourceWithXMLLiteral.TEST_RESOURCE_TYPE)
-public class TestResourceWithXMLLiteral extends AbstractResource {
-	public final static String TEST_NAMESPACE = "http://example.com/ns#";
-	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "TestX";
+@OslcName("TestResourceWithLiterals")
+@OslcNamespace(TestResourceWithLiterals.TEST_NAMESPACE)
+@OslcResourceShape(title = "Test Resource", describes = TestResourceWithLiterals.TEST_RESOURCE_TYPE)
+public class TestResourceWithLiterals extends AbstractResource {
+    public final static String TEST_NAMESPACE = "http://example.com/ns#";
+    public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "TestResourceWithLiterals";
 
-    private String description;
+    private XMLLiteral description;
 
     @OslcName("description")
     @OslcPropertyDefinition("http://purl.org/dc/terms/description")
@@ -33,20 +34,28 @@ public class TestResourceWithXMLLiteral extends AbstractResource {
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
+    public XMLLiteral getDescription() {
         return description;
     }
 
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-
-        // Start of user code setterFinalize:description
-        // End of user code
+    public void setDescription(final XMLLiteral value) {
+        this.description = value;
     }
+
+    private String title;
+
+    @OslcName("title")
+    @OslcPropertyDefinition("http://purl.org/dc/terms/title")
+    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(final String value) {
+        this.title = value;
+    }
+
 }

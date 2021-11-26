@@ -3,7 +3,7 @@
     xmlns:foaf="http://xmlns.com/foaf/0.1/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#" >
   <rdf:Description rdf:about="">
-    <rdf:type rdf:resource="http://example.com/ns#Test"/>
+    <rdf:type rdf:resource="http://example.com/ns#TestResourceWithLiterals"/>
     <foaf:firstName rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">&lt;span&gt;David &amp;amp; Mary&lt;/span&gt;</foaf:firstName>
   </rdf:Description>
 </rdf:RDF>

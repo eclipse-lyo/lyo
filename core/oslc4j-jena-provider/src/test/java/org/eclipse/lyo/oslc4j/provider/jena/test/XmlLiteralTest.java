@@ -16,6 +16,8 @@ package org.eclipse.lyo.oslc4j.provider.jena.test;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -23,7 +25,7 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.eclipse.lyo.oslc4j.provider.jena.AbstractOslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
-import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResourceWithXMLLiteral;
+import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResourceWithLiterals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +33,7 @@ import org.junit.Test;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.*;
@@ -57,9 +60,9 @@ public class XmlLiteralTest {
         InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(diskModel, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
 
         Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
 
@@ -67,13 +70,39 @@ public class XmlLiteralTest {
     }
 
     @Test
-    public void roundtripTestXmlParsetypeWithAnnotatedProperty() throws DatatypeConfigurationException,
+    public void roundtripTestXmlParsetypeWithAnnotatedLiteralProperty() throws DatatypeConfigurationException,
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/parsetype_annot.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithXMLLiteral[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithXMLLiteral.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResourceWithXMLLiteral resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
+
+        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
+
+        assertTrue("Models should match: " + showModels(diskModel, lyoModel), diskModel.isIsomorphicWith(lyoModel));
+    }
+
+    private String showModels(Model expected, Model resulting) {
+        return String.format("EXPECTED model:\n\n%s\n"+
+            "=======================================================\n\n"
+        + "RESULTING model:\n\n%s\n", prettyPrintModel(expected), prettyPrintModel(resulting));
+    }
+
+    private String prettyPrintModel(Model model) {
+        StringWriter writer = new StringWriter(4096);
+        RDFDataMgr.write(writer, model, RDFFormat.TRIG_PRETTY);
+        return writer.toString();
+    }
+
+    @Test
+    public void roundtripTestXmlParsetypeWithAnnotatedStringProperty() throws DatatypeConfigurationException,
+        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
+        final Model diskModel = readModel("/xml_literals/parsetype_annot_string.rdf", RDFLanguages.strLangRDFXML);
+
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
+        assertEquals("Expected only one TestResource resource", 1, testResources.length);
+        final TestResourceWithLiterals resource = testResources[0];
 
         Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
 
@@ -87,9 +116,9 @@ public class XmlLiteralTest {
     public void literalTestTurtleXSD() {
         final Model m = readModel("/xml_literals/xsd_xmlliteral.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof BaseDatatype.TypedValue);
@@ -101,9 +130,9 @@ public class XmlLiteralTest {
     public void literalTestTurtleRDF() {
         final Model m = readModel("/xml_literals/rdf_xmlliteral.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof XMLLiteral);
@@ -114,9 +143,9 @@ public class XmlLiteralTest {
     public void literalTestXmlDatatypeXSD() {
         final Model m = readModel("/xml_literals/datatype_xsd.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof BaseDatatype.TypedValue);
@@ -129,9 +158,9 @@ public class XmlLiteralTest {
     public void literalTestXmlDatatypeRDF() {
         final Model m = readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof XMLLiteral);
@@ -142,9 +171,9 @@ public class XmlLiteralTest {
     public void literalTestXmlParsetype() {
         final Model m = readModel("/xml_literals/parsetype.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResource[] testResources = JenaModelHelper.unmarshal(m, TestResource.class);
+        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
-        final TestResource resource = testResources[0];
+        final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof XMLLiteral);

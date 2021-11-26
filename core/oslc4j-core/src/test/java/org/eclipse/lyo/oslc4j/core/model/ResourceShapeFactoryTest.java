@@ -3,11 +3,21 @@ package org.eclipse.lyo.oslc4j.core.model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.junit.Test;
 
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidValueTypeException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import org.junit.Test;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * @version $version-stub$
@@ -47,6 +57,26 @@ public class ResourceShapeFactoryTest {
     public void findSetterCollectionMismachGenType()
             throws NoSuchMethodException, OslcCoreMissingSetMethodException {
         ResourceShapeFactory.validateSetMethodExists(Dummy.class, Dummy.class.getMethod("getValueDifferent"));
+    }
+
+    @Test
+    public void validateUserSpecifiedValueType() {
+        assertEquals(true, isValidOslcJavaTypePair(ValueType.XMLLiteral, String.class));
+        assertEquals(true, isValidOslcJavaTypePair(ValueType.XMLLiteral, XMLLiteral.class));
+        assertEquals(true, isValidOslcJavaTypePair(ValueType.String, String.class));
+        assertEquals(false, isValidOslcJavaTypePair(ValueType.String, XMLLiteral.class));
+    }
+
+    private boolean isValidOslcJavaTypePair(ValueType specifiedValueType, Class<?> componentType) {
+        try {
+            ResourceShapeFactory.validateUserSpecifiedValueType(Dummy.class, Dummy.class.getMethod("getValueDifferent"),
+                specifiedValueType, null, componentType);
+            return true;
+        } catch (OslcCoreInvalidValueTypeException e) {
+            return false;
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     interface Dummy {
