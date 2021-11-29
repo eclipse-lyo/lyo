@@ -1,22 +1,18 @@
 # Contributing to Eclipse Lyo
 
-This guide is to help you get started contributing to the Eclipse Lyo
-project.
+We adopt the Eclipse guidlines for [contributing via Git](https://wiki.eclipse.org/Development_Resources/Contributing_via_Git), to accept contributions in this project. **Make sure you have installed https://marketplace.eclipse.org/content/editorconfig-eclipse plugin for Eclipse to make formatting minimally consistent.**
 
-## Getting started
+Please follow these guidelines to submit your contributions. **Before your contribution can be accepted to an Eclipse Foundation project, you need to electronically sign the [Eclipse Contributor Agreement (ECA)](https://eclipse.org/legal/ECA.php).**
+The preferred approach is to contribute a patch via GitHub using the standard GitHub pull request (remember to sign off on each commit and configure Git to use the same email addressed used to sign an ECA).
+Alternatively, you can submit your contribution as a patch attachment on the corresponding Bugzilla or Github issue.
+(This project no longer supports Gerrit.)
 
-In order to get your commit merged into master, you need to follow a few steps.
 
-**Before working on your code**
+This project uses Maven as the build system for all Java projects except those which are Eclipse Plugin project. The latter projects contain all the Eclipse project files under Git for import and building using the *Import > Existing Projects into Workspace*. All other projects should be imported using the *Import > Existing Maven Projects* menu.
 
-* Register a [new Eclipse account](https://accounts.eclipse.org/)
-* File a new bug on Github Issues **before working on your contribution** if you could not find an existing (also closed) bug in Github or [Bugzilla](https://bugs.eclipse.org/bugs/query.cgi?format=specific).
-* If you want to discuss your idea before (and after) filing a bug, join the [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev).
-* Accept and sign the [ECA](https://www.eclipse.org/legal/ECA.php). Instructions on how to sign are on the right side of the page. **YES, you need to sign an Eclipse agreement before submitting pull requests!**
+`core.query` project uses ANTLR for generating parser code. In order to configure Eclipse to use it, the `pom.xml` file contains some m2e-specific configuration. **After importing the projects, make sure to run *Maven > Update Project*.** If that does not work, you must add the directory `target/generated-sources/antlr3` under the *Java Project Build > Source*.
 
-**Submitting a change**
 
-* Fork this repository.
-* Clone your fork and make changes on a new branch.
-* Make sure to [include Singed-off-by](https://stackoverflow.com/questions/13457203/how-to-add-the-signed-off-by-field-in-the-git-patch) line in your commit message (by doing this, you are signing off on a [Developer Certificate of Origin](https://www.eclipse.org/legal/DCO.php)). **Commits without a Singed-off-by line are not accepted!**
-* Submit a pull request and assign @jamsden and @berezovskyi to review it.
+The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
+
+You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev) or on Slack (ask for an invite on the mailing list or by a PM to [@andrew](https://forum.open-services.net/u/andrew)).
