@@ -144,8 +144,7 @@ public class SparqlStoreImpl implements Store {
             quadAccumulator.addTriple(triple);
         }
         final UpdateDataInsert dataInsertUpdate = new UpdateDataInsert(quadAccumulator);
-        final String queryString = dataInsertUpdate.toString();
-        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(queryString);
+        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(dataInsertUpdate);
         up.execute();
     }
 
