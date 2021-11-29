@@ -21,6 +21,7 @@
 - Pin libthrift version to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
 - Pin httpclient version to 4.5.13 due to a [vulnerability](https://github.com/eclipse/lyo/pull/103).
 - Pin embedded Tomcat version (pulled in by Jena) to 8.5.66 due to [CVE-2021-25329](https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637)
+- [Store] For update requests, avoid creating a String out of hte SPARQL query. This is very inefficient for large queries.
 
 ### Deprecated
 
