@@ -11,8 +11,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
 
@@ -200,22 +198,19 @@
       </dependency>
 
       <dependency>
-        <!-- CQ 6577 -->
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
-        <version>2.2.1</version>
+        <version>2.3.1</version>
       </dependency>
       <dependency>
-        <!-- CQ 6578 -->
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>2.2.1.1</version>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>2.3.5</version>
       </dependency>
       <dependency>
-        <!--CQ 13719-->
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.8.0</version>
+        <version>3.21.0</version>
       </dependency>
       <dependency>
         <!--CQ 13716-->
@@ -332,11 +327,11 @@
         <artifactId>commons-lang3</artifactId>
         <version>3.11</version>
       </dependency>
-      <dependency>
+<!--      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.21</version>
-      </dependency>
+      </dependency>-->
 
       <!--Test-->
       <dependency>
@@ -377,12 +372,12 @@
       </dependency>
 
       <!--Convergence-->
-      <dependency>
-        <!--es.weso:shaclex_2.12:pom:0.0.87-->
+<!--      <dependency>
+        &lt;!&ndash;es.weso:shaclex_2.12:pom:0.0.87&ndash;&gt;
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-arq</artifactId>
         <version>${v.jena}</version>
-      </dependency>
+      </dependency>-->
       <dependency>
         <!--net.oauth.core:oauth-httpclient4:jar:20090913-->
         <groupId>net.oauth.core</groupId>
@@ -401,12 +396,12 @@
           <artifactId>tomcat-embed-core</artifactId>
           <version>8.5.73</version>
       </dependency>
-      <dependency>
-        <!--hk2 and powermock-->
+<!--      <dependency>
+        &lt;!&ndash;hk2 and powermock&ndash;&gt;
         <groupId>org.javassist</groupId>
         <artifactId>javassist</artifactId>
         <version>3.27.0-GA</version>
-      </dependency>
+      </dependency>-->
 
     </dependencies>
   </dependencyManagement>
@@ -414,6 +409,18 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <testSource>1.8</testSource>
+            <testTarget>1.8</testTarget>
+            <compilerArgument>-Xlint:deprecation</compilerArgument>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
@@ -457,7 +464,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-<!--          <version>2.4.3</version>-->
           <version>3.2.0</version>
         </plugin>
         <plugin>
@@ -473,7 +479,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.0.0</version>
         </plugin>
         <!--Ignore Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
         <plugin>
@@ -523,6 +529,20 @@
             </goals>
             <configuration>
               <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xerces</exclude>
+                    <!-- trs-client -->
+<!--                    <exclude>xml-apis</exclude>-->
+                    <!-- oslc4j-wink -->
+<!--                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>-->
+
+                    <!-- https://github.com/eclipse/lyo/pull/220 -->
+<!--                    <exclude>log4j:log4j</exclude>-->
+                    <!--log4j v2 is not used, just for the future-->
+                    <exclude>org.apache.logging.log4j:log4j-core</exclude>
+                  </excludes>
+                </bannedDependencies>
                 <banDuplicatePomDependencyVersions/>
                 <requireMavenVersion>
                   <version>3.0</version>
@@ -532,8 +552,8 @@
                 </requireJavaVersion>
                 <requireUpperBoundDeps>
                   <excludes>
-                    <!--Only Powermock uses it, let them deal with it. We use one Powermock version consistently.-->
-                    <exclude>org.objenesis:objenesis</exclude>
+                    <!--jersey and jena via commons-compress-->
+                    <exclude>org.osgi:org.osgi.core</exclude>
                   </excludes>
                 </requireUpperBoundDeps>
                 <reactorModuleConvergence>
