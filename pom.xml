@@ -532,10 +532,8 @@
                 <bannedDependencies>
                   <excludes>
                     <exclude>xerces</exclude>
-                    <!-- trs-client -->
                     <exclude>xml-apis</exclude>
-                    <!-- oslc4j-wink -->
-<!--                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>-->
+                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>
 
                     <!-- https://github.com/eclipse/lyo/pull/220 -->
 <!--                    <exclude>log4j:log4j</exclude>-->
