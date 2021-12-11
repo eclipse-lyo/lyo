@@ -533,7 +533,7 @@
                   <excludes>
                     <exclude>xerces</exclude>
                     <!-- trs-client -->
-<!--                    <exclude>xml-apis</exclude>-->
+                    <exclude>xml-apis</exclude>
                     <!-- oslc4j-wink -->
 <!--                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>-->
 
