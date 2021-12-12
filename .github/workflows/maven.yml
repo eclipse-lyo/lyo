@@ -17,6 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['8', '11']
+        # temurin is Eclipse/AdoptOpenJDK/Adoptium
+        # liberica is a build of Oracle GraalVM
         distribution: ['temurin', 'zulu', 'liberica']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 17
