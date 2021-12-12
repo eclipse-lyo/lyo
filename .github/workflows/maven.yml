@@ -12,17 +12,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         jdk: ['8', '11']
+        distribution: ['temurin', 'zulu', 'liberica']
         experimental: [false]
         include:
           - jdk: '17'
             experimental: true
-          - jdk: '18-ea'
-            experimental: true
+#          - jdk: '18-ea'
+#            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
