@@ -19,14 +19,27 @@ jobs:
         jdk: ['8', '11']
         distribution: ['temurin', 'zulu', 'liberica']
         experimental: [false]
+        # jena 3.x has some locking problems under JDK 17
         include:
-          - jdk: '17'
-            experimental: true
-            distribution: temurin
-          - jdk: '17'
+#          - jdk: '17'
+#            experimental: true
+#            distribution: temurin
+          - jdk: '12'
             experimental: true
             distribution: zulu
-#          - jdk: '18-ea'
+          - jdk: '13'
+            experimental: true
+            distribution: zulu
+          - jdk: '14'
+            experimental: true
+            distribution: zulu
+          - jdk: '15'
+            experimental: true
+            distribution: zulu
+          - jdk: '16'
+            experimental: true
+            distribution: zulu
+##          - jdk: '18-ea'
 #            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
