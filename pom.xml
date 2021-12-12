@@ -17,7 +17,7 @@
     <v.kotlin>1.5.32</v.kotlin>
     <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>3.17.0</v.jena>
+    <v.jena>3.16.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.32</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
@@ -355,13 +355,11 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
-<!--
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.7</version>
       </dependency>
--->
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>

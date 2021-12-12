@@ -21,20 +21,14 @@ jobs:
         # liberica is a build of Oracle GraalVM
         distribution: ['temurin', 'zulu', 'liberica']
         experimental: [false]
-        # jena 3.x has some locking problems under JDK 17
-        include:
+        # jena 3.x has some locking problems under JDK 16/17
+#        include:
+#          - jdk: '16'
+#            experimental: true
+#            distribution: zulu
 #          - jdk: '17'
 #            experimental: true
-#            distribution: temurin
-          - jdk: '16'
-            experimental: true
-            distribution: zulu
-          - jdk: '16'
-            experimental: true
-            distribution: temurin
-          - jdk: '17'
-            experimental: true
-            distribution: zulu
+#            distribution: zulu
 ##          - jdk: '18-ea'
 #            experimental: true
     continue-on-error: ${{ matrix.experimental }}
