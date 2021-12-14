@@ -78,28 +78,19 @@
     </dependency>
 
     <dependency>
-      <groupId>xml-apis</groupId>
-      <artifactId>xml-apis</artifactId>
-      <version>1.4.01</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.24</version>
-      <scope>runtime</scope>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.9.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -134,7 +125,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.4.3</version>
       </plugin>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -149,29 +139,10 @@
     </plugins>
   </build>
 
-<!--   <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-runtime</artifactId>
-        <version>3.4.2</version>
-&lt;!&ndash;        <scope>compile</scope>&ndash;&gt;
-        <type>pom</type>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>-->
-
   <repositories>
     <repository>
       <id>central</id>
       <url>https://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/weso/shaclex</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
     </repository>
   </repositories>
 </project>

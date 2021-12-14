@@ -25,6 +25,8 @@ import org.eclipse.lyo.store.internals.DatasetBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * DatasetBuilderTest is .
  * @author Andrew Berezovskyi <andriib@kth.se>
@@ -43,7 +45,7 @@ public class DatasetBuilderTest {
         dataset = DatasetBuilder.buildPersistent(tempDirectory);
         final Iterator<String> names = dataset.listNames();
 
-        Assertions.assertThat(names).isEmpty();
+        assertThat(names).isExhausted();
     }
 
 
@@ -54,6 +56,6 @@ public class DatasetBuilderTest {
         dataset = DatasetBuilder.buildPersistent(tempDirectory);
         final Iterator<String> names = dataset.listNames();
 
-        Assertions.assertThat(names).isEmpty();
+        assertThat(names).isExhausted();
     }
 }
