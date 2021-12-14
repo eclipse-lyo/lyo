@@ -66,7 +66,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_configDomainConstants.VERSIONRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.VERSIONRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "VersionResource Resource Shape", describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
+@OslcResourceShape(title = "VersionResource Shape", describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
 public interface IVersionResource
 {
 
