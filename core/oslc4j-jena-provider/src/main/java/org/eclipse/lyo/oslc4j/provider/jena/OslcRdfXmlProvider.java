@@ -41,229 +41,159 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
 /**
- * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Steve Pitschke
+ * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini,
+ *         Steve Pitschke
  */
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML})
-public class OslcRdfXmlProvider
-	   extends AbstractOslcRdfXmlProvider
-	   implements MessageBodyReader<Object>,
-				  MessageBodyWriter<Object>
-{
-	public OslcRdfXmlProvider()
-	{
-		super();
-	}
+@Produces({ OslcMediaType.APPLICATION_RDF_XML })
+@Consumes({ OslcMediaType.APPLICATION_RDF_XML })
+public class OslcRdfXmlProvider extends AbstractOslcRdfXmlProvider
+        implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
+    public OslcRdfXmlProvider() {
 
-	@Override
-	public boolean isWriteable(final Class<?>	  type,
-							   final Type		  genericType,
-							   final Annotation[] annotations,
-							   final MediaType	  mediaType)
-	{
-		Class<?> actualType;
-		
-		if (FilteredResource.class.isAssignableFrom(type) &&
-			(genericType instanceof ParameterizedType))
-		{
-			ParameterizedType parameterizedType = (ParameterizedType)genericType;
-			Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-			
-			if (actualTypeArguments.length != 1)
-			{
-				return false;
-			}
-			
-			if (actualTypeArguments[0] instanceof Class<?>)
-			{
-				actualType = (Class<?>)actualTypeArguments[0];
-			}
-			else if (actualTypeArguments[0] instanceof ParameterizedType)
-			{
-				parameterizedType = (ParameterizedType)actualTypeArguments[0];
-				actualTypeArguments = parameterizedType.getActualTypeArguments();
-				
-				if (actualTypeArguments.length != 1 ||
-					! (actualTypeArguments[0] instanceof Class<?>))
-				{
-					return false;
-				}
-				
-				actualType = (Class<?>)actualTypeArguments[0];
-			}
-			else if (actualTypeArguments[0] instanceof GenericArrayType)
-			{
-				GenericArrayType genericArrayType =
-					(GenericArrayType)actualTypeArguments[0];
-				Type componentType = genericArrayType.getGenericComponentType();
-				
-				if (! (componentType instanceof Class<?>))
-				{
-					return false;
-				}
-				
-				actualType = (Class<?>)componentType;
-			}
-			else
-			{
-				return false;
-			}
+        super();
+    }
 
-			Type rawType = parameterizedType.getRawType();
-			if (URI.class.equals(actualType)
-					&& (ResponseInfoCollection.class.equals(rawType) || ResponseInfoArray.class.equals(rawType)))
-			{
-				return true;
-			}			   
-		}
-		else
-		{
-			actualType = type;
-		}
-		
-		return ProviderHelper.isSingleResourceType(actualType);
-	}
+    @Override
+    public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType) {
+        Class<?> actualType;
 
-	@Override
-	public void writeTo(final Object						 object,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		Object[]						objects;
-		Map<String, Object>				properties = null;
-		String							descriptionURI = null;
-		String							responseInfoURI = null;
-		ResponseInfo<?>					responseInfo = null;
-		
-		if (object instanceof FilteredResource<?>)
-		{
-			final FilteredResource<?> filteredResource =
-				(FilteredResource<?>)object;
-			
-			properties = filteredResource.properties();
-			
-			if (filteredResource instanceof ResponseInfo<?>)
-			{
-				responseInfo = (ResponseInfo<?>)filteredResource;
-				
-				String requestURI = OSLC4JUtils.resolveURI(httpServletRequest, true);
-				responseInfoURI = requestURI;
-				
-				FilteredResource<?> container = responseInfo.getContainer();
-				if (container != null)
-				{
-					URI containerAboutURI = container.getAbout();
-					if (containerAboutURI != null) 
-					{
-						descriptionURI = containerAboutURI.toString();
-					}
-				}				 
-				if (null == descriptionURI)
-				{
-					descriptionURI = requestURI;
-				}
-				
-				final String queryString = httpServletRequest.getQueryString();
-				
-				if ((queryString != null) &&
-					(ProviderHelper.isOslcQuery(queryString)))
-				{
-					responseInfoURI += "?" + queryString;
-				}
-				
-				if (filteredResource instanceof ResponseInfoArray<?>)
-				{
-					objects = ((ResponseInfoArray<?>)filteredResource).array();
-				}
-				else
-				{
-					Collection<?> collection =
-						((ResponseInfoCollection<?>)filteredResource).collection();
-					
-					objects = collection.toArray(new Object[0]);
-				}
-			}
-			else
-			{
-				Object nestedObject = filteredResource.resource();
-				
-				if (nestedObject instanceof Object[])
-				{
-					objects = (Object[])nestedObject;
-				}
-				else if (nestedObject instanceof Collection<?>)
-				{
-					objects = ((Collection<?>)nestedObject).toArray();
-				}
-				else
-				{
-					objects = new Object[] { object };
-				}
-			}
-		}
-		else
-		{
-			objects = new Object[] { object };
-		}
-		
-		writeTo(objects,
-				mediaType,
-				map,
-				outputStream,
-				properties,
-				descriptionURI,
-				responseInfoURI,
-				responseInfo);
-	}
+        if (FilteredResource.class.isAssignableFrom(type) && (genericType instanceof ParameterizedType)) {
+            ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-	@Override
-	public boolean isReadable(final Class<?>	 type,
-							  final Type		 genericType,
-							  final Annotation[] annotations,
-							  final MediaType	 mediaType)
-	{
-		return true;
-	}
+            if (actualTypeArguments.length != 1) {
+                return false;
+            }
 
-	@Override
-	public Object readFrom(final Class<Object>					type,
-						   final Type							genericType,
-						   final Annotation[]					annotations,
-						   final MediaType						mediaType,
-						   final MultivaluedMap<String, String> map,
-						   final InputStream					inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		final Object[] objects = readFrom(type,
-										  mediaType,
-										  map,
-										  inputStream);
+            if (actualTypeArguments[0] instanceof Class<?>) {
+                actualType = (Class<?>) actualTypeArguments[0];
+            } else if (actualTypeArguments[0] instanceof ParameterizedType) {
+                parameterizedType = (ParameterizedType) actualTypeArguments[0];
+                actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-		if ((objects != null) &&
-			(objects.length > 0))
-		{
-			// Fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755
-			if (OSLC4JUtils.useBeanClassForParsing() && objects.length > 1) {
-				throw new IOException("Object length should not be greater than 1.");
-			} 
-			
-			return objects[0];
-		}
+                if (actualTypeArguments.length != 1 || !(actualTypeArguments[0] instanceof Class<?>)) {
+                    return false;
+                }
 
-		return null;
-	}
+                actualType = (Class<?>) actualTypeArguments[0];
+            } else if (actualTypeArguments[0] instanceof GenericArrayType) {
+                GenericArrayType genericArrayType = (GenericArrayType) actualTypeArguments[0];
+                Type componentType = genericArrayType.getGenericComponentType();
 
-	@Override
-	public long getSize(final Object object, final Class<?> type, final Type genericType,
-			final Annotation[] annotation, final MediaType mediaType) {
-		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
-	}
+                if (!(componentType instanceof Class<?>)) {
+                    return false;
+                }
+
+                actualType = (Class<?>) componentType;
+            } else {
+                return false;
+            }
+
+            Type rawType = parameterizedType.getRawType();
+            if (URI.class.equals(actualType)
+                    && (ResponseInfoCollection.class.equals(rawType) || ResponseInfoArray.class.equals(rawType))) {
+                return true;
+            }
+        } else {
+            actualType = type;
+        }
+
+        return ProviderHelper.isSingleResourceType(actualType);
+    }
+
+    @Override
+    public void writeTo(final Object object, final Class<?> type, final Type genericType,
+            final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream) throws IOException, WebApplicationException {
+        Object[] objects;
+        Map<String, Object> properties = null;
+        String descriptionURI = null;
+        String responseInfoURI = null;
+        ResponseInfo<?> responseInfo = null;
+
+        if (object instanceof FilteredResource<?>) {
+            final FilteredResource<?> filteredResource = (FilteredResource<?>) object;
+
+            properties = filteredResource.properties();
+
+            if (filteredResource instanceof ResponseInfo<?>) {
+                responseInfo = (ResponseInfo<?>) filteredResource;
+
+                String requestURI = OSLC4JUtils.resolveURI(httpServletRequest, true);
+                responseInfoURI = requestURI;
+
+                FilteredResource<?> container = responseInfo.getContainer();
+                if (container != null) {
+                    URI containerAboutURI = container.getAbout();
+                    if (containerAboutURI != null) {
+                        descriptionURI = containerAboutURI.toString();
+                    }
+                }
+                if (null == descriptionURI) {
+                    descriptionURI = requestURI;
+                }
+
+                final String queryString = httpServletRequest.getQueryString();
+
+                if ((queryString != null) && (ProviderHelper.isOslcQuery(queryString))) {
+                    responseInfoURI += "?" + queryString;
+                }
+
+                if (filteredResource instanceof ResponseInfoArray<?>) {
+                    objects = ((ResponseInfoArray<?>) filteredResource).array();
+                } else {
+                    Collection<?> collection = ((ResponseInfoCollection<?>) filteredResource).collection();
+
+                    objects = collection.toArray(new Object[0]);
+                }
+            } else {
+                Object nestedObject = filteredResource.resource();
+
+                if (nestedObject instanceof Object[]) {
+                    objects = (Object[]) nestedObject;
+                } else if (nestedObject instanceof Collection<?>) {
+                    objects = ((Collection<?>) nestedObject).toArray();
+                } else {
+                    objects = new Object[] { object };
+                }
+            }
+        } else {
+            objects = new Object[] { object };
+        }
+
+        writeTo(objects, mediaType, map, outputStream, properties, descriptionURI, responseInfoURI, responseInfo);
+    }
+
+    @Override
+    public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType) {
+        return isReadable(type, mediaType, OslcMediaType.APPLICATION_RDF_XML_TYPE, OslcMediaType.APPLICATION_XML_TYPE,
+                OslcMediaType.TEXT_XML_TYPE, OslcMediaType.TEXT_TURTLE_TYPE);
+    }
+
+    @Override
+    public Object readFrom(final Class<Object> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType, final MultivaluedMap<String, String> map, final InputStream inputStream)
+            throws IOException, WebApplicationException {
+        final Object[] objects = readFrom(type, mediaType, map, inputStream);
+
+        if ((objects != null) && (objects.length > 0)) {
+            // Fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755
+            if (OSLC4JUtils.useBeanClassForParsing() && objects.length > 1) {
+                throw new IOException("Object length should not be greater than 1.");
+            }
+
+            return objects[0];
+        }
+
+        return null;
+    }
+
+    @Override
+    public long getSize(final Object object, final Class<?> type, final Type genericType, final Annotation[] annotation,
+            final MediaType mediaType) {
+        return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
+    }
 }

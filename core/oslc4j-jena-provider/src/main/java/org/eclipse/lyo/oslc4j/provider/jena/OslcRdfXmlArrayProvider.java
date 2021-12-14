@@ -31,67 +31,52 @@ import javax.ws.rs.ext.Provider;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
- * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Andrew Berezovskyi
+ * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini,
+ *         Andrew Berezovskyi
  */
 @Provider
-@Produces({OslcMediaType.APPLICATION_RDF_XML})
-@Consumes({OslcMediaType.APPLICATION_RDF_XML})
-public class OslcRdfXmlArrayProvider
-	   extends AbstractOslcRdfXmlProvider
-	   implements MessageBodyReader<Object[]>,
-				  MessageBodyWriter<Object[]>
-{
-	public OslcRdfXmlArrayProvider()
-	{
-		super();
-	}
+@Produces({ OslcMediaType.APPLICATION_RDF_XML })
+@Consumes({ OslcMediaType.APPLICATION_RDF_XML })
+public class OslcRdfXmlArrayProvider extends AbstractOslcRdfXmlProvider
+        implements MessageBodyReader<Object[]>, MessageBodyWriter<Object[]> {
+    public OslcRdfXmlArrayProvider() {
+        super();
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return true;
-	}
+    @Override
+    public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType) {
+        return true;
+    }
 
-	@Override
-	public boolean isReadable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return true;
-	}
+    @Override
+    public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType) {
+        if (type.isArray()) {
+            return isReadable(type.getComponentType(), mediaType, OslcMediaType.APPLICATION_RDF_XML_TYPE,
+                    OslcMediaType.APPLICATION_XML_TYPE, OslcMediaType.TEXT_XML_TYPE);
+        }
+        return false;
+    }
 
-	@Override
-	public void writeTo(final Object[]						 objects,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException {
+    @Override
+    public void writeTo(final Object[] objects, final Class<?> type, final Type genericType,
+            final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream) throws IOException, WebApplicationException {
 
-		writeTo(ProviderHelper.isQueryResult(type, annotations), objects, mediaType, map,
-				outputStream);
-	}
+        writeTo(ProviderHelper.isQueryResult(type, annotations), objects, mediaType, map, outputStream);
+    }
 
-	@Override
-	public Object[] readFrom(final Class<Object[]>				  type,
-							 final Type							  genericType,
-							 final Annotation[]					  annotations,
-							 final MediaType					  mediaType,
-							 final MultivaluedMap<String, String> map,
-							 final InputStream					  inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		return readFrom(type.getComponentType(),
-						mediaType,
-						map,
-						inputStream);
-	}
+    @Override
+    public Object[] readFrom(final Class<Object[]> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType, final MultivaluedMap<String, String> map, final InputStream inputStream)
+            throws IOException, WebApplicationException {
+        return readFrom(type.getComponentType(), mediaType, map, inputStream);
+    }
 
-	@Override
-	public long getSize(final Object[] objects, final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
-	}
+    @Override
+    public long getSize(final Object[] objects, final Class<?> type, final Type genericType,
+            final Annotation[] annotations, final MediaType mediaType) {
+        return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
+    }
 }
