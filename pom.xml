@@ -83,7 +83,7 @@
     <module>store</module>
     <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
     and/or https://github.com/weso/shaclex/issues/390 are resolved-->
-    <module>validation</module>
+<!--    <module>validation</module>-->
   </modules>
 
   <profiles>

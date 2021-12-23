@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.tdb.TDBLoader;
 import org.apache.jena.tdb.sys.TDBInternal;
@@ -64,12 +65,12 @@ public class SparqlUtilTest {
     public void setUp() {
 
         dataset.begin(ReadWrite.WRITE);
-        URL elvisModel = SparqlUtilTest.class.getResource("/test_data_base/elvisimp.rdf");
+        URL elvisModel = SparqlUtilTest.class.getResource("/test_data_base/elvisimp.nt");
 
         try {
             File elvisModelFile = FileUtils.toFile(elvisModel);
             InputStream in = new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()));
-            TDBLoader.load(TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, true);
+            TDBLoader.load(TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, Lang.NTRIPLES, true, true);
         } catch (Throwable t) {
             t.printStackTrace();
         }
