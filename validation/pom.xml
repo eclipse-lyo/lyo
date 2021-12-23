@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
 
     <v.jetty>9.4.0.v20161208</v.jetty>
     <v.shaclex>0.1.102</v.shaclex>
@@ -47,13 +47,6 @@
         </exclusion>
       </exclusions>
     </dependency>
- <!--   <dependency>
-      <groupId>org.eclipse.rdf4j</groupId>
-      <artifactId>rdf4j-runtime</artifactId>
-      &lt;!&ndash; <version>3.4.2</version> &ndash;&gt;
-      <version>3.4.4</version>
-      <type>pom</type>
-    </dependency>-->
 
     <dependency>
       <groupId>com.google.guava</groupId>

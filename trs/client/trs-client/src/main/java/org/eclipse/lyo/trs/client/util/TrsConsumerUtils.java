@@ -27,7 +27,6 @@ import org.eclipse.lyo.trs.client.handlers.IProviderHandler;
 import org.eclipse.lyo.trs.client.handlers.sparql.SparqlBatchingHandler;
 import org.eclipse.lyo.trs.client.handlers.sparql.SparqlDirectHandler;
 import org.eclipse.lyo.trs.client.handlers.TrsProviderHandler;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +97,6 @@ public class TrsConsumerUtils {
         return providerHandler;
     }
 
-    @NotNull
     private static ITrackedResourceClient trsClientFactory(final OslcClient httpClient) {
         return new TrackedResourceClient(httpClient);
     }

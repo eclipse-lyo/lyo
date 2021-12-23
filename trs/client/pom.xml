@@ -17,7 +17,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <modules>
@@ -25,50 +25,8 @@
     <module>client-source-mqtt</module>
   </modules>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>${v.kotlin}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-test</artifactId>
-      <version>${v.kotlin}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <!-- TODO move TrsProviderHandler out into client-core -->
-        <groupId>org.eclipse.lyo.trs</groupId>
-        <artifactId>trs-client</artifactId>
-        <version>${v.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-jena-provider</artifactId>
-        <version>${v.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${v.jena}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>apache-jena-libs</artifactId>
-        <version>${v.jena}</version>
-        <type>pom</type>
-      </dependency>
-      <dependency>
-        <!--BUG: requires servlet API for correct work (java.lang.NoClassDefFoundError: Ljavax/servlet/http/HttpServletRequest)-->
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>
-      </dependency>
       <dependency>
         <!-- TODO update to org.eclipse.rdf4j:rdf4j-repository-sparql:jar:2.5.1 -->
         <groupId>org.openrdf.sesame</groupId>
@@ -76,51 +34,9 @@
         <version>4.1.1</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>oslc-trs</artifactId>
-        <version>${v.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core</artifactId>
-        <version>${v.lyo}</version>
-      </dependency>
-      <dependency>
         <groupId>org.eclipse.rdf4j</groupId>
         <artifactId>rdf4j-repository-sparql</artifactId>
         <version>2.5.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc-client</artifactId>
-        <version>${v.lyo}</version>
-      </dependency>
-
-      <!--TEST-->
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-tdb</artifactId>
-        <version>${v.jena}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-client</artifactId>
-        <version>${v.jersey}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

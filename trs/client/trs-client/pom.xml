@@ -16,7 +16,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
     <v.jersey>2.25.1</v.jersey>
@@ -27,6 +27,7 @@
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
+        <version>${v.kotlin}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -71,10 +72,12 @@
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-trs</artifactId>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.jena</groupId>
@@ -94,6 +97,7 @@
     <dependency>
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>oslc-client</artifactId>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -116,7 +120,7 @@
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
