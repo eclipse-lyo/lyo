@@ -17,12 +17,13 @@
     <v.kotlin>1.5.32</v.kotlin>
     <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>3.16.0</v.jena>
+    <v.jena>4.0.0</v.jena>
     <v.jersey>2.25.1</v.jersey>
     <v.slf4j>1.7.32</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
     <v.httpclient>4.5.13</v.httpclient>
     <v.guava>30.0-jre</v.guava>
+    <v.jackson-core>2.12.1</v.jackson-core>
   </properties>
 
 
@@ -270,12 +271,6 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <!--CQ 6583-->
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.12.0</version>
-      </dependency>
-      <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
         <version>2.1.6</version>
@@ -309,12 +304,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson-core}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson-core}</version>
        </dependency>
 
        <dependency>
@@ -355,11 +350,13 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
+<!--
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.7</version>
       </dependency>
+-->
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>

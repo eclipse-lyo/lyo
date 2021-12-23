@@ -23,7 +23,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.util.FileUtils;
 
 import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.*;
@@ -58,7 +58,7 @@ public class OSLC4JMarshaller {
 					}else if (mediaType.isCompatible(MT_N3)) {
 						format = FileUtils.langN3;
 					}
-					final RDFWriter writer = model.getWriter(format);
+					final RDFWriterI writer = model.getWriter(format);
 					if (mediaType.isCompatible(MT_RDF_XML)
 							|| mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)
 							|| mediaType.isCompatible(MT_OSLC_COMPACT)){
@@ -77,7 +77,7 @@ public class OSLC4JMarshaller {
 			}
 		} catch (Exception e) {
 			throw new WebApplicationException(e);
-		} 
+		}
 	}
 
 	/**
