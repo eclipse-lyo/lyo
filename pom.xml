@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: _Parent</name>
 
@@ -17,12 +17,13 @@
     <v.kotlin>1.5.32</v.kotlin>
     <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>3.16.0</v.jena>
-    <v.jersey>2.25.1</v.jersey>
+    <v.jena>4.2.0</v.jena>
+    <v.jersey>2.35</v.jersey>
     <v.slf4j>1.7.32</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
     <v.httpclient>4.5.13</v.httpclient>
-    <v.guava>30.0-jre</v.guava>
+    <v.guava>30.1.1-jre</v.guava>
+    <v.jackson-core>2.12.6</v.jackson-core>
   </properties>
 
 
@@ -82,7 +83,7 @@
     <module>store</module>
     <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
     and/or https://github.com/weso/shaclex/issues/390 are resolved-->
-    <module>validation</module>
+<!--    <module>validation</module>-->
   </modules>
 
   <profiles>
@@ -230,12 +231,6 @@
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
-        <!--CQ 6733-->
-        <groupId>org.apache.wink</groupId>
-        <artifactId>wink-json4j</artifactId>
-        <version>1.2.1-incubating</version>
-      </dependency>
-      <dependency>
         <!--CQ 6582-->
         <groupId>stax</groupId>
         <artifactId>stax-api</artifactId>
@@ -263,18 +258,11 @@
         <type>pom</type>
       </dependency>
       <dependency>
-        <!--CQ 6780-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
-        <scope>provided</scope>
+        <groupId>org.glassfish.jersey.core</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>${v.jersey}</version>
       </dependency>
-      <dependency>
-        <!--CQ 6583-->
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.12.0</version>
-      </dependency>
+
       <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
@@ -309,12 +297,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson-core}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson-core}</version>
        </dependency>
 
        <dependency>
@@ -325,13 +313,9 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.11</version>
+        <version>3.12.0</version>
       </dependency>
-<!--      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>1.21</version>
-      </dependency>-->
+
 
       <!--Test-->
       <dependency>
@@ -341,7 +325,6 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <!--CQ 13718-->
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.13.2</version>
@@ -355,11 +338,7 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.7</version>
-      </dependency>
+
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
@@ -370,14 +349,19 @@
         <artifactId>javax.annotation-api</artifactId>
         <version>1.3.2</version>
       </dependency>
+      <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>2.3.3</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.activation</groupId>
+        <artifactId>jakarta.activation-api</artifactId>
+        <version>1.2.2</version>
+      </dependency>
+
 
       <!--Convergence-->
-<!--      <dependency>
-        &lt;!&ndash;es.weso:shaclex_2.12:pom:0.0.87&ndash;&gt;
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${v.jena}</version>
-      </dependency>-->
       <dependency>
         <!--net.oauth.core:oauth-httpclient4:jar:20090913-->
         <groupId>net.oauth.core</groupId>
@@ -396,13 +380,46 @@
           <artifactId>tomcat-embed-core</artifactId>
           <version>8.5.73</version>
       </dependency>
-<!--      <dependency>
-        &lt;!&ndash;hk2 and powermock&ndash;&gt;
-        <groupId>org.javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.27.0-GA</version>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.11.0</version>
+      </dependency>
+
+
+      <!--To remove-->
+      <!--      <dependency>
+              &lt;!&ndash;hk2 and powermock&ndash;&gt;
+              <groupId>org.javassist</groupId>
+              <artifactId>javassist</artifactId>
+              <version>3.27.0-GA</version>
+            </dependency>-->
+      <!--      <dependency>
+        &lt;!&ndash;es.weso:shaclex_2.12:pom:0.0.87&ndash;&gt;
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-arq</artifactId>
+        <version>${v.jena}</version>
       </dependency>-->
 
+
+      <!--      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.21</version>
+      </dependency>-->
+      <dependency>
+        <!--CQ 6780-->
+        <groupId>xml-apis</groupId>
+        <artifactId>xml-apis</artifactId>
+        <version>1.4.01</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <!--CQ 6733-->
+        <groupId>org.apache.wink</groupId>
+        <artifactId>wink-json4j</artifactId>
+        <version>1.2.1-incubating</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -516,6 +533,14 @@
 
     <plugins>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <generateBackupPoms>false</generateBackupPoms>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
@@ -548,10 +573,10 @@
                 </bannedDependencies>
                 <banDuplicatePomDependencyVersions/>
                 <requireMavenVersion>
-                  <version>3.0</version>
+                  <version>3.1.1</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>1.8</version>
+                  <version>11</version>
                 </requireJavaVersion>
                 <requireUpperBoundDeps>
                   <excludes>

@@ -23,7 +23,6 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.shared.Command;
 import org.apache.jena.shared.JenaException;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.shared.PropertyNotFoundException;
@@ -66,7 +65,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 			loadConsumers();
 		}
 	}
-	
+
 	public RdfConsumerStore(Dataset dataset) throws ConsumerStoreException {
 		this.dataset = dataset;
 		createModel(this.dataset);
@@ -81,7 +80,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 			loadConsumers();
 		}
 	}
-	
+
 	protected void createDataset() {
 		try {
 			this.dataset = TDBFactory.createDataset(DB);
@@ -135,21 +134,16 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		if (model == null) {
 			throw new ConsumerStoreException("Consumer store not initialized.");
 		}
-		
+
 		try {
-			model.enterCriticalSection(Lock.WRITE);
-			model.executeInTransaction(new Command() {
-				@Override
-				public Object execute() {
-					removeProperties(consumer);
-					toResource(consumer);
-					
-					return consumer;
-				}
-			});
-						
-			return add(consumer);
-		} catch (JenaException e) {
+            model.enterCriticalSection(Lock.WRITE);
+            model.executeInTxn(() -> {
+                removeProperties(consumer);
+                toResource(consumer);
+            });
+
+            return add(consumer);
+        } catch (JenaException e) {
 			throw new ConsumerStoreException(e);
 		} finally {
 			model.leaveCriticalSection();
@@ -162,19 +156,14 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		if (model == null) {
 			throw new ConsumerStoreException("Consumer store not initialized.");
 		}
-		
-		try {
+
+        try {
 			model.enterCriticalSection(Lock.WRITE);
-			model.executeInTransaction(new Command() {
-				@Override
-				public Object execute() {
-					removeProperties(consumerKey);
-					
-					return consumerKey;
-				}
-			});
-	
-			return remove(consumerKey);
+            model.executeInTxn(() -> {
+                removeProperties(consumerKey);
+            });
+
+            return remove(consumerKey);
 		} catch (JenaException e) {
 			throw new ConsumerStoreException(e);
 		} finally {
@@ -188,8 +177,8 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 		// addConsumer() also works for update.
 		return addConsumer(consumer);
 	}
-	
-	@Override
+
+    @Override
 	public void closeConsumerStore() {
 		if (this.model != null) {
 			model.close();
@@ -201,8 +190,8 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 
 	/**
 	 * Removes any properties previously associated with the consumer.
-	 * 
-	 * @param consumerKey
+     *
+     * @param consumerKey
 	 *            the consumer key
 	 */
 	protected void removeProperties(String consumerKey) {
@@ -213,11 +202,11 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 			i.next().removeProperties();
 		}
 	}
-	
-	/**
+
+    /**
 	 * Removes any properties previously associated with the consumer.
-	 * 
-	 * @param consumer the consumer
+     *
+     * @param consumer the consumer
 	 */
 	protected void removeProperties(LyoOAuthConsumer consumer) {
 		removeProperties(consumer.consumerKey);

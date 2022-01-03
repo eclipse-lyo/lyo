@@ -12,23 +12,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11']
+        jdk: ['11']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
-        # liberica is a build of Oracle GraalVM
+        # liberica is a preferred Spring SDK
         distribution: ['temurin', 'zulu', 'liberica']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
-#        include:
-#          - jdk: '16'
-#            experimental: true
-#            distribution: zulu
-#          - jdk: '17'
-#            experimental: true
-#            distribution: zulu
+        include:
+          - jdk: '15' # Zulu MTS
+            experimental: true
+            distribution: zulu
+          - jdk: '16'
+            experimental: true
+            distribution: zulu
+          - jdk: '17' # LTS
+            experimental: true
+            distribution: zulu
 ##          - jdk: '18-ea'
 #            experimental: true
     continue-on-error: ${{ matrix.experimental }}
@@ -48,4 +51,4 @@ jobs:
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
         run: |
-          mvn -B package --file pom.xml
+          mvn -B verify --file pom.xml

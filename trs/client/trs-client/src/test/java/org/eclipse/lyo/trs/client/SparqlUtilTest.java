@@ -19,10 +19,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.tdb.TDBLoader;
 import org.apache.jena.tdb.sys.TDBInternal;
@@ -46,30 +50,44 @@ public class SparqlUtilTest {
     private static Logger logger = LoggerFactory.getLogger(SparqlUtilTest.class);
 
     private static Dataset dataset;
+    private static Path tempDirectoryPath;
 
     @BeforeClass
-    public static void setUpBeforeClass() {
-        String dataSetPath = SparqlUtilTest.class.getResource("/test_data_base/test_data_set").getFile();
-//        Location directory = Location.create(dataSetPath);
-        dataset = TDBFactory.createDataset(dataSetPath);
+    public static void setUpBeforeClass() throws IOException {
+        Path tempDirectory = Files.createTempDirectory("SparqlUtilTest_");
+        tempDirectoryPath = tempDirectory;
+        if (Files.exists(tempDirectoryPath)) {
+            FileUtils.deleteDirectory(tempDirectoryPath.toFile());
+        }
+        dataset = TDBFactory.createDataset(tempDirectoryPath.toString());
+        assert dataset != null;
         clear();
     }
 
     @AfterClass
     public static void tearDownAfterClass() {
-        dataset.close();
+        if (dataset != null) {
+            dataset.close();
+        }
+        if (Files.exists(tempDirectoryPath)) {
+            try {
+                FileUtils.deleteDirectory(tempDirectoryPath.toFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Before
     public void setUp() {
-
         dataset.begin(ReadWrite.WRITE);
-        URL elvisModel = SparqlUtilTest.class.getResource("/test_data_base/elvisimp.rdf");
+        URL elvisModel = SparqlUtilTest.class.getResource("/test_data_base/elvisimp.nt");
 
         try {
             File elvisModelFile = FileUtils.toFile(elvisModel);
             InputStream in = new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()));
-            TDBLoader.load(TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, true);
+            TDBLoader.load(TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, Lang.NTRIPLES,
+                true, true);
         } catch (Throwable t) {
             t.printStackTrace();
         }

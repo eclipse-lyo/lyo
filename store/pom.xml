@@ -6,14 +6,14 @@
 
   <groupId>org.eclipse.lyo.store</groupId>
   <artifactId>store-parent</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: Store :: _Parent</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
@@ -21,7 +21,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <modules>

@@ -28,7 +28,6 @@ import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,6 @@ public class TrackedResourceClient implements ITrackedResourceClient {
 
     public TrackedResourceClient(final OslcClient oslcClient) {this.oslcClient = oslcClient;}
 
-    @NotNull
     @Override
     public Model fetchTRSRemoteResource(final URI uri) throws RepresentationRetrievalException {
         final Response response = oslcClient.getResource(uri.toString());

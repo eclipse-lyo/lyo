@@ -8,7 +8,6 @@ import org.eclipse.lyo.trs.client.handlers.IProviderEventHandler;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 import org.eclipse.lyo.trs.client.util.SparqlUtil;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +72,6 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
         log.warn("Rebase");
     }
 
-    @NotNull
     private String buildYugeQuery(final List<String> queries) {
         StringBuilder queriesStringBuilder = new StringBuilder();
 

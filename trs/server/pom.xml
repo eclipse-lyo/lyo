@@ -20,13 +20,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.trs</groupId>
   <artifactId>trs-server</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <name>Lyo :: TRS :: Server</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -34,7 +34,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <build>
@@ -46,6 +46,54 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <!--duplicate of the parent config but allowing servlet 4.0 for the test deps-->
+            <id>enforce</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xerces</exclude>
+                    <exclude>xml-apis</exclude>
+                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>
+
+                    <!-- https://github.com/eclipse/lyo/pull/220 -->
+                    <!--                    <exclude>log4j:log4j</exclude>-->
+                    <!--log4j v2 is not used, just for the future-->
+                    <exclude>org.apache.logging.log4j:log4j-core</exclude>
+                  </excludes>
+                </bannedDependencies>
+                <banDuplicatePomDependencyVersions/>
+                <requireMavenVersion>
+                  <version>3.1.1</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>11</version>
+                </requireJavaVersion>
+                <requireUpperBoundDeps>
+                  <excludes>
+                    <!--jersey and jena via commons-compress-->
+                    <exclude>org.osgi:org.osgi.core</exclude>
+                    <exclude>javax.servlet:javax.servlet-api</exclude>
+                  </excludes>
+                </requireUpperBoundDeps>
+                <reactorModuleConvergence>
+                  <message>The reactor is not valid</message>
+                  <ignoreModuleDependencies>false</ignoreModuleDependencies>
+                </reactorModuleConvergence>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -116,12 +164,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.glassfish.jersey.test-framework</groupId>
       <artifactId>jersey-test-framework-core</artifactId>
       <version>${v.jersey}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
+      <!--NB! servlet 4.0 pulled here-->
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
       <version>${v.jersey}</version>

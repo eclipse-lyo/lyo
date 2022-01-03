@@ -1,5 +1,26 @@
 # Eclipse Lyo changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+- 🧨 Lyo is now built using JDK 11
+- 🧨 Jena is upgraded to 4.1.0
+  - Jena renamed `RDFReader/RDFWriter` to `RDFReaderI/RDFWriterI`
+
+
+### Deprecated
+
+### Removed
+- 🧨 **Support for JDK 8 was removed**
+- 🧨 `oslc-java-client` was removed
+- **`lyo-validation` temporarily removed from the build**
+- `oslc4j-wink` was removed
+- `oslc4j-registry` was removed
+
+### Fixed
+
 ## 4.1.0
 
 ### Added
