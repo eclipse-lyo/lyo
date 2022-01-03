@@ -72,7 +72,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 
 @OslcNamespace(Oslc_qmDomainConstants.TESTCASE_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTCASE_LOCALNAME)
-@OslcResourceShape(title = "TestCase Resource Shape", describes = Oslc_qmDomainConstants.TESTCASE_TYPE)
+@OslcResourceShape(title = "TestCase Shape", describes = Oslc_qmDomainConstants.TESTCASE_TYPE)
 public interface ITestCase
 {
 

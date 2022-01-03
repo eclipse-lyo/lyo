@@ -82,7 +82,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_qmDomainConstants.TESTRESULT_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTRESULT_LOCALNAME)
-@OslcResourceShape(title = "TestResult Resource Shape", describes = Oslc_qmDomainConstants.TESTRESULT_TYPE)
+@OslcResourceShape(title = "TestResult Shape", describes = Oslc_qmDomainConstants.TESTRESULT_TYPE)
 public class TestResult
     extends AbstractResource
     implements ITestResult

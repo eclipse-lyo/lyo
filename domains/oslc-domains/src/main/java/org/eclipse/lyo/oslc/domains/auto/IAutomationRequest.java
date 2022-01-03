@@ -67,7 +67,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONREQUEST_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONREQUEST_LOCALNAME)
-@OslcResourceShape(title = "AutomationRequest Resource Shape", describes = Oslc_autoDomainConstants.AUTOMATIONREQUEST_TYPE)
+@OslcResourceShape(title = "AutomationRequest Shape", describes = Oslc_autoDomainConstants.AUTOMATIONREQUEST_TYPE)
 public interface IAutomationRequest
 {
 

@@ -86,7 +86,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME)
-@OslcResourceShape(title = "ChangeRequest Resource Shape", describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
+@OslcResourceShape(title = "ChangeRequest Shape", describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
 public class ChangeRequest
     extends AbstractResource
     implements IChangeRequest

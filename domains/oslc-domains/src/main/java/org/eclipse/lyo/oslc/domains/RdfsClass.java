@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.RdfsClass;
 // End of user code
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)
-@OslcResourceShape(title = "Class Resource Shape", describes = RdfsDomainConstants.CLASS_TYPE)
+@OslcResourceShape(title = "Class Shape", describes = RdfsDomainConstants.CLASS_TYPE)
 public class RdfsClass
     extends AbstractResource
     implements IRdfsClass

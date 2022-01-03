@@ -65,7 +65,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONPLAN_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONPLAN_LOCALNAME)
-@OslcResourceShape(title = "AutomationPlan Resource Shape", describes = Oslc_autoDomainConstants.AUTOMATIONPLAN_TYPE)
+@OslcResourceShape(title = "AutomationPlan Shape", describes = Oslc_autoDomainConstants.AUTOMATIONPLAN_TYPE)
 public interface IAutomationPlan
 {
 

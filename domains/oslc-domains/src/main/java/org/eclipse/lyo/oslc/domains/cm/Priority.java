@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.PRIORITY_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.PRIORITY_LOCALNAME)
-@OslcResourceShape(title = "Priority Resource Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
+@OslcResourceShape(title = "Priority Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
 public class Priority
     extends AbstractResource
     implements IPriority

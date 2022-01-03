@@ -76,7 +76,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_NAMESPACE)
 @OslcName(Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME)
-@OslcResourceShape(title = "RequirementCollection Resource Shape", describes = Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE)
+@OslcResourceShape(title = "RequirementCollection Shape", describes = Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE)
 public class RequirementCollection
     extends AbstractResource
     implements IRequirementCollection
