@@ -22,13 +22,16 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * SparqlQueryExecutorImpl is a SPARQL endpoint-based implementation of {@link JenaQueryExecutor}.
@@ -65,15 +68,25 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
     }
 
     @Override
-    public UpdateProcessor prepareSparqlUpdate(final String query) {
+    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
         if (released) {
             throw new IllegalStateException("Cannot execute queries after releasing the connection");
         }
         return UpdateExecutionFactory.createRemote(
-            UpdateFactory.create(query),
+            updateRequest,
             updateEndpoint,
             client
         );
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final Update update) {
+        return prepareSparqlUpdate(new UpdateRequest(update));
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final String query) {
+        return prepareSparqlUpdate(UpdateFactory.create(query));
     }
 
     @Override

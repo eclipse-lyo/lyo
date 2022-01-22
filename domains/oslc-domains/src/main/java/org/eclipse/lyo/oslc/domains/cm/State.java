@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.STATE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.STATE_LOCALNAME)
-@OslcResourceShape(title = "State Resource Shape", describes = Oslc_cmDomainConstants.STATE_TYPE)
+@OslcResourceShape(title = "State Shape", describes = Oslc_cmDomainConstants.STATE_TYPE)
 public class State
     extends AbstractResource
     implements IState

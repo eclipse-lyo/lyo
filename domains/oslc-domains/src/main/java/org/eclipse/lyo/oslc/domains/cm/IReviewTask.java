@@ -68,7 +68,7 @@ import org.eclipse.lyo.oslc.domains.cm.IState;
 
 @OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
-@OslcResourceShape(title = "ReviewTask Resource Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+@OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
 public interface IReviewTask
 {
 

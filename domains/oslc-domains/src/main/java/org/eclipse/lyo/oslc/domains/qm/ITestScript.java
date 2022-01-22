@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 
 @OslcNamespace(Oslc_qmDomainConstants.TESTSCRIPT_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTSCRIPT_LOCALNAME)
-@OslcResourceShape(title = "TestScript Resource Shape", describes = Oslc_qmDomainConstants.TESTSCRIPT_TYPE)
+@OslcResourceShape(title = "TestScript Shape", describes = Oslc_qmDomainConstants.TESTSCRIPT_TYPE)
 public interface ITestScript
 {
 

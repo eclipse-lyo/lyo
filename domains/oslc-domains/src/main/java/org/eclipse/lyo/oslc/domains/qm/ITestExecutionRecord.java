@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 
 @OslcNamespace(Oslc_qmDomainConstants.TESTEXECUTIONRECORD_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTEXECUTIONRECORD_LOCALNAME)
-@OslcResourceShape(title = "TestExecutionRecord Resource Shape", describes = Oslc_qmDomainConstants.TESTEXECUTIONRECORD_TYPE)
+@OslcResourceShape(title = "TestExecutionRecord Shape", describes = Oslc_qmDomainConstants.TESTEXECUTIONRECORD_TYPE)
 public interface ITestExecutionRecord
 {
 

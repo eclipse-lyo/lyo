@@ -19,8 +19,7 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.tdb.TDB;
 import org.apache.jena.tdb.TDBFactory;
-import org.apache.jena.update.GraphStore;
-import org.apache.jena.update.GraphStoreFactory;
+import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -64,13 +63,21 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
     }
 
     @Override
-    public UpdateProcessor prepareSparqlUpdate(final String query) {
+    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
         if(released) {
             throw new IllegalStateException("Cannot execute queries after releasing the connection");
         }
-        log.debug("Running update: '{}'", query);
-        final UpdateRequest update = UpdateFactory.create(query);
-        return UpdateExecutionFactory.create(update, dataset);
+        return UpdateExecutionFactory.create(updateRequest, dataset);
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final Update update) {
+        return prepareSparqlUpdate(new UpdateRequest(update));
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final String query) {
+        return prepareSparqlUpdate(UpdateFactory.create(query));
     }
 
     @Override

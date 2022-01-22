@@ -13,19 +13,42 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ['11']
+        # temurin is Eclipse/AdoptOpenJDK/Adoptium
+        # liberica is a preferred Spring SDK
+        distribution: ['temurin', 'zulu', 'liberica']
+        experimental: [false]
+        # jena 3.x has some locking problems under JDK 16/17
+        include:
+          - jdk: '15' # Zulu MTS
+            experimental: true
+            distribution: zulu
+          - jdk: '16'
+            experimental: true
+            distribution: zulu
+          - jdk: '17' # LTS
+            experimental: true
+            distribution: zulu
+##          - jdk: '18-ea'
+#            experimental: true
+    continue-on-error: ${{ matrix.experimental }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.8
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.jdk }}
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
         run: |
-          mvn -B package --file pom.xml
+          mvn -B verify --file pom.xml

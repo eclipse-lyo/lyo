@@ -16,6 +16,8 @@ package org.eclipse.lyo.store.internals;
 
 import com.google.common.collect.Sets;
 import java.util.HashSet;
+
+import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
@@ -163,23 +165,35 @@ public class JenaTdbStoreImpl implements Store {
         return resources.subList(offset, Math.min(resources.size(), offset + limit));
     }
 
-	@Override
-	public <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, String prefixes, String where,
-			String searchTerms, int limit, int offset) throws StoreAccessException, ModelUnmarshallingException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Model getResources(URI namedGraph, String prefixes, String where, int limit,
-			int offset) {
+    @Override
+    public <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, String prefixes, String where,
+            String searchTerms, int limit, int offset) throws StoreAccessException, ModelUnmarshallingException {
         throw new UnsupportedOperationException();
-	}
+    }
 
-	@Override
-	public Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit,
-			int offset) {
+    @Override
+    public <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, String prefixes, String where,
+            String searchTerms, int limit, int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) throws StoreAccessException, ModelUnmarshallingException {
         throw new UnsupportedOperationException();
-	}
+    }
+
+    @Override
+    public Model getResources(URI namedGraph, String prefixes, String where, int limit,
+            int offset) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit,
+            int offset) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit,
+            int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Set<String> keySet() {

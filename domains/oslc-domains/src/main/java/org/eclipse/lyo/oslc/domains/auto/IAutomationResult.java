@@ -68,7 +68,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONRESULT_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONRESULT_LOCALNAME)
-@OslcResourceShape(title = "AutomationResult Resource Shape", describes = Oslc_autoDomainConstants.AUTOMATIONRESULT_TYPE)
+@OslcResourceShape(title = "AutomationResult Shape", describes = Oslc_autoDomainConstants.AUTOMATIONRESULT_TYPE)
 public interface IAutomationResult
 {
 
