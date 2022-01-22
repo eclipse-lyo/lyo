@@ -44,7 +44,7 @@ public final class ServiceProviderFactory {
 	public static ServiceProvider createServiceProvider(final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses) throws OslcCoreApplicationException, URISyntaxException {
 		return initServiceProvider(new ServiceProvider(), baseURI, genericBaseURI, title, description, publisher, resourceClasses, null);
 	}
-	
+
 	public static ServiceProvider createServiceProvider(final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses, final Map<String,Object> pathParameterValues) throws OslcCoreApplicationException, URISyntaxException {
 		return initServiceProvider(new ServiceProvider(), baseURI, genericBaseURI, title, description, publisher, resourceClasses, pathParameterValues);
 	}
@@ -270,7 +270,7 @@ public final class ServiceProviderFactory {
 		{
 			// TODO: Do we chop off everything after the port and then append the dialog URI?
 			//		 For now just assume that the dialog URI builds on top of the baseURI.
-			uri = resolvePathParameters(baseURI, null, dialogURI, pathParameterValues);
+			uri = resolvePathParameters(genericBaseURI, null, dialogURI, pathParameterValues);
 		}
 		else
 		{
