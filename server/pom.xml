@@ -55,17 +55,6 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>apache-jena-libs</artifactId>
-        <version>${v.jena}</version>
-        <type>pom</type>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
         <groupId>stax</groupId>
         <artifactId>stax-api</artifactId>
         <version>1.0.1</version>
