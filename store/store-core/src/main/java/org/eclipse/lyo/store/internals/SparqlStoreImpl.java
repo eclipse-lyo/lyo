@@ -34,6 +34,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
+import org.apache.jena.arq.querybuilder.Order;
 import org.apache.jena.riot.RiotException;
 
 import java.lang.reflect.Array;
@@ -42,6 +43,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -411,7 +414,10 @@ public class SparqlStoreImpl implements Store {
             for (int i = 0; i < obj.length; i++) {
                 castObjects[i] = clazz.cast(obj[i]);
             }
-            return Arrays.asList(castObjects);
+            //The Model is most likely obtained via Select query that is orded by the subject (ascending)
+            //See sparql construction in constructSparqlWhere()
+            //Order the list below accordingly.
+            return Arrays.asList(castObjects).stream().sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
         } catch (InvocationTargetException | OslcCoreApplicationException | NoSuchMethodException
                 | URISyntaxException | DatatypeConfigurationException | InstantiationException e) {
             throw new ModelUnmarshallingException(e);
@@ -494,6 +500,7 @@ public class SparqlStoreImpl implements Store {
                                      + "        ?s ?p ?o .\n"
                                      + "        ?s rdf:type ?t.\n"
                                      + "   }\n"
+                                     + "      ORDER BY ASC(?s)\n"
                                      + "      LIMIT ?l\n"
                                      + "      OFFSET "
                                      + "?f\n"
@@ -603,6 +610,9 @@ public class SparqlStoreImpl implements Store {
             distinctResourcesQuery.addFilter(regex);
         }
 
+        //Order the response by the subject, to ensure stable responses when using limit and offset below.
+        distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
+        
         if (limit > 0) {
             distinctResourcesQuery.setLimit(limit);
         }
