@@ -8,7 +8,7 @@
 - 🧨 Lyo is now built using JDK 11
 - 🧨 Jena is upgraded to 4.1.0
   - Jena renamed `RDFReader/RDFWriter` to `RDFReaderI/RDFWriterI`
-  - LyoStore: Ordering resources by their subject IDs when doing a query to store.
+  - LyoStore: Ordering resources by their subject IDs when doing a query to store. This ordering can be disabled with a call to `OSLC4JUtils.setLyoStorePagingUnsafe(true)`
 
 
 ### Deprecated
