@@ -67,6 +67,7 @@ import org.eclipse.lyo.core.query.SimpleTerm.Type;
 import org.eclipse.lyo.core.query.StringValue;
 import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -610,8 +611,10 @@ public class SparqlStoreImpl implements Store {
             distinctResourcesQuery.addFilter(regex);
         }
 
-        //Order the response by the subject, to ensure stable responses when using limit and offset below.
-        distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
+        
+        if ((limit > 0 || offset > 0) && (! OSLC4JUtils.isLyoStorePagingUnsafe())) {
+            distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
+        }
         
         if (limit > 0) {
             distinctResourcesQuery.setLimit(limit);

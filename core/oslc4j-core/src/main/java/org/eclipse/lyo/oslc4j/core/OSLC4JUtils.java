@@ -738,4 +738,18 @@ public class OSLC4JUtils {
 		}
 		return null;
 	}
+	
+	 /**
+     * @see OSLC4JConstants#LYO_STORE_PAGING_UNSAFE
+     * @return the boolean value of org.eclipse.lyo.oslc4j.unsafePaging
+     * Default is false if not set.
+     */
+    public static boolean isLyoStorePagingUnsafe() {
+        return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, false);
+    }
+
+    public static void setLyoStorePagingUnsafe(boolean value) {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, Boolean.toString(value));
+    }
+
 }

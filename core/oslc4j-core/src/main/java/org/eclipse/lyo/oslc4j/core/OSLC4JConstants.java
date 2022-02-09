@@ -51,4 +51,12 @@ public interface OSLC4JConstants {
 	 * properties.
 	 */
 	String OSLC4J_STRICT_DATATYPES = OSLC4J + "strictDatatypes";
+
+    /**
+     * System property {@value} : When "false" (default), add an OrderBy clause to the queries in LyoStore that involve paging.
+     * When "true", do not add such an OrderBy clause, in the hope that the triplestore sorting algorithm is stable-
+     * properties.
+     */
+    String LYO_STORE_PAGING_UNSAFE = OSLC4J + "unsafePaging";
+	
 }
