@@ -752,4 +752,17 @@ public class OSLC4JUtils {
         System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, Boolean.toString(value));
     }
 
+	 /**
+     * @see OSLC4JConstants#LYO_STORE_PAGING_UNSAFE
+     * @return the boolean value of org.eclipse.lyo.oslc4j.unsafePaging
+     * Default is false if not set.
+     */
+    public static boolean hasLyoStorePagingPreciseLimit() {
+        return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, true);
+    }
+
+    public static void setLyoStorePagingPreciseLimit(boolean value) {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, Boolean.toString(value));
+    }
+
 }

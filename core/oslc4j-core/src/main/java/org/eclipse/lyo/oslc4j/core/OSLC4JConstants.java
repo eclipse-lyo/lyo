@@ -57,6 +57,12 @@ public interface OSLC4JConstants {
      * When "true", do not add such an OrderBy clause, in the hope that the triplestore sorting algorithm is stable-
      * properties.
      */
-    String LYO_STORE_PAGING_UNSAFE = OSLC4J + "unsafePaging";
-	
+    String LYO_STORE_PAGING_UNSAFE = OSLC4J + "storePagingUnsafe";
+
+    /**
+     * System property {@value} : When "true" (default), expect the store to return exactly the number of entries in the request when dealing with paging.
+     * When "false", expect the store to return an additional element to indicate that additional pages exist.
+     */
+    String LYO_STORE_PAGING_PRECISE_LIMIT = OSLC4J + "storePagingPreciseLimit";
+
 }
