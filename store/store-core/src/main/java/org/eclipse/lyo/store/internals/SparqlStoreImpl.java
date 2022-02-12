@@ -95,7 +95,7 @@ public class SparqlStoreImpl implements Store {
      * Could be used to prevent extremely large results
      */
     public final static int TRIPLE_LIMIT = 10001;
-    private final static Logger log = LoggerFactory.getLogger(JenaTdbStoreImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
     private final JenaQueryExecutor queryExecutor;
 
     /**
