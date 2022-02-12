@@ -17,7 +17,7 @@
     <v.kotlin>1.5.32</v.kotlin>
     <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>4.4.0</v.jena>
+    <v.jena>4.3.2</v.jena>
     <v.jersey>2.35</v.jersey>
     <v.slf4j>1.7.32</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
