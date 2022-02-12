@@ -16,6 +16,8 @@
 
 ### Deprecated
 
+- `IQueryGenerator` is deprecated and will be removed in Lyo 6
+
 ### Removed
 - 🧨 **Support for JDK 8 was removed**
 - 🧨 `oslc-java-client` was removed
