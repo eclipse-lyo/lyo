@@ -16,6 +16,7 @@ package org.eclipse.lyo.trs.client.handlers.sparql;
 
 import java.util.List;
 
+@Deprecated
 public interface IQueryGenerator {
     List<String> getQueries();
 }
