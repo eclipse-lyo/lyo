@@ -265,7 +265,7 @@ public class SparqlStoreImpl implements Store {
             throws StoreAccessException, ModelUnmarshallingException {
         return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset, null, null);
     }
-    
+
     @Override
     public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
             final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
@@ -289,7 +289,7 @@ public class SparqlStoreImpl implements Store {
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
         return getResources(namedGraph, prefixes, where, searchTerms, limit, offset, null, null);
     }
-    
+
     @Override
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
 
@@ -305,13 +305,13 @@ public class SparqlStoreImpl implements Store {
         DescribeBuilder describeBuilder = new DescribeBuilder();
         describeBuilder.addVar("s")
         .addGraph((namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g", sparqlWhereQuery);
-        
+
         if (null != additionalDistinctVars) {
             for (String additionalDistinctVar : additionalDistinctVars) {
                 describeBuilder.addVar(additionalDistinctVar);
             }
         }
-        
+
         if (log.isTraceEnabled() && !Strings.isNullOrEmpty(where)) {
             log.trace("SPARQL WHERE query for oslc.where='{}': {}", where,
                     sparqlWhereQuery.buildString());
@@ -551,7 +551,7 @@ public class SparqlStoreImpl implements Store {
         if (null != additionalQueryFilter) {
             distinctResourcesQuery.addWhere(additionalQueryFilter);
         }
-        
+
         //Setup where
         WhereClause whereClause = null;
         try {
@@ -611,11 +611,11 @@ public class SparqlStoreImpl implements Store {
             distinctResourcesQuery.addFilter(regex);
         }
 
-        
+
         if ((limit > 0 || offset > 0) && (! OSLC4JUtils.isLyoStorePagingUnsafe())) {
             distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
         }
-        
+
         if (limit > 0) {
             distinctResourcesQuery.setLimit(limit);
         }
