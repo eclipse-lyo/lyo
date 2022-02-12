@@ -22,6 +22,7 @@
 - **`lyo-validation` temporarily removed from the build**
 - `oslc4j-wink` was removed
 - `oslc4j-registry` was removed
+- Store support for TDB1 and in-memory backends was removed. 
 
 ### Fixed
 
