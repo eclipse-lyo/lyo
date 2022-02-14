@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -12,9 +12,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-/**
- * @since 2.3.0
- */
+
 
 package org.eclipse.lyo.validation;
 
@@ -66,11 +64,8 @@ import org.eclipse.lyo.shacl.annotations.ShaclTargetClass;
 import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 
 /**
- *
- * @author Yash Khatri 
- *
+ * @since 2.3.0
  */
-
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ARESOURCE)
 @OslcResourceShape(title = "AResource Resource Shape",
@@ -180,7 +175,7 @@ public class AResource extends AbstractResource {
     @OslcTitle("a Property")
     @ShaclMinCount(1)
     @ShaclMaxCount(1)
-    @ShaclPattern("^B")
+    @ShaclPattern("^B.*")
     @ShaclMinLength(7)
     @ShaclMaxLength(10)
     public String getAStringProperty() {
