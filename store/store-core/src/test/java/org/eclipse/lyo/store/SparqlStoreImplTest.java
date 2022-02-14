@@ -1,7 +1,7 @@
 package org.eclipse.lyo.store;
 
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,7 +16,6 @@ package org.eclipse.lyo.store;
 
 import com.google.common.base.Stopwatch;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.TxnType;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
@@ -29,27 +28,19 @@ import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.junit.Assert.assertTrue;
 
-/**
- * DatasetBuilderTest is .
- * @author Andrew Berezovskyi <andriib@kth.se>
- * @since 2016-11-01
- */
-@SuppressWarnings("PMD.LongVariable")
 public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
 
     private SparqlStoreImpl manager;
@@ -57,13 +48,15 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
 
     @Before
     public void setUp() throws Exception {
-        final Path tdbDir = Files.createTempDirectory("lyo_tdb_");
-        System.out.println(tdbDir);
+        dataset = TDBFactory.createDataset(); // use in-mem implementation instead
+
+//        final Path tdbDir = Files.createTempDirectory("lyo_tdb_");
+//        System.out.println(tdbDir);
+//        dataset = TDBFactory.createDataset(tdbDir.toAbsolutePath().toString());
+
         //FIXME make sure DatasetQueryExecutorImpl runs everything in a transaction
 //        dataset = TDB2Factory.connectDataset(tdbDir.toAbsolutePath().toString());
 
-//        dataset = TDBFactory.createDataset(tdbDir.toAbsolutePath().toString());
-        dataset = TDBFactory.createDataset(); // use in-mem implementation instead
         manager = new SparqlStoreImpl(new DatasetQueryExecutorImpl(dataset));
     }
 
@@ -122,7 +115,8 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
     }
 
     @Test
-    public void testInsertionPerfRaw() throws InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException, IllegalAccessException {
+    public void testInsertionPerfRaw() throws InvocationTargetException, DatatypeConfigurationException,
+            OslcCoreApplicationException, IllegalAccessException {
         final List<ServiceProvider> providers = genProviders();
         final Model jenaModel = JenaModelHelper.createJenaModel(providers.toArray());
         final Stopwatch stopwatch = Stopwatch.createStarted();
