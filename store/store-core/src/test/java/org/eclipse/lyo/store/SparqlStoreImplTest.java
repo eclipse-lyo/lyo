@@ -61,7 +61,9 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
         System.out.println(tdbDir);
         //FIXME make sure DatasetQueryExecutorImpl runs everything in a transaction
 //        dataset = TDB2Factory.connectDataset(tdbDir.toAbsolutePath().toString());
-        dataset = TDBFactory.createDataset(tdbDir.toAbsolutePath().toString());
+
+//        dataset = TDBFactory.createDataset(tdbDir.toAbsolutePath().toString());
+        dataset = TDBFactory.createDataset(); // use in-mem implementation instead
         manager = new SparqlStoreImpl(new DatasetQueryExecutorImpl(dataset));
     }
 
