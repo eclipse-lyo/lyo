@@ -18,6 +18,9 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     permissions:
       actions: read
       contents: read
