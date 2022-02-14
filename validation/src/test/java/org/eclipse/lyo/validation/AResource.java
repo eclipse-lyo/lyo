@@ -175,7 +175,7 @@ public class AResource extends AbstractResource {
     @OslcTitle("a Property")
     @ShaclMinCount(1)
     @ShaclMaxCount(1)
-    @ShaclPattern("^B.*")
+    @ShaclPattern("^B")
     @ShaclMinLength(7)
     @ShaclMaxLength(10)
     public String getAStringProperty() {
