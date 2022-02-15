@@ -18,8 +18,8 @@ pipeline {
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						sh '''
-						mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-							-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse
+						mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+							-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse \
 							-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}
 						'''
 					}
