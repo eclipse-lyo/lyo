@@ -20,7 +20,7 @@
     <v.jersey>2.35</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
-    <v.jena>4.4.0</v.jena>
+    <v.jena>4.5.0-SNAPSHOT</v.jena>
     <v.slf4j>1.7.36</v.slf4j>
     <v.jackson>2.13.1</v.jackson>
 
@@ -117,11 +117,27 @@
       </build>
     </profile>
     <profile>
-      <id>eclipse-deploy</id>
+      <id>dev</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-
+      <repositories>
+        <repository>
+          <id>apache-snapshots</id>
+          <name>Apache Jena SNAPSHOTS</name>
+          <url>https://repository.apache.org/content/groups/snapshots/</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>eclipse-deploy</id>
+      <activation>
+        <!--TODO disable?-->
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <repositories>
         <repository>
           <id>lyo-releases</id>
@@ -134,7 +150,6 @@
           <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
         </repository>
       </repositories>
-
       <distributionManagement>
         <repository>
           <id>repo.eclipse.org</id>
