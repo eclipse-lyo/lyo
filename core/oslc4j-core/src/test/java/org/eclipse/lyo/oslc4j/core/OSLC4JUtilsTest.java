@@ -139,6 +139,31 @@ public class OSLC4JUtilsTest {
         assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
     }
 
+
+    @Test
+    public void storePagingNplus1LimitOffByDefault() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT);
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
+    @Test
+    public void storePagingNplus1LimitSetViaProperty() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT);
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, "false");
+        assertFalse(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
+    @Test
+    public void storePagingNplus1LimitSetViaSetter() {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, "true");
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+
+        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
+        assertFalse(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
     private HttpServletRequest mockRequest() {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
         when(mockedRequest.getScheme()).thenReturn("https");
