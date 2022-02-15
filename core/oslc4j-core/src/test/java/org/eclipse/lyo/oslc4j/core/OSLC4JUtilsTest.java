@@ -115,6 +115,30 @@ public class OSLC4JUtilsTest {
         assertEquals("https://hostname.example.com:12357/myapp/resources", fullUri);
     }
 
+    @Test
+    public void storePagingSafeByDefault() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
+    @Test
+    public void storePagingUnsafeSetViaProperty() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, "true");
+        assertTrue(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
+    @Test
+    public void storePagingUnsafeSetViaSetter() {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, "true");
+        assertTrue(OSLC4JUtils.isLyoStorePagingUnsafe());
+
+        OSLC4JUtils.setLyoStorePagingUnsafe(false);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
     private HttpServletRequest mockRequest() {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
         when(mockedRequest.getScheme()).thenReturn("https");
