@@ -12,9 +12,9 @@ pipeline {
 		}
 		stage('Sonar') {
 			steps {
-				def urlcomponents = env.CHANGE_URL.split("/")
-				def org = urlcomponents[3]
-				def repo = urlcomponents[4]
+				// def urlcomponents = env.CHANGE_URL.split("/")
+				// def org = urlcomponents[3]
+				// def repo = urlcomponents[4]
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						sh '''
@@ -22,7 +22,7 @@ pipeline {
 							-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse \
 							-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN} \
 							-Dsonar.pullrequest.provider=GitHub \
-							-Dsonar.pullrequest.github.repository=${org}/${repo} \
+							-Dsonar.pullrequest.github.repository=eclipse/$PROJECT_NAME \
 							-Dsonar.pullrequest.key=${env.CHANGE_ID} \
 							-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
 						'''
@@ -67,7 +67,6 @@ pipeline {
 					scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
 					'''
 				}
-
 			}
 		}
 		stage('Publish latest Javadocs') {
