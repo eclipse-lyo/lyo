@@ -5,19 +5,21 @@ pipeline {
 		jdk 'temurin-jdk11-latest'
 	}
 	stages {
-		stage('Build') {
-			steps {
-				sh '''
-					java -version
-					mvn -v
-				'''
-			}
-		}
+		// stage('Build') {
+		// 	steps {
+		// 		sh '''
+		// 			java -version
+		// 			mvn -v
+		// 		'''
+		// 	}
+		// }
 		stage('Sonar') {
-			steps{
+			steps {
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
+						sh '''
 						mvn clean verify -B sonar:sonar -Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}
+						'''
 					}
 				}
 			}
