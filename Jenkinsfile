@@ -7,7 +7,7 @@ pipeline {
 	stages {
 		stage('Debug') {
 			steps {
-				node {
+				script {
 					echo 'Working on' + env.BRANCH_NAME
 				}
 			}
