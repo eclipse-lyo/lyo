@@ -18,7 +18,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import static org.junit.Assert.*;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -181,7 +180,7 @@ public class OSLC4JUtilsTest {
 
     @Test
     public void isWellFormed() {
-        List<Pair<Boolean, String>> pairs = Lists.newArrayList(
+        List<Pair<Boolean, String>> pairs = List.of(
             Pair.of(true, "<span>John &amp; Mary</span>")
             ,Pair.of(false, "<span>John & Mary</span>")
             ,Pair.of(false, "John and Mary")
