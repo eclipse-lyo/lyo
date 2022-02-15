@@ -5,6 +5,11 @@ pipeline {
 		jdk 'temurin-jdk11-latest'
 	}
 	stages {
+		stage('Debug') {
+			node {
+				echo 'Working on' + env.BRANCH_NAME
+			}
+		}
 		stage('Sonar') {
 			steps {
 				def urlcomponents = env.CHANGE_URL.split("/")
@@ -26,6 +31,7 @@ pipeline {
 			}
 		}
 		stage('Deploy') {
+
 			when {
 				anyOf {
 					branch 'origin/master'
