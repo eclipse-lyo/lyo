@@ -31,8 +31,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Providers;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFReader;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFReaderI;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.util.FileUtils;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
@@ -132,7 +132,7 @@ public abstract class AbstractOslcRdfXmlProvider
 																responseInfo,
 																objects,
 																properties);
-			RDFWriter writer = getRdfWriter(serializationLanguage, model);
+			RDFWriterI writer = getRdfWriter(serializationLanguage, model);
 
 			if (serializationLanguage.equals(FileUtils.langXML) || serializationLanguage.equals(FileUtils.langXMLAbbrev))
 			{
@@ -154,8 +154,8 @@ public abstract class AbstractOslcRdfXmlProvider
 		}
 	}
 
-	private RDFWriter getRdfWriter(final String serializationLanguage, final Model model) {
-		RDFWriter writer;
+	private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
+		RDFWriterI writer;
 		if	(serializationLanguage.equals(FileUtils.langXMLAbbrev))
         {
             writer = new RdfXmlAbbreviatedWriter();
@@ -269,7 +269,7 @@ public abstract class AbstractOslcRdfXmlProvider
 
 		mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_XML_TYPE,
 				 RDFLanguages.strLangRDFXML));
-		
+
 		for (Map.Entry<MediaType, String> mediaPair : mediaPairs) {
 			if (baseMediaType.isCompatible(mediaPair.getKey())) {
 				log.trace("Using '{}' writer for '{}' Accept media type",
@@ -290,7 +290,7 @@ public abstract class AbstractOslcRdfXmlProvider
 	{
 		final Model model = ModelFactory.createDefaultModel();
 
-		RDFReader reader = getRdfReader(mediaType, model);
+		RDFReaderI reader = getRdfReader(mediaType, model);
 
 		try
 		{
@@ -313,8 +313,8 @@ public abstract class AbstractOslcRdfXmlProvider
 		}
 	}
 
-	private RDFReader getRdfReader(final MediaType mediaType, final Model model) {
-		RDFReader reader;
+	private RDFReaderI getRdfReader(final MediaType mediaType, final Model model) {
+		RDFReaderI reader;
 		final String language = getSerializationLanguage(mediaType);
 		if (language.equals(FileUtils.langXMLAbbrev))
 		{

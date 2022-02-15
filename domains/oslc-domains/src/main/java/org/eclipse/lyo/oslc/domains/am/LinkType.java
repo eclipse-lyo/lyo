@@ -75,7 +75,7 @@ import org.eclipse.lyo.oslc.domains.Person;
 // End of user code
 @OslcNamespace(Oslc_amDomainConstants.LINKTYPE_NAMESPACE)
 @OslcName(Oslc_amDomainConstants.LINKTYPE_LOCALNAME)
-@OslcResourceShape(title = "LinkType Resource Shape", describes = Oslc_amDomainConstants.LINKTYPE_TYPE)
+@OslcResourceShape(title = "LinkType Shape", describes = Oslc_amDomainConstants.LINKTYPE_TYPE)
 public class LinkType
     extends AbstractResource
     implements ILinkType

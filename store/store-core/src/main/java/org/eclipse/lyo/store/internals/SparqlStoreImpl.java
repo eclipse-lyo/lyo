@@ -34,6 +34,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
+import org.apache.jena.arq.querybuilder.Order;
 import org.apache.jena.riot.RiotException;
 
 import java.lang.reflect.Array;
@@ -42,6 +43,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +67,7 @@ import org.eclipse.lyo.core.query.SimpleTerm.Type;
 import org.eclipse.lyo.core.query.StringValue;
 import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -91,7 +95,7 @@ public class SparqlStoreImpl implements Store {
      * Could be used to prevent extremely large results
      */
     public final static int TRIPLE_LIMIT = 10001;
-    private final static Logger log = LoggerFactory.getLogger(JenaTdbStoreImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
     private final JenaQueryExecutor queryExecutor;
 
     /**
@@ -144,8 +148,7 @@ public class SparqlStoreImpl implements Store {
             quadAccumulator.addTriple(triple);
         }
         final UpdateDataInsert dataInsertUpdate = new UpdateDataInsert(quadAccumulator);
-        final String queryString = dataInsertUpdate.toString();
-        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(queryString);
+        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(dataInsertUpdate);
         up.execute();
     }
 
@@ -260,13 +263,20 @@ public class SparqlStoreImpl implements Store {
     public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
             final String where, final String searchTerms, final int limit, final int offset)
             throws StoreAccessException, ModelUnmarshallingException {
+        return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset, null, null);
+    }
+
+    @Override
+    public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
+            final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
+            throws StoreAccessException, ModelUnmarshallingException {
 
         String _prefixes = prefixes;
         String _where = where;
 
         _prefixes = (StringUtils.isEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
         _where = (StringUtils.isEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
-        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset);
+        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset, additionalDistinctVars, additionalQueryFilter);
         return getResourcesFromModel(model, clazz);
     }
 
@@ -277,46 +287,51 @@ public class SparqlStoreImpl implements Store {
 
     @Override
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
+        return getResources(namedGraph, prefixes, where, searchTerms, limit, offset, null, null);
+    }
 
-    	if (namedGraph != null) {
-        	//Make sure the designated namedGraph exists, if it is specified.
-    		//Otherwise, the search occurs across all namedgraphs.
-        	if (!namedGraphExists(namedGraph)) {
+    @Override
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
+
+        if (namedGraph != null) {
+            //Make sure the designated namedGraph exists, if it is specified.
+            //Otherwise, the search occurs across all namedgraphs.
+            if (!namedGraphExists(namedGraph)) {
                 throw new IllegalArgumentException("Named graph" + String.valueOf(namedGraph) + " was missing from the triplestore");
             }
-    	}
+        }
 
-    	SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset);
-    	DescribeBuilder describeBuilder = new DescribeBuilder();
-		if (namedGraph != null) {
-			describeBuilder.addVar("s")
-			.addGraph(new ResourceImpl(String.valueOf(namedGraph)), sparqlWhereQuery);
-		}
-		else {
-			describeBuilder.addVar("s")
-			.addGraph("?g", sparqlWhereQuery);
-		}
+        SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset, additionalDistinctVars, additionalQueryFilter);
+        DescribeBuilder describeBuilder = new DescribeBuilder();
+        describeBuilder.addVar("s")
+        .addGraph((namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g", sparqlWhereQuery);
+
+        if (null != additionalDistinctVars) {
+            for (String additionalDistinctVar : additionalDistinctVars) {
+                describeBuilder.addVar(additionalDistinctVar);
+            }
+        }
 
         if (log.isTraceEnabled() && !Strings.isNullOrEmpty(where)) {
             log.trace("SPARQL WHERE query for oslc.where='{}': {}", where,
                     sparqlWhereQuery.buildString());
         }
 
-		Query describeQuery = describeBuilder.build() ;
-		String describeQueryString = describeQuery.toString();
-		final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
+        Query describeQuery = describeBuilder.build() ;
+        String describeQueryString = describeQuery.toString();
+        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
 
         Model execDescribe;
         try {
             execDescribe = queryExecution.execDescribe();
-		} catch (RiotException e) {
-			//a request that returns an empty set seems to cause an exception when using Marklogic.
-			if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
-		        return ModelFactory.createDefaultModel();
-			}
-			// Otherwise, there is a proper exception that we need to deal with!
-	        throw e;
-		}
+        } catch (RiotException e) {
+            //a request that returns an empty set seems to cause an exception when using Marklogic.
+            if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                return ModelFactory.createDefaultModel();
+            }
+            // Otherwise, there is a proper exception that we need to deal with!
+            throw e;
+        }
         return execDescribe;
     }
 
@@ -388,7 +403,7 @@ public class SparqlStoreImpl implements Store {
     }
 
     private <T extends IResource> String oslcQueryWhere(final Class<T> clazz) {
-    	return "rdf:type=" + "<" + getResourceNsUri(clazz) + ">";
+        return "rdf:type=" + "<" + getResourceNsUri(clazz) + ">";
     }
 
     private <T extends IResource> List<T> getResourcesFromModel(final Model model,
@@ -400,7 +415,10 @@ public class SparqlStoreImpl implements Store {
             for (int i = 0; i < obj.length; i++) {
                 castObjects[i] = clazz.cast(obj[i]);
             }
-            return Arrays.asList(castObjects);
+            //The Model is most likely obtained via Select query that is orded by the subject (ascending)
+            //See sparql construction in constructSparqlWhere()
+            //Order the list below accordingly.
+            return Arrays.asList(castObjects).stream().sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
         } catch (InvocationTargetException | OslcCoreApplicationException | NoSuchMethodException
                 | URISyntaxException | DatatypeConfigurationException | InstantiationException e) {
             throw new ModelUnmarshallingException(e);
@@ -451,14 +469,14 @@ public class SparqlStoreImpl implements Store {
         Model execDescribe;
         try {
             execDescribe = queryExecution.execDescribe();
-		} catch (RiotException e) {
-			//a request that returns an empty set seems to cause an exception when using Marklogic.
-			if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
-		        return ModelFactory.createDefaultModel();
-			}
-			// Otherwise, there is a proper exception that we need to deal with!
-	        throw e;
-		}
+        } catch (RiotException e) {
+            //a request that returns an empty set seems to cause an exception when using Marklogic.
+            if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                return ModelFactory.createDefaultModel();
+            }
+            // Otherwise, there is a proper exception that we need to deal with!
+            throw e;
+        }
         return execDescribe;
 
     }
@@ -483,6 +501,7 @@ public class SparqlStoreImpl implements Store {
                                      + "        ?s ?p ?o .\n"
                                      + "        ?s rdf:type ?t.\n"
                                      + "   }\n"
+                                     + "      ORDER BY ASC(?s)\n"
                                      + "      LIMIT ?l\n"
                                      + "      OFFSET "
                                      + "?f\n"
@@ -502,97 +521,111 @@ public class SparqlStoreImpl implements Store {
     }
 
     //This method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
-    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
+    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
 
-    	SelectBuilder distinctResourcesQuery = new SelectBuilder();
+        SelectBuilder distinctResourcesQuery = new SelectBuilder();
 
-    	//Setup prefixes
-    	Map<String, String> prefixesMap = new HashMap<String, String>();
+        //Setup prefixes
+        Map<String, String> prefixesMap = new HashMap<String, String>();
         try {
-        	if (!StringUtils.isEmpty(prefixes)) {
-    			prefixesMap = QueryUtils.parsePrefixes(prefixes);
-    	        for (Entry<String, String> prefix : prefixesMap.entrySet()) {
-    	            distinctResourcesQuery.addPrefix(prefix.getKey(), prefix.getValue());
-    			}
-        	}
-		} catch (ParseException e) {
+            if (!StringUtils.isEmpty(prefixes)) {
+                prefixesMap = QueryUtils.parsePrefixes(prefixes);
+                for (Entry<String, String> prefix : prefixesMap.entrySet()) {
+                    distinctResourcesQuery.addPrefix(prefix.getKey(), prefix.getValue());
+                }
+            }
+        } catch (ParseException e) {
             throw new IllegalArgumentException("prefixesExpression could not be parsed", e);
-		}
+        }
 
         distinctResourcesQuery
         .addVar( "s" )
-		.setDistinct(true)
-		.addWhere( "?s", "?p", "?o");
+        .setDistinct(true)
+        .addWhere( "?s", "?p", "?o");
+
+        if (null != additionalDistinctVars) {
+            for (String additionalDistinctVar : additionalDistinctVars) {
+                distinctResourcesQuery.addVar(additionalDistinctVar);
+            }
+        }
+        if (null != additionalQueryFilter) {
+            distinctResourcesQuery.addWhere(additionalQueryFilter);
+        }
 
         //Setup where
-		WhereClause whereClause = null;
+        WhereClause whereClause = null;
         try {
-        	if (!StringUtils.isEmpty(where)) {
-    			whereClause = QueryUtils.parseWhere(where, prefixesMap);
-    			List<SimpleTerm> parseChildren = whereClause.children();
-    			for (Iterator<SimpleTerm> iterator = parseChildren.iterator(); iterator.hasNext();) {
-    				SimpleTerm simpleTerm = iterator.next();
-    				Type termType = simpleTerm.type();
-    				PName property = simpleTerm.property();
+            if (!StringUtils.isEmpty(where)) {
+                whereClause = QueryUtils.parseWhere(where, prefixesMap);
+                List<SimpleTerm> parseChildren = whereClause.children();
+                for (Iterator<SimpleTerm> iterator = parseChildren.iterator(); iterator.hasNext();) {
+                    SimpleTerm simpleTerm = iterator.next();
+                    Type termType = simpleTerm.type();
+                    PName property = simpleTerm.property();
 
-    				if (!termType.equals(Type.COMPARISON)){
-    			        throw new UnsupportedOperationException("only support for terms of type Comparisons");
-    				}
-    				ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
-    				if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
-    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
-    				}
+                    if (!termType.equals(Type.COMPARISON)){
+                        throw new UnsupportedOperationException("only support for terms of type Comparisons");
+                    }
+                    ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
+                    if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
+                        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
+                    }
 
-    				Value comparisonOperand = aComparisonTerm.operand();
-    				Value.Type operandType = comparisonOperand.type();
-    				String predicate;
-    				if (property.local.equals("*")) {
-    					predicate = "?p";
-    				}
-    				else {
-    					predicate = property.toString();
-    				}
+                    Value comparisonOperand = aComparisonTerm.operand();
+                    Value.Type operandType = comparisonOperand.type();
+                    String predicate;
+                    if (property.local.equals("*")) {
+                        predicate = "?p";
+                    }
+                    else {
+                        predicate = property.toString();
+                    }
 
-    				switch (operandType) {
-    				case DECIMAL:
-    					DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
-    			        distinctResourcesQuery.addWhere( "?s", predicate, decimalOperand.value());
-    					break;
-    				case STRING:
-    					StringValue stringOperand = (StringValue) comparisonOperand;
-    			        distinctResourcesQuery.addWhere( "?s", predicate, "\"" + stringOperand.value() + "\"");
-    					break;
-    				case URI_REF:
-    					UriRefValue uriOperand = (UriRefValue) comparisonOperand;
-    			        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
-    					break;
-    				default:
-    			        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
-    				}
-    			}
-        	}
-		} catch (ParseException e) {
+                    switch (operandType) {
+                    case DECIMAL:
+                        DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
+                        distinctResourcesQuery.addWhere( "?s", predicate, decimalOperand.value());
+                        break;
+                    case STRING:
+                        StringValue stringOperand = (StringValue) comparisonOperand;
+                        distinctResourcesQuery.addWhere( "?s", predicate, "\"" + stringOperand.value() + "\"");
+                        break;
+                    case URI_REF:
+                        UriRefValue uriOperand = (UriRefValue) comparisonOperand;
+                        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
+                        break;
+                    default:
+                        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
+                    }
+                }
+            }
+        } catch (ParseException e) {
             throw new IllegalArgumentException("whereExpression could not be parsed", e);
-		}
+        }
 
         //Setup searchTerms
         //Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the distinctResourcesQuery
-		if (!StringUtils.isEmpty(searchTerms)) {
-			ExprFactory factory = new ExprFactory();
+        if (!StringUtils.isEmpty(searchTerms)) {
+            ExprFactory factory = new ExprFactory();
             E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
-			distinctResourcesQuery.addFilter(regex);
-		}
+            distinctResourcesQuery.addFilter(regex);
+        }
 
-		if (limit > 0) {
-			distinctResourcesQuery.setLimit(limit);
-		}
-		if (offset > 0) {
-			distinctResourcesQuery.setOffset(offset);
-		}
+
+        if ((limit > 0 || offset > 0) && (! OSLC4JUtils.isLyoStorePagingUnsafe())) {
+            distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
+        }
+
+        if (limit > 0) {
+            distinctResourcesQuery.setLimit(limit);
+        }
+        if (offset > 0) {
+            distinctResourcesQuery.setOffset(offset);
+        }
 
         SelectBuilder constructSelectQuery = new SelectBuilder();
         constructSelectQuery.addVar( "s p o" )
-        	.addSubQuery(distinctResourcesQuery);
+            .addSubQuery(distinctResourcesQuery);
 
         return constructSelectQuery;
     }

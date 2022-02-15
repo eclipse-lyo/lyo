@@ -63,7 +63,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_amDomainConstants.RESOURCE_NAMESPACE)
 @OslcName(Oslc_amDomainConstants.RESOURCE_LOCALNAME)
-@OslcResourceShape(title = "Resource Resource Shape", describes = Oslc_amDomainConstants.RESOURCE_TYPE)
+@OslcResourceShape(title = "Resource Shape", describes = Oslc_amDomainConstants.RESOURCE_TYPE)
 public interface IResource
 {
 

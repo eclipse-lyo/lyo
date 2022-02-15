@@ -104,10 +104,22 @@ public class ResourceShapeFactory {
 		final URI about = UriBuilder.fromUri(baseURI).path(resourceShapesPath).path(resourceShapePath).build();
 		final ResourceShape resourceShape = new ResourceShape(about);
 
+        final OslcName nameAnnotation = resourceClass.getAnnotation(OslcName.class);
+        if (nameAnnotation != null) {
+            resourceShape.setName(nameAnnotation.value());
+        } else {
+            resourceShape.setName(resourceClass.getSimpleName());
+        }
+
 		final String title = resourceShapeAnnotation.title();
 		if ((title != null) && (title.length() > 0)) {
 			resourceShape.setTitle(title);
 		}
+
+	      final String description = resourceShapeAnnotation.description();
+	        if ((description != null) && (description.length() > 0)) {
+	            resourceShape.setDescription(description);
+	        }
 
 		for (final String describesItem : resourceShapeAnnotation.describes()) {
 			resourceShape.addDescribeItem(new URI(describesItem));

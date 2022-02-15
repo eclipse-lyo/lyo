@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
-@OslcResourceShape(title = "ChangeNotice Resource Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+@OslcResourceShape(title = "ChangeNotice Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
 public class ChangeNotice
     extends ChangeRequest
     implements IChangeNotice

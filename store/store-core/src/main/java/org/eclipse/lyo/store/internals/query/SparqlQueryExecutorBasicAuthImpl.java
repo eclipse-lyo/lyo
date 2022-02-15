@@ -1,7 +1,7 @@
 package org.eclipse.lyo.store.internals.query;
 
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -14,26 +14,21 @@ package org.eclipse.lyo.store.internals.query;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.update.UpdateExecutionFactory;
+import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
+import org.apache.jena.sparql.exec.http.UpdateExecutionHTTPBuilder;
+import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import static org.apache.jena.http.HttpLib.basicAuth;
 
 /**
  * SparqlQueryExecutorImpl is a SPARQL endpoint-based implementation of {@link JenaQueryExecutor}.
  *
- * @author Andrew Berezovskyi (andriib@kth.se)
  * @version $version-stub$
  * @since 0.14.0
  */
@@ -42,48 +37,47 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
 
     private final String queryEndpoint;
     private final String updateEndpoint;
-    private final CloseableHttpClient client;
-    private volatile boolean released = false;
+    private final String login;
+    private final String password;
 
     public SparqlQueryExecutorBasicAuthImpl(final String sparqlEndpoint,
             final String updateEndpoint, final String login, final String password) {
         this.queryEndpoint = sparqlEndpoint;
         this.updateEndpoint = updateEndpoint;
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(login, password);
-        provider.setCredentials(AuthScope.ANY, credentials);
-
-        client = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+        this.login = login;
+        this.password = password;
     }
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
-        if (released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
-        }
-        return QueryExecutionFactory.sparqlService(queryEndpoint, query, client);
+        return QueryExecutionHTTPBuilder.create()
+            .endpoint(queryEndpoint)
+            .httpHeader("Authorization", basicAuth(login, password))
+            .query(query)
+            .build();
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
+        return UpdateExecutionHTTPBuilder.create()
+            .endpoint(updateEndpoint)
+            .httpHeader("Authorization", basicAuth(login, password))
+            .update(updateRequest)
+            .build();
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final Update update) {
+        return prepareSparqlUpdate(new UpdateRequest(update));
     }
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
-        if (released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
-        }
-        return UpdateExecutionFactory.createRemote(
-            UpdateFactory.create(query),
-            updateEndpoint,
-            client
-        );
+        return prepareSparqlUpdate(UpdateFactory.create(query));
     }
 
     @Override
     public void release() {
-        try {
-            released = true;
-            client.close();
-        } catch (IOException e) {
-            log.warn("Failed to close the HTTP client cleanly");
-            log.debug("Failed to close the HTTP client cleanly", e);
-        }
+        log.trace("No resources to release");
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -13,41 +13,53 @@
  */
 package org.eclipse.lyo.client.test;
 
-import javax.ws.rs.core.Response;
+import static java.time.Duration.ofSeconds;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status.Family;
+import javax.xml.namespace.QName;
+
+import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
-import org.junit.Test;
-import static org.assertj.core.api.Assertions.*;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.junit.jupiter.api.Test;
 
 public class OslcClientTest {
-	/*
-	 * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
-	 * given bad data on the client (Bug 417749). ClientRuntimeException expected.
-	 */
-//	@Ignore("Unit test actually POSTs data to example.com, which we shouldn't do as we " +
-//			"don't own that domain. It also fails in our Hudson build environment.")
-//	@Test(expected = ClientErrorException.class, timeout = 5000)
-//	public void postInvalidOlscResource() throws IOException, URISyntaxException {
-//		final OslcClient client = new OslcClient();
-//		final AutomationRequest request = new AutomationRequest();
-//
-//		// Causes NullPointerException.
-//		request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), null);
-//
-//		client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
-//	}
+    /*
+     * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
+     * given bad data on the client (Bug 417749). ClientRuntimeException no longer expected in Lyo 4.0.
+     */
+//    @Disabled("Unit test actually POSTs data to example.com, which we shouldn't do as we don't own that domain.")
+    @Test
+    public void postInvalidOlscResource() throws IOException, URISyntaxException {
+        assertTimeout(ofSeconds(5), () -> {
+            final OslcClient client = new OslcClient();
+            final ServiceProvider request = new ServiceProvider();
+            request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), "test");
+            Response response = client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
+            assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
+//            assertThrows(ClientErrorException.class, () -> {
+//                
+//            });
+        });  
+    }
 
-	@Test
-	public void initTest() {
-		final OslcClient client = new OslcClient();
-		assertThat(client).isNotNull();
-	}
+    @Test
+    public void initTest() {
+        final OslcClient client = new OslcClient();
+        assertThat(client).isNotNull();
+    }
 
-	@Test
-	public void connectionTest() {
-		final OslcClient client = new OslcClient();
-		final Response resource = client.getResource("https://open-services.net");
-		assertThat(resource).isNotNull();
-		assertThat(resource.getStatus()).isLessThan(400);
-	}
+    @Test
+    public void connectionTest() {
+        final OslcClient client = new OslcClient();
+        final Response resource = client.getResource("https://open-services.net");
+        assertThat(resource).isNotNull();
+        assertThat(resource.getStatus()).isLessThan(400);
+    }
 }

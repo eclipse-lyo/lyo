@@ -65,7 +65,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 
 @OslcNamespace(Oslc_rmDomainConstants.REQUIREMENT_NAMESPACE)
 @OslcName(Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME)
-@OslcResourceShape(title = "Requirement Resource Shape", describes = Oslc_rmDomainConstants.REQUIREMENT_TYPE)
+@OslcResourceShape(title = "Requirement Shape", describes = Oslc_rmDomainConstants.REQUIREMENT_TYPE)
 public interface IRequirement
 {
 

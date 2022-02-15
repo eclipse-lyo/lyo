@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
@@ -37,7 +38,9 @@ public final class ResourceShape extends AbstractResource {
 	private final SortedSet<URI> describes= new TreeSet<URI>();
 	private final TreeMap<URI, Property> properties = new TreeMap<URI, Property>();
 
+    private String name;
 	private String title;
+    private String description;
 
 	public ResourceShape() {
 		super();
@@ -81,7 +84,14 @@ public final class ResourceShape extends AbstractResource {
 		return properties.values().toArray(new Property[properties.size()]);
 	}
 
-	
+    @OslcDescription("The local name of the defined resource")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "name")
+    @OslcReadOnly
+    @OslcTitle("Name")
+    public String getName() {
+        return name;
+    }
 
 	@OslcDescription("Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
@@ -91,6 +101,15 @@ public final class ResourceShape extends AbstractResource {
 	public String getTitle() {
 		return title;
 	}
+
+    @OslcDescription("The description of the defined constraint.")
+    @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
+    @OslcReadOnly
+    @OslcTitle("Description")
+    @OslcValueType(ValueType.XMLLiteral)
+    public String getDescription() {
+        return description;
+    }
 
 	public void setDescribes(final URI[] describes) {
 		this.describes.clear();
@@ -109,7 +128,16 @@ public final class ResourceShape extends AbstractResource {
 		}
 	}
 
+    public void setName(final String name) {
+        this.name = name;
+    }
+
 	public void setTitle(final String title) {
 		this.title = title;
 	}
+	
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
 }

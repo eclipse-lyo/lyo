@@ -1,16 +1,13 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.assertj.core.api.Assertions.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @version $version-stub$

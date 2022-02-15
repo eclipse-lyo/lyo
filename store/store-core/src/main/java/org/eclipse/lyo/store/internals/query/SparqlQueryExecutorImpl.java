@@ -16,9 +16,11 @@ package org.eclipse.lyo.store.internals.query;
 
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,9 +47,20 @@ public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
         return QueryExecutionFactory.sparqlService(queryEndpoint, query);
     }
 
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
+        return UpdateExecutionFactory.createRemote(updateRequest, updateEndpoint);
+    }
+
+    @Override
+    public UpdateProcessor prepareSparqlUpdate(final Update update) {
+        return prepareSparqlUpdate(new UpdateRequest(update));
+    }
+
     @Override
     public UpdateProcessor prepareSparqlUpdate(final String query) {
-        return UpdateExecutionFactory.createRemote(UpdateFactory.create(query), updateEndpoint);
+        return prepareSparqlUpdate(UpdateFactory.create(query));
     }
 
     @Override

@@ -13,6 +13,9 @@
     <resourceProperties id="_pnXOMpUdEeq-KoPaR9_Cfg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element." occurs="zeroOrOne" valueType="XMLLiteral">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='description']"/>
     </resourceProperties>
+    <resourceProperties id="_fdNWAFv1EeyHYL9SbPncDg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element." occurs="zeroOrOne" valueType="String">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='description']"/>
+    </resourceProperties>
     <resourceProperties id="_pnX1QJUdEeq-KoPaR9_Cfg" name="identifier" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display." valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='identifier']"/>
     </resourceProperties>
@@ -22,7 +25,7 @@
     <resourceProperties id="_pozYoJUdEeq-KoPaR9_Cfg" name="relation" description="Relation which identifies a related resource." valueType="Resource">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='relation']"/>
     </resourceProperties>
-    <resourceProperties id="_pnYcUZUdEeq-KoPaR9_Cfg" title="" name="subject" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource." occurs="zeroOrMany" valueType="String">
+    <resourceProperties id="_pnYcUZUdEeq-KoPaR9_Cfg" name="subject" title="" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource." occurs="zeroOrMany" valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='subject']"/>
     </resourceProperties>
     <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." valueType="XMLLiteral">
@@ -41,6 +44,9 @@
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='type']"/>
     </resourceProperties>
     <resourceProperties id="_tl7rcCKJEeuEW8NmTOtW7w" name="publisher" valueType="Resource" range="_nr5V8CKJEeuEW8NmTOtW7w" representation="inline"/>
+    <resourceProperties id="_iqdVIFv1EeyHYL9SbPncDg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." valueType="String">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='title']"/>
+    </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName=""/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="" artifactId="Dublin Core" version="0.0.1-SNAPSHOT"/>
@@ -82,17 +88,20 @@
     <resourceProperties id="_posD4ZUdEeq-KoPaR9_Cfg" name="label" description="May be used to provide a human-readable version of a resource's name." occurs="zeroOrOne" valueType="XMLLiteral">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='label']"/>
     </resourceProperties>
+    <resourceProperties id="_uuAX4JUdEeq-KoPaR9_Cfg" name="label" description="May be used to provide a human-readable version of a resource's name." occurs="zeroOrOne" valueType="String">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='label']"/>
+    </resourceProperties>
     <resourceProperties id="_poyxkZUdEeq-KoPaR9_Cfg" name="subClassOf" description="used to state that all the instances of one class are instances of another" valueType="Resource" range="_poyKgJUdEeq-KoPaR9_Cfg">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='subClassOf']"/>
     </resourceProperties>
     <resourceProperties id="_posD4JUdEeq-KoPaR9_Cfg" name="comment" description="May be used to provide a human-readable description of a resource." valueType="XMLLiteral">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='comment']"/>
     </resourceProperties>
+    <resourceProperties id="_rZmPgFv1EeyHYL9SbPncDg" name="comment" description="May be used to provide a human-readable description of a resource." valueType="String">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='comment']"/>
+    </resourceProperties>
     <resourceProperties id="_poyxkpUdEeq-KoPaR9_Cfg" name="seeAlso" description="Used to indicate a resource that might provide additional information about the subject resource." occurs="zeroOrOne" valueType="URI">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='seeAlso']"/>
-    </resourceProperties>
-    <resourceProperties id="_uuAX4JUdEeq-KoPaR9_Cfg" name="label" valueType="String">
-      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='RDFS']/@properties[name='label']"/>
     </resourceProperties>
   </domainSpecifications>
   <domainSpecifications name="OSLC" namespaceURI="http://open-services.net/ns/core#" namespacePrefix="//@domainPrefixes[name='oslc']">
@@ -273,7 +282,7 @@
     <resourceProperties id="_pn2WYJUdEeq-KoPaR9_Cfg" name="constrains" description="The object is constrained by the subject." occurs="zeroOrMany" valueType="Resource" representation="reference">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Requirements%20Management%20vocabulary']/@properties[name='constrains']"/>
     </resourceProperties>
-    <resourceProperties id="_pn4yoJUdEeq-KoPaR9_Cfg" title="" name="uses" description="A collection uses a resource - the resource is in the requirement collection. " occurs="zeroOrMany" valueType="Resource" representation="reference">
+    <resourceProperties id="_pn4yoJUdEeq-KoPaR9_Cfg" name="uses" title="" description="A collection uses a resource - the resource is in the requirement collection. " occurs="zeroOrMany" valueType="Resource" representation="reference">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Requirements%20Management%20vocabulary']/@properties[name='uses']"/>
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
@@ -334,10 +343,10 @@
     <resourceProperties id="_polWMJUdEeq-KoPaR9_Cfg" name="affectedByChangeRequest" description="Change request that affects the Test Result. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case." occurs="zeroOrMany" valueType="Resource" range="_poJRUJUdEeq-KoPaR9_Cfg" representation="reference">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Quality%20Management']/@properties[name='affectedByChangeRequest']"/>
     </resourceProperties>
-    <resourceProperties id="_pol9Q5UdEeq-KoPaR9_Cfg" title="" name="executesTestScript" description="Test Script executed to produce the Test Result. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case." occurs="zeroOrOne" valueType="Resource" range="_pojhAJUdEeq-KoPaR9_Cfg" representation="either">
+    <resourceProperties id="_pol9Q5UdEeq-KoPaR9_Cfg" name="executesTestScript" title="" description="Test Script executed to produce the Test Result. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case." occurs="zeroOrOne" valueType="Resource" range="_pojhAJUdEeq-KoPaR9_Cfg" representation="either">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Quality%20Management']/@properties[name='executesTestScript']"/>
     </resourceProperties>
-    <resourceProperties id="_pomkUJUdEeq-KoPaR9_Cfg" title="" name="producedByTestExecutionRecord" description="Test Execution Record that the Test Result was produced by. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case." occurs="zeroOrOne" valueType="Resource" range="_poiS4JUdEeq-KoPaR9_Cfg" representation="either">
+    <resourceProperties id="_pomkUJUdEeq-KoPaR9_Cfg" name="producedByTestExecutionRecord" title="" description="Test Execution Record that the Test Result was produced by. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case." occurs="zeroOrOne" valueType="Resource" range="_poiS4JUdEeq-KoPaR9_Cfg" representation="either">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Quality%20Management']/@properties[name='producedByTestExecutionRecord']"/>
     </resourceProperties>
     <resourceProperties id="_pomkUZUdEeq-KoPaR9_Cfg" name="reportsOnTestCase" description="Test Case that the Test Result reports on. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case." valueType="Resource" range="_pogdspUdEeq-KoPaR9_Cfg" representation="either">
@@ -353,7 +362,7 @@
     <resources id="_porc0ZUdEeq-KoPaR9_Cfg" name="LinkType" resourceProperties="_pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _posD4JUdEeq-KoPaR9_Cfg _posD4ZUdEeq-KoPaR9_Cfg"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.am"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="org.eclipse.lyo.oslc.domains.am" artifactId="Architecture Management" version="0.0.1-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.0.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.am" artifactId="Architecture Management" version="0.1.0-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Matlab Domain" namespaceURI="http://your.organisation.domain/nsp10#" namespacePrefix="//@domainPrefixes[name='nsp10']"/>
@@ -402,12 +411,12 @@
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Jazz Architecture Management " namespaceURI="http://jazz.net/ns/dm/linktypes#" namespacePrefix="//@domainPrefixes[name='jazz_am']">
-    <resourceProperties id="_poq1w5UdEeq-KoPaR9_Cfg" title="derives" name="derives" occurs="zeroOrMany" valueType="Resource"/>
-    <resourceProperties id="_poq1xJUdEeq-KoPaR9_Cfg" title="elaborates" name="elaborates" occurs="zeroOrMany" valueType="Resource"/>
-    <resourceProperties id="_poq1wJUdEeq-KoPaR9_Cfg" title="external" name="external" occurs="zeroOrMany" valueType="Resource"/>
-    <resourceProperties id="_poq1wpUdEeq-KoPaR9_Cfg" title="refine" name="refine" occurs="zeroOrMany" valueType="Resource"/>
-    <resourceProperties id="_porc0JUdEeq-KoPaR9_Cfg" title="satisfy" name="satisfy" occurs="zeroOrMany" valueType="Resource"/>
-    <resourceProperties id="_poq1wZUdEeq-KoPaR9_Cfg" title="trace" name="trace" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_poq1w5UdEeq-KoPaR9_Cfg" name="derives" title="derives" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_poq1xJUdEeq-KoPaR9_Cfg" name="elaborates" title="elaborates" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_poq1wJUdEeq-KoPaR9_Cfg" name="external" title="external" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_poq1wpUdEeq-KoPaR9_Cfg" name="refine" title="refine" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_porc0JUdEeq-KoPaR9_Cfg" name="satisfy" title="satisfy" occurs="zeroOrMany" valueType="Resource"/>
+    <resourceProperties id="_poq1wZUdEeq-KoPaR9_Cfg" name="trace" title="trace" occurs="zeroOrMany" valueType="Resource"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.jazz_am"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="jazz-architecture-management-" artifactId="jazz-architecture-management-" version="0.0.1-SNAPSHOT"/>

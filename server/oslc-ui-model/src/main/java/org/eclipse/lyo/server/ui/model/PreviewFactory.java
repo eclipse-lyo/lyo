@@ -19,10 +19,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
+import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,8 +44,12 @@ public class PreviewFactory {
             getterMethod = aResource.getClass().getMethod(getterMethodName);
             boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) ||
                 getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-            boolean showPropertyValueAsLink = (null != getterMethod.getAnnotation(OslcValueType.class)) &&
-                (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
+            final boolean isResourceValueType = (null != getterMethod.getAnnotation(OslcValueType.class)) 
+                    && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
+            final boolean isNotInlinedRepresentation = (null == getterMethod.getAnnotation(OslcRepresentation.class)) 
+                    || ((null != getterMethod.getAnnotation(OslcRepresentation.class)) 
+                            && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)));
+            boolean showPropertyValueAsLink = isResourceValueType && isNotInlinedRepresentation;
             PropertyDefintion key;
             if (showPropertyHeadingsAsLinks) {
                 key = constructPropertyDefintion(getterMethod.getAnnotation(OslcPropertyDefinition.class).value(),
@@ -62,12 +68,25 @@ public class PreviewFactory {
                     value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
                 } else {
                     Link link = (Link) getterMethod.invoke(aResource);
-                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple,
-                        constructLink(link));
+                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, constructLink(link));
                 }
             } else {
-                value = constructPropertyValue(PropertyDefintion.RepresentationType.TEXT, multiple,
-                    getterMethod.invoke(aResource));
+            	if (!isNotInlinedRepresentation) {
+                    if (multiple) {
+                        Collection<AbstractResource> rs = (Collection<AbstractResource>) getterMethod.invoke(aResource);
+                        List<org.eclipse.lyo.server.ui.model.Link> l = new ArrayList<>();
+                        for (AbstractResource r: rs) {
+                            l.add((null == r ? null : constructLink(r.getAbout().toString(), r.toString())));
+                        }
+                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
+                    } else {
+                    	AbstractResource r = (AbstractResource) getterMethod.invoke(aResource);
+                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, (null == r ? null : constructLink(r.getAbout().toString(), r.toString())));
+                    }
+            	}
+            	else {
+                    value = constructPropertyValue(PropertyDefintion.RepresentationType.TEXT, multiple, getterMethod.invoke(aResource));
+            	}
             }
             previewItems.add(constructProperty(key, value));
         }

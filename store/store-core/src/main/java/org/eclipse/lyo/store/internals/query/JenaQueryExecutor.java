@@ -1,5 +1,7 @@
 package org.eclipse.lyo.store.internals.query;
 
+import java.io.InputStream;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -15,7 +17,9 @@ package org.eclipse.lyo.store.internals.query;
  */
 
 import org.apache.jena.query.QueryExecution;
+import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
 
 /**
  * QueryExecutor is an interface that allows to run SPARQL queries on different triplestore
@@ -33,6 +37,22 @@ public interface JenaQueryExecutor {
      * @return prepared executor
      */
     QueryExecution prepareSparqlQuery(String query);
+
+    /**
+     * Prepares a SPARQL Update processor (write-only).
+     *
+     * @param query SPARQL query string
+     * @return prepared processor
+     */
+    UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest);
+
+    /**
+     * Prepares a SPARQL Update processor (write-only).
+     *
+     * @param query SPARQL query string
+     * @return prepared processor
+     */
+    UpdateProcessor prepareSparqlUpdate(final Update update);
 
     /**
      * Prepares a SPARQL Update processor (write-only).

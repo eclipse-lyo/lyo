@@ -4,33 +4,67 @@
 
 ### Added
 
+- LyoStore: Providing a system property `OSLC4JUtils.hasLyoStorePagingPreciseLimit()` to allow the application to check whether query paging should return an exact number of elements in a paged query, or not (`OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT`).
+
+
+### Changed
+- 🧨 Lyo is now built using JDK 11
+- 🧨 Jena is upgraded to 4.4.0
+  - Jena renamed `RDFReader/RDFWriter` to `RDFReaderI/RDFWriterI`
+- LyoStore: Ordering resources by their subject IDs when doing a query to store. This ordering can be disabled with a call to `OSLC4JUtils.setLyoStorePagingUnsafe(true)`
+- LyoStore: `OSLC4JUtils.hasLyoStorePagingPreciseLimit()` will return true by default. Call `OSLC4JUtils.setLyoStorePagingPreciseLimit(false)` to restore the old behavior.
+- `oslc4j-json4j-provider` uses `wink-json4j` version 1.4 instead of 1.2.1-incubating.
+
+### Deprecated
+
+- `IQueryGenerator` is deprecated and will be removed in Lyo 6
+
+### Removed
+- 🧨 **Support for JDK 8 was removed**
+- 🧨 `oslc-java-client` was removed
+- **`lyo-validation` temporarily removed from the build**
+- `oslc4j-wink` was removed
+- `oslc4j-registry` was removed
+- Store support for direct TDB1 backend was removed. You can still create a SPARQL query executor over an in-mem TDB1 dataset: `new DatasetQueryExecutorImpl(TDBFactory.createDataset())`.
+
+### Fixed
+
+## [4.1.0]
+
+### Added
+
+- [Core] Add a oslc:name and dcterms:description attributes to the ResourceShape class so that such information can appear in the shape documentation.
+- [Core] Allow a resource shape to have a property to be represented as "inlined".
 - [Domains] Add `org.eclipse.lyo.domains:ui-classes` module with POJOs needed by [lyo.oslc-ui](https://github.com/eclipse/lyo.oslc-ui).
-- Store adds interface support for closing the Store cleanly and releasing underlying connections. 
-- SparqlStoreImpl can now be set up with a custom query executor
+- [UI] Support for displaying inlined properties as links.
+- [Store] Add interface support for closing the Store cleanly and releasing underlying connections. 
+- [Store] SparqlStoreImpl can now be set up with a custom query executor.
 
 ### Changed
 
-- Update SHaclEX from 0.0.87 to 0.1.102 (mainly due to Bintray shutdown; breaking change but should not affect the consumers of Lyo Validation).
+- [Store] For update requests, avoid creating a String out of the SPARQL query. This is very inefficient for large queries.
+- [Validation] Update SHaclEX from 0.0.87 to 0.1.102 (mainly due to Bintray shutdown; breaking change but should not affect the consumers of Lyo Validation).
   - SHaclEX 0.1.102 depends on Jena 3.16, which requires us to upgrade.
   - Lyo Validation returns more messages in the reports. _Make sure your code logic scans all messages the report if you are looking for a specific error._
 - Update Kotlin from 1.4.20 to 1.5.10  
 - Update Eclipse Paho from 1.2.1 to 1.2.5 due to a potential security vulnerability.
 - Pin libthrift version to 0.14.1 due to a [vulnerability](https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898).
 - Pin httpclient version to 4.5.13 due to a [vulnerability](https://github.com/eclipse/lyo/pull/103).
-- Pin embedded Tomcat version (pulled in by Jena) to 8.5.66 due to [CVE-2021-25329](https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637)
+- Pin embedded Tomcat version (pulled in by Jena) to 8.5.66 due to [CVE-2021-25329](https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637).
 
 ### Deprecated
+
+N/A
 
 ### Removed
 
 - All references to HTTP-only repos due to [a change](https://maven.apache.org/docs/3.8.1/release-notes.html#how-to-fix-when-i-get-a-http-repository-blocked) in Maven 3.8.1
-- Lyo Validation removed from the release due to the shutdown of Bintray and subsequent redeploy to Github Packages (not accessible without Github credentials).
 
 ### Fixed
 
-- Allow a resource shape to have a property to be represented as "inlined"
-- Make sure every Lyo dependency uses the same version of Guava (30.0)
-- Fix a few issues around rdf:nil handling in the TRS Client
+- [Client] Support for Configuration Management was first added in 2.4 and was accidentally removed during the monorepo migration and the 4.0 release. [PR #205](https://github.com/eclipse/lyo/pull/206) adds this support back. Thanks to @isccarrasco!
+- [TRS] Fix a few issues around rdf:nil handling in the TRS Client.
+- Make sure every Lyo dependency uses the same version of Guava (30.0).
 
 ## [4.0.0] - 2020-12-16
 

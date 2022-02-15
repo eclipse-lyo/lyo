@@ -9,21 +9,21 @@
     <parent>
         <groupId>org.eclipse.lyo</groupId>
         <artifactId>lyo-parent</artifactId>
-        <version>4.1.0-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <!-- End of user code
     -->
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>oslc-domains</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Lyo :: Domains</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.target>11</maven.compiler.target>
         <!-- Start of user code properties
             -->
             <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
@@ -58,7 +58,7 @@
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
         </dependency>
-        
+
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
@@ -73,7 +73,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
         </plugin>
       </plugins>
-    </build>    
+    </build>
     <!-- End of user code
     -->
 </project>

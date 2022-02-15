@@ -4,27 +4,28 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
-  <version>4.1.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: _Parent</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>1.5.10</v.kotlin>
-    <v.dokka>1.4.32</v.dokka>
+    <v.kotlin>1.5.32</v.kotlin>
+    <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>3.16.0</v.jena>
-    <v.jersey>2.25.1</v.jersey>
-    <v.slf4j>1.7.30</v.slf4j>
+    <v.jersey>2.35</v.jersey>
     <v.servlet>3.1.0</v.servlet>
+
+    <v.jena>4.4.0</v.jena>
+    <v.slf4j>1.7.36</v.slf4j>
+    <v.jackson>2.13.1</v.jackson>
+
     <v.httpclient>4.5.13</v.httpclient>
-    <v.guava>30.0-jre</v.guava>
+    <v.guava>30.1.1-jre</v.guava>
   </properties>
 
 
@@ -84,7 +85,7 @@
     <module>store</module>
     <!-- Remove util https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
     and/or https://github.com/weso/shaclex/issues/390 are resolved-->
-    <module>validation</module>
+<!--    <module>validation</module>-->
   </modules>
 
   <profiles>
@@ -170,6 +171,12 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${v.httpclient}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -192,31 +199,17 @@
         <artifactId>oslc4j-json4j-provider</artifactId>
         <version>${v.lyo}</version>
       </dependency>
+      <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>2.3.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>2.3.5</version>
+      </dependency>
 
-      <dependency>
-        <!-- CQ 6577 -->
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.2.1</version>
-      </dependency>
-      <dependency>
-        <!-- CQ 6578 -->
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>2.2.1.1</version>
-      </dependency>
-      <dependency>
-        <!--CQ 13718-->
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.1</version>
-      </dependency>
-      <dependency>
-        <!--CQ 13719-->
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.8.0</version>
-      </dependency>
       <dependency>
         <!--CQ 13716-->
         <groupId>org.slf4j</groupId>
@@ -233,12 +226,6 @@
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <!--CQ 6733-->
-        <groupId>org.apache.wink</groupId>
-        <artifactId>wink-json4j</artifactId>
-        <version>1.2.1-incubating</version>
       </dependency>
       <dependency>
         <!--CQ 6582-->
@@ -268,18 +255,11 @@
         <type>pom</type>
       </dependency>
       <dependency>
-        <!--CQ 6780-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
-        <scope>provided</scope>
+        <groupId>org.glassfish.jersey.core</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>${v.jersey}</version>
       </dependency>
-      <dependency>
-        <!--CQ 6583-->
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.12.0</version>
-      </dependency>
+
       <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
@@ -314,12 +294,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.12.0</version>
+        <version>${v.jackson}</version>
        </dependency>
 
        <dependency>
@@ -330,8 +310,36 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.11</version>
+        <version>3.12.0</version>
       </dependency>
+
+
+      <!--Test-->
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>4.1.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.21.0</version>
+      </dependency>
+
 
       <!--Maven Enforcer-->
       <dependency>
@@ -340,51 +348,40 @@
         <version>1.15</version>
       </dependency>
       <dependency>
-        <groupId>org.objenesis</groupId>
-        <artifactId>objenesis</artifactId>
-        <version>2.6</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <!--es.weso:shaclex_2.12:pom:0.0.87-->
-      <!-- <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.8.0</version>
-      </dependency> -->
-      <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${v.guava}</version>
       </dependency>
+      <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>1.3.5</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.activation</groupId>
+        <artifactId>jakarta.activation-api</artifactId>
+        <version>1.2.2</version>
+        <scope>provided</scope>
+      </dependency>
 
       <!--Convergence-->
-      <dependency>
-        <!--es.weso:shaclex_2.12:pom:0.0.87-->
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${v.jena}</version>
-      </dependency>
       <dependency>
         <!--net.oauth.core:oauth-httpclient4:jar:20090913-->
         <groupId>net.oauth.core</groupId>
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
       </dependency>
-      <dependency>
-        <!-- https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898 -->
-        <groupId>org.apache.thrift</groupId>
-        <artifactId>libthrift</artifactId>
-        <version>0.14.1</version>
-      </dependency>
       <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
       <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-core</artifactId>
-          <version>8.5.66</version>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>8.5.75</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.11.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -394,8 +391,20 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <testSource>1.8</testSource>
+            <testTarget>1.8</testTarget>
+            <compilerArgument>-Xlint:deprecation,unchecked</compilerArgument>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
+          <version>3.2.0</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -408,7 +417,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.3.1</version>
           <configuration>
             <source>8</source>
             <doclint>none</doclint>
@@ -434,6 +443,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
         </plugin>
@@ -445,7 +459,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.0.0</version>
         </plugin>
         <!--Ignore Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
         <plugin>
@@ -472,10 +486,23 @@
                 </lifecycleMappingMetadata>
             </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.3.2</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <generateBackupPoms>false</generateBackupPoms>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -495,14 +522,31 @@
             </goals>
             <configuration>
               <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xerces</exclude>
+                    <exclude>xml-apis</exclude>
+                    <exclude>com.sun.xml.bind:jaxb-impl</exclude>
+
+                    <!-- https://github.com/eclipse/lyo/pull/220 -->
+<!--                    <exclude>log4j:log4j</exclude>-->
+                    <!--log4j v2 is not used, just for the future-->
+                    <exclude>org.apache.logging.log4j:log4j-core</exclude>
+                  </excludes>
+                </bannedDependencies>
                 <banDuplicatePomDependencyVersions/>
                 <requireMavenVersion>
-                  <version>3.0</version>
+                  <version>3.1.1</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>1.8</version>
+                  <version>11</version>
                 </requireJavaVersion>
-                <requireUpperBoundDeps/>
+                <requireUpperBoundDeps>
+                  <excludes>
+                    <!--jersey and jena via commons-compress-->
+                    <exclude>org.osgi:org.osgi.core</exclude>
+                  </excludes>
+                </requireUpperBoundDeps>
                 <reactorModuleConvergence>
                   <message>The reactor is not valid</message>
                   <ignoreModuleDependencies>false</ignoreModuleDependencies>

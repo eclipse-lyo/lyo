@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 // End of user code
 @OslcNamespace(FoafDomainConstants.AGENT_NAMESPACE)
 @OslcName(FoafDomainConstants.AGENT_LOCALNAME)
-@OslcResourceShape(title = "Agent Resource Shape", describes = FoafDomainConstants.AGENT_TYPE)
+@OslcResourceShape(title = "Agent Shape", describes = FoafDomainConstants.AGENT_TYPE)
 public class Agent
     extends AbstractResource
     implements IAgent
