@@ -27,13 +27,13 @@ public class OAuthServletListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
-        log.info("Initialising Lyo OAuth webapp");
+        log.info("Closing Lyo OAuth consumer store");
         OAuthConfiguration.getInstance().getConsumerStore().closeConsumerStore();
     }
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-
+        log.info("Initialising Lyo OAuth webapp");
     }
 
 }

@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.eclipse.lyo.store.internals.DatasetBuilder;
-import org.eclipse.lyo.store.internals.JenaTdbStoreImpl;
 
 /**
  * Provides factory methods to instantiate concrete implementations of {@link Store} that keep the
@@ -31,40 +30,6 @@ import org.eclipse.lyo.store.internals.JenaTdbStoreImpl;
  * @since 0.16.0
  */
 public class StoreFactory {
-
-    /**
-     * Initialise an in-memory Store implementation.
-     * <p>
-     * <p>Supports all SPARQL queries and TDB transactions.</p>
-     *
-     * @return Store implementation that keeps triples in memory.
-     */
-    @Deprecated
-    public static Store inMemory() {
-        final Dataset dataset = TDBFactory.createDataset();
-        return new JenaTdbStoreImpl(dataset);
-    }
-
-    /**
-     * Initialise an on-disk Store implementation.
-     * <p>
-     * <p>Tries to open a triplestore under a given path and then initialise one if it doesn't
-     * exist. Will create the necessary directories.</p>
-     *
-     * @param path Filesystem path where the Jena TDB files can be stored.
-     * @return Store implementation that keeps triples on disk.
-     *
-     * @throws IllegalArgumentException If the TDB cannot be initialised in a given directory.
-     */
-    @Deprecated
-    public static Store onDisk(final Path path) throws IllegalArgumentException {
-        try {
-            final Dataset dataset = DatasetBuilder.buildPersistent(path);
-            return new JenaTdbStoreImpl(dataset);
-        } catch (final IOException e) {
-            throw new IllegalArgumentException("Cannot initialise TDB under a given path", e);
-        }
-    }
 
     /**
      * Initialise a SPARQL-compatible Store implementation that does not require authentication.

@@ -1,0 +1,20 @@
+  <rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:oslc="http://open-services.net/ns/core#"
+    xmlns:rm="http://www.ibm.com/xmlns/rdm/rdf/"
+    xmlns:nav="http://jazz.net/ns/rm/navigation#"
+    xmlns:calm="http://jazz.net/xmlns/prod/jazz/calm/1.0/">
+    <oslc:ResponseInfo rdf:about="https://192.168.99.3:9443/rm/folders?oslc.where=public_rm%3Aparent%3Dhttps%3A%2F%2F192.168.99.3%3A9443%2Frm%2Fprocess%2Fproject-areas%2F_NunPgHbfEeyVS6HRXK_XDw&amp;oslc.select=*&amp;oslc.prefix=dcterms%3D%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%2Cnav%3D%3Chttp%3A%2F%2Fjazz.net%2Fns%2Frm%2Fnavigation%23%3E" >
+      <dcterms:title>Folder Query Results: 1</dcterms:title>
+    </oslc:ResponseInfo>
+    <nav:Description rdf:about="https://192.168.99.3:9443/rm/folders">
+      <rdfs:member>
+        <nav:folder rdf:about="https://192.168.99.3:9443/rm/folders/FR_OEq_EHbfEeyVS6HRXK_XDw">
+          <dcterms:title>root</dcterms:title>
+          <nav:subfolders rdf:resource="https://192.168.99.3:9443/rm/folders?oslc.where=public_rm:parent=https://192.168.99.3:9443/rm/folders/FR_OEq_EHbfEeyVS6HRXK_XDw"/>
+        </nav:folder>
+      </rdfs:member>
+    </nav:Description>
+  </rdf:RDF>

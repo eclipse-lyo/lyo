@@ -1,7 +1,5 @@
-package org.eclipse.lyo.store;
-
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -14,28 +12,23 @@ package org.eclipse.lyo.store;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
+package org.eclipse.lyo.store;
+
 import org.apache.jena.query.Dataset;
+import org.eclipse.lyo.store.internals.DatasetBuilder;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
-import org.assertj.core.api.Assertions;
-import org.eclipse.lyo.store.internals.DatasetBuilder;
-import org.junit.Ignore;
-import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-/**
- * DatasetBuilderTest is .
- * @author Andrew Berezovskyi <andriib@kth.se>
- * @since 2016-11-01
- */
-@SuppressWarnings("PMD.LongVariable")
 public class DatasetBuilderTest {
 
-    private static final String DATASET_NAME = "testName";
     private static final String PATH_PREFIX = "jenaTest";
     private Dataset dataset;
 

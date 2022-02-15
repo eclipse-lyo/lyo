@@ -17,13 +17,15 @@
     <v.kotlin>1.5.32</v.kotlin>
     <v.dokka>1.5.31</v.dokka>
 
-    <v.jena>4.2.0</v.jena>
     <v.jersey>2.35</v.jersey>
-    <v.slf4j>1.7.32</v.slf4j>
     <v.servlet>3.1.0</v.servlet>
+
+    <v.jena>4.4.0</v.jena>
+    <v.slf4j>1.7.36</v.slf4j>
+    <v.jackson>2.13.1</v.jackson>
+
     <v.httpclient>4.5.13</v.httpclient>
     <v.guava>30.1.1-jre</v.guava>
-    <v.jackson-core>2.12.6</v.jackson-core>
   </properties>
 
 
@@ -197,22 +199,17 @@
         <artifactId>oslc4j-json4j-provider</artifactId>
         <version>${v.lyo}</version>
       </dependency>
-
       <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.1</version>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>2.3.3</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish.jaxb</groupId>
         <artifactId>jaxb-runtime</artifactId>
         <version>2.3.5</version>
       </dependency>
-      <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.21.0</version>
-      </dependency>
+
       <dependency>
         <!--CQ 13716-->
         <groupId>org.slf4j</groupId>
@@ -297,12 +294,12 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>${v.jackson-core}</version>
+        <version>${v.jackson}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>${v.jackson-core}</version>
+        <version>${v.jackson}</version>
        </dependency>
 
        <dependency>
@@ -330,6 +327,18 @@
         <version>4.13.2</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.21.0</version>
+      </dependency>
 
 
       <!--Maven Enforcer-->
@@ -338,28 +347,23 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
-
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>${v.guava}</version>
       </dependency>
       <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3.2</version>
-      </dependency>
-      <dependency>
-        <groupId>jakarta.xml.bind</groupId>
-        <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>2.3.3</version>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>1.3.5</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
         <version>1.2.2</version>
+        <scope>provided</scope>
       </dependency>
-
 
       <!--Convergence-->
       <dependency>
@@ -368,57 +372,16 @@
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
       </dependency>
-      <dependency>
-        <!-- https://snyk.io/vuln/SNYK-JAVA-ORGAPACHETHRIFT-1074898 -->
-        <groupId>org.apache.thrift</groupId>
-        <artifactId>libthrift</artifactId>
-        <version>0.14.2</version>
-      </dependency>
       <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
       <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-core</artifactId>
-          <version>8.5.73</version>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>8.5.75</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.11.0</version>
-      </dependency>
-
-
-      <!--To remove-->
-      <!--      <dependency>
-              &lt;!&ndash;hk2 and powermock&ndash;&gt;
-              <groupId>org.javassist</groupId>
-              <artifactId>javassist</artifactId>
-              <version>3.27.0-GA</version>
-            </dependency>-->
-      <!--      <dependency>
-        &lt;!&ndash;es.weso:shaclex_2.12:pom:0.0.87&ndash;&gt;
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${v.jena}</version>
-      </dependency>-->
-
-
-      <!--      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>1.21</version>
-      </dependency>-->
-      <dependency>
-        <!--CQ 6780-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <!--CQ 6733-->
-        <groupId>org.apache.wink</groupId>
-        <artifactId>wink-json4j</artifactId>
-        <version>1.2.1-incubating</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
