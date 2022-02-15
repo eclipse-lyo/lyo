@@ -14,11 +14,11 @@ pipeline {
 			}
 		}
 		stage('Sonar') {
-			withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
-				withSonarQubeEnv('SonarCloud.io') {
-					mvn clean verify -B sonar:sonar
-						-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse
-						-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}
+			steps{
+				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
+					withSonarQubeEnv('SonarCloud.io') {
+						mvn clean verify -B sonar:sonar -Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}
+					}
 				}
 			}
 		}
