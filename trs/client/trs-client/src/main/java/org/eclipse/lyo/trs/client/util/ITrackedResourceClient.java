@@ -14,19 +14,16 @@
 
 package org.eclipse.lyo.trs.client.util;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
-import org.jetbrains.annotations.NotNull;
+
+import java.net.URI;
+import java.util.List;
 
 public interface ITrackedResourceClient {
-    @NotNull
     Model fetchTRSRemoteResource(URI resource) throws RepresentationRetrievalException;
 
     List<Base> updateBases(TrackedResourceSet updatedTrs);

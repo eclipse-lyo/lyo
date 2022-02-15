@@ -71,7 +71,7 @@ import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 // End of user code
 @OslcNamespace(FoafDomainConstants.PERSON_NAMESPACE)
 @OslcName(FoafDomainConstants.PERSON_LOCALNAME)
-@OslcResourceShape(title = "Person Resource Shape", describes = FoafDomainConstants.PERSON_TYPE)
+@OslcResourceShape(title = "Person Shape", describes = FoafDomainConstants.PERSON_TYPE)
 public class Person
     extends AbstractResource
     implements IPerson

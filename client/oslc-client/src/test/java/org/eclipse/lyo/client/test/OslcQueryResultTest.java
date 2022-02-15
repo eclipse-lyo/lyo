@@ -58,6 +58,19 @@ public class OslcQueryResultTest {
 		 assertEquals(2, result.getMembersUrls().length);
 	}
 
+    @Test
+    public void testFolderQuery() {
+        Response mockedResponse = mockClientResponse("/queryFolderResponse.rdf");
+
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setPrefix("dcterms=<http://purl.org/dc/terms/>,nav=<http://jazz.net/ns/rm/navigation#>");
+        params.setSelect("*");
+
+        OslcQuery query = new OslcQuery(new OslcClient(), "https://192.168.99.3:9443/rm/folders", params);
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(1, result.getMembersUrls().length);
+    }
+
 	@Test
 	public void testQuery() {
 		 Response mockedResponse = mockClientResponse("/queryResponse.rdf");

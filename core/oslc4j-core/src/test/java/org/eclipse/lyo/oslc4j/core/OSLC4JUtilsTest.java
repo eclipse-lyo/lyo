@@ -115,6 +115,55 @@ public class OSLC4JUtilsTest {
         assertEquals("https://hostname.example.com:12357/myapp/resources", fullUri);
     }
 
+    @Test
+    public void storePagingSafeByDefault() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
+    @Test
+    public void storePagingUnsafeSetViaProperty() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, "true");
+        assertTrue(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
+    @Test
+    public void storePagingUnsafeSetViaSetter() {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_UNSAFE, "true");
+        assertTrue(OSLC4JUtils.isLyoStorePagingUnsafe());
+
+        OSLC4JUtils.setLyoStorePagingUnsafe(false);
+        assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
+    }
+
+
+    @Test
+    public void storePagingNplus1LimitOffByDefault() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT);
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
+    @Test
+    public void storePagingNplus1LimitSetViaProperty() {
+        System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT);
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, "false");
+        assertFalse(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
+    @Test
+    public void storePagingNplus1LimitSetViaSetter() {
+        System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, "true");
+        assertTrue(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+
+        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
+        assertFalse(OSLC4JUtils.hasLyoStorePagingPreciseLimit());
+    }
+
     private HttpServletRequest mockRequest() {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
         when(mockedRequest.getScheme()).thenReturn("https");

@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.ENHANCEMENT_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME)
-@OslcResourceShape(title = "Enhancement Resource Shape", describes = Oslc_cmDomainConstants.ENHANCEMENT_TYPE)
+@OslcResourceShape(title = "Enhancement Shape", describes = Oslc_cmDomainConstants.ENHANCEMENT_TYPE)
 public class Enhancement
     extends ChangeRequest
     implements IEnhancement

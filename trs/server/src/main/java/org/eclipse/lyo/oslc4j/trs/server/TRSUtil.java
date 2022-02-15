@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -33,7 +33,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
@@ -49,7 +49,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 /**
- * A utility class for TRS opreations
+ * A utility class for TRS operations
  *
  * @version $version-stub$
  * @since 2.3.0
@@ -172,7 +172,7 @@ public class TRSUtil {
 
         final OutputStream os = new FileOutputStream(file);
 
-        final RDFWriter rdfWriter = jenaModel.getWriter("RDF/XML");
+        final RDFWriterI rdfWriter = jenaModel.getWriter("RDF/XML");
         rdfWriter.setProperty("showXmlDeclaration", true);
         rdfWriter.setProperty("allowBadURIs", "true");
         rdfWriter.setProperty("relativeURIs", "");

@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.TASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.TASK_LOCALNAME)
-@OslcResourceShape(title = "Task Resource Shape", describes = Oslc_cmDomainConstants.TASK_TYPE)
+@OslcResourceShape(title = "Task Shape", describes = Oslc_cmDomainConstants.TASK_TYPE)
 public class Task
     extends ChangeRequest
     implements ITask

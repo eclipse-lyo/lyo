@@ -82,7 +82,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_qmDomainConstants.TESTSCRIPT_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTSCRIPT_LOCALNAME)
-@OslcResourceShape(title = "TestScript Resource Shape", describes = Oslc_qmDomainConstants.TESTSCRIPT_TYPE)
+@OslcResourceShape(title = "TestScript Shape", describes = Oslc_qmDomainConstants.TESTSCRIPT_TYPE)
 public class TestScript
     extends AbstractResource
     implements ITestScript

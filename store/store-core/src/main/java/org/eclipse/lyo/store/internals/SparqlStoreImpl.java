@@ -34,6 +34,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
+import org.apache.jena.arq.querybuilder.Order;
 import org.apache.jena.riot.RiotException;
 
 import java.lang.reflect.Array;
@@ -42,6 +43,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +51,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +67,7 @@ import org.eclipse.lyo.core.query.SimpleTerm.Type;
 import org.eclipse.lyo.core.query.StringValue;
 import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -91,7 +95,7 @@ public class SparqlStoreImpl implements Store {
      * Could be used to prevent extremely large results
      */
     public final static int TRIPLE_LIMIT = 10001;
-    private final static Logger log = LoggerFactory.getLogger(JenaTdbStoreImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
     private final JenaQueryExecutor queryExecutor;
 
     /**
@@ -261,7 +265,7 @@ public class SparqlStoreImpl implements Store {
             throws StoreAccessException, ModelUnmarshallingException {
         return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset, null, null);
     }
-    
+
     @Override
     public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
             final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
@@ -285,7 +289,7 @@ public class SparqlStoreImpl implements Store {
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
         return getResources(namedGraph, prefixes, where, searchTerms, limit, offset, null, null);
     }
-    
+
     @Override
     public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
 
@@ -301,13 +305,13 @@ public class SparqlStoreImpl implements Store {
         DescribeBuilder describeBuilder = new DescribeBuilder();
         describeBuilder.addVar("s")
         .addGraph((namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g", sparqlWhereQuery);
-        
+
         if (null != additionalDistinctVars) {
             for (String additionalDistinctVar : additionalDistinctVars) {
                 describeBuilder.addVar(additionalDistinctVar);
             }
         }
-        
+
         if (log.isTraceEnabled() && !Strings.isNullOrEmpty(where)) {
             log.trace("SPARQL WHERE query for oslc.where='{}': {}", where,
                     sparqlWhereQuery.buildString());
@@ -411,7 +415,10 @@ public class SparqlStoreImpl implements Store {
             for (int i = 0; i < obj.length; i++) {
                 castObjects[i] = clazz.cast(obj[i]);
             }
-            return Arrays.asList(castObjects);
+            //The Model is most likely obtained via Select query that is orded by the subject (ascending)
+            //See sparql construction in constructSparqlWhere()
+            //Order the list below accordingly.
+            return Arrays.asList(castObjects).stream().sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
         } catch (InvocationTargetException | OslcCoreApplicationException | NoSuchMethodException
                 | URISyntaxException | DatatypeConfigurationException | InstantiationException e) {
             throw new ModelUnmarshallingException(e);
@@ -494,6 +501,7 @@ public class SparqlStoreImpl implements Store {
                                      + "        ?s ?p ?o .\n"
                                      + "        ?s rdf:type ?t.\n"
                                      + "   }\n"
+                                     + "      ORDER BY ASC(?s)\n"
                                      + "      LIMIT ?l\n"
                                      + "      OFFSET "
                                      + "?f\n"
@@ -543,7 +551,7 @@ public class SparqlStoreImpl implements Store {
         if (null != additionalQueryFilter) {
             distinctResourcesQuery.addWhere(additionalQueryFilter);
         }
-        
+
         //Setup where
         WhereClause whereClause = null;
         try {
@@ -601,6 +609,11 @@ public class SparqlStoreImpl implements Store {
             ExprFactory factory = new ExprFactory();
             E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
             distinctResourcesQuery.addFilter(regex);
+        }
+
+
+        if ((limit > 0 || offset > 0) && (! OSLC4JUtils.isLyoStorePagingUnsafe())) {
+            distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
         }
 
         if (limit > 0) {

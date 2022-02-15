@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
-@OslcResourceShape(title = "ReviewTask Resource Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+@OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
 public class ReviewTask
     extends Task
     implements IReviewTask

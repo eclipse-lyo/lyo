@@ -6,14 +6,14 @@
 
   <groupId>org.eclipse.lyo.store</groupId>
   <artifactId>store-parent</artifactId>
-  <version>4.2.0-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: Store :: _Parent</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
@@ -21,7 +21,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <modules>
@@ -31,13 +31,6 @@
   <dependencyManagement>
     <dependencies>
       <!-- Jena -->
-
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>apache-jena-libs</artifactId>
-        <version>${v.jena}</version>
-        <type>pom</type>
-      </dependency>
        <dependency>
         <groupId>org.apache.jena</groupId>
         <artifactId>jena-querybuilder</artifactId>
@@ -46,31 +39,8 @@
       <!-- Generic -->
       <dependency>
         <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${v.slf4j}</version>
-      </dependency>
-      <dependency>
-        <!--TODO why is it here?-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.3.04</version>
-      </dependency>
-
-      <!-- Test -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.8.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

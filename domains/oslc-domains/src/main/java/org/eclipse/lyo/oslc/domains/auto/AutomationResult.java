@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc.domains.Person;
 // End of user code
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONRESULT_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONRESULT_LOCALNAME)
-@OslcResourceShape(title = "AutomationResult Resource Shape", describes = Oslc_autoDomainConstants.AUTOMATIONRESULT_TYPE)
+@OslcResourceShape(title = "AutomationResult Shape", describes = Oslc_autoDomainConstants.AUTOMATIONRESULT_TYPE)
 public class AutomationResult
     extends AbstractResource
     implements IAutomationResult

@@ -64,7 +64,7 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 
 @OslcNamespace(Oslc_amDomainConstants.LINKTYPE_NAMESPACE)
 @OslcName(Oslc_amDomainConstants.LINKTYPE_LOCALNAME)
-@OslcResourceShape(title = "LinkType Resource Shape", describes = Oslc_amDomainConstants.LINKTYPE_TYPE)
+@OslcResourceShape(title = "LinkType Shape", describes = Oslc_amDomainConstants.LINKTYPE_TYPE)
 public interface ILinkType
 {
 

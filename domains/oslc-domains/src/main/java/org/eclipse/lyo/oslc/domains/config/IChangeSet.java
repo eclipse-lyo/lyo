@@ -60,7 +60,7 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 
 @OslcNamespace(Oslc_configDomainConstants.CHANGESET_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CHANGESET_LOCALNAME)
-@OslcResourceShape(title = "ChangeSet Resource Shape", describes = Oslc_configDomainConstants.CHANGESET_TYPE)
+@OslcResourceShape(title = "ChangeSet Shape", describes = Oslc_configDomainConstants.CHANGESET_TYPE)
 public interface IChangeSet
 {
 

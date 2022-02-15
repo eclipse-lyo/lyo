@@ -13,18 +13,36 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.rdf.model.Container;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+
+import org.apache.jena.rdf.model.Alt;
+import org.apache.jena.rdf.model.Bag;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.RSIterator;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Seq;
+import org.apache.jena.rdf.model.SimpleSelector;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.graph.BlankNodeId;
+import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
-import org.apache.jena.graph.BlankNodeId;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.*;
-import org.apache.jena.util.ResourceUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.util.ResourceUtils;
+
 import org.eclipse.lyo.oslc4j.core.*;
 import org.eclipse.lyo.oslc4j.core.annotation.*;
 import org.eclipse.lyo.oslc4j.core.exception.*;

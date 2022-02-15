@@ -76,7 +76,7 @@ import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_autoDomainConstants.PARAMETERINSTANCE_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.PARAMETERINSTANCE_LOCALNAME)
-@OslcResourceShape(title = "ParameterInstance Resource Shape", describes = Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE)
+@OslcResourceShape(title = "ParameterInstance Shape", describes = Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE)
 public class ParameterInstance
     extends AbstractResource
     implements IParameterInstance
