@@ -209,11 +209,7 @@
         <artifactId>jaxb-runtime</artifactId>
         <version>2.3.5</version>
       </dependency>
-      <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.21.0</version>
-      </dependency>
+
       <dependency>
         <!--CQ 13716-->
         <groupId>org.slf4j</groupId>
@@ -331,6 +327,18 @@
         <version>4.13.2</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.8.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.21.0</version>
+      </dependency>
 
 
       <!--Maven Enforcer-->
@@ -339,7 +347,6 @@
         <artifactId>commons-codec</artifactId>
         <version>1.15</version>
       </dependency>
-
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
@@ -358,7 +365,6 @@
         <scope>provided</scope>
       </dependency>
 
-
       <!--Convergence-->
       <dependency>
         <!--net.oauth.core:oauth-httpclient4:jar:20090913-->
@@ -368,49 +374,14 @@
       </dependency>
       <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
       <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-core</artifactId>
-          <version>8.5.75</version>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-core</artifactId>
+        <version>8.5.75</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.11.0</version>
-      </dependency>
-
-
-      <!--To remove-->
-      <!--      <dependency>
-              &lt;!&ndash;hk2 and powermock&ndash;&gt;
-              <groupId>org.javassist</groupId>
-              <artifactId>javassist</artifactId>
-              <version>3.27.0-GA</version>
-            </dependency>-->
-      <!--      <dependency>
-        &lt;!&ndash;es.weso:shaclex_2.12:pom:0.0.87&ndash;&gt;
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${v.jena}</version>
-      </dependency>-->
-
-
-      <!--      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>1.21</version>
-      </dependency>-->
-      <dependency>
-        <!--CQ 6780-->
-        <groupId>xml-apis</groupId>
-        <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <!--CQ 6733-->
-        <groupId>org.apache.wink</groupId>
-        <artifactId>wink-json4j</artifactId>
-        <version>1.2.1-incubating</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

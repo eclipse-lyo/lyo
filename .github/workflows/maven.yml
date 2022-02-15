@@ -18,17 +18,17 @@ jobs:
       matrix:
         jdk: ['11']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
-        # liberica is a preferred Spring SDK
-        distribution: ['temurin', 'zulu', 'liberica']
+        # 'liberica' is a preferred Spring SDK
+        distribution: ['temurin', 'zulu']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
-          - jdk: '15' # Zulu MTS
-            experimental: true
-            distribution: zulu
-          - jdk: '16'
-            experimental: true
-            distribution: zulu
+#          - jdk: '15' # Zulu MTS
+#            experimental: true
+#            distribution: zulu
+#          - jdk: '16'
+#            experimental: true
+#            distribution: zulu
           - jdk: '17' # LTS
             experimental: true
             distribution: zulu
