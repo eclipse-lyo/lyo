@@ -21,8 +21,8 @@ pipeline {
         stage('Deploy') {
             when {
                 anyOf {
-                    branch 'master'
-                    branch 'maint-*'
+                    branch 'origin/master'
+                    branch 'origin/maint-*'
                 }
             }
             steps {
@@ -57,9 +57,9 @@ pipeline {
 
             }
         }
-        stage('Publish Javadocs') {
+        stage('Publish latest Javadocs') {
             when {
-                branch "master"
+                branch 'origin/master'
             }
             steps {
                 sshagent(['git.eclipse.org-bot-ssh']) {
