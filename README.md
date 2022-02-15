@@ -16,7 +16,7 @@ OSLC's scope started with Application Lifecycle Management (ALM) and is expandin
 
 You can find more resources for developing OSLC applications with Lyo, under the [OSLC Developer Guide](https://oslc.github.io/developing-oslc-applications/eclipse_lyo/eclipse-lyo.html).
 
-The [Lyo Samples](https://github.com/OSLC/lyo-samples) repository contains sample code that demonstrates how to use the Lyo client to interact with OSLC Service Providers in various ways.
+The [OLSLC OP Reference implementation](https://github.com/OSLC/refimpl) repository contains sample code that demonstrates how to build OSLC servers for various domains.
 
 You are welcome to post questions on the [OSLC forum](https://forum.open-services.net/c/sdks/lyo/9).
 
