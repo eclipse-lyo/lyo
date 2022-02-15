@@ -6,8 +6,10 @@ pipeline {
 	}
 	stages {
 		stage('Debug') {
-			node {
-				echo 'Working on' + env.BRANCH_NAME
+			steps {
+				node {
+					echo 'Working on' + env.BRANCH_NAME
+				}
 			}
 		}
 		stage('Sonar') {
