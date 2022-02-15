@@ -13,6 +13,7 @@
 
   <dependencies>
     <dependency>
+<<<<<<< HEAD
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>lyo-core-model</artifactId>
       <version>${v.lyo}</version><!--TODO: depManage-->
@@ -30,6 +31,13 @@
       <version>4.8.143</version>
     </dependency>
     <dependency>
+||||||| parent of 4a1760cc (Put the logging dep back)
+=======
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+>>>>>>> 4a1760cc (Put the logging dep back)
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
