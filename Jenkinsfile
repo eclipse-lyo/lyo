@@ -48,11 +48,11 @@ pipeline {
 								echo "Regular branch (no env)"
 							}
 							echo "${sonar}"
-							sh '''
+							sh """
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
 								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse \
-								-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN} ${sonar}
-							'''
+								-Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONARCLOUD_TOKEN} ${sonar}
+							"""
 						}
 					}
 				}
