@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	options {
+		timeout(time: 40, unit: 'MINUTES')   // timeout on whole pipeline job
+	}
 	tools {
 		maven 'apache-maven-latest'
 		jdk 'temurin-jdk11-latest'
