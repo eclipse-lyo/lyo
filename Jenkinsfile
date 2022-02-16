@@ -4,44 +4,22 @@ pipeline {
 		maven 'apache-maven-latest'
 		jdk 'temurin-jdk11-latest'
 	}
-	// environment {
-	// 	// https://stackoverflow.com/questions/42383273/get-git-branch-name-in-jenkins-pipeline-jenkinsfile
-	// 	// BRANCH_NAME_B = "${GIT_BRANCH.split("/")[1]}"
-	// 	// BRANCH_NAME_A = "${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
-	// 	// BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
-	// }
 	stages {
-		stage('Debug') {
-			steps {
-				script {
-					echo 'to be removed'
-					// echo 'Working on' + env.BRANCH_NAME
-					// echo '... or A' + env.BRANCH_NAME_A
-					// echo '... or B' + env.BRANCH_NAME_B
-					// echo 'GIT_BRANCH ' + env.GIT_BRANCH
-					// echo 'BRANCH_NAME ' + env.BRANCH_NAME
-					// echo 'CHANGE_ID ' + env.CHANGE_ID
-					// echo 'CHANGE_BRANCH ' + env.CHANGE_BRANCH
-				}
-			}
-		}
 		stage('SonarCloud') {
-			// when {
-			// 	changeRequest()
-			// }
+			environment {
+				PROJECT_NAME = 'lyo'
+			}
 			steps {
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						script {
-							def sonar = ""
+							def sonar_pr = ""
 							if(env.CHANGE_ID) {
-								sonar += "-Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
+								sonar_pr += " -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
 							}
 							sh '''
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse \
-								-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN} ${sonar}
-							'''
+								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}''' + sonar_pr
 						}
 					}
 				}
