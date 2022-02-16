@@ -33,25 +33,15 @@ pipeline {
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						script {
-							def sonar = ""
+							def sonar_init = "-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONARCLOUD_TOKEN}"
+							def sonar_pr = ""
 							if(env.CHANGE_ID) {
-								echo "Inside PR"
-								sonar += "-Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
-								echo "Append: ${sonar}"
+								sonar_pr += "-Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
 
-							} else {
-								echo "Regular branch"
 							}
-							if(CHANGE_ID) {
-								echo "Inside PR (no env)"
-							} else {
-								echo "Regular branch (no env)"
-							}
-							echo "${sonar}"
 							sh """
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse \
-								-Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONARCLOUD_TOKEN} ${sonar}
+								${sonar_init} ${sonar_pr}
 							"""
 						}
 					}
