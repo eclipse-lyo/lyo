@@ -6,17 +6,17 @@ pipeline {
 	}
 	environment {
 		// https://stackoverflow.com/questions/42383273/get-git-branch-name-in-jenkins-pipeline-jenkinsfile
-		BRANCH_NAME_B = "${GIT_BRANCH.split("/")[1]}"
-		BRANCH_NAME_A = "${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
-		BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
+		// BRANCH_NAME_B = "${GIT_BRANCH.split("/")[1]}"
+		// BRANCH_NAME_A = "${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
+		// BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
 	}
 	stages {
 		stage('Debug') {
 			steps {
 				script {
-					echo 'Working on' + env.BRANCH_NAME
-					echo '... or A' + env.BRANCH_NAME_A
-					echo '... or B' + env.BRANCH_NAME_B
+					// echo 'Working on' + env.BRANCH_NAME
+					// echo '... or A' + env.BRANCH_NAME_A
+					// echo '... or B' + env.BRANCH_NAME_B
 					echo 'CHANGE_BRANCH' + env.CHANGE_BRANCH
 				}
 			}
@@ -35,18 +35,17 @@ pipeline {
 							-Dsonar.pullrequest.provider=GitHub \
 							-Dsonar.pullrequest.github.repository=eclipse/$PROJECT_NAME \
 							-Dsonar.pullrequest.key=${env.CHANGE_ID} \
-							-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
+							-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}
 						'''
 					}
 				}
 			}
 		}
 		stage('Deploy') {
-
 			when {
 				anyOf {
-					branch 'origin/master'
-					branch 'origin/maint-*'
+					branch 'master'
+					branch 'maint-*'
 				}
 			}
 			steps {
@@ -82,7 +81,7 @@ pipeline {
 		}
 		stage('Publish latest Javadocs') {
 			when {
-				branch 'origin/master'
+				branch 'master'
 			}
 			steps {
 				sshagent(['git.eclipse.org-bot-ssh']) {
