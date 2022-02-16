@@ -4,12 +4,12 @@ pipeline {
 		maven 'apache-maven-latest'
 		jdk 'temurin-jdk11-latest'
 	}
-	environment {
-		// https://stackoverflow.com/questions/42383273/get-git-branch-name-in-jenkins-pipeline-jenkinsfile
-		// BRANCH_NAME_B = "${GIT_BRANCH.split("/")[1]}"
-		// BRANCH_NAME_A = "${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
-		// BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
-	}
+	// environment {
+	// 	// https://stackoverflow.com/questions/42383273/get-git-branch-name-in-jenkins-pipeline-jenkinsfile
+	// 	// BRANCH_NAME_B = "${GIT_BRANCH.split("/")[1]}"
+	// 	// BRANCH_NAME_A = "${GIT_BRANCH.split("/").size() > 1 ? GIT_BRANCH.split("/")[1] : GIT_BRANCH}"
+	// 	// BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
+	// }
 	stages {
 		stage('Debug') {
 			steps {
