@@ -35,7 +35,15 @@ pipeline {
 						script {
 							def sonar = ""
 							if(env.CHANGE_ID) {
+								echo "Inside PR"
 								sonar += "-Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
+							} else {
+								echo "Regular branch"
+							}
+							if(CHANGE_ID) {
+								echo "Inside PR (no env)"
+							} else {
+								echo "Regular branch (no env)"
 							}
 							sh '''
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
