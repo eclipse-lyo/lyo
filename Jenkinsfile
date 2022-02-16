@@ -17,6 +17,9 @@ pipeline {
 					// echo 'Working on' + env.BRANCH_NAME
 					// echo '... or A' + env.BRANCH_NAME_A
 					// echo '... or B' + env.BRANCH_NAME_B
+					echo 'GIT_BRANCH' + env.GIT_BRANCH
+					echo 'BRANCH_NAME' + env.BRANCH_NAME
+					echo 'CHANGE_ID' + env.CHANGE_ID
 					echo 'CHANGE_BRANCH' + env.CHANGE_BRANCH
 				}
 			}
