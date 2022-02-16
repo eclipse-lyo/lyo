@@ -38,8 +38,8 @@ pipeline {
 							-Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN} \
 							-Dsonar.pullrequest.provider=GitHub \
 							-Dsonar.pullrequest.github.repository=eclipse/$PROJECT_NAME \
-							-Dsonar.pullrequest.key=${env.CHANGE_ID} \
-							-Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}
+							-Dsonar.pullrequest.key=${CHANGE_ID} \
+							-Dsonar.pullrequest.branch=${CHANGE_BRANCH}
 						'''
 					}
 				}
