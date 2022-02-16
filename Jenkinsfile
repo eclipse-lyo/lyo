@@ -14,21 +14,22 @@ pipeline {
 		stage('Debug') {
 			steps {
 				script {
+					echo 'to be removed'
 					// echo 'Working on' + env.BRANCH_NAME
 					// echo '... or A' + env.BRANCH_NAME_A
 					// echo '... or B' + env.BRANCH_NAME_B
-					echo 'GIT_BRANCH' + env.GIT_BRANCH
-					echo 'BRANCH_NAME' + env.BRANCH_NAME
-					echo 'CHANGE_ID' + env.CHANGE_ID
-					echo 'CHANGE_BRANCH' + env.CHANGE_BRANCH
+					// echo 'GIT_BRANCH ' + env.GIT_BRANCH
+					// echo 'BRANCH_NAME ' + env.BRANCH_NAME
+					// echo 'CHANGE_ID ' + env.CHANGE_ID
+					// echo 'CHANGE_BRANCH ' + env.CHANGE_BRANCH
 				}
 			}
 		}
-		stage('Sonar') {
+		stage('PR check') {
+			when {
+				changeRequest()
+			}
 			steps {
-				// def urlcomponents = env.CHANGE_URL.split("/")
-				// def org = urlcomponents[3]
-				// def repo = urlcomponents[4]
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						sh '''
