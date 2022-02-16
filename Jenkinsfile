@@ -49,7 +49,7 @@ pipeline {
 						-P dev,gpg-sign,eclipse-deploy
 				'''
 				// sh 'gpg --verify my-app/target/my-app-1.0-SNAPSHOT.jar.asc'
-				sshagent(['git.eclipse.org-bot-ssh']) {
+				sshagent(['projects-storage.eclipse.org-bot-ssh']) {
 					sh '''
 					DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
 					VERSION=$(mvn -q \
@@ -71,7 +71,7 @@ pipeline {
 				branch 'master'
 			}
 			steps {
-				sshagent(['git.eclipse.org-bot-ssh']) {
+				sshagent(['projects-storage.eclipse.org-bot-ssh']) {
 					sh '''
 					DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
 					VERSION=$(mvn -q \
