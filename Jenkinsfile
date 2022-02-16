@@ -33,16 +33,14 @@ pipeline {
 				withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
 					withSonarQubeEnv('SonarCloud.io') {
 						script {
-							def sonar_init = "-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${env.SONAR_HOST_URL} -Dsonar.login=${env.SONARCLOUD_TOKEN}"
+							// def sonar_init = ""
 							def sonar_pr = ""
 							if(env.CHANGE_ID) {
-								sonar_pr += "-Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
-
+								sonar_pr += " -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
 							}
-							sh """
+							sh '''
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-								${sonar_init} ${sonar_pr}
-							"""
+								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}''' + sonar_pr
 						}
 					}
 				}
