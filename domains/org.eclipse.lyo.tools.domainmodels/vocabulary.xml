@@ -112,9 +112,10 @@
     <properties name="subject" label="subject" comment="Recommended practice is to refer to the subject with a URI. If this is not possible or feasible, a literal value that identifies the subject may be provided. Both should preferably refer to a subject in a controlled vocabulary."/>
     <properties name="title" label="title" comment="A name given to the resource."/>
     <properties name="isVersionOf" label="isVersionOf" comment="Changes in version imply substantive changes in content rather than differences in format. This property is intended to be used with non-literal values. This property is an inverse property of Has Version."/>
-    <properties name="hasPart" label="hasPart" comment="This property is intended to be used with non-literal values. This property is an inverse property of Is Part Of."/>
+    <properties name="hasPart" label="Has Part" comment="This property is intended to be used with non-literal values. This property is an inverse property of Is Part Of."/>
     <properties name="source" label="source" comment="This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system."/>
     <properties name="type" label="type" comment="Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary [DCMI-TYPE]. To describe the file format, physical medium, or dimensions of the resource, use the property Format."/>
+    <properties name="isPartOf" label="Is Part Of" comment="This property is intended to be used with non-literal values. This property is an inverse property of Has Part."/>
   </vocabularies>
   <configuration>
     <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
