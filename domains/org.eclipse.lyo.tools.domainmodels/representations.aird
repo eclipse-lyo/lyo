@@ -41,7 +41,7 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']"/>
         <target xmi:type="oscl4j_vocabulary:Vocabularies" href="vocabulary.xml#/"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_5_TvdUP8EeqWXLXqxx7Bnw" name="Core" repPath="#_5_TvcEP8EeqWXLXqxx7Bnw">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_5_TvdUP8EeqWXLXqxx7Bnw" name="Core" repPath="#_5_TvcEP8EeqWXLXqxx7Bnw" changeId="365c363d-4cfb-4c18-abfe-e1baabacb335">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']"/>
         <target xmi:type="oscl4j_vocabulary:Vocabularies" href="vocabulary.xml#/"/>
       </ownedRepresentationDescriptors>
@@ -13465,6 +13465,15 @@
               <styles xmi:type="notation:ShapeStyle" xmi:id="_tc2iMUQBEeqWXLXqxx7Bnw" fontName="Segoe UI" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tc2iMkQBEeqWXLXqxx7Bnw" x="710" y="174" width="90" height="90"/>
             </children>
+            <children xmi:type="notation:Node" xmi:id="_9ydq4I2SEey7HvAnxKdYmA" type="3009" element="_9yUg8I2SEey7HvAnxKdYmA">
+              <children xmi:type="notation:Node" xmi:id="_9yeR8I2SEey7HvAnxKdYmA" type="5004"/>
+              <children xmi:type="notation:Node" xmi:id="_9yeR8Y2SEey7HvAnxKdYmA" type="7003">
+                <styles xmi:type="notation:SortingStyle" xmi:id="_9yeR8o2SEey7HvAnxKdYmA"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_9yeR842SEey7HvAnxKdYmA"/>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_9ydq4Y2SEey7HvAnxKdYmA" fontName="Segoe UI" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9ydq4o2SEey7HvAnxKdYmA" x="710" y="64" width="90" height="90"/>
+            </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_qCLnlUQAEeqWXLXqxx7Bnw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_qCLnlkQAEeqWXLXqxx7Bnw"/>
           </children>
@@ -13768,7 +13777,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']/@defaultLayer/@containerMappings[name='Vocabularies.Vocabulary']/@subContainerMappings[name='Vocabularies.Vocabulary.Property']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_sa_ckEQBEeqWXLXqxx7Bnw" name="hasPart" width="9" height="9">
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_sa_ckEQBEeqWXLXqxx7Bnw" name="Has Part" width="9" height="9">
         <target xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='hasPart']"/>
         <semanticElements xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='hasPart']"/>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_sbADoEQBEeqWXLXqxx7Bnw" iconPath="/org.eclipse.lyo.tools.toolchain.design/images/IconProperty.png" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
@@ -13788,6 +13797,14 @@
         <target xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='type']"/>
         <semanticElements xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='type']"/>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_tcsxMUQBEeqWXLXqxx7Bnw" iconPath="/org.eclipse.lyo.tools.toolchain.design/images/IconProperty.png" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
+          <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']/@defaultLayer/@containerMappings[name='Vocabularies.Vocabulary']/@subContainerMappings[name='Vocabularies.Vocabulary.Property']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']/@defaultLayer/@containerMappings[name='Vocabularies.Vocabulary']/@subContainerMappings[name='Vocabularies.Vocabulary.Property']"/>
+      </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_9yUg8I2SEey7HvAnxKdYmA" name="Is Part Of" width="9" height="9">
+        <target xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='isPartOf']"/>
+        <semanticElements xmi:type="oscl4j_vocabulary:Property" href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='isPartOf']"/>
+        <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_9yUg8Y2SEey7HvAnxKdYmA" iconPath="/org.eclipse.lyo.tools.toolchain.design/images/IconProperty.png" borderSize="1" borderSizeComputationExpression="1" foregroundColor="255,255,255">
           <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']/@defaultLayer/@containerMappings[name='Vocabularies.Vocabulary']/@subContainerMappings[name='Vocabularies.Vocabulary.Property']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']/@defaultLayer/@containerMappings[name='Vocabularies.Vocabulary']/@subContainerMappings[name='Vocabularies.Vocabulary.Property']"/>
