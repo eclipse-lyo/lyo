@@ -19,11 +19,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Element;
@@ -87,4 +90,28 @@ public class JenaModelHelperTest {
         assertEquals(Dog.class, pet.getClass());
     }
 
+    @Test(expected = DatatypeFormatException.class)
+    public void testExtendedEscape() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape.ttl");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+    }
+
+    public void testExtendedEscapeValid() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape.ttl");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+        assertEquals(3, resource.getExtendedProperties().size());
+    }
+
+    @Test(expected = DatatypeFormatException.class)
+    public void testExtendedEscapeXML() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape.xml");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+    }
+
+    @Test
+    public void testExtendedEscapeXMLValid() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape-valid.xml");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+//        assertEquals(56, resource.getExtendedProperties().size());
+    }
 }
