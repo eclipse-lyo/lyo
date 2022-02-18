@@ -37,9 +37,9 @@ import org.apache.jena.vocabulary.RDF;
 
 /**
  * Tests Jena working with different combinations of OslcName annotation.
- * 
+ *
  * @author Fabio Negrello
- * 
+ *
  */
 public class JenaOslcNameTest {
 
@@ -49,7 +49,7 @@ public class JenaOslcNameTest {
 	/**
 	 * Checks that OslcName annotation with empty string does not add RDF type
 	 * to the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -63,7 +63,7 @@ public class JenaOslcNameTest {
 	/**
 	 * Checks that OslcName annotation with empty string does not add default
 	 * RDF type to the resource but adds the ones specified by addTypes method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -79,7 +79,7 @@ public class JenaOslcNameTest {
 
 	/**
 	 * Checks that OslcName annotation adds RDF type to the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -94,7 +94,7 @@ public class JenaOslcNameTest {
 	/**
 	 * Checks that the absence of OslcName annotation adds default RDF type to
 	 * the resource.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -107,7 +107,7 @@ public class JenaOslcNameTest {
 	}
 
 	private void verifyRDFTypes(String[] expectedRDFTypes, List<RDFNode> actualRDFTypes) {
-		List<String> actualRdfTypesList = new ArrayList<String>();
+		List<String> actualRdfTypesList = new ArrayList<>();
 		for (RDFNode node : actualRDFTypes) {
 			actualRdfTypesList.add(node.toString());
 		}
@@ -119,7 +119,7 @@ public class JenaOslcNameTest {
 
 	/**
 	 * Creates a new instance adding some test values.
-	 * 
+	 *
 	 */
 	private <T extends AbstractResource> T createResource(Class<T> resourceClass) throws Exception {
 		T resource = resourceClass.newInstance();

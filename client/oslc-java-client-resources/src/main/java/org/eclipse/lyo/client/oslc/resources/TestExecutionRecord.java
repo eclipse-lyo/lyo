@@ -39,10 +39,10 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 public class TestExecutionRecord
        extends QmResource
 {
-    private final Set<Link>     blockedByChangeRequests       = new HashSet<Link>();
-    private final Set<URI>      contributors                = new TreeSet<URI>();
-    private final Set<URI>      creators                    = new TreeSet<URI>();
-    private final Set<Link>     relatedChangeRequests       = new HashSet<Link>();
+    private final Set<Link>     blockedByChangeRequests       = new HashSet<>();
+    private final Set<URI>      contributors                = new TreeSet<>();
+    private final Set<URI>      creators                    = new TreeSet<>();
+    private final Set<Link>     relatedChangeRequests       = new HashSet<>();
 
     private Link     reportsOnTestPlan;
     private URI      runsOnTestEnvironment;

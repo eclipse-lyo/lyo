@@ -34,11 +34,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Service Resource Shape", describes = OslcConstants.TYPE_SERVICE)
 public class Service extends AbstractResource {
-	private final List<Dialog> creationDialogs = new ArrayList<Dialog>();
-	private final List<CreationFactory> creationFactories = new ArrayList<CreationFactory>();
-	private final List<QueryCapability> queryCapabilities = new ArrayList<QueryCapability>();
-	private final List<Dialog> selectionDialogs = new ArrayList<Dialog>();
-	private final List<URI> usages = new ArrayList<URI>();
+	private final List<Dialog> creationDialogs = new ArrayList<>();
+	private final List<CreationFactory> creationFactories = new ArrayList<>();
+	private final List<QueryCapability> queryCapabilities = new ArrayList<>();
+	private final List<Dialog> selectionDialogs = new ArrayList<>();
+	private final List<URI> usages = new ArrayList<>();
 
 	private URI domain;
 

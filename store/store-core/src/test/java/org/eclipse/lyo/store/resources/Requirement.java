@@ -31,7 +31,7 @@ public class Requirement
     private String description;
     private String identifier;
     private Date created;
-    private HashSet<Link> decomposes = new HashSet<Link>();
+    private HashSet<Link> decomposes = new HashSet<>();
     private String stringProperty;
     private Integer intProperty;
 
@@ -40,13 +40,13 @@ public class Requirement
     {
         super();
     }
-    
+
     public Requirement(final URI about)
            throws URISyntaxException
     {
         super(about);
     }
-    
+
     @OslcName("title")
     @OslcPropertyDefinition(DUBLIN_CORE_NAMSPACE + "title")
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
@@ -57,7 +57,7 @@ public class Requirement
     {
         return title;
     }
-    
+
     @OslcName("description")
     @OslcPropertyDefinition(DUBLIN_CORE_NAMSPACE + "description")
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
@@ -90,7 +90,7 @@ public class Requirement
     {
         return created;
     }
-    
+
     @OslcName("decomposes")
     @OslcPropertyDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_NAMSPACE + "decomposes")
     @OslcDescription("The object is decomposed by the subject.")
@@ -101,7 +101,7 @@ public class Requirement
     {
         return decomposes;
     }
-    
+
     @OslcName("stringProperty")
     @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "stringProperty")
     @OslcOccurs(Occurs.ExactlyOne)
@@ -111,7 +111,7 @@ public class Requirement
     {
         return stringProperty;
     }
-    
+
     @OslcName("intProperty")
     @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "intProperty")
     @OslcOccurs(Occurs.ExactlyOne)
@@ -125,25 +125,25 @@ public class Requirement
     public void setTitle(final String title )
     {
         this.title = title;
-   
+
     }
-    
+
     public void setDescription(final String description )
     {
         this.description = description;
     }
-    
+
     public void setIdentifier(final String identifier )
     {
         this.identifier = identifier;
     }
 
-    
+
     public void setCreated(final Date created )
     {
         this.created = created;
     }
-    
+
     public void setDecomposes(final HashSet<Link> decomposes )
     {
         this.decomposes.clear();
@@ -152,15 +152,15 @@ public class Requirement
             this.decomposes.addAll(decomposes);
         }
     }
-    
+
     public void setStringProperty(final String stringProperty )
     {
         this.stringProperty = stringProperty;
     }
-    
+
     public void setIntProperty(final Integer intProperty )
     {
         this.intProperty = intProperty;
     }
-    
+
 }

@@ -85,13 +85,13 @@ public class AutomationRequest
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -103,29 +103,29 @@ public class AutomationRequest
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:state
     // End of user code
-    private Set<Link> state = new HashSet<Link>();
+    private Set<Link> state = new HashSet<>();
     // Start of user code attributeAnnotation:desiredState
     // End of user code
     private Link desiredState;
     // Start of user code attributeAnnotation:inputParameter
     // End of user code
-    private Set<Link> inputParameter = new HashSet<Link>();
+    private Set<Link> inputParameter = new HashSet<>();
     // Start of user code attributeAnnotation:executesAutomationPlan
     // End of user code
     private Link executesAutomationPlan;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -133,38 +133,38 @@ public class AutomationRequest
     public AutomationRequest()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public AutomationRequest(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_autoDomainConstants.AUTOMATIONREQUEST_PATH,
         AutomationRequest.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local AutomationRequest Resource} - update AutomationRequest.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -173,49 +173,49 @@ public class AutomationRequest
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addState(final Link state)
     {
         this.state.add(state);
     }
-    
+
     public void addInputParameter(final Link inputParameter)
     {
         this.inputParameter.add(inputParameter);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -231,7 +231,7 @@ public class AutomationRequest
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -246,7 +246,7 @@ public class AutomationRequest
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -262,7 +262,7 @@ public class AutomationRequest
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -277,7 +277,7 @@ public class AutomationRequest
         // End of user code
         return description;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -292,7 +292,7 @@ public class AutomationRequest
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -307,7 +307,7 @@ public class AutomationRequest
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:type
     // End of user code
     @OslcName("type")
@@ -322,7 +322,7 @@ public class AutomationRequest
         // End of user code
         return type;
     }
-    
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -337,7 +337,7 @@ public class AutomationRequest
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -353,7 +353,7 @@ public class AutomationRequest
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -369,7 +369,7 @@ public class AutomationRequest
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:state
     // End of user code
     @OslcName("state")
@@ -384,7 +384,7 @@ public class AutomationRequest
         // End of user code
         return state;
     }
-    
+
     // Start of user code getterAnnotation:desiredState
     // End of user code
     @OslcName("desiredState")
@@ -399,7 +399,7 @@ public class AutomationRequest
         // End of user code
         return desiredState;
     }
-    
+
     // Start of user code getterAnnotation:inputParameter
     // End of user code
     @OslcName("inputParameter")
@@ -415,7 +415,7 @@ public class AutomationRequest
         // End of user code
         return inputParameter;
     }
-    
+
     // Start of user code getterAnnotation:executesAutomationPlan
     // End of user code
     @OslcName("executesAutomationPlan")
@@ -432,8 +432,8 @@ public class AutomationRequest
         // End of user code
         return executesAutomationPlan;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -445,11 +445,11 @@ public class AutomationRequest
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -457,11 +457,11 @@ public class AutomationRequest
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -473,11 +473,11 @@ public class AutomationRequest
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -485,11 +485,11 @@ public class AutomationRequest
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-    
+
         // Start of user code setterFinalize:description
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -497,11 +497,11 @@ public class AutomationRequest
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -509,11 +509,11 @@ public class AutomationRequest
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:type
     // End of user code
     public void setType(final Set<Link> type )
@@ -525,11 +525,11 @@ public class AutomationRequest
         {
             this.type.addAll(type);
         }
-    
+
         // Start of user code setterFinalize:type
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -537,11 +537,11 @@ public class AutomationRequest
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -553,11 +553,11 @@ public class AutomationRequest
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -569,11 +569,11 @@ public class AutomationRequest
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:state
     // End of user code
     public void setState(final Set<Link> state )
@@ -585,11 +585,11 @@ public class AutomationRequest
         {
             this.state.addAll(state);
         }
-    
+
         // Start of user code setterFinalize:state
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:desiredState
     // End of user code
     public void setDesiredState(final Link desiredState )
@@ -597,11 +597,11 @@ public class AutomationRequest
         // Start of user code setterInit:desiredState
         // End of user code
         this.desiredState = desiredState;
-    
+
         // Start of user code setterFinalize:desiredState
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:inputParameter
     // End of user code
     public void setInputParameter(final Set<Link> inputParameter )
@@ -613,11 +613,11 @@ public class AutomationRequest
         {
             this.inputParameter.addAll(inputParameter);
         }
-    
+
         // Start of user code setterFinalize:inputParameter
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:executesAutomationPlan
     // End of user code
     public void setExecutesAutomationPlan(final Link executesAutomationPlan )
@@ -625,10 +625,10 @@ public class AutomationRequest
         // Start of user code setterInit:executesAutomationPlan
         // End of user code
         this.executesAutomationPlan = executesAutomationPlan;
-    
+
         // Start of user code setterFinalize:executesAutomationPlan
         // End of user code
     }
-    
-    
+
+
 }

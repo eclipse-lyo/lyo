@@ -48,39 +48,39 @@ public class Requirement
 	private String description;
 	private String identifier;
 	private String   shortTitle;
-	private final Set<String>   subjects					= new TreeSet<String>();
-	private final Set<URI>	  creators					= new TreeSet<URI>();
-	private final Set<URI>	  contributors				= new TreeSet<URI>();
+	private final Set<String>   subjects					= new TreeSet<>();
+	private final Set<URI>	  creators					= new TreeSet<>();
+	private final Set<URI>	  contributors				= new TreeSet<>();
 	private Date created;
 	private Date modified;
-	private final Set<URI>	  rdfTypes					= new TreeSet<URI>();
+	private final Set<URI>	  rdfTypes					= new TreeSet<>();
 	private URI	  serviceProvider;
 	private URI	  instanceShape;
 
 
 	// OSLC Links
-	private final Set<Link>	 elaboratedBy				= new HashSet<Link>();
-	private final Set<Link>	 elaborates		 			= new HashSet<Link>();
+	private final Set<Link>	 elaboratedBy				= new HashSet<>();
+	private final Set<Link>	 elaborates		 			= new HashSet<>();
 
-	private final Set<Link>	 specifiedBy		   		= new HashSet<Link>();
-	private final Set<Link>	 specifies  					= new HashSet<Link>();
+	private final Set<Link>	 specifiedBy		   		= new HashSet<>();
+	private final Set<Link>	 specifies  					= new HashSet<>();
 
-	private final Set<Link>	 affectedBy					= new HashSet<Link>();
+	private final Set<Link>	 affectedBy					= new HashSet<>();
 
-	private final Set<Link>	 trackedBy			  	  	= new HashSet<Link>();
+	private final Set<Link>	 trackedBy			  	  	= new HashSet<>();
 
-	private final Set<Link>	 implementedBy				= new HashSet<Link>();
+	private final Set<Link>	 implementedBy				= new HashSet<>();
 
-	private final Set<Link>	 validatedBy					= new HashSet<Link>();
+	private final Set<Link>	 validatedBy					= new HashSet<>();
 
-	private final Set<Link>	 satisfiedBy					= new HashSet<Link>();
-	private final Set<Link>	 satisfies					= new HashSet<Link>();
+	private final Set<Link>	 satisfiedBy					= new HashSet<>();
+	private final Set<Link>	 satisfies					= new HashSet<>();
 
-	private final Set<Link>	 decomposedBy				= new HashSet<Link>();
-	private final Set<Link>	 decomposes					= new HashSet<Link>();
+	private final Set<Link>	 decomposedBy				= new HashSet<>();
+	private final Set<Link>	 decomposes					= new HashSet<>();
 
-	private final Set<Link>	 constrainedBy				= new HashSet<Link>();
-	private final Set<Link>	 constrains					= new HashSet<Link>();
+	private final Set<Link>	 constrainedBy				= new HashSet<>();
+	private final Set<Link>	 constrains					= new HashSet<>();
 
 
 	public Requirement()

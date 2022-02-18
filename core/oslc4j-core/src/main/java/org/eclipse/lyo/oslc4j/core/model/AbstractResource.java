@@ -23,8 +23,8 @@ import javax.xml.namespace.QName;
 
 public abstract class AbstractResource implements IExtendedResource {
 	private URI about;
-	private Collection<URI> types = new ArrayList<URI>();
-	private Map<QName, Object> extendedProperties = new HashMap<QName, Object>();
+	private Collection<URI> types = new ArrayList<>();
+	private Map<QName, Object> extendedProperties = new HashMap<>();
 
 	protected AbstractResource(final URI about) {
 		super();
@@ -45,7 +45,7 @@ public abstract class AbstractResource implements IExtendedResource {
 	public final void setAbout(final URI about) {
 		this.about = about;
 	}
-	
+
 	@Override
 	public void setExtendedProperties(final Map<QName, Object> properties)
 	{

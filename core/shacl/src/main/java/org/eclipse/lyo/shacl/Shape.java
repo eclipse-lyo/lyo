@@ -34,7 +34,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 @OslcResourceShape(title = "Shacl Resource Shape", describes = ShaclConstants.TYPE_SHACL_SHAPE)
 public final class Shape extends AbstractResource {
     //Core Constraints
-    private final Map<URI, Property> properties = new HashMap<URI, Property>();
+    private final Map<URI, Property> properties = new HashMap<>();
     //Targets
     private URI targetClass;
     private URI targetNode;

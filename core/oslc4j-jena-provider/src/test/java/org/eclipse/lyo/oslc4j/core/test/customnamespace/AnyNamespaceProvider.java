@@ -24,10 +24,10 @@ import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 
 /**
  * Used to test the custom namespace mappings feature.
- * This class just return a custom prefix to ensure that this 
+ * This class just return a custom prefix to ensure that this
  * prefix will be added when Jena or Json Helper is reading
  * the default annotation mappings.
- * 
+ *
  * @author Daniel Figueiredo Caetano
  *
  */
@@ -35,14 +35,14 @@ public class AnyNamespaceProvider implements IOslcCustomNamespaceProvider {
 
 	/**
 	 * Creates a map with a custom prefix, used for tests.
-	 * 
+	 *
 	 * @return always a new map.
 	 */
 	@Override
 	public Map<String, String> getCustomNamespacePrefixes() {
-		Map<String, String> customNamespacePrefixes = new HashMap<String, String>(1);
+		Map<String, String> customNamespacePrefixes = new HashMap<>(1);
 		customNamespacePrefixes.put(CUSTOM_PREFIX, CUSTOM_URL);
 		return customNamespacePrefixes;
 	}
-	
+
 }

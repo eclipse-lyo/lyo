@@ -90,13 +90,13 @@ public class TestCase
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -108,32 +108,32 @@ public class TestCase
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private Set<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<>();
     // Start of user code attributeAnnotation:testsChangeRequest
     // End of user code
-    private Set<Link> testsChangeRequest = new HashSet<Link>();
+    private Set<Link> testsChangeRequest = new HashSet<>();
     // Start of user code attributeAnnotation:usesTestScript
     // End of user code
-    private Set<Link> usesTestScript = new HashSet<Link>();
+    private Set<Link> usesTestScript = new HashSet<>();
     // Start of user code attributeAnnotation:validatesRequirement
     // End of user code
-    private Set<Link> validatesRequirement = new HashSet<Link>();
-    
+    private Set<Link> validatesRequirement = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -141,38 +141,38 @@ public class TestCase
     public TestCase()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public TestCase(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTCASE_PATH,
         TestCase.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local TestCase Resource} - update TestCase.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -181,65 +181,65 @@ public class TestCase
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         result = String.format("%s (TestCase; id=%s)", this.getTitle(), this.getIdentifier());
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-    
+
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-    
+
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-    
+
     public void addTestsChangeRequest(final Link testsChangeRequest)
     {
         this.testsChangeRequest.add(testsChangeRequest);
     }
-    
+
     public void addUsesTestScript(final Link usesTestScript)
     {
         this.usesTestScript.add(usesTestScript);
     }
-    
+
     public void addValidatesRequirement(final Link validatesRequirement)
     {
         this.validatesRequirement.add(validatesRequirement);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -255,7 +255,7 @@ public class TestCase
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -270,7 +270,7 @@ public class TestCase
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -286,7 +286,7 @@ public class TestCase
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -301,7 +301,7 @@ public class TestCase
         // End of user code
         return description;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -316,7 +316,7 @@ public class TestCase
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -331,7 +331,7 @@ public class TestCase
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -347,7 +347,7 @@ public class TestCase
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -363,7 +363,7 @@ public class TestCase
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:subject
     // End of user code
     @OslcName("subject")
@@ -379,7 +379,7 @@ public class TestCase
         // End of user code
         return subject;
     }
-    
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -394,7 +394,7 @@ public class TestCase
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:type
     // End of user code
     @OslcName("type")
@@ -409,7 +409,7 @@ public class TestCase
         // End of user code
         return type;
     }
-    
+
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
@@ -426,7 +426,7 @@ public class TestCase
         // End of user code
         return relatedChangeRequest;
     }
-    
+
     // Start of user code getterAnnotation:testsChangeRequest
     // End of user code
     @OslcName("testsChangeRequest")
@@ -443,7 +443,7 @@ public class TestCase
         // End of user code
         return testsChangeRequest;
     }
-    
+
     // Start of user code getterAnnotation:usesTestScript
     // End of user code
     @OslcName("usesTestScript")
@@ -459,7 +459,7 @@ public class TestCase
         // End of user code
         return usesTestScript;
     }
-    
+
     // Start of user code getterAnnotation:validatesRequirement
     // End of user code
     @OslcName("validatesRequirement")
@@ -476,8 +476,8 @@ public class TestCase
         // End of user code
         return validatesRequirement;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -489,11 +489,11 @@ public class TestCase
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -501,11 +501,11 @@ public class TestCase
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -517,11 +517,11 @@ public class TestCase
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -529,11 +529,11 @@ public class TestCase
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-    
+
         // Start of user code setterFinalize:description
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -541,11 +541,11 @@ public class TestCase
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -553,11 +553,11 @@ public class TestCase
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -569,11 +569,11 @@ public class TestCase
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -585,11 +585,11 @@ public class TestCase
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:subject
     // End of user code
     public void setSubject(final Set<String> subject )
@@ -601,11 +601,11 @@ public class TestCase
         {
             this.subject.addAll(subject);
         }
-    
+
         // Start of user code setterFinalize:subject
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -613,11 +613,11 @@ public class TestCase
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:type
     // End of user code
     public void setType(final Set<Link> type )
@@ -629,11 +629,11 @@ public class TestCase
         {
             this.type.addAll(type);
         }
-    
+
         // Start of user code setterFinalize:type
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
     public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
@@ -645,11 +645,11 @@ public class TestCase
         {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
-    
+
         // Start of user code setterFinalize:relatedChangeRequest
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:testsChangeRequest
     // End of user code
     public void setTestsChangeRequest(final Set<Link> testsChangeRequest )
@@ -661,11 +661,11 @@ public class TestCase
         {
             this.testsChangeRequest.addAll(testsChangeRequest);
         }
-    
+
         // Start of user code setterFinalize:testsChangeRequest
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:usesTestScript
     // End of user code
     public void setUsesTestScript(final Set<Link> usesTestScript )
@@ -677,11 +677,11 @@ public class TestCase
         {
             this.usesTestScript.addAll(usesTestScript);
         }
-    
+
         // Start of user code setterFinalize:usesTestScript
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:validatesRequirement
     // End of user code
     public void setValidatesRequirement(final Set<Link> validatesRequirement )
@@ -693,10 +693,10 @@ public class TestCase
         {
             this.validatesRequirement.addAll(validatesRequirement);
         }
-    
+
         // Start of user code setterFinalize:validatesRequirement
         // End of user code
     }
-    
-    
+
+
 }

@@ -105,13 +105,13 @@ public class ChangeRequest
     private String identifier;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -120,10 +120,10 @@ public class ChangeRequest
     private Date modified;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:discussedBy
     // End of user code
     private Link discussedBy;
@@ -153,38 +153,38 @@ public class ChangeRequest
     private Boolean verified;
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private Set<Link> relatedChangeRequest = new HashSet<Link>();
+    private Set<Link> relatedChangeRequest = new HashSet<>();
     // Start of user code attributeAnnotation:affectsPlanItem
     // End of user code
-    private Set<Link> affectsPlanItem = new HashSet<Link>();
+    private Set<Link> affectsPlanItem = new HashSet<>();
     // Start of user code attributeAnnotation:affectedByDefect
     // End of user code
-    private Set<Link> affectedByDefect = new HashSet<Link>();
+    private Set<Link> affectedByDefect = new HashSet<>();
     // Start of user code attributeAnnotation:tracksRequirement
     // End of user code
-    private Set<Link> tracksRequirement = new HashSet<Link>();
+    private Set<Link> tracksRequirement = new HashSet<>();
     // Start of user code attributeAnnotation:implementsRequirement
     // End of user code
-    private Set<Link> implementsRequirement = new HashSet<Link>();
+    private Set<Link> implementsRequirement = new HashSet<>();
     // Start of user code attributeAnnotation:affectsRequirement
     // End of user code
-    private Set<Link> affectsRequirement = new HashSet<Link>();
+    private Set<Link> affectsRequirement = new HashSet<>();
     // Start of user code attributeAnnotation:tracksChangeSet
     // End of user code
-    private Set<Link> tracksChangeSet = new HashSet<Link>();
+    private Set<Link> tracksChangeSet = new HashSet<>();
     // Start of user code attributeAnnotation:parent
     // End of user code
-    private Set<Link> parent = new HashSet<Link>();
+    private Set<Link> parent = new HashSet<>();
     // Start of user code attributeAnnotation:priority
     // End of user code
-    private Set<Link> priority = new HashSet<Link>();
+    private Set<Link> priority = new HashSet<>();
     // Start of user code attributeAnnotation:state
     // End of user code
     private Link state;
     // Start of user code attributeAnnotation:authorizer
     // End of user code
-    private Set<Link> authorizer = new HashSet<Link>();
-    
+    private Set<Link> authorizer = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -192,38 +192,38 @@ public class ChangeRequest
     public ChangeRequest()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public ChangeRequest(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_cmDomainConstants.CHANGEREQUEST_PATH,
         ChangeRequest.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local ChangeRequest Resource} - update ChangeRequest.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -232,90 +232,90 @@ public class ChangeRequest
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         result = String.format("[%s]: %s (Change Request; id=%s)", this.getShortTitle(), this.getTitle(), this.getIdentifier());
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-    
+
     public void addAffectsPlanItem(final Link affectsPlanItem)
     {
         this.affectsPlanItem.add(affectsPlanItem);
     }
-    
+
     public void addAffectedByDefect(final Link affectedByDefect)
     {
         this.affectedByDefect.add(affectedByDefect);
     }
-    
+
     public void addTracksRequirement(final Link tracksRequirement)
     {
         this.tracksRequirement.add(tracksRequirement);
     }
-    
+
     public void addImplementsRequirement(final Link implementsRequirement)
     {
         this.implementsRequirement.add(implementsRequirement);
     }
-    
+
     public void addAffectsRequirement(final Link affectsRequirement)
     {
         this.affectsRequirement.add(affectsRequirement);
     }
-    
+
     public void addTracksChangeSet(final Link tracksChangeSet)
     {
         this.tracksChangeSet.add(tracksChangeSet);
     }
-    
+
     public void addParent(final Link parent)
     {
         this.parent.add(parent);
     }
-    
+
     public void addPriority(final Link priority)
     {
         this.priority.add(priority);
     }
-    
+
     public void addAuthorizer(final Link authorizer)
     {
         this.authorizer.add(authorizer);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:shortTitle
     // End of user code
     @OslcName("shortTitle")
@@ -330,7 +330,7 @@ public class ChangeRequest
         // End of user code
         return shortTitle;
     }
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -345,7 +345,7 @@ public class ChangeRequest
         // End of user code
         return description;
     }
-    
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -360,7 +360,7 @@ public class ChangeRequest
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -375,7 +375,7 @@ public class ChangeRequest
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:subject
     // End of user code
     @OslcName("subject")
@@ -391,7 +391,7 @@ public class ChangeRequest
         // End of user code
         return subject;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -407,7 +407,7 @@ public class ChangeRequest
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -423,7 +423,7 @@ public class ChangeRequest
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -438,7 +438,7 @@ public class ChangeRequest
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -453,7 +453,7 @@ public class ChangeRequest
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -469,7 +469,7 @@ public class ChangeRequest
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -485,7 +485,7 @@ public class ChangeRequest
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:discussedBy
     // End of user code
     @OslcName("discussedBy")
@@ -501,7 +501,7 @@ public class ChangeRequest
         // End of user code
         return discussedBy;
     }
-    
+
     // Start of user code getterAnnotation:closeDate
     // End of user code
     @OslcName("closeDate")
@@ -516,7 +516,7 @@ public class ChangeRequest
         // End of user code
         return closeDate;
     }
-    
+
     // Start of user code getterAnnotation:status
     // End of user code
     @OslcName("status")
@@ -531,7 +531,7 @@ public class ChangeRequest
         // End of user code
         return status;
     }
-    
+
     // Start of user code getterAnnotation:closed
     // End of user code
     @OslcName("closed")
@@ -546,7 +546,7 @@ public class ChangeRequest
         // End of user code
         return closed;
     }
-    
+
     // Start of user code getterAnnotation:inProgress
     // End of user code
     @OslcName("inProgress")
@@ -561,7 +561,7 @@ public class ChangeRequest
         // End of user code
         return inProgress;
     }
-    
+
     // Start of user code getterAnnotation:fixed
     // End of user code
     @OslcName("fixed")
@@ -576,7 +576,7 @@ public class ChangeRequest
         // End of user code
         return fixed;
     }
-    
+
     // Start of user code getterAnnotation:approved
     // End of user code
     @OslcName("approved")
@@ -591,7 +591,7 @@ public class ChangeRequest
         // End of user code
         return approved;
     }
-    
+
     // Start of user code getterAnnotation:reviewed
     // End of user code
     @OslcName("reviewed")
@@ -606,7 +606,7 @@ public class ChangeRequest
         // End of user code
         return reviewed;
     }
-    
+
     // Start of user code getterAnnotation:verified
     // End of user code
     @OslcName("verified")
@@ -621,7 +621,7 @@ public class ChangeRequest
         // End of user code
         return verified;
     }
-    
+
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
@@ -637,7 +637,7 @@ public class ChangeRequest
         // End of user code
         return relatedChangeRequest;
     }
-    
+
     // Start of user code getterAnnotation:affectsPlanItem
     // End of user code
     @OslcName("affectsPlanItem")
@@ -653,7 +653,7 @@ public class ChangeRequest
         // End of user code
         return affectsPlanItem;
     }
-    
+
     // Start of user code getterAnnotation:affectedByDefect
     // End of user code
     @OslcName("affectedByDefect")
@@ -670,7 +670,7 @@ public class ChangeRequest
         // End of user code
         return affectedByDefect;
     }
-    
+
     // Start of user code getterAnnotation:tracksRequirement
     // End of user code
     @OslcName("tracksRequirement")
@@ -686,7 +686,7 @@ public class ChangeRequest
         // End of user code
         return tracksRequirement;
     }
-    
+
     // Start of user code getterAnnotation:implementsRequirement
     // End of user code
     @OslcName("implementsRequirement")
@@ -703,7 +703,7 @@ public class ChangeRequest
         // End of user code
         return implementsRequirement;
     }
-    
+
     // Start of user code getterAnnotation:affectsRequirement
     // End of user code
     @OslcName("affectsRequirement")
@@ -720,7 +720,7 @@ public class ChangeRequest
         // End of user code
         return affectsRequirement;
     }
-    
+
     // Start of user code getterAnnotation:tracksChangeSet
     // End of user code
     @OslcName("tracksChangeSet")
@@ -737,7 +737,7 @@ public class ChangeRequest
         // End of user code
         return tracksChangeSet;
     }
-    
+
     // Start of user code getterAnnotation:parent
     // End of user code
     @OslcName("parent")
@@ -752,7 +752,7 @@ public class ChangeRequest
         // End of user code
         return parent;
     }
-    
+
     // Start of user code getterAnnotation:priority
     // End of user code
     @OslcName("priority")
@@ -767,7 +767,7 @@ public class ChangeRequest
         // End of user code
         return priority;
     }
-    
+
     // Start of user code getterAnnotation:state
     // End of user code
     @OslcName("state")
@@ -782,7 +782,7 @@ public class ChangeRequest
         // End of user code
         return state;
     }
-    
+
     // Start of user code getterAnnotation:authorizer
     // End of user code
     @OslcName("authorizer")
@@ -797,8 +797,8 @@ public class ChangeRequest
         // End of user code
         return authorizer;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:shortTitle
     // End of user code
     public void setShortTitle(final String shortTitle )
@@ -806,11 +806,11 @@ public class ChangeRequest
         // Start of user code setterInit:shortTitle
         // End of user code
         this.shortTitle = shortTitle;
-    
+
         // Start of user code setterFinalize:shortTitle
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -818,11 +818,11 @@ public class ChangeRequest
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-    
+
         // Start of user code setterFinalize:description
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -830,11 +830,11 @@ public class ChangeRequest
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -842,11 +842,11 @@ public class ChangeRequest
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:subject
     // End of user code
     public void setSubject(final Set<String> subject )
@@ -858,11 +858,11 @@ public class ChangeRequest
         {
             this.subject.addAll(subject);
         }
-    
+
         // Start of user code setterFinalize:subject
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -874,11 +874,11 @@ public class ChangeRequest
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -890,11 +890,11 @@ public class ChangeRequest
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -902,11 +902,11 @@ public class ChangeRequest
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -914,11 +914,11 @@ public class ChangeRequest
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -930,11 +930,11 @@ public class ChangeRequest
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -946,11 +946,11 @@ public class ChangeRequest
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:discussedBy
     // End of user code
     public void setDiscussedBy(final Link discussedBy )
@@ -958,11 +958,11 @@ public class ChangeRequest
         // Start of user code setterInit:discussedBy
         // End of user code
         this.discussedBy = discussedBy;
-    
+
         // Start of user code setterFinalize:discussedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:closeDate
     // End of user code
     public void setCloseDate(final Date closeDate )
@@ -970,11 +970,11 @@ public class ChangeRequest
         // Start of user code setterInit:closeDate
         // End of user code
         this.closeDate = closeDate;
-    
+
         // Start of user code setterFinalize:closeDate
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:status
     // End of user code
     public void setStatus(final String status )
@@ -982,11 +982,11 @@ public class ChangeRequest
         // Start of user code setterInit:status
         // End of user code
         this.status = status;
-    
+
         // Start of user code setterFinalize:status
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:closed
     // End of user code
     public void setClosed(final Boolean closed )
@@ -994,11 +994,11 @@ public class ChangeRequest
         // Start of user code setterInit:closed
         // End of user code
         this.closed = closed;
-    
+
         // Start of user code setterFinalize:closed
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:inProgress
     // End of user code
     public void setInProgress(final Boolean inProgress )
@@ -1006,11 +1006,11 @@ public class ChangeRequest
         // Start of user code setterInit:inProgress
         // End of user code
         this.inProgress = inProgress;
-    
+
         // Start of user code setterFinalize:inProgress
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:fixed
     // End of user code
     public void setFixed(final Boolean fixed )
@@ -1018,11 +1018,11 @@ public class ChangeRequest
         // Start of user code setterInit:fixed
         // End of user code
         this.fixed = fixed;
-    
+
         // Start of user code setterFinalize:fixed
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:approved
     // End of user code
     public void setApproved(final Boolean approved )
@@ -1030,11 +1030,11 @@ public class ChangeRequest
         // Start of user code setterInit:approved
         // End of user code
         this.approved = approved;
-    
+
         // Start of user code setterFinalize:approved
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:reviewed
     // End of user code
     public void setReviewed(final Boolean reviewed )
@@ -1042,11 +1042,11 @@ public class ChangeRequest
         // Start of user code setterInit:reviewed
         // End of user code
         this.reviewed = reviewed;
-    
+
         // Start of user code setterFinalize:reviewed
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:verified
     // End of user code
     public void setVerified(final Boolean verified )
@@ -1054,11 +1054,11 @@ public class ChangeRequest
         // Start of user code setterInit:verified
         // End of user code
         this.verified = verified;
-    
+
         // Start of user code setterFinalize:verified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
     public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
@@ -1070,11 +1070,11 @@ public class ChangeRequest
         {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
-    
+
         // Start of user code setterFinalize:relatedChangeRequest
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:affectsPlanItem
     // End of user code
     public void setAffectsPlanItem(final Set<Link> affectsPlanItem )
@@ -1086,11 +1086,11 @@ public class ChangeRequest
         {
             this.affectsPlanItem.addAll(affectsPlanItem);
         }
-    
+
         // Start of user code setterFinalize:affectsPlanItem
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:affectedByDefect
     // End of user code
     public void setAffectedByDefect(final Set<Link> affectedByDefect )
@@ -1102,11 +1102,11 @@ public class ChangeRequest
         {
             this.affectedByDefect.addAll(affectedByDefect);
         }
-    
+
         // Start of user code setterFinalize:affectedByDefect
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:tracksRequirement
     // End of user code
     public void setTracksRequirement(final Set<Link> tracksRequirement )
@@ -1118,11 +1118,11 @@ public class ChangeRequest
         {
             this.tracksRequirement.addAll(tracksRequirement);
         }
-    
+
         // Start of user code setterFinalize:tracksRequirement
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:implementsRequirement
     // End of user code
     public void setImplementsRequirement(final Set<Link> implementsRequirement )
@@ -1134,11 +1134,11 @@ public class ChangeRequest
         {
             this.implementsRequirement.addAll(implementsRequirement);
         }
-    
+
         // Start of user code setterFinalize:implementsRequirement
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:affectsRequirement
     // End of user code
     public void setAffectsRequirement(final Set<Link> affectsRequirement )
@@ -1150,11 +1150,11 @@ public class ChangeRequest
         {
             this.affectsRequirement.addAll(affectsRequirement);
         }
-    
+
         // Start of user code setterFinalize:affectsRequirement
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:tracksChangeSet
     // End of user code
     public void setTracksChangeSet(final Set<Link> tracksChangeSet )
@@ -1166,11 +1166,11 @@ public class ChangeRequest
         {
             this.tracksChangeSet.addAll(tracksChangeSet);
         }
-    
+
         // Start of user code setterFinalize:tracksChangeSet
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:parent
     // End of user code
     public void setParent(final Set<Link> parent )
@@ -1182,11 +1182,11 @@ public class ChangeRequest
         {
             this.parent.addAll(parent);
         }
-    
+
         // Start of user code setterFinalize:parent
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:priority
     // End of user code
     public void setPriority(final Set<Link> priority )
@@ -1198,11 +1198,11 @@ public class ChangeRequest
         {
             this.priority.addAll(priority);
         }
-    
+
         // Start of user code setterFinalize:priority
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:state
     // End of user code
     public void setState(final Link state )
@@ -1210,11 +1210,11 @@ public class ChangeRequest
         // Start of user code setterInit:state
         // End of user code
         this.state = state;
-    
+
         // Start of user code setterFinalize:state
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:authorizer
     // End of user code
     public void setAuthorizer(final Set<Link> authorizer )
@@ -1226,10 +1226,10 @@ public class ChangeRequest
         {
             this.authorizer.addAll(authorizer);
         }
-    
+
         // Start of user code setterFinalize:authorizer
         // End of user code
     }
-    
-    
+
+
 }

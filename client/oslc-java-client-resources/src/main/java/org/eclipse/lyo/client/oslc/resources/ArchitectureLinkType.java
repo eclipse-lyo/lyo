@@ -42,9 +42,9 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 public class ArchitectureLinkType
 extends AbstractResource
 {
-	private final Set<URI>      contributors                = new TreeSet<URI>();
-    private final Set<URI>      creators                    = new TreeSet<URI>();
-    private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
+	private final Set<URI>      contributors                = new TreeSet<>();
+    private final Set<URI>      creators                    = new TreeSet<>();
+    private final Set<URI>      rdfTypes                    = new TreeSet<>();
 
 
     private Date     created;

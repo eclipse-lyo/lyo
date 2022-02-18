@@ -128,7 +128,7 @@ public class PropertyDefintion {
         TEXT("Text"),
         LINK("Link");
         private final String value;
-        private final static Map<String, PropertyDefintion.RepresentationType> CONSTANTS = new HashMap<String, PropertyDefintion.RepresentationType>();
+        private final static Map<String, PropertyDefintion.RepresentationType> CONSTANTS = new HashMap<>();
 
         static {
             for (PropertyDefintion.RepresentationType c: values()) {

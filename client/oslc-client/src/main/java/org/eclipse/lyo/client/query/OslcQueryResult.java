@@ -230,7 +230,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	 */
 	public String[] getMembersUrls() {
 		initializeRdf();
-		ArrayList<String> membersUrls = new ArrayList<String>();
+		ArrayList<String> membersUrls = new ArrayList<>();
         Selector select = getMemberSelector();
 		StmtIterator iter = rdfModel.listStatements(select);
 		while (iter.hasNext()) {

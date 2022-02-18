@@ -38,7 +38,7 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
 	{
 		super(tree, Type.IN_TERM, prefixMap);
 	}
-	
+
 	/**
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -52,59 +52,59 @@ class InTermInvocationHandler extends SimpleTermInvocationHandler
 	{
 		String methodName = method.getName();
 		boolean isValues = methodName.equals("values");
-		
+
 		if (! isValues &&
 			! methodName.equals("toString")) {
 			return super.invoke(proxy, method, args);
 		}
-		
+
 		if (values == null) {
-			
+
 			Tree currentTree = tree.getChild(1);
-			
-			values = new ArrayList<Value>(currentTree.getChildCount() - 1);
-			
+
+			values = new ArrayList<>(currentTree.getChildCount() - 1);
+
 			for (int index = 0; index < currentTree.getChildCount(); index++) {
-				
+
 				Tree treeValue = currentTree.getChild(index);
-				
+
 				Value value =
 					ComparisonTermInvocationHandler.createValue(
 							treeValue, "unspported literal value type",
 							prefixMap);
-				
+
 				values.add(value);
 			}
-			
+
 			values = Collections.unmodifiableList(values);
 		}
-		
+
 		if (isValues) {
 			return values;
 		}
-		
+
 		StringBuffer buffer = new StringBuffer();
-		
+
 		buffer.append(((InTerm)proxy).property().toString());
 		buffer.append(" in [");
-		
+
 		boolean first = true;
-		
+
 		for (Value value : values) {
-			
+
 			if (first) {
 				first = false;
 			} else {
 				buffer.append(',');
 			}
-			
+
 			buffer.append(value.toString());
 		}
-		
+
 		buffer.append(']');
-		
+
 		return buffer.toString();
 	}
-	
+
 	private List<Value> values = null;
 }

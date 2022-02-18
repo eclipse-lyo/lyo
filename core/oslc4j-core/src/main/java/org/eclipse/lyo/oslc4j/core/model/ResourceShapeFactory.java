@@ -49,7 +49,7 @@ public class ResourceShapeFactory {
 	protected static final int METHOD_NAME_START_GET_LENGTH = METHOD_NAME_START_GET.length();
 	protected static final int METHOD_NAME_START_IS_LENGTH  = METHOD_NAME_START_IS.length();
 
-	protected static final Map<Class<?>, ValueType> CLASS_TO_VALUE_TYPE = new HashMap<Class<?>, ValueType>();
+	protected static final Map<Class<?>, ValueType> CLASS_TO_VALUE_TYPE = new HashMap<>();
 
 	static {
 		// Primitive types
@@ -84,7 +84,7 @@ public class ResourceShapeFactory {
 													final String resourceShapePath,
 													final Class<?> resourceClass)
 		   throws OslcCoreApplicationException, URISyntaxException {
-		final HashSet<Class<?>> verifiedClasses = new HashSet<Class<?>>();
+		final HashSet<Class<?>> verifiedClasses = new HashSet<>();
 		verifiedClasses.add(resourceClass);
 
 		return createResourceShape(baseURI, resourceShapesPath, resourceShapePath, resourceClass, verifiedClasses);
@@ -125,7 +125,7 @@ public class ResourceShapeFactory {
 			resourceShape.addDescribeItem(new URI(describesItem));
 		}
 
-		final Set<String> propertyDefinitions = new HashSet<String>();
+		final Set<String> propertyDefinitions = new HashSet<>();
 
 		for (final Method method : resourceClass.getMethods()) {
 			if (method.getParameterTypes().length == 0) {
@@ -285,7 +285,7 @@ public class ResourceShapeFactory {
 
         validateUserSpecifiedValueType(resourceClass, method, valueType, representation, componentType);
         validateUserSpecifiedRepresentation(resourceClass, method, representation, componentType);
-		if ((ValueType.LocalResource.equals(valueType)) 
+		if ((ValueType.LocalResource.equals(valueType))
 		    || (ValueType.Resource.equals(valueType) && (null != representation) && (Representation.Inline.equals(representation)))) {
 			// If this is a nested class we potentially have not yet verified
 			if (verifiedClasses.add(componentType)) {
@@ -471,7 +471,7 @@ public class ResourceShapeFactory {
 	    // User-specified representation is reference and component is not URI
 		// or
 		// user-specified representation is inline and component is a standard class
-	    
+
 	    if (null == userSpecifiedRepresentation) {
 	        return;
 	    }

@@ -98,22 +98,22 @@ public class TestResult
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:status
     // End of user code
     private String status;
     // Start of user code attributeAnnotation:affectedByChangeRequest
     // End of user code
-    private Set<Link> affectedByChangeRequest = new HashSet<Link>();
+    private Set<Link> affectedByChangeRequest = new HashSet<>();
     // Start of user code attributeAnnotation:executesTestScript
     // End of user code
     private Link executesTestScript;
@@ -126,7 +126,7 @@ public class TestResult
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
     private Link reportsOnTestPlan;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -134,38 +134,38 @@ public class TestResult
     public TestResult()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public TestResult(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTRESULT_PATH,
         TestResult.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local TestResult Resource} - update TestResult.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -174,34 +174,34 @@ public class TestResult
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest)
     {
         this.affectedByChangeRequest.add(affectedByChangeRequest);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -216,7 +216,7 @@ public class TestResult
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -231,7 +231,7 @@ public class TestResult
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -246,7 +246,7 @@ public class TestResult
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -262,7 +262,7 @@ public class TestResult
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -277,7 +277,7 @@ public class TestResult
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:type
     // End of user code
     @OslcName("type")
@@ -292,7 +292,7 @@ public class TestResult
         // End of user code
         return type;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -308,7 +308,7 @@ public class TestResult
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:status
     // End of user code
     @OslcName("status")
@@ -323,7 +323,7 @@ public class TestResult
         // End of user code
         return status;
     }
-    
+
     // Start of user code getterAnnotation:affectedByChangeRequest
     // End of user code
     @OslcName("affectedByChangeRequest")
@@ -340,7 +340,7 @@ public class TestResult
         // End of user code
         return affectedByChangeRequest;
     }
-    
+
     // Start of user code getterAnnotation:executesTestScript
     // End of user code
     @OslcName("executesTestScript")
@@ -357,7 +357,7 @@ public class TestResult
         // End of user code
         return executesTestScript;
     }
-    
+
     // Start of user code getterAnnotation:producedByTestExecutionRecord
     // End of user code
     @OslcName("producedByTestExecutionRecord")
@@ -374,7 +374,7 @@ public class TestResult
         // End of user code
         return producedByTestExecutionRecord;
     }
-    
+
     // Start of user code getterAnnotation:reportsOnTestCase
     // End of user code
     @OslcName("reportsOnTestCase")
@@ -390,7 +390,7 @@ public class TestResult
         // End of user code
         return reportsOnTestCase;
     }
-    
+
     // Start of user code getterAnnotation:reportsOnTestPlan
     // End of user code
     @OslcName("reportsOnTestPlan")
@@ -406,8 +406,8 @@ public class TestResult
         // End of user code
         return reportsOnTestPlan;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -415,11 +415,11 @@ public class TestResult
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -427,11 +427,11 @@ public class TestResult
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -439,11 +439,11 @@ public class TestResult
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -455,11 +455,11 @@ public class TestResult
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -467,11 +467,11 @@ public class TestResult
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:type
     // End of user code
     public void setType(final Set<Link> type )
@@ -483,11 +483,11 @@ public class TestResult
         {
             this.type.addAll(type);
         }
-    
+
         // Start of user code setterFinalize:type
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -499,11 +499,11 @@ public class TestResult
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:status
     // End of user code
     public void setStatus(final String status )
@@ -511,11 +511,11 @@ public class TestResult
         // Start of user code setterInit:status
         // End of user code
         this.status = status;
-    
+
         // Start of user code setterFinalize:status
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:affectedByChangeRequest
     // End of user code
     public void setAffectedByChangeRequest(final Set<Link> affectedByChangeRequest )
@@ -527,11 +527,11 @@ public class TestResult
         {
             this.affectedByChangeRequest.addAll(affectedByChangeRequest);
         }
-    
+
         // Start of user code setterFinalize:affectedByChangeRequest
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:executesTestScript
     // End of user code
     public void setExecutesTestScript(final Link executesTestScript )
@@ -539,11 +539,11 @@ public class TestResult
         // Start of user code setterInit:executesTestScript
         // End of user code
         this.executesTestScript = executesTestScript;
-    
+
         // Start of user code setterFinalize:executesTestScript
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:producedByTestExecutionRecord
     // End of user code
     public void setProducedByTestExecutionRecord(final Link producedByTestExecutionRecord )
@@ -551,11 +551,11 @@ public class TestResult
         // Start of user code setterInit:producedByTestExecutionRecord
         // End of user code
         this.producedByTestExecutionRecord = producedByTestExecutionRecord;
-    
+
         // Start of user code setterFinalize:producedByTestExecutionRecord
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:reportsOnTestCase
     // End of user code
     public void setReportsOnTestCase(final Link reportsOnTestCase )
@@ -563,11 +563,11 @@ public class TestResult
         // Start of user code setterInit:reportsOnTestCase
         // End of user code
         this.reportsOnTestCase = reportsOnTestCase;
-    
+
         // Start of user code setterFinalize:reportsOnTestCase
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:reportsOnTestPlan
     // End of user code
     public void setReportsOnTestPlan(final Link reportsOnTestPlan )
@@ -575,10 +575,10 @@ public class TestResult
         // Start of user code setterInit:reportsOnTestPlan
         // End of user code
         this.reportsOnTestPlan = reportsOnTestPlan;
-    
+
         // Start of user code setterFinalize:reportsOnTestPlan
         // End of user code
     }
-    
-    
+
+
 }

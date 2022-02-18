@@ -92,7 +92,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public URI getAllowedValuesRef() {
 		return allowedValuesRef;
 	}
-	
+
 	public Object getDefaultValueObject() {
 		return getExtendedProperties().get(PROPERTY_DEFAULT_VALUE);
 	}
@@ -351,7 +351,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public void setValueType(final ValueType valueType) {
 		this.valueType = valueType;
 	}
-	
+
 	public void setValueType(final URI valueType) {
 		if (valueType != null) {
 			this.valueType = ValueType.fromString(valueType.toString());
@@ -359,16 +359,16 @@ public final class Property extends AbstractResource implements Comparable<Prope
 			this.valueType = null;
 		}
 	}
-	
+
 	public Collection<?> getAllowedValuesCollection() {
 		Collection<?> allowedValues = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (allowedValues == null) {
 			return Collections.emptyList();
 		}
-		
+
 		return allowedValues;
 	}
-	
+
 	public void setAllowedValuesCollection(final Collection<?> values) {
 		if (values == null) {
 			getExtendedProperties().remove(PROPERTY_ALLOWED_VALUE);
@@ -388,7 +388,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		if (allowedValues != null) {
 			newValues.addAll(allowedValues);
 		}
-		
+
 		newValues.add(allowedValue);
 		setAllowedValuesCollection(newValues);
 	}
@@ -399,7 +399,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	@Deprecated
 	public String[] getAllowedValues() {
 		// Be compatible with the old behavior and only include String values.
-		ArrayList<String> stringValues = new ArrayList<String>();
+		ArrayList<String> stringValues = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		Collection<Object> values = (Collection<Object>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
 		if (values == null) {
@@ -422,5 +422,5 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	public void setAllowedValues(final String[] allowedValues) {
 		getExtendedProperties().put(PROPERTY_ALLOWED_VALUE, allowedValues);
 	}
-	
+
 }

@@ -44,26 +44,26 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public class ChangeRequest
        extends AbstractResource
 {
-    private final Set<Link>     affectedByDefects           = new HashSet<Link>();
-    private final Set<Link>     affectsPlanItems            = new HashSet<Link>();
-    private final Set<Link>     affectsRequirements         = new HashSet<Link>();
-    private final Set<Link>     affectsTestResults          = new HashSet<Link>();
-    private final Set<Link>     blocksTestExecutionRecords  = new HashSet<Link>();
-    private final Set<URI>      contributors                = new TreeSet<URI>();
-    private final Set<URI>      creators                    = new TreeSet<URI>();
-    private final Set<String>   dctermsTypes                = new TreeSet<String>();
-    private final Set<Link>     implementsRequirements      = new HashSet<Link>();
-    private final Set<Link>     relatedChangeRequests       = new HashSet<Link>();
-    private final Set<Link>     relatedResources            = new HashSet<Link>(); // TODO - Extension to point to any other OSLC resource(s).
-    private final Set<Link>     relatedTestCases            = new HashSet<Link>();
-    private final Set<Link>     relatedTestExecutionRecords = new HashSet<Link>();
-    private final Set<Link>     relatedTestPlans            = new HashSet<Link>();
-    private final Set<Link>     relatedTestScripts          = new HashSet<Link>();
-    private final Set<String>   subjects                    = new TreeSet<String>();
-    private final Set<Link>     testedByTestCases           = new HashSet<Link>();
-    private final Set<Link>     tracksChangeSets            = new HashSet<Link>();
-    private final Set<Link>     tracksRequirements          = new HashSet<Link>();
-    private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
+    private final Set<Link>     affectedByDefects           = new HashSet<>();
+    private final Set<Link>     affectsPlanItems            = new HashSet<>();
+    private final Set<Link>     affectsRequirements         = new HashSet<>();
+    private final Set<Link>     affectsTestResults          = new HashSet<>();
+    private final Set<Link>     blocksTestExecutionRecords  = new HashSet<>();
+    private final Set<URI>      contributors                = new TreeSet<>();
+    private final Set<URI>      creators                    = new TreeSet<>();
+    private final Set<String>   dctermsTypes                = new TreeSet<>();
+    private final Set<Link>     implementsRequirements      = new HashSet<>();
+    private final Set<Link>     relatedChangeRequests       = new HashSet<>();
+    private final Set<Link>     relatedResources            = new HashSet<>(); // TODO - Extension to point to any other OSLC resource(s).
+    private final Set<Link>     relatedTestCases            = new HashSet<>();
+    private final Set<Link>     relatedTestExecutionRecords = new HashSet<>();
+    private final Set<Link>     relatedTestPlans            = new HashSet<>();
+    private final Set<Link>     relatedTestScripts          = new HashSet<>();
+    private final Set<String>   subjects                    = new TreeSet<>();
+    private final Set<Link>     testedByTestCases           = new HashSet<>();
+    private final Set<Link>     tracksChangeSets            = new HashSet<>();
+    private final Set<Link>     tracksRequirements          = new HashSet<>();
+    private final Set<URI>      rdfTypes                    = new TreeSet<>();
 
     private Boolean  approved;
     private Boolean  closed;

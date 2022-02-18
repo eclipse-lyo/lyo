@@ -526,7 +526,7 @@ public class SparqlStoreImpl implements Store {
         SelectBuilder distinctResourcesQuery = new SelectBuilder();
 
         //Setup prefixes
-        Map<String, String> prefixesMap = new HashMap<String, String>();
+        Map<String, String> prefixesMap = new HashMap<>();
         try {
             if (!StringUtils.isEmpty(prefixes)) {
                 prefixesMap = QueryUtils.parsePrefixes(prefixes);

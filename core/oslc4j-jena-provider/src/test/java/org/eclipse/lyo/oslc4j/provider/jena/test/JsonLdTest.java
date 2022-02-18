@@ -107,7 +107,7 @@ public class JsonLdTest {
         sp.setDescription("Hello world");
         final Collection<ServiceProvider> objects = ImmutableList.of(sp);
         provider.writeTo(
-                new ArrayList<Object>(objects),
+            new ArrayList<>(objects),
                 objects.getClass(),
                 objects.getClass().getGenericSuperclass(),
                 ServiceProvider.class.getAnnotations(),

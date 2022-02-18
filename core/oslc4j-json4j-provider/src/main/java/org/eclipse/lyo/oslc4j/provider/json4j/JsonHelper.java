@@ -162,8 +162,8 @@ public final class JsonHelper
 	{
 		final JSONObject resultJSONObject = new JSONObject();
 
-		final Map<String, String> namespaceMappings		   = new TreeMap<String, String>();
-		final Map<String, String> reverseNamespaceMappings = new HashMap<String, String>();
+		final Map<String, String> namespaceMappings		   = new TreeMap<>();
+		final Map<String, String> reverseNamespaceMappings = new HashMap<>();
 
 		// Add all global namespace mappings, since they have lower precedence
 		Map<String, String> globalPrefixDefinitionMap = OslcGlobalNamespaceProvider.getInstance().getPrefixDefinitionMap();
@@ -178,7 +178,7 @@ public final class JsonHelper
 
 			for (final Object object : objects)
 			{
-				HashMap<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+				HashMap<Object,JSONObject> visitedObjects = new HashMap<>();
 				final JSONObject jsonObject = handleSingleResource(object,
 																   new JSONObject(),
 																   namespaceMappings,
@@ -223,7 +223,7 @@ public final class JsonHelper
 				resultJSONObject.put(rdfPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_TYPE,
 								 containerTypesJSONArray);
 
-				Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+				Map<Object,JSONObject> visitedObjects = new HashMap<>();
 				addExtendedProperties(namespaceMappings,
 									  reverseNamespaceMappings,
 									  resultJSONObject,
@@ -280,7 +280,7 @@ public final class JsonHelper
 					resultJSONObject.put(oslcPrefix + JSON_PROPERTY_DELIMITER + JSON_PROPERTY_SUFFIX_RESPONSE_INFO,
 										responseInfoJSONObject);
 
-					Map<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+					Map<Object,JSONObject> visitedObjects = new HashMap<>();
 					addExtendedProperties(namespaceMappings,
 										  reverseNamespaceMappings,
 										  responseInfoJSONObject,
@@ -292,7 +292,7 @@ public final class JsonHelper
 		}
 		else if (objects.length == 1)
 		{
-			HashMap<Object,JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+			HashMap<Object,JSONObject> visitedObjects = new HashMap<>();
 			handleSingleResource(objects[0],
 								 resultJSONObject,
 								 namespaceMappings,
@@ -328,9 +328,9 @@ public final class JsonHelper
 				  OslcCoreApplicationException,
 				  URISyntaxException
 	{
-		final List<Object>		  beans					   = new ArrayList<Object>();
-		final Map<String, String> namespaceMappings		   = new HashMap<String, String>();
-		final Map<String, String> reverseNamespaceMappings = new HashMap<String, String>();
+		final List<Object>		  beans					   = new ArrayList<>();
+		final Map<String, String> namespaceMappings		   = new HashMap<>();
+		final Map<String, String> reverseNamespaceMappings = new HashMap<>();
 
 		// First read the prefixes and set up maps so we can create full property definition values later
 		final Object prefixes = jsonObject.opt(JSON_PROPERTY_PREFIXES);
@@ -365,7 +365,7 @@ public final class JsonHelper
 			throw new OslcCoreMissingNamespaceDeclarationException(OslcConstants.RDF_NAMESPACE);
 		}
 
-		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<Class<?>, Map<String, Method>>();
+		final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
 
 		JSONArray jsonArray = null;
 
@@ -415,7 +415,7 @@ public final class JsonHelper
 					else
 					{
 						final Object bean = beanClass.newInstance();
-						HashSet<String> rdfTypes = new HashSet<String>();
+						HashSet<String> rdfTypes = new HashSet<>();
 
 						fromJSON(rdfPrefix,
 								 namespaceMappings,
@@ -433,7 +433,7 @@ public final class JsonHelper
 		else
 		{
 			final Object bean = beanClass.newInstance();
-			HashSet<String> rdfTypes = new HashSet<String>();
+			HashSet<String> rdfTypes = new HashSet<>();
 
 			fromJSON(rdfPrefix,
 					 namespaceMappings,
@@ -1189,7 +1189,7 @@ public final class JsonHelper
 										 nestedProperties);
 		}
 
-		Map<Object, JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+		Map<Object, JSONObject> visitedObjects = new HashMap<>();
 		return handleSingleResource(object,
 									new JSONObject(),
 									namespaceMappings,
@@ -1237,7 +1237,7 @@ public final class JsonHelper
 															  (URI) value);
 
 		// Add any reified statements.
-		Map<Object, JSONObject> visitedObjects = new HashMap<Object,JSONObject>();
+		Map<Object, JSONObject> visitedObjects = new HashMap<>();
 		buildResourceAttributes(namespaceMappings,
 								reverseNamespaceMappings,
 								reifiedResource,
@@ -1589,7 +1589,7 @@ public final class JsonHelper
 		if (bean instanceof IExtendedResource)
 		{
 			extendedResource = (IExtendedResource) bean;
-			extendedProperties = new HashMap<QName, Object>();
+			extendedProperties = new HashMap<>();
 			extendedResource.setExtendedProperties(extendedProperties);
 		}
 		else
@@ -1747,7 +1747,7 @@ public final class JsonHelper
 		if (jsonValue instanceof JSONArray)
 		{
 			final JSONArray jsonArray = (JSONArray) jsonValue;
-			final ArrayList<Object> collection = new ArrayList<Object>();
+			final ArrayList<Object> collection = new ArrayList<>();
 			final Iterator<?> i = jsonArray.iterator();
 			while (i.hasNext())
 			{
@@ -1779,7 +1779,7 @@ public final class JsonHelper
 			final AbstractResource any = new AnyResource();
 			fromJSON(rdfPrefix,
 					 jsonNamespaceMappings,
-					 new HashMap<Class<?>, Map<String, Method>>(),
+                new HashMap<>(),
 					 o,
 					 AnyResource.class,
 					 any,
@@ -2028,7 +2028,7 @@ public final class JsonHelper
 
 			if (isRdfContainerNode && container == null)
 			{
-				jsonArray = new ArrayList<Object>();
+				jsonArray = new ArrayList<>();
 
 				JSONObject listNode = (JSONObject) jsonValue;
 				while (listNode != null
@@ -2058,7 +2058,7 @@ public final class JsonHelper
 				jsonArray = array;
 			}
 
-			final ArrayList<Object> tempList = new ArrayList<Object>();
+			final ArrayList<Object> tempList = new ArrayList<>();
 
 			for (final Object jsonArrayEntryObject : jsonArray)
 			{
@@ -2110,20 +2110,20 @@ public final class JsonHelper
 				(AbstractList.class			  == setMethodParameterClass) ||
 				(AbstractSequentialList.class == setMethodParameterClass))
 			{
-				collection = new LinkedList<Object>();
+				collection = new LinkedList<>();
 			}
 			// Handle the Set interface
 			// Handle the AbstractSet class
 			else if ((Set.class			 == setMethodParameterClass) ||
 					 (AbstractSet.class	 == setMethodParameterClass))
 			{
-				collection = new HashSet<Object>();
+				collection = new HashSet<>();
 			}
 			// Handle the SortedSet and NavigableSet interfaces
 			else if ((SortedSet.class	 == setMethodParameterClass) ||
 					 (NavigableSet.class == setMethodParameterClass))
 			{
-				collection = new TreeSet<Object>();
+				collection = new TreeSet<>();
 			}
 			// Not handled above. Let's try newInstance with possible failure.
 			else
@@ -2287,7 +2287,7 @@ public final class JsonHelper
 	private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
 			throws OslcCoreApplicationException
 	{
-		final Map<String, Method> result = new HashMap<String, Method>();
+		final Map<String, Method> result = new HashMap<>();
 		final Method[] methods = beanClass.getMethods();
 		for (final Method method : methods)
 		{
