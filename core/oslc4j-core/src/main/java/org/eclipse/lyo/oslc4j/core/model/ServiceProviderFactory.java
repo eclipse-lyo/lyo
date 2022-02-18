@@ -44,7 +44,7 @@ public final class ServiceProviderFactory {
 	public static ServiceProvider createServiceProvider(final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses) throws OslcCoreApplicationException, URISyntaxException {
 		return initServiceProvider(new ServiceProvider(), baseURI, genericBaseURI, title, description, publisher, resourceClasses, null);
 	}
-	
+
 	public static ServiceProvider createServiceProvider(final String baseURI, final String genericBaseURI, final String title, final String description, final Publisher publisher, final Class<?>[] resourceClasses, final Map<String,Object> pathParameterValues) throws OslcCoreApplicationException, URISyntaxException {
 		return initServiceProvider(new ServiceProvider(), baseURI, genericBaseURI, title, description, publisher, resourceClasses, pathParameterValues);
 	}
@@ -54,7 +54,7 @@ public final class ServiceProviderFactory {
 		serviceProvider.setDescription(description);
 		serviceProvider.setPublisher(publisher);
 
-		final Map<String, Service> serviceMap = new HashMap<String, Service>();
+		final Map<String, Service> serviceMap = new HashMap<>();
 
 		for (final Class<?> resourceClass : resourceClasses) {
 			final OslcService serviceAnnotation = resourceClass.getAnnotation(OslcService.class);

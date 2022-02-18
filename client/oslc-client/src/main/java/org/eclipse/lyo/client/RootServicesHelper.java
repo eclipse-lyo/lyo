@@ -275,7 +275,7 @@ public class RootServicesHelper {
             throw new IllegalStateException("Server returned something else than JSON in the response");
         }
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> jsonData = new HashMap<String, Object>();
+        Map<String, Object> jsonData = new HashMap<>();
         jsonData = mapper.readValue(content, Map.class);
         String consumerKey = (String) jsonData.get("key");
         logger.debug("Consumer should redirect user to this approval URL, to approve the OAuth consumer: " + getConsumerApprovalUrl(consumerKey));

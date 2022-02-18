@@ -49,9 +49,9 @@ import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 /**
  * <h3>Overview</h3>
  * Purpose: Provide a JEE Servlet filter base implementation for accepting
- * both HTTP basic and OAuth provider authentication, connecting your tool using the 
+ * both HTTP basic and OAuth provider authentication, connecting your tool using the
  * credentials, and managing the connections.
- * 
+ *
  * <p>With this credentitals filter:<ul>
  * <li>Your Webapp can accepts HTTP Basic authentication
  * <li>Your Webapp can works as an OAuth provider
@@ -64,12 +64,12 @@ import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
  * authenticate the credentials and building connection to your back-end tool.
  * Concrete types of the credentials and the connection can be specified as type
  * parameters of this class.
- * 
+ *
  * <p>While processing a request, the credentials and the connection are available
  * as attributes of the request. Your subsequent process such as {@link HttpServlet#service(ServletRequest, ServletResponse)}
  * can extract and use them for accessing your tool. You can use {@link #getConnector(HttpServletRequest)}
  * and {@link #getCredentials(HttpServletRequest)} to retrieve them from the request.
- * 
+ *
  * <h3>Usage</h3>
  * <p>You have to subclass this class and give implementations for the following methods:
  * <ul>
@@ -92,24 +92,24 @@ import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
  *    &lt;url-pattern&gt;/services/*&lt;/url-pattern&gt;
  *  &lt;/filter-mapping&gt;
  * </pre>
- * 
+ *
  * @param <Connection> Type for connection object to your tool
  * @param <Credentials> Type for credentials for your tool. (e.g. UsernamePasswordCredentials)
  */
 abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> implements Filter {
-	
+
 	private static final String ATTRIBUTE_BASE = "org.eclipse.lyo.server.oauth.core.utils.";
 	public static final String CONNECTOR_ATTRIBUTE = ATTRIBUTE_BASE + "Connector";
 	public static final String CREDENTIALS_ATTRIBUTE = ATTRIBUTE_BASE + "Credentials";
 	public static final String ADMIN_SESSION_ATTRIBUTE = ATTRIBUTE_BASE + "AdminSession";
 	public static final String JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM = "invalid_expired_token";
 	public static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
-    
-    private final LRUCache<String, Connection> tokenToConnectionCache = new LRUCache<String, Connection>(200);
-    
+
+    private final LRUCache<String, Connection> tokenToConnectionCache = new LRUCache<>(200);
+
     final private String displayName;
     final private String realm;
-    
+
     /**
      * Constructor
      * @param displayName application name displayed on the login prompt
@@ -119,7 +119,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     	this.displayName = displayName;
     	this.realm = realm;
     }
-    
+
     /**
      * Extract credentials from the request and return it.
      * @param request {@link HttpServletRequest}
@@ -130,7 +130,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 
     /**
      * Create a Credentials object from given user id and password.
-     * 
+     *
      * <p>For OAuth two-legged request, the <code>id</code> is set to {@link #OAUTH_EMPTY_TOKEN_KEY}
      * object. Implementor can compare the value using <code>==</code> to identify the request.
      * In the request the consumer key is set to the <code>password</code>. So you might find a functional
@@ -150,7 +150,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
      * @throws ServletException other exceptional situation
      */
     abstract protected Connection login(Credentials crdentials, HttpServletRequest request) throws UnauthorizedException, ServletException;
-    
+
     /**
      * Logout
      * @param loginSession
@@ -159,7 +159,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     protected void logout(Connection loginSession, HttpSession session) {
     	// do nothing by default
     }
-    
+
     /**
      * Tell if this is an admin session. For admin session, Lyo provides user-interface to
      * accept provisional authentication key.
@@ -169,7 +169,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
      * @return
      */
     abstract protected boolean isAdminSession(String id, Connection session, HttpServletRequest request);
-    
+
     /**
      * Invoked from this class to create {@link ConsumerStore} for OAuth keys.
      * Typical implementation can be:
@@ -179,25 +179,25 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
      * @throws Exception
      */
     abstract protected ConsumerStore createConsumerStore() throws Exception;
-    
+
     /**
      * get Connector assigned to this request
-     * 
+     *
      * The connector should be placed in the session by the CredentialsFilter servlet filter
-     * 
+     *
      * @param request
-     * @return connector 
+     * @return connector
      */
-	public static <T> T getConnector(HttpServletRequest request) 
-	{	
+	public static <T> T getConnector(HttpServletRequest request)
+	{
 		//connector should never be null if CredentialsFilter is doing its job
 		@SuppressWarnings("unchecked")
-		T connector = (T) request.getAttribute(CONNECTOR_ATTRIBUTE);	
+		T connector = (T) request.getAttribute(CONNECTOR_ATTRIBUTE);
 		return connector;
 	}
-	
+
 	/**
-	 * Get Credentials for this session 
+	 * Get Credentials for this session
 	 * @param request
 	 * @return credentials
 	 */
@@ -207,41 +207,41 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 		T credentials = (T) request.getSession().getAttribute(CREDENTIALS_ATTRIBUTE);
 		return credentials;
 	}
-	
+
     protected String getOAuthRealm() {
     	return realm;
     }
 	protected String getDisplayName() {
 		return displayName;
 	}
-	
+
 
     @Override
     public void destroy() {
-    	
+
     }
-		
+
 	/**
 	 * Check for OAuth or BasicAuth credentials and challenge if not found.
-	 * 
+	 *
 	 * Store the Connector in the HttpSession for retrieval in the REST services.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 			FilterChain chain) throws IOException, ServletException {
-		
+
 		if(servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) servletRequest;
 			HttpServletResponse response = (HttpServletResponse) servletResponse;
-		
+
 			boolean isTwoLeggedOAuthRequest = false;
 			String twoLeggedOAuthConsumerKey = null;
-			
+
 			//Don't protect requests to oauth service.   TODO: possibly do this in web.xml
 			if (! request.getPathInfo().startsWith("/oauth"))
 			{
-			
+
 				// First check if this is an OAuth request.
 				try {
 					try {
@@ -252,7 +252,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 							isTwoLeggedOAuthRequest = true;
 							twoLeggedOAuthConsumerKey = message.getConsumerKey();
 						}
-						
+
 						if (!isTwoLeggedOAuthRequest && message.getToken() != null) {
 							OAuthRequest oAuthRequest = new OAuthRequest(request);
 							oAuthRequest.validate();
@@ -261,7 +261,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 								throw new OAuthProblemException(
 										OAuth.Problems.TOKEN_REJECTED);
 							}
-			
+
 							request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						}
 					} catch (OAuthProblemException e) {
@@ -276,7 +276,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 				} catch (URISyntaxException e) {
 					throw new ServletException(e);
 				}
-				
+
 				// Check for Basic authentication if this is not an OAuth request
 				HttpSession session = request.getSession();
 				Connection connector = (Connection) session.getAttribute(CONNECTOR_ATTRIBUTE);
@@ -304,7 +304,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 						}
 						session.setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						session.setAttribute(CREDENTIALS_ATTRIBUTE, credentials);
-				
+
 					} catch (UnauthorizedException e)
 					{
 						sendUnauthorizedResponse(response, e);
@@ -315,26 +315,26 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 						throw ce;
 					}
 				}
-				
+
 				if (connector != null) {
 					doChainDoFilterWithConnector(request, response, chain, connector);
 					return;
 				}
-				
+
 			}
 		}
-		
+
 		chain.doFilter(servletRequest, servletResponse);
 	}
-	
+
 	/**
 	 * The default implementation is:
 	 * <pre>
 	 * request.setAttribute(CONNECTOR_ATTRIBUTE, connector);
 	 * chain.doFilter(request, response);</pre>
-	 * 
+	 *
 	 * Subclass may invoke the <code>chain.doFilter()</code> directly instead of invoking super method.
-	 * 
+	 *
 	 * @param request {@link HttpServletRequest}
 	 * @param response {@link HttpServletResponse}
 	 * @param chain {@link FilterChain}
@@ -365,7 +365,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					OAuth.Problems.TOKEN_REJECTED);
 		}
 	}
-	
+
 	private HttpSessionListener listener = new HttpSessionListener() {
 		@Override
 		public void sessionDestroyed(HttpSessionEvent se) {
@@ -374,17 +374,17 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			Connection loginSession = (Connection) session.getAttribute(CONNECTOR_ATTRIBUTE);
 			logout(loginSession, session);
 		}
-		
+
 		@Override
 		public void sessionCreated(HttpSessionEvent se) {
 			// nothing
 		}
 	};
-	
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		OAuthConfiguration config = OAuthConfiguration.getInstance();
-		
+
 		// Add session listener
 		filterConfig.getServletContext().addListener(listener);
 
@@ -396,10 +396,10 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 				try {
 					Credentials creds = getCredentialsForOAuth(id, password);
 					request.getSession().setAttribute(CREDENTIALS_ATTRIBUTE, creds);
-					
+
 					Connection c = AbstractAdapterCredentialsFilter.this.login(creds, request);
 					request.setAttribute(CONNECTOR_ATTRIBUTE, c);
-					
+
 					boolean isAdmin = AbstractAdapterCredentialsFilter.this.isAdminSession(id, c, request);
 					request.getSession().setAttribute(ADMIN_SESSION_ATTRIBUTE, isAdmin);
 				} catch (Exception e) {
@@ -472,13 +472,13 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			System.err.println("Error initializing the OAuth consumer store: " +  t.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Jazz requires a exception with the magic string "invalid_expired_token" to restart
 	 * OAuth authentication
 	 * @param e
 	 * @return
-	 * @throws OAuthProblemException 
+	 * @throws OAuthProblemException
 	 */
 	private void throwInvalidExpiredException(OAuthProblemException e) throws OAuthProblemException {
 		OAuthProblemException ope = new OAuthProblemException(JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM);
@@ -486,7 +486,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 				HttpServletResponse.SC_UNAUTHORIZED));
 		throw ope;
 	}
-	
+
 	private void sendUnauthorizedResponse(HttpServletResponse response,
 			UnauthorizedException e) throws IOException, ServletException {
 		// Accept basic access or OAuth authentication.

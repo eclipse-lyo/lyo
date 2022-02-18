@@ -38,16 +38,16 @@ public class PreviewFactory {
     public static Preview getPreview(final AbstractResource aResource, List<String> getterMethodNames,
                                      boolean showPropertyHeadingsAsLinks) throws IllegalAccessException,
         IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-        ArrayList<Property> previewItems = new ArrayList<Property>();
+        ArrayList<Property> previewItems = new ArrayList<>();
         Method getterMethod;
         for (String getterMethodName : getterMethodNames) {
             getterMethod = aResource.getClass().getMethod(getterMethodName);
             boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) ||
                 getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-            final boolean isResourceValueType = (null != getterMethod.getAnnotation(OslcValueType.class)) 
+            final boolean isResourceValueType = (null != getterMethod.getAnnotation(OslcValueType.class))
                     && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
-            final boolean isNotInlinedRepresentation = (null == getterMethod.getAnnotation(OslcRepresentation.class)) 
-                    || ((null != getterMethod.getAnnotation(OslcRepresentation.class)) 
+            final boolean isNotInlinedRepresentation = (null == getterMethod.getAnnotation(OslcRepresentation.class))
+                    || ((null != getterMethod.getAnnotation(OslcRepresentation.class))
                             && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)));
             boolean showPropertyValueAsLink = isResourceValueType && isNotInlinedRepresentation;
             PropertyDefintion key;

@@ -14,25 +14,25 @@ public class PagedTrsFactory {
             final String baseRelativePath, final String changeLogRelativePath, final Collection<URI> baseResourceUris) {
 		InmemPagedTrs pagedTrs = new InmemPagedTrs(basePageLimit, changelogPageLimit, uriBase, baseRelativePath, changeLogRelativePath, baseResourceUris);
         return pagedTrs;
-		
+
 	}
 
 	public InmemPagedTrs getInmemPagedTrs (final int basePageLimit, final int changelogPageLimit, final Collection<URI> baseResourceUris) {
 		return getInmemPagedTrs(basePageLimit, changelogPageLimit,
-            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(), 
+            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(),
             TrackedResourceSetService.BASE_PATH, TrackedResourceSetService.CHANGELOG_PATH, baseResourceUris);
 	}
 
 	public InmemPagedTrs getInmemPagedTrs (final int basePageLimit, final int changelogPageLimit) {
 		return getInmemPagedTrs(basePageLimit, changelogPageLimit,
-            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(), 
-            TrackedResourceSetService.BASE_PATH, TrackedResourceSetService.CHANGELOG_PATH, new ArrayList<URI>());
+            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(),
+            TrackedResourceSetService.BASE_PATH, TrackedResourceSetService.CHANGELOG_PATH, new ArrayList<>());
 	}
 
 	public InmemPagedTrs getInmemPagedTrs () {
 		return getInmemPagedTrs(50, 50,
-            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(), 
-            TrackedResourceSetService.BASE_PATH, TrackedResourceSetService.CHANGELOG_PATH, new ArrayList<URI>());
+            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(TrackedResourceSetService.RESOURCE_PATH).build(),
+            TrackedResourceSetService.BASE_PATH, TrackedResourceSetService.CHANGELOG_PATH, new ArrayList<>());
 	}
 
 }

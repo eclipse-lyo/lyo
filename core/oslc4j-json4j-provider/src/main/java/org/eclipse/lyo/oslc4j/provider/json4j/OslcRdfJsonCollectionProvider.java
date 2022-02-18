@@ -195,20 +195,20 @@ public class OslcRdfJsonCollectionProvider
 						(AbstractList.class.equals(type)) ||
 						(AbstractSequentialList.class.equals(type)))
 					{
-						collection = new LinkedList<Object>();
+						collection = new LinkedList<>();
 					}
 					// Handle the Set interface
 					// Handle the AbstractSet class
 					else if ((Set.class.equals(type)) ||
 							 (AbstractSet.class.equals(type)))
 					{
-						collection = new HashSet<Object>();
+						collection = new HashSet<>();
 					}
 					// Handle the SortedSet and NavigableSet interfaces
 					else if ((SortedSet.class.equals(type)) ||
 							 (NavigableSet.class.equals(type)))
 					{
-						collection = new TreeSet<Object>();
+						collection = new TreeSet<>();
 					}
 					// Not handled above.  Let's try newInstance with possible failure.
 					else

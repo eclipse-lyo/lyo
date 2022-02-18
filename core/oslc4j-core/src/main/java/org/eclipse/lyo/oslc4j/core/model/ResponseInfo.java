@@ -33,12 +33,12 @@ public abstract class ResponseInfo<T extends Object>
 	)
 	{
 		super(resource, properties);
-		
+
 		this.totalCount = totalCount;
 		this.nextPage = nextPage;
-		this.container = new FilteredResource<T>(resource, properties);
+		this.container = new FilteredResource<>(resource, properties);
 	}
-	
+
 	public
 	ResponseInfo(
 		T resource,
@@ -49,19 +49,19 @@ public abstract class ResponseInfo<T extends Object>
 	{
 		this(resource, properties, totalCount,
 			 nextPage == null ? null : nextPage.toString());
-		this.container = new FilteredResource<T>(resource, properties);
+		this.container = new FilteredResource<>(resource, properties);
 	}
-	
+
 	public Integer
 	totalCount() { return totalCount; }
-	
+
 	public String
 	nextPage() { return nextPage; }
-	
+
 	private final Integer totalCount;
 	private final String nextPage;
 	private FilteredResource<T> container;
-	
+
 	public FilteredResource<T> getContainer() {
 		return container;
 	}

@@ -18,7 +18,7 @@ import java.util.Set;
 
 public final class JenaSimpleProvidersRegistry
 {
-	private static final Set<Class<?>> PROVIDERS = new HashSet<Class<?>>();
+	private static final Set<Class<?>> PROVIDERS = new HashSet<>();
 
 	static
 	{
@@ -38,6 +38,6 @@ public final class JenaSimpleProvidersRegistry
 	 */
 	public static final Set<Class<?>> getProviders()
 	{
-		return new HashSet<Class<?>>(PROVIDERS);
+		return new HashSet<>(PROVIDERS);
 	}
 }

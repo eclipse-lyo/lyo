@@ -57,8 +57,8 @@ public class ValidationReport
     private Boolean conforms;
     // Start of user code attributeAnnotation:result
     // End of user code
-    private HashSet<ValidationResult> result = new HashSet<ValidationResult>();
-    
+    private HashSet<ValidationResult> result = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -67,35 +67,35 @@ public class ValidationReport
            throws URISyntaxException
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public ValidationReport(final URI about)
            throws URISyntaxException
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    
+
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         ShDomainConstants.VALIDATIONREPORT_PATH,
         ValidationReport.class);
     }
-    
-    
+
+
     public void addResult(final ValidationResult result)
     {
         this.result.add(result);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:conforms
     // End of user code
     @OslcName("conforms")
@@ -109,7 +109,7 @@ public class ValidationReport
         // End of user code
         return conforms;
     }
-    
+
     // Start of user code getterAnnotation:result
     // End of user code
     @OslcName("result")
@@ -124,8 +124,8 @@ public class ValidationReport
         // End of user code
         return result;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:conforms
     // End of user code
     public void setConforms(final Boolean conforms )
@@ -133,11 +133,11 @@ public class ValidationReport
         // Start of user code setterInit:conforms
         // End of user code
         this.conforms = conforms;
-    
+
         // Start of user code setterFinalize:conforms
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:result
     // End of user code
     public void setResult(final HashSet<ValidationResult> result )
@@ -149,7 +149,7 @@ public class ValidationReport
         {
             this.result.addAll(result);
         }
-    
+
         // Start of user code setterFinalize:result
         // End of user code
     }

@@ -32,7 +32,7 @@ public class StorePool {
 
     public StorePool (int poolSize, URI defaultNamedGraphUri, URI sparqlQueryEndpoint, URI sparqlUpdateEndpoint, String userName, String password) {
         this.defaultNamedGraphUri = defaultNamedGraphUri;
-        this.storePool = new ArrayBlockingQueue<Store>(poolSize);
+        this.storePool = new ArrayBlockingQueue<>(poolSize);
         for (int i = 0; i < poolSize; i++) {
             Store s = null;
             if( userName != null && password != null ){
@@ -57,7 +57,7 @@ public class StorePool {
             return null;
         }
     }
-     
+
     public void releaseStore(Store store) {
         try {
             storePool.put(store);

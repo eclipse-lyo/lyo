@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * Tests the behavior of {@link OslcGlobalNamespaceProvider}.
- * 
+ *
  * @author Daniel Figueiredo Caetano
  *
  */
@@ -40,14 +40,14 @@ public class OslcGlobalNamespaceProviderTest {
 		);
 		OslcGlobalNamespaceProvider secondGlobalNamespaceProvider = OslcGlobalNamespaceProvider.getInstance();
 		Assert.assertSame(
-				"There should be only one instance of the OslcGlobalNamespaceProvider class", 
-				globalNamespaceProvider, 
+				"There should be only one instance of the OslcGlobalNamespaceProvider class",
+				globalNamespaceProvider,
 				secondGlobalNamespaceProvider
 		);
 	}
-	
+
 	/**
-	 * Tests if the map can be set to another new map or to null. 
+	 * Tests if the map can be set to another new map or to null.
 	 */
 	@Test
 	public void testSetNullMap() {
@@ -66,13 +66,13 @@ public class OslcGlobalNamespaceProviderTest {
 				"Map should be cleared and never set to null.",
 				globalNamespaceProvider.getPrefixDefinitionMap().isEmpty()
 		);
-		Map<String, String> namespaceMappings = new HashMap<String, String>(1);
+		Map<String, String> namespaceMappings = new HashMap<>(1);
 		namespaceMappings.put("any", "http://any.test.com#");
 		globalNamespaceProvider.setPrefixDefinitionMap(namespaceMappings);
 		Assert.assertFalse(
-				"Global Namespace Map could not be set.", 
+				"Global Namespace Map could not be set.",
 				globalNamespaceProvider.getPrefixDefinitionMap().isEmpty()
 		);
 	}
-	
+
 }

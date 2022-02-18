@@ -22,7 +22,7 @@ import java.util.Set;
 @Deprecated
 public final class Json4JSimpleProvidersRegistry
 {
-	private static final Set<Class<?>> PROVIDERS = new HashSet<Class<?>>();
+	private static final Set<Class<?>> PROVIDERS = new HashSet<>();
 
 	static
 	{
@@ -42,6 +42,6 @@ public final class Json4JSimpleProvidersRegistry
 	 */
 	public static final Set<Class<?>> getProviders()
 	{
-		return new HashSet<Class<?>>(PROVIDERS);
+		return new HashSet<>(PROVIDERS);
 	}
 }

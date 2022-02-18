@@ -41,7 +41,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public final class ParameterInstance
 extends AbstractResource implements Comparable<ParameterInstance>
 {
-    private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
+    private final Set<URI>      rdfTypes                    = new TreeSet<>();
 
     private String   name;
     private String   value;

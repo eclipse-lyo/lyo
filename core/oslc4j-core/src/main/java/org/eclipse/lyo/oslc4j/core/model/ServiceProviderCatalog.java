@@ -36,9 +36,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Service Provider Catalog Resource Shape", describes = OslcConstants.TYPE_SERVICE_PROVIDER_CATALOG)
 public class ServiceProviderCatalog extends AbstractResource {
-	private final SortedSet<URI> domains = new TreeSet<URI>();
-	private final SortedSet<URI> referencedServiceProviderCatalogs = new TreeSet<URI>();
-	private final List<ServiceProvider> serviceProviders = new ArrayList<ServiceProvider>();
+	private final SortedSet<URI> domains = new TreeSet<>();
+	private final SortedSet<URI> referencedServiceProviderCatalogs = new TreeSet<>();
+	private final List<ServiceProvider> serviceProviders = new ArrayList<>();
 
 	private String description;
 	private OAuthConfiguration oauthConfiguration;

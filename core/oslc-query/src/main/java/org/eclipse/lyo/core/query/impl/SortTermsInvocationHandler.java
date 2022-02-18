@@ -41,7 +41,7 @@ public class SortTermsInvocationHandler implements InvocationHandler
 		this.tree = tree;
 		this.prefixMap = prefixMap;
 	}
-	
+
 	/**
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -54,26 +54,26 @@ public class SortTermsInvocationHandler implements InvocationHandler
 	) throws Throwable
 	{
 		if (children == null) {
-			
-			children = new ArrayList<SortTerm>(tree.getChildCount());
-			
+
+			children = new ArrayList<>(tree.getChildCount());
+
 			for (int index = 0; index < tree.getChildCount(); index++) {
-				
+
 				Tree child = tree.getChild(index);
-				
+
 				Object simpleTerm;
-				
+
 				switch(child.getType()) {
 				case OslcOrderByParser.SIMPLE_TERM:
-					simpleTerm = 
-						Proxy.newProxyInstance(SimpleSortTerm.class.getClassLoader(), 
+					simpleTerm =
+						Proxy.newProxyInstance(SimpleSortTerm.class.getClassLoader(),
 								new Class<?>[] { SimpleSortTerm.class },
 								new SimpleSortTermInvocationHandler(
 										child, prefixMap));
 					break;
 				case OslcOrderByParser.SCOPED_TERM:
-					simpleTerm = 
-						Proxy.newProxyInstance(ScopedSortTerm.class.getClassLoader(), 
+					simpleTerm =
+						Proxy.newProxyInstance(ScopedSortTerm.class.getClassLoader(),
 								new Class<?>[] { ScopedSortTerm.class },
 								new ScopedSortTermInvocationHandler(
 										child, prefixMap));
@@ -81,31 +81,31 @@ public class SortTermsInvocationHandler implements InvocationHandler
 				default:
 					throw new IllegalStateException("unimplemented type of sort term: " + child.getText());
 				}
-				
+
 				children.add((SortTerm)simpleTerm);
 			}
-			
+
 			children = Collections.unmodifiableList(children);
 		}
-		
-		if (method.getName().equals("children")) {		  
+
+		if (method.getName().equals("children")) {
 			return children;
 		}
-		
+
 		StringBuffer buffer = new StringBuffer();
 		boolean first = true;
-		
+
 		for (SortTerm term : children) {
-			
+
 			if (first) {
 				first = false;
 			} else {
 				buffer.append(',');
 			}
-			
+
 			buffer.append(term.toString());
 		}
-		
+
 		return buffer.toString();
 	}
 

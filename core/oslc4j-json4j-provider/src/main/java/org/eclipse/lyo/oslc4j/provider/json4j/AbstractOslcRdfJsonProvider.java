@@ -149,7 +149,7 @@ public abstract class AbstractOslcRdfJsonProvider
 				null :
 				(Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
 
-		ResponseInfo<?> responseInfo = new ResponseInfoArray<Object>(null, properties, totalCount, nextPageURI);
+		ResponseInfo<?> responseInfo = new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
 
 		try
 		{

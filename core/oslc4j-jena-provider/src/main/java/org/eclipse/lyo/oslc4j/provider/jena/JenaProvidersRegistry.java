@@ -18,7 +18,7 @@ import java.util.Set;
 
 public final class JenaProvidersRegistry
 {
-	private static Set<Class<?>> PROVIDERS = new HashSet<Class<?>>();
+	private static Set<Class<?>> PROVIDERS = new HashSet<>();
 
 	static
 	{
@@ -48,7 +48,7 @@ public final class JenaProvidersRegistry
 	 */
 	public static final Set<Class<?>> getProviders()
 	{
-		return new HashSet<Class<?>>(PROVIDERS);
+		return new HashSet<>(PROVIDERS);
 	}
 
 	public static final Set<Class<?>> setProviders (Set<Class<?>> providers)
@@ -58,7 +58,7 @@ public final class JenaProvidersRegistry
 			PROVIDERS.clear();
 			PROVIDERS.addAll(providers);
 		}
-		return new HashSet<Class<?>>(PROVIDERS);
+		return new HashSet<>(PROVIDERS);
 	}
 
 	public static final Set<Class<?>> removeProviders (Set<Class<?>> providers)
@@ -67,6 +67,6 @@ public final class JenaProvidersRegistry
 		{
 			PROVIDERS.removeAll(providers);
 		}
-		return new HashSet<Class<?>>(PROVIDERS);
+		return new HashSet<>(PROVIDERS);
 	}
 }

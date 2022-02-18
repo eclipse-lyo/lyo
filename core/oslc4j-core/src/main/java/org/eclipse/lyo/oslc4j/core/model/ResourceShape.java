@@ -35,8 +35,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Resource Shape Resource Shape", describes = OslcConstants.TYPE_RESOURCE_SHAPE)
 public final class ResourceShape extends AbstractResource {
-	private final SortedSet<URI> describes= new TreeSet<URI>();
-	private final TreeMap<URI, Property> properties = new TreeMap<URI, Property>();
+	private final SortedSet<URI> describes= new TreeSet<>();
+	private final TreeMap<URI, Property> properties = new TreeMap<>();
 
     private String name;
 	private String title;
@@ -57,7 +57,7 @@ public final class ResourceShape extends AbstractResource {
 	public void addProperty(final Property property) {
 		this.properties.put(property.getPropertyDefinition(), property);
 	}
-	
+
 	//Bugzilla 392780
 	public Property getProperty(URI definition) {
 		return properties.get(definition);
@@ -135,7 +135,7 @@ public final class ResourceShape extends AbstractResource {
 	public void setTitle(final String title) {
 		this.title = title;
 	}
-	
+
     public void setDescription(final String description) {
         this.description = description;
     }

@@ -41,12 +41,12 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public class TestPlan
        extends QmResource
 {
-	private final Set<URI>      contributors                = new TreeSet<URI>();
-    private final Set<URI>      creators                    = new TreeSet<URI>();
-    private final Set<Link>     relatedChangeRequests       = new HashSet<Link>();
-    private final Set<String>   subjects                    = new TreeSet<String>();
-    private final Set<Link>     usesTestCases               = new HashSet<Link>();
-    private final Set<Link>     validatesRequirementCollections = new HashSet<Link>();
+	private final Set<URI>      contributors                = new TreeSet<>();
+    private final Set<URI>      creators                    = new TreeSet<>();
+    private final Set<Link>     relatedChangeRequests       = new HashSet<>();
+    private final Set<String>   subjects                    = new TreeSet<>();
+    private final Set<Link>     usesTestCases               = new HashSet<>();
+    private final Set<Link>     validatesRequirementCollections = new HashSet<>();
 
     private String   description;
 

@@ -44,10 +44,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public class ArchitectureResource
 extends AbstractResource
 {
-	private final Set<URI>      contributors                = new TreeSet<URI>();
-    private final Set<URI>      creators                    = new TreeSet<URI>();
-    private final Set<String>   dctermsTypes                = new TreeSet<String>();
-    private final Set<URI>      rdfTypes                    = new TreeSet<URI>();
+	private final Set<URI>      contributors                = new TreeSet<>();
+    private final Set<URI>      creators                    = new TreeSet<>();
+    private final Set<String>   dctermsTypes                = new TreeSet<>();
+    private final Set<URI>      rdfTypes                    = new TreeSet<>();
 
 
     private Date     created;

@@ -95,13 +95,13 @@ public class Requirement
     private String shortTitle;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -110,53 +110,53 @@ public class Requirement
     private Date modified;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:elaboratedBy
     // End of user code
-    private Set<Link> elaboratedBy = new HashSet<Link>();
+    private Set<Link> elaboratedBy = new HashSet<>();
     // Start of user code attributeAnnotation:elaborates
     // End of user code
-    private Set<Link> elaborates = new HashSet<Link>();
+    private Set<Link> elaborates = new HashSet<>();
     // Start of user code attributeAnnotation:specifiedBy
     // End of user code
-    private Set<Link> specifiedBy = new HashSet<Link>();
+    private Set<Link> specifiedBy = new HashSet<>();
     // Start of user code attributeAnnotation:specifies
     // End of user code
-    private Set<Link> specifies = new HashSet<Link>();
+    private Set<Link> specifies = new HashSet<>();
     // Start of user code attributeAnnotation:affectedBy
     // End of user code
-    private Set<Link> affectedBy = new HashSet<Link>();
+    private Set<Link> affectedBy = new HashSet<>();
     // Start of user code attributeAnnotation:trackedBy
     // End of user code
-    private Set<Link> trackedBy = new HashSet<Link>();
+    private Set<Link> trackedBy = new HashSet<>();
     // Start of user code attributeAnnotation:implementedBy
     // End of user code
-    private Set<Link> implementedBy = new HashSet<Link>();
+    private Set<Link> implementedBy = new HashSet<>();
     // Start of user code attributeAnnotation:validatedBy
     // End of user code
-    private Set<Link> validatedBy = new HashSet<Link>();
+    private Set<Link> validatedBy = new HashSet<>();
     // Start of user code attributeAnnotation:satisfiedBy
     // End of user code
-    private Set<Link> satisfiedBy = new HashSet<Link>();
+    private Set<Link> satisfiedBy = new HashSet<>();
     // Start of user code attributeAnnotation:satisfies
     // End of user code
-    private Set<Link> satisfies = new HashSet<Link>();
+    private Set<Link> satisfies = new HashSet<>();
     // Start of user code attributeAnnotation:decomposedBy
     // End of user code
-    private Set<Link> decomposedBy = new HashSet<Link>();
+    private Set<Link> decomposedBy = new HashSet<>();
     // Start of user code attributeAnnotation:decomposes
     // End of user code
-    private Set<Link> decomposes = new HashSet<Link>();
+    private Set<Link> decomposes = new HashSet<>();
     // Start of user code attributeAnnotation:constrainedBy
     // End of user code
-    private Set<Link> constrainedBy = new HashSet<Link>();
+    private Set<Link> constrainedBy = new HashSet<>();
     // Start of user code attributeAnnotation:constrains
     // End of user code
-    private Set<Link> constrains = new HashSet<Link>();
-    
+    private Set<Link> constrains = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -164,38 +164,38 @@ public class Requirement
     public Requirement()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public Requirement(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_rmDomainConstants.REQUIREMENT_PATH,
         Requirement.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local Requirement Resource} - update Requirement.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -204,111 +204,111 @@ public class Requirement
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         result = String.format("%s: %s (Requirement; id=%s)", this.getShortTitle(), this.getTitle(), this.getIdentifier());
 
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addElaboratedBy(final Link elaboratedBy)
     {
         this.elaboratedBy.add(elaboratedBy);
     }
-    
+
     public void addElaborates(final Link elaborates)
     {
         this.elaborates.add(elaborates);
     }
-    
+
     public void addSpecifiedBy(final Link specifiedBy)
     {
         this.specifiedBy.add(specifiedBy);
     }
-    
+
     public void addSpecifies(final Link specifies)
     {
         this.specifies.add(specifies);
     }
-    
+
     public void addAffectedBy(final Link affectedBy)
     {
         this.affectedBy.add(affectedBy);
     }
-    
+
     public void addTrackedBy(final Link trackedBy)
     {
         this.trackedBy.add(trackedBy);
     }
-    
+
     public void addImplementedBy(final Link implementedBy)
     {
         this.implementedBy.add(implementedBy);
     }
-    
+
     public void addValidatedBy(final Link validatedBy)
     {
         this.validatedBy.add(validatedBy);
     }
-    
+
     public void addSatisfiedBy(final Link satisfiedBy)
     {
         this.satisfiedBy.add(satisfiedBy);
     }
-    
+
     public void addSatisfies(final Link satisfies)
     {
         this.satisfies.add(satisfies);
     }
-    
+
     public void addDecomposedBy(final Link decomposedBy)
     {
         this.decomposedBy.add(decomposedBy);
     }
-    
+
     public void addDecomposes(final Link decomposes)
     {
         this.decomposes.add(decomposes);
     }
-    
+
     public void addConstrainedBy(final Link constrainedBy)
     {
         this.constrainedBy.add(constrainedBy);
     }
-    
+
     public void addConstrains(final Link constrains)
     {
         this.constrains.add(constrains);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")
@@ -323,7 +323,7 @@ public class Requirement
         // End of user code
         return title;
     }
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -338,7 +338,7 @@ public class Requirement
         // End of user code
         return description;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -353,7 +353,7 @@ public class Requirement
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:shortTitle
     // End of user code
     @OslcName("shortTitle")
@@ -368,7 +368,7 @@ public class Requirement
         // End of user code
         return shortTitle;
     }
-    
+
     // Start of user code getterAnnotation:subject
     // End of user code
     @OslcName("subject")
@@ -384,7 +384,7 @@ public class Requirement
         // End of user code
         return subject;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -400,7 +400,7 @@ public class Requirement
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -416,7 +416,7 @@ public class Requirement
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -431,7 +431,7 @@ public class Requirement
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -446,7 +446,7 @@ public class Requirement
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -462,7 +462,7 @@ public class Requirement
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -478,7 +478,7 @@ public class Requirement
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:elaboratedBy
     // End of user code
     @OslcName("elaboratedBy")
@@ -494,7 +494,7 @@ public class Requirement
         // End of user code
         return elaboratedBy;
     }
-    
+
     // Start of user code getterAnnotation:elaborates
     // End of user code
     @OslcName("elaborates")
@@ -510,7 +510,7 @@ public class Requirement
         // End of user code
         return elaborates;
     }
-    
+
     // Start of user code getterAnnotation:specifiedBy
     // End of user code
     @OslcName("specifiedBy")
@@ -526,7 +526,7 @@ public class Requirement
         // End of user code
         return specifiedBy;
     }
-    
+
     // Start of user code getterAnnotation:specifies
     // End of user code
     @OslcName("specifies")
@@ -542,7 +542,7 @@ public class Requirement
         // End of user code
         return specifies;
     }
-    
+
     // Start of user code getterAnnotation:affectedBy
     // End of user code
     @OslcName("affectedBy")
@@ -558,7 +558,7 @@ public class Requirement
         // End of user code
         return affectedBy;
     }
-    
+
     // Start of user code getterAnnotation:trackedBy
     // End of user code
     @OslcName("trackedBy")
@@ -574,7 +574,7 @@ public class Requirement
         // End of user code
         return trackedBy;
     }
-    
+
     // Start of user code getterAnnotation:implementedBy
     // End of user code
     @OslcName("implementedBy")
@@ -590,7 +590,7 @@ public class Requirement
         // End of user code
         return implementedBy;
     }
-    
+
     // Start of user code getterAnnotation:validatedBy
     // End of user code
     @OslcName("validatedBy")
@@ -606,7 +606,7 @@ public class Requirement
         // End of user code
         return validatedBy;
     }
-    
+
     // Start of user code getterAnnotation:satisfiedBy
     // End of user code
     @OslcName("satisfiedBy")
@@ -622,7 +622,7 @@ public class Requirement
         // End of user code
         return satisfiedBy;
     }
-    
+
     // Start of user code getterAnnotation:satisfies
     // End of user code
     @OslcName("satisfies")
@@ -638,7 +638,7 @@ public class Requirement
         // End of user code
         return satisfies;
     }
-    
+
     // Start of user code getterAnnotation:decomposedBy
     // End of user code
     @OslcName("decomposedBy")
@@ -654,7 +654,7 @@ public class Requirement
         // End of user code
         return decomposedBy;
     }
-    
+
     // Start of user code getterAnnotation:decomposes
     // End of user code
     @OslcName("decomposes")
@@ -670,7 +670,7 @@ public class Requirement
         // End of user code
         return decomposes;
     }
-    
+
     // Start of user code getterAnnotation:constrainedBy
     // End of user code
     @OslcName("constrainedBy")
@@ -686,7 +686,7 @@ public class Requirement
         // End of user code
         return constrainedBy;
     }
-    
+
     // Start of user code getterAnnotation:constrains
     // End of user code
     @OslcName("constrains")
@@ -702,8 +702,8 @@ public class Requirement
         // End of user code
         return constrains;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:title
     // End of user code
     public void setTitle(final String title )
@@ -711,11 +711,11 @@ public class Requirement
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-    
+
         // Start of user code setterFinalize:title
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:description
     // End of user code
     public void setDescription(final String description )
@@ -723,11 +723,11 @@ public class Requirement
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-    
+
         // Start of user code setterFinalize:description
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -735,11 +735,11 @@ public class Requirement
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:shortTitle
     // End of user code
     public void setShortTitle(final String shortTitle )
@@ -747,11 +747,11 @@ public class Requirement
         // Start of user code setterInit:shortTitle
         // End of user code
         this.shortTitle = shortTitle;
-    
+
         // Start of user code setterFinalize:shortTitle
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:subject
     // End of user code
     public void setSubject(final Set<String> subject )
@@ -763,11 +763,11 @@ public class Requirement
         {
             this.subject.addAll(subject);
         }
-    
+
         // Start of user code setterFinalize:subject
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -779,11 +779,11 @@ public class Requirement
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -795,11 +795,11 @@ public class Requirement
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -807,11 +807,11 @@ public class Requirement
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -819,11 +819,11 @@ public class Requirement
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -835,11 +835,11 @@ public class Requirement
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -851,11 +851,11 @@ public class Requirement
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:elaboratedBy
     // End of user code
     public void setElaboratedBy(final Set<Link> elaboratedBy )
@@ -867,11 +867,11 @@ public class Requirement
         {
             this.elaboratedBy.addAll(elaboratedBy);
         }
-    
+
         // Start of user code setterFinalize:elaboratedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:elaborates
     // End of user code
     public void setElaborates(final Set<Link> elaborates )
@@ -883,11 +883,11 @@ public class Requirement
         {
             this.elaborates.addAll(elaborates);
         }
-    
+
         // Start of user code setterFinalize:elaborates
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:specifiedBy
     // End of user code
     public void setSpecifiedBy(final Set<Link> specifiedBy )
@@ -899,11 +899,11 @@ public class Requirement
         {
             this.specifiedBy.addAll(specifiedBy);
         }
-    
+
         // Start of user code setterFinalize:specifiedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:specifies
     // End of user code
     public void setSpecifies(final Set<Link> specifies )
@@ -915,11 +915,11 @@ public class Requirement
         {
             this.specifies.addAll(specifies);
         }
-    
+
         // Start of user code setterFinalize:specifies
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:affectedBy
     // End of user code
     public void setAffectedBy(final Set<Link> affectedBy )
@@ -931,11 +931,11 @@ public class Requirement
         {
             this.affectedBy.addAll(affectedBy);
         }
-    
+
         // Start of user code setterFinalize:affectedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:trackedBy
     // End of user code
     public void setTrackedBy(final Set<Link> trackedBy )
@@ -947,11 +947,11 @@ public class Requirement
         {
             this.trackedBy.addAll(trackedBy);
         }
-    
+
         // Start of user code setterFinalize:trackedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:implementedBy
     // End of user code
     public void setImplementedBy(final Set<Link> implementedBy )
@@ -963,11 +963,11 @@ public class Requirement
         {
             this.implementedBy.addAll(implementedBy);
         }
-    
+
         // Start of user code setterFinalize:implementedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:validatedBy
     // End of user code
     public void setValidatedBy(final Set<Link> validatedBy )
@@ -979,11 +979,11 @@ public class Requirement
         {
             this.validatedBy.addAll(validatedBy);
         }
-    
+
         // Start of user code setterFinalize:validatedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:satisfiedBy
     // End of user code
     public void setSatisfiedBy(final Set<Link> satisfiedBy )
@@ -995,11 +995,11 @@ public class Requirement
         {
             this.satisfiedBy.addAll(satisfiedBy);
         }
-    
+
         // Start of user code setterFinalize:satisfiedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:satisfies
     // End of user code
     public void setSatisfies(final Set<Link> satisfies )
@@ -1011,11 +1011,11 @@ public class Requirement
         {
             this.satisfies.addAll(satisfies);
         }
-    
+
         // Start of user code setterFinalize:satisfies
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:decomposedBy
     // End of user code
     public void setDecomposedBy(final Set<Link> decomposedBy )
@@ -1027,11 +1027,11 @@ public class Requirement
         {
             this.decomposedBy.addAll(decomposedBy);
         }
-    
+
         // Start of user code setterFinalize:decomposedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:decomposes
     // End of user code
     public void setDecomposes(final Set<Link> decomposes )
@@ -1043,11 +1043,11 @@ public class Requirement
         {
             this.decomposes.addAll(decomposes);
         }
-    
+
         // Start of user code setterFinalize:decomposes
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:constrainedBy
     // End of user code
     public void setConstrainedBy(final Set<Link> constrainedBy )
@@ -1059,11 +1059,11 @@ public class Requirement
         {
             this.constrainedBy.addAll(constrainedBy);
         }
-    
+
         // Start of user code setterFinalize:constrainedBy
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:constrains
     // End of user code
     public void setConstrains(final Set<Link> constrains )
@@ -1075,10 +1075,10 @@ public class Requirement
         {
             this.constrains.addAll(constrains);
         }
-    
+
         // Start of user code setterFinalize:constrains
         // End of user code
     }
-    
-    
+
+
 }
