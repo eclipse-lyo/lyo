@@ -96,10 +96,14 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
         if (authRequired && authAlreadyAttempted) {
             response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            log.trace("Jazz auth cookies were appended but the request was UNAUTHORIZED anyway");
             return;
         } else if (!authRequired) {
+            log.trace("Response was non-401, skipping the ClientResponseFilter for Jazz Forms auth");
             return;
         }
+
+        log.trace("Response is 401, attempting Jazz Forms authentication");
         // We got an Authentication challenge, attempt to authenticate the user
         cookies.clear();
         authClient = request.getClient();
@@ -124,6 +128,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED)) {
             authResponse.close();
             response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            log.trace("Jazz Forms authentication failed");
             return;
         }
 
@@ -149,6 +154,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
             invocation = retryBuilder.build(requestMethod,
                     Entity.entity(request.getEntity(), request.getMediaType()));
         }
+        log.trace("Retrying the failed request with Jazz cookies");
         Response retryResponse = invocation.invoke();
 
         if (retryResponse.hasEntity()) {
@@ -185,7 +191,10 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     public void filter(ClientRequestContext requestContext) {
         if(!isAuthAlreadyAttempted(requestContext) && cookies.size() > 0) {
             requestContext.getHeaders().add(COOKIE, cookies);
+            log.trace("Jazz auth cookies appended to the request");
 //            requestContext.setProperty(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
+        } {
+            log.trace("Not appending Jazz auth cookies to the request");
         }
     }
 }
