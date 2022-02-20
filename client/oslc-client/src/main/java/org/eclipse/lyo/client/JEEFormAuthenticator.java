@@ -50,9 +50,9 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private static final String J_USERNAME = "j_username";
     private static final String J_PASSWORD = "j_password";
     private static final String FORM_AUTHENTICATOR_REUSED = "org.eclipse.lyo.client.oslc.JEEFormAuthenticator.reused";
-	private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
-	private static final String JAZZ_AUTH_REQUIRED = "authrequired";
-	private static final String JAZZ_AUTH_FAILED = "authfailed";
+    private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
+    private static final String JAZZ_AUTH_REQUIRED = "authrequired";
+    private static final String JAZZ_AUTH_FAILED = "authfailed";
 
     private final String userId;
     private final String password;
@@ -75,19 +75,19 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
      * @param password
      */
     public JEEFormAuthenticator(final String baseUri, final String username, final String password) {
-    	this.userId = username;
+        this.userId = username;
         this.password = password;
         this.baseUri = baseUri;
     }
 
-	/* (non-Javadoc)
-	 * Checks to see if the response is a 401 UNAUTHORIZED. If so, it attempts to
-	 * authenticate the user, and then retries the request with the updated
-	 * session information.
-	 *
-	 * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * Checks to see if the response is a 401 UNAUTHORIZED. If so, it attempts to
+     * authenticate the user, and then retries the request with the updated
+     * session information.
+     *
+     * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
+     */
+    @Override
     public void filter(ClientRequestContext request, ClientResponseContext response) {
         if (followingRedirects) return;
 
@@ -95,10 +95,10 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         boolean authAlreadyAttempted = isAuthAlreadyAttempted(request);
 
         if (authRequired && authAlreadyAttempted) {
-        	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
-        	return;
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            return;
         } else if (!authRequired) {
-        	return;
+            return;
         }
         // We got an Authentication challenge, attempt to authenticate the user
         cookies.clear();
@@ -108,39 +108,39 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         form.param(J_USERNAME, this.userId);
         form.param(J_PASSWORD, this.password);
         Response authResponse = authClient
-        	.target(this.baseUri)
-        	.path(J_SECURITY_CHECK)
+            .target(this.baseUri)
+            .path(J_SECURITY_CHECK)
             .request(MediaType.APPLICATION_FORM_URLENCODED)
             .property(FORM_AUTHENTICATOR_REUSED, "true")  // only post once
             .header("Accept", "*/*")
             .header("X-Requested-With", "XMLHttpRequest")
-    		.header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
+            .header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
             .post(Entity.form(form));
         authResponse.getCookies().values().forEach(cookie -> cookies.add(cookie.toCookie()));
-		int statusCode = authResponse.getStatus();
-		// Check the result
-		String jazzAuthMessage = authResponse.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
+        int statusCode = authResponse.getStatus();
+        // Check the result
+        String jazzAuthMessage = authResponse.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
 
-		if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED)) {
-			authResponse.close();
-        	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
-        	return;
-		}
+        if (jazzAuthMessage != null && jazzAuthMessage.equalsIgnoreCase(JAZZ_AUTH_FAILED)) {
+            authResponse.close();
+            response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
+            return;
+        }
 
-		String location = authResponse.getHeaderString("Location");
-		authResponse.close();
-		statusCode = followRedirects(statusCode, location);
+        String location = authResponse.getHeaderString("Location");
+        authResponse.close();
+        statusCode = followRedirects(statusCode, location);
 
-		// retry the request with the updated cookies
-		Client requestClient = request.getClient();
-		Invocation.Builder retryBuilder = requestClient
-			.target(request.getUri())
-			.request(request.getMediaType());
+        // retry the request with the updated cookies
+        Client requestClient = request.getClient();
+        Invocation.Builder retryBuilder = requestClient
+            .target(request.getUri())
+            .request(request.getMediaType());
         retryBuilder.property(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
         MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<>();
         newHeaders.putAll(request.getHeaders());
         newHeaders.add(COOKIE, cookies);
-		retryBuilder.headers(newHeaders);
+        retryBuilder.headers(newHeaders);
         Invocation invocation;
         String requestMethod = request.getMethod();
         if (request.getEntity() == null) {
@@ -165,27 +165,27 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     }
 
     private int followRedirects(int statusCode, String location) {
-		followingRedirects = true;
-		while ( location != null && statusCode >= 301 && statusCode <=399 )
-		{
+        followingRedirects = true;
+        while ( location != null && statusCode >= 301 && statusCode <=399 )
+        {
             Response lastRedirectResponse = authClient.target(location).request().get();
-			statusCode = lastRedirectResponse.getStatus();
-			location = lastRedirectResponse.getHeaderString("Location");
+            statusCode = lastRedirectResponse.getStatus();
+            location = lastRedirectResponse.getHeaderString("Location");
             try {
                 lastRedirectResponse.close();
             } catch (ProcessingException e) {
                 log.warn("Last redirect connection could not be closed");
             }
         }
-		followingRedirects = false;
-		return statusCode;
-	}
+        followingRedirects = false;
+        return statusCode;
+    }
 
-	@Override
-	public void filter(ClientRequestContext requestContext) {
-		if(!isAuthAlreadyAttempted(requestContext) && cookies.size() > 0) {
+    @Override
+    public void filter(ClientRequestContext requestContext) {
+        if(!isAuthAlreadyAttempted(requestContext) && cookies.size() > 0) {
             requestContext.getHeaders().add(COOKIE, cookies);
 //            requestContext.setProperty(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
         }
-	}
+    }
 }
