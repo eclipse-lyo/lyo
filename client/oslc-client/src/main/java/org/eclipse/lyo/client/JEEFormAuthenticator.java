@@ -13,10 +13,8 @@
  */
 package org.eclipse.lyo.client;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -31,10 +29,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A filter that can be registered in order to non-preemptively handle JEE Form
@@ -60,9 +57,9 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private final String userId;
     private final String password;
     private final String baseUri;
-	private Response lastRedirectResponse = null;
-	private boolean followingRedirects = false;
+    private boolean followingRedirects = false;
     Client authClient = null;
+    private final List<Object> cookies = new ArrayList<>();
 
 
     // requires by @Provider
@@ -91,13 +88,11 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 	 * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
 	 */
 	@Override
-    public void filter(ClientRequestContext request, ClientResponseContext response) throws IOException {
-        final List<Object> cookies = new ArrayList<>();
-
+    public void filter(ClientRequestContext request, ClientResponseContext response) {
         if (followingRedirects) return;
 
         boolean authRequired = JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
-        boolean authAlreadyAttempted = "true".equals(request.getProperty(FORM_AUTHENTICATOR_REUSED));
+        boolean authAlreadyAttempted = isAuthAlreadyAttempted(request);
 
         if (authRequired && authAlreadyAttempted) {
         	response.setStatus(Response.Status.UNAUTHORIZED.getStatusCode());
@@ -106,6 +101,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         	return;
         }
         // We got an Authentication challenge, attempt to authenticate the user
+        cookies.clear();
         authClient = request.getClient();
 
         final Form form = new Form();
@@ -120,9 +116,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
             .header("X-Requested-With", "XMLHttpRequest")
     		.header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
             .post(Entity.form(form));
-        authResponse.getCookies().values().stream().forEach((cookie) -> {
-            cookies.add(cookie.toCookie());
-        });
+        authResponse.getCookies().values().forEach(cookie -> cookies.add(cookie.toCookie()));
 		int statusCode = authResponse.getStatus();
 		// Check the result
 		String jazzAuthMessage = authResponse.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER);
@@ -147,7 +141,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         newHeaders.putAll(request.getHeaders());
         newHeaders.add(COOKIE, cookies);
 		retryBuilder.headers(newHeaders);
-        Invocation invocation = null;
+        Invocation invocation;
         String requestMethod = request.getMethod();
         if (request.getEntity() == null) {
             invocation = retryBuilder.build(requestMethod);
@@ -166,11 +160,15 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         response.setStatus(retryResponse.getStatus());
     }
 
-	private int followRedirects(int statusCode, String location) {
+    private boolean isAuthAlreadyAttempted(ClientRequestContext request) {
+        return "true".equals(request.getProperty(FORM_AUTHENTICATOR_REUSED));
+    }
+
+    private int followRedirects(int statusCode, String location) {
 		followingRedirects = true;
-		while ( ((statusCode == HttpStatus.SC_MOVED_TEMPORARILY) || (HttpStatus.SC_SEE_OTHER == statusCode)) && (location != null))
+		while ( location != null && statusCode >= 301 && statusCode <=399 )
 		{
-			lastRedirectResponse = authClient.target(location).request().get();
+            Response lastRedirectResponse = authClient.target(location).request().get();
 			statusCode = lastRedirectResponse.getStatus();
 			location = lastRedirectResponse.getHeaderString("Location");
             try {
@@ -185,6 +183,9 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
 	@Override
 	public void filter(ClientRequestContext requestContext) {
-		// do nothing, JEE Form is always preemptive
+		if(!isAuthAlreadyAttempted(requestContext) && cookies.size() > 0) {
+            requestContext.getHeaders().add(COOKIE, cookies);
+//            requestContext.setProperty(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
+        }
 	}
 }
