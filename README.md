@@ -144,3 +144,15 @@ See [CONTRIBUTING.MD](CONTRIBUTING.MD)
 -   [Release Engineering Handbook](https://docs.google.com/document/d/1lnTf2NX4_1lL6Uu-4VYNs8FNgHZ1Z64xF4hQZGCKymE/edit?usp=sharing)
 -   [Old Lyo wiki](https://wiki.eclipse.org/Lyo)
 -   [Official homepage](https://www.eclipse.org/lyo/)
+
+### Acknowledgments
+
+![](https://www.yourkit.com/images/yklogo.png)
+
+Thanks to YourKit for providing us an open source license of YourKit Java Profiler!
+
+YourKit supports open source projects with innovative and intelligent tools
+for monitoring and profiling Java and .NET applications.
+YourKit is the creator of [YourKit Java Profiler](https://www.yourkit.com/java/profiler/),
+[YourKit .NET Profiler](https://www.yourkit.com/.net/profiler/),
+and [YourKit YouMonitor](https://www.yourkit.com/youmonitor/).
