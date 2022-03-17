@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.UriBuilder;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
@@ -39,84 +40,94 @@ import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
  * 
  * <pre>
  * try {
- * 	OAuthRequest request = new OAuthRequest(httpRequest);
- * 	request.validate();
+ *     OAuthRequest request = new OAuthRequest(httpRequest);
+ *     request.validate();
  * } catch (OAuthException e) {
- * 	// Request failed validation. Send an unauthorized response.
- * 	OAuthServlet.handleException(httpResponse, e, OAuthConfiguration
- * 			.getInstance().getRealm());
+ *     // Request failed validation. Send an unauthorized response.
+ *     OAuthServlet.handleException(httpResponse, e, OAuthConfiguration.getInstance().getRealm());
  * }
  * </pre>
  * 
  * @author Samuel Padgett
  */
 public class OAuthRequest {
-	private HttpServletRequest httpRequest;
-	private OAuthMessage message;
-	private OAuthAccessor accessor;
-	
-	public OAuthRequest(HttpServletRequest request)
-			throws OAuthException, IOException {
-		this.httpRequest = request;
-		this.message = OAuthServlet.getMessage(httpRequest, null);
+    private HttpServletRequest httpRequest;
+    private OAuthMessage message;
+    private OAuthAccessor accessor;
 
-		LyoOAuthConsumer consumer = OAuthConfiguration.getInstance()
-				.getConsumerStore().getConsumer(message);
-		if (consumer == null) {
-			throw new OAuthProblemException(
-					OAuth.Problems.CONSUMER_KEY_REJECTED);
-		}
+    /**
+     * @param requestUrl
+     *            the official URL of the request; that is the URL a legitimate
+     *            client would use to compute the digital signature. If this
+     *            parameter is null, this method will try to reconstruct the URL
+     *            from the HTTP request; which may be wrong in some cases.
+     */
+    public OAuthRequest(HttpServletRequest request, String requestUrl) throws OAuthException, IOException {
+        this.httpRequest = request;
+        this.message = OAuthServlet.getMessage(httpRequest, requestUrl);
 
-		this.accessor = new OAuthAccessor(consumer);
+        LyoOAuthConsumer consumer = OAuthConfiguration.getInstance().getConsumerStore().getConsumer(message);
+        if (consumer == null) {
+            throw new OAuthProblemException(OAuth.Problems.CONSUMER_KEY_REJECTED);
+        }
 
-		// Fill in the token secret if it's there.
-		String token = this.message.getToken();
-		if (token != null) {
-			this.accessor.tokenSecret = OAuthConfiguration.getInstance()
-					.getTokenStrategy().getTokenSecret(this.httpRequest, token);
-		}
-	}
-	
-	public HttpServletRequest getHttpRequest() {
-		return httpRequest;
-	}
+        this.accessor = new OAuthAccessor(consumer);
 
-	public void setHttpRequest(HttpServletRequest httpRequest) {
-		this.httpRequest = httpRequest;
-	}
+        // Fill in the token secret if it's there.
+        String token = this.message.getToken();
+        if (token != null) {
+            this.accessor.tokenSecret = OAuthConfiguration.getInstance().getTokenStrategy()
+                    .getTokenSecret(this.httpRequest, token);
+        }
+    }
 
-	public OAuthMessage getMessage() {
-		return message;
-	}
+    public OAuthRequest(HttpServletRequest request) throws OAuthException, IOException {
+        this(request, 
+                null != OAuthConfiguration.getInstance().getServletUri() ?
+                UriBuilder.fromUri(OAuthConfiguration.getInstance().getServletUri()).path(request.getPathInfo()).build().toString()
+                : null
+                );
+    }
 
-	public OAuthAccessor getAccessor() {
-		return accessor;
-	}
+    public HttpServletRequest getHttpRequest() {
+        return httpRequest;
+    }
 
-	public LyoOAuthConsumer getConsumer() {
-		return (LyoOAuthConsumer) accessor.consumer;
-	}
+    public void setHttpRequest(HttpServletRequest httpRequest) {
+        this.httpRequest = httpRequest;
+    }
 
-	/**
-	 * Validates that the request is authorized and throws an OAuth exception if
-	 * not. The request must contain a valid access token and pass
-	 * {@link OAuthValidator#validateMessage(OAuthMessage, OAuthAccessor)}
-	 * checks using the validator set in the {@link OAuthConfiguration}.
-	 * <p>
-	 * If the request fails validation, you can use
-	 * {@link OAuthServlet#handleException(javax.servlet.http.HttpServletResponse, Exception, String)}
-	 * to send an unauthorized response.
-	 * 
-	 * @throws OAuthException
-	 *             if the request fails validation
-	 */
-	public void validate() throws OAuthException, IOException, ServletException {
-		try {
-			OAuthConfiguration config = OAuthConfiguration.getInstance();
-			config.getValidator().validateMessage(message, accessor);
-			config.getTokenStrategy().validateAccessToken(this);
-		} catch (URISyntaxException e) {
-			throw new ServletException(e);
-		}
-	}
+    public OAuthMessage getMessage() {
+        return message;
+    }
+
+    public OAuthAccessor getAccessor() {
+        return accessor;
+    }
+
+    public LyoOAuthConsumer getConsumer() {
+        return (LyoOAuthConsumer) accessor.consumer;
+    }
+
+    /**
+     * Validates that the request is authorized and throws an OAuth exception if
+     * not. The request must contain a valid access token and pass
+     * {@link OAuthValidator#validateMessage(OAuthMessage, OAuthAccessor)} checks
+     * using the validator set in the {@link OAuthConfiguration}.
+     * <p>
+     * If the request fails validation, you can use
+     * {@link OAuthServlet#handleException(javax.servlet.http.HttpServletResponse, Exception, String)}
+     * to send an unauthorized response.
+     * 
+     * @throws OAuthException if the request fails validation
+     */
+    public void validate() throws OAuthException, IOException, ServletException {
+        try {
+            OAuthConfiguration config = OAuthConfiguration.getInstance();
+            config.getValidator().validateMessage(message, accessor);
+            config.getTokenStrategy().validateAccessToken(this);
+        } catch (URISyntaxException e) {
+            throw new ServletException(e);
+        }
+    }
 }
