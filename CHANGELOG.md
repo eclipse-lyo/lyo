@@ -14,6 +14,7 @@
 - LyoStore: Ordering resources by their subject IDs when doing a query to store. This ordering can be disabled with a call to `OSLC4JUtils.setLyoStorePagingUnsafe(true)`
 - LyoStore: `OSLC4JUtils.hasLyoStorePagingPreciseLimit()` will return true by default. Call `OSLC4JUtils.setLyoStorePagingPreciseLimit(false)` to restore the old behavior.
 - `oslc4j-json4j-provider` uses `wink-json4j` version 1.4 instead of 1.2.1-incubating.
+-oauth - allow for the possibility to set the official servlet URL for all oauth requests being made. This is important to set correctly to compute the digital signature.
 
 ### Deprecated
 

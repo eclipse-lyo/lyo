@@ -23,6 +23,10 @@
 
     <dependencies>
         <!-- Project specific -->
+         <dependency>
+           <groupId>jakarta.ws.rs</groupId>
+           <artifactId>jakarta.ws.rs-api</artifactId>
+         </dependency>
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth</artifactId>
