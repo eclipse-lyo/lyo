@@ -461,8 +461,8 @@ public class OAuthService {
     protected OAuthRequest validateRequest() throws OAuthException, IOException {
         OAuthRequest oAuthRequest = new OAuthRequest(httpRequest);
         try {
-            log.trace("baseString: {} signature: {}", OAuthSignatureMethod.getBaseString(oAuthRequest.getMessage()),
-                    oAuthRequest.getMessage().getSignature());
+//            log.trace("baseString: {} signature: {}", OAuthSignatureMethod.getBaseString(oAuthRequest.getMessage()),
+//                    oAuthRequest.getMessage().getSignature());
             OAuthValidator validator = OAuthConfiguration.getInstance().getValidator();
             validator.validateMessage(oAuthRequest.getMessage(), oAuthRequest.getAccessor());
         } catch (URISyntaxException e) {
