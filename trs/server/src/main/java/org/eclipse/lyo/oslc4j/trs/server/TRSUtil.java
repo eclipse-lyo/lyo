@@ -59,7 +59,7 @@ public class TRSUtil {
     public final static URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
     public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
 
-    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparingInt(
+    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparingLong(
             ChangeEvent::getOrder).reversed();
 
     static {

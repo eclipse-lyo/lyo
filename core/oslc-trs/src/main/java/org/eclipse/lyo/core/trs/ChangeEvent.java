@@ -35,7 +35,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_ORDER;
  */
 public class ChangeEvent extends AbstractResource {
     private URI changed;
-    private int order;
+    private long order;
 
     public ChangeEvent() {}
 
@@ -82,14 +82,14 @@ public class ChangeEvent extends AbstractResource {
     @OslcDescription("The sequence in time of the Change Event.")
     @OslcPropertyDefinition(TRS_ORDER)
     @OslcTitle("Order")
-    public int getOrder() {
+    public long getOrder() {
         return order;
     }
 
     /**
      * @param order the order to set
      */
-    public void setOrder(int order) {
+    public void setOrder(long order) {
         this.order = order;
     }
 }

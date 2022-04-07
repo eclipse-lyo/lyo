@@ -11,9 +11,15 @@ import java.io.ByteArrayOutputStream;
 public class Helper {
     private static final Logger log = LoggerFactory.getLogger(Helper.class);
 
-    static void printModelTrace(Model model) {
+    public static void printModelTrace(Model model) {
+        String s = modelToString(model);
+        log.trace(s); // .toString(StandardCharsets.UTF_8) for JDK10+
+    }
+
+    public static String modelToString(Model model) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         RDFDataMgr.write(baos, model, RDFFormat.TRIG_PRETTY);
-        log.trace(baos.toString()); // .toString(StandardCharsets.UTF_8) for JDK10+
+        String s = baos.toString();
+        return s;
     }
 }
