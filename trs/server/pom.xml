@@ -31,10 +31,6 @@
   </parent>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <build>
@@ -53,7 +49,7 @@
         <executions>
           <execution>
             <!--duplicate of the parent config but allowing servlet 4.0 for the test deps-->
-            <id>enforce</id>
+            <id>enforce-maven</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -73,7 +69,7 @@
                 </bannedDependencies>
                 <banDuplicatePomDependencyVersions/>
                 <requireMavenVersion>
-                  <version>3.1.1</version>
+                  <version>3.6.0</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
                   <version>11</version>
@@ -143,7 +139,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>

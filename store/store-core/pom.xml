@@ -15,13 +15,7 @@
   <name>Lyo :: Store :: Core</name>
 
   <properties>
-    <lyo.version>${project.parent.version}</lyo.version>
-
     <maven.deploy.skip>false</maven.deploy.skip>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -29,12 +23,12 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${lyo.version}</version>
+      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${lyo.version}</version>
+      <version>${v.lyo}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -49,7 +43,7 @@
     <dependency>
         <groupId>org.eclipse.lyo.core.query</groupId>
         <artifactId>oslc-query</artifactId>
-        <version>${lyo.version}</version>
+        <version>${v.lyo}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -135,7 +129,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>3.0.0-M6</version>
         <executions>
           <execution>
             <goals>
@@ -144,17 +138,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <instrumentation>
-            <ignoreTrivial>true</ignoreTrivial>
-          </instrumentation>
-          <check/>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -194,18 +177,6 @@
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>cobertura</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
