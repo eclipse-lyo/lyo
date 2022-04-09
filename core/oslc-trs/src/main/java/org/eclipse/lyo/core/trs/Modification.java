@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import java.math.BigInteger;
 import java.net.URI;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -23,14 +24,18 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
 @OslcNamespace(TRS_NAMESPACE)
 @OslcResourceShape(title = "Modification  Shape", describes = TRS_TYPE_MODIFICATION)
 public class Modification extends ChangeEvent {
-	
+
 	public Modification() {}
-	
+
 	/**
 	 * @param changed
 	 * @param order
 	 */
-	public Modification(URI about, URI changed, int order) {
+	public Modification(URI about, URI changed, BigInteger order) {
 		super(about, changed, order);
 	}
+
+    public Modification(URI about, URI changed, long order) {
+        super(about, changed, BigInteger.valueOf(order));
+    }
 }

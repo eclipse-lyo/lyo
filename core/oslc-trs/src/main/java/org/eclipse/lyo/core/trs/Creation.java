@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import java.math.BigInteger;
 import java.net.URI;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -25,13 +26,17 @@ import static org.eclipse.lyo.core.trs.TRSConstants.*;
 public class Creation extends ChangeEvent {
 
 	public Creation() {}
-	
+
 	/**
 	 * @param about
 	 * @param changed
 	 * @param order
 	 */
-	public Creation(URI about, URI changed, int order) {
+	public Creation(URI about, URI changed, BigInteger order) {
 		super(about, changed, order);
+	}
+
+    public Creation(URI about, URI changed, long order) {
+		super(about, changed, BigInteger.valueOf(order));
 	}
 }

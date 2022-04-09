@@ -1,12 +1,15 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
 import com.google.common.collect.ImmutableSet;
+
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.lyo.core.trs.Base;
+import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -120,15 +123,15 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        final Optional<Integer> firstPageOrderMax = pagedTrs.getChangeLog(1)
+        final Optional<BigInteger> firstPageOrderMax = pagedTrs.getChangeLog(1)
                 .getChange()
                 .stream()
-                .map(e -> e.getOrder())
-                .max(Integer::compareTo);
+                .map(ChangeEvent::getOrder)
+                .max(BigInteger::compareTo);
         assertThat(pagedTrs.getChangeLog(2)
                 .getChange()
                 .stream()
-                .filter(e -> e.getOrder() > firstPageOrderMax.get())
+                .filter(e -> e.getOrder().compareTo(firstPageOrderMax.get()) > 0)
                 .collect(Collectors.toSet())).hasSize(2);
     }
 
