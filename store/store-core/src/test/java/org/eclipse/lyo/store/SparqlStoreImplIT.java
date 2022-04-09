@@ -36,11 +36,6 @@ public class SparqlStoreImplIT extends StoreTestBase<SparqlStoreImpl> {
     }
 
     @Override
-    @Disabled("Not implemented yet")
-    public void testStoreKeySetReturnsCorrectKeys() {
-    }
-
-    @Override
     public void testStorePagingWorks()
             throws IOException, StoreAccessException, ModelUnmarshallingException {
         super.testStorePagingWorks();

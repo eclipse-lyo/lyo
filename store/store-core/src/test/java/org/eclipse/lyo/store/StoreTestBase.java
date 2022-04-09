@@ -36,10 +36,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -211,24 +210,6 @@ public abstract class StoreTestBase<T extends Store> {
         assertThrows(NoSuchElementException.class, () ->
             manager.getResource(testKeyAdd, new URI("urn:blabla"), ServiceProviderCatalog.class)
         );
-    }
-
-
-    @Test
-    public void testStoreKeySetReturnsCorrectKeys()
-            throws StoreAccessException {
-        final Store manager = buildStore();
-        final URI key1 = buildKey();
-        final URI key2 = buildKey();
-        Assertions.assertThat(key1).isNotEqualTo(key2);
-        final IResource resource = buildResource();
-
-        manager.appendResource(key1, resource);
-        manager.appendResource(key2, resource);
-        Set<String> keySet = manager.keySet();
-
-        Assertions.assertThat(keySet).hasSize(2);
-        Assertions.assertThat(keySet).contains(key1.toString(), key2.toString());
     }
 
     @Test

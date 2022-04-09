@@ -411,6 +411,7 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
+    @Deprecated
     public Set<String> keySet() {
         throw new UnsupportedOperationException();
     }
