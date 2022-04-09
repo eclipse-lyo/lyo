@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import java.math.BigInteger;
 import java.net.URI;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
@@ -35,7 +36,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_ORDER;
  */
 public class ChangeEvent extends AbstractResource {
     private URI changed;
-    private long order;
+    private BigInteger order;
 
     public ChangeEvent() {}
 
@@ -44,7 +45,7 @@ public class ChangeEvent extends AbstractResource {
      * @param changed
      * @param order
      */
-    public ChangeEvent(URI about, URI changed, int order) {
+    public ChangeEvent(URI about, URI changed, BigInteger order) {
         super(about);
         this.changed = changed;
         this.order = order;
@@ -82,14 +83,18 @@ public class ChangeEvent extends AbstractResource {
     @OslcDescription("The sequence in time of the Change Event.")
     @OslcPropertyDefinition(TRS_ORDER)
     @OslcTitle("Order")
-    public long getOrder() {
+    public BigInteger getOrder() {
         return order;
     }
 
     /**
      * @param order the order to set
      */
-    public void setOrder(long order) {
+    public void setOrder(BigInteger order) {
         this.order = order;
+    }
+
+    public void setOrder(long order) {
+        this.order = BigInteger.valueOf(order);
     }
 }

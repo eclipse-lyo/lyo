@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -59,8 +60,8 @@ public class TRSUtil {
     public final static URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
     public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
 
-    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparingLong(
-            ChangeEvent::getOrder).reversed();
+//    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparing(
+//            ChangeEvent::getOrder, BigInteger::compareTo).reversed();
 
     static {
         XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
