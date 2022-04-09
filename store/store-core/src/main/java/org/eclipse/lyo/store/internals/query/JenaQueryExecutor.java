@@ -30,6 +30,7 @@ import org.apache.jena.update.UpdateRequest;
  * @since 0.14.0
  */
 public interface JenaQueryExecutor {
+
     /**
      * Prepares a SPARQL Query executor (read-only).
      *
@@ -66,4 +67,9 @@ public interface JenaQueryExecutor {
      * Release a connection to the underlying engine
      */
     void release();
+
+    void beginWrite();
+    void beginRead();
+    void commit();
+    void end();
 }

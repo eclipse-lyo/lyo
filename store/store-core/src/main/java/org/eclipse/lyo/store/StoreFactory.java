@@ -14,12 +14,9 @@ package org.eclipse.lyo.store;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb.TDBFactory;
-import java.io.IOException;
-import java.nio.file.Path;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
-import org.eclipse.lyo.store.internals.DatasetBuilder;
+import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
 
 /**
  * Provides factory methods to instantiate concrete implementations of {@link Store} that keep the
@@ -41,6 +38,10 @@ public class StoreFactory {
      */
     public static Store sparql(final String queryUrl, final String updateUrl) {
         return new SparqlStoreImpl(queryUrl, updateUrl);
+    }
+
+    public static Store sparqlInMem() {
+        return new SparqlStoreImpl(new DatasetQueryExecutorImpl(TDBFactory.createDataset()));
     }
 
     /**

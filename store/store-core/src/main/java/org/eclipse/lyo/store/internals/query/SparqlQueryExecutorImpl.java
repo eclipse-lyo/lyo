@@ -67,4 +67,24 @@ public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
     public void release() {
         log.trace("NOP, there is nothing to release");
     }
+
+    @Override
+    public void beginWrite() {
+        return;
+    }
+
+    @Override
+    public void beginRead() {
+        return;
+    }
+
+    @Override
+    public void commit() {
+        return;
+    }
+
+    @Override
+    public void end() {
+        return;
+    }
 }
