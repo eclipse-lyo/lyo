@@ -22,12 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-/**
- * Created on 2017-06-08
- * @author Andrew Berezovskyi (andriib@kth.se)
- * @version $version-stub$
- * @since 0.0.1
- */
 public class ChangeLogTest {
     private final static Logger log = LoggerFactory.getLogger(ChangeLogTest.class);
 
@@ -53,7 +47,7 @@ public class ChangeLogTest {
         log.info(Helper.modelToString(model));
 
         Modification modification = JenaModelHelper.unmarshalSingle(model, Modification.class);
-        assertEquals(value, modification.getOrder());
+        assertEquals(BigInteger.valueOf(value), modification.getOrder());
     }
 
     @Test
@@ -69,7 +63,7 @@ public class ChangeLogTest {
         log.info(Helper.modelToString(model));
 
         Modification modification = JenaModelHelper.unmarshalSingle(model, Modification.class);
-        assertEquals(value, modification.getOrder());
+        assertEquals(BigInteger.valueOf(value), modification.getOrder());
     }
 
     @Test
@@ -98,8 +92,9 @@ public class ChangeLogTest {
 
 
     @Test
-    public void changeLogModelContainsEvents() throws InvocationTargetException, DatatypeConfigurationException,
-        OslcCoreApplicationException, IllegalAccessException {
+    public void changeLogModelContainsEvents()
+        throws InvocationTargetException, DatatypeConfigurationException, OslcCoreApplicationException,
+        IllegalAccessException {
         // see https://github.com/eclipse/lyo/issues/83
 
         final ChangeLog log1 = new ChangeLog();
