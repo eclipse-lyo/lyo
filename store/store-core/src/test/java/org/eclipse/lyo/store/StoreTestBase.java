@@ -16,9 +16,18 @@ package org.eclipse.lyo.store;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.apache.jena.rdf.model.Model;
+import org.assertj.core.api.Assertions;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+import org.eclipse.lyo.store.resources.BlankResource;
+import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
+import org.eclipse.lyo.store.resources.Requirement;
+import org.eclipse.lyo.store.resources.WithBlankResource;
+import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -27,30 +36,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.Set;
-import javax.xml.datatype.DatatypeConfigurationException;
-import org.apache.jena.rdf.model.Model;
-import org.assertj.core.api.Assertions;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.store.resources.BlankResource;
-import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
-import org.eclipse.lyo.store.resources.Requirement;
-import org.eclipse.lyo.store.resources.WithBlankResource;
-import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
-import org.junit.Ignore;
-import org.junit.Test;
+
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * StoreTestBase is .
- *
- * @author Andrew Berezovskyi (andriib@kth.se)
- * @version $version-stub$
- * @since 0.15.2
+ * StoreTestBase allows same tests to be run on differently set up triplestores
  */
 public abstract class StoreTestBase<T extends Store> {
 
@@ -59,7 +51,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreHasNoMissingKey() {
         // ARRANGE
-        final T manager = buildStore();
+        final Store manager = buildStore();
 
         // ACT
         final boolean isNonExistentKeyCached = manager.namedGraphExists(URI.create("testKey"));
@@ -70,7 +62,7 @@ public abstract class StoreTestBase<T extends Store> {
 
     @Test
     public void testStoreHasAddedKey() throws StoreAccessException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
 
@@ -85,7 +77,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreReadsSameValue()
             throws StoreAccessException, ModelUnmarshallingException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final URI testResourceURI = resource.getAbout();
@@ -104,7 +96,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStorePurgedKeyRemoved()
             throws StoreAccessException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
 
@@ -118,7 +110,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreSuccessivePutOverwrites()
             throws StoreAccessException, ModelUnmarshallingException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final IResource resource2 = buildResource();
@@ -138,7 +130,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreSuccessiveAddCombines()
             throws StoreAccessException, ModelUnmarshallingException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final IResource resource2 = buildResource();
@@ -160,7 +152,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStorePagingWorks()
             throws IOException, StoreAccessException, ModelUnmarshallingException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         ArrayList<IResource> resources = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -181,7 +173,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testSingleResourceRetrieved()
             throws StoreAccessException, ModelUnmarshallingException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final IResource resource2 = buildResource();
@@ -200,10 +192,10 @@ public abstract class StoreTestBase<T extends Store> {
         Assertions.assertThat(resourceUnderKey.getAbout().equals(resource2.getAbout()));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void testMissingResourceException()
-            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+            throws StoreAccessException {
+        final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final IResource resource2 = buildResource();
@@ -215,25 +207,9 @@ public abstract class StoreTestBase<T extends Store> {
 
         manager.appendResources(testKeyAdd, resources);
 
-        manager.getResource(testKeyAdd, new URI("urn:blabla"), ServiceProviderCatalog.class);
-    }
-
-
-    @Test
-    public void testStoreKeySetReturnsCorrectKeys()
-            throws StoreAccessException {
-        final T manager = buildStore();
-        final URI key1 = buildKey();
-        final URI key2 = buildKey();
-        Assertions.assertThat(key1).isNotEqualTo(key2);
-        final IResource resource = buildResource();
-
-        manager.appendResource(key1, resource);
-        manager.appendResource(key2, resource);
-        Set<String> keySet = manager.keySet();
-
-        Assertions.assertThat(keySet).hasSize(2);
-        Assertions.assertThat(keySet).contains(key1.toString(), key2.toString());
+        assertThrows(NoSuchElementException.class, () ->
+            manager.getResource(testKeyAdd, new URI("urn:blabla"), ServiceProviderCatalog.class)
+        );
     }
 
     @Test
@@ -248,7 +224,7 @@ public abstract class StoreTestBase<T extends Store> {
         r1WithBlankResource.setRelatesToBlankResource(aBlankResource);
         r1WithBlankResource.setStringProperty("some String");
 
-        final T manager = buildStore();
+        final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
         manager.putResources(namedGraphUri, ImmutableList.of(r1WithBlankResource));
@@ -279,7 +255,7 @@ public abstract class StoreTestBase<T extends Store> {
         aWithTwoDepthBlankResource.setIntProperty(1);
         aWithTwoDepthBlankResource.setRelatesToBlankResourceTwoDepth(r2WithBlankResource);
 
-        final T manager = buildStore();
+        final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
         manager.putResources(namedGraphUri, ImmutableList.of(aWithTwoDepthBlankResource));
@@ -299,7 +275,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryForAllRequirementResources()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -310,7 +286,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryForRequirementResourcesWithFreeTextSearch()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -321,7 +297,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryForRequirementResourcesWithWhereFilter()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -333,7 +309,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryForRequirementResourcesWithFreeTextSearchAndWhereFilter()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -345,7 +321,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryForRequirementResourcesWithNoMatch()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -356,8 +332,8 @@ public abstract class StoreTestBase<T extends Store> {
 
     @Test
     public void testStoreQueryForAllResources()
-            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+            throws StoreAccessException, URISyntaxException {
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -367,8 +343,8 @@ public abstract class StoreTestBase<T extends Store> {
 
     @Test
     public void testStoreQueryForAllResourcesWithFreeTextSearch()
-            throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+            throws StoreAccessException, URISyntaxException {
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -381,7 +357,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryWithWhereFilterOnStringsWithIntegerValue()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -393,7 +369,7 @@ public abstract class StoreTestBase<T extends Store> {
     @Test
     public void testStoreQueryWithWhereFilterOnIntegers()
             throws StoreAccessException, ModelUnmarshallingException, URISyntaxException {
-        final T manager = buildStore();
+        final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
@@ -402,7 +378,7 @@ public abstract class StoreTestBase<T extends Store> {
         Assertions.assertThat(requirements).hasSize(2);
     }
 
-    protected abstract T buildStore();
+    protected abstract Store buildStore();
 
     private URI buildKey() {
         return URI.create("lyo:testKey_" + randomHexString());
@@ -417,7 +393,7 @@ public abstract class StoreTestBase<T extends Store> {
         resource.setAbout(URI.create("lyo:spc_" + randomHexString()));
         return resource;
     }
-    
+
 	private Requirement createRequirement(String identifier, String description, String stringProperty, int intProperty) throws URISyntaxException {
 		Requirement r = new Requirement(buildKey());
 		r.setIdentifier(identifier);
@@ -427,7 +403,7 @@ public abstract class StoreTestBase<T extends Store> {
 		return r;
 	}
 
-    private void populateStore(final T manager, final URI namedGraphUri)
+    private void populateStore(final Store manager, final URI namedGraphUri)
             throws StoreAccessException, URISyntaxException {
         manager.appendResource(namedGraphUri,
                 createRequirement("rob", "Tom got a small piece of pie. Rock music approaches at high velocity.", "s-1", 1));

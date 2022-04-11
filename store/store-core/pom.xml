@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -41,9 +41,9 @@
       </exclusions>
     </dependency>
     <dependency>
-        <groupId>org.eclipse.lyo.core.query</groupId>
-        <artifactId>oslc-query</artifactId>
-        <version>${v.lyo}</version>
+      <groupId>org.eclipse.lyo.core.query</groupId>
+      <artifactId>oslc-query</artifactId>
+      <version>${v.lyo}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -90,10 +90,10 @@
       <groupId>jakarta.annotation</groupId>
       <artifactId>jakarta.annotation-api</artifactId>
     </dependency>
-<!--    TODO: remove if not necessary-->
+    <!--    TODO: remove if not necessary-->
     <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-querybuilder</artifactId>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-querybuilder</artifactId>
     </dependency>
 
     <!-- Generic -->
@@ -108,8 +108,18 @@
 
     <!-- Test -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

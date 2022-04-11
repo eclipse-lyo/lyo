@@ -15,10 +15,15 @@ package org.eclipse.lyo.store.internals;
  */
 
 import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.arq.querybuilder.DescribeBuilder;
+import org.apache.jena.arq.querybuilder.ExprFactory;
+import org.apache.jena.arq.querybuilder.Order;
+import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
-import org.apache.jena.query.Query;
 import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
@@ -27,16 +32,39 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.rdf.model.impl.ResourceImpl;
+import org.apache.jena.riot.RiotException;
 import org.apache.jena.sparql.expr.E_Regex;
 import org.apache.jena.sparql.modify.request.QuadDataAcc;
 import org.apache.jena.sparql.modify.request.UpdateDataInsert;
 import org.apache.jena.update.UpdateProcessor;
-import org.apache.jena.arq.querybuilder.SelectBuilder;
-import org.apache.jena.arq.querybuilder.DescribeBuilder;
-import org.apache.jena.arq.querybuilder.ExprFactory;
-import org.apache.jena.arq.querybuilder.Order;
-import org.apache.jena.riot.RiotException;
+import org.eclipse.lyo.core.query.ComparisonTerm;
+import org.eclipse.lyo.core.query.ComparisonTerm.Operator;
+import org.eclipse.lyo.core.query.DecimalValue;
+import org.eclipse.lyo.core.query.PName;
+import org.eclipse.lyo.core.query.ParseException;
+import org.eclipse.lyo.core.query.QueryUtils;
+import org.eclipse.lyo.core.query.SimpleTerm;
+import org.eclipse.lyo.core.query.SimpleTerm.Type;
+import org.eclipse.lyo.core.query.StringValue;
+import org.eclipse.lyo.core.query.UriRefValue;
+import org.eclipse.lyo.core.query.Value;
+import org.eclipse.lyo.core.query.WhereClause;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.store.ModelUnmarshallingException;
+import org.eclipse.lyo.store.Store;
+import org.eclipse.lyo.store.StoreAccessException;
+import org.eclipse.lyo.store.internals.query.JenaQueryExecutor;
+import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorBasicAuthImpl;
+import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -52,35 +80,6 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.xml.datatype.DatatypeConfigurationException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.lyo.core.query.ComparisonTerm;
-import org.eclipse.lyo.core.query.ComparisonTerm.Operator;
-import org.eclipse.lyo.core.query.DecimalValue;
-import org.eclipse.lyo.core.query.PName;
-import org.eclipse.lyo.core.query.ParseException;
-import org.eclipse.lyo.core.query.QueryUtils;
-import org.eclipse.lyo.core.query.SimpleTerm;
-import org.eclipse.lyo.core.query.WhereClause;
-import org.eclipse.lyo.core.query.SimpleTerm.Type;
-import org.eclipse.lyo.core.query.StringValue;
-import org.eclipse.lyo.core.query.UriRefValue;
-import org.eclipse.lyo.core.query.Value;
-import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.store.ModelUnmarshallingException;
-import org.eclipse.lyo.store.Store;
-import org.eclipse.lyo.store.StoreAccessException;
-import org.eclipse.lyo.store.internals.query.JenaQueryExecutor;
-import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorBasicAuthImpl;
-import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link Store} interface implementation that interacts with any SPARQL-based triplestore
@@ -147,9 +146,15 @@ public class SparqlStoreImpl implements Store {
             final Triple triple = statement.asTriple();
             quadAccumulator.addTriple(triple);
         }
-        final UpdateDataInsert dataInsertUpdate = new UpdateDataInsert(quadAccumulator);
-        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(dataInsertUpdate);
-        up.execute();
+        queryExecutor.beginWrite();
+        try {
+            final UpdateDataInsert dataInsertUpdate = new UpdateDataInsert(quadAccumulator);
+            final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(dataInsertUpdate);
+            up.execute();
+            queryExecutor.commit();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     @Override
@@ -198,8 +203,14 @@ public class SparqlStoreImpl implements Store {
         final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
                 "ASK {GRAPH ?g {?s ?p ?o} }", map);
         final String query = sparqlString.toString();
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
-        return queryExecution.execAsk();
+
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
+            return queryExecution.execAsk();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     @Override
@@ -210,8 +221,14 @@ public class SparqlStoreImpl implements Store {
         final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
                 "ASK {GRAPH ?g {?s ?p ?o} }", map);
         final String query = sparqlString.toString();
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
-        return queryExecution.execAsk();
+
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
+            return queryExecution.execAsk();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     @Override
@@ -237,7 +254,7 @@ public class SparqlStoreImpl implements Store {
             return getResourcesFromModel(model, clazz);
         } else {
             throw new IllegalArgumentException("Named graph"
-                                               + String.valueOf(namedGraph)
+                                               + namedGraph
                                                + " was missing from "
                                                + "the triplestore");
         }
@@ -253,7 +270,7 @@ public class SparqlStoreImpl implements Store {
             return getResourcesFromModel(model, clazz);
         } else {
             throw new IllegalArgumentException("Named graph"
-                                               + String.valueOf(namedGraph)
+                                               + namedGraph
                                                + " was missing from "
                                                + "the triplestore");
         }
@@ -297,7 +314,7 @@ public class SparqlStoreImpl implements Store {
             //Make sure the designated namedGraph exists, if it is specified.
             //Otherwise, the search occurs across all namedgraphs.
             if (!namedGraphExists(namedGraph)) {
-                throw new IllegalArgumentException("Named graph" + String.valueOf(namedGraph) + " was missing from the triplestore");
+                throw new IllegalArgumentException("Named graph" + namedGraph + " was missing from the triplestore");
             }
         }
 
@@ -319,18 +336,23 @@ public class SparqlStoreImpl implements Store {
 
         Query describeQuery = describeBuilder.build() ;
         String describeQueryString = describeQuery.toString();
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
-
         Model execDescribe;
+        queryExecutor.beginRead();
         try {
-            execDescribe = queryExecution.execDescribe();
-        } catch (RiotException e) {
-            //a request that returns an empty set seems to cause an exception when using Marklogic.
-            if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
-                return ModelFactory.createDefaultModel();
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
+
+            try {
+                execDescribe = queryExecution.execDescribe();
+            } catch (RiotException e) {
+                //a request that returns an empty set seems to cause an exception when using Marklogic.
+                if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                    return ModelFactory.createDefaultModel();
+                }
+                // Otherwise, there is a proper exception that we need to deal with!
+                throw e;
             }
-            // Otherwise, there is a proper exception that we need to deal with!
-            throw e;
+        } finally {
+            queryExecutor.end();
         }
         return execDescribe;
     }
@@ -378,11 +400,18 @@ public class SparqlStoreImpl implements Store {
         final QuerySolutionMap map = getGraphMap(namedGraph);
         final ParameterizedSparqlString query = new ParameterizedSparqlString("CLEAR GRAPH ?g",
                 map);
-        final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(query.toString());
-        up.execute();
+        queryExecutor.beginWrite();
+        try {
+            final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(query.toString());
+            up.execute();
+            queryExecutor.commit();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     @Override
+    @Deprecated
     public Set<String> keySet() {
         throw new UnsupportedOperationException();
     }
@@ -418,7 +447,8 @@ public class SparqlStoreImpl implements Store {
             //The Model is most likely obtained via Select query that is orded by the subject (ascending)
             //See sparql construction in constructSparqlWhere()
             //Order the list below accordingly.
-            return Arrays.asList(castObjects).stream().sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
+            return Arrays.stream(castObjects)
+                .sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
         } catch (InvocationTargetException | OslcCoreApplicationException | NoSuchMethodException
                 | URISyntaxException | DatatypeConfigurationException | InstantiationException e) {
             throw new ModelUnmarshallingException(e);
@@ -454,8 +484,13 @@ public class SparqlStoreImpl implements Store {
                                      + "?o } }";
         final ParameterizedSparqlString query = new ParameterizedSparqlString(queryTemplate, map);
 
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-        return queryExecution.execDescribe();
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
+            return queryExecution.execDescribe();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     private Model modelFromQueryByUri(final URI namedGraph, final URI uri) {
@@ -464,18 +499,23 @@ public class SparqlStoreImpl implements Store {
         final String queryTemplate = "DESCRIBE ?s WHERE { GRAPH ?g { ?s ?p ?o . } }";
         final ParameterizedSparqlString query = new ParameterizedSparqlString(queryTemplate, map);
 
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-
         Model execDescribe;
+        queryExecutor.beginRead();
         try {
-            execDescribe = queryExecution.execDescribe();
-        } catch (RiotException e) {
-            //a request that returns an empty set seems to cause an exception when using Marklogic.
-            if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
-                return ModelFactory.createDefaultModel();
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
+
+            try {
+                execDescribe = queryExecution.execDescribe();
+            } catch (RiotException e) {
+                //a request that returns an empty set seems to cause an exception when using Marklogic.
+                if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                    return ModelFactory.createDefaultModel();
+                }
+                // Otherwise, there is a proper exception that we need to deal with!
+                throw e;
             }
-            // Otherwise, there is a proper exception that we need to deal with!
-            throw e;
+        } finally {
+            queryExecutor.end();
         }
         return execDescribe;
 
@@ -516,8 +556,13 @@ public class SparqlStoreImpl implements Store {
         query.setLiteral("l", limit);
         query.setLiteral("f", offset);
 
-        final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-        return queryExecution.execDescribe();
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
+            return queryExecution.execDescribe();
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     //This method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
