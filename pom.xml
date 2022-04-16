@@ -430,6 +430,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.3.2</version>
           <configuration>
+            <additionalJOption>--no-module-directories</additionalJOption>
 <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
             <links>
