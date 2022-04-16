@@ -409,7 +409,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.10.1</version>
           <configuration>
-            <compilerArgument>-Xlint:deprecation,unchecked</compilerArgument>
+            <compilerArgument>-Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally</compilerArgument>
           </configuration>
         </plugin>
         <plugin>
@@ -430,8 +430,13 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.3.2</version>
           <configuration>
-            <source>8</source>
             <doclint>none</doclint>
+            <links>
+              <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
+              <link>https://jena.apache.org/documentation/javadoc/jena/</link>
+              <link>https://jena.apache.org/documentation/javadoc/arq/</link>
+              <link>https://guava.dev/releases/${v.guava}/api/docs/</link>
+            </links>
           </configuration>
           <executions>
             <execution>
@@ -575,6 +580,10 @@
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
