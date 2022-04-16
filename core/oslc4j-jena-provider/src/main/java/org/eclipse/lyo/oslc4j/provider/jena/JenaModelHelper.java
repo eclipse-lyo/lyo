@@ -333,8 +333,8 @@ public final class JenaModelHelper
     }
 
     /**
-     * @see #unmarshal(Resource, Class)
-     * @see #unmarshalSingle(Model, Class)
+     * @deprecated Use {@link #unmarshal(Resource, Class)} or {@link #unmarshalSingle(Model, Class)}
+     *          instead.
      */
     @Deprecated
     public static Object fromJenaResource(final Resource resource, Class<?> beanClass)
@@ -387,7 +387,7 @@ public final class JenaModelHelper
     }
 
     /**
-     * @see #unmarshal(Model, Class)
+     * @deprecated Use {@link #unmarshal(Model, Class)} instead.
      */
     @Deprecated
     public static Object[] fromJenaModel(final Model model, final Class<?> beanClass)
