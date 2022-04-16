@@ -434,6 +434,7 @@
             <doclint>all,-accessibility,-html,-missing</doclint>
             <links>
               <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
+              <link>https://docs.oracle.com/javaee/7/api/</link>
               <link>https://jena.apache.org/documentation/javadoc/jena/</link>
               <link>https://jena.apache.org/documentation/javadoc/arq/</link>
               <link>https://guava.dev/releases/${v.guava}/api/docs/</link>
