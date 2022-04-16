@@ -22,8 +22,7 @@ import java.util.Objects;
 /**
  * Special OSLC link type. Differs from {@link URI} since it can hold a label,
  * expressed in RDF using reification.
- * @see <a href="http://open-services.net/bin/view/Main/OslcCoreSpecAppendixLinks">OSLC Core
- * Specification 2.0, Appendix C: Guidance on Links & Relationships</a>
+ * @see <a href="http://open-services.net/bin/view/Main/OslcCoreSpecAppendixLinks">OSLC Core Specification 2.0, Appendix C: Guidance on Links &amp; Relationships</a>
  */
 public class Link extends AbstractReifiedResource<URI> {
     private String label;

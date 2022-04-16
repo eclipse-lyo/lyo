@@ -1,9 +1,7 @@
 package org.eclipse.lyo.store.internals.query;
 
-import java.io.InputStream;
-
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -42,7 +40,6 @@ public interface JenaQueryExecutor {
     /**
      * Prepares a SPARQL Update processor (write-only).
      *
-     * @param query SPARQL query string
      * @return prepared processor
      */
     UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest);
@@ -50,7 +47,6 @@ public interface JenaQueryExecutor {
     /**
      * Prepares a SPARQL Update processor (write-only).
      *
-     * @param query SPARQL query string
      * @return prepared processor
      */
     UpdateProcessor prepareSparqlUpdate(final Update update);

@@ -430,7 +430,8 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.3.2</version>
           <configuration>
-            <doclint>none</doclint>
+<!--            <doclint>none</doclint>-->
+            <doclint>all,-accessibility,-html,-missing</doclint>
             <links>
               <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
               <link>https://jena.apache.org/documentation/javadoc/jena/</link>

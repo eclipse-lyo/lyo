@@ -159,7 +159,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
 	/**
 	 * @return the next page of results
-	 * @throws NoSuchElementException if there is no next page
 	 */
 	public OslcQueryResult next() {
 		return new OslcQueryResult(this);
