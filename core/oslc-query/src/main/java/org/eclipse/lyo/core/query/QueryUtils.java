@@ -1,5 +1,6 @@
+package org.eclipse.lyo.core.query;
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -11,7 +12,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.core.query;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
 
 /**
  * Utility methods for parsing various OSLC HTTP query
- * parameter clauses; e.g. oslc.where
+ * parameter clauses; e.g. {@code oslc.where}
  */
 public class QueryUtils
 {
@@ -74,9 +74,9 @@ public class QueryUtils
 
 			CommonTree rawTree = parser.oslc_prefixes().getTree();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			PrefixMap prefixMap =
+            PrefixMap prefixMap =
 				new PrefixMap(rawTree.getChildCount());
 
 			for (int index = 0; index < rawTree.getChildCount(); index++) {
@@ -127,9 +127,9 @@ public class QueryUtils
 			OslcWhereParser.oslc_where_return resultTree =
 				parser.oslc_where();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			CommonTree rawTree = (CommonTree)resultTree.getTree();
+            CommonTree rawTree = resultTree.getTree();
 			Tree child = rawTree.getChild(0);
 
 			if (child.getType() == Token.INVALID_TOKEN_TYPE) {
@@ -172,9 +172,9 @@ public class QueryUtils
 			OslcSelectParser.oslc_select_return resultTree =
 				parser.oslc_select();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			CommonTree rawTree = (CommonTree)resultTree.getTree();
+            CommonTree rawTree = resultTree.getTree();
 
 			if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
 				throw ((CommonErrorNode)rawTree).trappedException;
@@ -184,7 +184,7 @@ public class QueryUtils
 				Proxy.newProxyInstance(SelectClause.class.getClassLoader(),
 						new Class<?>[] { SelectClause.class, Properties.class },
 						new PropertiesInvocationHandler(
-								(CommonTree)resultTree.getTree(),
+                            resultTree.getTree(),
 								prefixMap));
 
 		} catch (RecognitionException e) {
@@ -217,9 +217,9 @@ public class QueryUtils
 			OslcSelectParser.oslc_select_return resultTree =
 				parser.oslc_select();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			CommonTree rawTree = (CommonTree)resultTree.getTree();
+            CommonTree rawTree = resultTree.getTree();
 
 			if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
 				throw ((CommonErrorNode)rawTree).trappedException;
@@ -229,7 +229,7 @@ public class QueryUtils
 				Proxy.newProxyInstance(PropertiesClause.class.getClassLoader(),
 						new Class<?>[] { PropertiesClause.class, Properties.class },
 						new PropertiesInvocationHandler(
-								(CommonTree)resultTree.getTree(),
+                            resultTree.getTree(),
 								prefixMap));
 
 		} catch (RecognitionException e) {
@@ -262,9 +262,9 @@ public class QueryUtils
 			OslcOrderByParser.oslc_order_by_return resultTree =
 				parser.oslc_order_by();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			CommonTree rawTree = (CommonTree)resultTree.getTree();
+            CommonTree rawTree = resultTree.getTree();
 			Tree child = rawTree.getChild(0);
 
 			if (child.getType() == Token.INVALID_TOKEN_TYPE) {
@@ -283,7 +283,7 @@ public class QueryUtils
 
 	/**
 	 * Create a map representation of the {@link Properties} returned
-	 * from parsing oslc.properties or olsc.select URL query
+	 * from parsing {@code oslc.properties} or {@code oslc.select} URL query
 	 * parameters suitable for generating a property result from an
 	 * HTTP GET request.<p>
 	 *
@@ -312,7 +312,7 @@ public class QueryUtils
 
 		for (Property property : children) {
 
-			PName pname = null;
+			PName pname;
 			String propertyName = null;
 
 			if (! property.isWildcard()) {
@@ -403,12 +403,12 @@ public class QueryUtils
 	}
 
 	/**
-	 * Parse a oslc.searchTerms expression
+	 * Parse an {@code oslc.searchTerms} expression
 	 *
 	 * <p><b>Note</b>: {@link Object#toString()} of result has been overridden to
 	 * return input expression.
 	 *
-	 * @param searchTermsExpression contents of an oslc.searchTerms HTTP query
+	 * @param searchTermsExpression contents of an {@code oslc.searchTerms} HTTP query
 	 * parameter
 	 *
 	 * @return the parsed search terms clause
@@ -427,9 +427,9 @@ public class QueryUtils
 			OslcSearchTermsParser.oslc_search_terms_return resultTree =
 				parser.oslc_search_terms();
 
-			checkErrors(parser.getErrors());;
+			checkErrors(parser.getErrors());
 
-			CommonTree rawTree = (CommonTree)resultTree.getTree();
+            CommonTree rawTree = resultTree.getTree();
 			Tree child = rawTree.getChild(0);
 
 			if (child.getType() == Token.INVALID_TOKEN_TYPE) {
@@ -469,7 +469,7 @@ public class QueryUtils
 		public String
 		toString()
 		{
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			boolean first = true;
 
 			for (String string : this) {
@@ -492,7 +492,7 @@ public class QueryUtils
 	}
 
 	/**
-	 * Implementation of a Map<String, String> prefixMap
+	 * Implementation of a {@code Map<String, String> prefixMap}
 	 */
 	private static class PrefixMap extends HashMap<String, String>
 	{
@@ -505,7 +505,7 @@ public class QueryUtils
 		public String
 		toString()
 		{
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			Iterator<String> keys = this.keySet().iterator();
 			boolean first = true;
 
@@ -602,8 +602,8 @@ public class QueryUtils
 	}
 
 	/**
-	 * Merge into {@link #lhs} properties those of {@link #rhs} property
-	 * map, merging any common, nested property maps
+	 * Merge into {@code lhs} properties those of {@code rhs} property
+	 * map, merging any common, nested property maps.
 	 *
 	 * @param lhs target of property map merge
 	 * @param rhs source of property map merge
@@ -614,37 +614,35 @@ public class QueryUtils
 		Map<String, Object> rhs
 	)
 	{
-		Iterator<String> propertyNames = rhs.keySet().iterator();
 
-		while (propertyNames.hasNext()) {
+        for (String propertyName : rhs.keySet()) {
 
-			String propertyName = propertyNames.next();
-			@SuppressWarnings("unchecked")
-			Map<String, Object> lhsNestedProperties =
-				(Map<String, Object>)lhs.get(propertyName);
-			@SuppressWarnings("unchecked")
-			Map<String, Object> rhsNestedProperties =
-				(Map<String, Object>)rhs.get(propertyName);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> lhsNestedProperties =
+                (Map<String, Object>) lhs.get(propertyName);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> rhsNestedProperties =
+                (Map<String, Object>) rhs.get(propertyName);
 
-			if (lhsNestedProperties == rhsNestedProperties) {
-				continue;
-			}
+            if (lhsNestedProperties == rhsNestedProperties) {
+                continue;
+            }
 
-			if (lhsNestedProperties == null ||
-				lhsNestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+            if (lhsNestedProperties == null ||
+                lhsNestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
 
-				lhs.put(propertyName, rhsNestedProperties);
+                lhs.put(propertyName, rhsNestedProperties);
 
-				continue;
-			}
+                continue;
+            }
 
-			mergePropertyMaps(lhsNestedProperties, rhsNestedProperties);
-		}
+            mergePropertyMaps(lhsNestedProperties, rhsNestedProperties);
+        }
 	}
 
 	/**
 	 * Check list of errors from parsing some expression, generating
-	 * @{link {@link ParseException} if there are any.
+	 * {@link ParseException} if there are any.
 	 *
 	 * @param errors list of errors, hopefully empty
 	 *
@@ -657,7 +655,7 @@ public class QueryUtils
 			return;
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		boolean first = true;
 
 		for (String error : errors) {
