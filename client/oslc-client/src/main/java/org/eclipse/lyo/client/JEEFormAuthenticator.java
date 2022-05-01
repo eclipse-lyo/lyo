@@ -143,7 +143,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 			.target(request.getUri())
 			.request(request.getMediaType());
         retryBuilder.property(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
-        MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<String, Object>();
+        MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<>();
         newHeaders.putAll(request.getHeaders());
         newHeaders.add(COOKIE, cookies);
 		retryBuilder.headers(newHeaders);

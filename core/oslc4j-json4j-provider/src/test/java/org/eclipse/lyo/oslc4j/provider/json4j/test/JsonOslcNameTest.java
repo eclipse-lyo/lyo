@@ -128,7 +128,7 @@ public class JsonOslcNameTest {
 	}
 
 	private void verifyRDFTypes(String[] expectedRDFTypes, JSONArray rdfTypes) throws JSONException {
-		List<String> actualRdfTypesList = new ArrayList<String>();
+		List<String> actualRdfTypesList = new ArrayList<>();
 		for (Object node : rdfTypes) {
 			OrderedJSONObject obj = (OrderedJSONObject) node;
 			String type = obj.values().iterator().next().toString();

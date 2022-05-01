@@ -86,8 +86,8 @@ public class ShapeWithWorkingReferences
     private String identifier;
     // Start of user code attributeAnnotation:inlinesMany
     // End of user code
-    private Set<InlinedShape> inlinesMany = new HashSet<InlinedShape>();
-    
+    private Set<InlinedShape> inlinesMany = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -95,38 +95,38 @@ public class ShapeWithWorkingReferences
     public ShapeWithWorkingReferences()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public ShapeWithWorkingReferences(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_PATH,
         ShapeWithWorkingReferences.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local ShapeWithWorkingReferences Resource} - update ShapeWithWorkingReferences.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -135,19 +135,19 @@ public class ShapeWithWorkingReferences
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addInlinesMany(final InlinedShape inlinesMany)
     {
         this.inlinesMany.add(inlinesMany);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:referencesAsLocal
     // End of user code
     @OslcName("referencesAsLocal")
@@ -162,7 +162,7 @@ public class ShapeWithWorkingReferences
         // End of user code
         return referencesAsLocal;
     }
-    
+
     // Start of user code getterAnnotation:inlines
     // End of user code
     @OslcName("inlines")
@@ -178,7 +178,7 @@ public class ShapeWithWorkingReferences
         // End of user code
         return inlines;
     }
-    
+
     // Start of user code getterAnnotation:referencesAsResource
     // End of user code
     @OslcName("referencesAsResource")
@@ -193,7 +193,7 @@ public class ShapeWithWorkingReferences
         // End of user code
         return referencesAsResource;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -207,7 +207,7 @@ public class ShapeWithWorkingReferences
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:inlinesMany
     // End of user code
     @OslcName("inlinesMany")
@@ -223,8 +223,8 @@ public class ShapeWithWorkingReferences
         // End of user code
         return inlinesMany;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:referencesAsLocal
     // End of user code
     public void setReferencesAsLocal(final LocalShape referencesAsLocal )
@@ -232,11 +232,11 @@ public class ShapeWithWorkingReferences
         // Start of user code setterInit:referencesAsLocal
         // End of user code
         this.referencesAsLocal = referencesAsLocal;
-    
+
         // Start of user code setterFinalize:referencesAsLocal
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:inlines
     // End of user code
     public void setInlines(final InlinedShape inlines )
@@ -244,11 +244,11 @@ public class ShapeWithWorkingReferences
         // Start of user code setterInit:inlines
         // End of user code
         this.inlines = inlines;
-    
+
         // Start of user code setterFinalize:inlines
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:referencesAsResource
     // End of user code
     public void setReferencesAsResource(final Link referencesAsResource )
@@ -256,11 +256,11 @@ public class ShapeWithWorkingReferences
         // Start of user code setterInit:referencesAsResource
         // End of user code
         this.referencesAsResource = referencesAsResource;
-    
+
         // Start of user code setterFinalize:referencesAsResource
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -268,11 +268,11 @@ public class ShapeWithWorkingReferences
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:inlinesMany
     // End of user code
     public void setInlinesMany(final Set<InlinedShape> inlinesMany )
@@ -284,10 +284,10 @@ public class ShapeWithWorkingReferences
         {
             this.inlinesMany.addAll(inlinesMany);
         }
-    
+
         // Start of user code setterFinalize:inlinesMany
         // End of user code
     }
-    
-    
+
+
 }

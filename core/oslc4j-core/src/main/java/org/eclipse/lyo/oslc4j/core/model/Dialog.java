@@ -31,8 +31,8 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Dialog Resource Shape", describes = OslcConstants.TYPE_DIALOG)
 public class Dialog extends AbstractResource {
-	private final SortedSet<URI> resourceTypes = new TreeSet<URI>();
-	private final SortedSet<URI> usages = new TreeSet<URI>();
+	private final SortedSet<URI> resourceTypes = new TreeSet<>();
+	private final SortedSet<URI> usages = new TreeSet<>();
 
 	private URI dialog;
 	private String hintHeight;

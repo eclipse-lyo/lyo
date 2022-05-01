@@ -14,15 +14,14 @@
     <description>Core components of the Eclipse Lyo OAuth provider.</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <lyo.version>${project.parent.version}</lyo.version>
     </properties>
 
     <dependencies>
         <!-- Project specific -->
+         <dependency>
+           <groupId>jakarta.ws.rs</groupId>
+           <artifactId>jakarta.ws.rs-api</artifactId>
+         </dependency>
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth</artifactId>

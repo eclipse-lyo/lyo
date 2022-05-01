@@ -17,6 +17,7 @@ package org.eclipse.lyo.store.internals.query;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.ReadWrite;
 import org.apache.jena.tdb.TDB;
 import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.update.Update;
@@ -85,5 +86,25 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
         TDB.sync(dataset);
         released = true;
         dataset.close();
+    }
+
+    @Override
+    public void beginWrite() {
+        dataset.begin(ReadWrite.WRITE);
+    }
+
+    @Override
+    public void beginRead() {
+        dataset.begin(ReadWrite.READ);
+    }
+
+    @Override
+    public void commit() {
+        dataset.commit();
+    }
+
+    @Override
+    public void end() {
+        dataset.end();
     }
 }

@@ -37,16 +37,16 @@ public class OslcClientTest {
 //    @Disabled("Unit test actually POSTs data to example.com, which we shouldn't do as we don't own that domain.")
     @Test
     public void postInvalidOlscResource() throws IOException, URISyntaxException {
-        assertTimeout(ofSeconds(5), () -> {
+        assertTimeout(ofSeconds(10), () -> {
             final OslcClient client = new OslcClient();
             final ServiceProvider request = new ServiceProvider();
             request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), "test");
             Response response = client.createResource("http://example.com/resources/factory", request, OSLCConstants.CT_RDF);
             assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
 //            assertThrows(ClientErrorException.class, () -> {
-//                
+//
 //            });
-        });  
+        });
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -365,7 +365,7 @@ public class OSLC4JUtils {
 	}
 
 	/**
-	 * Return if the query result list type will be http://www.w3.org/2000/01/rdf-schema#Container
+	 * Return if the query result list type will be <a href="http://www.w3.org/2000/01/rdf-schema#Container">http://www.w3.org/2000/01/rdf-schema#Container</a>
 	 * or there will be no type. Default is no type.
 	 */
 	public static boolean isQueryResultListAsContainer() {
@@ -537,7 +537,7 @@ public class OSLC4JUtils {
 	 */
 	private static Boolean parseBooleanPropertyOrDefault(final String key,
 			final boolean defaultValue) {
-		Boolean value = null;
+		Boolean value;
 		final String property = System.getProperty(key);
 		if (Strings.isNullOrEmpty(property)) {
 			value = defaultValue;
@@ -683,62 +683,52 @@ public class OSLC4JUtils {
 	 * @param property
 	 *			  Property information
 	 * @return Java object related to the Resource Shape type.
-	 * @throws DatatypeConfigurationException
-	 *			   , IllegalArgumentException, InstantiationException,
-	 *			   InvocationTargetException
-	 *
+     *
 	 */
-	public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String>
-			rdfTypesList,
-			final Property property )
-	{
-		if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != property )
-		{
-			try {
-				// get the pre-defined list of ResourceShapes
-				List<ResourceShape> shapes = OSLC4JUtils.getShapes();
+    public static RDFDatatype getDataTypeBasedOnResourceShapeType(final HashSet<String> rdfTypesList,
+                                                                  final Property property) {
+        if (null != rdfTypesList && !rdfTypesList.isEmpty() && null != property) {
+            try {
+                // get the pre-defined list of ResourceShapes
+                List<ResourceShape> shapes = OSLC4JUtils.getShapes();
 
-				if (null != shapes && !shapes.isEmpty()) {
+                if (null != shapes && !shapes.isEmpty()) {
+                    // try to find the attribute type in the list of
+                    // resource shapes
+                    String propertyName = property.getURI();
 
-					// try to find the attribute type in the list of
-					// resource shapes
-					String propertyName = property.getURI();
+                    TypeMapper typeMapper = TypeMapper.getInstance();
 
-					TypeMapper typeMapper = TypeMapper.getInstance();
+                    for (ResourceShape shape : shapes) {
+                        // ensure that the current resource shape matches the resource rdf:type
+                        if (doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
+                            org.eclipse.lyo.oslc4j.core.model.Property[] props = shape.getProperties();
 
-					for (ResourceShape shape : shapes) {
+                            for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
+                                URI propDefinition = prop.getPropertyDefinition();
 
-						// ensure that the current resource shape matches the resource rdf:type
-						if (doesResourceShapeMatchRdfTypes(shape, rdfTypesList)) {
+                                if (propertyName.equals(propDefinition.toString())) {
+                                    URI propValueType = prop.getValueType();
 
-							org.eclipse.lyo.oslc4j.core.model.Property[] props = shape
-									.getProperties();
+                                    if (null == propValueType) {
+                                        continue;
+                                    }
+                                    return typeMapper.getTypeByName(propValueType.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                // if there is any error, return null
+                // TODO Andrew@2017-07-18: Throw an exception instead of throwing null
+                log.warn("Could not find Data Type <{}> based on shape", property, e);
+                return null;
+            }
+        }
+        return null;
+    }
 
-							for (org.eclipse.lyo.oslc4j.core.model.Property prop : props) {
-								URI propDefinition = prop.getPropertyDefinition();
-
-								if (propertyName.equals(propDefinition.toString())) {
-									URI propValueType = prop.getValueType();
-
-									if (null == propValueType) {
-										continue;
-									}
-									return typeMapper.getTypeByName(propValueType.toString());
-								}
-							}
-						}
-					}
-				}
-			} catch (Exception e) {
-				// if there is any error, return null
-				// TODO Andrew@2017-07-18: Throw an exception instead of throwing null
-				log.warn("Could not find Data Type <{}> based on shape", property, e);
-				return null;
-			}
-		}
-		return null;
-	}
-	
 	 /**
      * @see OSLC4JConstants#LYO_STORE_PAGING_UNSAFE
      * @return the boolean value of org.eclipse.lyo.oslc4j.unsafePaging

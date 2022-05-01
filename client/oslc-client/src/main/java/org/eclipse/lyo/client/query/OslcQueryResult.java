@@ -159,7 +159,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
 	/**
 	 * @return the next page of results
-	 * @throws NoSuchElementException if there is no next page
 	 */
 	public OslcQueryResult next() {
 		return new OslcQueryResult(this);
@@ -230,7 +229,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 	 */
 	public String[] getMembersUrls() {
 		initializeRdf();
-		ArrayList<String> membersUrls = new ArrayList<String>();
+		ArrayList<String> membersUrls = new ArrayList<>();
         Selector select = getMemberSelector();
 		StmtIterator iter = rdfModel.listStatements(select);
 		while (iter.hasNext()) {

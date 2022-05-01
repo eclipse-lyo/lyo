@@ -62,7 +62,7 @@ public class AnOslcResource extends AbstractResource {
     private BigInteger integerProperty2;
     private BigInteger anotherIntegerProperty;
     private String aStringProperty;
-    private HashSet<Date> aSetOfDates = new HashSet<Date>();
+    private HashSet<Date> aSetOfDates = new HashSet<>();
     private Link aReferenceProperty = new Link();
     private BigInteger integerProperty3;
 

@@ -80,4 +80,24 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
     public void release() {
         log.trace("No resources to release");
     }
+
+    @Override
+    public void beginWrite() {
+        return;
+    }
+
+    @Override
+    public void beginRead() {
+        return;
+    }
+
+    @Override
+    public void commit() {
+        return;
+    }
+
+    @Override
+    public void end() {
+        return;
+    }
 }

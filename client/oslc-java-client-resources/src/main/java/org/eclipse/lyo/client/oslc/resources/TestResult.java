@@ -41,7 +41,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 public class TestResult
        extends QmResource
 {
-    private final Set<Link>     affectedByChangeRequests       = new HashSet<Link>();
+    private final Set<Link>     affectedByChangeRequests       = new HashSet<>();
 
     private Link     executesTestScript;
     private Link     reportsOnTestCase;

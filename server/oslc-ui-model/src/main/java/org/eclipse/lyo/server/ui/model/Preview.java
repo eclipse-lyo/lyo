@@ -31,7 +31,7 @@ public class Preview {
      *
      */
     @JsonProperty("properties")
-    private List<Property> properties = new ArrayList<Property>();
+    private List<Property> properties = new ArrayList<>();
 
     /**
      *

@@ -18,15 +18,10 @@ import java.io.IOException;
 import java.util.Properties;
 import org.assertj.core.util.Strings;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 
-/**
- * SparqlStoreImplIT is .
- * @author Andrew Berezovskyi <andriib@kth.se>
- * @since 2016-11-02
- */
-@Ignore("Run it locally with correct test/resources/triplestore.properties settings")
+@Disabled("Run it locally with correct test/resources/triplestore.properties settings")
 public class SparqlStoreImplIT extends StoreTestBase<SparqlStoreImpl> {
     private static final String SPARQL = "sparql";
     private static final String SPARUL = "sparul";
@@ -41,17 +36,12 @@ public class SparqlStoreImplIT extends StoreTestBase<SparqlStoreImpl> {
     }
 
     @Override
-    @Ignore("Not implemented yet")
-    public void testStoreKeySetReturnsCorrectKeys() {
-    }
-
-    @Override
     public void testStorePagingWorks()
             throws IOException, StoreAccessException, ModelUnmarshallingException {
         super.testStorePagingWorks();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         triplestore = new Properties();
         triplestore.load(SparqlStoreImplIT.class.getClassLoader()

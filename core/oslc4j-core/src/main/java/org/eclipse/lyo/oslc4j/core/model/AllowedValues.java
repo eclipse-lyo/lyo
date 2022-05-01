@@ -54,7 +54,7 @@ public final class AllowedValues extends AbstractResource {
     @Deprecated
     public String[] getAllowedValues() {
         // Be compatible with the old behavior and only include String values.
-        ArrayList<String> stringValues = new ArrayList<String>();
+        ArrayList<String> stringValues = new ArrayList<>();
         Collection<?> values = (Collection<?>) getExtendedProperties().get(PROPERTY_ALLOWED_VALUE);
         for (Object o : values) {
             if (o instanceof String) {

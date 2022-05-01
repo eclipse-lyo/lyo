@@ -25,7 +25,7 @@ public interface OSLC4JConstants {
 	String OSLC4J_USE_BEAN_CLASS_FOR_PARSING = OSLC4J + "useBeanClassForParsing";
 	String OSLC4J_INFER_TYPE_FROM_SHAPE      = OSLC4J + "inferTypeFromResourceShape";
 
-	Map<String, Object> OSL4J_PROPERTY_SINGLETON = new HashMap<String, Object>(0);
+	Map<String, Object> OSL4J_PROPERTY_SINGLETON = new HashMap<>(0);
 
 	String OSLC4J_SELECTED_PROPERTIES = OSLC4J + "selected.properties";
 	String OSLC4J_NEXT_PAGE           = OSLC4J + "next.page";

@@ -32,17 +32,17 @@ import net.oauth.OAuthProblemException;
  * tokens and stores them in memory. Tokens are only good for the life of the
  * process. Least recently used tokens are invalidated when cached limits are
  * reached.
- * 
+ *
  * @author Samuel Padgett
  */
 public class SimpleTokenStrategy implements TokenStrategy {
 	private final static int REQUEST_TOKEN_MAX_ENTIRES = 500;
 	private final static int ACCESS_TOKEN_MAX_ENTRIES = 5000;
-	
+
 	/**
 	 * Holds information associated with a request token such as the callback
 	 * URL and OAuth verification code.
-	 * 
+	 *
 	 * @author Samuel Padgett
 	 */
 	protected class RequestTokenData {
@@ -50,7 +50,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 		private boolean authorized;
 		private String callback;
 		private String verificationCode;
-		
+
 		public RequestTokenData(String consumerKey) {
 			this.consumerKey = consumerKey;
 			this.authorized = false;
@@ -62,40 +62,40 @@ public class SimpleTokenStrategy implements TokenStrategy {
 			this.authorized = false;
 			this.callback = callback;
 		}
-		
+
 		public String getConsumerKey() {
 			return consumerKey;
 		}
-		
+
 		public void setConsumerKey(String consumerKey) {
 			this.consumerKey = consumerKey;
 		}
-		
+
 		public boolean isAuthorized() {
 			return authorized;
 		}
-		
+
 		public void setAuthorized(boolean authorized) {
 			this.authorized = authorized;
 		}
-		
+
 		public String getCallback() {
 			return callback;
 		}
-		
+
 		public void setCallback(String callback) {
 			this.callback = callback;
 		}
-		
+
 		public String getVerificationCode() {
 			return verificationCode;
 		}
-		
+
 		public void setVerificationCode(String verificationCode) {
 			this.verificationCode = verificationCode;
 		}
 	}
-	
+
 	// key is request token string, value is RequestTokenData
 	private Map<String, RequestTokenData> requestTokens;
 
@@ -107,7 +107,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 
 	/**
 	 * Constructs a SimpleTokenStrategy using the defaults for cache limits on request and access tokens.
-	 * 
+	 *
 	 * @see SimpleTokenStrategy#SimpleTokenStrategy(int, int)
 	 */
 	public SimpleTokenStrategy() {
@@ -118,17 +118,17 @@ public class SimpleTokenStrategy implements TokenStrategy {
 	 * Constructs a SimpleTokenStrategy with cache limits on the number of
 	 * request and access tokens. Least recently used tokens are invalidated
 	 * when cache limits are reached.
-	 * 
+	 *
 	 * @param requestTokenMaxCount
 	 *            the maximum number of request tokens to track
 	 * @param accessTokenMaxCount
 	 *            the maximum number of access tokens to track
 	 */
 	public SimpleTokenStrategy(int requestTokenMaxCount, int accessTokenMaxCount) {
-		requestTokens = new LRUCache<String, RequestTokenData>(requestTokenMaxCount);
-		accessTokens = new LRUCache<String, String>(accessTokenMaxCount);
-		tokenSecrets = new LRUCache<String, String>(requestTokenMaxCount
-				+ accessTokenMaxCount);
+		requestTokens = new LRUCache<>(requestTokenMaxCount);
+		accessTokens = new LRUCache<>(accessTokenMaxCount);
+		tokenSecrets = new LRUCache<>(requestTokenMaxCount
+            + accessTokenMaxCount);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 			String requestToken) throws OAuthProblemException {
 		String verificationCode = generateTokenString();
 		getRequestTokenData(requestToken).setVerificationCode(verificationCode);
-		
+
 		return verificationCode;
 	}
 
@@ -258,10 +258,10 @@ public class SimpleTokenStrategy implements TokenStrategy {
 			return tokenSecret;
 		}
 	}
-	
+
 	/**
 	 * Creates a unique, random string to use for tokens.
-	 * 
+	 *
 	 * @return the random string
 	 */
 	protected String generateTokenString() {
@@ -270,7 +270,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 
 	/**
 	 * Gets the request token data from this OAuth request.
-	 * 
+	 *
 	 * @param oAuthRequest
 	 *            the OAuth request
 	 * @return the request token data
@@ -286,7 +286,7 @@ public class SimpleTokenStrategy implements TokenStrategy {
 
 	/**
 	 * Gets the request token data for this request token.
-	 * 
+	 *
 	 * @param requestToken
 	 *            the request token string
 	 * @return the request token data

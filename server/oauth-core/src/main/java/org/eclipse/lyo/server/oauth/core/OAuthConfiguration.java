@@ -37,6 +37,7 @@ public class OAuthConfiguration {
 	private ConsumerStore consumerStore = null;
 	private Application application = null;
 	private boolean v1_0Allowed = true;
+	private String servletUri = null;
 
 	private static final OAuthConfiguration instance = new OAuthConfiguration();
 
@@ -140,4 +141,23 @@ public class OAuthConfiguration {
 	public void setV1_0Allowed(boolean allowed) {
 		this.v1_0Allowed = allowed;
 	}
+
+    public String getServletUri() {
+        return servletUri;
+    }
+
+    /**
+     * Sets the official servlet URL (typically set using OSLC4JUtils.getServletURI()) 
+     * in case this can differ from that in the individual requests.
+     * This is important to set correctly to compute the digital signature.
+     * An individual request URL is then constructed by appending this servletUrl with request.getPathInfo().
+     * 
+     * @param servletUri
+     *            the official servlet URL of the request. If this
+     *            parameter is null, this method will try to reconstruct the URL
+     *            from the HTTP request; which may be wrong in some cases.
+     */
+    public void setServletUri(String servletUri) {
+        this.servletUri = servletUri;
+    }
 }

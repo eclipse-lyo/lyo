@@ -54,7 +54,7 @@ public final class ServiceProviderFactory {
 		serviceProvider.setDescription(description);
 		serviceProvider.setPublisher(publisher);
 
-		final Map<String, Service> serviceMap = new HashMap<String, Service>();
+		final Map<String, Service> serviceMap = new HashMap<>();
 
 		for (final Class<?> resourceClass : resourceClasses) {
 			final OslcService serviceAnnotation = resourceClass.getAnnotation(OslcService.class);

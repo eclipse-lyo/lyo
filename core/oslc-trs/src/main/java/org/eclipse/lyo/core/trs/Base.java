@@ -39,12 +39,12 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * Container where each member references a Resource that was in the Resource
  * Set at the time the Base was computed. HTTP GET on a Base URI returns an RDF
  * container with the following structure:
- * 
+ *
  * <pre>
  * {@literal @prefix trs: <http://open-services.net/ns/core/trs#> .}
  * {@literal @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .}
  * {@literal @prefix ldp: <http://www.w3.org/ns/ldp#> .}
- * 
+ *
  * {@code
  * <https://.../baseResources>
  *	a ldp:Container;
@@ -57,7 +57,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  *	rdfs:member <http://cm1.example.com/bugs/200> .
  * }
  * </pre>
- * 
+ *
  * <p>
  * Each Resource in the Resource Set MUST be referenced from the container using
  * an rdfs:member predicate. The Base MAY be broken into multiple pages in which
@@ -66,7 +66,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * will contain a subset of the Base’s rdfs:member predicates. In addition, it
  * will contain another triple, whose subject is the page resource itself (i.e.,
  * not the Base resource), with a reference to the next page:
- * 
+ *
  * <pre>
  * {@code
  * <https://.../baseResources/page1>
@@ -75,13 +75,13 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  *	 ldp:nextPage <https://../baseResources/page2> .
  * }
  * </pre>
- * 
+ *
  * <p>
  * The last page in the list is indicated by a ldp:nextPage value of rdf:nil.
  * The Tracked Resource Set protocol does not attach significance to the order
  * in which a Server enumerates the resources in the Base or breaks the Base up
  * into pages.
- * 
+ *
  * <p>
  * The first page of a Base MUST include a trs:cutoffEvent property, whose value
  * is the URI of the most recent Change Event in the corresponding Change Log
@@ -92,7 +92,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * in the non-truncated portion of the Change Log. When the trs:cutoffEvent is
  * rdf:nil, the Base enumerates the (possibly empty) Resource Set at the
  * beginning of time.
- * 
+ *
  * <p>
  * Because of the highly dynamic nature of the Resource Set, a Server may have
  * difficulty enumerating the exact set of resources at a point in time. Because
@@ -107,7 +107,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * dereferenced the Tracked Resource Set URI. The Client might only see a
  * corrective Change Event when it processes the Change Log resource obtained by
  * dereferencing the Tracked Resource Set URI on later occasions.
- * 
+ *
  * <p>
  * When a Base is broken into pages, the Client will discover and retrieve Base
  * page resources to determine the Resources in the Base. A Client MUST retrieve
@@ -120,7 +120,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * necessarily an approximation of the Resource Set which, when corrected by
  * Change Events after the Base’s cutoff event, yields the correct set of member
  * Resources in the Resource Set.
- * 
+ *
  * <p>
  * A Server MUST refer to a given resource using the exact same URI in the Base
  * ( rdfs:member reference) and every Change Event ( trs:changed reference) for
@@ -133,7 +133,7 @@ public class Base extends AbstractResource {
 	private List<URI> members;
 	private URI cutoffEvent;
 	private Page nextPage;
-	
+
 	/**
 	 * @return the members
 	 */
@@ -143,11 +143,11 @@ public class Base extends AbstractResource {
 	@OslcTitle("Member")
 	public List<URI> getMembers() {
 		if(members == null){
-			members = new ArrayList<URI>();
+			members = new ArrayList<>();
 		}
 		return members;
 	}
-	
+
 	/**
 	 * @param members the members to set
 	 */
@@ -177,7 +177,7 @@ public class Base extends AbstractResource {
 	 * The OslcHidden annotation works around a limitation in OSLC4J.  If we do
 	 * not hide the nextPage variable we get an incorrect ldp:nextPage reference
 	 * in the Base.
-	 * 
+	 *
 	 * @return the nextPage
 	 */
 	@OslcHidden(value=true)

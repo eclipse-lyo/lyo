@@ -77,7 +77,7 @@ public class TRSUtil {
      */
     public static List<Resource> getResourcesWithTypeFromModel(Model model,
             String fullQualifiedRDFTypeName) {
-        List<Resource> resources = new ArrayList<Resource>();
+        List<Resource> resources = new ArrayList<>();
         ResIterator listSubjects = null;
         listSubjects = model.listSubjectsWithProperty(
                 RDF.type,
@@ -103,7 +103,7 @@ public class TRSUtil {
             throws IllegalAccessException, IllegalArgumentException, InstantiationException,
             InvocationTargetException, SecurityException, NoSuchMethodException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
-        List<ChangeEvent> changeEvents = new ArrayList<ChangeEvent>();
+        List<ChangeEvent> changeEvents = new ArrayList<>();
         List<Resource> modificationResources = getResourcesWithTypeFromModel(changeLogJenaModel,
                                                                              TRSConstants
                                                                                      .TRS_TYPE_MODIFICATION);

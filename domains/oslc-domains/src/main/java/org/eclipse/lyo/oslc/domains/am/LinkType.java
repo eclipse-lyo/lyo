@@ -82,13 +82,13 @@ public class LinkType
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -97,17 +97,17 @@ public class LinkType
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:comment
     // End of user code
     private String comment;
     // Start of user code attributeAnnotation:label
     // End of user code
     private String label;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -115,38 +115,38 @@ public class LinkType
     public LinkType()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public LinkType(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_amDomainConstants.LINKTYPE_PATH,
         LinkType.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local LinkType Resource} - update LinkType.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -155,36 +155,36 @@ public class LinkType
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         result = String.format("%s (LinkType; id=%s)", this.getLabel(), this.getIdentifier());
 
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -200,7 +200,7 @@ public class LinkType
         // End of user code
         return contributor;
     }
-    
+
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -215,7 +215,7 @@ public class LinkType
         // End of user code
         return created;
     }
-    
+
     // Start of user code getterAnnotation:creator
     // End of user code
     @OslcName("creator")
@@ -231,7 +231,7 @@ public class LinkType
         // End of user code
         return creator;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -246,7 +246,7 @@ public class LinkType
         // End of user code
         return identifier;
     }
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -261,7 +261,7 @@ public class LinkType
         // End of user code
         return modified;
     }
-    
+
     // Start of user code getterAnnotation:instanceShape
     // End of user code
     @OslcName("instanceShape")
@@ -277,7 +277,7 @@ public class LinkType
         // End of user code
         return instanceShape;
     }
-    
+
     // Start of user code getterAnnotation:serviceProvider
     // End of user code
     @OslcName("serviceProvider")
@@ -293,7 +293,7 @@ public class LinkType
         // End of user code
         return serviceProvider;
     }
-    
+
     // Start of user code getterAnnotation:comment
     // End of user code
     @OslcName("comment")
@@ -308,7 +308,7 @@ public class LinkType
         // End of user code
         return comment;
     }
-    
+
     // Start of user code getterAnnotation:label
     // End of user code
     @OslcName("label")
@@ -323,8 +323,8 @@ public class LinkType
         // End of user code
         return label;
     }
-    
-    
+
+
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -336,11 +336,11 @@ public class LinkType
         {
             this.contributor.addAll(contributor);
         }
-    
+
         // Start of user code setterFinalize:contributor
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -348,11 +348,11 @@ public class LinkType
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-    
+
         // Start of user code setterFinalize:created
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:creator
     // End of user code
     public void setCreator(final Set<Link> creator )
@@ -364,11 +364,11 @@ public class LinkType
         {
             this.creator.addAll(creator);
         }
-    
+
         // Start of user code setterFinalize:creator
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
     public void setIdentifier(final String identifier )
@@ -376,11 +376,11 @@ public class LinkType
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:modified
     // End of user code
     public void setModified(final Date modified )
@@ -388,11 +388,11 @@ public class LinkType
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-    
+
         // Start of user code setterFinalize:modified
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:instanceShape
     // End of user code
     public void setInstanceShape(final Set<Link> instanceShape )
@@ -404,11 +404,11 @@ public class LinkType
         {
             this.instanceShape.addAll(instanceShape);
         }
-    
+
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
     public void setServiceProvider(final Set<Link> serviceProvider )
@@ -420,11 +420,11 @@ public class LinkType
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-    
+
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:comment
     // End of user code
     public void setComment(final String comment )
@@ -432,11 +432,11 @@ public class LinkType
         // Start of user code setterInit:comment
         // End of user code
         this.comment = comment;
-    
+
         // Start of user code setterFinalize:comment
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:label
     // End of user code
     public void setLabel(final String label )
@@ -444,10 +444,10 @@ public class LinkType
         // Start of user code setterInit:label
         // End of user code
         this.label = label;
-    
+
         // Start of user code setterFinalize:label
         // End of user code
     }
-    
-    
+
+
 }

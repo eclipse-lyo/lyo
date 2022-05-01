@@ -114,7 +114,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      */
     public static Shape createShaclShape(final Class<?> resourceClass)
             throws OslcCoreApplicationException, URISyntaxException, ParseException {
-        final HashSet<Class<?>> verifiedClasses = new HashSet<Class<?>>();
+        final HashSet<Class<?>> verifiedClasses = new HashSet<>();
         verifiedClasses.add(resourceClass);
 
         return createShaclShape(resourceClass, verifiedClasses);
@@ -135,7 +135,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
 
         populateFromClassLevelAnnotations(shaclShape, resourceClass);
 
-        final Set<String> propertyDefinitions = new HashSet<String>();
+        final Set<String> propertyDefinitions = new HashSet<>();
 
         // Create Properties. Also check if shacl annotations are available or not.
         createProperties(resourceClass, verifiedClasses, shaclShape, propertyDefinitions, true);
@@ -228,7 +228,7 @@ public final class ShaclShapeFactory extends ResourceShapeFactory {
      */
     private static List<URI> populateIgnoredProperties(final ShaclIgnoredProperties shaclIgnoredProperties)
             throws URISyntaxException {
-        List<URI> ignoredPropertiesList = new ArrayList<URI>();
+        List<URI> ignoredPropertiesList = new ArrayList<>();
         for (String ignoredProperty : shaclIgnoredProperties.values()) {
             ignoredPropertiesList.add(new URI(ignoredProperty));
         }
