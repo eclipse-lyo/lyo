@@ -14,16 +14,19 @@ package org.eclipse.lyo.store;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
+import org.apache.jena.query.Dataset;
+import org.apache.jena.tdb.TDBFactory;
+import org.eclipse.lyo.store.internals.SparqlStoreImpl;
+import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URI;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import org.eclipse.lyo.store.Store;
-import org.eclipse.lyo.store.StoreFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class StorePool {
+    public final static URI DEFAULT_GRAPH_JENA = URI.create("urn:x-arq:DefaultGraph");
 
     private URI defaultNamedGraphUri;
     private BlockingQueue<Store> storePool;
@@ -41,6 +44,21 @@ public class StorePool {
                 s = StoreFactory.sparql(sparqlQueryEndpoint.toString(), sparqlUpdateEndpoint.toString());
             }
             storePool.add(s);
+        }
+    }
+
+    /**
+     * A pool of in-memory Stores
+     * @param poolSize
+     * @param defaultNamedGraphUri
+     */
+    public StorePool(int poolSize, URI defaultNamedGraphUri) {
+        this.defaultNamedGraphUri = defaultNamedGraphUri;
+        this.storePool = new ArrayBlockingQueue<>(poolSize);
+        Dataset dataset = TDBFactory.createDataset();
+        DatasetQueryExecutorImpl queryExecutor = new DatasetQueryExecutorImpl(dataset);
+        for (int i = 0; i < poolSize; i++) {
+            storePool.add(new SparqlStoreImpl(queryExecutor));
         }
     }
 

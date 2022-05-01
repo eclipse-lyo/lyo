@@ -103,7 +103,7 @@ public interface Store {
     boolean resourceExists(URI namedGraphUri, URI resourceUri);
 
     /**
-     * Retrieve a Jena model for triples under the given subject from the corresponding named graph.
+     * Retrieve a Jena {@link Model} for triples under the given subject from the corresponding named graph.
      */
     Model getJenaModelForSubject(URI namedGraphUri, URI subject)
             throws NoSuchElementException;
@@ -172,63 +172,71 @@ public interface Store {
             int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
 
     /**
-     * Alternative to {@link Store#getResources(URI, Class, String, String, String, int, int)} with additional paramters for inlined resources.
-     *
-     * These paramters extend the default query from 
-     * 
+     * Alternative to {@link Store#getResources(URI, Class, String, String, String, int, int)} with additional parameters for inlined resources.
+     * These parameters extend the default query from:
+     * <pre>
      * DESCRIBE ?s
-     * WHERE { 
+     * WHERE {
      *   ...
      *   SELECT distinct ?s
      *     WHERE {
      *       ?s ?p ?o .
-     *       ?s rdf:type  <http://...> .
+     *       ?s rdf:type  &lt;http://...&gt; .
      *       ...
      *     }
      * }
-     * 
-     * to
-     * 
+     * </pre>
+     * to:
+     * <pre>
      * DESCRIBE ?s ?a ?b
-     * WHERE { 
+     * WHERE {
      * ...
      *   SELECT distinct ?s ?a ?b
      *   WHERE {
      *     ?s  ?p        ?o .
-     *     ?s rdf:type  <http://...> .
-     *     ?s <http://...#prp1>  ?a .
-     *     ?a <http://prp2> ?b
+     *     ?s rdf:type  &lt;http://...&gt; .
+     *     ?s &lt;http://...#prp1&gt;  ?a .
+     *     ?a &lt;http://prp2&gt; ?b
      *   }
      * }
-     *  
-     *  hence allowing ?a and ?b to be described, as well as ?a 
-     *  
-     *  Corresponding paramters to acheive this:
+     * </pre>
+     *
+     *  hence allowing {@code ?a} and {@code ?b} to be described, as well as {@code ?s}.
+     *
+     *  Corresponding parameters to achieve this:
+     *
+     *  <pre>
      *  List<String> additionalDistinctVars = new ArrayList<String>();
      *  additionalDistinctVars.add("a");
      *  additionalDistinctVars.add("b");
-     *  
+     *
      *  SelectBuilder additionalQueryFilter = new SelectBuilder();
      *  additionalQueryFilter
      *  .addWhere( "?s", new ResourceImpl("http://...#" + "prp1"), "?a")
      *  .addWhere( "?a", new ResourceImpl(http://...# + "prp2"), "?b");
-
+     *  </pre>
      * @param additionalDistinctVars
      * @param additionalQueryFilter
      */
     <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
             String prefixes, String where, String searchTerms,
-            int limit, int offset, 
+            int limit, int offset,
             List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) throws StoreAccessException, ModelUnmarshallingException;
 
     /**
-     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
-     * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
-     * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
+     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query
+     * language
+     * (<a href="https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html">https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html</a>)
+     * If the {@code namedGraph} is null, the query is applied on all {@code namedGraph} in the triplestore.
+     * The method currently only provides support for terms of type Comparisons, where the operator
+     * is {@code 'EQUALS'}, and the operand is either a {@link String} or a {@link URI}.
      *
      * @param namedGraph    namedGraphUri URI of a named graph under which resources were stored
-     * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where query parameter.
-     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties. (See oslc.where  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where
+     *                      query parameter.
+     * @param where         filters the member list, keeping only those member resources that satisfy
+     *                     the boolean test on the member resource properties. (See {@code oslc.where}  at
+     *                      <a href="https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html">https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html</a>)
      * @param limit         paging limit
      * @param offset        paging offset
      *
@@ -238,30 +246,39 @@ public interface Store {
     Model getResources(URI namedGraph, String prefixes, String where, int limit, int offset);
 
     /**
-     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query language (https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html)
-     * If the namedGraph is null, the query is applied on all namedGraph in the triplestore.
-     * The method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
+     * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query
+     * language (<a href="https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html">https://tools.oasis-open.org/version-control/svn/oslc-core/trunk/specs/oslc-query.html</a>)
+     * If the {@code namedGraph} is null, the query is applied on all {@code namedGraph} in the triplestore.
+     * The method currently only provides support for terms of type Comparisons, where the operator
+     * is {@code 'EQUALS'}, and the operand is either a {@link String} or a {@link URI}.
      *
      * @param namedGraph    namedGraphUri URI of a named graph under which resources were stored
-     * @param prefixes      defines the prefixes for prefixed names that appear in the oslc.where query parameter.
-     * @param where         filters the member list, keeping only those member resources that satisfy the boolean test on the member resource properties. (See oslc.where  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
-     * @param searchTerms   score each member resource using a full text search on it text-valued properties. (See oslc.searchTerms  at https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html)
+     * @param prefixes      defines the prefixes for prefixed names that appear in the {@code oslc.where}
+     *                      query parameter.
+     * @param where         filters the member list, keeping only those member resources that satisfy
+     *                     the boolean test on the member resource properties. (See {@code oslc.where}
+     *                     at <a href="https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html">https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html</a>)
+     * @param searchTerms   score each member resource using a full text search on it text-valued
+     *                      properties. (See {@code oslc.searchTerms} at
+     *                      <a href="https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html">https://tools.oasis-open.org/version-control/browse/wsvn/oslc-core/trunk/specs/oslc-query.html</a>)
      * @param limit         paging limit
      * @param offset        paging offset
      *
-     * @return list of resources, size is less or equal to 'limit'
+     * @return a Jena {@link Model} with the less than or equal to {@code limit} resources.
      *
      */
     Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset);
 
-    
+
     /**
-     * Alternative to {@link Store#getResources(URI, String, String, String, int, int)} with additional paramters for inlined resources.
+     * Alternative to {@link Store#getResources(URI, String, String, String, int, int)} with
+     * additional parameters for inlined resources.
      *
-     * See {@link Store#getResources(URI, Class, String, String, String, int, int, List<String>, SelectBuilder)} for an explanation of these additional paramters.
+     * See {@link Store#getResources(URI, Class, String, String, String, int, int, List, SelectBuilder)}
+     * for an explanation of these additional parameters.
 
      */
-    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset, 
+    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset,
             List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter);
 
     /**

@@ -47,11 +47,6 @@ public class OslcOAuthClient implements IOslcClient {
 
     /**
      * Initialize an OAuthClient with the required OAuth URLs
-     * @param requestTokenURL
-     * @param authorizationTokenURL
-     * @param accessTokenURL
-     * @param consumerKey
-     * @param consumerSecret
      */
     public OslcOAuthClient(
             OAuthAccessor accessor,
