@@ -133,7 +133,11 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         }
 
         String location = authResponse.getHeaderString("Location");
-        authResponse.close();
+        try {
+            authResponse.close();
+        } catch (ProcessingException e) {
+            log.warn("Connection not closed cleanly");
+        }
         statusCode = followRedirects(statusCode, location);
 
         // retry the request with the updated cookies
@@ -180,7 +184,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
             try {
                 lastRedirectResponse.close();
             } catch (ProcessingException e) {
-                log.warn("Last redirect connection could not be closed");
+                log.warn("Last redirect connection not closed cleanly");
             }
         }
         followingRedirects = false;
@@ -189,11 +193,10 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
     @Override
     public void filter(ClientRequestContext requestContext) {
-        if(!isAuthAlreadyAttempted(requestContext) && cookies.size() > 0) {
+        if(cookies.size() > 0) {
             requestContext.getHeaders().add(COOKIE, cookies);
             log.trace("Jazz auth cookies appended to the request");
-//            requestContext.setProperty(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
-        } {
+        } else {
             log.trace("Not appending Jazz auth cookies to the request");
         }
     }
