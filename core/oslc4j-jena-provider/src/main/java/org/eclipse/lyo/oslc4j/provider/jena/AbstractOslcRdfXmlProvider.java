@@ -127,6 +127,7 @@ public abstract class AbstractOslcRdfXmlProvider
 			final String serializationLanguage) {
 		try
 		{
+            log.trace("writeObjectsTo - Start");
 			final Model model = JenaModelHelper.createJenaModel(descriptionURI,
 																responseInfoURI,
 																responseInfo,
@@ -146,6 +147,7 @@ public abstract class AbstractOslcRdfXmlProvider
 			writer.write(model,
 						 outputStream,
 						 null);
+            log.trace("writeObjectsTo");
 		}
 		catch (final Exception exception)
 		{

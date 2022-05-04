@@ -117,6 +117,9 @@ public final class JenaModelHelper
             final ResponseInfo<?> responseInfo, final Object[] objects, final Map<String, Object> properties)
             throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OslcCoreApplicationException {
+        
+        logger.trace("createJenaModel - Start");
+
         final Model model = ModelFactory.createDefaultModel();
 
         Resource descriptionResource = null;
@@ -220,6 +223,7 @@ public final class JenaModelHelper
                     namespaceMapping.getValue());
         }
 
+        logger.trace("createJenaModel - End");
         return model;
     }
 
@@ -395,6 +399,9 @@ public final class JenaModelHelper
             IllegalArgumentException,
             InstantiationException, InvocationTargetException, OslcCoreApplicationException,
             URISyntaxException, SecurityException, NoSuchMethodException {
+        
+        logger.trace("fromJenaModel - Start");
+
         final List<Object> results = new ArrayList<>();
 
         if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
@@ -448,6 +455,7 @@ public final class JenaModelHelper
             }
         }
 
+        logger.trace("fromJenaModel - End");
         return results.toArray((Object[]) Array.newInstance(beanClass, results.size()));
     }
 
