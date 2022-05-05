@@ -302,7 +302,7 @@ public class ResourceShapeFactory {
 
 		final OslcMaxSize maxSizeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcMaxSize.class);
 		if (maxSizeAnnotation != null) {
-			property.setMaxSize(maxSizeAnnotation.value());
+			property.setMaxSize(BigInteger.valueOf(maxSizeAnnotation.value()));
 		}
 
 		final OslcValueShape valueShapeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcValueShape.class);

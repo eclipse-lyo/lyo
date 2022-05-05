@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.oslc4j.core.model;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	private URI allowedValuesRef;
 	private String description;
 	private Boolean hidden;
-	private Integer maxSize;
+	private BigInteger maxSize;
 	private Boolean memberProperty;
 	private String name;
 	private Occurs occurs;
@@ -121,7 +122,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "maxSize")
 	@OslcReadOnly
 	@OslcTitle("Maximum Size")
-	public Integer getMaxSize() {
+	public BigInteger getMaxSize() {
 		return maxSize;
 	}
 
@@ -289,7 +290,7 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		this.hidden = hidden;
 	}
 
-	public void setMaxSize(final Integer maxSize) {
+	public void setMaxSize(final BigInteger maxSize) {
 		this.maxSize = maxSize;
 	}
 
