@@ -226,7 +226,7 @@ public final class JenaModelHelper
         }
 
         Instant finish = Instant.now();
-        logger.trace("createJenaModel - Execution Duration: {}", Duration.between(start, finish).toMillis());
+        logger.trace("createJenaModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
         return model;
     }
 
@@ -459,7 +459,7 @@ public final class JenaModelHelper
         }
 
         Instant finish = Instant.now();
-        logger.trace("fromJenaModel - Execution Duration: {}", Duration.between(start, finish).toMillis());
+        logger.trace("fromJenaModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
         return results.toArray((Object[]) Array.newInstance(beanClass, results.size()));
     }
 

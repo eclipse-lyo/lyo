@@ -151,7 +151,7 @@ public abstract class AbstractOslcRdfXmlProvider
 						 outputStream,
 						 null);
             Instant finish = Instant.now();
-            log.trace("writeObjectsTo - Execution Duration: {}", Duration.between(start, finish).toMillis());
+            log.trace("writeObjectsTo - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
 		}
 		catch (final Exception exception)
 		{

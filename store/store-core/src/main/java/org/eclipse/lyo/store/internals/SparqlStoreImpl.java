@@ -343,7 +343,7 @@ public class SparqlStoreImpl implements Store {
                 Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
                 Instant finish = Instant.now();
-                log.trace("GetResources - SPARQL Query Execution Duration: {}", Duration.between(start, finish).toMillis());
+                log.trace("GetResources - SPARQL Query Execution Duration: {} ms", Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
                 //a request that returns an empty set seems to cause an exception when using Marklogic.
                 if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
@@ -447,7 +447,7 @@ public class SparqlStoreImpl implements Store {
                 castObjects[i] = clazz.cast(obj[i]);
             }
             Instant finish = Instant.now();
-            log.trace("getResourcesFromModel - Execution Duration: {}", Duration.between(start, finish).toMillis());
+            log.trace("getResourcesFromModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
             //The Model is most likely obtained via Select query that is orded by the subject (ascending)
             //See sparql construction in constructSparqlWhere()
             //Order the list below accordingly.
@@ -513,7 +513,7 @@ public class SparqlStoreImpl implements Store {
                 Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
                 Instant finish = Instant.now();
-                log.trace("GetResource - SPARQL Query Execution Duration: {}", Duration.between(start, finish).toMillis());
+                log.trace("GetResource - SPARQL Query Execution Duration: {} ms", Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
                 //a request that returns an empty set seems to cause an exception when using Marklogic.
                 if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
