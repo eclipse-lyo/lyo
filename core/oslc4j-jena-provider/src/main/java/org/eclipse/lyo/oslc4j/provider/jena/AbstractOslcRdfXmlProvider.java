@@ -16,6 +16,8 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +129,8 @@ public abstract class AbstractOslcRdfXmlProvider
 			final String serializationLanguage) {
 		try
 		{
+            Instant start = Instant.now();
+
 			final Model model = JenaModelHelper.createJenaModel(descriptionURI,
 																responseInfoURI,
 																responseInfo,
@@ -146,6 +150,8 @@ public abstract class AbstractOslcRdfXmlProvider
 			writer.write(model,
 						 outputStream,
 						 null);
+            Instant finish = Instant.now();
+            log.trace("writeObjectsTo - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
 		}
 		catch (final Exception exception)
 		{

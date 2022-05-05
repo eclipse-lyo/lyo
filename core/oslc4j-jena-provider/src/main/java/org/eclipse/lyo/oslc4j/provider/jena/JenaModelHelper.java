@@ -67,6 +67,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.function.Function;
 
@@ -117,6 +119,9 @@ public final class JenaModelHelper
             final ResponseInfo<?> responseInfo, final Object[] objects, final Map<String, Object> properties)
             throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OslcCoreApplicationException {
+        
+        Instant start = Instant.now();
+
         final Model model = ModelFactory.createDefaultModel();
 
         Resource descriptionResource = null;
@@ -220,6 +225,8 @@ public final class JenaModelHelper
                     namespaceMapping.getValue());
         }
 
+        Instant finish = Instant.now();
+        logger.trace("createJenaModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
         return model;
     }
 
@@ -395,6 +402,9 @@ public final class JenaModelHelper
             IllegalArgumentException,
             InstantiationException, InvocationTargetException, OslcCoreApplicationException,
             URISyntaxException, SecurityException, NoSuchMethodException {
+        
+        Instant start = Instant.now();
+
         final List<Object> results = new ArrayList<>();
 
         if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
@@ -448,6 +458,8 @@ public final class JenaModelHelper
             }
         }
 
+        Instant finish = Instant.now();
+        logger.trace("fromJenaModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
         return results.toArray((Object[]) Array.newInstance(beanClass, results.size()));
     }
 
