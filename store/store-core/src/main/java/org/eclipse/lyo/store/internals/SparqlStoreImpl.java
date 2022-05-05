@@ -69,6 +69,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -337,10 +339,11 @@ public class SparqlStoreImpl implements Store {
             final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
 
             try {
-                log.trace("SPARQL Describe query for oslc.where='{}': {}", where, describeQueryString);
-                log.trace("GetResources - Start Executing Sparql Query");
+                log.trace("SPARQL Describe query for oslc.where='{}':\n{}", where, describeQueryString);
+                Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
-                log.trace("GetResources - End Executing Sparql Query");
+                Instant finish = Instant.now();
+                log.trace("GetResources - SPARQL Query Execution Duration: {}", Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
                 //a request that returns an empty set seems to cause an exception when using Marklogic.
                 if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
@@ -436,14 +439,15 @@ public class SparqlStoreImpl implements Store {
     private <T extends IResource> List<T> getResourcesFromModel(final Model model,
             final Class<T> clazz) throws ModelUnmarshallingException, StoreAccessException {
         try {
-            log.trace("getResourcesFromModel - Start");
+            Instant start = Instant.now();
             final Object[] obj = JenaModelHelper.fromJenaModel(model, clazz);
             @SuppressWarnings("unchecked") final T[] castObjects = (T[]) Array.newInstance(clazz,
                     obj.length);
             for (int i = 0; i < obj.length; i++) {
                 castObjects[i] = clazz.cast(obj[i]);
             }
-            log.trace("getResourcesFromModel - End");
+            Instant finish = Instant.now();
+            log.trace("getResourcesFromModel - Execution Duration: {}", Duration.between(start, finish).toMillis());
             //The Model is most likely obtained via Select query that is orded by the subject (ascending)
             //See sparql construction in constructSparqlWhere()
             //Order the list below accordingly.
@@ -502,13 +506,14 @@ public class SparqlStoreImpl implements Store {
         Model execDescribe;
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
-
+            String queryString = query.toString();
+            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(queryString);
             try {
-                log.trace("SPARQL Describe query for uri='{}': {}", uri, queryExecution.getQueryString());
-                log.trace("GetResource - Start Executing Sparql Query");
+                log.trace("SPARQL Describe query for uri='{}': \n{}", uri, queryString);
+                Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
-                log.trace("GetResource - End Executing Sparql Query");
+                Instant finish = Instant.now();
+                log.trace("GetResource - SPARQL Query Execution Duration: {}", Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
                 //a request that returns an empty set seems to cause an exception when using Marklogic.
                 if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
