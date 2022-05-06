@@ -52,6 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
@@ -119,7 +120,7 @@ public final class JenaModelHelper
             final ResponseInfo<?> responseInfo, final Object[] objects, final Map<String, Object> properties)
             throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OslcCoreApplicationException {
-        
+
         Instant start = Instant.now();
 
         final Model model = ModelFactory.createDefaultModel();
@@ -402,7 +403,7 @@ public final class JenaModelHelper
             IllegalArgumentException,
             InstantiationException, InvocationTargetException, OslcCoreApplicationException,
             URISyntaxException, SecurityException, NoSuchMethodException {
-        
+
         Instant start = Instant.now();
 
         final List<Object> results = new ArrayList<>();
@@ -664,10 +665,7 @@ public final class JenaModelHelper
                 {
                     if (extendedProperties == null)
                     {
-                        logger.debug("Set method not found for object type:	" +
-                                beanClass.getName() +
-                                ", uri:	" +
-                                uri);
+                        logger.debug("Set method not found for object type: {}, uri: {}", beanClass.getName(), uri);
                     }
                     else
                     {
@@ -2270,20 +2268,18 @@ public final class JenaModelHelper
         return visitedResourceName;
     }
 
-    private static Transformer createTransformer()
-    {
-        try
-        {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    private static Transformer createTransformer() {
+        try {
+            TransformerFactory factory = TransformerFactory.newInstance();
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
 
+            Transformer transformer = factory.newTransformer();
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
             return transformer;
-
         } catch (TransformerException e) {
-
             throw new RuntimeException(e);
-
         }
     }
 
