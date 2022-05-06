@@ -1,5 +1,11 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
+import org.apache.commons.lang.math.RandomUtils;
+import org.eclipse.lyo.core.trs.ChangeEvent;
+import org.eclipse.lyo.core.trs.Creation;
+import org.eclipse.lyo.core.trs.Deletion;
+import org.eclipse.lyo.core.trs.Modification;
+
 import java.net.URI;
 import java.util.Date;
 import java.util.Random;
@@ -17,5 +23,35 @@ public class TRSTestUtil {
                 URI.create(String.format("urn:uuid:%s", UUID.randomUUID().toString())),
                 HistoryData.CREATED);
         return historyData;
+    }
+
+    static ChangeEvent historyDataToChangeEvent(HistoryData objToConvert) {
+        HistoryData hd = objToConvert;
+
+        ChangeEvent changeEvent = null;
+
+        String hdType = hd.getType();
+        Date timeStamp = hd.getTimestamp();
+        URI changed = hd.getUri();
+        int changeOrderInt = RandomUtils.nextInt();
+        String changeOrder = String.valueOf(changeOrderInt);
+
+        String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"
+                + TRSUtil.XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" +
+                changeOrder;
+
+        URI changedUri = URI.create(changedUriString);
+
+        if (hdType.equals(HistoryData.CREATED)) {
+            changeEvent = new Creation(changedUri, changed, changeOrderInt);
+        } else if (hdType.equals(HistoryData.MODIFIED)) {
+            changeEvent = new Modification(changedUri, changed, changeOrderInt);
+        } else {
+            changeEvent = new Deletion(changedUri, changed, changeOrderInt);
+        }
+        ;
+
+        changeEvent.getExtendedProperties().put(TRSUtil.dateModifiedQname, timeStamp);
+        return changeEvent;
     }
 }

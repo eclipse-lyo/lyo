@@ -20,18 +20,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
-import org.apache.commons.lang.math.RandomUtils;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFWriterI;
@@ -183,60 +181,20 @@ public class TRSUtil {
         os.close();
     }
 
-    /**
-     * Convert a history data object to a change event and vice versa
-     *
-     * @param objToConvert the object to be converted
-     *
-     * @return the converted object
-     */
-    @Deprecated
-    public static Object historyDataToChangeEvent(Object objToConvert) {
-
-        if (objToConvert instanceof ChangeEvent) {
-            ChangeEvent changeEvent = (ChangeEvent) objToConvert;
-            URI changed = changeEvent.getChanged();
-            Date modificationDate = (Date) changeEvent.getExtendedProperties()
-                                                      .get(dateModifiedQname);
-            HistoryData hd = null;
-            if (changeEvent instanceof Deletion) {
-                hd = HistoryData.getInstance(modificationDate, changed, HistoryData.DELETED);
-            } else if (changeEvent instanceof Modification) {
-                hd = HistoryData.getInstance(modificationDate, changed, HistoryData.MODIFIED);
-            } else {
-                hd = HistoryData.getInstance(modificationDate, changed, HistoryData.CREATED);
-            }
-            return hd;
-        } else if (objToConvert instanceof HistoryData) {
-            HistoryData hd = (HistoryData) objToConvert;
-
-            ChangeEvent changeEvent = null;
-
-            String hdType = hd.getType();
-            Date timeStamp = hd.getTimestamp();
-            URI changed = hd.getUri();
-            int changeOrderInt = RandomUtils.nextInt();
-            String changeOrder = String.valueOf(changeOrderInt);
-
-            String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"
-                    + XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" +
-                    changeOrder;
-
-            URI changedUri = URI.create(changedUriString);
-
-            if (hdType.equals(HistoryData.CREATED)) {
-                changeEvent = new Creation(changedUri, changed, changeOrderInt);
-            } else if (hdType.equals(HistoryData.MODIFIED)) {
-                changeEvent = new Modification(changedUri, changed, changeOrderInt);
-            } else {
-                changeEvent = new Deletion(changedUri, changed, changeOrderInt);
-            }
-            ;
-
-            changeEvent.getExtendedProperties().put(dateModifiedQname, timeStamp);
-            return changeEvent;
+    public static HistoryData changeEventToHistoryData(ChangeEvent objToConvert) {
+        ChangeEvent changeEvent = objToConvert;
+        URI changed = changeEvent.getChanged();
+        Date modificationDate = (Date) changeEvent.getExtendedProperties()
+                                                  .get(dateModifiedQname);
+        HistoryData hd = null;
+        if (changeEvent instanceof Deletion) {
+            hd = HistoryData.getInstance(modificationDate, changed, HistoryData.DELETED);
+        } else if (changeEvent instanceof Modification) {
+            hd = HistoryData.getInstance(modificationDate, changed, HistoryData.MODIFIED);
+        } else {
+            hd = HistoryData.getInstance(modificationDate, changed, HistoryData.CREATED);
         }
-        return null;
+        return hd;
     }
 
     /**

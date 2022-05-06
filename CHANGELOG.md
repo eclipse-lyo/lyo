@@ -28,6 +28,7 @@
 - `oslc4j-wink` was removed
 - `oslc4j-registry` was removed
 - Store support for direct TDB1 backend was removed. You can still create a SPARQL query executor over an in-mem TDB1 dataset: `new DatasetQueryExecutorImpl(TDBFactory.createDataset())`.
+- `TrsUtil.historyDataToChangeEvent` (deprecated since 4.0) was removed and replaced with `changeEventToHistoryData`. _Despite the name, the `historyDataToChangeEvent` was doing round-tripping between `HistoryData` and `ChangeEvent` in both directions._
 
 ### Fixed
 
