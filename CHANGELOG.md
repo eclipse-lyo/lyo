@@ -32,6 +32,8 @@
 
 ### Fixed
 
+- Stack traces are no longer printed from OAuth services.
+
 ## [4.1.0]
 
 ### Added

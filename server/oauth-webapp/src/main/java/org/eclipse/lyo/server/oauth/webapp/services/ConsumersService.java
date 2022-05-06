@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -40,15 +40,18 @@ import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages OAuth consumers for this provider.
- * 
+ *
  * @author Samuel Padgett
  */
 @Path("/oauth/consumers")
 public class ConsumersService {
-	
+    private static final Logger log = LoggerFactory.getLogger(ConsumersService.class);
+
 	@Context protected HttpServletRequest httpRequest;
 	@Context protected HttpServletResponse httpResponse;
 
@@ -91,10 +94,10 @@ public class ConsumersService {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
 	}
-	
+
 	/**
 	 * Updates an OAuth consumer.
-	 * 
+	 *
 	 * @param key
 	 *            the consumer key
 	 * @param name
@@ -122,7 +125,7 @@ public class ConsumersService {
 						.type(MediaType.TEXT_PLAIN)
 						.entity("You must be an administrator.").build();
 			}
-			
+
 			ConsumerStore store = OAuthConfiguration.getInstance()
 					.getConsumerStore();
 			LyoOAuthConsumer consumer = store.getConsumer(key);
@@ -139,7 +142,7 @@ public class ConsumersService {
 				consumer.setProvisional("true".equals(provisional));
 			}
 			store.updateConsumer(consumer);
-			
+
 			return Response.noContent().build();
 		} catch (ConsumerStoreException e) {
 			return handleConsumerStoreException(e);
@@ -150,7 +153,7 @@ public class ConsumersService {
 
 	/**
 	 * Deletes an OAuth consumer.
-	 * 
+	 *
 	 * @param key
 	 *            the consumer key
 	 * @return the HTTP response
@@ -167,7 +170,7 @@ public class ConsumersService {
 						.type(MediaType.TEXT_PLAIN)
 						.entity("You must be an administrator.").build();
 			}
-			
+
 			OAuthConfiguration.getInstance().getConsumerStore()
 					.removeConsumer(key);
 			return Response.noContent().build();
@@ -179,7 +182,7 @@ public class ConsumersService {
 	}
 
 	protected Response handleConsumerStoreException(ConsumerStoreException e) {
-		e.printStackTrace();
+		log.warn("Exception caught from consumer store: {}", e.getMessage());
 		return Response.status(Status.CONFLICT).type(MediaType.TEXT_PLAIN)
 				.entity(e.getMessage()).build();
 	}

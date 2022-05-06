@@ -63,13 +63,12 @@ import org.slf4j.LoggerFactory;
  * Issues OAuth request tokens, handles authentication, and then exchanges
  * request tokens for access tokens based on the OAuth configuration set in the
  * {@link OAuthConfiguration} singleton.
- * 
+ *
  * @author Samuel Padgett
  * @see <a href="http://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol</a>
  */
 @Path("/oauth")
 public class OAuthService {
-
     @Context
     protected HttpServletRequest httpRequest;
 
@@ -86,7 +85,7 @@ public class OAuthService {
 
     /**
      * Responds with a request token and token secret.
-     * 
+     *
      * @return the response
      * @throws IOException      on I/O errors
      * @throws ServletException on servlet errors
@@ -314,10 +313,10 @@ public class OAuthService {
             return Response.ok(response.write())
                     .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE).build();
         } catch (JSONException e) {
-            e.printStackTrace();
+            log.info("Encountered an exception while processing JSON: {}", e.getMessage());
             return Response.status(Status.BAD_REQUEST).build();
         } catch (ConsumerStoreException e) {
-            e.printStackTrace();
+            log.warn("Exception caught from consumer store: {}", e.getMessage());
             return Response.status(Status.SERVICE_UNAVAILABLE).type(MediaType.TEXT_PLAIN).entity(e.getMessage())
                     .build();
         }
@@ -367,7 +366,7 @@ public class OAuthService {
             return null;
 
         } catch (ConsumerStoreException e) {
-            e.printStackTrace();
+            log.warn("Exception caught from consumer store: {}", e.getMessage());
             return Response.status(Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity(e.getMessage()).build();
         } catch (OAuthProblemException e) {
             return respondWithOAuthProblem(e);
@@ -453,7 +452,7 @@ public class OAuthService {
      * Validates this is a known consumer and the request is valid using
      * {@link OAuthValidator#validateMessage(net.oauth.OAuthMessage, OAuthAccessor)}.
      * Does <b>not</b> check for any tokens.
-     * 
+     *
      * @return an OAuthRequest
      * @throws OAuthException if the request fails validation
      * @throws IOException    on I/O errors
