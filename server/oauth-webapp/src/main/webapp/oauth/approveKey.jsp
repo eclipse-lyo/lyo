@@ -5,13 +5,13 @@
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- 
+
  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  and the Eclipse Distribution License is available at
  http://www.eclipse.org/org/documents/edl-v10.php.
- 
+
  Contributors:
- 
+
     Sam Padgett	  	- initial API and implementation
 --%>
 <%@ page language="java" contentType="text/html; UTF-8"
@@ -29,7 +29,9 @@
 	href="<%=request.getContextPath()%>/oauth/stylesheets/theme.css" rel="stylesheet"></link>
 <jsp:include page="/oauth/common.jsp"/>
 <script data-dojo-config="async: true" type="text/javascript"
-	src="//ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js">
+	src="https://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
+    integrity="sha384-bqFszDxIx1pBU07tkwSVqESIkEWbvZQZECZexMsFrac7cIl0C7yZdQga7xB659ZV"
+    crossorigin="anonymous">
 </script>
 <script type="text/javascript">
 require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_base/xhr", "dojo/ready" ],
@@ -56,7 +58,7 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 				}
 			});
 		});
-		
+
 		on(dom.byId('deny'), 'click', function(e) {
 			event.stop(e);
 			xhr.del({

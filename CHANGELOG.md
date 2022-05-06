@@ -5,7 +5,7 @@
 ### Added
 
 - LyoStore: Providing a system property `OSLC4JUtils.hasLyoStorePagingPreciseLimit()` to allow the application to check whether query paging should return an exact number of elements in a paged query, or not (`OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT`).
-
+- SRI hashes for JS libraries.
 
 ### Changed
 - 🧨 Lyo is now built using JDK 11
