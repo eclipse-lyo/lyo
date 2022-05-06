@@ -29,8 +29,8 @@
 <script
 	data-dojo-config="async: true"
     type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
-    integrity="sha384-bqFszDxIx1pBU07tkwSVqESIkEWbvZQZECZexMsFrac7cIl0C7yZdQga7xB659ZV"
+    src="https://cdnjs.cloudflare.com/ajax/libs/dojo/1.17.2/dojo.js"
+    integrity="sha512-WNCcqK9B+L6cXPdxFkIEIb7jDFGLueKdWZDnD7TwatnJ1qNYEnOveWGzHAq44dAusnRs819uVePGQc+ute11NA=="
     crossorigin="anonymous">
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/oauth/scripts/adminLogin.js"></script>

@@ -624,22 +624,10 @@ discipline_2.12-0.7.2 (2.12)
 * Source:
    https://search.maven.org/remotecontent?filepath=org/typelevel/discipline_2.12/0.7.2/discipline_2.12-0.7.2-sources.jar
 
-Dojo (1.5.0)
+dojo (1.17.2)
 
-* License: Academic Free License OR BSD (Dual - we choose BSD), BSD alone,
-   Python, MIT, Unicode, Apache 2.0 
+* License: Academic Free License OR BSD (Dual - we choose BSD)
 
-dojo (1.7.1)
-
-* License: Academic Free License OR BSD (Dual - we choose BSD), BSD alone,
-   Python, MIT, Unicode, Public Domain, Apache 2.0
-
-dojo (1.12.1)
-
-* License: (AFL-2.1 OR BSD-3-Clause) AND MIT AND Apache-2.0 AND
-   Unicode-DFS-2007
-* Project: https://dojotoolkit.org/
-* Source: ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/dojo.js
 
 eff_2.12 (4.6.1)
 
