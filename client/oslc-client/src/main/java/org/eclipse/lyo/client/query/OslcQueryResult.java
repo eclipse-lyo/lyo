@@ -24,6 +24,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.lyo.client.OSLCConstants;
+import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
@@ -263,24 +264,10 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
                                 try {
                                     return (T)JenaModelHelper.fromJenaResource((Resource)member.getObject(), clazz);
-                                } catch (IllegalArgumentException e) {
-                                   throw new IllegalStateException(e.getMessage());
-                                } catch (SecurityException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (DatatypeConfigurationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (IllegalAccessException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (InstantiationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (InvocationTargetException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (OslcCoreApplicationException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (URISyntaxException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                } catch (NoSuchMethodException e) {
-                                    throw new IllegalStateException(e.getMessage());
+                                } catch (DatatypeConfigurationException | IllegalAccessException |
+                                         InvocationTargetException | InstantiationException | OslcCoreApplicationException
+                                         | NoSuchMethodException | URISyntaxException e) {
+                                    throw new LyoModelException(e);
                                 }
                             }
 

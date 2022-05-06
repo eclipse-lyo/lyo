@@ -16,6 +16,7 @@
 - LyoStore: `OSLC4JUtils.hasLyoStorePagingPreciseLimit()` will return true by default. Call `OSLC4JUtils.setLyoStorePagingPreciseLimit(false)` to restore the old behavior.
 - `oslc4j-json4j-provider` uses `wink-json4j` version 1.4 instead of 1.2.1-incubating.
 -oauth - allow for the possibility to set the official servlet URL for all oauth requests being made. This is important to set correctly to compute the digital signature.
+- `OslcQueryResult` will now rethrow any encountered exceptions wrapped in a `LyoModelException` instead of throwing a blanked `IllegalStateException`.
 
 ### Deprecated
 
