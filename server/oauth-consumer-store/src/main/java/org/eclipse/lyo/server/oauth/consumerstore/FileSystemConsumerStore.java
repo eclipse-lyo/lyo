@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Base64.Encoder;
@@ -43,14 +44,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A simple RDF consumer store backed by an XML file on the filesystem.
- * 
+ *
  * NOTE: The shared consumer secret is stored as Base64 and is only obfuscated, not encrypted (unless
  * the ctor with an encryption key is used).
- * 
+ *
  * @author Samuel Padgett
  */
 public class FileSystemConsumerStore extends AbstractConsumerStore {
-	protected final static String LYO_OAUTH_NAMESPACE = "http://eclipse.org/lyo/server/oauth#";
+    protected final static String LYO_OAUTH_NAMESPACE = "http://eclipse.org/lyo/server/oauth#";
 	protected final static String CONSUMER_RESOURCE = LYO_OAUTH_NAMESPACE
 			+ "Consumer";
 	protected final static String CALLBACK_URL = LYO_OAUTH_NAMESPACE
@@ -66,12 +67,13 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 	protected final static String TRUSTED = LYO_OAUTH_NAMESPACE + "trusted";
 
 	private final static Logger log = LoggerFactory.getLogger(FileSystemConsumerStore.class);
+    public static final String AES_CIPHER = "AES/GCM/NoPadding";
 
-	private Model model;
+    private Model model;
 	private String oauthStore;
 	private String encryptionKey;
 
-	
+
 	public FileSystemConsumerStore(String oauthStoreRoot) throws SQLException, ConsumerStoreException,
 			ClassNotFoundException {
 		this.oauthStore = oauthStoreRoot;
@@ -93,7 +95,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		createModel();
 		loadConsumers();
 	}
-	
+
 	public FileSystemConsumerStore(Model model, String oauthStoreRoot) throws ConsumerStoreException {
 		this.oauthStore = oauthStoreRoot;
 		this.model = model;
@@ -114,7 +116,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		OutputStream os = new FileOutputStream(oauthStore);
 		writeModel.write(os, FileUtils.langXMLAbbrev);
 	}
-	
+
 	protected synchronized void loadConsumers() throws ConsumerStoreException {
 		ResIterator i = model.listResourcesWithProperty(RDF.type,
 		                                    			model.createResource(CONSUMER_RESOURCE));
@@ -154,16 +156,16 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 
 			removeProperties(consumer);
 			toResource(consumer);
-			
-			LyoOAuthConsumer retConsumer = add(consumer);			
-			writeModel();			
+
+			LyoOAuthConsumer retConsumer = add(consumer);
+			writeModel();
 			return retConsumer;
-			
+
 		} catch (UnsupportedEncodingException ue) {
-			throw new ConsumerStoreException(ue);	
+			throw new ConsumerStoreException(ue);
 		} catch (FileNotFoundException fe) {
 			throw new ConsumerStoreException(fe);
-		} 
+		}
 	}
 
 	@Override
@@ -172,18 +174,18 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		if (model == null) {
 			throw new ConsumerStoreException("Consumer store not initialized.");
 		}
-		
+
 		try {
-			
+
 			removeProperties(consumerKey);
 			LyoOAuthConsumer retConsumer = remove(consumerKey);
 
 			writeModel();
 			return retConsumer;
-			
+
 		} catch (FileNotFoundException fe) {
 			throw new ConsumerStoreException(fe);
-		} 
+		}
 	}
 
 	@Override
@@ -192,7 +194,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		// addConsumer() also works for update.
 		return addConsumer(consumer);
 	}
-	
+
 	@Override
 	public void closeConsumerStore() {
 		try {
@@ -200,13 +202,13 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		} catch (Exception e) {
 			log.error("Error finalizing model to disk");
 		}
-		
+
 		this.model.close();
 	}
 
 	/**
 	 * Removes any properties previously associated with the consumer.
-	 * 
+	 *
 	 * @param consumerKey
 	 *            the consumer key
 	 */
@@ -218,10 +220,10 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 			i.next().removeProperties();
 		}
 	}
-	
+
 	/**
 	 * Removes any properties previously associated with the consumer.
-	 * 
+	 *
 	 * @param consumer the consumer
 	 */
 	protected void removeProperties(LyoOAuthConsumer consumer) {
@@ -243,7 +245,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		}
 		resource.addProperty(model.createProperty(CONSUMER_SECRET),
 				encodedSecret);
-		
+
 		resource.addProperty(model.createProperty(PROVISIONAL),
 				(consumer.isProvisional()) ? "true" : "false");
 		resource.addProperty(model.createProperty(TRUSTED),
@@ -255,16 +257,16 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 	protected LyoOAuthConsumer fromResource(Resource resource) throws UnsupportedEncodingException {
 		String key = resource.getRequiredProperty(
 				model.createProperty(CONSUMER_KEY)).getString();
-		
+
 		String encodedSecret = resource.getRequiredProperty(
 				model.createProperty(CONSUMER_SECRET)).getString();
 		String secret=null;
 		if(this.encryptionKey!=null) {
 			secret=new String(decrypt(encodedSecret,this.encryptionKey));
-		}else {
+		} else {
 			secret = new String(Base64.getDecoder().decode(encodedSecret.getBytes("UTF8")),"UTF8");
 		}
-				
+
 		LyoOAuthConsumer consumer = new LyoOAuthConsumer(key, secret);
 		consumer.setName(resource.getRequiredProperty(
 				model.createProperty(CONSUMER_NAME)).getString());
@@ -276,64 +278,64 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 		String trusted = resource.getProperty(model.createProperty(TRUSTED))
 				.getString();
 		consumer.setTrusted("true".equals(trusted));
-		
+
 		return consumer;
 	}
-	
-	protected String encrypt(String plainText, String encryptionKey) {
-		log.debug("Entering encrypt method in EncryptionUtil class");
-		
-		String encryptedText = null;
-		try {
-			Cipher cipher = Cipher.getInstance("AES");
-			SecretKey secretKey = getSecreteKey(encryptionKey);
-			byte[] plainTextByte = plainText.getBytes();
-			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			byte[] encryptedByte = cipher.doFinal(plainTextByte);
-			Encoder encoder = Base64.getEncoder();
-			encryptedText = encoder.encodeToString(encryptedByte);
-		} catch (Exception e) {
-			log.error(e.getMessage(),e);
-		}
-		
-		log.debug("Exiting encrypt method in EncryptionUtil class");
-		
-		return encryptedText;
-	}
-	
-	protected String decrypt(String encryptedText, String decryptionKey) {
 
-		log.debug("Entering decrypt method in EncryptionUtil class");
-		
-		String decryptedText = null;
-		try {
-			Cipher cipher = Cipher.getInstance("AES");
-			SecretKey secretKey = getSecreteKey(decryptionKey);
-			Base64.Decoder decoder = Base64.getDecoder();
-			byte[] encryptedTextByte = decoder.decode(encryptedText);
-			cipher.init(Cipher.DECRYPT_MODE, secretKey);
-			byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
-			decryptedText = new String(decryptedByte);
+    protected String encrypt(String plainText, String encryptionKey) {
+        log.debug("Entering encrypt method in EncryptionUtil class");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error(e.getMessage(),e);
-		}
-		
-		log.debug("Exiting decrypt method in EncryptionUtil class");
-		
-		return decryptedText;
-	}
-	
+        String encryptedText = null;
+        try {
+            Cipher cipher = Cipher.getInstance(AES_CIPHER);
+            SecretKey secretKey = getSecreteKey(encryptionKey);
+            byte[] plainTextByte = plainText.getBytes();
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] encryptedByte = cipher.doFinal(plainTextByte);
+            Encoder encoder = Base64.getEncoder();
+            encryptedText = encoder.encodeToString(encryptedByte);
+        } catch (GeneralSecurityException e) {
+            log.error("Failed to encrypt Consumer configuration file data: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        log.debug("Exiting encrypt method in EncryptionUtil class");
+
+        return encryptedText;
+    }
+
+    protected String decrypt(String encryptedText, String decryptionKey) {
+
+        log.debug("Entering decrypt method in EncryptionUtil class");
+
+        String decryptedText = null;
+        try {
+            Cipher cipher = Cipher.getInstance(AES_CIPHER);
+            SecretKey secretKey = getSecreteKey(decryptionKey);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] encryptedTextByte = decoder.decode(encryptedText);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
+            decryptedText = new String(decryptedByte);
+        } catch (GeneralSecurityException e) {
+            log.error("Failed to decrypt Consumer configuration file data: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        log.debug("Exiting decrypt method in EncryptionUtil class");
+
+        return decryptedText;
+    }
+
 	/**
 	 * It generate Secret Key of length 32 bytes using user provided key.
-	 * 
+	 *
 	 * @return
 	 */
 	protected SecretKey getSecreteKey(String encryptionKey) {
 		log.debug("Entering getSecreteKey method in EncryptionUtil class");
 		log.debug("Secret key length should be 16, 24 or 32 bytes");
-		
+
 		byte[] encoded = Base64.getDecoder().decode(encryptionKey);
 		SecretKey secretKey = new SecretKeySpec(encoded, "AES");
 
