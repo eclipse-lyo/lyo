@@ -46,8 +46,8 @@ public class TRSUtilTest {
 
     @Test
     public final void testHistoryDataToChangeEvent() {
-        ChangeEvent convertedCe = (ChangeEvent) TRSUtil.historyDataToChangeEvent(hd);
-        HistoryData convertedHd = (HistoryData) TRSUtil.historyDataToChangeEvent(ce);
+        ChangeEvent convertedCe = TRSTestUtil.historyDataToChangeEvent(hd);
+        HistoryData convertedHd = TRSUtil.changeEventToHistoryData(ce);
 
         Assert.assertTrue(convertedCe.getChanged().equals(hd.getUri()));
         Assert.assertTrue(convertedCe.getExtendedProperties()
