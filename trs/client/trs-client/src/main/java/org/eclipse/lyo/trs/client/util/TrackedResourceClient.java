@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.client.OslcClient;
+import org.eclipse.lyo.client.IOslcClient;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Page;
@@ -32,10 +32,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TrackedResourceClient implements ITrackedResourceClient {
-    private final static Logger log = LoggerFactory.getLogger(TrackedResourceClient.class);
-    private final OslcClient oslcClient;
+    private static final Logger log = LoggerFactory.getLogger(TrackedResourceClient.class);
+    private final IOslcClient oslcClient;
 
-    public TrackedResourceClient(final OslcClient oslcClient) {this.oslcClient = oslcClient;}
+    public TrackedResourceClient(final IOslcClient oslcClient) {this.oslcClient = oslcClient;}
 
     @Override
     public Model fetchTRSRemoteResource(final URI uri) throws RepresentationRetrievalException {
