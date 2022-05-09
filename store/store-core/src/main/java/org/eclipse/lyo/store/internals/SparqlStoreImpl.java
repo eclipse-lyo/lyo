@@ -14,7 +14,6 @@ package org.eclipse.lyo.store.internals;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
@@ -95,8 +94,8 @@ public class SparqlStoreImpl implements Store {
     /**
      * Could be used to prevent extremely large results
      */
-    public final static int TRIPLE_LIMIT = 10001;
-    private final static Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
+    public static final int TRIPLE_LIMIT = 10001;
+    private static final Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
     private final JenaQueryExecutor queryExecutor;
 
     /**
@@ -242,7 +241,8 @@ public class SparqlStoreImpl implements Store {
         final Model model;
         model = modelFromQueryByUri(namedGraphUri, subject);
         if (model.isEmpty()) {
-            throw new NoSuchElementException("resource '" + subject + "' is missing from the triplestore at namedGraph '" + namedGraphUri + "'");
+            throw new NoSuchElementException("resource '" + subject + "' is missing from the triplestore at namedGraph '"
+                + namedGraphUri + "'");
         }
         return model;
     }
@@ -282,45 +282,54 @@ public class SparqlStoreImpl implements Store {
     public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
             final String where, final String searchTerms, final int limit, final int offset)
             throws StoreAccessException, ModelUnmarshallingException {
-        return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset, null, null);
+        return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset,
+            null, null);
     }
 
     @Override
     public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
-            final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
-            throws StoreAccessException, ModelUnmarshallingException {
+            final String where, final String searchTerms, final int limit, final int offset,
+            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
+        throws StoreAccessException, ModelUnmarshallingException {
 
         String _prefixes = prefixes;
         String _where = where;
 
         _prefixes = (StringUtils.isEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
         _where = (StringUtils.isEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
-        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset, additionalDistinctVars, additionalQueryFilter);
+        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset, additionalDistinctVars,
+            additionalQueryFilter);
         return getResourcesFromModel(model, clazz);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit, final int offset) {
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit,
+                              final int offset) {
         return getResources(namedGraph, prefixes, where, null, limit, offset);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset) {
-        return getResources(namedGraph, prefixes, where, searchTerms, limit, offset, null, null);
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms,
+                              final int limit, final int offset) {
+        return getResources(namedGraph, prefixes, where, searchTerms, limit, offset,
+            null, null);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
+    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms,
+                              final int limit, final int offset, List<String> additionalDistinctVars,
+                              SelectBuilder additionalQueryFilter) {
 
         if (namedGraph != null) {
             //Make sure the designated namedGraph exists, if it is specified.
-            //Otherwise, the search occurs across all namedgraphs.
+            //Otherwise, the search occurs across all named graphs.
             if (!namedGraphExists(namedGraph)) {
                 throw new IllegalArgumentException("Named graph" + namedGraph + " was missing from the triplestore");
             }
         }
 
-        SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset, additionalDistinctVars, additionalQueryFilter);
+        SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset,
+            additionalDistinctVars, additionalQueryFilter);
         DescribeBuilder describeBuilder = new DescribeBuilder();
         describeBuilder.addVar("s")
         .addGraph((namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g", sparqlWhereQuery);
@@ -573,8 +582,13 @@ public class SparqlStoreImpl implements Store {
         }
     }
 
-    //This method currently only provides support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String or a URI.
-    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms, final int limit, final int offset, List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) {
+    /**
+     * This method currently only provides support for terms of type {@link Type#COMPARISON}, where the operator is
+     * 'EQUALS', and the operand is either a {@link String} or a {@link URI}.
+     */
+    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms,
+                                               final int limit, final int offset, List<String> additionalDistinctVars,
+                                               SelectBuilder additionalQueryFilter) {
 
         SelectBuilder distinctResourcesQuery = new SelectBuilder();
 
@@ -621,7 +635,8 @@ public class SparqlStoreImpl implements Store {
                     }
                     ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
                     if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
-                        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS'");
+                        throw new UnsupportedOperationException(
+                            "only support for terms of type Comparisons, where the operator is 'EQUALS'");
                     }
 
                     Value comparisonOperand = aComparisonTerm.operand();
@@ -648,7 +663,8 @@ public class SparqlStoreImpl implements Store {
                         distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
                         break;
                     default:
-                        throw new UnsupportedOperationException("only support for terms of type Comparisons, where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
+                        throw new UnsupportedOperationException("only support for terms of type Comparisons," +
+                            " where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
                     }
                 }
             }
