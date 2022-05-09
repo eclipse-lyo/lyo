@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -51,29 +51,32 @@ public class ResourcePackages {
      */
     static final Map<String, List<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
 
+    private ResourcePackages() {}
+
     /**
      * Scans a package (recursively) searching for classes annotated with
      * {@link OslcResourceShape} and mapping them with an {@link RDF#type} built
      * by the {@link TypeFactory#getQualifiedName(java.lang.Class)} method.
      * @param pkg the package to scan.
      */
-    public synchronized static void mapPackage(Package pkg) {
+    public static synchronized void mapPackage(Package pkg) {
         String packageName = pkg.getName();
         if (SCANNED_PACKAGES.contains(packageName)) {
-            LOGGER.debug("> package {} already scanned", packageName);
+            LOGGER.trace("> package {} already scanned", packageName);
         } else {
             int counter = 0;
-            LOGGER.debug("> scanning package {}", packageName);
-            ClassGraph classGraph = new ClassGraph().whitelistPackages(pkg.getName());
+            LOGGER.trace("> scanning package {}", packageName);
+            ClassGraph classGraph = new ClassGraph().acceptPackages(pkg.getName());
             classGraph = classGraph.enableClassInfo().enableAnnotationInfo();
             try (ScanResult scanResult = classGraph.scan()) {
                 ClassInfoList classInforList = scanResult.getClassesWithAnnotation(OslcResourceShape.class.getName());
                 for (ClassInfo classInfo : classInforList) {
                     if (classInfo.isAbstract()) {
-                        LOGGER.trace("[-] Abstract class: " + classInfo.getName());
+                        LOGGER.trace("[-] Abstract class: {}", classInfo.getName());
                     } else {
                         try {
-                            Class<?> rdfClass = Class.forName(classInfo.getName(), true, Thread.currentThread().getContextClassLoader());
+                            Class<?> rdfClass = Class.forName(classInfo.getName(), true,
+                                Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
                             List<Class<?>> types = TYPES_MAPPINGS.get(rdfType);
                             if (types == null) {
@@ -84,7 +87,7 @@ public class ResourcePackages {
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
                         } catch (ClassNotFoundException ex) {
-                            LOGGER.trace("[-] Unexpected missing class: " + classInfo.getName());
+                            LOGGER.trace("[-] Unexpected missing class: {}", classInfo.getName());
                         }
                     }
                 }
@@ -102,7 +105,8 @@ public class ResourcePackages {
      * belonging to different inheritance trees.
      */
     private static Class<?> getMostConcreteClassOf(List<Class<?>> candidates) {
-        int size, index = 0;
+        int size;
+        int index = 0;
         do {
             Class<?> pivot = candidates.get(index);
             Iterator<Class<?>> iterator = candidates.iterator();
@@ -142,7 +146,7 @@ public class ResourcePackages {
      * inheritance tree) is annotated to be mapped by the same {@code RDF:type}.
      */
     public static Optional<Class<?>> getClassOf(Resource resource, Class<?>... preferredTypes) {
-        LOGGER.debug("> resolving class for resource {}", resource.getURI());
+        LOGGER.trace("> resolving class for resource {}", resource.getURI());
         StmtIterator rdfTypes = resource.listProperties(RDF.type);
         List<Class<?>> candidates = new ArrayList<>();
         synchronized(ResourcePackages.class) {
@@ -168,7 +172,8 @@ public class ResourcePackages {
                     for(Class<?> preferredType : preferredTypes) {
                         if (rdfClasses.contains(preferredType)) {
                             candidates.add(preferredType);
-                            LOGGER.trace("[+] Preferred candidate class {} found for RDF:type {}", preferredType.getName(), typeURI);
+                            LOGGER.trace("[+] Preferred candidate class {} found for RDF:type {}",
+                                preferredType.getName(), typeURI);
                             break;
                         }
                     }
