@@ -5,12 +5,12 @@
     <parent>
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>clients-parent</artifactId>
-      <version>5.0.0</version>
+      <version>5.0.0.Final</version>
       <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>oslc-client</artifactId>
-    <version>5.0.0</version>
+    <version>5.0.0.Final</version>
     <name>Lyo :: Client :: OSLC JAX-RS 2.0 (new)</name>
     <description>Eclipse Lyo OSLC Java client based on OSLC4J and JAX-RS 2.0</description>
 
