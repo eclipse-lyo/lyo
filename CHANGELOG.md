@@ -1,5 +1,17 @@
 # Eclipse Lyo changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [5.0.0]
 
 ### Added
@@ -8,6 +20,7 @@
 - SRI hashes for JS libraries.
 
 ### Changed
+- **Addresses a security vulnerability ([CVE-2021-41042](https://nvd.nist.gov/vuln/detail/CVE-2021-41042)), which could lead to external resource loading using a maliciously crafted RDF/XML input.**
 - 🧨 Lyo is now built using JDK 11
 - 🧨 Jena is upgraded to 4.5.0 **(addresses [CVE-2022-28890](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-28890))**
   - Jena renamed `RDFReader/RDFWriter` to `RDFReaderI/RDFWriterI`
