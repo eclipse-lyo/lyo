@@ -6,11 +6,11 @@
   <parent>
     <groupId>org.eclipse.lyo.clients</groupId>
     <artifactId>clients-parent</artifactId>
-    <version>5.0.0.Final</version>
+    <version>5.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>oslc-client-base</artifactId>
-  <version>5.0.0.Final</version>
+  <version>5.0.1-SNAPSHOT</version>
   <name>Lyo :: Client :: Base</name>
 
   <properties>

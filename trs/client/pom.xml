@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>5.0.0.Final</version>
+    <version>5.0.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
