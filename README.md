@@ -1,8 +1,8 @@
 # Eclipse Lyo
 
-![CI Parent](https://github.com/eclipse/lyo/workflows/CI%20Parent/badge.svg)
-[![](https://img.shields.io/jenkins/s/https/ci.eclipse.org/lyo/job/lyo-monorepo.svg?label=Eclipse%20Jenkins)](https://ci.eclipse.org/lyo/job/lyo-monorepo/)
-[![](https://img.shields.io/badge/javadoc-4.1.0-blue.svg)](https://download.eclipse.org/lyo/docs/all/4.1.0/apidocs/)
+![GitHub Actions Status (master)](https://img.shields.io/github/workflow/status/eclipse/lyo/CI%20Parent/master?label=GH%20Actions)
+[![](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.eclipse.org%2Flyo%2Fjob%2FLyo%2520multibranch%2Fjob%2Fmaster%2F&label=Eclipse%20Jenkins)](https://ci.eclipse.org/lyo/job/Lyo%20multibranch/job/master/)
+[![](https://img.shields.io/badge/javadoc-5.0.0.Final-blue.svg)](https://download.eclipse.org/lyo/docs/all/5.0.0.Final/apidocs/)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/all/latest/apidocs/)
 [![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
 
