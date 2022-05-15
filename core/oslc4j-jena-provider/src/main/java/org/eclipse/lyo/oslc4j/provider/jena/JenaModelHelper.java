@@ -1170,31 +1170,18 @@ public final class JenaModelHelper
                 }
             }
             final Object literalValue;
-            try
-            {
+            try {
                 literalValue = literal.getValue();
-
-            }
-            catch (DatatypeFormatException e)
-            {
+            } catch (DatatypeFormatException e) {
                 String rawValue = literal.getString();
                 String datatype = literal.getDatatypeURI();
 
-                if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES)))
-                {
-                    if (logger.isWarnEnabled())
-                    {
-                        logger.warn(
-                                "Property " + propertyQName.getNamespaceURI()
-                                        + propertyQName.getLocalPart()
-                                        + " could not be parsed as datatype "
-                                        + literal.getDatatypeURI(), e);
-                    }
-
-                    return new UnparseableLiteral(rawValue,datatype);
-                }
-                else
-                {
+                if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES))) {
+                    String propUri = propertyQName.getNamespaceURI() + propertyQName.getLocalPart();
+                    logger.warn("Property {} could not be parsed as datatype {}", propUri, literal.getDatatype());
+                    logger.debug("Exception thrown while parsing property {}: ", propUri, e);
+                    return new UnparseableLiteral(rawValue, datatype);
+                } else {
                     throw e;
                 }
             }

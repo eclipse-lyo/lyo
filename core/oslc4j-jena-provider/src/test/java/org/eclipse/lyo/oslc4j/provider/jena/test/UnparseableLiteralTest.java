@@ -63,7 +63,6 @@ public class UnparseableLiteralTest {
 	}
 
 	@Test
-//	@Ignore("Jena 3 migration")
 	public void serializeUnparseable() throws Exception {
 		final TestResource resource = new TestResource();
 		resource.setAbout(new URI("http://example.com/bugs/8234"));
