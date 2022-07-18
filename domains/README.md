@@ -17,9 +17,9 @@ Depending on your needs, there are 3 different ways to use these domain implemen
 Simply add the following dependency to your project, and you are ready to create instances of the Java classes:
 ```xml
 <dependency>
-	<groupId>oslc-domains</groupId>
-	<artifactId>oslc-domains</artifactId>
-	<version>${version.lyo}</version>
+  <groupId>org.eclipse.lyo</groupId>
+  <artifactId>oslc-domains</artifactId>
+  <version>${version.lyo}</version>
 </dependency>
 ```
 
