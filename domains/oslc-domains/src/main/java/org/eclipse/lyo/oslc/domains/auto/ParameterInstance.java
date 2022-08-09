@@ -57,7 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.auto.Oslc_autoDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
@@ -65,7 +64,6 @@ import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-
 // Start of user code imports
 // End of user code
 
@@ -92,14 +90,14 @@ public class ParameterInstance
     private String description;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
-
+    private Set<Link> serviceProvider = new HashSet<Link>();
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -107,38 +105,38 @@ public class ParameterInstance
     public ParameterInstance()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public ParameterInstance(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_autoDomainConstants.PARAMETERINSTANCE_PATH,
         ParameterInstance.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local ParameterInstance Resource} - update ParameterInstance.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -147,29 +145,29 @@ public class ParameterInstance
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:name
     // End of user code
     @OslcName("name")
@@ -261,7 +259,6 @@ public class ParameterInstance
         return serviceProvider;
     }
 
-
     // Start of user code setterAnnotation:name
     // End of user code
     public void setName(final String name )
@@ -269,7 +266,6 @@ public class ParameterInstance
         // Start of user code setterInit:name
         // End of user code
         this.name = name;
-
         // Start of user code setterFinalize:name
         // End of user code
     }
@@ -281,7 +277,6 @@ public class ParameterInstance
         // Start of user code setterInit:value
         // End of user code
         this.value = value;
-
         // Start of user code setterFinalize:value
         // End of user code
     }
@@ -293,7 +288,6 @@ public class ParameterInstance
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
-
         // Start of user code setterFinalize:description
         // End of user code
     }
@@ -309,7 +303,6 @@ public class ParameterInstance
         {
             this.type.addAll(type);
         }
-
         // Start of user code setterFinalize:type
         // End of user code
     }
@@ -325,7 +318,6 @@ public class ParameterInstance
         {
             this.instanceShape.addAll(instanceShape);
         }
-
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
@@ -341,10 +333,8 @@ public class ParameterInstance
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
-
 
 }

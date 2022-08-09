@@ -57,7 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsClass;
@@ -150,8 +149,7 @@ public class RdfsClass
         // End of user code
         return subClassOf;
     }
-    
-    
+
     // Start of user code setterAnnotation:subClassOf
     // End of user code
     public void setSubClassOf(final Link subClassOf )
@@ -159,10 +157,8 @@ public class RdfsClass
         // Start of user code setterInit:subClassOf
         // End of user code
         this.subClassOf = subClassOf;
-    
         // Start of user code setterFinalize:subClassOf
         // End of user code
     }
-    
-    
+
 }

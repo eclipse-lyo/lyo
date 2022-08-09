@@ -31,7 +31,7 @@
     <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." valueType="XMLLiteral">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='title']"/>
     </resourceProperties>
-    <resourceProperties id="_pnX1QZUdEeq-KoPaR9_Cfg" name="isVersionOf" description="The concept resource of which this resource is a version. The subject of this property must be the version resource URI." valueType="Resource" representation="reference">
+    <resourceProperties id="_pnX1QZUdEeq-KoPaR9_Cfg" name="isVersionOf" description="The concept resource of which this resource is a version. The subject of this property must be the version resource URI." valueType="Resource" range="_jaDA0Be3Ee2Qoa8h9kRCOQ" representation="reference">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='isVersionOf']"/>
     </resourceProperties>
     <resourceProperties id="_pozYoZUdEeq-KoPaR9_Cfg" name="hasPart" description="A related resource that is included either physically or logically in the described resource." occurs="zeroOrMany" valueType="Resource">
@@ -119,7 +119,7 @@
     <resourceProperties id="_pnZqdJUdEeq-KoPaR9_Cfg" name="serviceProvider" description="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property." occurs="zeroOrMany" valueType="Resource" representation="reference"/>
     <resourceProperties id="_pnaRgZUdEeq-KoPaR9_Cfg" name="shortTitle" description="Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." occurs="zeroOrOne" valueType="XMLLiteral"/>
     <resourceProperties id="_pnaRgJUdEeq-KoPaR9_Cfg" name="shortId" description="Shorter form of dcterms:identifier for the resource, such as a number." valueType="String"/>
-    <resourceProperties id="_pnZqc5UdEeq-KoPaR9_Cfg" name="modifiedBy" description="The URI of a resource describing the entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property." valueType="Resource"/>
+    <resourceProperties id="_pnZqc5UdEeq-KoPaR9_Cfg" name="modifiedBy" description="The URI of a resource describing the entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg"/>
     <resourceProperties id="_poPX8pUdEeq-KoPaR9_Cfg" name="describes" description="This shape describes resources that are of any of these types. Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T. " occurs="zeroOrMany" valueType="URI"/>
     <resourceProperties id="_poSbQJUdEeq-KoPaR9_Cfg" name="property" description="The properties that are allowed or required by this shape. " occurs="zeroOrMany" valueType="LocalResource" range="_poP_AZUdEeq-KoPaR9_Cfg"/>
     <resourceProperties id="_poP_ApUdEeq-KoPaR9_Cfg" name="allowedValue" description="value allowed for a property" occurs="oneOrMany" valueType="Resource"/>
@@ -155,6 +155,8 @@
     <resourceProperties id="_LKVSkCKMEeuEW8NmTOtW7w" name="hintWidth" occurs="zeroOrOne" valueType="String"/>
     <resourceProperties id="_bLP8ACKNEeuEW8NmTOtW7w" name="label" occurs="zeroOrOne" valueType="String"/>
     <resourceProperties id="_kXjpACLZEeu9M4063qtrOA" name="domain" valueType="URI"/>
+    <resourceProperties id="_fztfYBfPEe2Qoa8h9kRCOQ" name="archived" occurs="zeroOrOne"/>
+    <resourceProperties id="_jS6xMBfPEe2Qoa8h9kRCOQ" name="release" occurs="zeroOrMany" valueType="Resource"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration doNotGenerate="true" filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc4j.core.model"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="org.eclipse.lyo.oslc4j.core.model" artifactId="OSLC" version="0.0.1-SNAPSHOT"/>
@@ -367,25 +369,58 @@
   </domainSpecifications>
   <domainSpecifications name="Matlab Domain" namespaceURI="http://your.organisation.domain/nsp10#" namespacePrefix="//@domainPrefixes[name='nsp10']"/>
   <domainSpecifications name="Configuration Management" namespaceURI="http://open-services.net/ns/config#" namespacePrefix="//@domainPrefixes[name='oslc_config']">
-    <resources id="_pnXOMJUdEeq-KoPaR9_Cfg" name="VersionResource" resourceProperties="_pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnX1QZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnZDYZUdEeq-KoPaR9_Cfg _pnZDYpUdEeq-KoPaR9_Cfg _pnZqcJUdEeq-KoPaR9_Cfg _pnZqcZUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _pnZqc5UdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg _pnaRgpUdEeq-KoPaR9_Cfg _pnaRg5UdEeq-KoPaR9_Cfg _pnaRhJUdEeq-KoPaR9_Cfg"/>
-    <resources id="_pna4kpUdEeq-KoPaR9_Cfg" name="ChangeSet">
+    <resources id="_pnXOMJUdEeq-KoPaR9_Cfg" name="VersionResource" resourceProperties="_YMpv8BfmEe2Qoa8h9kRCOQ _pnXOMZUdEeq-KoPaR9_Cfg _YMpv8RfmEe2Qoa8h9kRCOQ _pnXOMpUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnX1QZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnZDYZUdEeq-KoPaR9_Cfg _pnZDYpUdEeq-KoPaR9_Cfg _pnZqcJUdEeq-KoPaR9_Cfg _pnZqcZUdEeq-KoPaR9_Cfg _fztfYBfPEe2Qoa8h9kRCOQ _pnZqcpUdEeq-KoPaR9_Cfg _YMpv8hfmEe2Qoa8h9kRCOQ _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg _LlvhgBfgEe2Qoa8h9kRCOQ _pnaRhJUdEeq-KoPaR9_Cfg"/>
+    <resources id="_pna4kpUdEeq-KoPaR9_Cfg" name="ChangeSet" extends="_jaDA0Re3Ee2Qoa8h9kRCOQ" resourceProperties="_HORQIBfOEe2Qoa8h9kRCOQ _Ncmd0BfSEe2Qoa8h9kRCOQ">
       <describes href="vocabulary.xml#//@vocabularies[label='OSLC%20Configuration%20Management']/@classes[name='ChangeSet']"/>
     </resources>
+    <resources id="_BrY_wBe1Ee2Qoa8h9kRCOQ" name="Component" resourceProperties="_YMpv8BfmEe2Qoa8h9kRCOQ _pnXOMZUdEeq-KoPaR9_Cfg _YMpv8RfmEe2Qoa8h9kRCOQ _pnX1QJUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _Idof4BfGEe2Qoa8h9kRCOQ _pnZqcpUdEeq-KoPaR9_Cfg _YMpv8hfmEe2Qoa8h9kRCOQ _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg"/>
+    <resources id="_jaDA0Be3Ee2Qoa8h9kRCOQ" name="ConceptResource"/>
+    <resources id="_jaDA0Re3Ee2Qoa8h9kRCOQ" name="Configuration" title="" description="" resourceProperties="_YMpv8BfmEe2Qoa8h9kRCOQ _pnXOMZUdEeq-KoPaR9_Cfg _YMpv8RfmEe2Qoa8h9kRCOQ _pnXOMpUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _fSwgsBfKEe2Qoa8h9kRCOQ _-mzV8RfLEe2Qoa8h9kRCOQ _jaBLoBe3Ee2Qoa8h9kRCOQ _iVQrkBfOEe2Qoa8h9kRCOQ _4fR2sBfOEe2Qoa8h9kRCOQ _fztfYBfPEe2Qoa8h9kRCOQ _pnZqcpUdEeq-KoPaR9_Cfg _YMpv8hfmEe2Qoa8h9kRCOQ _jS6xMBfPEe2Qoa8h9kRCOQ _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg">
+      <describes href="vocabulary.xml#//@vocabularies[label='OSLC%20Configuration%20Management']/@classes[name='Configuration']"/>
+    </resources>
+    <resources id="_U16uYBfKEe2Qoa8h9kRCOQ" name="Baseline" title="The shape of a baseline. Properties of a baseline defined in this specification must be read-only unless stated otherwise" description="" extends="_jaDA0Re3Ee2Qoa8h9kRCOQ" resourceProperties="_-mzV8BfLEe2Qoa8h9kRCOQ _pnZDYZUdEeq-KoPaR9_Cfg _pnZDYpUdEeq-KoPaR9_Cfg _-mzV8hfLEe2Qoa8h9kRCOQ _pnaRg5UdEeq-KoPaR9_Cfg"/>
+    <resources id="_UNI6UBfOEe2Qoa8h9kRCOQ" name="Stream" extends="_jaDA0Re3Ee2Qoa8h9kRCOQ" resourceProperties="_HORQIBfOEe2Qoa8h9kRCOQ _UNHFIBfOEe2Qoa8h9kRCOQ _-mzV8hfLEe2Qoa8h9kRCOQ _pnaRg5UdEeq-KoPaR9_Cfg"/>
+    <resources id="_iVTu4BfOEe2Qoa8h9kRCOQ" name="Contribution" resourceProperties="_pnYcUJUdEeq-KoPaR9_Cfg _ZD9aIBfgEe2Qoa8h9kRCOQ _o8dj4BfgEe2Qoa8h9kRCOQ _Ncmd0BfSEe2Qoa8h9kRCOQ"/>
+    <resources id="_4fWIIBfOEe2Qoa8h9kRCOQ" name="Selections" resourceProperties="_DXOygBfhEe2Qoa8h9kRCOQ"/>
     <resourceProperties id="_pnZDYZUdEeq-KoPaR9_Cfg" name="committed" description="Date and time this version resource was checked in. Absent for mutable (checked out) versions." occurs="zeroOrOne" valueType="DateTime"/>
-    <resourceProperties id="_pnZDYpUdEeq-KoPaR9_Cfg" name="committer" description="The entity that checked in this version." occurs="zeroOrMany" readOnly="true" valueType="Resource" representation="either"/>
-    <resourceProperties id="_pnZqcJUdEeq-KoPaR9_Cfg" name="component" description="The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC." occurs="zeroOrMany" valueType="String"/>
+    <resourceProperties id="_pnZDYpUdEeq-KoPaR9_Cfg" name="committer" description="The entity that checked in this version." occurs="zeroOrMany" readOnly="true" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg _posq85UdEeq-KoPaR9_Cfg" representation="either"/>
+    <resourceProperties id="_pnZqcJUdEeq-KoPaR9_Cfg" name="component" description="The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC." occurs="zeroOrOne" valueType="Resource" range="_BrY_wBe1Ee2Qoa8h9kRCOQ"/>
     <resourceProperties id="_pnZqcZUdEeq-KoPaR9_Cfg" name="versionId" description="A short human-readable identifier for the version of a resource. All versioned resources should have this property; where the property is present, this identifier must be unique amongst all currently existing versions of the same concept resource. The subject of this property should be the concept resource URI." valueType="String"/>
+    <resourceProperties id="_jaBLoBe3Ee2Qoa8h9kRCOQ" name="component" description="The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC." valueType="Resource" range="_BrY_wBe1Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_Idof4BfGEe2Qoa8h9kRCOQ" name="configurations" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_fSwgsBfKEe2Qoa8h9kRCOQ" name="acceptedBy" occurs="zeroOrOne" valueType="String" range="_poyKgJUdEeq-KoPaR9_Cfg"/>
+    <resourceProperties id="_-mzV8BfLEe2Qoa8h9kRCOQ" name="baselineOfStream" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_-mzV8RfLEe2Qoa8h9kRCOQ" name="branch" valueType="Resource"/>
+    <resourceProperties id="_-mzV8hfLEe2Qoa8h9kRCOQ" name="previousBaseline" valueType="Resource" range="_U16uYBfKEe2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_HORQIBfOEe2Qoa8h9kRCOQ" name="accepts" occurs="zeroOrMany" valueType="Resource" range="_poyKgJUdEeq-KoPaR9_Cfg"/>
+    <resourceProperties id="_UNHFIBfOEe2Qoa8h9kRCOQ" name="baselines" valueType="Resource" range="_U16uYBfKEe2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_iVQrkBfOEe2Qoa8h9kRCOQ" name="contribution" valueType="Resource" range="_iVTu4BfOEe2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_4fR2sBfOEe2Qoa8h9kRCOQ" name="selections" occurs="zeroOrMany" valueType="Resource" range="_4fWIIBfOEe2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_Ncmd0BfSEe2Qoa8h9kRCOQ" name="overrides" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_pnaRhJUdEeq-KoPaR9_Cfg" name="wasRevisionOf" description="" occurs="zeroOrMany" valueType="Resource" range="_pnXOMJUdEeq-KoPaR9_Cfg" representation="reference">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Provenance']/@properties[name='wasRevisionOf']"/>
+    </resourceProperties>
+    <resourceProperties id="_pnaRg5UdEeq-KoPaR9_Cfg" name="wasDerivedFrom" description="" occurs="zeroOrMany" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ" representation="reference">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Provenance']/@properties[name='wasDerivedFrom']"/>
+    </resourceProperties>
+    <resourceProperties id="_LlvhgBfgEe2Qoa8h9kRCOQ" name="wasDerivedFrom" description="" occurs="zeroOrMany" valueType="Resource" range="_jaDA0Be3Ee2Qoa8h9kRCOQ" representation="reference">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Provenance']/@properties[name='wasDerivedFrom']"/>
+    </resourceProperties>
+    <resourceProperties id="_ZD9aIBfgEe2Qoa8h9kRCOQ" name="configuration" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_o8dj4BfgEe2Qoa8h9kRCOQ" name="contributionOrder" valueType="String"/>
+    <resourceProperties id="_DXOygBfhEe2Qoa8h9kRCOQ" name="selects" valueType="Resource" range="_pnXOMJUdEeq-KoPaR9_Cfg _jaDA0Be3Ee2Qoa8h9kRCOQ"/>
+    <resourceProperties id="_YMpv8BfmEe2Qoa8h9kRCOQ" name="contributor" description="Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg _posq85UdEeq-KoPaR9_Cfg" representation="either">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='contributor']"/>
+    </resourceProperties>
+    <resourceProperties id="_YMpv8RfmEe2Qoa8h9kRCOQ" name="creator" description="Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type" occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg _posq85UdEeq-KoPaR9_Cfg" representation="either">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='creator']"/>
+    </resourceProperties>
+    <resourceProperties id="_YMpv8hfmEe2Qoa8h9kRCOQ" name="modifiedBy" description="The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type." occurs="zeroOrMany" valueType="Resource" range="_posq85UdEeq-KoPaR9_Cfg _posq8JUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='OSLC%20Core']/@properties[name='modifiedBy']"/>
+    </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.config"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="org.eclipse.lyo.oslc.domains.config" artifactId="Configuration Management" version="0.0.1-SNAPSHOT"/>
-    </configuration>
-  </domainSpecifications>
-  <domainSpecifications name="Provenance" namespaceURI="http://www.w3.org/ns/prov#" namespacePrefix="//@domainPrefixes[name='prov']">
-    <resourceProperties id="_pnaRhJUdEeq-KoPaR9_Cfg" name="wasRevisionOf" description="A resource from which this version was derived. This is likely to reference an earlier version of the same concept resource; use of prov:wasDerivedFrom is recommended to indicate an earlier version of a different concept resource. The subject of each instance of this property must be the concept resource URI; the object is likely to be a version resource URI." occurs="zeroOrMany" valueType="Resource" representation="reference"/>
-    <resourceProperties id="_pnaRg5UdEeq-KoPaR9_Cfg" name="wasDerivedFrom" description="A resource from which this version was derived. This is likely to reference a different concept resource; use of prov:wasRevisionOf is recommended to indicate an earlier version of the same concept resource. The subject of each instance of this property must be the concept resource URI; the object can be a version resource URI, or a concept resource URI (possibly for a non-versioned resource)." occurs="zeroOrMany" valueType="Resource" representation="reference"/>
-    <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
-      <generalConfiguration filesBasePath="" javaBasePackageName=""/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0" groupId="" artifactId="Provenance" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Automation" namespaceURI="http://open-services.net/ns/auto#" namespacePrefix="//@domainPrefixes[name='oslc_auto']">
@@ -433,7 +468,6 @@
   <domainPrefixes name="oslc_am"/>
   <domainPrefixes name="nsp10"/>
   <domainPrefixes name="oslc_config"/>
-  <domainPrefixes name="prov"/>
   <domainPrefixes name="oslc_auto"/>
   <domainPrefixes name="jazz_am"/>
   <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">

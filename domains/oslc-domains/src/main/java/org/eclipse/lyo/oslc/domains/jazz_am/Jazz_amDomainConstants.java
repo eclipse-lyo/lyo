@@ -27,8 +27,8 @@ public interface Jazz_amDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_DOMAIN = "http://jazz.net/ns/dm/linktypes#";
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE = "http://jazz.net/ns/dm/linktypes#";
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX = "jazz_am";
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_DOMAIN = "Jazz Architecture Management ";
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE = "http://jazz.net/ns/dm/linktypes#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX = "jazz_am"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
 }
