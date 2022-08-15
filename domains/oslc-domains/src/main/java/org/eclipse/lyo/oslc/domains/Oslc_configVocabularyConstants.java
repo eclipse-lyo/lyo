@@ -31,4 +31,6 @@ public interface Oslc_configVocabularyConstants
 
     public static String CHANGESET = "ChangeSet";
     public static String TYPE_CHANGESET = OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE + CHANGESET;
+    public static String CONFIGURATION = "Configuration";
+    public static String TYPE_CONFIGURATION = OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE + CONFIGURATION;
 }

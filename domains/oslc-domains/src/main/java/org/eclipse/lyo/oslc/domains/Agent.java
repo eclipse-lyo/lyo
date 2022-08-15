@@ -57,10 +57,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
-
 // Start of user code imports
 // End of user code
 
@@ -149,8 +147,7 @@ public class Agent
         // End of user code
         return name;
     }
-    
-    
+
     // Start of user code setterAnnotation:name
     // End of user code
     public void setName(final String name )
@@ -158,10 +155,8 @@ public class Agent
         // Start of user code setterInit:name
         // End of user code
         this.name = name;
-    
         // Start of user code setterFinalize:name
         // End of user code
     }
-    
-    
+
 }

@@ -57,10 +57,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
-
 // Start of user code imports
 // End of user code
 
@@ -155,7 +153,7 @@ public class Person
         // End of user code
         return familyName;
     }
-    
+
     // Start of user code getterAnnotation:givenName
     // End of user code
     @OslcName("givenName")
@@ -170,7 +168,7 @@ public class Person
         // End of user code
         return givenName;
     }
-    
+
     // Start of user code getterAnnotation:name
     // End of user code
     @OslcName("name")
@@ -185,8 +183,7 @@ public class Person
         // End of user code
         return name;
     }
-    
-    
+
     // Start of user code setterAnnotation:familyName
     // End of user code
     public void setFamilyName(final String familyName )
@@ -194,11 +191,10 @@ public class Person
         // Start of user code setterInit:familyName
         // End of user code
         this.familyName = familyName;
-    
         // Start of user code setterFinalize:familyName
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:givenName
     // End of user code
     public void setGivenName(final String givenName )
@@ -206,11 +202,10 @@ public class Person
         // Start of user code setterInit:givenName
         // End of user code
         this.givenName = givenName;
-    
         // Start of user code setterFinalize:givenName
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:name
     // End of user code
     public void setName(final String name )
@@ -218,10 +213,8 @@ public class Person
         // Start of user code setterInit:name
         // End of user code
         this.name = name;
-    
         // Start of user code setterFinalize:name
         // End of user code
     }
-    
-    
+
 }

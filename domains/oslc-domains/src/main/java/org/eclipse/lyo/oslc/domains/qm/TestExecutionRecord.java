@@ -57,7 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
@@ -89,13 +88,13 @@ public class TestExecutionRecord
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -104,22 +103,22 @@ public class TestExecutionRecord
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:blockedByChangeRequest
     // End of user code
-    private Set<Link> blockedByChangeRequest = new HashSet<>();
+    private Set<Link> blockedByChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private Set<Link> relatedChangeRequest = new HashSet<>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
     private Link reportsOnTestPlan;
@@ -129,7 +128,7 @@ public class TestExecutionRecord
     // Start of user code attributeAnnotation:runsTestCase
     // End of user code
     private Link runsTestCase;
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -137,38 +136,38 @@ public class TestExecutionRecord
     public TestExecutionRecord()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public TestExecutionRecord(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTEXECUTIONRECORD_PATH,
         TestExecutionRecord.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local TestExecutionRecord Resource} - update TestExecutionRecord.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -177,49 +176,49 @@ public class TestExecutionRecord
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addBlockedByChangeRequest(final Link blockedByChangeRequest)
     {
         this.blockedByChangeRequest.add(blockedByChangeRequest);
     }
-
+    
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
@@ -441,7 +440,6 @@ public class TestExecutionRecord
         return runsTestCase;
     }
 
-
     // Start of user code setterAnnotation:contributor
     // End of user code
     public void setContributor(final Set<Link> contributor )
@@ -453,7 +451,6 @@ public class TestExecutionRecord
         {
             this.contributor.addAll(contributor);
         }
-
         // Start of user code setterFinalize:contributor
         // End of user code
     }
@@ -465,7 +462,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-
         // Start of user code setterFinalize:created
         // End of user code
     }
@@ -481,7 +477,6 @@ public class TestExecutionRecord
         {
             this.creator.addAll(creator);
         }
-
         // Start of user code setterFinalize:creator
         // End of user code
     }
@@ -493,7 +488,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-
         // Start of user code setterFinalize:identifier
         // End of user code
     }
@@ -505,7 +499,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-
         // Start of user code setterFinalize:modified
         // End of user code
     }
@@ -521,7 +514,6 @@ public class TestExecutionRecord
         {
             this.type.addAll(type);
         }
-
         // Start of user code setterFinalize:type
         // End of user code
     }
@@ -537,7 +529,6 @@ public class TestExecutionRecord
         {
             this.instanceShape.addAll(instanceShape);
         }
-
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
@@ -553,7 +544,6 @@ public class TestExecutionRecord
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
@@ -565,7 +555,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-
         // Start of user code setterFinalize:title
         // End of user code
     }
@@ -581,7 +570,6 @@ public class TestExecutionRecord
         {
             this.blockedByChangeRequest.addAll(blockedByChangeRequest);
         }
-
         // Start of user code setterFinalize:blockedByChangeRequest
         // End of user code
     }
@@ -597,7 +585,6 @@ public class TestExecutionRecord
         {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
-
         // Start of user code setterFinalize:relatedChangeRequest
         // End of user code
     }
@@ -609,7 +596,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:reportsOnTestPlan
         // End of user code
         this.reportsOnTestPlan = reportsOnTestPlan;
-
         // Start of user code setterFinalize:reportsOnTestPlan
         // End of user code
     }
@@ -621,7 +607,6 @@ public class TestExecutionRecord
         // Start of user code setterInit:runsOnTestEnvironment
         // End of user code
         this.runsOnTestEnvironment = runsOnTestEnvironment;
-
         // Start of user code setterFinalize:runsOnTestEnvironment
         // End of user code
     }
@@ -633,10 +618,8 @@ public class TestExecutionRecord
         // Start of user code setterInit:runsTestCase
         // End of user code
         this.runsTestCase = runsTestCase;
-
         // Start of user code setterFinalize:runsTestCase
         // End of user code
     }
-
 
 }

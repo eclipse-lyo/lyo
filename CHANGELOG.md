@@ -5,6 +5,7 @@
 ### Added
 
 ### Changed
+- Expanding the config domain model
 
 ### Deprecated
 

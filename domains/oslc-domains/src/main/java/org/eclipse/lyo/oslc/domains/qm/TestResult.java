@@ -57,7 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 
-
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
@@ -98,22 +97,22 @@ public class TestResult
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:status
     // End of user code
     private String status;
     // Start of user code attributeAnnotation:affectedByChangeRequest
     // End of user code
-    private Set<Link> affectedByChangeRequest = new HashSet<>();
+    private Set<Link> affectedByChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:executesTestScript
     // End of user code
     private Link executesTestScript;
@@ -126,7 +125,7 @@ public class TestResult
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
     private Link reportsOnTestPlan;
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -134,38 +133,38 @@ public class TestResult
     public TestResult()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public TestResult(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTRESULT_PATH,
         TestResult.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local TestResult Resource} - update TestResult.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -174,34 +173,34 @@ public class TestResult
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest)
     {
         this.affectedByChangeRequest.add(affectedByChangeRequest);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")
@@ -407,7 +406,6 @@ public class TestResult
         return reportsOnTestPlan;
     }
 
-
     // Start of user code setterAnnotation:created
     // End of user code
     public void setCreated(final Date created )
@@ -415,7 +413,6 @@ public class TestResult
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
-
         // Start of user code setterFinalize:created
         // End of user code
     }
@@ -427,7 +424,6 @@ public class TestResult
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-
         // Start of user code setterFinalize:identifier
         // End of user code
     }
@@ -439,7 +435,6 @@ public class TestResult
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
-
         // Start of user code setterFinalize:modified
         // End of user code
     }
@@ -455,7 +450,6 @@ public class TestResult
         {
             this.instanceShape.addAll(instanceShape);
         }
-
         // Start of user code setterFinalize:instanceShape
         // End of user code
     }
@@ -467,7 +461,6 @@ public class TestResult
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
-
         // Start of user code setterFinalize:title
         // End of user code
     }
@@ -483,7 +476,6 @@ public class TestResult
         {
             this.type.addAll(type);
         }
-
         // Start of user code setterFinalize:type
         // End of user code
     }
@@ -499,7 +491,6 @@ public class TestResult
         {
             this.serviceProvider.addAll(serviceProvider);
         }
-
         // Start of user code setterFinalize:serviceProvider
         // End of user code
     }
@@ -511,7 +502,6 @@ public class TestResult
         // Start of user code setterInit:status
         // End of user code
         this.status = status;
-
         // Start of user code setterFinalize:status
         // End of user code
     }
@@ -527,7 +517,6 @@ public class TestResult
         {
             this.affectedByChangeRequest.addAll(affectedByChangeRequest);
         }
-
         // Start of user code setterFinalize:affectedByChangeRequest
         // End of user code
     }
@@ -539,7 +528,6 @@ public class TestResult
         // Start of user code setterInit:executesTestScript
         // End of user code
         this.executesTestScript = executesTestScript;
-
         // Start of user code setterFinalize:executesTestScript
         // End of user code
     }
@@ -551,7 +539,6 @@ public class TestResult
         // Start of user code setterInit:producedByTestExecutionRecord
         // End of user code
         this.producedByTestExecutionRecord = producedByTestExecutionRecord;
-
         // Start of user code setterFinalize:producedByTestExecutionRecord
         // End of user code
     }
@@ -563,7 +550,6 @@ public class TestResult
         // Start of user code setterInit:reportsOnTestCase
         // End of user code
         this.reportsOnTestCase = reportsOnTestCase;
-
         // Start of user code setterFinalize:reportsOnTestCase
         // End of user code
     }
@@ -575,10 +561,8 @@ public class TestResult
         // Start of user code setterInit:reportsOnTestPlan
         // End of user code
         this.reportsOnTestPlan = reportsOnTestPlan;
-
         // Start of user code setterFinalize:reportsOnTestPlan
         // End of user code
     }
-
 
 }

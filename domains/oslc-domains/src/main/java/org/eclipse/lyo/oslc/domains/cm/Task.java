@@ -57,9 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-
-
-
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
@@ -138,8 +135,6 @@ public class Task
     
         return result;
     }
-    
-    
     
     
 }

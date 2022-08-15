@@ -57,10 +57,6 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
-
-
-
-
 // Start of user code imports
 // End of user code
 
@@ -130,8 +126,6 @@ public class Priority
     
         return result;
     }
-    
-    
     
     
 }

@@ -27,8 +27,8 @@ public interface DctermsDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String DUBLIN_CORE_DOMAIN = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms";
+    public static String DUBLIN_CORE_DOMAIN = "Dublin Core";
+    public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
 }
