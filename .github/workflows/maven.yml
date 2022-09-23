@@ -30,9 +30,10 @@ jobs:
 #            experimental: true
 #            distribution: zulu
           - jdk: '17' # LTS
-            experimental: true
             distribution: zulu
+            experimental: true
           - jdk: '19'
+            distribution: zulu
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
