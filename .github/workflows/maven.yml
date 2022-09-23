@@ -32,8 +32,8 @@ jobs:
           - jdk: '17' # LTS
             experimental: true
             distribution: zulu
-##          - jdk: '18-ea'
-#            experimental: true
+          - jdk: '19'
+            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
