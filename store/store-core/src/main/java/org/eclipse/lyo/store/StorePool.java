@@ -58,6 +58,7 @@ public class StorePool {
         Dataset dataset = TDBFactory.createDataset();
         DatasetQueryExecutorImpl queryExecutor = new DatasetQueryExecutorImpl(dataset);
         for (int i = 0; i < poolSize; i++) {
+            // the reason StoreFactory#sparqlInMem is not used here because we want to reuse the dataset
             storePool.add(new SparqlStoreImpl(queryExecutor));
         }
     }
