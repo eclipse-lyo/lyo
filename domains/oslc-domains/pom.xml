@@ -20,12 +20,34 @@
     <packaging>jar</packaging>
     <name>Lyo :: Domains</name>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
+        <version.lyo>5.0.1-SNAPSHOT</version.lyo>
+        <jersey.version>2.35</jersey.version>
         <!-- Start of user code properties
             -->
             <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
             <!-- End of user code
         -->
     </properties>
+    <repositories>
+        <!-- Start of user code repositories
+        -->
+        <!-- TODO: Add additional repositories here to avoid them be overridden upon future re-generation -->
+        <!-- End of user code
+        -->
+        <repository>
+            <id>lyo-snapshots</id>
+            <name>Eclipse Lyo Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
     <!-- Start of user code pre_dependencies
     -->
     <!-- End of user code
@@ -39,22 +61,34 @@
         -->
         <!-- General dependencies -->
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Servlet dependencies -->
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-            <scope>provided</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
-
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
+            <version>${version.lyo}</version>
         </dependency>
-
+        <!-- Start of user code dependencies_final
+        -->
+        <!-- TODO: Add additional dependencies here to avoid them be overridden upon future re-generation -->
+        <!-- End of user code
+        -->
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
