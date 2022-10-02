@@ -6,7 +6,7 @@
 
 ### Changed
 - Expanding the config domain model
-
+- OSLC Domains based on latest LyoDesigner, and for lyoVersion="5.0.1-SNAPSHOT"
 ### Deprecated
 
 ### Removed
