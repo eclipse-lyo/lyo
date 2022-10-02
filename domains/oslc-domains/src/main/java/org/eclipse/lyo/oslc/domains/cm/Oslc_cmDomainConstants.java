@@ -56,7 +56,7 @@ public interface Oslc_cmDomainConstants
     public static String REVIEWTASK_LOCALNAME = Oslc_cmVocabularyConstants.REVIEWTASK; //localName of the rdfs:class the resource describes
     public static String REVIEWTASK_TYPE = REVIEWTASK_NAMESPACE + REVIEWTASK_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String STATE_PATH = "state";  //the relative path of the resource shape URL.
-    public static String STATE_NAMESPACE = CHANGE_MANAGEMENT_SHAPES_NAMSPACE; //namespace of the rdfs:class the resource describes
+    public static String STATE_NAMESPACE = Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE; //namespace of the rdfs:class the resource describes
     public static String STATE_LOCALNAME = "State"; //localName of the rdfs:class the resource describes
     public static String STATE_TYPE = STATE_NAMESPACE + STATE_LOCALNAME; //fullname of the rdfs:class the resource describes
     public static String TASK_PATH = "task";  //the relative path of the resource shape URL.
