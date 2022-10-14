@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
-    <artifactId>oslc4j-provider-utils</artifactId>
+    <artifactId>provider-utils</artifactId>
     <name>Lyo :: Core :: Provider Utils</name>
     <description></description>
 

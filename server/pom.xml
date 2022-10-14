@@ -19,9 +19,9 @@
     <module>oauth-consumer-store</module>
     <module>oauth-webapp</module>
     <module>oslc-ui-model</module>
-    <module>oslc4j-provider-utils</module>
-    <module>oslc4j-jena-provider</module>
-    <module>oslc4j-json4j-provider</module>
+    <module>provider-utils</module>
+    <module>jena-provider</module>
+    <module>json4j-provider</module>
   </modules>
 
   <dependencyManagement>

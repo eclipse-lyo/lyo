@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
-    <artifactId>oslc4j-json4j-provider</artifactId>
+    <artifactId>json4j-provider</artifactId>
     <name>Lyo :: Server :: JSON4J Provider (legacy)</name>
     <description>JAX-RS provider for reading and writing OSLC 2.0 JSON content using the Eclipse Lyo OSLC4J SDK.</description>
 
@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oslc4j-provider-utils</artifactId>
+            <artifactId>provider-utils</artifactId>
             <version>${v.lyo}</version>
         </dependency>
         <dependency>
