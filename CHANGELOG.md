@@ -7,6 +7,7 @@
 ### Changed
 - Expanding the config domain model
 - OSLC Domains based on latest LyoDesigner, and for lyoVersion="5.0.1-SNAPSHOT"
+- Remove the dependency on Javax.Servlet from Core. We migrate the Jax-rs Providers from OSLC4J Core to Server.
 ### Deprecated
 
 ### Removed
