@@ -2,15 +2,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core-build</artifactId>
+        <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+        <artifactId>lyo-server-build</artifactId>
         <version>5.0.1-SNAPSHOT</version>
-        <relativePath>../oslc4j-core-build/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>oslc4j-jena-provider</artifactId>
-    <name>Lyo :: Core :: Jena Provider</name>
+    <name>Lyo :: Server :: Jena Provider</name>
     <description>JAX-RS provider for reading and writing RDF content using the Eclipse Lyo OSLC4J SDK.</description>
-
     <properties>
     </properties>
 
