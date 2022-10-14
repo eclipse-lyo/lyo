@@ -70,6 +70,17 @@
       <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
 
+    <dependency>
+        <groupId>org.apache.wink</groupId>
+        <artifactId>wink-json4j</artifactId>
+        <version>1.4</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>4.8.143</version>
+    </dependency>
+
     <!-- Test Dependencies -->
     <dependency>
       <groupId>junit</groupId>
