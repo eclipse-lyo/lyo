@@ -48,6 +48,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.*;
 import org.eclipse.lyo.oslc4j.core.exception.*;
 import org.eclipse.lyo.oslc4j.core.model.*;
 import org.eclipse.lyo.oslc4j.core.jena.ordfm.ResourcePackages;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -74,7 +75,7 @@ import java.util.*;
 import java.util.function.Function;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-@Unstable
+@ApiStatus.Experimental
 public final class JenaModelHelper
 {
     private static final String PROPERTY_TOTAL_COUNT = "totalCount";
