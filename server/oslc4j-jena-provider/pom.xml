@@ -7,6 +7,7 @@
         <version>5.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+    <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>oslc4j-jena-provider</artifactId>
     <name>Lyo :: Server :: Jena Provider</name>
     <description>JAX-RS provider for reading and writing RDF content using the Eclipse Lyo OSLC4J SDK.</description>
@@ -15,7 +16,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+            <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oslc4j-provider-utils</artifactId>
             <version>${v.lyo}</version>
         </dependency>
