@@ -18,7 +18,7 @@ import com.google.common.base.Stopwatch;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

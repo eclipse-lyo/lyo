@@ -40,8 +40,8 @@ import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
-import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
-import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.eclipse.lyo.server.provider.helper.ProviderHelper;
+import org.eclipse.lyo.oslc4j.core.json4j.JsonHelper;
 
 /**
  * Use JSON-LD support in Jena provider.

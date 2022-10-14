@@ -45,7 +45,7 @@ import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 
 /**
  * A utility class for TRS operations

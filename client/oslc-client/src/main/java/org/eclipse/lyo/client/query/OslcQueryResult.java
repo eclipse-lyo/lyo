@@ -27,7 +27,7 @@ import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;

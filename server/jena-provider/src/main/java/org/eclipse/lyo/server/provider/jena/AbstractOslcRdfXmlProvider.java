@@ -46,8 +46,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
-import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.server.provider.helper.ProviderHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

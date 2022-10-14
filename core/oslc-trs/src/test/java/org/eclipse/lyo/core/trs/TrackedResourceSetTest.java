@@ -17,7 +17,7 @@ package org.eclipse.lyo.core.trs;
 import org.apache.jena.rdf.model.Model;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;

@@ -30,7 +30,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.eclipse.lyo.oslc4j.core.model.Compact;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
+import org.eclipse.lyo.server.provider.helper.ProviderHelper;
 
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini

@@ -25,7 +25,7 @@ import org.eclipse.lyo.core.trs.Creation
 import org.eclipse.lyo.core.trs.Deletion
 import org.eclipse.lyo.core.trs.Modification
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException
 import org.eclipse.lyo.trs.client.handlers.IPushProviderHandler
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR

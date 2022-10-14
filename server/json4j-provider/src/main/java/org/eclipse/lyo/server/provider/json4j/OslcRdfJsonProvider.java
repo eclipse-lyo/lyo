@@ -39,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
-import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
+import org.eclipse.lyo.server.provider.helper.ProviderHelper;
 
 /**
  * Use JSON-LD support in Jena provider.

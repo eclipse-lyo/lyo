@@ -53,7 +53,7 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 import org.eclipse.lyo.store.ModelUnmarshallingException;
 import org.eclipse.lyo.store.Store;
 import org.eclipse.lyo.store.StoreAccessException;

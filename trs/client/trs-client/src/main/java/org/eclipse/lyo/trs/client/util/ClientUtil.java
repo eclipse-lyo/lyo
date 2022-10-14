@@ -17,7 +17,7 @@ import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;

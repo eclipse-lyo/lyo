@@ -19,8 +19,8 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.wink.json4j.JSONObject;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.eclipse.lyo.oslc4j.core.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.core.json4j.JsonHelper;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFWriterI;
