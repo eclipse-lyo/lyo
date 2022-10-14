@@ -29,6 +29,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
 
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Andrew Berezovskyi

@@ -46,6 +46,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -194,7 +195,7 @@ public abstract class AbstractOslcRdfXmlProvider
 			final String method = httpServletRequest.getMethod();
 			if ("GET".equals(method))
 			{
-				descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
+				descriptionURI =  ProviderHelper.resolveURI(httpServletRequest,true);
 				responseInfoURI = descriptionURI;
 
 				final String queryString = httpServletRequest.getQueryString();

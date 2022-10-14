@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -247,59 +246,6 @@ public class OSLC4JUtils {
 	}
 
 	/**
-	 * Resolve a URI (usually a resource subject or info URI) based on the settings of
-	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
-	 *
-	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
-	 *
-	 * If the disableHostResolution property is false or not set, resolution of the local hostname
-	 * is attempted.
-	 *
-	 * If the disableHostResolution property is true or resolution has failed, the hostname is
-	 * retrieved from the request.
-	 *
-	 * Query parameters from the request are not copied to the resolved URI.
-	 *
-	 * @param request - request to base resolved URI on
-	 * @param includePath - if the path (after the context root) should be included in the
-	 * resolved URI
-	 * @return String containing the resolved URI
-	 * @deprecated Use {@link #resolveFullUri(HttpServletRequest)} instead.
-	 */
-	@Deprecated
-	public static String resolveURI(HttpServletRequest request, boolean includePath) {
-		UriBuilder builder;
-
-		final String pathInfo = request.getPathInfo();
-		final String servletPath = request.getServletPath();
-		final String configuredPublicURI = getPublicURI();
-
-		if (configuredPublicURI != null && !configuredPublicURI.isEmpty()) {
-			//public URI configured, use it - it includes the context
-			String uriToBuild = configuredPublicURI;
-			if (includePath) {
-				uriToBuild = configuredPublicURI + "/" + servletPath + pathInfo;
-			}
-			builder = UriBuilder.fromUri(uriToBuild); //Normalize later
-		} else {
-			final String hostname = guessHostname(request);
-
-			String contextPath = request.getContextPath();
-			String pathToBuild = contextPath;
-			if (includePath) {
-				pathToBuild = contextPath + servletPath + pathInfo;
-			}
-			builder = UriBuilder.fromPath(pathToBuild)
-								.scheme(request.getScheme())
-								.host(hostname)
-								.port(request.getServerPort());
-		}
-
-		URI resolvedURI = builder.build().normalize();
-		return resolvedURI.toString();
-	}
-
-	/**
 	 * Return the public URI including the servlet path. Typically, this would
 	 * be something like "localhost:8080/adaptor-webapp/services",
 	 * whereas the publicURI would typically be the base "localhost:8080/adaptor-webapp"
@@ -385,59 +331,6 @@ public class OSLC4JUtils {
 	}
 
 	/**
-	 * Resolve a full request URI (usually a resource subject or info URI) based on the settings of
-	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
-	 *
-	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
-	 *
-	 * If the servletPath property is set, it takes precedence and is used to build the full URI.
-	 *
-	 * If the disableHostResolution property is false or not set, resolution of the local hostname
-	 * is attempted.
-	 *
-	 * If the disableHostResolution property is true or resolution has failed, the hostname is
-	 * retrieved from the request.
-	 *
-	 * Query parameters from the request are not copied to the resolved URI.
-	 * @param request - request to base resolved URI on
-	 * @return String containing the resolved URI
-	 */
-	public static String resolveFullUri(HttpServletRequest request) {
-		final UriBuilder servletUriBuilder = servletUriBuilderFrom(request);
-
-		final String pathInfo = request.getPathInfo();
-		final UriBuilder publicUriBuilder = servletUriBuilder.path(pathInfo);
-
-		URI resolvedURI = publicUriBuilder.build().normalize();
-		return resolvedURI.toString();
-	}
-
-	/**
-	 * Resolve a servlet URI based on the settings of
-	 * org.eclipse.lyo.oslc4j.publicURI and org.eclipse.lyo.oslc4j.disableHostResolution.
-	 *
-	 * If the publicURI property is set, it takes precedence and is used to build the full URI.
-	 *
-	 * If the servletPath property is set, it takes precedence and is used to build the full URI.
-	 *
-	 * If the disableHostResolution property is false or not set, resolution of the local hostname
-	 * is attempted.
-	 *
-	 * If the disableHostResolution property is true or resolution has failed, the hostname is
-	 * retrieved from the request.
-	 *
-	 * Query parameters from the request are not copied to the resolved URI.
-	 * @param request - request to base resolved URI on
-	 * @return String containing the resolved URI
-	 */
-	public static String resolveServletUri(HttpServletRequest request) {
-		final UriBuilder servletUriBuilder = servletUriBuilderFrom(request);
-
-		URI resolvedURI = servletUriBuilder.build().normalize();
-		return resolvedURI.toString();
-	}
-
-	/**
 	 * Sets the value of the servlet path.
 	 *
 	 * This method also sets the resulting value of the servletURI (combining the publicURI with
@@ -457,70 +350,9 @@ public class OSLC4JUtils {
 		}
 	}
 
-	private static UriBuilder servletUriBuilderFrom(final HttpServletRequest request) {
-		final String publicUri = getOrConstructPublicUriBase(request);
-		final String servletPath;
-		if (getServletPath() != null) {
-			servletPath = getServletPath();
-		} else {
-			servletPath = request.getServletPath();
-		}
-
-		return servletUriBuilderFrom(publicUri, servletPath);
-	}
-
 	private static UriBuilder servletUriBuilderFrom(final String publicUri,
 			final String servletPath) {
 		return UriBuilder.fromUri(publicUri).path(servletPath);
-	}
-
-	private static String getOrConstructPublicUriBase(final HttpServletRequest request) {
-		String publicUri = getPublicURI();
-		if (publicUri == null || publicUri.isEmpty()) {
-			final String scheme = request.getScheme();
-			final String hostName = guessHostname(request);
-			final int serverPort = request.getServerPort();
-			final String contextPath = request.getContextPath();
-			publicUri = constructPublicUriBase(scheme, hostName, serverPort, contextPath);
-		}
-		return publicUri;
-	}
-
-	private static String constructPublicUriBase(final String scheme, final String hostName,
-			final int serverPort, final String contextPath) {
-		return UriBuilder.fromPath(contextPath)
-						 .scheme(scheme)
-						 .host(hostName)
-						 .port(serverPort)
-						 .build()
-						 .normalize()
-						 .toString();
-	}
-
-	// TODO Andrew@2017-07-18: Avoid guessing anything and prefer configuration and/or convention
-	@Deprecated
-	private static String guessHostname(final HttpServletRequest request) {
-		String hostName = "localhost";
-
-		//try host resolution first if property to disable it is false or not set
-		boolean getHostNameFromRequest = false;
-
-		if (isHostResolutionDisabled()) {
-			getHostNameFromRequest = true;
-		} else {
-			try {
-				hostName = InetAddress.getLocalHost().getCanonicalHostName();
-			} catch (UnknownHostException e) {
-				//fallback is to use the hostname from request
-				log.info("Unable to resolve hostname. Extracting hostname from request.");
-				getHostNameFromRequest = true;
-			}
-		}
-
-		if (getHostNameFromRequest) {
-			hostName = request.getServerName();
-		}
-		return hostName;
 	}
 
 	// TODO Andrew@2018-03-03: we have to deprecate this, and have users go via system properties

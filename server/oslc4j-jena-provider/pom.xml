@@ -15,6 +15,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+            <artifactId>oslc4j-provider-utils</artifactId>
+            <version>${v.lyo}</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
         </dependency>

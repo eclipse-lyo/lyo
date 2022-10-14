@@ -46,6 +46,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

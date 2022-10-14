@@ -39,6 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
+import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
 
 /**
  * Use JSON-LD support in Jena provider.
@@ -167,7 +168,7 @@ public final class OslcRdfJsonProvider
 			{
 				responseInfo = (ResponseInfo<?>)filteredResource;
 
-				String requestURI = OSLC4JUtils.resolveURI(httpServletRequest, true);
+				String requestURI = ProviderHelper.resolveURI(httpServletRequest, true);
 				responseInfoURI = requestURI;
 
 				FilteredResource<?> container = responseInfo.getContainer();

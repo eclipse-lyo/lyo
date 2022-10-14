@@ -40,6 +40,7 @@ import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
+import org.eclipse.lyo.oslc4j.provider.helper.ProviderHelper;
 
 /**
  * Use JSON-LD support in Jena provider.
@@ -123,7 +124,7 @@ public abstract class AbstractOslcRdfJsonProvider
 			final String method = httpServletRequest.getMethod();
 			if ("GET".equals(method))
 			{
-				descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
+				descriptionURI =  ProviderHelper.resolveURI(httpServletRequest,true);
 				responseInfoURI = descriptionURI;
 
 				final String queryString = httpServletRequest.getQueryString();
