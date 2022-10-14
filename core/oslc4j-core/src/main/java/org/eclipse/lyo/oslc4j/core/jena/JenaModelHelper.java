@@ -74,6 +74,7 @@ import java.util.*;
 import java.util.function.Function;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
+@Unstable
 public final class JenaModelHelper
 {
     private static final String PROPERTY_TOTAL_COUNT = "totalCount";
