@@ -125,7 +125,7 @@ public final class JenaModelHelper
                 null);
     }
 
-    static Model createJenaModel(final String descriptionAbout, final String responseInfoAbout,
+    public static Model createJenaModel(final String descriptionAbout, final String responseInfoAbout,
             final ResponseInfo<?> responseInfo, final Object[] objects, final Map<String, Object> properties)
             throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OslcCoreApplicationException {
