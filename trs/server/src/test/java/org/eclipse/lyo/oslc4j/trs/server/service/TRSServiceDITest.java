@@ -10,7 +10,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
+import org.eclipse.lyo.server.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrsTest;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;

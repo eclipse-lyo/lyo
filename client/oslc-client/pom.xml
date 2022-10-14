@@ -75,13 +75,13 @@
             <version>${v.lyo}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-jena-provider</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>jena-provider</artifactId>
             <version>${v.lyo}</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-json4j-provider</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>json4j-provider</artifactId>
             <version>${v.lyo}</version>
         </dependency>
 

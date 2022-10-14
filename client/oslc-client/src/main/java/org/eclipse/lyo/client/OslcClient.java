@@ -22,8 +22,8 @@ import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
-import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
+import org.eclipse.lyo.server.provider.jena.JenaProvidersRegistry;
+import org.eclipse.lyo.server.provider.json4j.Json4JProvidersRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

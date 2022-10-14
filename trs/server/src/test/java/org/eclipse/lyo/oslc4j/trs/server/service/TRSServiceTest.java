@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
+import org.eclipse.lyo.server.provider.jena.JenaProvidersRegistry;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.DeploymentContext;

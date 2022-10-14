@@ -63,8 +63,8 @@
 
     <!--TEST-->
     <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-      <artifactId>oslc4j-jena-provider</artifactId>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>jena-provider</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
