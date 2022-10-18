@@ -9,7 +9,7 @@
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
     <artifactId>provider-utils</artifactId>
-    <name>Lyo :: Core :: Provider Utils</name>
+    <name>Lyo :: Server :: Provider Utils</name>
     <description></description>
 
     <properties>
@@ -35,7 +35,6 @@
         <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
-            <version>4.8.143</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

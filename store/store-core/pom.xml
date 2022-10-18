@@ -23,12 +23,10 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${v.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.server</groupId>
       <artifactId>jena-provider</artifactId>
-      <version>${v.lyo}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
@@ -43,7 +41,6 @@
     <dependency>
       <groupId>org.eclipse.lyo.core.query</groupId>
       <artifactId>oslc-query</artifactId>
-      <version>${v.lyo}</version>
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>

@@ -215,6 +215,11 @@
         <artifactId>oslc4j-core</artifactId>
         <version>${v.lyo}</version>
       </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.core.query</groupId>
+        <artifactId>oslc-query</artifactId>
+        <version>${v.lyo}</version>
+      </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>provider-utils</artifactId>
@@ -346,6 +351,16 @@
         <version>3.12.0</version>
       </dependency>
 
+    <dependency>
+        <groupId>org.apache.wink</groupId>
+        <artifactId>wink-json4j</artifactId>
+        <version>1.4</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>4.8.143</version>
+    </dependency>
 
       <!--Test-->
       <dependency>
