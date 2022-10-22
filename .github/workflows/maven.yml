@@ -16,11 +16,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11']
+        jdk: ['11', '17']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
         # 'liberica' is a preferred Spring SDK
-#        distribution: ['temurin', 'zulu']
-        distribution: ['temurin', 'zulu', 'adopt', 'liberica', 'microsoft', 'corretto']
+        distribution: ['temurin']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
@@ -30,10 +29,10 @@ jobs:
 #          - jdk: '16'
 #            experimental: true
 #            distribution: zulu
-          - jdk: '17' # LTS
+          - jdk: '19'
             distribution: zulu
             experimental: true
-          - jdk: '19'
+          - jdk: '20-ea'
             distribution: zulu
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
