@@ -13,15 +13,25 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>lyo-core-model</artifactId>
+      <version>${v.lyo}</version><!--TODO: depManage-->
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+      <artifactId>provider-common-jee</artifactId>
+      <version>${v.lyo}</version><!--TODO: depManage-->
+    </dependency>
+    <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>

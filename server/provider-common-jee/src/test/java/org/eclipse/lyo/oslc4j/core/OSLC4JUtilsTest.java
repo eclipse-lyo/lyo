@@ -34,8 +34,8 @@ public class OSLC4JUtilsTest {
     @SuppressWarnings("deprecation")
     public void testPublicURI() throws MalformedURLException {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
-        when(mockedRequest.getServletPath()).thenReturn("/resources");
-        when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
+        Mockito.when(mockedRequest.getServletPath()).thenReturn("/resources");
+        Mockito.when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
         OSLC4JUtils.setPublicURI("http://hostname.example.com:12357/myapp/");
         String resolvedUri = OSLC4JUtils.resolveURI(mockedRequest, true);
         assertEquals("http://hostname.example.com:12357/myapp/resources/bugs/1", resolvedUri);
@@ -166,12 +166,12 @@ public class OSLC4JUtilsTest {
 
     private HttpServletRequest mockRequest() {
         HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
-        when(mockedRequest.getScheme()).thenReturn("https");
-        when(mockedRequest.getServerName()).thenReturn("hostname.example.com");
-        when(mockedRequest.getServerPort()).thenReturn(12357);
-        when(mockedRequest.getContextPath()).thenReturn("/myapp");
-        when(mockedRequest.getServletPath()).thenReturn("/resources");
-        when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
+        Mockito.when(mockedRequest.getScheme()).thenReturn("https");
+        Mockito.when(mockedRequest.getServerName()).thenReturn("hostname.example.com");
+        Mockito.when(mockedRequest.getServerPort()).thenReturn(12357);
+        Mockito.when(mockedRequest.getContextPath()).thenReturn("/myapp");
+        Mockito.when(mockedRequest.getServletPath()).thenReturn("/resources");
+        Mockito.when(mockedRequest.getPathInfo()).thenReturn("/bugs/1");
         return mockedRequest;
     }
 }
