@@ -22,6 +22,13 @@
       <artifactId>provider-common-jee</artifactId>
       <version>${v.lyo}</version><!--TODO: depManage-->
     </dependency>
+
+    <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <!--TODO: dep manage-->
+      <version>4.8.143</version>
+    </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>

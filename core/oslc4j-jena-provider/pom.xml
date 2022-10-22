@@ -31,6 +31,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--FIXME: remove-->
         <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>

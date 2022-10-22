@@ -74,7 +74,7 @@ public abstract class AbstractOslcRdfXmlProvider
 	 * skip over invalid values in extended properties.
 	 */
 	@Deprecated
-	public static final String OSLC4J_STRICT_DATATYPES		 = "org.eclipse.lyo.oslc4j.strictDatatypes";
+	public static final String OSLC4J_STRICT_DATATYPES		 = JenaModelHelper.OSLC4J_STRICT_DATATYPES;
 
 	private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
 	private static final Class<Error> CLASS_OSLC_ERROR		  = Error.class;
