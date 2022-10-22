@@ -22,6 +22,7 @@
     <module>../oslc-trs</module>
     <module>../oslc4j-jena-provider</module>
     <module>../shacl</module>
+    <module>../oslc4j-core-wink</module>
     <module>../oslc4j-json4j-provider</module>
     <module>../oslc4j-utils</module>
   </modules>
