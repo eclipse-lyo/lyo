@@ -27,7 +27,12 @@ public interface Oslc_amDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String ARCHITECTURE_MANAGEMENT_DOMAIN = "Architecture Management";
+    /**
+     * @deprecated use {@link Oslc_amDomainConstants#ARCHITECTURE_MANAGEMENT_NAMSPACE} or {@link Oslc_amDomainConstants#ARCHITECTURE_MANAGEMENT_DOMAIN_Name} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String ARCHITECTURE_MANAGEMENT_DOMAIN = "http://open-services.net/ns/am#";
+    public static String ARCHITECTURE_MANAGEMENT_DOMAIN_Name = "Architecture Management";
     public static String ARCHITECTURE_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/am#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX = "oslc_am"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
