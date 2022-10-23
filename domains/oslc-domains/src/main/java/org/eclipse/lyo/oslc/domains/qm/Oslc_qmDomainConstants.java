@@ -27,7 +27,12 @@ public interface Oslc_qmDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String QUALITY_MANAGEMENT_DOMAIN = "Quality Management";
+    /**
+     * @deprecated use {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_NAMSPACE} or {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String QUALITY_MANAGEMENT_DOMAIN = "http://open-services.net/ns/qm#";
+    public static String QUALITY_MANAGEMENT_DOMAIN_NAME = "Quality Management";
     public static String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

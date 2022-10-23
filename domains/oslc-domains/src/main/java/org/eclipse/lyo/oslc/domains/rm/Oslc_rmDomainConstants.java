@@ -27,7 +27,12 @@ public interface Oslc_rmDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN = "Requirements Management shapes";
+    /**
+     * @deprecated use {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/rm#";
+    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME = "Requirements Management shapes";
     public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/rm#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_rm"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

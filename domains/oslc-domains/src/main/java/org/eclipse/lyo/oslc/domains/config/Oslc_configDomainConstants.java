@@ -30,7 +30,12 @@ public interface Oslc_configDomainConstants
     // Start of user code user constants
     // End of user code
 
-    public static String CONFIGURATION_MANAGEMENT_DOMAIN = "Configuration Management";
+    /**
+     * @deprecated use {@link Oslc_configDomainConstants#CONFIGURATION_MANAGEMENT_NAMSPACE} or {@link Oslc_configDomainConstants#CONFIGURATION_MANAGEMENT_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String CONFIGURATION_MANAGEMENT_DOMAIN = "http://open-services.net/ns/config#";
+    public static String CONFIGURATION_MANAGEMENT_DOMAIN_NAME = "Configuration Management";
     public static String CONFIGURATION_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/config#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
