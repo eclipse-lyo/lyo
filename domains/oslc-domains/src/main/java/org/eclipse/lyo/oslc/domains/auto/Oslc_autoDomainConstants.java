@@ -28,11 +28,11 @@ public interface Oslc_autoDomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link Oslc_autoDomainConstants#AUTOMATION_NAMSPACE} or {@link Oslc_autoDomainConstants#AUTOMATION_DOMAIN_Name} instead
+     * @deprecated use {@link Oslc_autoDomainConstants#AUTOMATION_NAMSPACE} or {@link Oslc_autoDomainConstants#AUTOMATION_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String AUTOMATION_DOMAIN = "http://open-services.net/ns/auto#";
-    public static String AUTOMATION_DOMAIN_Name = "Automation";
+    public static String AUTOMATION_DOMAIN_NAME = "Automation";
     public static String AUTOMATION_NAMSPACE = "http://open-services.net/ns/auto#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String AUTOMATION_NAMSPACE_PREFIX = "oslc_auto"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

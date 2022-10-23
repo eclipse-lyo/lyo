@@ -28,11 +28,11 @@ public interface RdfsDomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link RdfsDomainConstants#RDFS_NAMSPACE} or {@link RdfsDomainConstants#RDFS_DOMAIN_Name} instead
+     * @deprecated use {@link RdfsDomainConstants#RDFS_NAMSPACE} or {@link RdfsDomainConstants#RDFS_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String RDFS_DOMAIN = "http://www.w3.org/2000/01/rdf-schema#";
-    public static String RDFS_DOMAIN_Name = "RDFS";
+    public static String RDFS_DOMAIN_NAME = "RDFS";
     public static String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String RDFS_NAMSPACE_PREFIX = "rdfs"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

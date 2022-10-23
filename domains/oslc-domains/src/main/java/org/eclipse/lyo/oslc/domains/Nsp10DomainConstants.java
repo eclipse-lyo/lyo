@@ -28,11 +28,11 @@ public interface Nsp10DomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link Nsp10DomainConstants#MATLAB_DOMAIN_NAMSPACE} or {@link Nsp10DomainConstants#MATLAB_DOMAIN_DOMAIN_Name} instead
+     * @deprecated use {@link Nsp10DomainConstants#MATLAB_DOMAIN_NAMSPACE} or {@link Nsp10DomainConstants#MATLAB_DOMAIN_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String MATLAB_DOMAIN_DOMAIN = "http://your.organisation.domain/nsp10#";
-    public static String MATLAB_DOMAIN_DOMAIN_Name = "Matlab Domain";
+    public static String MATLAB_DOMAIN_DOMAIN_NAME = "Matlab Domain";
     public static String MATLAB_DOMAIN_NAMSPACE = "http://your.organisation.domain/nsp10#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String MATLAB_DOMAIN_NAMSPACE_PREFIX = "nsp10"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

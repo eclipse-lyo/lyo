@@ -28,11 +28,11 @@ public interface Oslc_cmDomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_DOMAIN_Name} instead
+     * @deprecated use {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/cm#";
-    public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN_Name = "Change Management shapes";
+    public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME = "Change Management shapes";
     public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/cm#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_cm"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

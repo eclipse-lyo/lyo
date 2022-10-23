@@ -28,11 +28,11 @@ public interface FoafDomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link FoafDomainConstants#FOAF_NAMSPACE} or {@link FoafDomainConstants#FOAF_DOMAIN_Name} instead
+     * @deprecated use {@link FoafDomainConstants#FOAF_NAMSPACE} or {@link FoafDomainConstants#FOAF_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String FOAF_DOMAIN = "http://xmlns.com/foaf/0.1/#";
-    public static String FOAF_DOMAIN_Name = "FOAF";
+    public static String FOAF_DOMAIN_NAME = "FOAF";
     public static String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String FOAF_NAMSPACE_PREFIX = "foaf"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 

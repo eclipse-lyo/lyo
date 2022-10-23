@@ -28,11 +28,11 @@ public interface DctermsDomainConstants
     // End of user code
 
     /**
-     * @deprecated use {@link DctermsDomainConstants#DUBLIN_CORE_NAMSPACE} or {@link DctermsDomainConstants#DUBLIN_CORE_DOMAIN_Name} instead
+     * @deprecated use {@link DctermsDomainConstants#DUBLIN_CORE_NAMSPACE} or {@link DctermsDomainConstants#DUBLIN_CORE_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
     public static String DUBLIN_CORE_DOMAIN = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_DOMAIN_Name = "Dublin Core";
+    public static String DUBLIN_CORE_DOMAIN_NAME = "Dublin Core";
     public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
