@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.net.URI;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
@@ -74,20 +75,32 @@ public class OslcRdfXmlCollectionProvider
 							   final Annotation[] annotations,
 							   final MediaType	  mediaType)
 	{
-		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType))
+		if (Collection.class.isAssignableFrom(type))
 		{
-			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            //dealing with a subclass of a Collection<?>
 
-			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+            if (genericType instanceof ParameterizedType) {
+                // may not be available due to type erasure
 
-			if (actualTypeArguments.length == 1)
-			{
-				return actualTypeArguments[0] instanceof Class;
-			}
-			else {
-				log.error("Collection type must have exactly one generic type");
-			}
+                final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+
+                final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+
+                if (actualTypeArguments.length == 1)
+                {
+                    if (actualTypeArguments[0] instanceof Class) {
+                        return true;
+                    } else if (actualTypeArguments[0] instanceof TypeVariable) {
+                        log.warn("JMH seems to partially support generics typed at runtime");
+                        return true;
+                    }
+                    return false;
+                }
+                else {
+                    log.error("Collection type must have exactly one generic type");
+                }
+            }
+
 		}
 
 		return false;
@@ -107,14 +120,23 @@ public class OslcRdfXmlCollectionProvider
 		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-		writeTo(ProviderHelper.isQueryResult((Class<?>)actualTypeArguments[0], annotations),
+		writeTo(ProviderHelper.isQueryResult(getActualTypeArgument(actualTypeArguments[0]), annotations),
 				collection.toArray(new Object[0]),
 				mediaType,
 				map,
 				outputStream);
 	}
 
-	@Override
+    private static Class<?> getActualTypeArgument(Type type) {
+        if (type instanceof Class) {
+            return (Class<?>) type;
+        } else if (type instanceof TypeVariable) {
+            return (Class<?>) ((TypeVariable)type).getBounds()[0];
+        }
+        throw new IllegalArgumentException("You must pass either a Class or a (generic) TypeVariable");
+    }
+
+    @Override
 	public boolean isReadable(final Class<?>	 type,
 							  final Type		 genericType,
 							  final Annotation[] annotations,
@@ -135,7 +157,7 @@ public class OslcRdfXmlCollectionProvider
 				{
 					log.error("Support for reading Collection<URI> is not implemented");
 					return true;
-				} 
+				}
 
 				if (actualTypeArgument instanceof Class)
 				{
