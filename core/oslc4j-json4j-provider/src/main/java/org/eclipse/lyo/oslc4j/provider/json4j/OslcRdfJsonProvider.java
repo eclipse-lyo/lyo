@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
@@ -39,6 +40,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use JSON-LD support in Jena provider.
@@ -52,7 +55,9 @@ public final class OslcRdfJsonProvider
 	   implements MessageBodyReader<Object>,
 				  MessageBodyWriter<Object>
 {
-	public OslcRdfJsonProvider()
+    private final static Logger log = LoggerFactory.getLogger(OslcRdfJsonProvider.class);
+
+    public OslcRdfJsonProvider()
 	{
 		super();
 	}
@@ -95,14 +100,20 @@ public final class OslcRdfJsonProvider
 				parameterizedType = (ParameterizedType)actualTypeArguments[0];
 				actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-				if (actualTypeArguments.length != 1 ||
-					! (actualTypeArguments[0] instanceof Class<?>))
-				{
-					return false;
-				}
+                if (actualTypeArguments.length == 1) {
+                    if (actualTypeArguments[0] instanceof Class<?>) {
+                        actualType = (Class<?>) actualTypeArguments[0];
+                    } else if(actualTypeArguments[0] instanceof TypeVariable) {
+                        log.error("GenericEntity<?>-based capture of entity generic type is not supported");
+                        return false;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
 
-				actualType = (Class<?>)actualTypeArguments[0];
-			}
+            }
 			else if (actualTypeArguments[0] instanceof GenericArrayType)
 			{
 				GenericArrayType genericArrayType =

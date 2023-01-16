@@ -46,6 +46,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,10 +89,18 @@ public class OslcRdfXmlCollectionProvider
 
                 if (actualTypeArguments.length == 1)
                 {
-                    if (actualTypeArguments[0] instanceof Class) {
+                    Type firstTypeArg = actualTypeArguments[0];
+                    if (firstTypeArg instanceof Class) {
+                        if (log.isTraceEnabled()) {
+                            log.trace("isWritable() call on a generic type arg: <{}> (comptime)",
+                               CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                        }
                         return true;
-                    } else if (actualTypeArguments[0] instanceof TypeVariable) {
-                        log.warn("JMH seems to partially support generics typed at runtime");
+                    } else if (firstTypeArg instanceof TypeVariable) {
+                        if (log.isTraceEnabled()) {
+                            log.trace("isWritable() call on a generic type arg: <{}> (runtime)",
+                                CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                        }
                         return true;
                     }
                     return false;
@@ -100,8 +109,9 @@ public class OslcRdfXmlCollectionProvider
                     log.error("Collection type must have exactly one generic type");
                 }
             }
-
-		}
+		} else {
+            throw new IllegalArgumentException("This provider should only be applied to Collection<?>");
+        }
 
 		return false;
 	}
@@ -120,21 +130,12 @@ public class OslcRdfXmlCollectionProvider
 		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-		writeTo(ProviderHelper.isQueryResult(getActualTypeArgument(actualTypeArguments[0]), annotations),
+		writeTo(ProviderHelper.isQueryResult(CoreHelper.getActualTypeArgument(actualTypeArguments[0]), annotations),
 				collection.toArray(new Object[0]),
 				mediaType,
 				map,
 				outputStream);
 	}
-
-    private static Class<?> getActualTypeArgument(Type type) {
-        if (type instanceof Class) {
-            return (Class<?>) type;
-        } else if (type instanceof TypeVariable) {
-            return (Class<?>) ((TypeVariable)type).getBounds()[0];
-        }
-        throw new IllegalArgumentException("You must pass either a Class or a (generic) TypeVariable");
-    }
 
     @Override
 	public boolean isReadable(final Class<?>	 type,
