@@ -448,6 +448,10 @@
                 <name>OslcNamespaceDefinition</name>
                 <placement>X</placement>
               </tag>
+              <tag>
+                <name>Deprecated</name>
+                <placement>X</placement>
+              </tag>
             </tags>
             <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
