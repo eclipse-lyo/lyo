@@ -46,6 +46,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,24 +86,20 @@ public class OslcRdfJsonCollectionProvider
 							   final Annotation[] annotations,
 							   final MediaType	  mediaType)
 	{
-		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType)) {
+		if (Collection.class.isAssignableFrom(type) && (genericType instanceof ParameterizedType)) {
 			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
-
 			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
 			if (actualTypeArguments.length == 1) {
 				final Type actualTypeArgument = actualTypeArguments[0];
 
-				if (actualTypeArgument instanceof Class) {
-					return isWriteable((Class<?>) actualTypeArgument,
-									   annotations,
-									   OslcMediaType.APPLICATION_JSON_TYPE,
-									   mediaType);
-				} else if (actualTypeArgument instanceof TypeVariable) {
-                    log.error("GenericEntity<?>-based capture of entity generic type is not supported");
-                    return false;
-                }
+				if (actualTypeArgument instanceof Class || actualTypeArgument instanceof TypeVariable) {
+                    return isWriteable(CoreHelper.getActualTypeArgument(actualTypeArgument),
+                        annotations,
+                        OslcMediaType.APPLICATION_JSON_TYPE,
+                        mediaType);
+				}
+                return false;
             }
 		}
 

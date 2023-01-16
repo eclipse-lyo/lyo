@@ -76,38 +76,29 @@ public class OslcRdfXmlCollectionProvider
 							   final Annotation[] annotations,
 							   final MediaType	  mediaType)
 	{
-		if (Collection.class.isAssignableFrom(type))
-		{
-            //dealing with a subclass of a Collection<?>
+		if (Collection.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) {
+            final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-            if (genericType instanceof ParameterizedType) {
-                // may not be available due to type erasure
-
-                final ParameterizedType parameterizedType = (ParameterizedType) genericType;
-
-                final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-
-                if (actualTypeArguments.length == 1)
-                {
-                    Type firstTypeArg = actualTypeArguments[0];
-                    if (firstTypeArg instanceof Class) {
-                        if (log.isTraceEnabled()) {
-                            log.trace("isWritable() call on a generic type arg: <{}> (comptime)",
-                               CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
-                        }
-                        return true;
-                    } else if (firstTypeArg instanceof TypeVariable) {
-                        if (log.isTraceEnabled()) {
-                            log.trace("isWritable() call on a generic type arg: <{}> (runtime)",
-                                CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
-                        }
-                        return true;
+            if (actualTypeArguments.length == 1) {
+                Type firstTypeArg = actualTypeArguments[0];
+                if (firstTypeArg instanceof Class) {
+                    if (log.isTraceEnabled()) {
+                        log.trace("isWritable() call on a generic type arg: <{}> (comptime)",
+                           CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
                     }
-                    return false;
+                    return true;
+                } else if (firstTypeArg instanceof TypeVariable) {
+                    if (log.isTraceEnabled()) {
+                        log.trace("isWritable() call on a generic type arg: <{}> (runtime)",
+                            CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                    }
+                    return true;
                 }
-                else {
-                    log.error("Collection type must have exactly one generic type");
-                }
+                return false;
+            }
+            else {
+                log.error("Collection type must have exactly one generic type");
             }
 		} else {
             throw new IllegalArgumentException("This provider should only be applied to Collection<?>");
