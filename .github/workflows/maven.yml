@@ -20,7 +20,7 @@ jobs:
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
         # 'liberica' is a preferred Spring SDK
 #        distribution: ['temurin', 'zulu']
-        distribution: ['adopt', 'liberica', 'microsoft', 'corretto']
+        distribution: ['temurin', 'zulu', 'adopt', 'liberica', 'microsoft', 'corretto']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
