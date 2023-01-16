@@ -38,6 +38,7 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
 import org.eclipse.lyo.oslc4j.core.model.Error;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
@@ -61,42 +62,15 @@ public abstract class AbstractOslcRdfJsonProvider
 		super();
 	}
 
-	protected static boolean isWriteable(final Class<?>		type,
+	protected static boolean isWriteable(final Class<?>		klass,
 										 final Annotation[] annotations,
 										 final MediaType	requiredMediaType,
 										 final MediaType	actualMediaType)
 	{
-		if (type.getAnnotation(OslcResourceShape.class) != null)
-		{
-			// When handling "recursive" writing of an OSLC Error object, we get a zero-length array of annotations
-			if ((annotations != null) &&
-				((annotations.length > 0) ||
-				 (Error.class != type)))
-			{
-				for (final Annotation annotation : annotations)
-				{
-					if (annotation instanceof Produces)
-					{
-						final Produces producesAnnotation = (Produces) annotation;
-
-						for (final String value : producesAnnotation.value())
-						{
-							if (requiredMediaType.isCompatible(MediaType.valueOf(value)))
-							{
-								return true;
-							}
-						}
-					}
-				}
-
-				return false;
-			}
-
-			// We do not have annotations when running from the non-web client.
-			return requiredMediaType.isCompatible(actualMediaType);
-		}
-
-		return false;
+        // we leave media type and annotation checks to Jersey &c.
+        boolean hasOslcResourceShapeAnnot = klass.getAnnotation(OslcResourceShape.class) != null;
+        boolean subclassOfIResource = IResource.class.isAssignableFrom(klass);
+        return hasOslcResourceShapeAnnot || subclassOfIResource;
 	}
 
 	protected void writeTo(final boolean						queryResult,

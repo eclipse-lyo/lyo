@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.net.URI;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
@@ -45,6 +46,7 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,21 +76,33 @@ public class OslcRdfXmlCollectionProvider
 							   final Annotation[] annotations,
 							   final MediaType	  mediaType)
 	{
-		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType))
-		{
-			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+		if (Collection.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) {
+            final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-
-			if (actualTypeArguments.length == 1)
-			{
-				return actualTypeArguments[0] instanceof Class;
-			}
-			else {
-				log.error("Collection type must have exactly one generic type");
-			}
-		}
+            if (actualTypeArguments.length == 1) {
+                Type firstTypeArg = actualTypeArguments[0];
+                if (firstTypeArg instanceof Class) {
+                    if (log.isTraceEnabled()) {
+                        log.trace("isWritable() call on a generic type arg: <{}> (comptime)",
+                           CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                    }
+                    return true;
+                } else if (firstTypeArg instanceof TypeVariable) {
+                    if (log.isTraceEnabled()) {
+                        log.trace("isWritable() call on a generic type arg: <{}> (runtime)",
+                            CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                    }
+                    return true;
+                }
+                return false;
+            }
+            else {
+                log.error("Collection type must have exactly one generic type");
+            }
+		} else {
+            throw new IllegalArgumentException("This provider should only be applied to Collection<?>");
+        }
 
 		return false;
 	}
@@ -107,14 +121,14 @@ public class OslcRdfXmlCollectionProvider
 		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-		writeTo(ProviderHelper.isQueryResult((Class<?>)actualTypeArguments[0], annotations),
+		writeTo(ProviderHelper.isQueryResult(CoreHelper.getActualTypeArgument(actualTypeArguments[0]), annotations),
 				collection.toArray(new Object[0]),
 				mediaType,
 				map,
 				outputStream);
 	}
 
-	@Override
+    @Override
 	public boolean isReadable(final Class<?>	 type,
 							  final Type		 genericType,
 							  final Annotation[] annotations,
@@ -135,7 +149,7 @@ public class OslcRdfXmlCollectionProvider
 				{
 					log.error("Support for reading Collection<URI> is not implemented");
 					return true;
-				} 
+				}
 
 				if (actualTypeArgument instanceof Class)
 				{

@@ -16,6 +16,7 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,6 +31,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.UriBuilder;
+
+import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.annotation.*;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreDuplicatePropertyDefinitionException;
@@ -40,9 +43,14 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidRepresentationExcept
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidValueTypeException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResourceShapeFactory {
-	protected static final String METHOD_NAME_START_GET = "get";
+
+    private final static Logger log = LoggerFactory.getLogger(ResourceShapeFactory.class);
+
+    protected static final String METHOD_NAME_START_GET = "get";
 	protected static final String METHOD_NAME_START_IS  = "is";
 	protected static final String METHOD_NAME_START_SET = "set";
 
@@ -194,11 +202,13 @@ public class ResourceShapeFactory {
 				if (actualTypeArguments.length == 1)
 				{
 					final Type actualTypeArgument = actualTypeArguments[0];
-					if (actualTypeArgument instanceof Class)
-					{
-						componentType = (Class<?>) actualTypeArgument;
-					}
-				}
+                    if (actualTypeArgument instanceof Class) {
+                        componentType = CoreHelper.getActualTypeArgument(actualTypeArgument);
+                    } else if (actualTypeArgument instanceof TypeVariable) {
+                        log.error("Resource shapes are not designed to be initialized with the help of GenericEntity " +
+                            "(or other ways to capture a TypeVariable)");
+                    }
+                }
 			}
 		}
 

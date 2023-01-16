@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.net.URI;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
@@ -45,7 +46,10 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use JSON-LD support in Jena provider.
@@ -59,7 +63,9 @@ public class OslcRdfJsonCollectionProvider
 	   implements MessageBodyReader<Collection<Object>>,
 				  MessageBodyWriter<Collection<Object>>
 {
-	public OslcRdfJsonCollectionProvider()
+    private final static Logger log = LoggerFactory.getLogger(OslcRdfJsonCollectionProvider.class);
+
+    public OslcRdfJsonCollectionProvider()
 	{
 		super();
 	}
@@ -80,25 +86,21 @@ public class OslcRdfJsonCollectionProvider
 							   final Annotation[] annotations,
 							   final MediaType	  mediaType)
 	{
-		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType))
-		{
+		if (Collection.class.isAssignableFrom(type) && (genericType instanceof ParameterizedType)) {
 			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
-
 			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-			if (actualTypeArguments.length == 1)
-			{
+			if (actualTypeArguments.length == 1) {
 				final Type actualTypeArgument = actualTypeArguments[0];
 
-				if (actualTypeArgument instanceof Class)
-				{
-					return isWriteable((Class<?>) actualTypeArgument,
-									   annotations,
-									   OslcMediaType.APPLICATION_JSON_TYPE,
-									   mediaType);
+				if (actualTypeArgument instanceof Class || actualTypeArgument instanceof TypeVariable) {
+                    return isWriteable(CoreHelper.getActualTypeArgument(actualTypeArgument),
+                        annotations,
+                        OslcMediaType.APPLICATION_JSON_TYPE,
+                        mediaType);
 				}
-			}
+                return false;
+            }
 		}
 
 		return false;
@@ -126,26 +128,20 @@ public class OslcRdfJsonCollectionProvider
 	public boolean isReadable(final Class<?>	 type,
 							  final Type		 genericType,
 							  final Annotation[] annotations,
-							  final MediaType	 mediaType)
-	{
+							  final MediaType	 mediaType) {
 		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType))
-		{
+			(genericType instanceof ParameterizedType)) {
 			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 
 			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-			if (actualTypeArguments.length == 1)
-			{
+			if (actualTypeArguments.length == 1) {
 				final Type actualTypeArgument = actualTypeArguments[0];
 
-				if (URI.class.equals((Class<?>) actualTypeArgument)
-						&& (OslcMediaType.APPLICATION_JSON_TYPE.isCompatible(mediaType)))
-				{
+				if (URI.class.equals(actualTypeArgument)
+						&& (OslcMediaType.APPLICATION_JSON_TYPE.isCompatible(mediaType))) {
 					return true;
-				}
-				else
-				{
+				} else {
 					return isReadable((Class<?>) actualTypeArgument,
 									  OslcMediaType.APPLICATION_JSON_TYPE,
 									  mediaType);

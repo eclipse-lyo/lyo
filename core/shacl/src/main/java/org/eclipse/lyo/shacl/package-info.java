@@ -16,7 +16,7 @@
  * @since 2.3.0
  */
 
-@OslcSchema({@OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,
+/** */@OslcSchema({@OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,
                                       namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
                     @OslcNamespaceDefinition(
         prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX,

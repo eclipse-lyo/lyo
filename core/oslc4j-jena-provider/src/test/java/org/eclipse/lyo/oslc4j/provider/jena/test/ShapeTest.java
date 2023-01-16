@@ -38,15 +38,15 @@ public class ShapeTest {
 	public void allowedAndDefaultValuesTest() throws Exception {
 		ResourceShape s = readResourceShape("/allowedValues.ttl");
 		assertNotNull("Shape is null", s);
-		
+
 		Property allowedValuesUriProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesUriProperty"));
 		assertNotNull("http://example.com/shapes/allowedValuesUriProperty property not in shape", s);
-		
+
 		Collection<?> uriAllowedValues = allowedValuesUriProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesUriProperty property", 2, uriAllowedValues.size());
 		assertTrue("uri1 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri1")));
 		assertTrue("uri2 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri2")));
-		
+
 		assertEquals("Default values should be uri1", new URI("http://example.com/ns#uri1"), allowedValuesUriProperty.getDefaultValueObject());
 
 		Property allowedValuesStringProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesStringProperty"));
@@ -57,7 +57,7 @@ public class ShapeTest {
 		assertTrue("String 1 not in allowed values", stringAllowedValues.contains("String 1"));
 		assertTrue("String 2 not in allowed values", stringAllowedValues.contains("String 2"));
 		assertTrue("String 3 not in allowed values", stringAllowedValues.contains("String 3"));
-		
+
 		assertEquals("Default values should be \"String 1\"", "String 1", allowedValuesStringProperty.getDefaultValueObject());
 
 		Property allowedValuesIntProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesIntProperty"));
@@ -65,10 +65,10 @@ public class ShapeTest {
 
 		Collection<?> intAllowedValues = allowedValuesIntProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesIntProperty", 2, intAllowedValues.size());
-		assertTrue("27 not in allowed values", intAllowedValues.contains(new Integer(27)));
-		assertTrue("32 not in allowed values", intAllowedValues.contains(new Integer(32)));
+		assertTrue("27 not in allowed values", intAllowedValues.contains(Integer.valueOf(27)));
+		assertTrue("32 not in allowed values", intAllowedValues.contains(Integer.valueOf(32)));
 
-		assertEquals("Default values should be 27", new Integer(27), allowedValuesIntProperty.getDefaultValueObject());
+		assertEquals("Default values should be 27", Integer.valueOf(27), allowedValuesIntProperty.getDefaultValueObject());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -77,7 +77,7 @@ public class ShapeTest {
 		OslcTurtleProvider provider = new OslcTurtleProvider();
 		InputStream is = ServiceProviderTest.class.getResourceAsStream("/allowedValuesResource.ttl");
 		assertNotNull("Could not read file: /allowedValuesResource.ttl", is);
-		
+
 		// Make sure the content is properly interpreted as Turtle if the media type is "text/turtle;charset=UTF-8"
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		AllowedValues allowedValues = (AllowedValues) provider.readFrom((Class) AllowedValues.class,
@@ -87,7 +87,7 @@ public class ShapeTest {
 				null,
 				is);
 		assertNotNull("Allowed values is null", allowedValues);
-		
+
 		Collection<?> uriAllowedValues = allowedValues.getValues();
 		assertEquals("Wrong number of allowedValues for allowedValuesUriProperty property", 2, uriAllowedValues.size());
 		assertTrue("uri1 not in allowed values", uriAllowedValues.contains(new URI("http://example.com/ns#uri1")));
@@ -102,10 +102,10 @@ public class ShapeTest {
 	public void testAllowedValuesBackwardsCompatibility() throws Exception {
 		ResourceShape s = readResourceShape("/allowedValues.ttl");
 		assertNotNull("Shape is null", s);
-		
+
 		Property allowedValuesUriProperty = s.getProperty(new URI("http://example.com/shapes/allowedValuesUriProperty"));
 		assertNotNull("http://example.com/shapes/allowedValuesUriProperty property not in shape", allowedValuesUriProperty);
-		
+
 		assertEquals("Old getAllowedValues() method should return 0 results since it only looks for strings", 0, allowedValuesUriProperty.getAllowedValues().length);
 		assertNull("Old getDefaultValue() method should return null if default value is not a string", allowedValuesUriProperty.getDefaultValue());
 
@@ -133,7 +133,7 @@ public class ShapeTest {
 		OslcTurtleProvider provider = new OslcTurtleProvider();
 		InputStream is = ServiceProviderTest.class.getResourceAsStream(turtleFile);
 		assertNotNull("Could not read file: " + turtleFile, is);
-		
+
 		// Make sure the content is properly interpreted as Turtle if the media type is "text/turtle;charset=UTF-8"
 		ResourceShape s = (ResourceShape) provider.readFrom((Class) ResourceShape.class,
 				null,
