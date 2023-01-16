@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-@OslcSchema({
+/** */@OslcSchema({
 		@OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX, namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
 		@OslcNamespaceDefinition(prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX, namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
 		@OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX, namespaceURI = OslcConstants.RDF_NAMESPACE),
