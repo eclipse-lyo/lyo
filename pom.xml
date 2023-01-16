@@ -439,8 +439,13 @@
           <version>3.3.2</version>
           <configuration>
             <tags>
+              <!-- See https://stackoverflow.com/questions/55906161/weird-javadoc-error-with-jdk12-for-osgi-version-annotation -->
               <tag>
                 <name>OslcSchema</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>OslcNamespaceDefinition</name>
                 <placement>X</placement>
               </tag>
             </tags>
