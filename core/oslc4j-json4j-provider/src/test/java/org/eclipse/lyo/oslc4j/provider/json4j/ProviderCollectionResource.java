@@ -53,7 +53,6 @@ public class ProviderCollectionResource {
             resourceTypes = {TestResource.TEST_RESOURCE_TYPE},
             usages = {}
         )
-
     @GET
     @Path("qc-array-rdf")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE,
@@ -90,12 +89,12 @@ public class ProviderCollectionResource {
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         // TODO null in test, check if impacts the Provider logic
-//        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize)
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-//            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new TestResource[resources.size()]);
     }
