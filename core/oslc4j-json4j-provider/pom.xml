@@ -44,9 +44,19 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.inject</groupId>
+          <artifactId>jersey-hk2</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -58,13 +68,30 @@
             <artifactId>jersey-common</artifactId>
              <scope>test</scope>
         </dependency>
-<!--
+
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <scope>test</scope>
+          <!--NB! servlet 4.0 pulled here-->
+          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+          <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+          <version>${v.jersey}</version>
+          <scope>test</scope>
         </dependency>
--->
+
+        <dependency>
+          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+          <artifactId>jersey-test-framework-provider-jetty</artifactId>
+          <version>${v.jersey}</version>
+          <scope>test</scope>
+        </dependency>
+
+
+      <!--
+              <dependency>
+                  <groupId>org.glassfish.jersey.inject</groupId>
+                  <artifactId>jersey-hk2</artifactId>
+                  <scope>test</scope>
+              </dependency>
+      -->
     </dependencies>
     <build>
         <plugins>
