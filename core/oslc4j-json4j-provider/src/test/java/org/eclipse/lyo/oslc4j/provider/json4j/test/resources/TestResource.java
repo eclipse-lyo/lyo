@@ -13,10 +13,19 @@
  */
 package org.eclipse.lyo.oslc4j.provider.json4j.test.resources;
 
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.Occurs;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
+
+import java.net.URI;
 
 @OslcName("Test")
 @OslcNamespace(TestResource.TEST_NAMESPACE)
@@ -24,4 +33,27 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 public class TestResource extends AbstractResource {
 	public final static String TEST_NAMESPACE = "http://example.com/ns#";
 	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
+
+    public TestResource(URI about) {
+        super(about);
+    }
+
+    public TestResource() {
+    }
+
+    private String _aproperty;
+
+    @OslcName("aproperty")
+    @OslcPropertyDefinition(TEST_NAMESPACE + "aproperty")
+    @OslcDescription("A test property.")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getAproperty() {
+        return _aproperty;
+    }
+
+    public void setAproperty(String val) {
+        _aproperty = val;
+    }
 }

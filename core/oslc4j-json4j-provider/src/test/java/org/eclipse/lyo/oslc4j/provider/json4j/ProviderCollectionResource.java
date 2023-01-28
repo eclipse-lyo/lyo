@@ -23,6 +23,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -100,6 +102,12 @@ public class ProviderCollectionResource {
     }
 
     private List<TestResource> generateTestResources() {
-        return IntStream.range(0, 10).mapToObj(i -> new TestResource()).collect(Collectors.toList());
+        List<TestResource> resources = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            TestResource testResource = new TestResource(URI.create("urn:test:TestResource" + i));
+            testResource.setAproperty("value_" + i);
+            resources.add(testResource);
+        }
+        return resources;
     }
 }
