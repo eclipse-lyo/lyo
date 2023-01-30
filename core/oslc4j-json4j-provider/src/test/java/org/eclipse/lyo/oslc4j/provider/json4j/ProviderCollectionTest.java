@@ -3,33 +3,34 @@ package org.eclipse.lyo.oslc4j.provider.json4j;
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.ServletDeploymentContext;
 import org.glassfish.jersey.test.TestProperties;
-import org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory;
 import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -90,30 +91,61 @@ public class ProviderCollectionTest extends JerseyTest {
     }
 
 
-    @Test
-    public void testQueryOk()
+    /**
+     *  was used before .bufferEntity()
+     */
+//    @ParameterizedTest
+//    @ArgumentsSource(ProviderCollectionTestArguments.class)
+//    public void testQueryOk(String path, boolean isExpectedQuery)
+//        throws JSONException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
+//        InvocationTargetException, IllegalAccessException, InstantiationException {
+//        Response response = target(path).request(MediaType.APPLICATION_JSON).get();
+//
+//        String responseStr = response.readEntity(String.class);
+//        JSONObject responseJSON = new JSONObject(responseStr);
+//        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
+//
+//        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
+//            Response.Status.Family.SUCCESSFUL);
+//
+//        assertThat(responseStr).isNotEmpty();
+//        // OSLC Query response
+//        boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;
+//        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
+//        // Everything is in place
+//        // TODO check about URI and aproperty
+//        assertThat(objects).hasSize(10);
+//    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ProviderCollectionTestArguments.class)
+    public void testQueryList(String path, boolean isExpectedQuery)
         throws JSONException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
         InvocationTargetException, IllegalAccessException, InstantiationException {
-        Response response = target("/test/qc-array-rdf").request(MediaType.APPLICATION_JSON).get();
-
-        String responseStr = response.readEntity(String.class);
-        JSONObject responseJSON = new JSONObject(responseStr);
-        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
+        Response response = target(path).request(MediaType.APPLICATION_JSON).get();
+        response.bufferEntity();
 
         assertThat(response.getStatusInfo().getFamily()).isEqualTo(
             Response.Status.Family.SUCCESSFUL);
+        List<TestResource> rdfResponse = response.readEntity(new GenericType<List<TestResource>>() {});
+        String rdfResponseString = response.readEntity(String.class);
+        JSONObject responseJSON = new JSONObject(rdfResponseString);
+        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
 
-        assertThat(responseStr).isNotEmpty();
-        // OSLC Query response
-        assertThat(responseJSON.get("oslc:responseInfo")).isNotNull();
-        // Everything is in place
-        // TODO check about URI and aproperty
-        assertThat(objects).hasSize(10);
+
+
+        boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;
+        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
+
+        assertThat(rdfResponse).hasSize(10);
     }
 
+    /**
+     * Want to test Array UNmarshalling at least a few times too
+     */
     @Test
     public void testQueryArray() {
-        Response response = target("/test/qc-array-rdf").request(MediaType.APPLICATION_JSON).get();
+        Response response = target("/test/qc-array-method-json").request(MediaType.APPLICATION_JSON).get();
 
         TestResource[] rdfResponse =
             response.readEntity(((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
@@ -124,14 +156,21 @@ public class ProviderCollectionTest extends JerseyTest {
         assertThat(rdfResponse).hasSize(10);
     }
 
-    @Test
-    public void testQueryList() {
-        Response response = target("/test/qc-array-rdf").request(MediaType.APPLICATION_JSON).get();
-        List<TestResource> rdfResponse = response.readEntity(new GenericType<List<TestResource>>() {});
+    private static class ProviderCollectionTestArguments implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
+            return  Stream.of(
+                // path, isQueryResponse
+                Arguments.of("/test/qc-array-method-json", true)
+                ,Arguments.of("/test/qc-array-response-json", true)
+                ,Arguments.of("/test/qc-coll-method-json", true)
+                ,Arguments.of("/test/qc-coll-response-json", true)
 
-        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-            Response.Status.Family.SUCCESSFUL);
-
-        assertThat(rdfResponse).hasSize(10);
+                ,Arguments.of("/test/qc-nonq-coll-response-json", false)
+                ,Arguments.of("/test/nonqc-nonq-coll-response-json", false)
+                // for now, still true
+                ,Arguments.of("/test/nonqc-array-response-json", false)
+            );
+        }
     }
 }
