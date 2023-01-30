@@ -75,6 +75,14 @@
           <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
           <version>${v.jersey}</version>
           <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <!--enforce 3.1.0-->
+              <!--TODO: remove when switched to Servlet 4.0-->
+              <groupId>javax.servlet</groupId>
+              <artifactId>javax.servlet-api</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
 
 <!--        <dependency>
