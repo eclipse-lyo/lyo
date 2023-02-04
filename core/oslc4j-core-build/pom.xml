@@ -25,5 +25,6 @@
     <module>../oslc4j-core-wink</module>
     <module>../oslc4j-json4j-provider</module>
     <module>../oslc4j-utils</module>
+    <module>../lyo-core-settings</module>
   </modules>
 </project>

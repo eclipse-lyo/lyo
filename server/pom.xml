@@ -19,7 +19,6 @@
     <module>oauth-consumer-store</module>
     <module>oauth-webapp</module>
     <module>oslc-ui-model</module>
-      <module>provider-common-jee</module>
   </modules>
 
   <dependencyManagement>

@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.server</groupId>
-      <artifactId>provider-common-jee</artifactId>
+      <artifactId>lyo-core-settings</artifactId>
       <version>${v.lyo}</version><!--TODO: depManage-->
     </dependency>
 
