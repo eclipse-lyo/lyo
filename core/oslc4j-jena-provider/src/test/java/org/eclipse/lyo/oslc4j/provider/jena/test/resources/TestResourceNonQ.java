@@ -28,7 +28,8 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import java.net.URI;
 
-@OslcName("TestNonQ")
+/* Same as TestResource to test cases where TestResource is returned but endpoint is not a query one */
+@OslcName("Test")
 @OslcNotQueryResult
 @OslcNamespace(TestResourceNonQ.TEST_NAMESPACE)
 @OslcResourceShape(title = "Test Resource (not a query result)", describes = TestResourceNonQ.TEST_RESOURCE_TYPE)

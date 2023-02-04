@@ -40,7 +40,7 @@ final class ProviderHelper {
         return hasOslcQueryCapabilityMethodAnnot(annotations) && !hasNotQueryResultTypeAnnot(type);
     }
 
-    static boolean isSingleResourceType(final Class<?> type) {
+    static boolean isSingleLyoResourceType(final Class<?> type) {
         if (type == null) {
             throw new IllegalArgumentException();
         }
@@ -58,6 +58,19 @@ final class ProviderHelper {
             }
             return false;
         }
+    }
+
+    static boolean isSingleResourceType(final Class<?> type) {
+        if (type == null) {
+            throw new IllegalArgumentException();
+        }
+        if (type.isArray()) {
+            return false;
+        }
+        if (Collection.class.isAssignableFrom(type)) {
+            return false;
+        }
+        return true;
     }
 
     private static boolean hasShapeAnnotation(final Class<?> type) {

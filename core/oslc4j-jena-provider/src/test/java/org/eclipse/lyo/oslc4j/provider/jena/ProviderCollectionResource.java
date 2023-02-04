@@ -455,7 +455,7 @@ public class ProviderCollectionResource {
             pageSize = Integer.parseInt(pageSizeString);
         }
 
-        List<TestResource> resources = generateTestResources();
+        List<TestResourceNonQ> resources = generateTestResourcesNonQ();
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -475,7 +475,7 @@ public class ProviderCollectionResource {
 //            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
-        return Response.ok(resources.toArray(new TestResource[resources.size()]))
+        return Response.ok(resources.toArray(new TestResourceNonQ[0]))
             .build();
     }
 

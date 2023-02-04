@@ -142,7 +142,7 @@ public class OslcRdfXmlProvider
 			actualType = type;
 		}
 
-		return ProviderHelper.isSingleResourceType(actualType);
+		return ProviderHelper.isSingleLyoResourceType(actualType);
 	}
 
 	@Override
@@ -249,7 +249,7 @@ public class OslcRdfXmlProvider
 							  final Annotation[] annotations,
 							  final MediaType	 mediaType)
 	{
-		return true;
+		return ProviderHelper.isSingleResourceType(type);
 	}
 
 	@Override

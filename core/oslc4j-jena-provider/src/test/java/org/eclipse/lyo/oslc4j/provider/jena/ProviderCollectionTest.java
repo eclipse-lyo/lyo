@@ -4,6 +4,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
@@ -38,6 +39,7 @@ import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -151,10 +153,75 @@ public class ProviderCollectionTest extends JerseyTest {
         }
     }
 
+
+
+    @ParameterizedTest
+    @ArgumentsSource(ProviderCollectionTestArguments.class)
+    public void testArrayQuery(String path, boolean isExpectedQuery) {
+        assumeTrue(isExpectedQuery);
+        Response response = target(path).request(OslcMediaType.APPLICATION_RDF_XML).get();
+        response.bufferEntity();
+
+        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
+            Response.Status.Family.SUCCESSFUL);
+        TestResource[] rdfResponse = response.readEntity(((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
+//        String rdfResponseString = response.readEntity(String.class);
+        InputStream rdfResponseStream = response.readEntity(InputStream.class);
+        Model model = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(model, rdfResponseStream, RDFLanguages.RDFXML);
+        Resource responseInfoType = model.createResource(OslcConstants.TYPE_RESPONSE_INFO);
+
+        boolean isQueryResponse = model.contains(null, RDF.type, responseInfoType);
+        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
+
+        if (isExpectedQuery) {
+            assertThat(rdfResponse).hasSize(10);
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(ProviderCollectionTestArguments.class)
+    public void testArrayNonQuery(String path, boolean isExpectedQuery, Class<?> _ignore, String mimeType) {
+        assumeFalse(isExpectedQuery);
+        Response response = target(path).request(mimeType).get();
+        response.bufferEntity();
+
+        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
+            Response.Status.Family.SUCCESSFUL);
+//        Object[] rdfResponse = response.readEntity(((Object[]) Array.newInstance(Object.class, 0)).getClass());
+        TestResourceNonQ[] rdfResponse = response.readEntity(((TestResourceNonQ[]) Array.newInstance(TestResourceNonQ.class, 0)).getClass());
+
+//        String rdfResponseString = response.readEntity(String.class);
+        InputStream rdfResponseStream = response.readEntity(InputStream.class);
+        Model model = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(model, rdfResponseStream, mapMimeType(mimeType));
+        Resource responseInfoType = model.createResource(OslcConstants.TYPE_RESPONSE_INFO);
+
+        boolean isQueryResponse = model.contains(null, RDF.type, responseInfoType);
+        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
+
+        if (!isExpectedQuery) {
+            assertThat(rdfResponse).hasSize(10);
+        }
+    }
+
+    private Lang mapMimeType(String mimeType) {
+        if(OslcMediaType.APPLICATION_RDF_XML.equals(mimeType)) {
+            return RDFLanguages.RDFXML;
+        } else if (OslcMediaType.TEXT_TURTLE.equals(mimeType)) {
+            return RDFLanguages.TURTLE;
+        } else if (OslcMediaType.APPLICATION_JSON_LD.equals(mimeType)) {
+            return RDFLanguages.JSONLD10;
+        } else if (OslcMediaType.APPLICATION_XML.equals(mimeType)) {
+            return RDFLanguages.RDFXML;
+        }
+        return null;
+    }
+
     @ParameterizedTest
     @ArgumentsSource(ProviderCollectionTestArguments.class)
     public void testJMH(String path, boolean isExpectedQuery, Class<?> klass) {
-        Response response = target(path).request(OslcMediaType.TEXT_TURTLE_TYPE).get();
+        Response response = target(path).request(OslcMediaType.TEXT_TURTLE).get();
         response.bufferEntity();
 
         assertThat(response.getStatusInfo().getFamily()).isEqualTo(
@@ -171,72 +238,45 @@ public class ProviderCollectionTest extends JerseyTest {
         Object[] testResources = JenaModelHelper.unmarshal(model, klass);
 
         boolean isQueryResponse = model.contains(null, RDF.type, responseInfoType);
-        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
+        assertThat(isQueryResponse)
+            .withFailMessage(() ->"The server is expected to return a ResponseInfo type of response: " + isExpectedQuery)
+            .isEqualTo(isExpectedQuery);
 
         assertThat(testResources).hasSize(10);
-    }
-//
-//    @ParameterizedTest
-//    @ArgumentsSource(ProviderCollectionTestArguments.class)
-//    public void testQueryArrayJMHNonQuery(String path, boolean isExpectedQuery) {
-//        Response response = target(path).request(OslcMediaType.TEXT_TURTLE_TYPE).get();
-//        response.bufferEntity();
-//
-//        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-//            Response.Status.Family.SUCCESSFUL);
-////        String rdfResponseString = response.readEntity(String.class);
-//
-////        TestResource[] rdfResponse = response.readEntity(((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
-//
-//        InputStream rdfResponseStream = response.readEntity(InputStream.class);
-//        Model model = ModelFactory.createDefaultModel();
-//        RDFDataMgr.read(model, rdfResponseStream, RDFLanguages.TURTLE);
-//        Resource responseInfoType = model.createResource(OslcConstants.TYPE_RESPONSE_INFO);
-//
-//        TestResourceNonQ[] testResources = JenaModelHelper.unmarshal(model, TestResourceNonQ.class);
-//
-//        boolean isQueryResponse = model.contains(null, RDF.type, responseInfoType);
-//        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
-//
-//        if (!isExpectedQuery) {
-//            assertThat(testResources).hasSize(10);
-//        }
-//    }
-
-    /**
-     * Want to test Array UNmarshalling at least a few times too
-     */
-    @Test
-    public void testArrayQuerySingle() {
-        Response response = target("/test/qc-array-method-rdf")
-            .request(OslcMediaType.TEXT_TURTLE_TYPE).get();
-
-        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-            Response.Status.Family.SUCCESSFUL);
-
-        TestResource[] rdfResponse =
-            response.readEntity(((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
-
-        assertThat(rdfResponse).hasSize(10);
     }
 
     private static class ProviderCollectionTestArguments implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-            return  Stream.of(
-                // path, isQueryResponse, klass to unmarshal
-                Arguments.of("/test/qc-array-method-rdf", true, TestResource.class)
-                ,Arguments.of("/test/qc-array-response-rdf", true, TestResource.class)
-                ,Arguments.of("/test/qc-coll-method-rdf", true, TestResource.class)
-                ,Arguments.of("/test/qc-coll-response-rdf", true, TestResource.class)
+//            return Stream.of(
+//                // path, isQueryResponse, klass to unmarshal
+//                Arguments.of("/test/qc-array-method-rdf", true, TestResource.class)
+//                , Arguments.of("/test/qc-array-response-rdf", true, TestResource.class)
+//                , Arguments.of("/test/qc-coll-method-rdf", true, TestResource.class)
+//                , Arguments.of("/test/qc-coll-response-rdf", true, TestResource.class)
+//
+//                , Arguments.of("/test/nonqc-array-response-rdf", false, TestResourceNonQ.class)
+//                , Arguments.of("/test/nonqc-nonq-coll-response-rdf", false, TestResourceNonQ.class)
+//                , Arguments.of("/test/qc-nonq-coll-response-rdf", false, TestResourceNonQ.class)
+//                , Arguments.of("/test/qc-nonq-array-response-rdf", false, TestResourceNonQ.class)
+//            );
+            Stream.Builder<Arguments> builder = Stream.builder();
+            for (String mimeType:
+                List.of(OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.TEXT_TURTLE,
+                    OslcMediaType.APPLICATION_JSON_LD,
+                    OslcMediaType.APPLICATION_XML)
+                 ) {
+                builder.accept(Arguments.of("/test/qc-array-method-rdf", true, TestResource.class, mimeType));
+                builder.accept(Arguments.of("/test/qc-array-response-rdf", true, TestResource.class, mimeType));
+                builder.accept(Arguments.of("/test/qc-coll-method-rdf", true, TestResource.class, mimeType));
+                builder.accept(Arguments.of("/test/qc-coll-response-rdf", true, TestResource.class, mimeType));
+                builder.accept(Arguments.of("/test/nonqc-array-response-rdf", false, TestResourceNonQ.class, mimeType));
+                builder.accept(Arguments.of("/test/nonqc-nonq-coll-response-rdf", false, TestResourceNonQ.class, mimeType));
+                builder.accept(Arguments.of("/test/qc-nonq-coll-response-rdf", false, TestResourceNonQ.class, mimeType));
+                builder.accept(Arguments.of("/test/qc-nonq-array-response-rdf", false, TestResourceNonQ.class, mimeType));
+            }
 
-                ,Arguments.of("/test/qc-nonq-coll-response-rdf", false, TestResourceNonQ.class)
-                ,Arguments.of("/test/qc-nonq-array-response-rdf", false, TestResourceNonQ.class)
-                ,Arguments.of("/test/nonqc-nonq-coll-response-rdf", false, TestResourceNonQ.class)
-
-                // TODO: JenaModelHelper struggles with TestResourceNonQ.class in this case
-                ,Arguments.of("/test/nonqc-array-response-rdf", false, TestResource.class)
-            );
+            return builder.build();
         }
     }
 }

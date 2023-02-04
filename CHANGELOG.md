@@ -13,6 +13,8 @@
 
 ### Fixed
 
+- A regression is fixed where `org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider` could try to unmarshal an Array or a Collection, which would interfere with the application of the suitable providers when the RDF input is correct. 
+
 ## [5.0.0]
 
 ### Added
