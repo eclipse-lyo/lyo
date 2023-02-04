@@ -141,6 +141,7 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
 
                 /*
                 OSLC JSON provider does not provide marshaling of non-Query resource collections.
+                @OslcQueryCapability and @OslcNotQueryResult are ignored.
                  */
                 ,Arguments.of("/test/qc-nonq-coll-response-json", true)
                 ,Arguments.of("/test/nonqc-nonq-coll-response-json", true)
