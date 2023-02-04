@@ -18,7 +18,7 @@
       <version>${v.lyo}</version><!--TODO: depManage-->
     </dependency>
     <dependency>
-      <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>lyo-core-settings</artifactId>
       <version>${v.lyo}</version><!--TODO: depManage-->
     </dependency>
