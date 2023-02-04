@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class ProviderCollectionTest extends JerseyTest {
+public class OslcJsonProviderCollectionTest extends JerseyTest {
 
     @Override
     protected TestContainerFactory getTestContainerFactory() throws TestContainerException {
@@ -91,32 +91,6 @@ public class ProviderCollectionTest extends JerseyTest {
     }
 
 
-    /**
-     *  was used before .bufferEntity()
-     */
-//    @ParameterizedTest
-//    @ArgumentsSource(ProviderCollectionTestArguments.class)
-//    public void testQueryOk(String path, boolean isExpectedQuery)
-//        throws JSONException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
-//        InvocationTargetException, IllegalAccessException, InstantiationException {
-//        Response response = target(path).request(MediaType.APPLICATION_JSON).get();
-//
-//        String responseStr = response.readEntity(String.class);
-//        JSONObject responseJSON = new JSONObject(responseStr);
-//        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
-//
-//        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-//            Response.Status.Family.SUCCESSFUL);
-//
-//        assertThat(responseStr).isNotEmpty();
-//        // OSLC Query response
-//        boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;
-//        assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
-//        // Everything is in place
-//        // TODO check about URI and aproperty
-//        assertThat(objects).hasSize(10);
-//    }
-
     @ParameterizedTest
     @ArgumentsSource(ProviderCollectionTestArguments.class)
     public void testQueryList(String path, boolean isExpectedQuery)
@@ -131,7 +105,6 @@ public class ProviderCollectionTest extends JerseyTest {
         String rdfResponseString = response.readEntity(String.class);
         JSONObject responseJSON = new JSONObject(rdfResponseString);
         Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
-
 
 
         boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;
@@ -166,10 +139,12 @@ public class ProviderCollectionTest extends JerseyTest {
                 ,Arguments.of("/test/qc-coll-method-json", true)
                 ,Arguments.of("/test/qc-coll-response-json", true)
 
-                ,Arguments.of("/test/qc-nonq-coll-response-json", false)
-                ,Arguments.of("/test/nonqc-nonq-coll-response-json", false)
-                // for now, still true
-                ,Arguments.of("/test/nonqc-array-response-json", false)
+                /*
+                OSLC JSON provider does not provide marshaling of non-Query resource collections.
+                 */
+                ,Arguments.of("/test/qc-nonq-coll-response-json", true)
+                ,Arguments.of("/test/nonqc-nonq-coll-response-json", true)
+                ,Arguments.of("/test/nonqc-array-response-json", true)
             );
         }
     }
