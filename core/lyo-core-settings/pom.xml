@@ -6,6 +6,7 @@
     <artifactId>oslc4j-core-build</artifactId>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <version>5.0.1-SNAPSHOT</version>
+    <relativePath>../oslc4j-core-build</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
