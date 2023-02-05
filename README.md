@@ -1,6 +1,6 @@
 # Eclipse Lyo
 
-![GitHub Actions Status (master)](https://img.shields.io/github/workflow/status/eclipse/lyo/CI%20Parent/master?label=GH%20Actions)
+![GitHub Actions Status (master)](https://img.shields.io/github/actions/workflow/status/eclipse/lyo/maven.yml?branch=master&label=GH%20Actions)
 [![](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fci.eclipse.org%2Flyo%2Fjob%2FLyo%2520multibranch%2Fjob%2Fmaster%2F&label=Eclipse%20Jenkins)](https://ci.eclipse.org/lyo/job/Lyo%20multibranch/job/master/)
 [![](https://img.shields.io/badge/javadoc-5.0.0.Final-blue.svg)](https://download.eclipse.org/lyo/docs/all/5.0.0.Final/apidocs/)
 [![](https://img.shields.io/badge/javadoc-latest-blue.svg)](https://download.eclipse.org/lyo/docs/all/latest/apidocs/)
