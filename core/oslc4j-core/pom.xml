@@ -13,15 +13,32 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>lyo-core-model</artifactId>
+      <version>${v.lyo}</version><!--TODO: depManage-->
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>lyo-core-settings</artifactId>
+      <version>${v.lyo}</version><!--TODO: depManage-->
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <!--TODO: dep manage-->
+      <version>4.8.143</version>
+    </dependency>
+    <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>

@@ -42,7 +42,7 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+// TODO: Lyo6 extract to LyoServletUriUtils
 public class OSLC4JUtils {
 
 	private final static Logger log = LoggerFactory.getLogger(OSLC4JUtils.class);
