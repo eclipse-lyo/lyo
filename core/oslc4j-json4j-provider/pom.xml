@@ -30,8 +30,8 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
+      </dependency>
+      <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
@@ -39,15 +39,42 @@
 
 
         <!--TEST -->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <scope>test</scope>
+      </dependency>
+      <!--
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+      </dependency>-->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <!--needed for @ArgumentsSource-->
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <scope>test</scope>
+      </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.inject</groupId>
+          <artifactId>jersey-hk2</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -59,13 +86,37 @@
             <artifactId>jersey-common</artifactId>
              <scope>test</scope>
         </dependency>
-<!--
+
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <scope>test</scope>
+          <!--NB! servlet 4.0 pulled here-->
+          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+          <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+          <version>${v.jersey}</version>
+          <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <!--enforce 3.1.0-->
+              <!--TODO: remove when switched to Servlet 4.0-->
+              <groupId>javax.servlet</groupId>
+              <artifactId>javax.servlet-api</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
--->
+
+<!--        <dependency>
+          <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+          <artifactId>jersey-test-framework-provider-jetty</artifactId>
+          <version>${v.jersey}</version>
+          <scope>test</scope>
+        </dependency>-->
+
+      <!--
+              <dependency>
+                  <groupId>org.glassfish.jersey.inject</groupId>
+                  <artifactId>jersey-hk2</artifactId>
+                  <scope>test</scope>
+              </dependency>
+      -->
     </dependencies>
     <build>
         <plugins>

@@ -13,7 +13,6 @@
 - `JenaModelHelper` was moved to `oslc4j-core`, while `JsonHelper` was moved to `oslc4j-core-wink`. _This will allow you to work with OSLC POJOs and RDF serializations outside the JAX-RS context._ **No breaking changes were made, old package names were kept.** See #292
 - `OSLC4JConstants` and `OSLC4JUtils` were extracted from `oslc4j-core` to `org.eclipse.lyo.oslc4j.server:lyo-core-settings` as they are only useful in the JAX-RS server-side scenarios. **No breaking changes were made**, because `oslc4j-core` still depends on the newly introduced artifact.
 
-
 ### Deprecated
 
 - The newly refactored artifact `oslc4j-core-wink` is deprecated.
@@ -21,6 +20,8 @@
 ### Removed
 
 ### Fixed
+
+- A regression is fixed where `org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider` could try to unmarshal an Array or a Collection, which would interfere with the application of the suitable providers when the RDF input is correct. 
 
 ## [5.0.0]
 

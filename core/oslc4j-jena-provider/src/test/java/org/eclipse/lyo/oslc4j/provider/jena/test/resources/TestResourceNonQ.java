@@ -16,6 +16,7 @@ package org.eclipse.lyo.oslc4j.provider.jena.test.resources;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNotQueryResult;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
@@ -27,18 +28,20 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import java.net.URI;
 
+/* Same as TestResource to test cases where TestResource is returned but endpoint is not a query one */
 @OslcName("Test")
-@OslcNamespace(TestResource.TEST_NAMESPACE)
-@OslcResourceShape(title = "Test Resource", describes = TestResource.TEST_RESOURCE_TYPE)
-public class TestResource extends AbstractResource {
-    public final static String TEST_NAMESPACE = "http://example.com/ns#";
-    public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
+@OslcNotQueryResult
+@OslcNamespace(TestResourceNonQ.TEST_NAMESPACE)
+@OslcResourceShape(title = "Test Resource (not a query result)", describes = TestResourceNonQ.TEST_RESOURCE_TYPE)
+public class TestResourceNonQ extends AbstractResource {
+	public final static String TEST_NAMESPACE = "http://example.com/ns#";
+	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
 
-    public TestResource(URI about) {
+    public TestResourceNonQ(URI about) {
         super(about);
     }
 
-    public TestResource() {
+    public TestResourceNonQ() {
     }
 
     private String _aproperty;
