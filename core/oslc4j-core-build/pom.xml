@@ -16,12 +16,15 @@
   </properties>
 
   <modules>
+    <module>../lyo-core-model</module>
+    <module>../oslc4j-core</module>
     <module>../oslc-query</module>
     <module>../oslc-trs</module>
-    <module>../oslc4j-core</module>
     <module>../oslc4j-jena-provider</module>
+    <module>../shacl</module>
+    <module>../oslc4j-core-wink</module>
     <module>../oslc4j-json4j-provider</module>
     <module>../oslc4j-utils</module>
-    <module>../shacl</module>
+    <module>../lyo-core-settings</module>
   </modules>
 </project>

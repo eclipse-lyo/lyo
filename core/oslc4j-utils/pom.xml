@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+        <!--TODO: Lyo6 ensure this module is split such that Wink is out of picture-->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-json4j-provider</artifactId>
@@ -23,6 +24,11 @@
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
         </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+        <artifactId>oslc4j-core-wink</artifactId>
+        <version>${v.lyo}</version><!--TODO: depManage-->
+      </dependency>
 
         <dependency>
             <groupId>jakarta.ws.rs</groupId>

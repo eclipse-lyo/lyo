@@ -95,6 +95,14 @@ public final class JenaModelHelper
 
     private static final String GENERATED_PREFIX_START = "j.";
 
+    /**
+     * System property {@value} : When "true" (default), fail on when reading a
+     * property value that is not a legal instance of a datatype. When "false",
+     * skip over invalid values in extended properties.
+     */
+    @Deprecated
+    public static final String OSLC4J_STRICT_DATATYPES		 = "org.eclipse.lyo.oslc4j.strictDatatypes";
+
     private static final Logger logger = LoggerFactory.getLogger(JenaModelHelper.class);
 
     private JenaModelHelper()
@@ -1176,7 +1184,7 @@ public final class JenaModelHelper
                 String rawValue = literal.getString();
                 String datatype = literal.getDatatypeURI();
 
-                if ("false".equals(System.getProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES))) {
+                if ("false".equals(System.getProperty(OSLC4J_STRICT_DATATYPES))) {
                     String propUri = propertyQName.getNamespaceURI() + propertyQName.getLocalPart();
                     logger.warn("Property {} could not be parsed as datatype {}", propUri, literal.getDatatype());
                     logger.debug("Exception thrown while parsing property {}: ", propUri, e);
