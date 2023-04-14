@@ -33,10 +33,10 @@ jobs:
 #          - jdk: '16'
 #            experimental: true
 #            distribution: zulu
-          - jdk: '19'
+          - jdk: '20'
             distribution: zulu
             experimental: true
-          - jdk: '20-ea'
+          - jdk: '21-ea'
             distribution: zulu
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
