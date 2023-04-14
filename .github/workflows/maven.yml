@@ -9,6 +9,10 @@ on:
 # Does not help, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
 #permissions: read-all
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
