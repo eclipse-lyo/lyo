@@ -23,7 +23,7 @@
     <v.jersey>2.35</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
-    <v.jena>4.5.0</v.jena>
+    <v.jena>4.7.0</v.jena>
     <v.slf4j>1.7.36</v.slf4j>
     <v.jackson>2.13.2.20220328</v.jackson>
 
