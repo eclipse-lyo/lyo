@@ -8,6 +8,7 @@
 
 ### Changed
 
+- Apache Jena depency was updated from 4.5.0 to 4.8.0 due to [CVE-2023-22665](https://lists.apache.org/thread/m7lg8m88cqpjjx8g75d8kbqcrjysdhb9).
 - OSLC Domains are based on latest LyoDesigner, and for `lyoVersion="5.0.1-SNAPSHOT"`.
 - The `oslc4j-core` artifact (group `org.eclipse.lyo.oslc4j.core`) was refactored, extracting some essential model classes into `lyo-core-model` and legacy Wink-dependent code into `oslc4j-core-wink`. _This allows to eliminate all dependencies on Wink. Also, applications that don't need `oslc4j-core`, can eliminate the dependency on JAX-RS by replacing your dependency on `oslc4j-core` with `lyo-core-model`._ **No breaking changes were made.**
 - `JenaModelHelper` was moved to `oslc4j-core`, while `JsonHelper` was moved to `oslc4j-core-wink`. **No breaking changes were made, old package names were kept.** See #292
