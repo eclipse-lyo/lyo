@@ -10,7 +10,7 @@ on:
 #permissions: read-all
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' ) && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' && !contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
 jobs:
