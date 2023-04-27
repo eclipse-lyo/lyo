@@ -88,16 +88,6 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <!-- JSON Library -->
-
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <!-- same as Jena 4.5.0, consider removing -->
-      <version>2.9.0</version>
-    </dependency>
-
   </dependencies>
 
   <dependencyManagement>
