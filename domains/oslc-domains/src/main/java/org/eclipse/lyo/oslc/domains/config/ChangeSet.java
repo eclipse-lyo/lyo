@@ -83,11 +83,11 @@ public class ChangeSet
 {
     // Start of user code attributeAnnotation:accepts
     // End of user code
-    private Set<Link> accepts = new HashSet<Link>();
+    private Set<Link> accepts = new HashSet<>();
     // Start of user code attributeAnnotation:overrides
     // End of user code
     private Link overrides;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -95,38 +95,38 @@ public class ChangeSet
     public ChangeSet()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public ChangeSet(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.CHANGESET_PATH,
         ChangeSet.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local ChangeSet Resource} - update ChangeSet.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -135,19 +135,19 @@ public class ChangeSet
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addAccepts(final Link accepts)
     {
         this.accepts.add(accepts);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:accepts
     // End of user code
     @OslcName("accepts")

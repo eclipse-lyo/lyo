@@ -17,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Objects;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "link",
@@ -116,7 +118,7 @@ public class Link {
             return false;
         }
         Link rhs = ((Link) other);
-        return (((this.link == rhs.link)||((this.link!= null)&&this.link.equals(rhs.link)))&&((this.title == rhs.title)||((this.title!= null)&&this.title.equals(rhs.title))));
+        return ((Objects.equals(this.link, rhs.link))&&(Objects.equals(this.title, rhs.title)));
     }
 
 }

@@ -161,12 +161,10 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
 			writeModel();
 			return retConsumer;
 
-		} catch (UnsupportedEncodingException ue) {
+		} catch (UnsupportedEncodingException | FileNotFoundException ue) {
 			throw new ConsumerStoreException(ue);
-		} catch (FileNotFoundException fe) {
-			throw new ConsumerStoreException(fe);
 		}
-	}
+    }
 
 	@Override
 	public synchronized LyoOAuthConsumer removeConsumer(final String consumerKey)
