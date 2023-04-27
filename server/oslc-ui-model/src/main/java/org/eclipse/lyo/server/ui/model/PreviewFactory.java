@@ -32,6 +32,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class PreviewFactory {
 
@@ -118,11 +119,7 @@ public class PreviewFactory {
         PropertyValue value = new PropertyValue();
         value.setRepresentationType(representationType);
         value.setRepresentAsList(representAsList);
-        if (null == data) {
-            value.setData("<not set>");
-        } else {
-            value.setData(data);
-        }
+        value.setData(Objects.requireNonNullElse(data, "<not set>"));
         return value;
     }
 
