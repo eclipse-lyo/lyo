@@ -27,8 +27,8 @@ final class ProviderHelper {
 
     static boolean hasOslcQueryCapabilityMethodAnnot(final Annotation[] annotations) {
         if (annotations != null) {
-            for (int i = 0; i < annotations.length; i++) {
-                if (annotations[i] != null && annotations[i] instanceof OslcQueryCapability) {
+            for (Annotation annotation : annotations) {
+                if (annotation != null && annotation instanceof OslcQueryCapability) {
                     return true;
                 }
             }
