@@ -339,8 +339,20 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.4.0</version>
+        <version>4.11.0</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <!--enforcer-->
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>1.12.23</version>
+      </dependency>
+      <dependency>
+        <!--enforcer-->
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>5.12.1</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
