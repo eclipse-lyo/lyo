@@ -250,33 +250,34 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
-        Iterable<T> result = new Iterable<T>() {
-                public Iterator<T>
-                iterator() {
-                    return new Iterator<T>() {
-                            public boolean hasNext() {
-                                return iter.hasNext();
-                            }
+        Iterable<T> result = new Iterable<>() {
+            public Iterator<T>
+            iterator() {
+                return new Iterator<>() {
+                    public boolean hasNext() {
+                        return iter.hasNext();
+                    }
 
-                            @SuppressWarnings("unchecked")
-                            public T next() {
-                                Statement member = iter.next();
+                    @SuppressWarnings("unchecked")
+                    public T next() {
+                        Statement member = iter.next();
 
-                                try {
-                                    return (T)JenaModelHelper.fromJenaResource((Resource)member.getObject(), clazz);
-                                } catch (DatatypeConfigurationException | IllegalAccessException |
-                                         InvocationTargetException | InstantiationException | OslcCoreApplicationException
-                                         | NoSuchMethodException | URISyntaxException e) {
-                                    throw new LyoModelException(e);
-                                }
-                            }
+                        try {
+                            return (T) JenaModelHelper.fromJenaResource((Resource) member.getObject(), clazz);
+                        } catch (DatatypeConfigurationException | IllegalAccessException |
+                                 InvocationTargetException | InstantiationException |
+                                 OslcCoreApplicationException
+                                 | NoSuchMethodException | URISyntaxException e) {
+                            throw new LyoModelException(e);
+                        }
+                    }
 
-                            public void remove() {
-                                iter.remove();
-                            }
-                        };
-                }
-            };
+                    public void remove() {
+                        iter.remove();
+                    }
+                };
+            }
+        };
 
         return result;
     }
@@ -291,33 +292,31 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
-        Iterable<Resource> result = new Iterable<Resource>() {
-                public Iterator<Resource>
-                iterator() {
-                    return new Iterator<Resource>() {
-                            public boolean hasNext() {
-                                return iter.hasNext();
-                            }
+        Iterable<Resource> result = new Iterable<>() {
+            public Iterator<Resource>
+            iterator() {
+                return new Iterator<>() {
+                    public boolean hasNext() {
+                        return iter.hasNext();
+                    }
 
-                            @SuppressWarnings("unchecked")
-                            public Resource next() {
-                                Statement member = iter.next();
+                    @SuppressWarnings("unchecked")
+                    public Resource next() {
+                        Statement member = iter.next();
 
-                                try {
-                                    return (Resource)member.getObject();
-                                } catch (IllegalArgumentException e) {
-                                   throw new IllegalStateException(e.getMessage());
-                                } catch (SecurityException e) {
-                                    throw new IllegalStateException(e.getMessage());
-                                }
-                            }
+                        try {
+                            return (Resource) member.getObject();
+                        } catch (IllegalArgumentException | SecurityException e) {
+                            throw new IllegalStateException(e);
+                        }
+                    }
 
-                            public void remove() {
-                                iter.remove();
-                            }
-                        };
-                }
-            };
+                    public void remove() {
+                        iter.remove();
+                    }
+                };
+            }
+        };
 
         return result;
     }
