@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.eclipse.lyo.store</groupId>
     <artifactId>store-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.CR</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 

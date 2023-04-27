@@ -9,14 +9,14 @@
     <parent>
         <groupId>org.eclipse.lyo</groupId>
         <artifactId>lyo-parent</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>5.0.1.CR</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <!-- End of user code
     -->
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>oslc-domains</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.CR</version>
     <packaging>jar</packaging>
     <name>Lyo :: Domains</name>
     <properties>

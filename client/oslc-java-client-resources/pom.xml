@@ -6,11 +6,11 @@
   <parent>
     <groupId>org.eclipse.lyo.clients</groupId>
     <artifactId>clients-parent</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1.CR</version>
   </parent>
 
   <artifactId>oslc-java-client-resources</artifactId>
-  <version>5.0.1-SNAPSHOT</version>
+  <version>5.0.1.CR</version>
   <name>Lyo :: Client :: Resources (legacy)</name>
 
   <properties>
