@@ -16,3 +16,7 @@ This project uses Maven as the build system for all Java projects except those w
 The Eclipse Lyo project page is located at https://projects.eclipse.org/projects/technology.lyo. It points to the information regarding source code management, builds, coding standards, and more.
 
 You are also welcome to contact the development team via [lyo-dev mailing list](https://dev.eclipse.org/mailman/listinfo/lyo-dev) or on Slack (ask for an invite on the mailing list or by a PM to [@andrew](https://forum.open-services.net/u/andrew)).
+
+## PRs
+
+- Use `nolint` label to skip CodeQL checks
