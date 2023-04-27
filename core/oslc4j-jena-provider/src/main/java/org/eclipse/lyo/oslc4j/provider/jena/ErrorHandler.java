@@ -46,11 +46,11 @@ public final class ErrorHandler
 	public void warning(final Exception exception)
 	{
 		Level level = Level.WARNING;
-		
+
 		//Workaround to avoid flooding the logs with Jena warnings about using
 		//relative URIs with no base URI.  Common for reified statements in OSLC
 		String msg = exception.getMessage();
-		if (msg != null && (msg.indexOf(JENA_RELATIVE_URI_WARNING_ID) >= 0))
+		if (msg != null && (msg.contains(JENA_RELATIVE_URI_WARNING_ID)))
 		{
 			level=Level.FINE;
 		}
@@ -58,7 +58,7 @@ public final class ErrorHandler
 		logger.log(level,
 				"Warning in Jena handling",
 				exception);
-			
+
 	}
 
 	private static void handleException(final Exception exception)

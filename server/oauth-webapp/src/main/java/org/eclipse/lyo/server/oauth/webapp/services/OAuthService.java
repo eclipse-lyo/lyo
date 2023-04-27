@@ -138,7 +138,7 @@ public class OAuthService {
             httpRequest.setAttribute("consumerName", consumer.getName());
             httpRequest.setAttribute("callback", getCallbackURL(message, consumer));
             boolean callbackConfirmed = consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
-            httpRequest.setAttribute("callbackConfirmed", new Boolean(callbackConfirmed));
+            httpRequest.setAttribute("callbackConfirmed", callbackConfirmed);
 
             // The application name is displayed on the OAuth login page.
             httpRequest.setAttribute("applicationName", config.getApplication().getName());
