@@ -2,9 +2,9 @@ name: CI Parent
 
 on:
   push:
-    branches: [master]
+    branches: [master, maint-*]
   pull_request:
-    branches: [master]
+    branches: [master, maint-*]
 
 # Does not help, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
 #permissions: read-all
