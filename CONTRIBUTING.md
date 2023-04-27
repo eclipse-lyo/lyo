@@ -19,4 +19,5 @@ You are also welcome to contact the development team via [lyo-dev mailing list](
 
 ## PRs
 
-- Use `ci:nolint` label to skip CodeQL checks.
+- Use `ci:nolint` label to skip CodeQL checks on all commits in a PR.
+- Use `ci:full` label to prevent CI from termanating running jobs if you push a new commit to a PR.
