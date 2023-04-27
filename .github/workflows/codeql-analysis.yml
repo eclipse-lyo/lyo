@@ -22,7 +22,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependency') }}
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
