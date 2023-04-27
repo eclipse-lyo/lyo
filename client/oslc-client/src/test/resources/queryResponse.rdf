@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns:oslc="http://open-services.net/ns/core#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-	<oslc:ResponseInfo rdf:about="http://example.com/provider/query?oslc.where=ex%3Aproduct%3D%22Product%20A%2">
+	<oslc:ResponseInfo rdf:about="http://example.com/provider/query?oslc.where=ex%3Aproduct%3D%22Product%20A%22">
 		<oslc:totalCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</oslc:totalCount>
 	</oslc:ResponseInfo>
 	<rdf:Description rdf:about="http://example.com/provider/query">

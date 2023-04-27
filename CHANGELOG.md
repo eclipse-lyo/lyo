@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Apache Jena depency was updated from 4.5.0 to 4.8.0 due to [CVE-2023-22665](https://lists.apache.org/thread/m7lg8m88cqpjjx8g75d8kbqcrjysdhb9).
+
 ### Deprecated
 
 ### Removed
