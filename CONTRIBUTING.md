@@ -19,4 +19,4 @@ You are also welcome to contact the development team via [lyo-dev mailing list](
 
 ## PRs
 
-- Use `nolint` label to skip CodeQL checks
+- Use `ci:nolint` label to skip CodeQL checks.
