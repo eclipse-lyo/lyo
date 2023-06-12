@@ -45,6 +45,8 @@ import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <h3>Overview</h3>
@@ -106,6 +108,8 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	public static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
 
     private final LRUCache<String, Connection> tokenToConnectionCache = new LRUCache<>(200);
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractAdapterCredentialsFilter.class);
 
     final private String displayName;
     final private String realm;
@@ -181,6 +185,35 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     abstract protected ConsumerStore createConsumerStore() throws Exception;
 
     /**
+     * Check if the resource is protected
+     * 
+     * @return true - the resource is protected, otherwise false
+     */
+    protected boolean isProtectedResource(HttpServletRequest request) {
+        return !request.getPathInfo().startsWith("/oauth");
+    }
+
+
+    /**
+     * set Connector for this session
+     *
+     * @param request
+     * @param connector
+     */
+	public static <T> void setConnector(HttpServletRequest request, T connector) {
+		request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
+	}
+
+	/**
+	 * set Credentials for this session
+	 * @param request
+	 * @param credentials
+	 */
+	public static <T> void setCredentials(HttpServletRequest request, T credentials) {
+		request.getSession().setAttribute(CREDENTIALS_ATTRIBUTE, credentials);
+	}
+
+    /**
      * get Connector assigned to this request
      *
      * The connector should be placed in the session by the CredentialsFilter servlet filter
@@ -192,7 +225,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	{
 		//connector should never be null if CredentialsFilter is doing its job
 		@SuppressWarnings("unchecked")
-		T connector = (T) request.getAttribute(CONNECTOR_ATTRIBUTE);
+		T connector = (T) request.getSession().getAttribute(CONNECTOR_ATTRIBUTE);
 		return connector;
 	}
 
@@ -206,6 +239,23 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 		@SuppressWarnings("unchecked")
 		T credentials = (T) request.getSession().getAttribute(CREDENTIALS_ATTRIBUTE);
 		return credentials;
+	}
+
+    /**
+     * remove Connector from this session
+     *
+     * @param request
+     */
+	public static <T> void removeConnector(HttpServletRequest request) {
+		request.getSession().removeAttribute(CONNECTOR_ATTRIBUTE);
+	}
+
+	/**
+	 * remove Credentials from this session
+	 * @param request
+	 */
+	public static <T> void removeCredentials(HttpServletRequest request) {
+		request.getSession().removeAttribute(CREDENTIALS_ATTRIBUTE);
 	}
 
     protected String getOAuthRealm() {
@@ -238,8 +288,8 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			boolean isTwoLeggedOAuthRequest = false;
 			String twoLeggedOAuthConsumerKey = null;
 
-			//Don't protect requests to oauth service.   TODO: possibly do this in web.xml
-			if (! request.getPathInfo().startsWith("/oauth"))
+			//TODO: possibly do this in web.xml
+			if (isProtectedResource(request))
 			{
 
 				// First check if this is an OAuth request.
@@ -297,7 +347,10 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 							{
 								credentials = getCredentialsFromRequest(request);
 								if (credentials == null) {
-									throw new UnauthorizedException();
+									boolean interruptFilterChain = handleUnauthorizedRequest(request, response);
+									if (interruptFilterChain) {
+										return;
+									}
 								}
 							}
 							connector = login(credentials, request);
@@ -308,7 +361,9 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					} catch (UnauthorizedException e)
 					{
 						sendUnauthorizedResponse(response, e);
-						System.err.println(e.getMessage());
+						//TODO: Change to a log message.
+			            log.info("UnauthorizedException occured while checking for Basic authentication: {}", e.getMessage());
+						//Do not call chain.doFilter().
 						return;
 					} catch (ServletException ce)
 					{
@@ -344,8 +399,26 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	 */
 	protected void doChainDoFilterWithConnector(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain, Connection connector) throws IOException, ServletException {
-		request.setAttribute(CONNECTOR_ATTRIBUTE, connector);
+		request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
 		chain.doFilter(request, response);
+	}
+
+	
+	/**
+	 * The default implementation is to thrown an UnauthorizedException, 
+	 * which in turn causes sendUnauthorizedResponse() to be called.
+	 * This means chain.doFilter() is not called, and no filters in the chain are called.
+	 * @param response 
+	 * @param request 
+	 * @param servletResponse 
+	 * @param servletRequest 
+     * @return true if the filter is to interrupt the chain of filters. 
+     * that is, the current doFilter() method should simply return, without calling chain.doFilter().
+	 *
+	 * @throws UnauthorizedException 
+	 */
+	protected boolean handleUnauthorizedRequest(HttpServletRequest request, HttpServletResponse response) throws UnauthorizedException {
+		throw new UnauthorizedException();
 	}
 
 	private void validateTwoLeggedOAuthMessage(OAuthMessage message)
@@ -398,7 +471,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					request.getSession().setAttribute(CREDENTIALS_ATTRIBUTE, creds);
 
 					Connection c = AbstractAdapterCredentialsFilter.this.login(creds, request);
-					request.setAttribute(CONNECTOR_ATTRIBUTE, c);
+					request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, c);
 
 					boolean isAdmin = AbstractAdapterCredentialsFilter.this.isAdminSession(id, c, request);
 					request.getSession().setAttribute(ADMIN_SESSION_ATTRIBUTE, isAdmin);
@@ -435,7 +508,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 				if (connector == null) {
 					return false;
 				}
-				request.setAttribute(CONNECTOR_ATTRIBUTE, connector);
+				request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
 				return true;
 			}
 		});
@@ -451,7 +524,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					HttpServletRequest httpRequest, String requestToken)
 					throws OAuthProblemException {
 				tokenToConnectionCache.put(requestToken,
-						(Connection) httpRequest.getAttribute(CONNECTOR_ATTRIBUTE));
+						(Connection) httpRequest.getSession().getAttribute(CONNECTOR_ATTRIBUTE));
 				super.markRequestTokenAuthorized(httpRequest, requestToken);
 			}
 
