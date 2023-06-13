@@ -8,9 +8,13 @@ name: "CodeQL"
 on:
   push:
     branches: [master]
+    paths:
+      - '**.java'
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
+    paths:
+      - '**.java'
   schedule:
     - cron: "0 22 * * 2"
 
@@ -22,6 +26,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
@@ -39,7 +44,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -53,9 +58,9 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
+        key: ${{ runner.os }}-codeql-${{ hashFiles('.github/workflows/codeql-analysis.yml') }}
+        # restore-keys: |
+        #   ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild

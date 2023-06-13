@@ -13,7 +13,7 @@ public class CoreHelper {
         if (type instanceof Class) {
             return (Class<?>) type;
         } else if (type instanceof TypeVariable) {
-            return (Class<?>) ((TypeVariable)type).getBounds()[0];
+            return (Class<?>) ((TypeVariable<?>)type).getBounds()[0];
         }
         throw new IllegalArgumentException("You must pass either a Class or a (generic) TypeVariable");
     }

@@ -175,13 +175,13 @@ public class SparqlStoreImpl implements Store {
     @Override
     public void deleteResources(final URI namedGraphUri, final URI... subjectUris) {
         final QuerySolutionMap map = new QuerySolutionMap();
-        for (int i = 0; i < subjectUris.length; i++) {
+        for (URI uris : subjectUris) {
             map.clear();
             map.add("graph", new ResourceImpl(String.valueOf(namedGraphUri)));
-            map.add("subject", new ResourceImpl(String.valueOf(subjectUris[i])));
+            map.add("subject", new ResourceImpl(String.valueOf(uris)));
             final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
-                    "WITH ?graph DELETE  { ?s ?p ?v } WHERE {?s ?p ?v . FILTER(?s = ?subject)}",
-                    map);
+                "WITH ?graph DELETE  { ?s ?p ?v } WHERE {?s ?p ?v . FILTER(?s = ?subject)}",
+                map);
             final String query = sparqlString.toString();
             final UpdateProcessor updateProcessor = queryExecutor.prepareSparqlUpdate(query);
             updateProcessor.execute();
@@ -625,16 +625,15 @@ public class SparqlStoreImpl implements Store {
             if (!StringUtils.isEmpty(where)) {
                 whereClause = QueryUtils.parseWhere(where, prefixesMap);
                 List<SimpleTerm> parseChildren = whereClause.children();
-                for (Iterator<SimpleTerm> iterator = parseChildren.iterator(); iterator.hasNext();) {
-                    SimpleTerm simpleTerm = iterator.next();
+                for (SimpleTerm simpleTerm : parseChildren) {
                     Type termType = simpleTerm.type();
                     PName property = simpleTerm.property();
 
-                    if (!termType.equals(Type.COMPARISON)){
+                    if (!termType.equals(Type.COMPARISON)) {
                         throw new UnsupportedOperationException("only support for terms of type Comparisons");
                     }
                     ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
-                    if (!aComparisonTerm.operator().equals(Operator.EQUALS)){
+                    if (!aComparisonTerm.operator().equals(Operator.EQUALS)) {
                         throw new UnsupportedOperationException(
                             "only support for terms of type Comparisons, where the operator is 'EQUALS'");
                     }
@@ -644,27 +643,26 @@ public class SparqlStoreImpl implements Store {
                     String predicate;
                     if (property.local.equals("*")) {
                         predicate = "?p";
-                    }
-                    else {
+                    } else {
                         predicate = property.toString();
                     }
 
                     switch (operandType) {
-                    case DECIMAL:
-                        DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
-                        distinctResourcesQuery.addWhere( "?s", predicate, decimalOperand.value());
-                        break;
-                    case STRING:
-                        StringValue stringOperand = (StringValue) comparisonOperand;
-                        distinctResourcesQuery.addWhere( "?s", predicate, "\"" + stringOperand.value() + "\"");
-                        break;
-                    case URI_REF:
-                        UriRefValue uriOperand = (UriRefValue) comparisonOperand;
-                        distinctResourcesQuery.addWhere( "?s", predicate,  new ResourceImpl(uriOperand.value()));
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("only support for terms of type Comparisons," +
-                            " where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
+                        case DECIMAL:
+                            DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
+                            distinctResourcesQuery.addWhere("?s", predicate, decimalOperand.value());
+                            break;
+                        case STRING:
+                            StringValue stringOperand = (StringValue) comparisonOperand;
+                            distinctResourcesQuery.addWhere("?s", predicate, "\"" + stringOperand.value() + "\"");
+                            break;
+                        case URI_REF:
+                            UriRefValue uriOperand = (UriRefValue) comparisonOperand;
+                            distinctResourcesQuery.addWhere("?s", predicate, new ResourceImpl(uriOperand.value()));
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("only support for terms of type Comparisons," +
+                                " where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
                     }
                 }
             }

@@ -15,6 +15,8 @@ package org.eclipse.lyo.server.ui.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -85,7 +87,7 @@ public class Preview {
             return false;
         }
         Preview rhs = ((Preview) other);
-        return ((this.properties == rhs.properties)||((this.properties!= null)&&this.properties.equals(rhs.properties)));
+        return (Objects.equals(this.properties, rhs.properties));
     }
 
 }

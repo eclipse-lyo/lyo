@@ -65,10 +65,10 @@ public class ShapeTest {
 
 		Collection<?> intAllowedValues = allowedValuesIntProperty.getAllowedValuesCollection();
 		assertEquals("Wrong number of allowedValues for allowedValuesIntProperty", 2, intAllowedValues.size());
-		assertTrue("27 not in allowed values", intAllowedValues.contains(Integer.valueOf(27)));
-		assertTrue("32 not in allowed values", intAllowedValues.contains(Integer.valueOf(32)));
+		assertTrue("27 not in allowed values", intAllowedValues.contains(27));
+		assertTrue("32 not in allowed values", intAllowedValues.contains(32));
 
-		assertEquals("Default values should be 27", Integer.valueOf(27), allowedValuesIntProperty.getDefaultValueObject());
+		assertEquals("Default values should be 27", 27, allowedValuesIntProperty.getDefaultValueObject());
 	}
 
 	@SuppressWarnings("deprecation")

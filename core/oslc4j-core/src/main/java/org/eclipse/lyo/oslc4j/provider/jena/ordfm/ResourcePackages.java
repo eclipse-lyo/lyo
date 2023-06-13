@@ -78,11 +78,7 @@ public class ResourcePackages {
                             Class<?> rdfClass = Class.forName(classInfo.getName(), true,
                                 Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
-                            List<Class<?>> types = TYPES_MAPPINGS.get(rdfType);
-                            if (types == null) {
-                                types = new ArrayList<>();
-                                TYPES_MAPPINGS.put(rdfType, types);
-                            }
+                            List<Class<?>> types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new ArrayList<>());
                             types.add(rdfClass);
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
@@ -109,13 +105,7 @@ public class ResourcePackages {
         int index = 0;
         do {
             Class<?> pivot = candidates.get(index);
-            Iterator<Class<?>> iterator = candidates.iterator();
-            while(iterator.hasNext()) {
-                Class<?> current = iterator.next();
-                if (!current.equals(pivot) && current.isAssignableFrom(pivot)) {
-                    iterator.remove();
-                }
-            }
+            candidates.removeIf(current -> !current.equals(pivot) && current.isAssignableFrom(pivot));
             size = candidates.size();
         } while(++index < size);
         if (candidates.size() > 1) {

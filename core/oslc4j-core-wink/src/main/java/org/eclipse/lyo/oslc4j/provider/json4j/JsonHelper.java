@@ -1748,11 +1748,9 @@ public final class JsonHelper
 		{
 			final JSONArray jsonArray = (JSONArray) jsonValue;
 			final ArrayList<Object> collection = new ArrayList<>();
-			final Iterator<?> i = jsonArray.iterator();
-			while (i.hasNext())
-			{
-				collection.add(fromExtendedJSONValue(i.next(), rdfPrefix, jsonNamespaceMappings, beanClass, propertyQName, rdfTypes));
-			}
+            for (Object o : jsonArray) {
+                collection.add(fromExtendedJSONValue(o, rdfPrefix, jsonNamespaceMappings, beanClass, propertyQName, rdfTypes));
+            }
 
 			return collection;
 		}

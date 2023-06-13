@@ -18,6 +18,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
@@ -270,11 +272,7 @@ public class TrsProviderHandlerTest {
 
         cl.getChange().addAll(changeEvents_p1);
 
-        if (previous != null)
-            cl.setPrevious(previous);
-        else {
-            cl.setPrevious(RDF_NIL);
-        }
+        cl.setPrevious(Objects.requireNonNullElse(previous, RDF_NIL));
     }
 
     private void initBase(Base base, URI previous) throws URISyntaxException {

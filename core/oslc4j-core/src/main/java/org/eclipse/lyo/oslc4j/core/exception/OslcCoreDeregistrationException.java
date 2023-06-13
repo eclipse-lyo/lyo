@@ -25,7 +25,7 @@ public final class OslcCoreDeregistrationException extends OslcCoreApplicationEx
 	private final int	 statusCode;
 
 	public OslcCoreDeregistrationException(final URI serviceProviderURI, final int statusCode, final String responseMessage) {
-		super(MESSAGE_KEY, new Object[] {serviceProviderURI.toString(), Integer.valueOf(statusCode), responseMessage});
+		super(MESSAGE_KEY, new Object[] {serviceProviderURI.toString(), statusCode, responseMessage});
 
 		this.responseMessage	= responseMessage;
 		this.serviceProviderURI = serviceProviderURI;

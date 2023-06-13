@@ -15,6 +15,8 @@ package org.eclipse.lyo.server.ui.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -120,7 +122,7 @@ public class PropertyDefintion {
             return false;
         }
         PropertyDefintion rhs = ((PropertyDefintion) other);
-        return (((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data)))&&((this.representationType == rhs.representationType)||((this.representationType!= null)&&this.representationType.equals(rhs.representationType))));
+        return ((Objects.equals(this.data, rhs.data))&&(Objects.equals(this.representationType, rhs.representationType)));
     }
 
     public enum RepresentationType {
