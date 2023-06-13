@@ -45,7 +45,7 @@ public class ResourcePackagesTests {
         }
 
         Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
-        Assert.assertEquals(6, ResourcePackages.TYPES_MAPPINGS.keySet().size());
+        Assert.assertEquals(7, ResourcePackages.TYPES_MAPPINGS.keySet().size());
     }
 
     @Test
