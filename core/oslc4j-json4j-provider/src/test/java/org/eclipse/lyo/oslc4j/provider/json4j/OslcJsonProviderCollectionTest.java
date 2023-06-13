@@ -101,7 +101,8 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
 
         assertThat(response.getStatusInfo().getFamily()).isEqualTo(
             Response.Status.Family.SUCCESSFUL);
-        List<TestResource> rdfResponse = response.readEntity(new GenericType<List<TestResource>>() {});
+        List<TestResource> rdfResponse = response.readEntity(new GenericType<>() {
+        });
         String rdfResponseString = response.readEntity(String.class);
         JSONObject responseJSON = new JSONObject(rdfResponseString);
         Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);

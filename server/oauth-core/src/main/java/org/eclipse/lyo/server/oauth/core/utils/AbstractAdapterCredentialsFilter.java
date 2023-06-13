@@ -482,8 +482,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	 */
 	private void throwInvalidExpiredException(OAuthProblemException e) throws OAuthProblemException {
 		OAuthProblemException ope = new OAuthProblemException(JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM);
-		ope.setParameter(HttpMessage.STATUS_CODE, new Integer(
-				HttpServletResponse.SC_UNAUTHORIZED));
+		ope.setParameter(HttpMessage.STATUS_CODE, HttpServletResponse.SC_UNAUTHORIZED);
 		throw ope;
 	}
 

@@ -30,7 +30,7 @@ public class JazzAuthErrorException extends OslcClientApplicationException {
 	private final String jazzUrl;
 
 	public JazzAuthErrorException(final int status, final String jazzUrl) {
-		super(MESSAGE_KEY, new Object[] {new Integer(status), jazzUrl});
+		super(MESSAGE_KEY, new Object[] {status, jazzUrl});
 		this.status = status;
 		this.jazzUrl = jazzUrl;
 	}

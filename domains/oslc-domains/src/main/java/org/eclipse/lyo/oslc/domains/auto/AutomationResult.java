@@ -85,13 +85,13 @@ public class AutomationResult
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
@@ -100,44 +100,44 @@ public class AutomationResult
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<Link>();
+    private Set<Link> type = new HashSet<>();
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:state
     // End of user code
-    private Set<Link> state = new HashSet<Link>();
+    private Set<Link> state = new HashSet<>();
     // Start of user code attributeAnnotation:desiredState
     // End of user code
     private Link desiredState;
     // Start of user code attributeAnnotation:verdict
     // End of user code
-    private Set<Link> verdict = new HashSet<Link>();
+    private Set<Link> verdict = new HashSet<>();
     // Start of user code attributeAnnotation:contribution
     // End of user code
-    private Set<Link> contribution = new HashSet<Link>();
+    private Set<Link> contribution = new HashSet<>();
     // Start of user code attributeAnnotation:inputParameter
     // End of user code
-    private Set<Link> inputParameter = new HashSet<Link>();
+    private Set<Link> inputParameter = new HashSet<>();
     // Start of user code attributeAnnotation:outputParameter
     // End of user code
-    private Set<Link> outputParameter = new HashSet<Link>();
+    private Set<Link> outputParameter = new HashSet<>();
     // Start of user code attributeAnnotation:producedByAutomationRequest
     // End of user code
     private Link producedByAutomationRequest;
     // Start of user code attributeAnnotation:reportsOnAutomationPlan
     // End of user code
     private Link reportsOnAutomationPlan;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -145,38 +145,38 @@ public class AutomationResult
     public AutomationResult()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public AutomationResult(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_autoDomainConstants.AUTOMATIONRESULT_PATH,
         AutomationResult.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local AutomationResult Resource} - update AutomationResult.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -185,69 +185,69 @@ public class AutomationResult
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addState(final Link state)
     {
         this.state.add(state);
     }
-    
+
     public void addVerdict(final Link verdict)
     {
         this.verdict.add(verdict);
     }
-    
+
     public void addContribution(final Link contribution)
     {
         this.contribution.add(contribution);
     }
-    
+
     public void addInputParameter(final Link inputParameter)
     {
         this.inputParameter.add(inputParameter);
     }
-    
+
     public void addOutputParameter(final Link outputParameter)
     {
         this.outputParameter.add(outputParameter);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

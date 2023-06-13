@@ -270,22 +270,22 @@ public class ResourceShapeFactory {
 
 		final OslcHidden hiddenAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcHidden.class);
 		if (hiddenAnnotation != null) {
-			property.setHidden(Boolean.valueOf(hiddenAnnotation.value()));
+			property.setHidden(hiddenAnnotation.value());
 		}
 
 		final OslcMemberProperty memberPropertyAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcMemberProperty.class);
 		if (memberPropertyAnnotation != null) {
-			property.setMemberProperty(Boolean.valueOf(memberPropertyAnnotation.value()));
+			property.setMemberProperty(memberPropertyAnnotation.value());
 		}
 
 		final OslcReadOnly readOnlyAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcReadOnly.class);
 		if (readOnlyAnnotation != null) {
-			property.setReadOnly(Boolean.valueOf(readOnlyAnnotation.value()));
+			property.setReadOnly(readOnlyAnnotation.value());
 		}
 
 		final OslcMaxSize maxSizeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcMaxSize.class);
 		if (maxSizeAnnotation != null) {
-			property.setMaxSize(Integer.valueOf(maxSizeAnnotation.value()));
+			property.setMaxSize(maxSizeAnnotation.value());
 		}
 
 		final OslcValueShape valueShapeAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcValueShape.class);

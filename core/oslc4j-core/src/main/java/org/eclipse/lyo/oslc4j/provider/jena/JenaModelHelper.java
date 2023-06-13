@@ -966,14 +966,7 @@ public final class JenaModelHelper
 
                         if (multiple)
                         {
-                            List<Object> values = propertyDefinitionsToArrayValues.get(uri);
-                            if (values == null)
-                            {
-                                values = new ArrayList<>();
-
-                                propertyDefinitionsToArrayValues.put(uri,
-                                        values);
-                            }
+                            List<Object> values = propertyDefinitionsToArrayValues.computeIfAbsent(uri, k -> new ArrayList<>());
 
                             values.add(parameter);
                         }

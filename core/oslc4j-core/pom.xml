@@ -34,11 +34,6 @@
       <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
-<!--    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>-->
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>

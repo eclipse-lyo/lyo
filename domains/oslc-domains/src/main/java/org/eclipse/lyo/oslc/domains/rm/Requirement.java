@@ -94,13 +94,13 @@ public class Requirement
     private String shortTitle;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<String>();
+    private Set<String> subject = new HashSet<>();
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<Link>();
+    private Set<Link> creator = new HashSet<>();
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<Link>();
+    private Set<Link> contributor = new HashSet<>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
@@ -109,53 +109,53 @@ public class Requirement
     private Date modified;
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
+    private Set<Link> serviceProvider = new HashSet<>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
+    private Set<Link> instanceShape = new HashSet<>();
     // Start of user code attributeAnnotation:elaboratedBy
     // End of user code
-    private Set<Link> elaboratedBy = new HashSet<Link>();
+    private Set<Link> elaboratedBy = new HashSet<>();
     // Start of user code attributeAnnotation:elaborates
     // End of user code
-    private Set<Link> elaborates = new HashSet<Link>();
+    private Set<Link> elaborates = new HashSet<>();
     // Start of user code attributeAnnotation:specifiedBy
     // End of user code
-    private Set<Link> specifiedBy = new HashSet<Link>();
+    private Set<Link> specifiedBy = new HashSet<>();
     // Start of user code attributeAnnotation:specifies
     // End of user code
-    private Set<Link> specifies = new HashSet<Link>();
+    private Set<Link> specifies = new HashSet<>();
     // Start of user code attributeAnnotation:affectedBy
     // End of user code
-    private Set<Link> affectedBy = new HashSet<Link>();
+    private Set<Link> affectedBy = new HashSet<>();
     // Start of user code attributeAnnotation:trackedBy
     // End of user code
-    private Set<Link> trackedBy = new HashSet<Link>();
+    private Set<Link> trackedBy = new HashSet<>();
     // Start of user code attributeAnnotation:implementedBy
     // End of user code
-    private Set<Link> implementedBy = new HashSet<Link>();
+    private Set<Link> implementedBy = new HashSet<>();
     // Start of user code attributeAnnotation:validatedBy
     // End of user code
-    private Set<Link> validatedBy = new HashSet<Link>();
+    private Set<Link> validatedBy = new HashSet<>();
     // Start of user code attributeAnnotation:satisfiedBy
     // End of user code
-    private Set<Link> satisfiedBy = new HashSet<Link>();
+    private Set<Link> satisfiedBy = new HashSet<>();
     // Start of user code attributeAnnotation:satisfies
     // End of user code
-    private Set<Link> satisfies = new HashSet<Link>();
+    private Set<Link> satisfies = new HashSet<>();
     // Start of user code attributeAnnotation:decomposedBy
     // End of user code
-    private Set<Link> decomposedBy = new HashSet<Link>();
+    private Set<Link> decomposedBy = new HashSet<>();
     // Start of user code attributeAnnotation:decomposes
     // End of user code
-    private Set<Link> decomposes = new HashSet<Link>();
+    private Set<Link> decomposes = new HashSet<>();
     // Start of user code attributeAnnotation:constrainedBy
     // End of user code
-    private Set<Link> constrainedBy = new HashSet<Link>();
+    private Set<Link> constrainedBy = new HashSet<>();
     // Start of user code attributeAnnotation:constrains
     // End of user code
-    private Set<Link> constrains = new HashSet<Link>();
-    
+    private Set<Link> constrains = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -163,38 +163,38 @@ public class Requirement
     public Requirement()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public Requirement(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_rmDomainConstants.REQUIREMENT_PATH,
         Requirement.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local Requirement Resource} - update Requirement.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -203,111 +203,111 @@ public class Requirement
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         result = String.format("%s: %s (Requirement; id=%s)", this.getShortTitle(), this.getTitle(), this.getIdentifier());
 
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-    
+
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-    
+
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-    
+
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-    
+
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-    
+
     public void addElaboratedBy(final Link elaboratedBy)
     {
         this.elaboratedBy.add(elaboratedBy);
     }
-    
+
     public void addElaborates(final Link elaborates)
     {
         this.elaborates.add(elaborates);
     }
-    
+
     public void addSpecifiedBy(final Link specifiedBy)
     {
         this.specifiedBy.add(specifiedBy);
     }
-    
+
     public void addSpecifies(final Link specifies)
     {
         this.specifies.add(specifies);
     }
-    
+
     public void addAffectedBy(final Link affectedBy)
     {
         this.affectedBy.add(affectedBy);
     }
-    
+
     public void addTrackedBy(final Link trackedBy)
     {
         this.trackedBy.add(trackedBy);
     }
-    
+
     public void addImplementedBy(final Link implementedBy)
     {
         this.implementedBy.add(implementedBy);
     }
-    
+
     public void addValidatedBy(final Link validatedBy)
     {
         this.validatedBy.add(validatedBy);
     }
-    
+
     public void addSatisfiedBy(final Link satisfiedBy)
     {
         this.satisfiedBy.add(satisfiedBy);
     }
-    
+
     public void addSatisfies(final Link satisfies)
     {
         this.satisfies.add(satisfies);
     }
-    
+
     public void addDecomposedBy(final Link decomposedBy)
     {
         this.decomposedBy.add(decomposedBy);
     }
-    
+
     public void addDecomposes(final Link decomposes)
     {
         this.decomposes.add(decomposes);
     }
-    
+
     public void addConstrainedBy(final Link constrainedBy)
     {
         this.constrainedBy.add(constrainedBy);
     }
-    
+
     public void addConstrains(final Link constrains)
     {
         this.constrains.add(constrains);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:title
     // End of user code
     @OslcName("title")

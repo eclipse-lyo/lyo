@@ -17,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Objects;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "data",
@@ -134,7 +136,7 @@ public class PropertyValue {
             return false;
         }
         PropertyValue rhs = ((PropertyValue) other);
-        return ((((this.representationType == rhs.representationType)||((this.representationType!= null)&&this.representationType.equals(rhs.representationType)))&&((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data))))&&((this.representAsList == rhs.representAsList)||((this.representAsList!= null)&&this.representAsList.equals(rhs.representAsList))));
+        return (((Objects.equals(this.representationType, rhs.representationType))&&(Objects.equals(this.data, rhs.data)))&&(Objects.equals(this.representAsList, rhs.representAsList)));
     }
 
 }
