@@ -5,6 +5,7 @@
 ### Added
 
 - The OSLC Config domain model was expanded.
+- An `OSLC4JUtils::isWellFormed` method was added to help check the validity of strings as valid XML literals when the inputs are supposed to be used on properties of the `rdf:XMLLiteral` type. Warning: this method is quite slow, especially if a resource contains 10s or 100s of such values. We recommend to use this method only in tests.
 
 ### Changed
 
