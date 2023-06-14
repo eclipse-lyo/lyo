@@ -101,11 +101,25 @@ public class ResourcePackages {
      * belonging to different inheritance trees.
      */
     private static Class<?> getMostConcreteClassOf(List<Class<?>> candidates) {
-        int size;
+        int size = candidates.size();
         int index = 0;
         do {
             Class<?> pivot = candidates.get(index);
-            candidates.removeIf(current -> !current.equals(pivot) && current.isAssignableFrom(pivot));
+            Iterator<Class<?>> iterator = candidates.iterator();
+            int currentIndex = -1;
+            while(iterator.hasNext()) {
+                Class<?> current = iterator.next();
+                currentIndex++;
+                if (!current.equals(pivot) && current.isAssignableFrom(pivot)) {
+                    iterator.remove();
+                    if (currentIndex < index) {
+                        //if we are removing an item located before the pivot (index position),
+                        //then decrement the index, since the size of the array is also reduced, making sure the pivot index is correct
+                        //in relation to the new size.
+                        index--;
+                    }
+                }
+            }
             size = candidates.size();
         } while(++index < size);
         if (candidates.size() > 1) {

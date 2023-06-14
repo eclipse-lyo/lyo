@@ -8,6 +8,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Cat;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.WildDog;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class ResourcePackagesTests {
         }
 
         Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
-        Assert.assertEquals(6, ResourcePackages.TYPES_MAPPINGS.keySet().size());
+        Assert.assertEquals(7, ResourcePackages.TYPES_MAPPINGS.keySet().size());
     }
 
     @Test
@@ -83,6 +84,28 @@ public class ResourcePackagesTests {
         Optional<Class<?>> mappedClass = ResourcePackages.getClassOf(resource);
         Assert.assertEquals(true, mappedClass.isPresent());
         Assert.assertEquals(Cat.class, mappedClass.get());
+    }
+
+    @Test
+    public void testGetClassOf_mostConcreteResourceType_decreasingSpecialisation() {
+        ResourcePackages.mapPackage(Pet.class.getPackage());
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/WildDog"));
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Dog"));
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Animal"));
+        Optional<Class<?>> mappedClass = ResourcePackages.getClassOf(resource);
+        Assert.assertEquals(true, mappedClass.isPresent());
+        Assert.assertEquals(WildDog.class, mappedClass.get());
+    }
+
+    @Test
+    public void testGetClassOf_mostConcreteResourceType_increasingSpecialisation() {
+        ResourcePackages.mapPackage(Pet.class.getPackage());
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Animal"));
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/Dog"));
+        resource.addProperty(RDF.type, ResourceFactory.createResource("http://locahost:7001/vocabulary/WildDog"));
+        Optional<Class<?>> mappedClass = ResourcePackages.getClassOf(resource);
+        Assert.assertEquals(true, mappedClass.isPresent());
+        Assert.assertEquals(WildDog.class, mappedClass.get());
     }
 
 }
