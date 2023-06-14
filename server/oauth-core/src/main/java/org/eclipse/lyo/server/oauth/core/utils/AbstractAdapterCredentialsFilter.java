@@ -362,7 +362,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					{
 						sendUnauthorizedResponse(response, e);
 						//TODO: Change to a log message.
-			            log.debug("UnauthorizedException occured while checking for Basic authentication: {}");
+			            log.debug("UnauthorizedException occured while checking for Basic authentication");
 						//Do not call chain.doFilter().
 						return;
 					} catch (ServletException ce)
