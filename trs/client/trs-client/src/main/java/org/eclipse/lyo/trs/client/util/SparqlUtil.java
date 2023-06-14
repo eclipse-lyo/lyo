@@ -32,7 +32,6 @@ import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO Andrew@2018-02-26: why RDF4J here?
 
 /**
  * * A utility class with static methods enabling the processing of trs tasks as
@@ -140,6 +139,55 @@ public class SparqlUtil {
         logger.debug("query for creation of triples in graph: " + namedGraphUrl);
         logger.debug(query);
         return query;
+    }
+
+    /**
+     * append a sparql update to another
+     *
+     * @param appending
+     *            the original sparql update
+     * @param appended
+     *            the sparql update to be appended
+     * @return the concatnated sparql update
+     */
+    public static String appendSparqldQuery(String appending, String appended) {
+        if (appending != null && !appending.isEmpty()) {
+            if (!appending.endsWith(";")) {
+                appending = appending.concat(";");
+            }
+
+            if (!appending.endsWith("\n")) {
+                appending = appending.concat("\n");
+            }
+        }
+
+        appending = appending.concat(appended);
+
+        return appending;
+    }
+
+    /**
+     * Create a triple with the link type as a predicate the src as subject and
+     * destination as object. This is a conveniece for enabling the creation of
+     * links in a ageneric way
+     *
+     * @param src
+     *            source of the link
+     * @param dst
+     *            destination of the link
+     * @param linkType
+     *            type of the link
+     * @return the rdf triple as n triple
+     */
+    public static String linkTriple(String src, String dst, String linkType) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<" + src + ">");
+        sb.append(" ");
+        sb.append("<" + linkType + ">");
+        sb.append(" ");
+        sb.append("<" + dst + ">");
+        sb.append(" .");
+        return sb.toString();
     }
 
     /**
@@ -393,6 +441,7 @@ public class SparqlUtil {
      * @param pwd
      *            password for authentication if applicable
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     static public void processQuery_sesame(String query, String serviceUrl, String user, String pwd) {
         SPARQLRepository repo = new SPARQLRepository(serviceUrl);
         repo.setUsernameAndPassword(user, pwd);
@@ -411,6 +460,7 @@ public class SparqlUtil {
      *            the repository connection object holding credentials and the
      *            sparql update endpoint
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     static public void processQuery_sesame(String query, RepositoryConnection conn) {
         Update u = conn.prepareUpdate(query);
         u.execute();
@@ -428,10 +478,11 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public static RepositoryConnection getRepoConnection(String queryEndpoint, String user, String pwd) {
         SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
         if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
-            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
+            repo.setUsernameAndPassword(user, pwd);
         }
         repo.initialize();
         try {
@@ -458,6 +509,7 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public static RepositoryConnection getRepoConnection(String queryEndpoint, String updateEndPoint, String user,
             String pwd) {
         SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
@@ -491,6 +543,7 @@ public class SparqlUtil {
      *            sparql query
      * @return the result of the querie's evaluation
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public static TupleQueryResult evalQuery(String queryEndpoint, String user, String pwd, String query) {
         RepositoryConnection conn = getRepoConnection(queryEndpoint, user, pwd, query);
         TupleQueryResult result = null;
@@ -514,6 +567,7 @@ public class SparqlUtil {
      * @param sparqlQuery
      *            sparql update to evaluate
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public static void evalUpdate(RepositoryConnection conn, String sparqlQuery) {
         try {
 
@@ -533,6 +587,7 @@ public class SparqlUtil {
      *            sparql query to evaluate
      * @return the queri's evaluation result
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
         TupleQueryResult result = null;
         try {
@@ -547,31 +602,6 @@ public class SparqlUtil {
     }
 
     /**
-     * append a sparql update to another
-     *
-     * @param appending
-     *            the original sparql update
-     * @param appended
-     *            the sparql update to be appended
-     * @return the concatnated sparql update
-     */
-    public static String appendSparqldQuery(String appending, String appended) {
-        if (appending != null && !appending.isEmpty()) {
-            if (!appending.endsWith(";")) {
-                appending = appending.concat(";");
-            }
-
-            if (!appending.endsWith("\n")) {
-                appending = appending.concat("\n");
-            }
-        }
-
-        appending = appending.concat(appended);
-
-        return appending;
-    }
-
-    /**
      * Create a sparql update ading the triples to the named graph with the
      * specified name and send it to the sparql update endpoint specified using
      * the given repo connection object. Uses the sesame libraries
@@ -583,33 +613,12 @@ public class SparqlUtil {
      * @param graphName
      *            named graph to which the triples shall be added
      */
+    @Deprecated(since = "5.1.0", forRemoval = true)
     public void processTripleAdditionQuery(RepositoryConnection conn, String triples, String graphName) {
         String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, triples);
         SparqlUtil.processQuery_sesame(addTriplesToGraphQuery, conn);
     }
 
-    /**
-     * Create a triple with the link type as a predicate the src as subject and
-     * destination as object. This is a conveniece for enabling the creation of
-     * links in a ageneric way
-     *
-     * @param src
-     *            source of the link
-     * @param dst
-     *            destination of the link
-     * @param linkType
-     *            type of the link
-     * @return the rdf triple as n triple
-     */
-    public static String linkTriple(String src, String dst, String linkType) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<" + src + ">");
-        sb.append(" ");
-        sb.append("<" + linkType + ">");
-        sb.append(" ");
-        sb.append("<" + dst + ">");
-        sb.append(" .");
-        return sb.toString();
-    }
+
 
 }

@@ -17,6 +17,7 @@
 ### Deprecated
 
 - The newly refactored artifact `oslc4j-core-wink` is deprecated.
+- A number of methods in `org.eclipse.lyo.trs.client.util.SparqlUtil` were deprecated **and marked for removal** because they rely on an old version of Eclipse RDF4J and use raw SPARQL queries. The Lyo project (currently) relies on Apache Jena and recommends accessing triplestores using Lyo Store. In Lyo 6, we will be removing these methods and the dependency in `trs-client` to `org.eclipse.rdf4j:rdf4j-repository-sparql` (was updated from `org.openrdf.sesame:sesame-repository-sparql` in the past). 
 
 ### Removed
 
