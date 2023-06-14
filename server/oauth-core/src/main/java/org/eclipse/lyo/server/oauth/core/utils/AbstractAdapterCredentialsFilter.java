@@ -410,8 +410,6 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	 * This means chain.doFilter() is not called, and no filters in the chain are called.
 	 * @param response 
 	 * @param request 
-	 * @param servletResponse 
-	 * @param servletRequest 
      * @return true if the filter is to interrupt the chain of filters. 
      * that is, the current doFilter() method should simply return, without calling chain.doFilter().
 	 *
