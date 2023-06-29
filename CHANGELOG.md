@@ -1,6 +1,6 @@
 # Eclipse Lyo changelog
 
-## [Unreleased]
+## [5.1.0]
 
 ### Added
 
