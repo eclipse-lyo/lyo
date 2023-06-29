@@ -4,18 +4,6 @@
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-## [5.1.0]
-
-### Added
-
 - The OSLC Config domain model was expanded.
 - An `OSLC4JUtils::isWellFormed` method was added to help check the validity of strings as valid XML literals when the inputs are supposed to be used on properties of the `rdf:XMLLiteral` type. Warning: this method is quite slow, especially if a resource contains 10s or 100s of such values. We recommend to use this method only in tests.
 
@@ -38,6 +26,10 @@
 
 - A regression is fixed where `org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider` could try to unmarshal an Array or a Collection, which would interfere with the application of the suitable providers when the RDF input is correct.
 - [PR 260](https://github.com/eclipse/lyo/pull/260) fixed the [bug](https://github.com/eclipse/lyo/pull/259) in `ResourcePackages.getMostConcreteClassOf` that could trigger the error "Multiple classes, not in the same inheritance tree, are annotated to map the same RDF:type".
+
+**[5.1.0] - YANKED**
+
+The release was yanked due to a problem with the publication of release artifacts to Maven Central. Please use `5.1.1.Final` instead.
 
 ## [5.0.0]
 
