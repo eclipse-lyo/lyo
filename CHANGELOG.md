@@ -1,5 +1,17 @@
 # Eclipse Lyo changelog
 
+## [5.2.0-SNAPSHOT]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [5.1.1]
 
 ### Added
