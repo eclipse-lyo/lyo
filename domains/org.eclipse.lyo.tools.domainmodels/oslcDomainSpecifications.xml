@@ -49,7 +49,6 @@
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName=""/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="" artifactId="Dublin Core" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="FOAF" namespaceURI="http://xmlns.com/foaf/0.1/#" namespacePrefix="//@domainPrefixes[name='foaf']">
@@ -159,7 +158,6 @@
     <resourceProperties id="_jS6xMBfPEe2Qoa8h9kRCOQ" name="release" occurs="zeroOrMany" valueType="Resource"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration doNotGenerate="true" filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc4j.core.model"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc4j.core.model" artifactId="OSLC" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm#" namespacePrefix="//@domainPrefixes[name='oslc_cm']">
@@ -232,7 +230,6 @@
     <resourceProperties id="_poKfdpUdEeq-KoPaR9_Cfg" name="authorizer" occurs="zeroOrMany" valueType="Resource" range="_posq85UdEeq-KoPaR9_Cfg"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.cm"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.cm" artifactId="Change Management shapes" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Requirements Management shapes" namespaceURI="http://open-services.net/ns/rm#" namespacePrefix="//@domainPrefixes[name='oslc_rm']">
@@ -289,7 +286,6 @@
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.rm"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.rm" artifactId="Requirements Management shapes" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Quality Management" namespaceURI="http://open-services.net/ns/qm#" namespacePrefix="//@domainPrefixes[name='oslc_qm']">
@@ -356,7 +352,6 @@
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.qm"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.qm" artifactId="Quality Management" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Architecture Management" namespaceURI="http://open-services.net/ns/am#" namespacePrefix="//@domainPrefixes[name='oslc_am']">
@@ -364,7 +359,6 @@
     <resources id="_porc0ZUdEeq-KoPaR9_Cfg" name="LinkType" resourceProperties="_pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _posD4JUdEeq-KoPaR9_Cfg _posD4ZUdEeq-KoPaR9_Cfg"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.am"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.am" artifactId="Architecture Management" version="0.1.0-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Matlab Domain" namespaceURI="http://your.organisation.domain/nsp10#" namespacePrefix="//@domainPrefixes[name='nsp10']"/>
@@ -420,7 +414,6 @@
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.config"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.config" artifactId="Configuration Management" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Automation" namespaceURI="http://open-services.net/ns/auto#" namespacePrefix="//@domainPrefixes[name='oslc_auto']">
@@ -442,7 +435,6 @@
     <resourceProperties id="_poE_4JUdEeq-KoPaR9_Cfg" name="reportsOnAutomationPlan" description="Automation Plan which the Automation Result reports on. It is likely that the target resource will be an oslc_auto:AutomationPlan but that is not necessarily the case." valueType="Resource" range="_pn-SMJUdEeq-KoPaR9_Cfg" representation="reference"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.auto"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="org.eclipse.lyo.oslc.domains.auto" artifactId="Automation" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Jazz Architecture Management " namespaceURI="http://jazz.net/ns/dm/linktypes#" namespacePrefix="//@domainPrefixes[name='jazz_am']">
@@ -454,7 +446,6 @@
     <resourceProperties id="_poq1wZUdEeq-KoPaR9_Cfg" name="trace" title="trace" occurs="zeroOrMany" valueType="Resource"/>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.jazz_am"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="5.2.0-SNAPSHOT" groupId="jazz-architecture-management-" artifactId="jazz-architecture-management-" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </domainSpecifications>
   <domainPrefixes name="dcterms"/>
