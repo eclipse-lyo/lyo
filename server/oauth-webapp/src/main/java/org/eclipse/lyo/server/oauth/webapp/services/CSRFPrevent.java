@@ -19,6 +19,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Checks requests to see if they have the right X-CSRF-Prevent header values. 
  * 
@@ -26,11 +29,13 @@ import javax.ws.rs.core.Response.Status;
  */
 public class CSRFPrevent {
 	private static final String CSRF_PREVENT_HEADER = "X-CSRF-Prevent";
-	
-	public static void check(HttpServletRequest httpRequest) {
+    private static final Logger log = LoggerFactory.getLogger(CSRFPrevent.class);
+
+    public static void check(HttpServletRequest httpRequest) {
 		String csrfPrevent = httpRequest.getHeader(CSRF_PREVENT_HEADER);
 		String sessionId = httpRequest.getSession().getId();
 		if (!sessionId.equals(csrfPrevent)) {
+		    log.error("Request denied due to possible CSRF attack. Expected X-CSRF-Prevent header: {}. Received: {}", sessionId, csrfPrevent);
 			throw new WebApplicationException(Response.status(Status.FORBIDDEN)
 					.entity("Request denied due to possible CSRF attack.").type(MediaType.TEXT_PLAIN).build());
 		}

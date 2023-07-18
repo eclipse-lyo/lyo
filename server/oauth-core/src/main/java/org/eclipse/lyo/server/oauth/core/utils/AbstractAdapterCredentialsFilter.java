@@ -185,6 +185,16 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     abstract protected ConsumerStore createConsumerStore() throws Exception;
 
     /**
+     * Sets the official servlet URL 
+     * in case this can differ from that in the individual requests.
+     * @see org.eclipse.lyo.server.oauth.core.OAuthConfiguration#setServletUri()
+     * Typical implementation can be:
+     * <pre>return OSLC4JUtils.getServletURI();
+     * </pre>
+     */
+    abstract protected String getServletUri();
+
+    /**
      * Check if the resource is protected
      * 
      * @return true - the resource is protected, otherwise false
@@ -288,52 +298,67 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			boolean isTwoLeggedOAuthRequest = false;
 			String twoLeggedOAuthConsumerKey = null;
 
+            log.trace("CredentialsFilter - RequestURL: {} {} on session {}", request.getMethod(), request.getRequestURL().toString(), request.getSession().getId());
+
 			//TODO: possibly do this in web.xml
 			if (isProtectedResource(request))
 			{
+                log.trace("{} on session {} - A protected resource", request.getPathInfo(), request.getSession().getId());
 
 				// First check if this is an OAuth request.
 				try {
 					try {
 						OAuthMessage message = OAuthServlet.getMessage(request, null);
+		                log.trace("{} on session {} - checking for oauth1 authentication", request.getPathInfo(), request.getSession().getId());
 						// test if this is a valid two-legged oauth request
 						if ("".equals(message.getToken())) {
+	                        log.trace("{} on session {} - an oauth1 token with empty-value is found. checking for TwoLeggedOAuth", request.getPathInfo(), request.getSession().getId());
 							validateTwoLeggedOAuthMessage(message);
+			                log.trace("{} on session {} - It is a TwoLeggedOAuthRequest", request.getPathInfo(), request.getSession().getId());
 							isTwoLeggedOAuthRequest = true;
 							twoLeggedOAuthConsumerKey = message.getConsumerKey();
 						}
 
 						if (!isTwoLeggedOAuthRequest && message.getToken() != null) {
+                            log.trace("{} on session {} - an oauth1 token is found. Validating it.", request.getPathInfo(), request.getSession().getId());
 							OAuthRequest oAuthRequest = new OAuthRequest(request);
 							oAuthRequest.validate();
+                            log.trace("{} on session {} - an oauth1 token is valid", request.getPathInfo(), request.getSession().getId());
 							Connection connector = tokenToConnectionCache.get(message.getToken());
 							if (connector == null) {
+	                            log.trace("{} on session {} - an oauth1 token is valid, but no Connector is associated with it. Raising an exception TOKEN_REJECTED", request.getPathInfo(), request.getSession().getId());
 								throw new OAuthProblemException(
 										OAuth.Problems.TOKEN_REJECTED);
 							}
 
+                            log.trace("{} on session {} - oauth1 authentication is valid. Done. Binding the Connector to the session", request.getPathInfo(), request.getSession().getId());
 							request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						}
 					} catch (OAuthProblemException e) {
+			            log.error("{} on session {} - OAuthProblemException caught. {}", request.getPathInfo(), e.toString());
 						if (OAuth.Problems.TOKEN_REJECTED.equals(e.getProblem()))
 							throwInvalidExpiredException(e);
 						else
 							throw e;
 					}
 				} catch (OAuthException e) {
+                    log.error("{} on session {} - OOAuthException caught.", request.getPathInfo(), request.getSession().getId());
 					OAuthServlet.handleException(response, e, getOAuthRealm());
 					return;
 				} catch (URISyntaxException e) {
+                    log.error("{} on session {} - URISyntaxException caught.", request.getPathInfo(), request.getSession().getId());
 					throw new ServletException(e);
 				}
 
-				// Check for Basic authentication if this is not an OAuth request
 				HttpSession session = request.getSession();
 				Connection connector = (Connection) session.getAttribute(CONNECTOR_ATTRIBUTE);
 				if (connector == null) {
+	            // Check for Basic authentication. This is not an OAuth request (If it was, then earlier code would have set the connector to a non-null value)
+                    log.trace("{} on session {} - checking for basic authentication", request.getPathInfo(), request.getSession().getId());
 					try {
 						Credentials credentials;
 						if (isTwoLeggedOAuthRequest) {
+		                    log.trace("{} on session {} - This is TwoLeggedOAuthRequest. Dealing wiht it.", request.getPathInfo(), request.getSession().getId());
 							connector = tokenToConnectionCache.get("");
 							if (connector == null) {
 								credentials = getCredentialsForOAuth(OAUTH_EMPTY_TOKEN_KEY, twoLeggedOAuthConsumerKey);
@@ -341,32 +366,42 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 								tokenToConnectionCache.put("", connector);
 							}
 							credentials = null; // TODO; Do we need to keep the credentials for this path ??
+                            log.trace("{} on session {} - This is TwoLeggedOAuthRequest. Done dealing wiht it.", request.getPathInfo(), request.getSession().getId());
 						} else {
+                            log.trace("{} on session {} - This is NOT TwoLeggedOAuthRequest.", request.getPathInfo(), request.getSession().getId());
+                            log.trace("{} on session {} - Tring to find credentials in session or request", request.getPathInfo(), request.getSession().getId());
 							credentials = (Credentials) request.getSession().getAttribute(CREDENTIALS_ATTRIBUTE);
 							if (credentials == null)
 							{
+	                            log.trace("{} on session {} - No credentials found in session.", request.getPathInfo(), request.getSession().getId());
 								credentials = getCredentialsFromRequest(request);
 								if (credentials == null) {
+	                                log.trace("{} on session {} - No credentials found in request.", request.getPathInfo(), request.getSession().getId());
+                                    log.trace("{} on session {} - This is an UnauthorizedRequest. Handing the request as such", request.getPathInfo(), request.getSession().getId());
 									boolean interruptFilterChain = handleUnauthorizedRequest(request, response);
 									if (interruptFilterChain) {
 										return;
 									}
 								}
 							}
+                            log.trace("{} on session {} - Credentials found in session or request.", request.getPathInfo(), request.getSession().getId());
+                            log.trace("{} on session {} - Use Credentials to login and create a Connector.", request.getPathInfo(), request.getSession().getId());
 							connector = login(credentials, request);
 						}
+
+                        log.trace("{} on session {} - Authentication is valid. Done. Binding the Connector & Credentials to the session", request.getPathInfo(), request.getSession().getId());
 						session.setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						session.setAttribute(CREDENTIALS_ATTRIBUTE, credentials);
 
 					} catch (UnauthorizedException e)
 					{
-						sendUnauthorizedResponse(response, e);
-						//TODO: Change to a log message.
-			            log.debug("UnauthorizedException occured while checking for Basic authentication");
-						//Do not call chain.doFilter().
-						return;
+                        log.debug("{} - UnauthorizedException occured while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
+	                    sendUnauthorizedResponse(response, e);
+                        //Do not call chain.doFilter().
+                        return;
 					} catch (ServletException ce)
 					{
+                        log.trace("{} - ServletException occured while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
 						throw ce;
 					}
 				}
@@ -376,6 +411,9 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 					return;
 				}
 
+			}
+			else {
+                log.trace("{} on session {} - A unprotected resource", request.getPathInfo(), request.getSession().getId());
 			}
 		}
 
@@ -432,6 +470,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			accessor.tokenSecret = "";
 			config.getValidator().validateMessage(message, accessor);
 		} else {
+            log.error("OAuth.Problems.TOKEN_REJECTED");
 			throw new OAuthProblemException(
 					OAuth.Problems.TOKEN_REJECTED);
 		}
@@ -540,8 +579,11 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 			// For now, hard-code the consumers.
 			config.setConsumerStore(createConsumerStore());
 		} catch (Throwable t) {
-			System.err.println("Error initializing the OAuth consumer store: " +  t.getMessage());
+			log.error("Error initializing the OAuth consumer store: " +  t.getMessage());
 		}
+		
+		config.setServletUri(getServletUri());
+		log.error("OauthConfig is working with ServletUri: {}", config.getServletUri());
 	}
 
 	/**
