@@ -5,6 +5,7 @@
 ### Added
 
 ### Changed
+- Introducing capability to set the servletUri to be used by the OAuthConfiguration
 
 ### Deprecated
 
