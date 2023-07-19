@@ -583,7 +583,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 		}
 		
 		config.setServletUri(getServletUri());
-		log.error("OauthConfig is working with ServletUri: {}", config.getServletUri());
+		log.trace("OauthConfig is working with ServletUri: {}", config.getServletUri());
 	}
 
 	/**
