@@ -134,7 +134,7 @@ public class OAuthRequest {
         } catch (URISyntaxException e) {
             throw new ServletException(e);
         } catch (OAuthProblemException e) {
-            log.error("OAuthProblemException caught when validating the request. {}", e.toString());
+            log.warn("OAuthProblemException caught when validating the request. {}", e.toString());
             throw e;
         }
     }

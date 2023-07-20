@@ -323,19 +323,19 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
                             log.trace("{} on session {} - an oauth1 token is found. Validating it.", request.getPathInfo(), request.getSession().getId());
 							OAuthRequest oAuthRequest = new OAuthRequest(request);
 							oAuthRequest.validate();
-                            log.trace("{} on session {} - an oauth1 token is valid", request.getPathInfo(), request.getSession().getId());
+                            log.debug("{} on session {} - an oauth1 token is valid", request.getPathInfo(), request.getSession().getId());
 							Connection connector = tokenToConnectionCache.get(message.getToken());
 							if (connector == null) {
-	                            log.trace("{} on session {} - an oauth1 token is valid, but no Connector is associated with it. Raising an exception TOKEN_REJECTED", request.getPathInfo(), request.getSession().getId());
+	                            log.debug("{} on session {} - an oauth1 token is valid, but no Connector is associated with it. Raising an exception TOKEN_REJECTED", request.getPathInfo(), request.getSession().getId());
 								throw new OAuthProblemException(
 										OAuth.Problems.TOKEN_REJECTED);
 							}
 
-                            log.trace("{} on session {} - oauth1 authentication is valid. Done. Binding the Connector to the session", request.getPathInfo(), request.getSession().getId());
+                            log.debug("{} on session {} - oauth1 authentication is valid. Done. Binding the Connector to the session", request.getPathInfo(), request.getSession().getId());
 							request.getSession().setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						}
 					} catch (OAuthProblemException e) {
-			            log.error("{} on session {} - OAuthProblemException caught. {}", request.getPathInfo(), e.toString());
+			            log.warn("{} on session {} - OAuthProblemException caught. {}", request.getPathInfo(), e.toString());
 						if (OAuth.Problems.TOKEN_REJECTED.equals(e.getProblem()))
 							throwInvalidExpiredException(e);
 						else
@@ -366,7 +366,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 								tokenToConnectionCache.put("", connector);
 							}
 							credentials = null; // TODO; Do we need to keep the credentials for this path ??
-                            log.trace("{} on session {} - This is TwoLeggedOAuthRequest. Done dealing wiht it.", request.getPathInfo(), request.getSession().getId());
+                            log.debug("{} on session {} - This is TwoLeggedOAuthRequest. Done dealing wiht it.", request.getPathInfo(), request.getSession().getId());
 						} else {
                             log.trace("{} on session {} - This is NOT TwoLeggedOAuthRequest.", request.getPathInfo(), request.getSession().getId());
                             log.trace("{} on session {} - Tring to find credentials in session or request", request.getPathInfo(), request.getSession().getId());
@@ -377,19 +377,19 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 								credentials = getCredentialsFromRequest(request);
 								if (credentials == null) {
 	                                log.trace("{} on session {} - No credentials found in request.", request.getPathInfo(), request.getSession().getId());
-                                    log.trace("{} on session {} - This is an UnauthorizedRequest. Handing the request as such", request.getPathInfo(), request.getSession().getId());
+                                    log.debug("{} on session {} - This is an UnauthorizedRequest. Handing the request as such", request.getPathInfo(), request.getSession().getId());
 									boolean interruptFilterChain = handleUnauthorizedRequest(request, response);
 									if (interruptFilterChain) {
 										return;
 									}
 								}
 							}
-                            log.trace("{} on session {} - Credentials found in session or request.", request.getPathInfo(), request.getSession().getId());
+                            log.debug("{} on session {} - Credentials found in session or request.", request.getPathInfo(), request.getSession().getId());
                             log.trace("{} on session {} - Use Credentials to login and create a Connector.", request.getPathInfo(), request.getSession().getId());
 							connector = login(credentials, request);
 						}
 
-                        log.trace("{} on session {} - Authentication is valid. Done. Binding the Connector & Credentials to the session", request.getPathInfo(), request.getSession().getId());
+                        log.debug("{} on session {} - Authentication is valid. Done. Binding the Connector & Credentials to the session", request.getPathInfo(), request.getSession().getId());
 						session.setAttribute(CONNECTOR_ATTRIBUTE, connector);
 						session.setAttribute(CREDENTIALS_ATTRIBUTE, credentials);
 
@@ -583,7 +583,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 		}
 		
 		config.setServletUri(getServletUri());
-		log.trace("OauthConfig is working with ServletUri: {}", config.getServletUri());
+		log.info("OauthConfig is working with ServletUri: {}", config.getServletUri());
 	}
 
 	/**
