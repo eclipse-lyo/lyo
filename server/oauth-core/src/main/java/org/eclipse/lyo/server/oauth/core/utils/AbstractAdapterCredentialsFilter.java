@@ -187,7 +187,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     /**
      * Sets the official servlet URL 
      * in case this can differ from that in the individual requests.
-     * @see org.eclipse.lyo.server.oauth.core.OAuthConfiguration#setServletUri()
+     * @see org.eclipse.lyo.server.oauth.core.OAuthConfiguration#setServletUri(String)
      * Typical implementation can be:
      * <pre>return OSLC4JUtils.getServletURI();
      * </pre>
