@@ -3,6 +3,7 @@
 ## [5.2.0-SNAPSHOT]
 
 ### Added
+- Introducing capability to set the servletUri to be used by the OAuthConfiguration
 
 ### Changed
 

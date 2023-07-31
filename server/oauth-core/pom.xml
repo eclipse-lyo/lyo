@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- Lyo Dependencies -->
+        <dependency>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>lyo-core-settings</artifactId>
+            <version>${v.lyo}</version>
+        </dependency>
         <!-- Project specific -->
          <dependency>
            <groupId>jakarta.ws.rs</groupId>
