@@ -35,7 +35,7 @@ public class CSRFPrevent {
 		String csrfPrevent = httpRequest.getHeader(CSRF_PREVENT_HEADER);
 		String sessionId = httpRequest.getSession().getId();
 		if (!sessionId.equals(csrfPrevent)) {
-		    log.error("Request denied due to possible CSRF attack. Expected X-CSRF-Prevent header: {}. Received: {}", sessionId, csrfPrevent);
+		    log.warn("Request denied due to possible CSRF attack. Expected X-CSRF-Prevent header: {}. Received: {}", sessionId, csrfPrevent);
 			throw new WebApplicationException(Response.status(Status.FORBIDDEN)
 					.entity("Request denied due to possible CSRF attack.").type(MediaType.TEXT_PLAIN).build());
 		}

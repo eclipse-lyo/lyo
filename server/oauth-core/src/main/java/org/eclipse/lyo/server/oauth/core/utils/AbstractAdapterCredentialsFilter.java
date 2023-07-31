@@ -37,6 +37,7 @@ import net.oauth.OAuthProblemException;
 import net.oauth.http.HttpMessage;
 import net.oauth.server.OAuthServlet;
 
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
@@ -185,14 +186,16 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
     abstract protected ConsumerStore createConsumerStore() throws Exception;
 
     /**
-     * Sets the official servlet URL 
+     * Gets the official servlet URL 
      * in case this can differ from that in the individual requests.
      * @see org.eclipse.lyo.server.oauth.core.OAuthConfiguration#setServletUri(String)
-     * Typical implementation can be:
-     * <pre>return OSLC4JUtils.getServletURI();
-     * </pre>
+     * This is the typical implementation, which assumes {@link OSLC4JUtils#setPublicURI(String) OSLC4JUtils.setPublicURI(String)}
+     *  and {@link OSLC4JUtils#setServletPath(String) OSLC4JUtils.setServletPath(String)}  
+     * are first used to set the servlet URL.
      */
-    abstract protected String getServletUri();
+    protected String getServletUri() {
+        return OSLC4JUtils.getServletURI();
+    }
 
     /**
      * Check if the resource is protected
