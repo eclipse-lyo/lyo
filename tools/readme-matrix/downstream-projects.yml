@@ -28,7 +28,7 @@ versions:
 projects:
   - slug: "oslc-op/refimpl"
     link: "https://github.com/oslc-op/refimpl"
-    version: "5.1.0a"
+    version: "5.2.0--S"
     # FIXME: new URI
     ci_badge: "https://github.com/oslc-op/refimpl/workflows/CI/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/refimpl?label=PR&color=blue"
