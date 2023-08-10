@@ -234,7 +234,7 @@ label-types:
     color: "F2CD60"
   - name: "obsolete-snapshot"
     # color: "yellowgreen"
-    color: "FF7733"
+    color: "f329da"
   - name: "obsolete-recent"
     color: "ffcc00"
   - name: "obsolete-old"

@@ -22,6 +22,7 @@ pushd "${SCRIPT_DIR}"
 
 ./readme-matrix-generator.py downstream-projects.yml > tmp.md
 
+# https://unix.stackexchange.com/a/737087/6317
 sed -e '/<!-- END YAML TABLE -->/e cat tmp.md' -e '/<!-- BEGIN YAML TABLE -->/,//{//!d}' ../../README.md | sponge ../../README.md
 
 popd
