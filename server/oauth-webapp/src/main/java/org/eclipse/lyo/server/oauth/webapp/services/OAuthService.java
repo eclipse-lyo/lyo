@@ -138,7 +138,7 @@ public class OAuthService {
             httpRequest.setAttribute("consumerName", consumer.getName());
             httpRequest.setAttribute("callback", getCallbackURL(message, consumer));
             boolean callbackConfirmed = consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
-            httpRequest.setAttribute("callbackConfirmed", new Boolean(callbackConfirmed));
+            httpRequest.setAttribute("callbackConfirmed", callbackConfirmed);
 
             // The application name is displayed on the OAuth login page.
             httpRequest.setAttribute("applicationName", config.getApplication().getName());
@@ -460,12 +460,13 @@ public class OAuthService {
     protected OAuthRequest validateRequest() throws OAuthException, IOException {
         OAuthRequest oAuthRequest = new OAuthRequest(httpRequest);
         try {
-//            log.trace("baseString: {} signature: {}", OAuthSignatureMethod.getBaseString(oAuthRequest.getMessage()),
-//                    oAuthRequest.getMessage().getSignature());
             OAuthValidator validator = OAuthConfiguration.getInstance().getValidator();
             validator.validateMessage(oAuthRequest.getMessage(), oAuthRequest.getAccessor());
         } catch (URISyntaxException e) {
             throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+        } catch (OAuthProblemException e) {
+            log.error("OAuthProblemException caught when validating the request. {}", e.toString());
+            throw e;
         }
         return oAuthRequest;
     }

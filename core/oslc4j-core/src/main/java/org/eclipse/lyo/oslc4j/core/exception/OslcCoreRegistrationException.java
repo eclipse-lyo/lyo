@@ -25,7 +25,7 @@ public final class OslcCoreRegistrationException extends OslcCoreApplicationExce
 	private final int			  statusCode;
 
 	public OslcCoreRegistrationException(final ServiceProvider serviceProvider, final int statusCode, final String responseMessage) {
-		super(MESSAGE_KEY, new Object[] {serviceProvider.getTitle(), Integer.valueOf(statusCode), responseMessage});
+		super(MESSAGE_KEY, new Object[] {serviceProvider.getTitle(), statusCode, responseMessage});
 
 		this.responseMessage = responseMessage;
 		this.serviceProvider = serviceProvider;

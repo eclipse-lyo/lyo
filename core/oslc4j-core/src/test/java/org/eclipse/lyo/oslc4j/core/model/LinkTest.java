@@ -52,12 +52,12 @@ public class LinkTest {
     @Test
     public void testEqualsWorksInHashSet() throws Exception {
 
-        Set<Link> setA = new HashSet<Link>() {{
+        Set<Link> setA = new HashSet<>() {{
             this.add(new Link(URI.create(URI_A), LABEL_A));
             this.add(new Link(URI.create(URI_B), LABEL_B));
         }};
 
-        Set<Link> setB = new HashSet<Link>() {{
+        Set<Link> setB = new HashSet<>() {{
             this.add(new Link(URI.create(URI_B), LABEL_B));
             this.add(new Link(URI.create(URI_A), LABEL_A));
         }};
@@ -68,12 +68,12 @@ public class LinkTest {
     @Test
     public void testEqualsWorksInHashSetWhenDifferent() throws Exception {
 
-        Set<Link> setA = new HashSet<Link>() {{
+        Set<Link> setA = new HashSet<>() {{
             this.add(new Link(URI.create(URI_A), LABEL_A));
             this.add(new Link(URI.create(URI_B), LABEL_B));
         }};
 
-        Set<Link> setB = new HashSet<Link>() {{
+        Set<Link> setB = new HashSet<>() {{
             this.add(new Link(URI.create(URI_A)));
         }};
 

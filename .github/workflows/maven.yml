@@ -2,15 +2,15 @@ name: CI Parent
 
 on:
   push:
-    branches: [master]
+    branches: [master, maint-*]
   pull_request:
-    branches: [master]
+    branches: [master, maint-*]
 
 # Does not help, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
 #permissions: read-all
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' ) && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' && !contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
 jobs:
@@ -20,19 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11', '17']
+        jdk: ['17']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
         # 'liberica' is a preferred Spring SDK
         distribution: ['temurin']
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
-#          - jdk: '15' # Zulu MTS
-#            experimental: true
-#            distribution: zulu
-#          - jdk: '16'
-#            experimental: true
-#            distribution: zulu
           - jdk: '20'
             distribution: zulu
             experimental: true

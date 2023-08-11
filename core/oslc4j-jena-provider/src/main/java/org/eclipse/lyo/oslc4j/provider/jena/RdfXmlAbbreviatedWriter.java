@@ -186,7 +186,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 			else if(propValue instanceof String){
 
 				try {
-					tab = Integer.valueOf(((String) (propValue)));
+					tab = Integer.parseInt(((String) (propValue)));
 				}
 				catch (NumberFormatException n) {
 
@@ -206,7 +206,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 			else if(propValue instanceof String){
 
 				try {
-					indent = Integer.valueOf(((String) (propValue)));
+					indent = Integer.parseInt(((String) (propValue)));
 				}
 				catch (NumberFormatException n) {
 

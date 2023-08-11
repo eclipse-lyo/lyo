@@ -1,13 +1,33 @@
 # Eclipse Lyo changelog
 
-## [Unreleased]
+## [6.0.0-SNAPSHOT]
+
+### Added
+
+- Introducing capability to set the servletUri to be used by the OAuthConfiguration
+
+### Changed
+
+- Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
+
+### Deprecated
+
+### Removed
+
+- 🧨 Support for JDK 11 (and all versions below 17) is removed. **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
+
+### Fixed
+
+## [5.1.1]
 
 ### Added
 
 - The OSLC Config domain model was expanded.
+- An `OSLC4JUtils::isWellFormed` method was added to help check the validity of strings as valid XML literals when the inputs are supposed to be used on properties of the `rdf:XMLLiteral` type. Warning: this method is quite slow, especially if a resource contains 10s or 100s of such values. We recommend to use this method only in tests.
 
 ### Changed
 
+- Consistently save Credentials, Connector & admin_session values under session attribute, in the oauth-core AbstractAdapterCredentialsFilter class.
 - Apache Jena depency was updated from 4.5.0 to 4.8.0 due to [CVE-2023-22665](https://lists.apache.org/thread/m7lg8m88cqpjjx8g75d8kbqcrjysdhb9).
 - OSLC Domains are based on latest LyoDesigner, and for `lyoVersion="5.0.1-SNAPSHOT"`.
 - The `oslc4j-core` artifact (group `org.eclipse.lyo.oslc4j.core`) was refactored, extracting some essential model classes into `lyo-core-model` and legacy Wink-dependent code into `oslc4j-core-wink`. _This allows to eliminate all dependencies on Wink. Also, applications that don't need `oslc4j-core`, can eliminate the dependency on JAX-RS by replacing your dependency on `oslc4j-core` with `lyo-core-model`._ **No breaking changes were made.**
@@ -22,7 +42,12 @@
 
 ### Fixed
 
-- A regression is fixed where `org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider` could try to unmarshal an Array or a Collection, which would interfere with the application of the suitable providers when the RDF input is correct. 
+- A regression is fixed where `org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider` could try to unmarshal an Array or a Collection, which would interfere with the application of the suitable providers when the RDF input is correct.
+- [PR 260](https://github.com/eclipse/lyo/pull/260) fixed the [bug](https://github.com/eclipse/lyo/pull/259) in `ResourcePackages.getMostConcreteClassOf` that could trigger the error "Multiple classes, not in the same inheritance tree, are annotated to map the same RDF:type".
+
+## [5.1.0] - YANKED
+
+The release was yanked due to a problem with the publication of release artifacts to Maven Central. Please use `5.1.1.Final` instead.
 
 ## [5.0.0]
 

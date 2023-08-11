@@ -29,6 +29,8 @@ import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
 
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Validates that a request is authorized. The request must contain a valid
@@ -51,6 +53,8 @@ import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
  * @author Samuel Padgett
  */
 public class OAuthRequest {
+    private static final Logger log = LoggerFactory.getLogger(OAuthRequest.class);
+
     private HttpServletRequest httpRequest;
     private OAuthMessage message;
     private OAuthAccessor accessor;
@@ -122,12 +126,16 @@ public class OAuthRequest {
      * @throws OAuthException if the request fails validation
      */
     public void validate() throws OAuthException, IOException, ServletException {
+        log.trace("validating the request.");
         try {
             OAuthConfiguration config = OAuthConfiguration.getInstance();
             config.getValidator().validateMessage(message, accessor);
             config.getTokenStrategy().validateAccessToken(this);
         } catch (URISyntaxException e) {
             throw new ServletException(e);
+        } catch (OAuthProblemException e) {
+            log.warn("OAuthProblemException caught when validating the request. {}", e.toString());
+            throw e;
         }
     }
 }

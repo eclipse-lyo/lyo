@@ -159,9 +159,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 
         try {
 			model.enterCriticalSection(Lock.WRITE);
-            model.executeInTxn(() -> {
-                removeProperties(consumerKey);
-            });
+            model.executeInTxn(() -> removeProperties(consumerKey));
 
             return remove(consumerKey);
 		} catch (JenaException e) {

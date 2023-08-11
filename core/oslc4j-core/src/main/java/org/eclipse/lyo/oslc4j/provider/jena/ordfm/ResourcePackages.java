@@ -78,11 +78,7 @@ public class ResourcePackages {
                             Class<?> rdfClass = Class.forName(classInfo.getName(), true,
                                 Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
-                            List<Class<?>> types = TYPES_MAPPINGS.get(rdfType);
-                            if (types == null) {
-                                types = new ArrayList<>();
-                                TYPES_MAPPINGS.put(rdfType, types);
-                            }
+                            List<Class<?>> types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new ArrayList<>());
                             types.add(rdfClass);
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
@@ -105,15 +101,23 @@ public class ResourcePackages {
      * belonging to different inheritance trees.
      */
     private static Class<?> getMostConcreteClassOf(List<Class<?>> candidates) {
-        int size;
+        int size = candidates.size();
         int index = 0;
         do {
             Class<?> pivot = candidates.get(index);
             Iterator<Class<?>> iterator = candidates.iterator();
+            int currentIndex = -1;
             while(iterator.hasNext()) {
                 Class<?> current = iterator.next();
+                currentIndex++;
                 if (!current.equals(pivot) && current.isAssignableFrom(pivot)) {
                     iterator.remove();
+                    if (currentIndex < index) {
+                        //if we are removing an item located before the pivot (index position),
+                        //then decrement the index, since the size of the array is also reduced, making sure the pivot index is correct
+                        //in relation to the new size.
+                        index--;
+                    }
                 }
             }
             size = candidates.size();

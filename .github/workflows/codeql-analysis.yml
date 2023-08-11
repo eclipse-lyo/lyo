@@ -8,9 +8,13 @@ name: "CodeQL"
 on:
   push:
     branches: [master]
+    paths:
+      - '**.java'
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
+    paths:
+      - '**.java'
   schedule:
     - cron: "0 22 * * 2"
 
@@ -22,7 +26,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependency') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependencies') }}
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true

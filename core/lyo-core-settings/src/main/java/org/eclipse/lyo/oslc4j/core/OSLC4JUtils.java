@@ -13,6 +13,9 @@
  */
 package org.eclipse.lyo.oslc4j.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -26,9 +29,14 @@ import java.util.HashSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
@@ -41,6 +49,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 // TODO: Lyo6 extract to LyoServletUriUtils
 public class OSLC4JUtils {
@@ -755,4 +764,30 @@ public class OSLC4JUtils {
         System.setProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT, Boolean.toString(value));
     }
 
+    public static boolean isWellFormed(String xmlLiteral) {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // or completely disable external entities declarations:
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            // or prohibit the use of all protocols by external entities:
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            // or disable entity expansion but keep in mind that this doesn't prevent fetching external entities
+            // and this solution is not correct for OpenJDK < 13 due to a bug: https://bugs.openjdk.java.net/browse/JDK-8206132
+//            factory.setExpandEntityReferences(false);
+            DocumentBuilder db = factory.newDocumentBuilder();
+            InputStream targetStream = new ByteArrayInputStream(xmlLiteral.getBytes());
+            db.parse(targetStream);
+            return true;
+        } catch (ParserConfigurationException e) {
+            throw new IllegalStateException("XML Validator cannot be initialized");
+        } catch (IOException | SAXException e) {
+            return false;
+        }
+    }
+
+    public static boolean isWellFormed(XMLLiteral literal) {
+        return isWellFormed(literal.getValue());
+    }
 }

@@ -91,14 +91,14 @@ public class Baseline
     private Date committed;
     // Start of user code attributeAnnotation:committer
     // End of user code
-    private Set<Link> committer = new HashSet<Link>();
+    private Set<Link> committer = new HashSet<>();
     // Start of user code attributeAnnotation:previousBaseline
     // End of user code
     private Link previousBaseline;
     // Start of user code attributeAnnotation:wasDerivedFrom
     // End of user code
-    private Set<Link> wasDerivedFrom = new HashSet<Link>();
-    
+    private Set<Link> wasDerivedFrom = new HashSet<>();
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -106,38 +106,38 @@ public class Baseline
     public Baseline()
     {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
+
     public Baseline(final URI about)
     {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
+
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.BASELINE_PATH,
         Baseline.class);
     }
-    
-    
+
+
     public String toString()
     {
         return toString(false);
     }
-    
+
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = result + "{a Local Baseline Resource} - update Baseline.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -146,24 +146,24 @@ public class Baseline
         else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
+
     public void addCommitter(final Link committer)
     {
         this.committer.add(committer);
     }
-    
+
     public void addWasDerivedFrom(final Link wasDerivedFrom)
     {
         this.wasDerivedFrom.add(wasDerivedFrom);
     }
-    
-    
+
+
     // Start of user code getterAnnotation:baselineOfStream
     // End of user code
     @OslcName("baselineOfStream")

@@ -5,7 +5,7 @@ pipeline {
 	}
 	tools {
 		maven 'apache-maven-latest'
-		jdk 'temurin-jdk11-latest'
+		jdk 'temurin-jdk17-latest'
 	}
 	stages {
 		stage('SonarCloud') {
@@ -31,10 +31,11 @@ pipeline {
 				}
 			}
 		}
-		stage('Deploy') {
+		stage('Publish (OSSRH)') {
 			when {
 				anyOf {
 					branch 'master'
+					branch 'main'
 					branch 'maint-*'
 				}
 			}
@@ -48,6 +49,45 @@ pipeline {
 						-P dev,gpg-sign,!eclipse-deploy,ossrh-deploy
 				mvn -B      deploy        -DskipTests -Dmaven.install.skip=true \
 						-P dev,gpg-sign,!eclipse-deploy,ossrh-deploy
+				'''
+			}
+		}
+		stage('Publish (Javadocs)') {
+			when {
+				anyOf {
+					branch 'master'
+					branch 'main'
+					branch 'maint-*'
+				}
+			}
+			steps {
+				sshagent(['projects-storage.eclipse.org-bot-ssh']) {
+					sh '''
+					DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
+					VERSION=$(mvn -q \
+						-Dexec.executable="echo" \
+						-Dexec.args='${project.version}' \
+						--non-recursive \
+						org.codehaus.mojo:exec-maven-plugin:1.3.1:exec | tail -n 1 | xargs)
+					# see https://github.com/eclipse/lyo.core/issues/135 for the tail/xargs temp fix
+
+					ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/$VERSION
+					ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/$VERSION
+					scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
+					'''
+				}
+			}
+		}
+		stage('Publish (Eclipse)') {
+			when {
+				anyOf {
+					branch 'master'
+					branch 'main'
+					branch 'maint-*'
+				}
+			}
+			steps {
+				sh '''
 				mvn -B      deploy        -DskipTests -Dmaven.install.skip=true \
 						-P dev,gpg-sign,eclipse-deploy
 				'''
@@ -69,28 +109,28 @@ pipeline {
 				}
 			}
 		}
-		stage('Publish latest Javadocs') {
-			when {
-				branch 'master'
-			}
-			steps {
-				sshagent(['projects-storage.eclipse.org-bot-ssh']) {
-					sh '''
-					DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
-					VERSION=$(mvn -q \
-						-Dexec.executable="echo" \
-						-Dexec.args='${project.version}' \
-						--non-recursive \
-						org.codehaus.mojo:exec-maven-plugin:1.3.1:exec | tail -n 1 | xargs)
-					# see https://github.com/eclipse/lyo.core/issues/135 for the tail/xargs temp fix
+		stage('Publish HEAD Javadocs') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sshagent(['projects-storage.eclipse.org-bot-ssh']) {
+                    sh '''
+                    DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
+                    VERSION=$(mvn -q \
+                        -Dexec.executable="echo" \
+                        -Dexec.args='${project.version}' \
+                        --non-recursive \
+                        org.codehaus.mojo:exec-maven-plugin:1.3.1:exec | tail -n 1 | xargs)
+                    # see https://github.com/eclipse/lyo.core/issues/135 for the tail/xargs temp fix
 
-					ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/latest
-					ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/latest
-					scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/latest
-					'''
-				}
-			}
-		}
+                    ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/latest
+                    ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/latest
+                    scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/latest
+                    '''
+                }
+            }
+        }
 	}
 	post {
 		// send a mail on unsuccessful and fixed builds
