@@ -6,6 +6,8 @@
 
 ### Changed
 
+- `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
+
 ### Deprecated
 
 ### Removed
