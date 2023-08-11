@@ -24,7 +24,7 @@
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>4.8.0</v.jena>
-    <v.jackson>2.15.0</v.jackson>
+    <v.jackson>2.15.2</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>1.7.36</v.slf4j>
 
@@ -349,7 +349,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.3.1</version>
+        <version>5.4.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -373,7 +373,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.9.3</version>
+        <version>5.10.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
