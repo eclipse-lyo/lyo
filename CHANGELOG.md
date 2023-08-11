@@ -1,6 +1,6 @@
 # Eclipse Lyo changelog
 
-## [5.2.0-SNAPSHOT]
+## [6.0.0-SNAPSHOT]
 
 ### Added
 - Introducing capability to set the servletUri to be used by the OAuthConfiguration
@@ -10,6 +10,8 @@
 ### Deprecated
 
 ### Removed
+
+- Support for JDK 11 (and all versions below 17) is removed. The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
 
 ### Fixed
 
