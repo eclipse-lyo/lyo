@@ -437,6 +437,11 @@ public class SparqlStoreImpl implements Store {
         log.debug("Underlying SPARQL connection has been released");
     }
 
+    @Override
+    public void rawUpdateQuery(String finalQueryString) {
+        queryExecutor.prepareSparqlUpdate(finalQueryString).execute();
+    }
+
     private <T extends IResource> String oslcQueryPrefixes(final Class<T> clazz) {
         return "rdf=" + "<" + org.apache.jena.vocabulary.RDF.uri + ">";
     }

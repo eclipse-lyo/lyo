@@ -24,11 +24,6 @@ import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
-import org.eclipse.rdf4j.query.QueryLanguage;
-import org.eclipse.rdf4j.query.TupleQueryResult;
-import org.eclipse.rdf4j.query.Update;
-import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -393,13 +388,13 @@ public class SparqlUtil {
      * @param pwd
      *            password for authentication if applicable
      */
-    static public void processQuery_sesame(String query, String serviceUrl, String user, String pwd) {
-        SPARQLRepository repo = new SPARQLRepository(serviceUrl);
-        repo.setUsernameAndPassword(user, pwd);
-        repo.initialize();
-        RepositoryConnection rc = repo.getConnection();
-        processQuery_sesame(query, rc);
-    }
+//    static public void processQuery_sesame(String query, String serviceUrl, String user, String pwd) {
+//        SPARQLRepository repo = new SPARQLRepository(serviceUrl);
+//        repo.setUsernameAndPassword(user, pwd);
+//        repo.initialize();
+//        RepositoryConnection rc = repo.getConnection();
+//        processQuery_sesame(query, rc);
+//    }
 
     /**
      * Send the given sparql update to the sparql update service using the
@@ -411,10 +406,10 @@ public class SparqlUtil {
      *            the repository connection object holding credentials and the
      *            sparql update endpoint
      */
-    static public void processQuery_sesame(String query, RepositoryConnection conn) {
-        Update u = conn.prepareUpdate(query);
-        u.execute();
-    }
+//    static public void processQuery_sesame(String query, RepositoryConnection conn) {
+//        Update u = conn.prepareUpdate(query);
+//        u.execute();
+//    }
 
     /**
      * return the repo connection object in order to be able to use the sesame
@@ -428,23 +423,23 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
-    public static RepositoryConnection getRepoConnection(String queryEndpoint, String user, String pwd) {
-        SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
-        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
-            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
-        }
-        repo.initialize();
-        try {
-            RepositoryConnection conn = repo.getConnection();
-            if (conn == null) {
-                logger.error("error getting sparql repo connection !");
-            }
-            return conn;
-        } catch (Exception e) {
-            logger.error("error getting sparql repo connection !", e);
-            return null;
-        }
-    }
+//    public static RepositoryConnection getRepoConnection(String queryEndpoint, String user, String pwd) {
+//        SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
+//        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
+//            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
+//        }
+//        repo.initialize();
+//        try {
+//            RepositoryConnection conn = repo.getConnection();
+//            if (conn == null) {
+//                logger.error("error getting sparql repo connection !");
+//            }
+//            return conn;
+//        } catch (Exception e) {
+//            logger.error("error getting sparql repo connection !", e);
+//            return null;
+//        }
+//    }
 
     /**
      * return the repo connection object in order to be able to use the sesame
@@ -458,25 +453,25 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
-    public static RepositoryConnection getRepoConnection(String queryEndpoint, String updateEndPoint, String user,
-            String pwd) {
-        SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
-        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty() && !user.isEmpty()) {
-            repo.setUsernameAndPassword(user, pwd);
-        }
-        repo.initialize();
-        try {
-            RepositoryConnection conn = repo.getConnection();
-
-            if (conn == null) {
-                logger.error("error getting sparql repo connection !");
-            }
-            return conn;
-        } catch (Exception e) {
-            logger.error("error getting sparql repo connection !", e);
-            return null;
-        }
-    }
+//    public static RepositoryConnection getRepoConnection(String queryEndpoint, String updateEndPoint, String user,
+//            String pwd) {
+//        SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
+//        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty() && !user.isEmpty()) {
+//            repo.setUsernameAndPassword(user, pwd);
+//        }
+//        repo.initialize();
+//        try {
+//            RepositoryConnection conn = repo.getConnection();
+//
+//            if (conn == null) {
+//                logger.error("error getting sparql repo connection !");
+//            }
+//            return conn;
+//        } catch (Exception e) {
+//            logger.error("error getting sparql repo connection !", e);
+//            return null;
+//        }
+//    }
 
     /**
      * evaluate the given sparql query against the given sparql query endpoint
@@ -491,19 +486,19 @@ public class SparqlUtil {
      *            sparql query
      * @return the result of the querie's evaluation
      */
-    public static TupleQueryResult evalQuery(String queryEndpoint, String user, String pwd, String query) {
-        RepositoryConnection conn = getRepoConnection(queryEndpoint, user, pwd, query);
-        TupleQueryResult result = null;
-        try {
-
-            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate();
-        } catch (Exception e) {
-            logger.error("error during the execution of the query !", e);
-        } finally {
-            conn.close();
-        }
-        return result;
-    }
+//    public static TupleQueryResult evalQuery(String queryEndpoint, String user, String pwd, String query) {
+//        RepositoryConnection conn = getRepoConnection(queryEndpoint, user, pwd, query);
+//        TupleQueryResult result = null;
+//        try {
+//
+//            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate();
+//        } catch (Exception e) {
+//            logger.error("error during the execution of the query !", e);
+//        } finally {
+//            conn.close();
+//        }
+//        return result;
+//    }
 
     /**
      * evaluate the given sparql update using the sesame repository connection
@@ -514,14 +509,14 @@ public class SparqlUtil {
      * @param sparqlQuery
      *            sparql update to evaluate
      */
-    public static void evalUpdate(RepositoryConnection conn, String sparqlQuery) {
-        try {
-
-            conn.prepareUpdate(QueryLanguage.SPARQL, sparqlQuery).execute();
-        } catch (Exception e) {
-            logger.error("error during the execution of the query !", e);
-        }
-    }
+//    public static void evalUpdate(RepositoryConnection conn, String sparqlQuery) {
+//        try {
+//
+//            conn.prepareUpdate(QueryLanguage.SPARQL, sparqlQuery).execute();
+//        } catch (Exception e) {
+//            logger.error("error during the execution of the query !", e);
+//        }
+//    }
 
     /**
      * evaluate the given sparql query using the sesame repository connection
@@ -533,18 +528,18 @@ public class SparqlUtil {
      *            sparql query to evaluate
      * @return the queri's evaluation result
      */
-    public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
-        TupleQueryResult result = null;
-        try {
-
-            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery).evaluate();
-
-        } catch (Exception e) {
-            logger.error("error during the execution of the query !", e);
-        }
-
-        return result;
-    }
+//    public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
+//        TupleQueryResult result = null;
+//        try {
+//
+//            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery).evaluate();
+//
+//        } catch (Exception e) {
+//            logger.error("error during the execution of the query !", e);
+//        }
+//
+//        return result;
+//    }
 
     /**
      * append a sparql update to another
@@ -583,10 +578,10 @@ public class SparqlUtil {
      * @param graphName
      *            named graph to which the triples shall be added
      */
-    public void processTripleAdditionQuery(RepositoryConnection conn, String triples, String graphName) {
-        String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, triples);
-        SparqlUtil.processQuery_sesame(addTriplesToGraphQuery, conn);
-    }
+//    public void processTripleAdditionQuery(RepositoryConnection conn, String triples, String graphName) {
+//        String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, triples);
+//        SparqlUtil.processQuery_sesame(addTriplesToGraphQuery, conn);
+//    }
 
     /**
      * Create a triple with the link type as a predicate the src as subject and

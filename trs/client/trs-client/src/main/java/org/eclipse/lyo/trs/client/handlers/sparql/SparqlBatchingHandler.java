@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Deletion;
+import org.eclipse.lyo.store.Store;
+import org.eclipse.lyo.store.StoreFactory;
 import org.eclipse.lyo.trs.client.handlers.IProviderEventHandler;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
@@ -30,11 +32,18 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
     @Override
     public void finishCycle() {
         log.debug("number of processed queries: " + queries.size());
-        String finalQueryString = buildYugeQuery(queries);
+        String updateQuery = buildYugeQuery(queries);
         log.debug("sending Update SPARQL Query to server");
 
-        SparqlUtil.processQuery_sesame(finalQueryString, sparqlUpdateService,
-                sparql_baseAuth_userName, sparql_baseAuth_pwd);
+        // TODO: build one or use a pool
+        Store store = StoreFactory.sparql(null, sparqlUpdateService,
+            sparql_baseAuth_userName, sparql_baseAuth_pwd);
+        try {
+            store.rawUpdateQuery(updateQuery);
+        } finally {
+            store.close();
+        }
+
         log.debug("Update SPARQL Queries successful!");
 
         queries.clear();
