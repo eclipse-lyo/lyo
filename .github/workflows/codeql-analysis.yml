@@ -1,22 +1,11 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
 name: "CodeQL"
 
 on:
-  push:
-    branches: [master]
-    paths:
-      - '**.java'
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [master]
     paths:
       - '**.java'
-  schedule:
-    - cron: "0 22 * * 2"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -63,6 +52,10 @@ jobs:
         #   ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '17'
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
 
