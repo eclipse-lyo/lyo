@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -15,6 +15,7 @@
 package org.eclipse.lyo.trs.client.config;
 
 import com.google.common.base.Strings;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,11 +25,16 @@ import java.net.URI;
 import java.util.Properties;
 
 /**
- * Created on 2018-02-27
+ * Loads TRS Provider configuration from a .properties file.
+ * <p>
+ * Supported properties:
+ * <ul>
+ *     <li><code>trs_uri</code> - a TRS Provider endpoint</li>
+ *     <li><code>baseAuth_user</code> - HTTP Basic auth user (optional)</li>
+ *     <li><code>baseAuth_pwd</code> - HTTP Basic auth password (optional)</li>
+ * </ul>
  *
- * @author Andrew Berezovskyi (andriib@kth.se)
- * @version $version-stub$
- * @since 0.0.1
+ * @since 4.0.0
  */
 public class TrsConfigurationLoader {
     public static TrsProviderConfiguration from(File f) throws IOException {
@@ -36,18 +42,20 @@ public class TrsConfigurationLoader {
             throw new IllegalArgumentException("File is null");
         }
 
-        final InputStream input = new BufferedInputStream(new FileInputStream(f));
-        Properties p = new Properties();
-        p.load(input);
+        Properties p;
+        try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
+            p = new Properties();
+            p.load(input);
 
-        String trsUriParam = p.getProperty("trs_uri");
-        if (Strings.isNullOrEmpty(trsUriParam)) {
-            throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
+            String trsUriParam = p.getProperty("trs_uri");
+            if (Strings.isNullOrEmpty(trsUriParam)) {
+                throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
+            }
+
+            String user = p.getProperty("baseAuth_user");
+            String pass = p.getProperty("baseAuth_pwd");
+
+            return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
         }
-
-        String user = p.getProperty("baseAuth_user");
-        String pass = p.getProperty("baseAuth_pwd");
-
-        return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
     }
 }
