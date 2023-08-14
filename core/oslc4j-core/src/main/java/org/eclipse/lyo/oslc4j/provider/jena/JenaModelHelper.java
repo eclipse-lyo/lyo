@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -363,7 +363,7 @@ public final class JenaModelHelper
         if (mostConcreteResourceClass.isPresent()) {
             beanClass = mostConcreteResourceClass.get();
         }
-        final Object   newInstance = beanClass.newInstance();
+        final Object   newInstance = beanClass.getDeclaredConstructor().newInstance();
         final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
         final Map<String,Object> visitedResources = new HashMap<>();
         final HashSet<String> rdfTypes = new HashSet<>();
@@ -553,7 +553,7 @@ public final class JenaModelHelper
                         continue;
                     }
                 }
-                final Object   newInstance = beanClass.newInstance();
+                final Object   newInstance = beanClass.getDeclaredConstructor().newInstance();
                 final Map<String,Object> visitedResources = new HashMap<>();
                 final HashSet<String> rdfTypes = new HashSet<>();
 
@@ -912,7 +912,7 @@ public final class JenaModelHelper
                             Class<?> resourceClass = optionalResourceClass.isPresent()
                                     ? optionalResourceClass.get()
                                     : setMethodComponentParameterClass;
-                            final Object nestedBean = resourceClass.newInstance();
+                            final Object nestedBean = resourceClass.getDeclaredConstructor().newInstance();
                             fromResource(classPropertyDefinitionsToSetMethods,
                                     nestedBean.getClass(),
                                     nestedBean,
@@ -930,7 +930,7 @@ public final class JenaModelHelper
                         {
                             // This property supports reified statements. Create the
                             // new resource to hold the value and any metadata.
-                            final Object reifiedResource = reifiedClass.newInstance();
+                            final Object reifiedResource = reifiedClass.getDeclaredConstructor().newInstance();
 
                             // Find a setter for the actual value.
                             for (Method method : reifiedClass.getMethods())
@@ -1051,7 +1051,7 @@ public final class JenaModelHelper
                 // Not handled above.  Let's try newInstance with possible failure.
                 else
                 {
-                    collection = ((Collection<Object>) parameterClass.newInstance());
+                    collection = ((Collection<Object>) parameterClass.getDeclaredConstructor().newInstance());
                 }
 
                 collection.addAll(values);
