@@ -42,9 +42,8 @@ public class TrsConfigurationLoader {
             throw new IllegalArgumentException("File is null");
         }
 
-        Properties p;
         try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
-            p = new Properties();
+            Properties p = new Properties();
             p.load(input);
 
             String trsUriParam = p.getProperty("trs_uri");
