@@ -14,6 +14,11 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import com.google.common.collect.ImmutableList;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
@@ -22,26 +27,19 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
-import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Element;
-import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
-import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
+import static org.junit.Assert.*;
+import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.*;
 
-import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
 
 /**
- *
- * @version $version-stub$
  * @since 2.4.0
  */
 public class JenaModelHelperTest {

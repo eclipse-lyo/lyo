@@ -13,6 +13,10 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Container;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Literal;
@@ -39,6 +43,8 @@ import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
+import org.apache.jena.rdf.model.impl.ReifierStd;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.util.ResourceUtils;
@@ -949,10 +955,12 @@ public final class JenaModelHelper
                             }
 
                             // Fill in any reified statements.
-                            RSIterator rsIter = statement.listReifiedStatements();
-                            while (rsIter.hasNext())
+                            Graph stmtGraph = statement.getModel().getGraph();
+                            ExtendedIterator<Node> reifiedTriplesIter = ReifierStd.allNodes(stmtGraph, statement.asTriple());
+                            while (reifiedTriplesIter.hasNext())
                             {
-                                ReifiedStatement reifiedStatement = rsIter.next();
+                                Node reifiedNode = reifiedTriplesIter.next();
+                                Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
                                 fromResource(classPropertyDefinitionsToSetMethods,
                                         reifiedClass,
                                         reifiedResource,
@@ -1060,6 +1068,18 @@ public final class JenaModelHelper
                         collection);
             }
         }
+    }
+
+    private static Resource getResource(Model model, Node node) {
+        Resource s;
+        if (node.isURI()) {
+            s = model.createResource(node.getURI());
+        } else if (node.isBlank()) {
+            s = model.createResource(new AnonId(node.getBlankNodeId()));
+        } else {
+            throw(new IllegalStateException("Node can not be a literal"));
+        }
+        return s;
     }
 
     /**
@@ -1463,9 +1483,8 @@ public final class JenaModelHelper
             final Property property = model.createProperty(propertyName);
             final Object value = extendedProperty.getValue();
 
-            if (value instanceof Collection)
+            if (value instanceof Collection<?> collection)
             {
-                final Collection<?> collection = (Collection<?>) value;
                 for (Object next : collection)
                 {
                     handleExtendedValue(resourceClass,
@@ -1509,14 +1528,13 @@ public final class JenaModelHelper
             InvocationTargetException,
             OslcCoreApplicationException
     {
-        if (value instanceof UnparseableLiteral)
+        if (value instanceof UnparseableLiteral unparseable)
         {
             if (onlyNested)
             {
                 return;
             }
 
-            final UnparseableLiteral unparseable = (UnparseableLiteral) value;
             resource.addProperty(property, model.createLiteral(unparseable.getRawValue()));
         }
         else if (value instanceof AnyResource)
@@ -2169,7 +2187,7 @@ public final class JenaModelHelper
             {
                 try {
                     IOslcCustomNamespaceProvider customNamespaceProviderImpl
-                            = customNamespaceProvider.newInstance();
+                            = customNamespaceProvider.getDeclaredConstructor().newInstance();
                     Map<String, String> customNamespacePrefixes = customNamespaceProviderImpl
                             .getCustomNamespacePrefixes();
                     if(null != customNamespacePrefixes)
@@ -2183,6 +2201,12 @@ public final class JenaModelHelper
                 } catch (InstantiationException e) {
                     throw new RuntimeException("The custom namespace provider must not be a abstract," +
                             " nor interface class and must have a public no args constructor", e);
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeException(
+                        "Class '%s' does not have a no-args constructor required for Lyo Beans"
+                            .formatted(customNamespaceProvider.getSimpleName()), e);
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -2197,13 +2221,8 @@ public final class JenaModelHelper
 
         final Class<?>[] interfaces = resourceClass.getInterfaces();
 
-        if (interfaces != null)
-        {
-            for (final Class<?> interfac : interfaces)
-            {
-                recursivelyCollectNamespaceMappings(namespaceMappings,
-                        interfac);
-            }
+        for (final Class<?> iface : interfaces) {
+            recursivelyCollectNamespaceMappings(namespaceMappings, iface);
         }
     }
 
