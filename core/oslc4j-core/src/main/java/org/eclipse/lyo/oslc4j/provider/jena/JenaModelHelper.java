@@ -1122,7 +1122,7 @@ public final class JenaModelHelper
     }
 
     /*
-    Adapter from https://github.com/spdx/tools/blob/bc35e25dacb728bf8332b82b509bb3efacd6c64e/src/org/spdx/rdfparser/SPDXDocument.java#L1225
+    Adapted from https://github.com/spdx/tools/blob/bc35e25dacb728bf8332b82b509bb3efacd6c64e/src/org/spdx/rdfparser/SPDXDocument.java#L1225
     Copyright (c) 2010, 2011 Source Auditor Inc.
     SPDX-License-Identifier: Apache-2.0
      */
