@@ -36,9 +36,10 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
-          progress: false
+          show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
