@@ -448,7 +448,7 @@
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.jazz_am"/>
     </configuration>
   </domainSpecifications>
-  <domainSpecifications name="PROMCODE" namespaceURI="http://open-services.net/ns/promcode" namespacePrefix="//@domainPrefixes[name='oslc_promcode']">
+  <domainSpecifications name="PROMCODE" namespaceURI="http://open-services.net/ns/promcode#" namespacePrefix="//@domainPrefixes[name='oslc_promcode']">
     <resources id="_rx6HgVQEEe6sU62TIv0TVA" name="Artifact" description="Shape resource of an Artifact resource." resourceProperties="_rx6HgFQEEe6sU62TIv0TVA _TyNXsFQFEe6sU62TIv0TVA _TyNXsVQFEe6sU62TIv0TVA _TyNXslQFEe6sU62TIv0TVA _TyNXs1QFEe6sU62TIv0TVA _Z9sNEFQGEe6sU62TIv0TVA _Z9sNEVQGEe6sU62TIv0TVA _Z9sNElQGEe6sU62TIv0TVA"/>
     <resources id="_9ZqL4FQFEe6sU62TIv0TVA" name="IssueCollection" description="An IssueCollection is a resource which is a subclass of ManagedItemCollection. An IssueCollection only collects Issues. All of Issues raised in a project should be collected by an IssueCollection." resourceProperties="_VqXr0FQIEe6sU62TIv0TVA _rx6HgFQEEe6sU62TIv0TVA _TyNXsFQFEe6sU62TIv0TVA _TyNXslQFEe6sU62TIv0TVA _TyNXs1QFEe6sU62TIv0TVA _VqXr0VQIEe6sU62TIv0TVA _VqXr0lQIEe6sU62TIv0TVA"/>
     <resources id="_9ZqL4VQFEe6sU62TIv0TVA" name="Issue" description="An issue is a situation that must be resolved in order to meet the objectives of a project. Failure to resolve the situation may result in negative consequences for the project, such as a schedule delay." resourceProperties="_rx6HgFQEEe6sU62TIv0TVA _TyNXsFQFEe6sU62TIv0TVA _TyNXslQFEe6sU62TIv0TVA _TyNXs1QFEe6sU62TIv0TVA _VqXr1FQIEe6sU62TIv0TVA _VqXr01QIEe6sU62TIv0TVA _Z9sNEVQGEe6sU62TIv0TVA _VqXr1VQIEe6sU62TIv0TVA"/>

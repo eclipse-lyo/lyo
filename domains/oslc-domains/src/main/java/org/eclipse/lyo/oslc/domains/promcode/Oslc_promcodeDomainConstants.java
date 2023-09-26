@@ -32,9 +32,9 @@ public interface Oslc_promcodeDomainConstants
      * @deprecated use {@link Oslc_promcodeDomainConstants#PROMCODE_NAMSPACE} or {@link Oslc_promcodeDomainConstants#PROMCODE_DOMAIN_NAME} instead
      */
     @Deprecated(since = "5.0.1")
-    public static String PROMCODE_DOMAIN = "http://open-services.net/ns/promcode";
+    public static String PROMCODE_DOMAIN = "http://open-services.net/ns/promcode#";
     public static String PROMCODE_DOMAIN_NAME = "PROMCODE";
-    public static String PROMCODE_NAMSPACE = "http://open-services.net/ns/promcode"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String PROMCODE_NAMSPACE = "http://open-services.net/ns/promcode#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
     public static String PROMCODE_NAMSPACE_PREFIX = "oslc_promcode"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
     public static String ARTIFACT_PATH = "artifact";  //the relative path of the resource shape URL.
