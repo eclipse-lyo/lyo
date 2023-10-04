@@ -463,6 +463,6 @@
   <domainPrefixes name="jazz_am"/>
   <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
     <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
-    <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="org.eclipse.lyo" artifactId="oslc-domains" version="5.2.0-SNAPSHOT"/>
+    <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="org.eclipse.lyo" artifactId="oslc-domains" version="6.0.0-SNAPSHOT"/>
   </configuration>
 </oslc4j_ai:Specification>
