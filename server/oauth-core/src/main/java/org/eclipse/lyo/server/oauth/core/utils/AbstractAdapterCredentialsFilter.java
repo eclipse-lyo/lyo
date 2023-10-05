@@ -203,9 +203,9 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
      * @return true - the resource is protected, otherwise false
      */
     protected boolean isProtectedResource(HttpServletRequest request) {
-        return !request.getPathInfo().startsWith("/oauth");
+        return (null != request.getPathInfo()) && 
+                !request.getPathInfo().startsWith("/oauth");
     }
-
 
     /**
      * set Connector for this session
