@@ -30,7 +30,7 @@ jobs:
           - jdk: '20'
             distribution: zulu
             experimental: true
-          - jdk: '21-ea'
+          - jdk: '21'
             distribution: zulu
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
