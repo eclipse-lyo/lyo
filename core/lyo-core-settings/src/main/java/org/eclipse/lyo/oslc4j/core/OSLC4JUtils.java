@@ -767,6 +767,13 @@ public class OSLC4JUtils {
     public static boolean isWellFormed(String xmlLiteral) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+            try {
+                factory.setFeature(FEATURE, true);
+            } catch (ParserConfigurationException e) {
+                throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+                        + FEATURE + "' is not supported by your XML processor.", e);
+            }
             // or completely disable external entities declarations:
             factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
             factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
