@@ -105,6 +105,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	public static final String CONNECTOR_ATTRIBUTE = ATTRIBUTE_BASE + "Connector";
 	public static final String CREDENTIALS_ATTRIBUTE = ATTRIBUTE_BASE + "Credentials";
 	public static final String ADMIN_SESSION_ATTRIBUTE = ATTRIBUTE_BASE + "AdminSession";
+	public static final String TOKEN_TO_CONNECTION_CACHE_ATTRIBUTE = ATTRIBUTE_BASE + "TokenToConnectionCache";
 	public static final String JAZZ_INVALID_EXPIRED_TOKEN_OAUTH_PROBLEM = "invalid_expired_token";
 	public static final String OAUTH_EMPTY_TOKEN_KEY = new String("OAUTH_EMPTY_TOKEN_KEY");
 
@@ -269,6 +270,38 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	 */
 	public static <T> void removeCredentials(HttpServletRequest request) {
 		request.getSession().removeAttribute(CREDENTIALS_ATTRIBUTE);
+	}
+
+	/**
+	 * remove the mapping from the oauth token to the Connector saved in the current request.
+	 * This is typically needed when the application deems that the oauth token is no longer valid.
+	 * The application should also remove the Connector from the session.
+	 * @param request
+	 */
+	public static <T> void removeToken(HttpServletRequest request) {
+		
+    	AbstractAdapterCredentialsFilter myself = (AbstractAdapterCredentialsFilter) request.getSession().getServletContext().getAttribute(TOKEN_TO_CONNECTION_CACHE_ATTRIBUTE);
+
+	    log.trace("{} on session {} - removing oauth1 token from cache", request.getPathInfo(), request.getSession().getId());
+
+	    OAuthMessage message = OAuthServlet.getMessage(request, null);
+	    try {
+			if (null != message.getToken()) {
+		        log.trace("{} on session {} - an oauth1 token is found. trying to remove from cache.", request.getPathInfo(), request.getSession().getId());
+				Object connector = myself.tokenToConnectionCache.remove(message.getToken());
+				if (connector == null) {
+		            log.warn("{} on session {} - an oauth1 token is found, but no Connector is associated with it. This should not happen. Will do nothing anwyay!", request.getPathInfo(), request.getSession().getId());
+				}
+				else {
+		            log.trace("{} on session {} - an oauth1 token is found, and removed.", request.getPathInfo(), request.getSession().getId());
+				}
+			}
+			else {
+			    log.trace("{} on session {} - not an oauth1 request. No attempt to remove token from cache", request.getPathInfo(), request.getSession().getId());
+			}
+		} catch (IOException e) {
+	        log.warn("{} on session {} - IOException caught. {}", request.getPathInfo(), e.toString());
+		}
 	}
 
     protected String getOAuthRealm() {
@@ -498,6 +531,10 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		OAuthConfiguration config = OAuthConfiguration.getInstance();
 
+		//Save an attribute pointing to the instance of this CredentialsFilter.
+		//This is most useful to call removeTokenFromConnectionCache when necessary.
+		filterConfig.getServletContext().setAttribute(TOKEN_TO_CONNECTION_CACHE_ATTRIBUTE, this);
+		
 		// Add session listener
 		filterConfig.getServletContext().addListener(listener);
 
