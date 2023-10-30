@@ -443,6 +443,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
                 }
 
                 if (connector != null) {
+                    log.trace("{} on session {} - Conncector Found", request.getPathInfo(), request.getSession().getId());
                     doChainDoFilterWithConnector(request, response, chain, connector);
                     return;
                 }
