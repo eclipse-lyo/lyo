@@ -58,6 +58,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.config.IBaseline;
+import org.eclipse.lyo.oslc.domains.IRdfsClass;
 import org.eclipse.lyo.oslc.domains.config.IComponent;
 import org.eclipse.lyo.oslc.domains.config.IConfiguration;
 import org.eclipse.lyo.oslc.domains.config.IContribution;

@@ -382,7 +382,7 @@
     <resourceProperties id="_pnZqcZUdEeq-KoPaR9_Cfg" name="versionId" description="A short human-readable identifier for the version of a resource. All versioned resources should have this property; where the property is present, this identifier must be unique amongst all currently existing versions of the same concept resource. The subject of this property should be the concept resource URI." valueType="String"/>
     <resourceProperties id="_jaBLoBe3Ee2Qoa8h9kRCOQ" name="component" description="The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC." valueType="Resource" range="_BrY_wBe1Ee2Qoa8h9kRCOQ"/>
     <resourceProperties id="_Idof4BfGEe2Qoa8h9kRCOQ" name="configurations" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
-    <resourceProperties id="_fSwgsBfKEe2Qoa8h9kRCOQ" name="acceptedBy" occurs="zeroOrOne" valueType="String" range="_poyKgJUdEeq-KoPaR9_Cfg"/>
+    <resourceProperties id="_fSwgsBfKEe2Qoa8h9kRCOQ" name="acceptedBy" occurs="zeroOrMany" valueType="Resource" range="_poyKgJUdEeq-KoPaR9_Cfg"/>
     <resourceProperties id="_-mzV8BfLEe2Qoa8h9kRCOQ" name="baselineOfStream" valueType="Resource" range="_jaDA0Re3Ee2Qoa8h9kRCOQ"/>
     <resourceProperties id="_-mzV8RfLEe2Qoa8h9kRCOQ" name="branch" valueType="Resource"/>
     <resourceProperties id="_-mzV8hfLEe2Qoa8h9kRCOQ" name="previousBaseline" valueType="Resource" range="_U16uYBfKEe2Qoa8h9kRCOQ"/>
