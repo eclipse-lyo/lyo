@@ -10,7 +10,7 @@
 
 - Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
 - Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
-- Corrected cardinality and range of the oslc_config:acceptedBy property
+- 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
 
 ### Deprecated
 
