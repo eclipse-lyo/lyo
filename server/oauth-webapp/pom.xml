@@ -21,10 +21,12 @@
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.oauth.core</groupId>
             <artifactId>oauth-provider</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Other Lyo modules -->
@@ -32,6 +34,7 @@
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-core</artifactId>
             <version>${v.lyo}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Generic dependencies -->
@@ -55,10 +58,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-json4j</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test -->
