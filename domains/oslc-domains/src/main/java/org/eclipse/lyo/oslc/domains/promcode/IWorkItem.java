@@ -54,7 +54,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
 import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
@@ -68,34 +67,6 @@ public interface IWorkItem
 {
 
     public void addRequiredBy(final Link requiredBy );
-
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
-
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
-
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
-
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
 
     @OslcName("actualEndDate")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
@@ -148,18 +119,7 @@ public interface IWorkItem
     @OslcReadOnly(false)
     public Set<Link> getRequiredBy();
 
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
 
-
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
     public void setActualEndDate(final Date actualEndDate );
     public void setActualStartDate(final Date actualStartDate );
     public void setIsPartOf(final Link isPartOf );
@@ -167,6 +127,5 @@ public interface IWorkItem
     public void setPlannedStartDate(final Date plannedStartDate );
     public void setRepresentedBy(final Link representedBy );
     public void setRequiredBy(final Set<Link> requiredBy );
-    public void setSequenceNumber(final Integer sequenceNumber );
 }
 

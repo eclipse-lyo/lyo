@@ -54,9 +54,12 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
 import org.eclipse.lyo.oslc.domains.promcode.IIssue;
 import org.eclipse.lyo.oslc.domains.promcode.IProject;
+import org.eclipse.lyo.oslc.domains.promcode.IRisk;
+import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
+import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 // Start of user code imports
 // End of user code
 
@@ -66,42 +69,7 @@ import org.eclipse.lyo.oslc.domains.promcode.IProject;
 public interface IIssueCollection
 {
 
-    public void addCollects(final Link collects );
-
-    @OslcName("date")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getDate();
-
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
-
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
-
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
-
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+    public void addOslc_promcodeCollects(final Link collects );
 
     @OslcName("belongsTo")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
@@ -109,7 +77,7 @@ public interface IIssueCollection
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
     @OslcReadOnly(false)
-    public Link getBelongsTo();
+    public Link getOslc_promcodeBelongsTo();
 
     @OslcName("collects")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
@@ -117,15 +85,10 @@ public interface IIssueCollection
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.ISSUE_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getCollects();
+    public Set<Link> getOslc_promcodeCollects();
 
 
-    public void setDate(final String date );
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setBelongsTo(final Link belongsTo );
-    public void setCollects(final Set<Link> collects );
+    public void setOslc_promcodeBelongsTo(final Link belongsTo );
+    public void setOslc_promcodeCollects(final Set<Link> collects );
 }
 

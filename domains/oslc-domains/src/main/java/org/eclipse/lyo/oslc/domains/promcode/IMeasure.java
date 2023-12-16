@@ -103,9 +103,9 @@ public interface IMeasure
     @OslcName("valueOfMeasure")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
     @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getValueOfMeasure();
+    public Float getValueOfMeasure();
 
 
     public void setDescription(final String description );
@@ -113,6 +113,6 @@ public interface IMeasure
     public void setTitle(final String title );
     public void setMetricOfMeasure(final Link metricOfMeasure );
     public void setUnitOfMeasure(final Link unitOfMeasure );
-    public void setValueOfMeasure(final Integer valueOfMeasure );
+    public void setValueOfMeasure(final Float valueOfMeasure );
 }
 

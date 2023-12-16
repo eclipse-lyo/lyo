@@ -92,7 +92,7 @@ public class Measure
     private Link unitOfMeasure;
     // Start of user code attributeAnnotation:valueOfMeasure
     // End of user code
-    private Integer valueOfMeasure;
+    private Float valueOfMeasure;
     
     // Start of user code classAttributes
     // End of user code
@@ -224,9 +224,9 @@ public class Measure
     @OslcName("valueOfMeasure")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
     @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getValueOfMeasure()
+    public Float getValueOfMeasure()
     {
         // Start of user code getterInit:valueOfMeasure
         // End of user code
@@ -290,7 +290,7 @@ public class Measure
 
     // Start of user code setterAnnotation:valueOfMeasure
     // End of user code
-    public void setValueOfMeasure(final Integer valueOfMeasure )
+    public void setValueOfMeasure(final Float valueOfMeasure )
     {
         // Start of user code setterInit:valueOfMeasure
         // End of user code

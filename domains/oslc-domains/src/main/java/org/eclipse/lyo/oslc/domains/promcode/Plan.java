@@ -57,11 +57,12 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
+import org.eclipse.lyo.oslc.domains.promcode.ManagedItemCollection;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Artifact;
+import org.eclipse.lyo.oslc.domains.promcode.Issue;
 import org.eclipse.lyo.oslc.domains.promcode.Project;
+import org.eclipse.lyo.oslc.domains.promcode.Risk;
 import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
@@ -76,30 +77,15 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 @OslcName(Oslc_promcodeDomainConstants.PLAN_LOCALNAME)
 @OslcResourceShape(title = "Plan Shape", description = "A Plan is a resource which is a subclass of ManagedItemCollection to describe a plan, which is agreed between an acquirer and a supplier at project initiation. A plan consists of ScopeItems, WorkItems, Artifacts, Targets and Measures.", describes = Oslc_promcodeDomainConstants.PLAN_TYPE)
 public class Plan
-    extends AbstractResource
+    extends ManagedItemCollection
     implements IPlan
 {
-    // Start of user code attributeAnnotation:date
+    // Start of user code attributeAnnotation:oslc_promcodeBelongsTo
     // End of user code
-    private String date;
-    // Start of user code attributeAnnotation:description
+    private Link oslc_promcodeBelongsTo;
+    // Start of user code attributeAnnotation:oslc_promcodeCollects
     // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
-    // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
-    // Start of user code attributeAnnotation:belongsTo
-    // End of user code
-    private Link belongsTo;
-    // Start of user code attributeAnnotation:collects
-    // End of user code
-    private Set<Link> collects = new HashSet<Link>();
+    private Set<Link> oslc_promcodeCollects = new HashSet<Link>();
     
     // Start of user code classAttributes
     // End of user code
@@ -155,83 +141,13 @@ public class Plan
         return result;
     }
     
-    public void addCollects(final Link collects)
+    public void addOslc_promcodeCollects(final Link collects)
     {
-        this.collects.add(collects);
+        this.oslc_promcodeCollects.add(collects);
     }
     
     
-    // Start of user code getterAnnotation:date
-    // End of user code
-    @OslcName("date")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getDate()
-    {
-        // Start of user code getterInit:date
-        // End of user code
-        return date;
-    }
-
-    // Start of user code getterAnnotation:description
-    // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
-
-    // Start of user code getterAnnotation:identifier
-    // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
-
-    // Start of user code getterAnnotation:source
-    // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
-
-    // Start of user code getterAnnotation:title
-    // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
-
-    // Start of user code getterAnnotation:belongsTo
+    // Start of user code getterAnnotation:oslc_promcodeBelongsTo
     // End of user code
     @OslcName("belongsTo")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
@@ -239,14 +155,14 @@ public class Plan
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
     @OslcReadOnly(false)
-    public Link getBelongsTo()
+    public Link getOslc_promcodeBelongsTo()
     {
-        // Start of user code getterInit:belongsTo
+        // Start of user code getterInit:oslc_promcodeBelongsTo
         // End of user code
-        return belongsTo;
+        return oslc_promcodeBelongsTo;
     }
 
-    // Start of user code getterAnnotation:collects
+    // Start of user code getterAnnotation:oslc_promcodeCollects
     // End of user code
     @OslcName("collects")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
@@ -254,91 +170,36 @@ public class Plan
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getCollects()
+    public Set<Link> getOslc_promcodeCollects()
     {
-        // Start of user code getterInit:collects
+        // Start of user code getterInit:oslc_promcodeCollects
         // End of user code
-        return collects;
+        return oslc_promcodeCollects;
     }
 
-    // Start of user code setterAnnotation:date
+    // Start of user code setterAnnotation:oslc_promcodeBelongsTo
     // End of user code
-    public void setDate(final String date )
+    public void setOslc_promcodeBelongsTo(final Link belongsTo )
     {
-        // Start of user code setterInit:date
+        // Start of user code setterInit:oslc_promcodeBelongsTo
         // End of user code
-        this.date = date;
-        // Start of user code setterFinalize:date
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:description
-    // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
+        this.oslc_promcodeBelongsTo = belongsTo;
+        // Start of user code setterFinalize:oslc_promcodeBelongsTo
         // End of user code
     }
 
-    // Start of user code setterAnnotation:identifier
+    // Start of user code setterAnnotation:oslc_promcodeCollects
     // End of user code
-    public void setIdentifier(final String identifier )
+    public void setOslc_promcodeCollects(final Set<Link> collects )
     {
-        // Start of user code setterInit:identifier
+        // Start of user code setterInit:oslc_promcodeCollects
         // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:source
-    // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
-    // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:belongsTo
-    // End of user code
-    public void setBelongsTo(final Link belongsTo )
-    {
-        // Start of user code setterInit:belongsTo
-        // End of user code
-        this.belongsTo = belongsTo;
-        // Start of user code setterFinalize:belongsTo
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:collects
-    // End of user code
-    public void setCollects(final Set<Link> collects )
-    {
-        // Start of user code setterInit:collects
-        // End of user code
-        this.collects.clear();
+        this.oslc_promcodeCollects.clear();
         if (collects != null)
         {
-            this.collects.addAll(collects);
+            this.oslc_promcodeCollects.addAll(collects);
         }
-        // Start of user code setterFinalize:collects
+        // Start of user code setterFinalize:oslc_promcodeCollects
         // End of user code
     }
 

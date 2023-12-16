@@ -75,9 +75,9 @@ public interface IManagedItemCollection
     @OslcName("date")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public String getDate();
+    public Date getDate();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -124,7 +124,7 @@ public interface IManagedItemCollection
     public Set<Link> getCollects();
 
 
-    public void setDate(final String date );
+    public void setDate(final Date date );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setSource(final String source );

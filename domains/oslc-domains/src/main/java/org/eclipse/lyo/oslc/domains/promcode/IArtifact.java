@@ -69,20 +69,6 @@ public interface IArtifact
     public void addProducedFor(final String producedFor );
     public void addTargets(final Link targets );
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
-
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
-
     @OslcName("isPartOf")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
     @OslcOccurs(Occurs.ZeroOrOne)
@@ -91,20 +77,6 @@ public interface IArtifact
     @OslcReadOnly(false)
     public Link getIsPartOf();
 
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
-
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
-
     @OslcName("producedFor")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
     @OslcOccurs(Occurs.ZeroOrMany)
@@ -112,13 +84,6 @@ public interface IArtifact
     @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
     @OslcReadOnly(false)
     public Set<String> getProducedFor();
-
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
 
     @OslcName("targets")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "targets")
@@ -129,13 +94,8 @@ public interface IArtifact
     public Set<Link> getTargets();
 
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
     public void setIsPartOf(final Link isPartOf );
-    public void setSource(final String source );
-    public void setTitle(final String title );
     public void setProducedFor(final Set<String> producedFor );
-    public void setSequenceNumber(final Integer sequenceNumber );
     public void setTargets(final Set<Link> targets );
 }
 

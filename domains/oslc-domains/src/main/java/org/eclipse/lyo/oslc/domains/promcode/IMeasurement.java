@@ -56,7 +56,7 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IMeasurement;
+import org.eclipse.lyo.oslc.domains.promcode.IMeasure;
 // Start of user code imports
 // End of user code
 
@@ -66,14 +66,14 @@ import org.eclipse.lyo.oslc.domains.promcode.IMeasurement;
 public interface IMeasurement
 {
 
-    public void addObserves(final Measurement observes );
+    public void addObserves(final Measure observes );
 
     @OslcName("date")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public String getDate();
+    public Date getDate();
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -102,15 +102,15 @@ public interface IMeasurement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Inline)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASUREMENT_TYPE})
+    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
     @OslcReadOnly(false)
-    public Set<Measurement> getObserves();
+    public Set<Measure> getObserves();
 
 
-    public void setDate(final String date );
+    public void setDate(final Date date );
     public void setDescription(final String description );
     public void setIdentifier(final String identifier );
     public void setMeasures(final Link measures );
-    public void setObserves(final Set<Measurement> observes );
+    public void setObserves(final Set<Measure> observes );
 }
 

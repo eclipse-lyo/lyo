@@ -61,7 +61,7 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.Measurement;
+import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // Start of user code imports
 // End of user code
 
@@ -79,7 +79,7 @@ public class Measurement
 {
     // Start of user code attributeAnnotation:date
     // End of user code
-    private String date;
+    private Date date;
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -91,7 +91,7 @@ public class Measurement
     private Link measures;
     // Start of user code attributeAnnotation:observes
     // End of user code
-    private Set<Measurement> observes = new HashSet<Measurement>();
+    private Set<Measure> observes = new HashSet<Measure>();
     
     // Start of user code classAttributes
     // End of user code
@@ -147,7 +147,7 @@ public class Measurement
         return result;
     }
     
-    public void addObserves(final Measurement observes)
+    public void addObserves(final Measure observes)
     {
         this.observes.add(observes);
     }
@@ -158,9 +158,9 @@ public class Measurement
     @OslcName("date")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
+    @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public String getDate()
+    public Date getDate()
     {
         // Start of user code getterInit:date
         // End of user code
@@ -217,9 +217,9 @@ public class Measurement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Inline)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASUREMENT_TYPE})
+    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
     @OslcReadOnly(false)
-    public Set<Measurement> getObserves()
+    public Set<Measure> getObserves()
     {
         // Start of user code getterInit:observes
         // End of user code
@@ -228,7 +228,7 @@ public class Measurement
 
     // Start of user code setterAnnotation:date
     // End of user code
-    public void setDate(final String date )
+    public void setDate(final Date date )
     {
         // Start of user code setterInit:date
         // End of user code
@@ -272,7 +272,7 @@ public class Measurement
 
     // Start of user code setterAnnotation:observes
     // End of user code
-    public void setObserves(final Set<Measurement> observes )
+    public void setObserves(final Set<Measure> observes )
     {
         // Start of user code setterInit:observes
         // End of user code

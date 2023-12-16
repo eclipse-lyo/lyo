@@ -57,7 +57,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
+import org.eclipse.lyo.oslc.domains.promcode.ManagedItem;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Artifact;
@@ -74,30 +74,15 @@ import org.eclipse.lyo.oslc.domains.promcode.Measure;
 @OslcName(Oslc_promcodeDomainConstants.ARTIFACT_LOCALNAME)
 @OslcResourceShape(title = "Artifact Shape", description = "Shape resource of an Artifact resource.", describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
 public class Artifact
-    extends AbstractResource
+    extends ManagedItem
     implements IArtifact
 {
-    // Start of user code attributeAnnotation:description
-    // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
-    // End of user code
-    private String identifier;
     // Start of user code attributeAnnotation:isPartOf
     // End of user code
     private Link isPartOf;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
     // Start of user code attributeAnnotation:producedFor
     // End of user code
     private Set<String> producedFor = new HashSet<String>();
-    // Start of user code attributeAnnotation:sequenceNumber
-    // End of user code
-    private Integer sequenceNumber;
     // Start of user code attributeAnnotation:targets
     // End of user code
     private Set<Link> targets = new HashSet<Link>();
@@ -167,34 +152,6 @@ public class Artifact
     }
     
     
-    // Start of user code getterAnnotation:description
-    // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
-
-    // Start of user code getterAnnotation:identifier
-    // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
-
     // Start of user code getterAnnotation:isPartOf
     // End of user code
     @OslcName("isPartOf")
@@ -208,34 +165,6 @@ public class Artifact
         // Start of user code getterInit:isPartOf
         // End of user code
         return isPartOf;
-    }
-
-    // Start of user code getterAnnotation:source
-    // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
-
-    // Start of user code getterAnnotation:title
-    // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
     }
 
     // Start of user code getterAnnotation:producedFor
@@ -253,20 +182,6 @@ public class Artifact
         return producedFor;
     }
 
-    // Start of user code getterAnnotation:sequenceNumber
-    // End of user code
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber()
-    {
-        // Start of user code getterInit:sequenceNumber
-        // End of user code
-        return sequenceNumber;
-    }
-
     // Start of user code getterAnnotation:targets
     // End of user code
     @OslcName("targets")
@@ -282,28 +197,6 @@ public class Artifact
         return targets;
     }
 
-    // Start of user code setterAnnotation:description
-    // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:identifier
-    // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
-
     // Start of user code setterAnnotation:isPartOf
     // End of user code
     public void setIsPartOf(final Link isPartOf )
@@ -312,28 +205,6 @@ public class Artifact
         // End of user code
         this.isPartOf = isPartOf;
         // Start of user code setterFinalize:isPartOf
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:source
-    // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
-    // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
         // End of user code
     }
 
@@ -349,17 +220,6 @@ public class Artifact
             this.producedFor.addAll(producedFor);
         }
         // Start of user code setterFinalize:producedFor
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:sequenceNumber
-    // End of user code
-    public void setSequenceNumber(final Integer sequenceNumber )
-    {
-        // Start of user code setterInit:sequenceNumber
-        // End of user code
-        this.sequenceNumber = sequenceNumber;
-        // Start of user code setterFinalize:sequenceNumber
         // End of user code
     }
 

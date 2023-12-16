@@ -57,9 +57,8 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
+import org.eclipse.lyo.oslc.domains.promcode.ManagedItem;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 // Start of user code imports
 // End of user code
@@ -73,33 +72,18 @@ import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 @OslcName(Oslc_promcodeDomainConstants.SCOPEITEM_LOCALNAME)
 @OslcResourceShape(title = "ScopeItem Shape", description = "A ScopeItem defines the work to be included in or excluded from a project. It defines the boundaries of the project", describes = Oslc_promcodeDomainConstants.SCOPEITEM_TYPE)
 public class ScopeItem
-    extends AbstractResource
+    extends ManagedItem
     implements IScopeItem
 {
-    // Start of user code attributeAnnotation:description
-    // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
-    // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
     // Start of user code attributeAnnotation:actualSize
     // End of user code
-    private Integer actualSize;
+    private Float actualSize;
     // Start of user code attributeAnnotation:isPartOf
     // End of user code
     private Link isPartOf;
     // Start of user code attributeAnnotation:plannedSize
     // End of user code
-    private Integer plannedSize;
-    // Start of user code attributeAnnotation:sequenceNumber
-    // End of user code
-    private Integer sequenceNumber;
+    private Float plannedSize;
     
     // Start of user code classAttributes
     // End of user code
@@ -156,70 +140,14 @@ public class ScopeItem
     }
     
     
-    // Start of user code getterAnnotation:description
-    // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
-
-    // Start of user code getterAnnotation:identifier
-    // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
-
-    // Start of user code getterAnnotation:source
-    // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
-
-    // Start of user code getterAnnotation:title
-    // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
-
     // Start of user code getterAnnotation:actualSize
     // End of user code
     @OslcName("actualSize")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getActualSize()
+    public Float getActualSize()
     {
         // Start of user code getterInit:actualSize
         // End of user code
@@ -246,76 +174,18 @@ public class ScopeItem
     @OslcName("plannedSize")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getPlannedSize()
+    public Float getPlannedSize()
     {
         // Start of user code getterInit:plannedSize
         // End of user code
         return plannedSize;
     }
 
-    // Start of user code getterAnnotation:sequenceNumber
-    // End of user code
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber()
-    {
-        // Start of user code getterInit:sequenceNumber
-        // End of user code
-        return sequenceNumber;
-    }
-
-    // Start of user code setterAnnotation:description
-    // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:identifier
-    // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:source
-    // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
-    // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
-
     // Start of user code setterAnnotation:actualSize
     // End of user code
-    public void setActualSize(final Integer actualSize )
+    public void setActualSize(final Float actualSize )
     {
         // Start of user code setterInit:actualSize
         // End of user code
@@ -337,23 +207,12 @@ public class ScopeItem
 
     // Start of user code setterAnnotation:plannedSize
     // End of user code
-    public void setPlannedSize(final Integer plannedSize )
+    public void setPlannedSize(final Float plannedSize )
     {
         // Start of user code setterInit:plannedSize
         // End of user code
         this.plannedSize = plannedSize;
         // Start of user code setterFinalize:plannedSize
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:sequenceNumber
-    // End of user code
-    public void setSequenceNumber(final Integer sequenceNumber )
-    {
-        // Start of user code setterInit:sequenceNumber
-        // End of user code
-        this.sequenceNumber = sequenceNumber;
-        // Start of user code setterFinalize:sequenceNumber
         // End of user code
     }
 

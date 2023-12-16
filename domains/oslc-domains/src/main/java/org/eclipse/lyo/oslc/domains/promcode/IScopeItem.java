@@ -54,7 +54,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
 // Start of user code imports
 // End of user code
@@ -66,40 +65,12 @@ public interface IScopeItem
 {
 
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
-
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
-
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
-
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
-
     @OslcName("actualSize")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getActualSize();
+    public Float getActualSize();
 
     @OslcName("isPartOf")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "isPartOf")
@@ -112,25 +83,13 @@ public interface IScopeItem
     @OslcName("plannedSize")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
     @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
+    @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Integer getPlannedSize();
-
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
+    public Float getPlannedSize();
 
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setActualSize(final Integer actualSize );
+    public void setActualSize(final Float actualSize );
     public void setIsPartOf(final Link isPartOf );
-    public void setPlannedSize(final Integer plannedSize );
-    public void setSequenceNumber(final Integer sequenceNumber );
+    public void setPlannedSize(final Float plannedSize );
 }
 
