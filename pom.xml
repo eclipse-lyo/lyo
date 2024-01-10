@@ -484,7 +484,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.2.5</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during Hudson builds. -->
             <useFile>false</useFile>
