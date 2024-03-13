@@ -1,5 +1,24 @@
 package org.eclipse.lyo.store.internals;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -62,25 +81,6 @@ import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorBasicAuthImpl;
 import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * {@link Store} interface implementation that interacts with any SPARQL-based triplestore

@@ -14,12 +14,11 @@
 package org.eclipse.lyo.client.query;
 
 
-import javax.ws.rs.core.Response;
-
-import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.client.OSLCConstants;
+import org.eclipse.lyo.client.OslcClient;
 
-import javax.ws.rs.client.WebTarget;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 
 /**
  * Represents an OSLC query (HTTP GET) request to be made of a remote system.

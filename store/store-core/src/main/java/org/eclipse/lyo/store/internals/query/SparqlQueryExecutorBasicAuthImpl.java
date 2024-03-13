@@ -1,5 +1,7 @@
 package org.eclipse.lyo.store.internals.query;
 
+import static org.apache.jena.http.HttpLib.basicAuth;
+
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -23,8 +25,6 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.apache.jena.http.HttpLib.basicAuth;
 
 /**
  * SparqlQueryExecutorImpl is a SPARQL endpoint-based implementation of {@link JenaQueryExecutor}.

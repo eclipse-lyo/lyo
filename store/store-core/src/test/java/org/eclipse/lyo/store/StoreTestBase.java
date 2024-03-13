@@ -1,5 +1,29 @@
 package org.eclipse.lyo.store;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
+
+import org.apache.jena.rdf.model.Model;
+import org.assertj.core.api.Assertions;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+import org.eclipse.lyo.store.resources.BlankResource;
+import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
+import org.eclipse.lyo.store.resources.Requirement;
+import org.eclipse.lyo.store.resources.WithBlankResource;
+import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
+import org.junit.jupiter.api.Test;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -16,29 +40,6 @@ package org.eclipse.lyo.store;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.apache.jena.rdf.model.Model;
-import org.assertj.core.api.Assertions;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
-import org.eclipse.lyo.store.resources.BlankResource;
-import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
-import org.eclipse.lyo.store.resources.Requirement;
-import org.eclipse.lyo.store.resources.WithBlankResource;
-import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 /**

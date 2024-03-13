@@ -14,11 +14,11 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-
-import javax.ws.rs.ext.Provider;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.ext.Provider;
 
 @Provider
 @Produces({OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})

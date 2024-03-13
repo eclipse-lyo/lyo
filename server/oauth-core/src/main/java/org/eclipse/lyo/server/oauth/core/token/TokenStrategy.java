@@ -17,11 +17,10 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.oauth.OAuthAccessor;
+import org.eclipse.lyo.server.oauth.core.OAuthRequest;
+
 import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
-
-import org.eclipse.lyo.server.oauth.core.OAuthRequest;
 
 /**
  * Manages and validates OAuth tokens and token secrets.

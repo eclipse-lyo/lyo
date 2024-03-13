@@ -30,10 +30,25 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.CoreHelper;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValues;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDefaultValue;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcHidden;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcMaxSize;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreDuplicatePropertyDefinitionException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidOccursException;
@@ -45,6 +60,8 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.ws.rs.core.UriBuilder;
 
 public class ResourceShapeFactory {
 

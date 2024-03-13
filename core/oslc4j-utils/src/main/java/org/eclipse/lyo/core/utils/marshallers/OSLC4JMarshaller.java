@@ -13,20 +13,23 @@
  */
 package org.eclipse.lyo.core.utils.marshallers;
 
+import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_N3;
+import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_N_TRIPLES;
+import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_OSLC_COMPACT;
+import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_RDF_XML;
+import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_TURTLE;
+
 import java.io.OutputStream;
-
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.wink.json4j.JSONObject;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.util.FileUtils;
+import org.apache.wink.json4j.JSONObject;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
-import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.*;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
 
 public class OSLC4JMarshaller {
 	OSLC4JContext context = new OSLC4JContext();

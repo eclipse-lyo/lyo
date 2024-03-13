@@ -1,18 +1,15 @@
 package org.eclipse.lyo.oslc4j.trs.server.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import javax.inject.Singleton;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import org.apache.http.client.utils.URIBuilder;
+
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
-import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrsTest;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.client.ClientConfig;
@@ -24,10 +21,11 @@ import org.glassfish.jersey.test.TestProperties;
 import org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerException;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 public class TRSServiceDITest extends JerseyTest {
 

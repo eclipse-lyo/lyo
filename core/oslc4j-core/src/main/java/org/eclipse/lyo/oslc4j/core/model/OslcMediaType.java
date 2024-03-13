@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.oslc4j.core.model;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public interface OslcMediaType {
 

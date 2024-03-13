@@ -1,5 +1,14 @@
 package org.eclipse.lyo.store;
 
+import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.jena.arq.querybuilder.SelectBuilder;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -15,14 +24,6 @@ package org.eclipse.lyo.store;
  */
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.arq.querybuilder.SelectBuilder;
-import java.net.URISyntaxException;
-import java.net.URI;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 
 /**

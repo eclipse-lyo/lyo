@@ -15,6 +15,7 @@ package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
 import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

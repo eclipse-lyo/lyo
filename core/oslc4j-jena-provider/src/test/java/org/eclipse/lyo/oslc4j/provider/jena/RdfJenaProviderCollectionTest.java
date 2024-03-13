@@ -1,5 +1,15 @@
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -28,17 +38,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 
 public class RdfJenaProviderCollectionTest extends JerseyTest {
 

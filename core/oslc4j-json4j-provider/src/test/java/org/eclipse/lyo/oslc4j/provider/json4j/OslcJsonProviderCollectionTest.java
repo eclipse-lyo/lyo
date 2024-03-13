@@ -1,5 +1,16 @@
 package org.eclipse.lyo.oslc4j.provider.json4j;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -21,18 +32,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.*;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 public class OslcJsonProviderCollectionTest extends JerseyTest {
 

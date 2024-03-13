@@ -14,10 +14,7 @@
 
 package org.eclipse.lyo.store;
 
-import org.apache.jena.query.Dataset;
-import org.eclipse.lyo.store.internals.DatasetBuilder;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +22,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-import static org.assertj.core.api.Assertions.*;
+import org.apache.jena.query.Dataset;
+import org.eclipse.lyo.store.internals.DatasetBuilder;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class DatasetBuilderTest {
 

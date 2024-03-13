@@ -1,18 +1,21 @@
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
 import javax.xml.datatype.DatatypeConfigurationException;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ReifiedStatement;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.ResourceWithReifiedLinks;
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

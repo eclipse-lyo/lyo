@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.core.utils.marshallers;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 
 public class MarshallerConstants {
 	//Media Types

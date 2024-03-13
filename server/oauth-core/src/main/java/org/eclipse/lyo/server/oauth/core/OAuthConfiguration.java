@@ -15,15 +15,15 @@ package org.eclipse.lyo.server.oauth.core;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.oauth.OAuthProblemException;
-import net.oauth.OAuthValidator;
-import net.oauth.SimpleOAuthValidator;
-import net.oauth.http.HttpMessage;
-
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
+
+import net.oauth.OAuthProblemException;
+import net.oauth.OAuthValidator;
+import net.oauth.SimpleOAuthValidator;
+import net.oauth.http.HttpMessage;
 
 /**
  * Manages the OAuth provider configuration, including the validator, consumer store, and

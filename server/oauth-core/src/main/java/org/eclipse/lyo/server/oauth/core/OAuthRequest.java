@@ -18,8 +18,12 @@ import java.net.URISyntaxException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriBuilder;
 
+import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jakarta.ws.rs.core.UriBuilder;
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
@@ -27,10 +31,6 @@ import net.oauth.OAuthMessage;
 import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
-
-import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Validates that a request is authorized. The request must contain a valid

@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriBuilder;
+
 import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -50,6 +49,9 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.UriBuilder;
 
 // TODO: Lyo6 extract to LyoServletUriUtils
 public class OSLC4JUtils {

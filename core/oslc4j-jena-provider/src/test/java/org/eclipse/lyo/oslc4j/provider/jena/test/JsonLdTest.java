@@ -13,13 +13,15 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
-import com.github.jsonldjava.utils.Obj;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.apache.jena.ext.com.google.common.collect.ImmutableList;
-import javax.ws.rs.core.MultivaluedHashMap;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdArrayProvider;
@@ -28,7 +30,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdProvider;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 
 /**
  * Created on 2018-03-03
