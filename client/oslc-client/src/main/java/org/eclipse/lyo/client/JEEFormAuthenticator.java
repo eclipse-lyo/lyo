@@ -86,7 +86,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
      * authenticate the user, and then retries the request with the updated
      * session information.
      *
-     * @see javax.ws.rs.client.ClientResponseFilter#filter(javax.ws.rs.client.ClientRequestContext, javax.ws.rs.client.ClientResponseContext)
+     * @see jakarta.ws.rs.client.ClientResponseFilter#filter(jakarta.ws.rs.client.ClientRequestContext, jakarta.ws.rs.client.ClientResponseContext)
      */
     @Override
     public void filter(ClientRequestContext request, ClientResponseContext response) {

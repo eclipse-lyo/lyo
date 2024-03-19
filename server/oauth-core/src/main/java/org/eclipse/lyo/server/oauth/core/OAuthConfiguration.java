@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.server.oauth.core;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;

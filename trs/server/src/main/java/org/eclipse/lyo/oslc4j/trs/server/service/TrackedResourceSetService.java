@@ -17,7 +17,7 @@ package org.eclipse.lyo.oslc4j.trs.server.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.jena.ext.com.google.common.base.Strings;
 import org.eclipse.lyo.core.trs.Base;

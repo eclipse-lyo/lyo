@@ -14,8 +14,8 @@
 
 package org.eclipse.lyo.server.oauth.webapp.services;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.slf4j.Logger;

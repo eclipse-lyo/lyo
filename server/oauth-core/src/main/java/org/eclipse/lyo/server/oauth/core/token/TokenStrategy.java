@@ -15,7 +15,7 @@ package org.eclipse.lyo.server.oauth.core.token;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
 
