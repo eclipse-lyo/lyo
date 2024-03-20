@@ -24,8 +24,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-provider</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-provider-jakarta</artifactId>
+            <version>${v.lyo}</version>
             <scope>provided</scope>
         </dependency>
 

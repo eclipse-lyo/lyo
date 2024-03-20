@@ -29,16 +29,19 @@
            <artifactId>jakarta.ws.rs-api</artifactId>
          </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-jakarta</artifactId>
+            <version>${v.lyo}</version>
         </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-consumer</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-consumer-jakarta</artifactId>
+            <version>${v.lyo}</version>
         </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-provider</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-provider-jakarta</artifactId>
+            <version>${v.lyo}</version>
         </dependency>
 
         <!-- Generic -->

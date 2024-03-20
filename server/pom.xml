@@ -19,6 +19,9 @@
     <module>oauth-consumer-store</module>
     <module>oauth-webapp</module>
     <module>oslc-ui-model</module>
+    <module>net.oauth.core-oauth-jakarta</module>
+    <module>net.oauth.core-oauth-consumer-jakarta</module>
+    <module>net.oauth.core-oauth-provider-jakarta</module>
   </modules>
 
   <dependencyManagement>
@@ -77,6 +80,9 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <skippedModules>net.oauth.core-oauth-jakarta, net.oauth.core-oauth-consumer-jakarta, net.oauth.core-oauth-provider-jakarta</skippedModules>
+              </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
