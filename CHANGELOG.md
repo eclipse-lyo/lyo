@@ -12,6 +12,7 @@
 - Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
 - 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
 - changed scope of dependencies in oauth-webapp to avoid inclusion multiple times during runtime.
+- Migrated from Javax to Jakarta packages, including upgrade to Jersey 3.1.5
 
 ### Deprecated
 
