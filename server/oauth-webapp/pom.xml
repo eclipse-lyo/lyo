@@ -19,8 +19,9 @@
     <dependencies>
         <!-- Library-specific -->
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-jakarta</artifactId>
+            <version>${v.lyo}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
