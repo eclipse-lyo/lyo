@@ -7,7 +7,8 @@
 - Introducing capability to set the servletUri to be used by the OAuthConfiguration
 
 ### Changed
-
+- (**Breaking change** 🧨) Migrated from Javax to Jakarta packages 
+- upgrade to Jersey 3.1.5
 - Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
 - Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
 - 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
