@@ -7,7 +7,7 @@
 - Introducing capability to set the servletUri to be used by the OAuthConfiguration
 
 ### Changed
-- (**Breaking change** 🧨) Migrated from Javax to Jakarta packages 
+- 🧨Migrated from Javax to Jakarta packages 
 - upgrade to Jersey 3.1.5
 - Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
 - Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
@@ -20,6 +20,7 @@
 ### Removed
 
 - 🧨 Support for JDK 11 (and all versions below 17) is removed. **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
+- 🧨 Support for Java EE and Jakarta EE 8 is removed.
 
 ### Fixed
 
