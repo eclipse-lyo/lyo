@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-core-build</artifactId>
-    <version>6.0.0.Alpha</version>
+    <version>6.0.0.Alpha1</version>
     <relativePath>../oslc4j-core-build/pom.xml</relativePath>
   </parent>
   <artifactId>oslc4j-core</artifactId>

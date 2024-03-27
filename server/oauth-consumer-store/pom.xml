@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.eclipse.lyo.oslc4j.server</groupId>
         <artifactId>lyo-server-build</artifactId>
-        <version>6.0.0.Alpha</version>
+        <version>6.0.0.Alpha1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
