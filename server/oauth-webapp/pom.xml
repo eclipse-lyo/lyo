@@ -16,6 +16,8 @@
     <properties>
     </properties>
 
+    <!-- Most/All dependencies are scoped as provided to avoid the problem/warings
+    with classes becoming scanned from multiple locations -->
     <dependencies>
         <!-- Other Lyo modules -->
         <dependency>
