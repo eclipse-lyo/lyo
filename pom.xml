@@ -453,22 +453,6 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.6.3</version>
           <configuration>
-            <tags>
-              <!-- See
-              https://stackoverflow.com/questions/55906161/weird-javadoc-error-with-jdk12-for-osgi-version-annotation -->
-              <tag>
-                <name>OslcSchema</name>
-                <placement>X</placement>
-              </tag>
-              <tag>
-                <name>OslcNamespaceDefinition</name>
-                <placement>X</placement>
-              </tag>
-              <tag>
-                <name>Deprecated</name>
-                <placement>X</placement>
-              </tag>
-            </tags>
             <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
             <links>
