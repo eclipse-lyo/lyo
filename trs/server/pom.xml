@@ -72,14 +72,14 @@
                   <version>3.6.0</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>11</version>
+                  <version>17</version>
                 </requireJavaVersion>
                 <requireUpperBoundDeps>
-                  <excludes>
-                    <!--jersey and jena via commons-compress-->
+                  <!--jersey and jena via commons-compress-->
+                  <!-- <excludes>
                     <exclude>org.osgi:org.osgi.core</exclude>
                     <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
-                  </excludes>
+                  </excludes> -->
                 </requireUpperBoundDeps>
                 <reactorModuleConvergence>
                   <message>The reactor is not valid</message>
