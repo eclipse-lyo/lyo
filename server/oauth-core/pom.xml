@@ -29,23 +29,52 @@
            <artifactId>jakarta.ws.rs-api</artifactId>
          </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-jakarta</artifactId>
+            <version>${v.lyo}</version>
+			  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+			  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+			  causing warnings that classes are scanned from multiple locations -->
+		      <exclusions>
+		        <exclusion>
+			      <groupId>net.oauth.core</groupId>
+			      <artifactId>oauth</artifactId>
+		        </exclusion>
+		      </exclusions>
         </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-consumer</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-consumer-jakarta</artifactId>
+            <version>${v.lyo}</version>
+			  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+			  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+			  causing warnings that classes are scanned from multiple locations -->
+		      <exclusions>
+		        <exclusion>
+			      <groupId>net.oauth.core</groupId>
+			      <artifactId>oauth-consumer</artifactId>
+		        </exclusion>
+		      </exclusions>
         </dependency>
         <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-provider</artifactId>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>net.oauth.core-oauth-provider-jakarta</artifactId>
+            <version>${v.lyo}</version>
+			  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+			  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+			  causing warnings that classes are scanned from multiple locations -->
+		      <exclusions>
+		        <exclusion>
+			      <groupId>net.oauth.core</groupId>
+			      <artifactId>oauth-provider</artifactId>
+		        </exclusion>
+		      </exclusions>
         </dependency>
 
         <!-- Generic -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

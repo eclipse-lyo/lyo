@@ -1,167 +1,186 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-      <groupId>org.eclipse.lyo.clients</groupId>
-      <artifactId>clients-parent</artifactId>
-      <version>6.0.0-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <artifactId>oslc-client</artifactId>
+  <parent>
+    <groupId>org.eclipse.lyo.clients</groupId>
+    <artifactId>clients-parent</artifactId>
     <version>6.0.0-SNAPSHOT</version>
-    <name>Lyo :: Client :: OSLC JAX-RS 2.0 (new)</name>
-    <description>Eclipse Lyo OSLC Java client based on OSLC4J and JAX-RS 2.0</description>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
 
-    <dependencies>
-      <dependency>
-        <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc-client-base</artifactId>
+  <artifactId>oslc-client</artifactId>
+  <version>6.0.0-SNAPSHOT</version>
+  <name>Lyo :: Client :: OSLC JAX-RS 2.0 (new)</name>
+  <description>Eclipse Lyo OSLC Java client based on OSLC4J and JAX-RS 2.0</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.lyo.clients</groupId>
+      <artifactId>oslc-client-base</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${v.slf4j}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>apache-jena-libs</artifactId>
+      <type>pom</type>
+      <version>${v.jena}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${v.httpclient}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${v.slf4j}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>net.oauth.core-oauth-jakarta</artifactId>
         <version>${v.lyo}</version>
-      </dependency>
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  causing warnings that classes are scanned from multiple locations -->
+	      <exclusions>
+	        <exclusion>
+		      <groupId>net.oauth.core</groupId>
+		      <artifactId>oauth</artifactId>
+	        </exclusion>
+	      </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>net.oauth.core-oauth-consumer-jakarta</artifactId>
+        <version>${v.lyo}</version>
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  causing warnings that classes are scanned from multiple locations -->
+	      <exclusions>
+	        <exclusion>
+		      <groupId>net.oauth.core</groupId>
+		      <artifactId>oauth-consumer</artifactId>
+	        </exclusion>
+	      </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>net.oauth.core-oauth-httpclient4-jakarta</artifactId>
+        <version>${v.lyo}</version>
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  causing warnings that classes are scanned from multiple locations -->
+	      <exclusions>
+	        <exclusion>
+		      <groupId>net.oauth.core</groupId>
+		      <artifactId>oauth-httpclient4</artifactId>
+	        </exclusion>
+	      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-json4j-provider</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
 
-      <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${v.slf4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
-            <version>${v.jena}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${v.httpclient}</version>
-            <exclusions>
-              <exclusion>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-              </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>jcl-over-slf4j</artifactId>
-          <version>${v.slf4j}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
-            <version>20100527</version>
-        </dependency>
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-consumer</artifactId>
-            <version>20100527</version>
-        </dependency>
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-httpclient4</artifactId>
-            <version>20090913</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.httpcomponents</groupId>
-                    <artifactId>httpclient</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-core</artifactId>
-            <version>${v.lyo}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-jena-provider</artifactId>
-            <version>${v.lyo}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-json4j-provider</artifactId>
-            <version>${v.lyo}</version>
-        </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+    </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-          <!--FIXME https://bugs.eclipse.org/bugs/show_bug.cgi?id=513048-->
-          <!--          <scope>provided</scope>-->
-        </dependency>
-        <dependency>
-          <groupId>jakarta.ws.rs</groupId>
-          <artifactId>jakarta.ws.rs-api</artifactId>
-          <scope>provided</scope>
-        </dependency>
+    <!--TEST-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${v.slf4j}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!--CQ 13719-->
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-      <!--TEST-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${v.slf4j}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-api</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-engine</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-            <!--CQ 13719-->
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-      <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <scope>test</scope>
-        </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.inject</groupId>
-        <artifactId>jersey-hk2</artifactId>
-        <scope>test</scope>
-      </dependency>
-
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

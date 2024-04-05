@@ -1,11 +1,14 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
-import javax.ws.rs.Path;
+
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import jakarta.ws.rs.Path;
 
 /**
  * Unit test for verifying {@link ServiceProviderFactory} URI-related code.

@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.server.oauth.core;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Handles authentication with the backend system.

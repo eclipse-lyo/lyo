@@ -22,16 +22,16 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
-import javax.ws.rs.core.MediaType;
 import javax.xml.datatype.DatatypeConfigurationException;
-
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFReaderI;
 import org.apache.jena.util.FileUtils;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+
+import jakarta.ws.rs.core.MediaType;
 
 public class OSLC4JUnmarshaller {
 

@@ -1,7 +1,7 @@
 package org.eclipse.lyo.oslc4j.trs.server.service;
 
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
@@ -18,7 +18,8 @@ import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.Response;
 
 public class TRSServiceTest extends JerseyTest {
 

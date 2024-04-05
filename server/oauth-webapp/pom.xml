@@ -16,19 +16,9 @@
     <properties>
     </properties>
 
+    <!-- Most/All dependencies are scoped as provided to avoid the problem/warings
+    with classes becoming scanned from multiple locations -->
     <dependencies>
-        <!-- Library-specific -->
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-provider</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Other Lyo modules -->
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
@@ -39,14 +29,14 @@
 
         <!-- Generic dependencies -->
         <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
