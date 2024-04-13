@@ -9,9 +9,9 @@ pipeline {
 	}
 	stages {
 		stage('SonarCloud') {
-			when {
-				triggeredBy 'SCMTrigger'
-			}
+			// when {
+			// 	triggeredBy 'SCMTrigger'
+			// }
 			environment {
 				PROJECT_NAME = 'lyo'
 			}
