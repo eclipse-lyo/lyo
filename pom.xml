@@ -18,7 +18,7 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>1.9.21</v.kotlin>
+    <v.kotlin>1.9.23</v.kotlin>
     <v.dokka>1.9.10</v.dokka>
 
     <v.jersey>3.1.5</v.jersey>
