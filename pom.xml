@@ -19,7 +19,7 @@
     <v.lyo>${project.version}</v.lyo>
 
     <v.kotlin>1.9.23</v.kotlin>
-    <v.dokka>1.9.10</v.dokka>
+    <v.dokka>1.9.20</v.dokka>
 
     <v.jersey>3.1.6</v.jersey>
     <v.servlet>3.1.0</v.servlet>
