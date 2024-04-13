@@ -25,7 +25,7 @@ pipeline {
 							}
 							sh '''
 							mvn clean verify -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONARCLOUD_TOKEN}''' + sonar_pr
+								-Dsonar.projectKey=org.eclipse.lyo -Dsonar.organization=eclipse -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONARCLOUD_TOKEN}''' + sonar_pr
 						}
 					}
 				}
