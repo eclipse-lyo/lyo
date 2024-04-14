@@ -29,9 +29,8 @@ versions:
 projects:
   - slug: "oslc-op/refimpl"
     link: "https://github.com/oslc-op/refimpl"
-    version: "5.2.0--S"
-    # FIXME: new URI
-    ci_badge: "https://github.com/oslc-op/refimpl/workflows/CI/badge.svg"
+    version: "6.0.0--S"
+    ci_badge: "https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/refimpl?label=PR&color=blue"
     pr_link: "https://github.com/oslc-op/refimpl/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
     issues_badge: "https://img.shields.io/github/issues/oslc-op/refimpl/Type:%20Bug?label=bugs"
