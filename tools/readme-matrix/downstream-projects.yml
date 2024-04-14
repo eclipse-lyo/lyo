@@ -48,8 +48,7 @@ projects:
   - slug: "oslc-op/sysml-oslc-server"
     link: "https://github.com/oslc-op/sysml-oslc-server"
     version: "5.1.1"
-    # FIXME: new URI
-    ci_badge: "https://github.com/oslc-op/sysml-oslc-server/workflows/CI/badge.svg"
+    ci_badge: "https://github.com/oslc-op/sysml-oslc-server/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/sysml-oslc-server?label=PR"
     pr_link: "https://github.com/oslc-op/sysml-oslc-server/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
     issues_badge: "https://img.shields.io/github/issues/oslc-op/sysml-oslc-server/Type:%20Bug?label=bugs"
