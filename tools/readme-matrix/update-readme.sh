@@ -10,11 +10,15 @@ SCRIPT_DIR=$(dirname "${SCRIPT_PATH}")
 trap "rm ${SCRIPT_DIR}/tmp.md" err exit SIGINT SIGTERM
 
 if ! [ -x "$(command -v pip-run)" ]; then
-   python3 -m pip install pip-run
+   if [ -x "$(command -v pipx)" ]; then
+      pipx install pip-run
+   else
+      python3 -m pip install pip-run
+   fi
 fi
 
 if ! [ -x "$(command -v sponge)" ]; then
-   brew install sponge
+   brew install sponge || sudo apt install moreutils || sudo zypper in moreutils
 fi
 
 

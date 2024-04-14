@@ -1,12 +1,13 @@
 #!/usr/bin/env -S pip-run
 
+# /// script
+# dependencies = ["requests==2.*","PyYAML==6.*"]
+# ///
+
 # pipx haven't released yet https://github.com/pypa/pipx/issues/1023
 #!/usr/bin/env -S pipx run
 #!/usr/bin/env -S python3 -bP
 
-# Requirements:
-# PyYAML==6.*
-#// requests==2.*
 
 import sys
 from textwrap import dedent
