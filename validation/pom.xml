@@ -14,7 +14,7 @@
   </parent>
 
   <properties>
-    <v.shaclex>0.2.2</v.shaclex>
+    <v.shaclex>0.2.4</v.shaclex>
   </properties>
 
   <dependencies>
