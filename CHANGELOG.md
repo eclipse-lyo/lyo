@@ -6,6 +6,7 @@
 
 - Introducing capability to set the servletUri to be used by the OAuthConfiguration
 - OSLC PROMCODE domain model and generated POJOs
+- Support for additional request headers to OslcQuery 
 
 ### Changed
 - 🧨Migrated from Javax to Jakarta packages 
