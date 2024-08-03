@@ -122,7 +122,7 @@ Repositories that are maintained under OSLC organisation include:
 
 -   [OSLC4JS SDK](http://oslc.github.io/developing-oslc-applications/oslc-open-source-node-projects.html)
 -   [OSLC4NET SDK](https://github.com/OSLC/oslc4net)
--   [Lyo sample projects](https://github.com/OSLC/lyo-samples)
+-   [Lyo samples projects](https://github.com/OSLC/lyo-samples)
 -   [lyo-adaptor-sample-modelling](https://github.com/OSLC/lyo-adaptor-sample-modelling)
 -   [lyo-adaptor-bugzilla](https://github.com/OSLC/lyo-adaptor-bugzilla)
 -   [iotp-adaptor](https://github.com/OSLC/iotp-adaptor)
