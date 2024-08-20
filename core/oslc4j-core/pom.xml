@@ -27,7 +27,7 @@
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
       <!--TODO: dep manage-->
-      <version>4.8.174</version>
+      <version>4.8.175</version>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
