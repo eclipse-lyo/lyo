@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
@@ -124,12 +125,30 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 			Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
 			ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
 
-			//There should only be one - take the first
-			infoResource = null;
+			//The main ResposeInfo shall have the query URI or a page URI
+            List<Resource> responseInfos = iter.toList();
+
+            infoResource = null;
+            if (responseInfos.size() == 1) {
+                infoResource = responseInfos.get(0);
+            } else if (responseInfos.size() > 1) {
+                List<Resource> infos_sameURI = responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
+                if (infos_sameURI.size() == 1) {
+                    infoResource = infos_sameURI.get(0);
+                } else if (infos_sameURI.size() > 1) {
+                    throw new IllegalStateException("Multiple ResponseInfo objects found with the same URI");
+                } else {
+                    // TODO: also check for oslc:nextPage before giving up
+                    throw new IllegalStateException("Multiple ResponseInfo objects found; neither matches the Query URI");
+                }
+            }
+
 			while (iter.hasNext()) {
 				infoResource = iter.next();
 				break;
 			}
+
+
 			membersResource = rdfModel.getResource(query.getCapabilityUrl());
 		}
 	}
