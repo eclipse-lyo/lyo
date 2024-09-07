@@ -125,7 +125,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 			Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
 			ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
 
-			//The main ResposeInfo shall have the query URI or a page URI
+			//The main ResponseInfo shall have the query URI or a page URI
             List<Resource> responseInfos = iter.toList();
 
             infoResource = null;
