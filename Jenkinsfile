@@ -2,6 +2,7 @@ pipeline {
   agent any
   options {
     timeout(time: 40, unit: 'MINUTES')   // timeout on whole pipeline job
+    disableConcurrentBuilds(abortPrevious: false)
   }
   tools {
     maven 'apache-maven-latest'
@@ -41,7 +42,6 @@ pipeline {
     }
     stage('Publish (OSSRH)') {
       when {
-        triggeredBy 'SCMTrigger'
         anyOf {
           branch 'master'
           branch 'main'
@@ -89,7 +89,6 @@ pipeline {
     }
     stage('Publish (Eclipse)') {
       when {
-        triggeredBy 'SCMTrigger'
         anyOf {
           branch 'master'
           branch 'main'
