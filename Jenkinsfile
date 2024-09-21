@@ -22,6 +22,9 @@ pipeline {
           not {
             environment name: 'CHANGE_AUTHOR', value: 'dependabot-preview[bot]'
           }
+          not {
+            branch pattern: 'dependabot/*', comparator: 'REGEXP'
+          }
         }
       }
       environment {
