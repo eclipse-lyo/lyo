@@ -1,6 +1,7 @@
 versions:
   # shields.io requires '-' to be escaped thru '--'
   snapshot:
+    - "6.0.0.CR"
     - "6.0.0--S"
   stable:
     - "5.1.1"
@@ -30,7 +31,7 @@ versions:
 projects:
   - slug: "oslc-op/refimpl"
     link: "https://github.com/oslc-op/refimpl"
-    version: "6.0.0--S"
+    version: "6.0.0.CR"
     ci_badge: "https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/refimpl?label=PR"
     pr_link: "https://github.com/oslc-op/refimpl/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
