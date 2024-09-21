@@ -9,9 +9,9 @@ pipeline {
 	}
 	stages {
 		stage('SonarCloud') {
-			// when {
-			// 	triggeredBy 'SCMTrigger'
-			// }
+			when {
+				triggeredBy 'SCMTrigger'
+			}
 			environment {
 				PROJECT_NAME = 'lyo'
 			}
@@ -33,6 +33,7 @@ pipeline {
 		}
 		stage('Publish (OSSRH)') {
 			when {
+				triggeredBy 'SCMTrigger'
 				anyOf {
 					branch 'master'
 					branch 'main'
@@ -80,6 +81,7 @@ pipeline {
 		}
 		stage('Publish (Eclipse)') {
 			when {
+				triggeredBy 'SCMTrigger'
 				anyOf {
 					branch 'master'
 					branch 'main'
@@ -111,6 +113,7 @@ pipeline {
 		}
 		stage('Publish HEAD Javadocs') {
             when {
+				triggeredBy 'SCMTrigger'
                 branch 'master'
             }
             steps {
