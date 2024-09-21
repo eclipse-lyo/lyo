@@ -8,11 +8,14 @@ pipeline {
     maven 'apache-maven-latest'
     jdk 'temurin-jdk17-latest'
   }
+  triggers {
+    pollSCM('H/10 * * * *')
+  }
   stages {
     stage('SonarCloud') {
       when {
         allOf {
-          triggeredBy 'SCMTrigger'
+          // triggeredBy 'SCMTrigger'
           not {
             environment name: 'CHANGE_AUTHOR', value: 'dependabot[bot]'
           }
@@ -28,8 +31,8 @@ pipeline {
         withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
           withSonarQubeEnv('SonarCloud.io') {
             script {
-              def sonar_pr = ""
-              if(env.CHANGE_ID) {
+              def sonar_pr = ''
+              if (env.CHANGE_ID) {
                 sonar_pr += " -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=eclipse/${env.PROJECT_NAME} -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}"
               }
               sh '''
