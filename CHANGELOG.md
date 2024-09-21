@@ -15,19 +15,18 @@ This release does not contain security updates.
 ### Changed
 
 - 🧨 Migrated from Java EE (`javax.` namespace) to Jakarta packages
-- upgrade to Jersey 3.1.5
+- Upgrade to Jersey 3.1.5
 - **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has 
   been tested using JDK 17, 21, 23, and 24-ea.
 - Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with 
   `kotlin-stdlib` due to 
   [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
-- Allow application to reset the oauth token cached within the server, when it
+- Allow application to reset the OAuth token cached within the server, when it
   deems that it is no longer valid
-- 🧨 Corrected cardinality and range of the oslc_config:acceptedBy property (from
+- 🧨 Corrected cardinality and range of the `oslc_config:acceptedBy` property (from
   String[0..1] to Resource[0..*])
-- changed scope of dependencies in oauth-webapp to avoid inclusion multiple times
+- Changed scope of dependencies in `oauth-webapp` to avoid inclusion multiple times
   during runtime.
-- Migrated from Javax to Jakarta packages, including upgrade to Jersey 3.1.5
 
 ### Deprecated
 
