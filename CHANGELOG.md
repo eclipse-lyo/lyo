@@ -1,6 +1,6 @@
 # Eclipse Lyo changelog
 
-## [6.0.0-SNAPSHOT]
+## [6.0.0]
 
 ### Security
 
