@@ -42,9 +42,6 @@ public class OslcClientTest {
             request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), "test");
             Response response = client.createResource("http://open-services.net/.well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200", request, OSLCConstants.CT_RDF);
             assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
-//            assertThrows(ClientErrorException.class, () -> {
-//
-//            });
         });
     }
 

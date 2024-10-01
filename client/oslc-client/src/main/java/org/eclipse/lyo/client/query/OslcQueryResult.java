@@ -129,31 +129,65 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
             List<Resource> responseInfos = iter.toList();
 
             infoResource = null;
-            if (responseInfos.size() == 1) {
-                infoResource = responseInfos.get(0);
-            } else if (responseInfos.size() > 1) {
-                List<Resource> infos_sameURI = responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
-                if (infos_sameURI.size() == 1) {
-                    infoResource = infos_sameURI.get(0);
-                } else if (infos_sameURI.size() > 1) {
-                    throw new IllegalStateException("Multiple ResponseInfo objects found with the same URI");
-                } else {
-                    // TODO: also check for oslc:nextPage before giving up
-                    throw new IllegalStateException("Multiple ResponseInfo objects found; neither matches the Query URI");
-                }
+            infoResource = tryFindOnlyResponseInfo(responseInfos);
+            if(infoResource == null && responseInfos.size() > 1) {
+                infoResource = tryFindExactResponseInfoUri(responseInfos);
             }
-
-			while (iter.hasNext()) {
-				infoResource = iter.next();
-				break;
-			}
-
+            if(infoResource == null && responseInfos.size() > 1) {
+                infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
+            }
+            if(infoResource == null) {
+                // TODO: also check for oslc:nextPage before giving up
+                throw new IllegalStateException("Multiple ResponseInfo objects found; neither matches the Query URI");
+            }
 
 			membersResource = rdfModel.getResource(query.getCapabilityUrl());
 		}
 	}
 
-	String getNextPageUrl() {
+    /**
+     * Extracts a ResourceInfo resource if one and only one has the same prefix as the query URI.
+     * @param responseInfos from OSLC Query results
+     * @return a ResourceInfo resource if one satisfies the conditions; null otherwise
+     */
+    private Resource tryFindPrefixedResponseInfoUri(List<Resource> responseInfos) {
+        List<Resource> filteredObjects = responseInfos.stream().filter(ri -> ri.getURI().startsWith(query.getQueryUrl())).toList();
+        if (filteredObjects.size() == 1) {
+            return filteredObjects.get(0);
+        } else if (filteredObjects.size() > 1) {
+            throw new IllegalStateException("Multiple ResponseInfo objects found starting with the same Query URI");
+        }
+        return null;
+    }
+
+    /**
+     * Extracts a ResourceInfo resource if one and only one has exactly the same URI as the query URI.
+     * @param responseInfos from OSLC Query results
+     * @return a ResourceInfo resource if one satisfies the conditions; null otherwise
+     */
+    private Resource tryFindExactResponseInfoUri(List<Resource> responseInfos) {
+        List<Resource> filteredObjects = responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
+        if (filteredObjects.size() == 1) {
+            return filteredObjects.get(0);
+        } else if (filteredObjects.size() > 1) {
+            throw new IllegalStateException("Multiple ResponseInfo objects found with the same URI");
+        }
+        return null;
+    }
+
+    /**
+     * Extracts a ResourceInfo resource if one and only one exists in the results.
+     * @param responseInfos from OSLC Query results
+     * @return a ResourceInfo resource if one satisfies the conditions; null otherwise
+     */
+    private Resource tryFindOnlyResponseInfo(List<Resource> responseInfos) {
+        if (responseInfos.size() == 1) {
+            return responseInfos.get(0);
+        }
+        return null;
+    }
+
+    String getNextPageUrl() {
 		initializeRdf();
 		if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
 			Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");

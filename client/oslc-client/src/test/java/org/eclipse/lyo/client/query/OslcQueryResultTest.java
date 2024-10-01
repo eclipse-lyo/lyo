@@ -104,14 +104,15 @@ public class OslcQueryResultTest {
 
     @Test
     public void testMultiResponseInfos() {
-//        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "true");
+        // seems to work with both
+//        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "false");
         Response mockedResponse = mockClientResponse("/multiResponseQuery.rdf");
 
         OslcQueryParameters params = new OslcQueryParameters();
         params.setSelect("dcterms:title");
-        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
+        OslcQuery query = new OslcQuery(new OslcClient(), "https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems");
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-        assertEquals(5, result.getMembersUrls().length);
+        assertEquals(20, result.getMembersUrls().length);
     }
 
 	private Response mockClientResponse(String file) {
