@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.client.test;
+package org.eclipse.lyo.client.query;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -19,9 +19,6 @@ import static org.mockito.Mockito.when;
 import java.io.InputStream;
 
 import org.eclipse.lyo.client.OslcClient;
-import org.eclipse.lyo.client.query.OslcQuery;
-import org.eclipse.lyo.client.query.OslcQueryParameters;
-import org.eclipse.lyo.client.query.OslcQueryResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -104,6 +101,18 @@ public class OslcQueryResultTest {
 		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
 		 assertEquals(5, result.getMembersUrls().length);
 	}
+
+    @Test
+    public void testMultiResponseInfos() {
+//        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "true");
+        Response mockedResponse = mockClientResponse("/multiResponseQuery.rdf");
+
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setSelect("dcterms:title");
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(5, result.getMembersUrls().length);
+    }
 
 	private Response mockClientResponse(String file) {
 		final InputStream is = OslcQueryResultTest.class.getResourceAsStream(file);

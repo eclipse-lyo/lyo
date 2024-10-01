@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.lyo.client.test;
+package org.eclipse.lyo.client;
 
 import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,8 +22,6 @@ import java.net.URISyntaxException;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.lyo.client.OSLCConstants;
-import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
 
