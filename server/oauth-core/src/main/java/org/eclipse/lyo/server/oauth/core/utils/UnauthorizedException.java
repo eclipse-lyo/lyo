@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.server.oauth.core.utils;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Corresponds to an HTTP 401 response.

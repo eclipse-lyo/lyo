@@ -21,14 +21,6 @@ import java.util.Iterator;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-import javax.ws.rs.core.Response;
-
-import org.eclipse.lyo.client.OSLCConstants;
-import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -40,6 +32,13 @@ import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDFS;
+import org.eclipse.lyo.client.OSLCConstants;
+import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+
+import jakarta.ws.rs.core.Response;
 
 
 /**

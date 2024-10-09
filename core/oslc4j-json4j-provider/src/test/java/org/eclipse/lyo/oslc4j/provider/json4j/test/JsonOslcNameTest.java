@@ -13,6 +13,10 @@
  */
 package org.eclipse.lyo.oslc4j.provider.json4j.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,8 +25,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 import javax.xml.namespace.QName;
 
 import org.apache.wink.json4j.JSONArray;
@@ -34,8 +36,10 @@ import org.eclipse.lyo.oslc4j.provider.json4j.OslcRdfJsonProvider;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.EmptyNameResource;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.UnnamedResource;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * Tests Json working with different combinations of OslcName annotation.
@@ -63,7 +67,7 @@ public class JsonOslcNameTest {
 		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 		JSONObject jsonObject = getJSONObject(resource, oslcRdfJsonProvider);
 		JSONArray rdfTypes = jsonObject.getJSONArray("rdf:type");
-		Assert.assertTrue("Model should not contain RDF type as OslcName is empty", rdfTypes.isEmpty());
+		assertTrue(rdfTypes.isEmpty(), "Model should not contain RDF type as OslcName is empty");
 	}
 
 	private JSONObject getJSONObject(Object resource, final OslcRdfJsonProvider oslcRdfJsonProvider)
@@ -90,7 +94,7 @@ public class JsonOslcNameTest {
 		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 		JSONObject jsonObject = getJSONObject(resource, oslcRdfJsonProvider);
 		JSONArray rdfTypes = jsonObject.getJSONArray("rdf:type");
-		Assert.assertEquals("Model should contain only added RDF type", rdfTypes.size(), 1);
+		assertEquals(1, rdfTypes.size(),"Model should contain only added RDF type");
 		verifyRDFTypes(new String[] { typeToAdd }, rdfTypes);
 	}
 
@@ -105,7 +109,7 @@ public class JsonOslcNameTest {
 		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 		JSONObject jsonObject = getJSONObject(resource, oslcRdfJsonProvider);
 		JSONArray rdfTypes = jsonObject.getJSONArray("rdf:type");
-		Assert.assertEquals("Model should contain default RDF type", rdfTypes.size(), 1);
+		assertEquals(1, rdfTypes.size(),"Model should contain default RDF type");
 		verifyRDFTypes(new String[] { TestResource.TEST_NAMESPACE + "Test" }, rdfTypes);
 	}
 
@@ -123,7 +127,7 @@ public class JsonOslcNameTest {
 		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 		JSONObject jsonObject = getJSONObject(resource, oslcRdfJsonProvider);
 		JSONArray rdfTypes = jsonObject.getJSONArray("rdf:type");
-		Assert.assertFalse("Model should contain RDF types", rdfTypes.isEmpty());
+		assertFalse( rdfTypes.isEmpty(), "Model should contain RDF types");
 		verifyRDFTypes(new String[] { typeToAdd, TestResource.TEST_NAMESPACE + "UnnamedResource" }, rdfTypes);
 	}
 
@@ -135,8 +139,7 @@ public class JsonOslcNameTest {
 			actualRdfTypesList.add(type);
 		}
 		for (String expectedRdfType : expectedRDFTypes) {
-			Assert.assertTrue("Resource should contain RDF type " + expectedRdfType,
-					actualRdfTypesList.contains(expectedRdfType));
+			assertTrue(actualRdfTypesList.contains(expectedRdfType), "Resource should contain RDF type " + expectedRdfType);
 		}
 	}
 

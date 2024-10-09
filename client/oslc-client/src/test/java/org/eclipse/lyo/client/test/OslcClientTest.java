@@ -20,14 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status.Family;
 import javax.xml.namespace.QName;
 
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
+
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status.Family;
 
 public class OslcClientTest {
     /*

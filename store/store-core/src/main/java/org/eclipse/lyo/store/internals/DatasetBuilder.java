@@ -1,5 +1,9 @@
 package org.eclipse.lyo.store.internals;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -18,9 +22,6 @@ import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb.TDB;
 import org.apache.jena.tdb.TDBFactory;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

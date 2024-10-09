@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-core-build</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <relativePath>../oslc4j-core-build/pom.xml</relativePath>
   </parent>
   <artifactId>oslc4j-core</artifactId>
@@ -27,7 +27,7 @@
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
       <!--TODO: dep manage-->
-      <version>4.8.164</version>
+      <version>4.8.177</version>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
@@ -40,8 +40,8 @@
       <type>pom</type>
       <exclusions>
         <exclusion>
-          <groupId>javax.annotation</groupId>
-          <artifactId>javax.annotation-api</artifactId>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.apache.httpcomponents</groupId>

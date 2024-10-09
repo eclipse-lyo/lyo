@@ -1,5 +1,25 @@
 package org.eclipse.lyo.store;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.store.internals.SparqlStoreImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -15,23 +35,6 @@ package org.eclipse.lyo.store;
  */
 
 import com.google.common.base.Stopwatch;
-import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.store.internals.SparqlStoreImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
 

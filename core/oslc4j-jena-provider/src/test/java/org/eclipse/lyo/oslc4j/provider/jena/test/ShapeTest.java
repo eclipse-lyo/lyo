@@ -25,13 +25,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ws.rs.core.MediaType;
-
 import org.eclipse.lyo.oslc4j.core.model.AllowedValues;
 import org.eclipse.lyo.oslc4j.core.model.Property;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcTurtleProvider;
 import org.junit.Test;
+
+import jakarta.ws.rs.core.MediaType;
 
 public class ShapeTest {
 	@Test
