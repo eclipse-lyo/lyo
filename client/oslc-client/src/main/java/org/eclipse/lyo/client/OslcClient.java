@@ -21,7 +21,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
@@ -83,24 +85,25 @@ public class OslcClient implements IOslcClient {
 	}
 
 	/**
-	 * An OslcClient that allows client applications to provide a configured (but not built)
-	 * ClientBuilder typically used for supporting https, and various kinds of authentication.
-	 *
-	 * @param clientBuilder HTTP client configuration
-	 * @param version OSLC version, see {@link OSLCConstants}
-	 */
-	public OslcClient(ClientBuilder clientBuilder, String version) {
-		for (Class<?> provider : JenaProvidersRegistry.getProviders()) {
-			clientBuilder.register(provider);
-		}
-		for (Class<?> provider : Json4JProvidersRegistry.getProviders()) {
-			clientBuilder.register(provider);
-		}
+     * An OslcClient that allows client applications to provide a configured (but not built) ClientBuilder typically
+     * used for supporting https, and various kinds of authentication.
+     *
+     * @param clientBuilder HTTP client configuration
+     * @param version       OSLC version, see {@link OSLCConstants}
+     */
+    public OslcClient(final ClientBuilder clientBuilder, final String version) {
+        this(clientBuilder, version, Stream
+                .concat(JenaProvidersRegistry.getProviders().stream(), Json4JProvidersRegistry.getProviders().stream())
+                .collect(Collectors.toSet()));
+    }
 
-		this.client = clientBuilder.build();
-
-		this.version = version;
-	}
+    public OslcClient(final ClientBuilder clientBuilder, final String version, final Set<Class<?>> providers) {
+        this.version = version;
+        for (Class<?> provider : providers) {
+            clientBuilder.register(provider);
+        }
+        this.client = clientBuilder.build();
+    }
 
 	/**
 	 * Returns the JAX-RS client for this OslcClient. Do not touch unless needed.
