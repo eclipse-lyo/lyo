@@ -18,18 +18,18 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>1.9.24</v.kotlin>
+    <v.kotlin>2.0.20</v.kotlin>
     <v.dokka>1.9.20</v.dokka>
 
-    <v.jersey>3.1.6</v.jersey>
+    <v.jersey>3.1.9</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>4.8.0</v.jena>
-    <v.jackson>2.17.2</v.jackson>
+    <v.jackson>2.18.0</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
-    <v.slf4j>2.0.13</v.slf4j>
+    <v.slf4j>2.0.16</v.slf4j>
 
-    <v.guava>33.2.1-jre</v.guava>
+    <v.guava>33.3.1-jre</v.guava>
   </properties>
 
 
@@ -101,7 +101,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.4</version>
+            <version>3.2.7</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -353,7 +353,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.15.0</version>
+        <version>3.17.0</version>
       </dependency>
 
 
@@ -361,7 +361,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.12.0</version>
+        <version>5.14.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -373,7 +373,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.10.3</version>
+        <version>5.11.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -418,7 +418,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.16.1</version>
+        <version>2.17.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -476,7 +476,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.2.5</version>
+          <version>3.5.1</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
@@ -491,12 +491,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.12.1</version>
+          <version>3.20.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.7.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -578,22 +578,22 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.1.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.1</version>
+          <version>3.4.2</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -602,7 +602,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.16.2</version>
+        <version>2.17.1</version>
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
@@ -642,7 +642,7 @@
       <plugin>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
-        <version>2.7.9</version>
+        <version>2.9.0</version>
         <configuration>
           <schemaVersion>1.4</schemaVersion>
           <projectType>library</projectType>

@@ -27,12 +27,9 @@ jobs:
         experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
-          - jdk: '20'
-            distribution: zulu
-            experimental: true
           - jdk: '21'
             distribution: zulu
-            experimental: true
+            experimental: false
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
