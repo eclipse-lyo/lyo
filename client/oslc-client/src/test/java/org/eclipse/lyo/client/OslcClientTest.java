@@ -13,41 +13,26 @@
  */
 package org.eclipse.lyo.client;
 
-import static java.time.Duration.ofSeconds;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import javax.xml.namespace.QName;
-
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.clearInvocations;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status.Family;
 import org.apache.http.HttpHeaders;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import jakarta.ws.rs.client.Invocation.Builder;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status.Family;
+import javax.xml.namespace.QName;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Map;
+
+import static java.time.Duration.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 public class OslcClientTest {
     /**
@@ -61,9 +46,7 @@ public class OslcClientTest {
             final OslcClient client = new OslcClient();
             final ServiceProvider request = new ServiceProvider();
             request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), "test");
-            Response response = client.createResource(
-                    "http://open-services.net/.well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
-                    request, OSLCConstants.CT_RDF);
+            Response response = client.createResource("http://open-services.net/.well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200", request, OSLCConstants.CT_RDF);
             assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
             // assertThrows(ClientErrorException.class, () -> {
             //
@@ -94,13 +77,11 @@ public class OslcClientTest {
 
         clearInvocations(client);
         client.getResource("test.url", "application/rdf+xml");
-        verify(client).doRequest("GET", "test.url", null, null, null, "application/rdf+xml", "application/rdf+xml",
-                null);
+        verify(client).doRequest("GET", "test.url", null, null, null, "application/rdf+xml", "application/rdf+xml", null);
 
         clearInvocations(client);
         client.getResource("test.url", Map.of("a", "b"), "application/rdf+xml", "oslc.context");
-        verify(client).doRequest("GET", "test.url", null, "oslc.context", null, "application/rdf+xml",
-                "application/rdf+xml", Map.of("a", "b"));
+        verify(client).doRequest("GET", "test.url", null, "oslc.context", null, "application/rdf+xml", "application/rdf+xml", Map.of("a", "b"));
     }
 
     @Test
@@ -113,8 +94,7 @@ public class OslcClientTest {
 
         clearInvocations(client);
         client.updateResource("test.url", "artifact", "application/json", "*/*", "ifmatch", "configContext");
-        verify(client).doRequest("PUT", "test.url", "artifact", "configContext", "ifmatch", "application/json", "*/*",
-                null);
+        verify(client).doRequest("PUT", "test.url", "artifact", "configContext", "ifmatch", "application/json", "*/*", null);
 
 
         clearInvocations(client);
