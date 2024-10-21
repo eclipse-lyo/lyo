@@ -13,15 +13,7 @@
  */
 package org.eclipse.lyo.client.query;
 
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-
+import jakarta.ws.rs.core.Response;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -39,146 +31,165 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
-import jakarta.ws.rs.core.Response;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
- * The results of an OSLC query. If the query was paged, subsequent pages can be retrieved using the Iterator interface.
- *
+ * The results of an OSLC query. If the query was paged, subsequent pages can be retrieved using
+ * the Iterator interface.
+ * <p>
  * This class is not currently thread safe.
  */
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
-	/**
-	 * The default member property to look for in OSLC query results
-	 * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
-	 */
-	public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
+    /**
+     * The default member property to look for in OSLC query results
+     * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
+     */
+    public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
 
-	/**
-	 * If system property {@value} is set to true, find any member in the
-	 */
-	public final static String SELECT_ANY_MEMBER = "org.eclipse.lyo.client.oslc.query.selectAnyMember";
+    /**
+     * If system property {@value} is set to true, find any member in the
+     */
+    public final static String SELECT_ANY_MEMBER = "org.eclipse.lyo.client.oslc.query" +
+        ".selectAnyMember";
 
-	/**
-	 * Treat any resource in the members resource as a query result (except rdf:type).
-	 *
-	 * @see OslcQueryResult#SELECT_ANY_MEMBER
-	 */
-	private final class AnyMemberSelector extends SimpleSelector {
-	    private AnyMemberSelector(Resource subject) {
-		    super(subject, null, (RDFNode) null);
-	    }
+    /**
+     * Treat any resource in the members resource as a query result (except rdf:type).
+     *
+     * @see OslcQueryResult#SELECT_ANY_MEMBER
+     */
+    private final class AnyMemberSelector extends SimpleSelector {
+        private AnyMemberSelector(Resource subject) {
+            super(subject, null, (RDFNode) null);
+        }
 
-	    public boolean selects(Statement s) {
-	    	String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
-	    	if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
-	    		return false;
-	    	}
+        public boolean selects(Statement s) {
+            String fqPredicateName =
+                s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
+            if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
+                return false;
+            }
 
-	    	return s.getObject().isResource();
-	    }
+            return s.getObject().isResource();
+        }
     }
 
-	private final OslcQuery query;
+    private final OslcQuery query;
 
-	private final Response response;
+    private final Response response;
 
-	private final int pageNumber;
+    private final int pageNumber;
 
-	private Property memberProperty = DEFAULT_MEMBER_PROPERTY;
+    private Property memberProperty = DEFAULT_MEMBER_PROPERTY;
 
-	private Model rdfModel;
+    private Model rdfModel;
 
-	private Resource infoResource, membersResource;
+    private Resource infoResource, membersResource;
 
-	private String nextPageUrl = "";
+    private String nextPageUrl = "";
 
-	private boolean rdfInitialized = false;
+    private boolean rdfInitialized = false;
 
-	public OslcQueryResult(OslcQuery query, Response response) {
-		this.query = query;
-		this.response = response;
+    public OslcQueryResult(OslcQuery query, Response response) {
+        this.query = query;
+        this.response = response;
 
-		this.pageNumber = 1;
+        this.pageNumber = 1;
 
 
-	}
+    }
 
-	private OslcQueryResult(OslcQueryResult prev) {
-		this.query = new OslcQuery(prev);
-		this.response = this.query.getResponse();
-		this.membersResource = prev.membersResource;
-		this.memberProperty = prev.memberProperty;
+    private OslcQueryResult(OslcQueryResult prev) {
+        this.query = new OslcQuery(prev);
+        this.response = this.query.getResponse();
+        this.membersResource = prev.membersResource;
+        this.memberProperty = prev.memberProperty;
 
-		this.pageNumber = prev.pageNumber + 1;
+        this.pageNumber = prev.pageNumber + 1;
 
-	}
+    }
 
-	private synchronized void initializeRdf() {
-		if (!rdfInitialized) {
-			rdfInitialized = true;
-			rdfModel = ModelFactory.createDefaultModel();
-			rdfModel.read(response.readEntity(InputStream.class), query.getCapabilityUrl());
+    private synchronized void initializeRdf() {
+        if (!rdfInitialized) {
+            rdfInitialized = true;
+            rdfModel = ModelFactory.createDefaultModel();
+            rdfModel.read(response.readEntity(InputStream.class), query.getCapabilityUrl());
 
-			//Find a resource with rdf:type of oslc:ResourceInfo
-			Property rdfType = rdfModel.createProperty(OslcConstants.RDF_NAMESPACE, "type");
-			Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
-			ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
+            //Find a resource with rdf:type of oslc:ResourceInfo
+            Property rdfType = rdfModel.createProperty(OslcConstants.RDF_NAMESPACE, "type");
+            Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
+                "ResponseInfo");
+            ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
 
-			//The main ResponseInfo shall have the query URI or a page URI
+            //The main ResponseInfo shall have the query URI or a page URI
             List<Resource> responseInfos = iter.toList();
 
             infoResource = null;
             infoResource = tryFindOnlyResponseInfo(responseInfos);
-            if(infoResource == null && responseInfos.size() > 1) {
+            if (infoResource == null && responseInfos.size() > 1) {
                 infoResource = tryFindExactResponseInfoUri(responseInfos);
             }
-            if(infoResource == null && responseInfos.size() > 1) {
+            if (infoResource == null && responseInfos.size() > 1) {
                 infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
             }
-            if(infoResource == null) {
+            if (infoResource == null) {
                 // TODO: also check for oslc:nextPage before giving up
-                throw new IllegalStateException("Failed to find an appropriate ResponseInfo object");
+                throw new IllegalStateException("Failed to find an appropriate ResponseInfo " +
+                    "object");
             }
 
-			membersResource = rdfModel.getResource(query.getCapabilityUrl());
-		}
-	}
+            membersResource = rdfModel.getResource(query.getCapabilityUrl());
+        }
+    }
 
     /**
      * Extracts a ResourceInfo resource if one and only one has the same prefix as the query URI.
+     *
      * @param responseInfos from OSLC Query results
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
      * @throws IllegalStateException if multiple resources satisfy the same condition
      */
     private Resource tryFindPrefixedResponseInfoUri(List<Resource> responseInfos) {
-        List<Resource> filteredObjects = responseInfos.stream().filter(ri -> ri.getURI().startsWith(query.getQueryUrl())).toList();
+        List<Resource> filteredObjects =
+            responseInfos.stream().filter(ri -> ri.getURI().startsWith(query.getQueryUrl())).toList();
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found starting with the same Query URI");
+            throw new IllegalStateException("Multiple ResponseInfo objects found starting with " +
+                "the same Query URI");
         }
         return null;
     }
 
     /**
-     * Extracts a ResourceInfo resource if one and only one has exactly the same URI as the query URI.
+     * Extracts a ResourceInfo resource if one and only one has exactly the same URI as the query
+     * URI.
+     *
      * @param responseInfos from OSLC Query results
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
      * @throws IllegalStateException if multiple resources satisfy the same condition
      */
     private Resource tryFindExactResponseInfoUri(List<Resource> responseInfos) {
-        List<Resource> filteredObjects = responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
+        List<Resource> filteredObjects =
+            responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found with the same URI");
+            throw new IllegalStateException("Multiple ResponseInfo objects found with the same " +
+                "URI");
         }
         return null;
     }
 
     /**
      * Extracts a ResourceInfo resource if one and only one exists in the results.
+     *
      * @param responseInfos from OSLC Query results
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
      */
@@ -190,115 +201,117 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     }
 
     String getNextPageUrl() {
-		initializeRdf();
-		if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
-			Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
-			Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
-			StmtIterator iter = rdfModel.listStatements(select);
-			if (iter.hasNext()) {
-				Statement nextPage = iter.next();
-				nextPageUrl = nextPage.getResource().getURI();
-			} else {
-				nextPageUrl = "";
-			}
-		}
-		return nextPageUrl;
-	}
+        initializeRdf();
+        if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
+            Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
+                "nextPage");
+            Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
+            StmtIterator iter = rdfModel.listStatements(select);
+            if (iter.hasNext()) {
+                Statement nextPage = iter.next();
+                nextPageUrl = nextPage.getResource().getURI();
+            } else {
+                nextPageUrl = "";
+            }
+        }
+        return nextPageUrl;
+    }
 
-	/**
-	 * @return whether there is another page of results after this
-	 */
-	public boolean hasNext() {
-		return (!"".equals(getNextPageUrl()));
-	}
+    /**
+     * @return whether there is another page of results after this
+     */
+    public boolean hasNext() {
+        return (!"".equals(getNextPageUrl()));
+    }
 
-	/**
-	 * @return the next page of results
-	 */
-	public OslcQueryResult next() {
-		return new OslcQueryResult(this);
-	}
+    /**
+     * @return the next page of results
+     */
+    public OslcQueryResult next() {
+        return new OslcQueryResult(this);
+    }
 
-	/**
-	 * @throws UnsupportedOperationException always
-	 */
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @throws UnsupportedOperationException always
+     */
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 
-	public OslcQuery getQuery() {
-		return query;
-	}
+    public OslcQuery getQuery() {
+        return query;
+    }
 
-	/**
-	 * Returns the member property to find query result resources.
-	 *
-	 * @return the member property URI
-	 * @see #setMemberProperty(String)
-	 */
-	public String getMemberProperty() {
-		return this.memberProperty.getURI();
-	}
+    /**
+     * Returns the member property to find query result resources.
+     *
+     * @return the member property URI
+     * @see #setMemberProperty(String)
+     */
+    public String getMemberProperty() {
+        return this.memberProperty.getURI();
+    }
 
-	/**
-	 * Sets the predicate to use to find query result resources. If unset,
-	 * defaults to {@code http://www.w3.org/2000/01/rdf-schema#member}.
-	 *
-	 * @param memberPredicate
-	 *            the RDF predicate for member resources from the provider's
-	 *            query shape
-	 * @see <a href="http://open-services.net/bin/view/Main/OSLCCoreSpecRDFXMLExamples?sortcol=table;up=#Specifying_the_shape_of_a_query">Specifying the sahpe of a query</a>
-	 */
-	public void setMemberProperty(String memberPredicate) {
-		this.memberProperty = ModelFactory.createDefaultModel().createProperty(memberPredicate);
-	}
+    /**
+     * Sets the predicate to use to find query result resources. If unset,
+     * defaults to {@code http://www.w3.org/2000/01/rdf-schema#member}.
+     *
+     * @param memberPredicate the RDF predicate for member resources from the provider's
+     *                        query shape
+     * @see
+     * <a href="http://open-services.net/bin/view/Main/OSLCCoreSpecRDFXMLExamples?sortcol=table;up=#Specifying_the_shape_of_a_query">Specifying the sahpe of a query</a>
+     */
+    public void setMemberProperty(String memberPredicate) {
+        this.memberProperty = ModelFactory.createDefaultModel().createProperty(memberPredicate);
+    }
 
-	/**
-	 * Get the raw Wink client response to a query.
-	 *
-	 * NOTE:  Using this method and consuming the response will make other methods
-	 * which examine the response unavailable (Examples:  getMemberUrls(), next() and hasNext()).
-	 * When this method is invoked, the consumer is responsible for OSLC page processing
-	 *
-	 * @return
-	 */
-	public Response getRawResponse() {
-		return response;
-	}
+    /**
+     * Get the raw Wink client response to a query.
+     * <p>
+     * NOTE:  Using this method and consuming the response will make other methods
+     * which examine the response unavailable (Examples:  getMemberUrls(), next() and hasNext()).
+     * When this method is invoked, the consumer is responsible for OSLC page processing
+     *
+     * @return
+     */
+    public Response getRawResponse() {
+        return response;
+    }
 
-	private Selector getMemberSelector() {
-		if ("true".equalsIgnoreCase(System.getProperty(SELECT_ANY_MEMBER))) {
-			return new AnyMemberSelector(membersResource);
-		}
+    private Selector getMemberSelector() {
+        if ("true".equalsIgnoreCase(System.getProperty(SELECT_ANY_MEMBER))) {
+            return new AnyMemberSelector(membersResource);
+        }
 
-		return new SimpleSelector(membersResource, memberProperty, (RDFNode) null);
-	}
+        return new SimpleSelector(membersResource, memberProperty, (RDFNode) null);
+    }
 
-	/**
-	 * Return the subject URLs of the query response.  The URLs are the location of all artifacts
-	 * which satisfy the query conditions.
-	 *
-	 * NOTE:  Using this method consumes the query response and makes other methods
-	 * which examine the response unavailable (Example: getRawResponse().
-	 * @return
-	 */
-	public String[] getMembersUrls() {
-		initializeRdf();
-		ArrayList<String> membersUrls = new ArrayList<>();
+    /**
+     * Return the subject URLs of the query response.  The URLs are the location of all artifacts
+     * which satisfy the query conditions.
+     * <p>
+     * NOTE:  Using this method consumes the query response and makes other methods
+     * which examine the response unavailable (Example: getRawResponse().
+     *
+     * @return
+     */
+    public String[] getMembersUrls() {
+        initializeRdf();
+        ArrayList<String> membersUrls = new ArrayList<>();
         Selector select = getMemberSelector();
-		StmtIterator iter = rdfModel.listStatements(select);
-		while (iter.hasNext()) {
-			Statement member = iter.next();
-			membersUrls.add(member.getResource().getURI());
-		}
-		return membersUrls.toArray(new String[membersUrls.size()]);
-	}
+        StmtIterator iter = rdfModel.listStatements(select);
+        while (iter.hasNext()) {
+            Statement member = iter.next();
+            membersUrls.add(member.getResource().getURI());
+        }
+        return membersUrls.toArray(new String[membersUrls.size()]);
+    }
 
-	/**
-	 * Return the enumeration of queried results from this page
-	 *
-	 * @return member statements from current page.
-	 */
+    /**
+     * Return the enumeration of queried results from this page
+     *
+     * @return member statements from current page.
+     */
     public <T> Iterable<T> getMembers(final Class<T> clazz) {
         initializeRdf();
 
@@ -314,11 +327,12 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
                 Statement member = iter.next();
 
                 try {
-                    return (T) JenaModelHelper.fromJenaResource((Resource) member.getObject(), clazz);
+                    return (T) JenaModelHelper.fromJenaResource((Resource) member.getObject(),
+                        clazz);
                 } catch (DatatypeConfigurationException | IllegalAccessException |
                          InvocationTargetException | InstantiationException |
-                         OslcCoreApplicationException
-                         | NoSuchMethodException | URISyntaxException e) {
+                         OslcCoreApplicationException | NoSuchMethodException |
+                         URISyntaxException e) {
                     throw new LyoModelException(e);
                 }
             }
