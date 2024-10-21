@@ -18,7 +18,7 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.0.20</v.kotlin>
+    <v.kotlin>2.0.21</v.kotlin>
     <v.dokka>1.9.20</v.dokka>
 
     <v.jersey>3.1.9</v.jersey>
@@ -127,15 +127,15 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <repositories>
-        <repository>
+        <!-- <repository>
           <id>apache-snapshots</id>
           <name>Apache Jena SNAPSHOTS</name>
           <url>https://repository.apache.org/content/groups/snapshots/</url>
           <releases>
             <enabled>false</enabled>
           </releases>
-        </repository>
-        <repository>
+        </repository> -->
+        <!-- <repository>
           <id>jena-staging</id>
           <name>Apache Jena staging</name>
           <url>
@@ -143,7 +143,7 @@
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
-        </repository>
+        </repository> -->
       </repositories>
     </profile>
     <profile>
