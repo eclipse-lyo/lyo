@@ -9,7 +9,7 @@
 ### Deprecated
 
 ### Removed
-
+- Dependency to deprecated oslc4j-json4j-provider
 ### Fixed
 
 ## [6.0.0]
