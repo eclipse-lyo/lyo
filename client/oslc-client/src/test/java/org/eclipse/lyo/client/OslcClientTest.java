@@ -37,16 +37,21 @@ import static org.mockito.Mockito.*;
 public class OslcClientTest {
     /**
      * Tests that the RDF/XML MessageBodyWriter doesn't go into an infinite loop when
-     * given bad data on the client (Bug 417749). ClientRuntimeException no longer expected in Lyo 4.0.
+     * given bad data on the client (Bug 417749). ClientRuntimeException no longer expected in
+     * Lyo 4.0.
      */
-//    @Disabled("Unit test actually POSTs data to example.com, which we shouldn't do as we don't own that domain.")
+//    @Disabled("Unit test actually POSTs data to example.com, which we shouldn't do as we don't
+//    own that domain.")
     @Test
     public void postInvalidOlscResource() throws IOException, URISyntaxException {
         assertTimeout(ofSeconds(10), () -> {
             final OslcClient client = new OslcClient();
             final ServiceProvider request = new ServiceProvider();
-            request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"), "test");
-            Response response = client.createResource("http://open-services.net/.well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200", request, OSLCConstants.CT_RDF);
+            request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"),
+                "test");
+            Response response = client.createResource("http://open-services.net/" +
+                ".well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
+                request, OSLCConstants.CT_RDF);
             assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
             // assertThrows(ClientErrorException.class, () -> {
             //
@@ -71,69 +76,84 @@ public class OslcClientTest {
     @Test
     public void testGetResource() {
         OslcClient client = mock(OslcClient.class, Mockito.CALLS_REAL_METHODS);
-        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(), any());
+        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(),
+            any());
         client.getResource("test.url");
-        verify(client).doRequest("GET", "test.url", null, null, null, null, "application/rdf+xml", null);
+        verify(client).doRequest("GET", "test.url", null, null, null, null, "application/rdf+xml"
+            , null);
 
         clearInvocations(client);
         client.getResource("test.url", "application/rdf+xml");
-        verify(client).doRequest("GET", "test.url", null, null, null, "application/rdf+xml", "application/rdf+xml", null);
+        verify(client).doRequest("GET", "test.url", null, null, null, "application/rdf+xml",
+            "application/rdf+xml", null);
 
         clearInvocations(client);
         client.getResource("test.url", Map.of("a", "b"), "application/rdf+xml", "oslc.context");
-        verify(client).doRequest("GET", "test.url", null, "oslc.context", null, "application/rdf+xml", "application/rdf+xml", Map.of("a", "b"));
+        verify(client).doRequest("GET", "test.url", null, "oslc.context", null, "application/rdf" +
+            "+xml", "application/rdf+xml", Map.of("a", "b"));
     }
 
     @Test
     public void testPutResource() {
         OslcClient client = mock(OslcClient.class, Mockito.CALLS_REAL_METHODS);
-        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(), any());
+        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(),
+            any());
 
         client.updateResource("test.url", "artifact", "application/json");
-        verify(client).doRequest("PUT", "test.url", "artifact", null, null, "application/json", "*/*", null);
+        verify(client).doRequest("PUT", "test.url", "artifact", null, null, "application/json",
+            "*/*", null);
 
         clearInvocations(client);
-        client.updateResource("test.url", "artifact", "application/json", "*/*", "ifmatch", "configContext");
-        verify(client).doRequest("PUT", "test.url", "artifact", "configContext", "ifmatch", "application/json", "*/*", null);
+        client.updateResource("test.url", "artifact", "application/json", "*/*", "ifmatch",
+            "configContext");
+        verify(client).doRequest("PUT", "test.url", "artifact", "configContext", "ifmatch",
+            "application/json", "*/*", null);
 
 
         clearInvocations(client);
         client.updateResource("test.url", "artifact", "application/json", "*/*", "ifmatch");
-        verify(client).doRequest("PUT", "test.url", "artifact", null, "ifmatch", "application/json", "*/*", null);
+        verify(client).doRequest("PUT", "test.url", "artifact", null, "ifmatch", "application" +
+            "/json", "*/*", null);
     }
 
     @Test
     public void testDeleteResource() {
         OslcClient client = mock(OslcClient.class, Mockito.CALLS_REAL_METHODS);
-        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(), any());
+        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(),
+            any());
 
         client.deleteResource("test.url");
         verify(client).doRequest("DELETE", "test.url", null, null, null, null, null, null);
 
         clearInvocations(client);
         client.deleteResource("test.url", "configContext");
-        verify(client).doRequest("DELETE", "test.url", null, "configContext", null, null, null, null);
+        verify(client).doRequest("DELETE", "test.url", null, "configContext", null, null, null,
+            null);
 
     }
 
     @Test
     public void testCreateResource() {
         OslcClient client = mock(OslcClient.class, Mockito.CALLS_REAL_METHODS);
-        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(), any());
+        doReturn(null).when(client).doRequest(any(), any(), any(), any(), any(), any(), any(),
+            any());
 
         client.createResource("test.url", "artifact", "application/rdf+xml");
-        verify(client).doRequest("POST", "test.url", "artifact", null, null, "application/rdf+xml", "*/*", null);
+        verify(client).doRequest("POST", "test.url", "artifact", null, null, "application/rdf+xml"
+            , "*/*", null);
 
         clearInvocations(client);
         client.createResource("test.url", "artifact", "application/rdf+xml", "*/*", "oslc.ctx");
-        verify(client).doRequest("POST", "test.url", "artifact", "oslc.ctx", null, "application/rdf+xml", "*/*", null);
+        verify(client).doRequest("POST", "test.url", "artifact", "oslc.ctx", null, "application" +
+            "/rdf+xml", "*/*", null);
     }
 
     @Test
     public void testAddHeaders() {
         OslcClient client = new OslcClient();
         Builder builder = mock(Builder.class);
-        Map<String, String> headers = client.addHeaders(builder, Map.of("a", "b"), "ifmatch", "ctx");
+        Map<String, String> headers = client.addHeaders(builder, Map.of("a", "b"), "ifmatch",
+            "ctx");
         assertEquals(4, headers.size());
 
         assertEquals("b", headers.get("a"));
