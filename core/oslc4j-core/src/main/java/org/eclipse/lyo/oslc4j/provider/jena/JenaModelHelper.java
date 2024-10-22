@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -13,40 +13,71 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import org.apache.jena.rdf.model.Container;
-import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.rdf.model.ReifiedStatement;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-
-import org.apache.jena.rdf.model.Alt;
-import org.apache.jena.rdf.model.Bag;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.RSIterator;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Seq;
-import org.apache.jena.rdf.model.SimpleSelector;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.graph.BlankNodeId;
 import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
+import org.apache.jena.graph.BlankNodeId;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.rdf.model.Alt;
+import org.apache.jena.rdf.model.AnonId;
+import org.apache.jena.rdf.model.Bag;
+import org.apache.jena.rdf.model.Container;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Seq;
+import org.apache.jena.rdf.model.SimpleSelector;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.impl.ReifierStd;
+import org.apache.jena.util.ResourceUtils;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.util.ResourceUtils;
-
-import org.eclipse.lyo.oslc4j.core.*;
-import org.eclipse.lyo.oslc4j.core.annotation.*;
-import org.eclipse.lyo.oslc4j.core.exception.*;
-import org.eclipse.lyo.oslc4j.core.model.*;
+import org.eclipse.lyo.oslc4j.core.NestedWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.OslcGlobalNamespaceProvider;
+import org.eclipse.lyo.oslc4j.core.SingletonWildcardProperties;
+import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreInvalidPropertyDefinitionException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMisusedOccursException;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreRelativeURIException;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.model.AnyResource;
+import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
+import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
+import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
+import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
+import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
+import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
+import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.eclipse.lyo.oslc4j.provider.jena.ordfm.ResourcePackages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,14 +94,40 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractSequentialList;
+import java.util.AbstractSet;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Deque;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.NavigableSet;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
@@ -363,7 +420,7 @@ public final class JenaModelHelper
         if (mostConcreteResourceClass.isPresent()) {
             beanClass = mostConcreteResourceClass.get();
         }
-        final Object   newInstance = beanClass.newInstance();
+        final Object   newInstance = beanClass.getDeclaredConstructor().newInstance();
         final Map<Class<?>, Map<String, Method>> classPropertyDefinitionsToSetMethods = new HashMap<>();
         final Map<String,Object> visitedResources = new HashMap<>();
         final HashSet<String> rdfTypes = new HashSet<>();
@@ -553,7 +610,7 @@ public final class JenaModelHelper
                         continue;
                     }
                 }
-                final Object   newInstance = beanClass.newInstance();
+                final Object   newInstance = beanClass.getDeclaredConstructor().newInstance();
                 final Map<String,Object> visitedResources = new HashMap<>();
                 final HashSet<String> rdfTypes = new HashSet<>();
 
@@ -912,7 +969,7 @@ public final class JenaModelHelper
                             Class<?> resourceClass = optionalResourceClass.isPresent()
                                     ? optionalResourceClass.get()
                                     : setMethodComponentParameterClass;
-                            final Object nestedBean = resourceClass.newInstance();
+                            final Object nestedBean = resourceClass.getDeclaredConstructor().newInstance();
                             fromResource(classPropertyDefinitionsToSetMethods,
                                     nestedBean.getClass(),
                                     nestedBean,
@@ -930,7 +987,7 @@ public final class JenaModelHelper
                         {
                             // This property supports reified statements. Create the
                             // new resource to hold the value and any metadata.
-                            final Object reifiedResource = reifiedClass.newInstance();
+                            final Object reifiedResource = reifiedClass.getDeclaredConstructor().newInstance();
 
                             // Find a setter for the actual value.
                             for (Method method : reifiedClass.getMethods())
@@ -949,10 +1006,12 @@ public final class JenaModelHelper
                             }
 
                             // Fill in any reified statements.
-                            RSIterator rsIter = statement.listReifiedStatements();
-                            while (rsIter.hasNext())
+                            Graph stmtGraph = statement.getModel().getGraph();
+                            ExtendedIterator<Node> reifiedTriplesIter = ReifierStd.allNodes(stmtGraph, statement.asTriple());
+                            while (reifiedTriplesIter.hasNext())
                             {
-                                ReifiedStatement reifiedStatement = rsIter.next();
+                                Node reifiedNode = reifiedTriplesIter.next();
+                                Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
                                 fromResource(classPropertyDefinitionsToSetMethods,
                                         reifiedClass,
                                         reifiedResource,
@@ -1051,7 +1110,7 @@ public final class JenaModelHelper
                 // Not handled above.  Let's try newInstance with possible failure.
                 else
                 {
-                    collection = ((Collection<Object>) parameterClass.newInstance());
+                    collection = ((Collection<Object>) parameterClass.getDeclaredConstructor().newInstance());
                 }
 
                 collection.addAll(values);
@@ -1060,6 +1119,23 @@ public final class JenaModelHelper
                         collection);
             }
         }
+    }
+
+    /*
+    Adapted from https://github.com/spdx/tools/blob/bc35e25dacb728bf8332b82b509bb3efacd6c64e/src/org/spdx/rdfparser/SPDXDocument.java#L1225
+    Copyright (c) 2010, 2011 Source Auditor Inc.
+    SPDX-License-Identifier: Apache-2.0
+     */
+    private static Resource getResource(Model model, Node node) {
+        Resource s;
+        if (node.isURI()) {
+            s = model.createResource(node.getURI());
+        } else if (node.isBlank()) {
+            s = model.createResource(new AnonId(node.getBlankNodeId()));
+        } else {
+            throw(new IllegalArgumentException("Only returning nodes for URI or bnode subjects"));
+        }
+        return s;
     }
 
     /**
@@ -1463,9 +1539,8 @@ public final class JenaModelHelper
             final Property property = model.createProperty(propertyName);
             final Object value = extendedProperty.getValue();
 
-            if (value instanceof Collection)
+            if (value instanceof Collection<?> collection)
             {
-                final Collection<?> collection = (Collection<?>) value;
                 for (Object next : collection)
                 {
                     handleExtendedValue(resourceClass,
@@ -1509,14 +1584,13 @@ public final class JenaModelHelper
             InvocationTargetException,
             OslcCoreApplicationException
     {
-        if (value instanceof UnparseableLiteral)
+        if (value instanceof UnparseableLiteral unparseable)
         {
             if (onlyNested)
             {
                 return;
             }
 
-            final UnparseableLiteral unparseable = (UnparseableLiteral) value;
             resource.addProperty(property, model.createLiteral(unparseable.getRawValue()));
         }
         else if (value instanceof AnyResource)
@@ -2169,7 +2243,7 @@ public final class JenaModelHelper
             {
                 try {
                     IOslcCustomNamespaceProvider customNamespaceProviderImpl
-                            = customNamespaceProvider.newInstance();
+                            = customNamespaceProvider.getDeclaredConstructor().newInstance();
                     Map<String, String> customNamespacePrefixes = customNamespaceProviderImpl
                             .getCustomNamespacePrefixes();
                     if(null != customNamespacePrefixes)
@@ -2183,6 +2257,12 @@ public final class JenaModelHelper
                 } catch (InstantiationException e) {
                     throw new RuntimeException("The custom namespace provider must not be a abstract," +
                             " nor interface class and must have a public no args constructor", e);
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeException(
+                        "Class '%s' does not have a no-args constructor required for Lyo Beans"
+                            .formatted(customNamespaceProvider.getSimpleName()), e);
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -2197,13 +2277,8 @@ public final class JenaModelHelper
 
         final Class<?>[] interfaces = resourceClass.getInterfaces();
 
-        if (interfaces != null)
-        {
-            for (final Class<?> interfac : interfaces)
-            {
-                recursivelyCollectNamespaceMappings(namespaceMappings,
-                        interfac);
-            }
+        for (final Class<?> iface : interfaces) {
+            recursivelyCollectNamespaceMappings(namespaceMappings, iface);
         }
     }
 
