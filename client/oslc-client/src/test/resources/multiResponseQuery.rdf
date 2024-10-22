@@ -1,0 +1,1397 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:rtc_ext="http://jazz.net/xmlns/prod/jazz/rtc/ext/1.0/"
+    xmlns:oslc="http://open-services.net/ns/core#"
+    xmlns:acp="http://jazz.net/ns/acp#"
+    xmlns:oslc_cm="http://open-services.net/ns/cm#"
+    xmlns:oslc_cmx="http://open-services.net/ns/cm-x#"
+    xmlns:oslc_pl="http://open-services.net/ns/pl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:acc="http://open-services.net/ns/core/acc#"
+    xmlns:process="http://jazz.net/ns/process#"
+    xmlns:rtc_cm="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/" >
+  <rdf:Description rdf:nodeID="A0">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_ZfexoROCEeuGVp2Lcoli0g"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>126285: Program</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A1">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-479"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-479</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1535">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:37.865Z</dcterms:created>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_d9RVEBccEeyRX90FVyTAog/schedule"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:38.238Z</dcterms:modified>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:description rdf:parseType="Literal">Image elements must provide a description in the 'alt' attribute for consumption by screen readers.</dcterms:description>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_d9RVEBccEeyRX90FVyTAog"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_d9RVEBccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1535</dcterms:identifier>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_d9RVEBccEeyRX90FVyTAog/progressTracking"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1535</oslc:shortId>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_d9RVEBccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <dcterms:title rdf:parseType="Literal">Implement accessibility in Pet Store application (updated)</dcterms:title>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/1"/>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1535</oslc:shortTitle>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1115">
+    <rtc_ext:com.ibm.team.workitem.attribute.howFound rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/howFound/howFound.literal.l1"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defect</dcterms:type>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_P7Q2UJeNEeuCf98Q52-MGQ/schedule"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1115</oslc:shortId>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.defectWorkflow/com.ibm.team.workitem.defectWorkflow.state.new"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-07T10:38:21.136Z</dcterms:created>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-07T10:38:21.155Z</dcterms:modified>
+    <dcterms:title rdf:parseType="Literal">This is a System Change Request (A Defect)</dcterms:title>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc:shortTitle rdf:parseType="Literal">Defect 1115</oslc:shortTitle>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.defect"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_P7Q2UJeNEeuCf98Q52-MGQ"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_P7Q2UJeNEeuCf98Q52-MGQ/rtc_cm:timeSheet"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H6owBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1115</dcterms:identifier>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_P7Q2UJeNEeuCf98Q52-MGQ/progressTracking"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_P7Q2UJeNEeuCf98Q52-MGQ/rtc_cm:comments"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A2">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.children"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1044: PI Objective (Team)</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_rcZBECQNEe6TudMrgptJIA/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A3">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1116"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-471"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-471</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046">
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:implementsRequirement rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_yJ-8gROCEeuGVp2Lcoli0g"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_ext:com.ibm.team.apt.attribute.complexity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/complexity/0"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_ET4zEBOBEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Story</dcterms:type>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <rtc_ext:com.ibm.team.workitem.attribute.doccumentation rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:38:25.551Z</dcterms:created>
+    <rtc_ext:com.ibm.team.workitem.attribute.acceptanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1046</dcterms:identifier>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T10:00:12.918Z</dcterms:modified>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <dcterms:title rdf:parseType="Literal">Story</dcterms:title>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+    <oslc:shortTitle rdf:parseType="Literal">Story 1046</oslc:shortTitle>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.checklistNotes rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.workitem.attribute.checklistNotes>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeEnablerType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeEnablerType/safeEnablerType.literal.l3"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_ET4zEBOBEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <rtc_ext:com.ibm.team.apt.attribute.acceptance rdf:parseType="Literal"></rtc_ext:com.ibm.team.apt.attribute.acceptance>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_ET4zEBOBEeutmoeSPr3-Ag/schedule"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1046</oslc:shortId>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rtc_ext:com.ibm.team.workitem.attribute.performanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.mvp rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.mvp>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.apt.workItemType.story"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.storyPointsNumeric rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.storyPointsNumeric>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeWorkType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeWorkType/safeWorkType.literal.l2"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:implementsRequirement rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_pw6YwROCEeuGVp2Lcoli0g"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_ET4zEBOBEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:com.ibm.team.workitem.attribute.uxDesign rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc_cm:trackedWorkItem rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_ET4zEBOBEeutmoeSPr3-Ag/progressTracking"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.apt.storyWorkflow/com.ibm.team.apt.storyWorkflow.state.new"/>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.parent rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A4">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1537"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/1"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Accessibility verification using a screen reader</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1531">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:26:47.443Z</dcterms:created>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:description rdf:parseType="Literal">Image elements must provide a description in the 'alt' attribute for consumption by screen readers.</dcterms:description>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_pvSAABcbEeyRX90FVyTAog/rtc_cm:comments"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1531</dcterms:identifier>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_pvSAABcbEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1531</oslc:shortId>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/1"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1531</oslc:shortTitle>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:26:48.129Z</dcterms:modified>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_pvSAABcbEeyRX90FVyTAog/schedule"/>
+    <dcterms:title rdf:parseType="Literal">Implement accessibility in Pet Store application (updated)</dcterms:title>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_pvSAABcbEeyRX90FVyTAog/progressTracking"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_pvSAABcbEeyRX90FVyTAog"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042">
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.piObjective.workflow/com.ibm.team.workitem.piObjectiveWorkflow.state.new"/>
+    <oslc_cm:tracksWorkItem rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <dcterms:title rdf:parseType="Literal">PI Objective (Program)</dcterms:title>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_M2x2oBOAEeutmoeSPr3-Ag/schedule"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rtc_ext:com.ibm.team.workitem.attribute.busValuePlanned rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/businessValue/businessValue.literal.l11"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+    <oslc:shortTitle rdf:parseType="Literal">PI Objective 1042</oslc:shortTitle>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.piObjective"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.busValueActual rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/businessValue/businessValue.literal.l11"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_ext:com.ibm.team.workitem.attribute.piType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/piType/piType.literal.l1"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_M2x2oBOAEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_M2x2oBOAEeutmoeSPr3-Ag"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_M2x2oBOAEeutmoeSPr3-Ag/progressTracking"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PI Objective</dcterms:type>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:39:42.663Z</dcterms:modified>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.achievedValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.achievedValue>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_M2x2oBOAEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.children rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1042</oslc:shortId>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1042</dcterms:identifier>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_ext:com.ibm.team.workitem.attribute.stretch rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.stretch>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:32:48.097Z</dcterms:created>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1050">
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.acceptanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.apt.storyWorkflow/com.ibm.team.apt.storyWorkflow.state.new"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.uxDesign rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_4HFAoD4BEeu5C4gVtTlLYw/rtc_cm:timeSheet"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.apt.workItemType.story"/>
+    <oslc:shortTitle rdf:parseType="Literal">Story 1050</oslc:shortTitle>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1050</oslc:shortId>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-12-14T11:45:52.188Z</dcterms:created>
+    <rtc_ext:com.ibm.team.apt.attribute.acceptance rdf:parseType="Literal"></rtc_ext:com.ibm.team.apt.attribute.acceptance>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H6owBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/nils.palsson"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/nils.palsson"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_4HFAoD4BEeu5C4gVtTlLYw/schedule"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeEnablerType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeEnablerType/safeEnablerType.literal.l1"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_4HFAoD4BEeu5C4gVtTlLYw"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.storyPointsNumeric rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.storyPointsNumeric>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-12-14T11:53:03.066Z</dcterms:modified>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeWorkType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeWorkType/safeWorkType.literal.l2"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.performanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.doccumentation rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_4HFAoD4BEeu5C4gVtTlLYw/progressTracking"/>
+    <rtc_ext:com.ibm.team.apt.attribute.complexity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/complexity/0"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Story</dcterms:type>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_4HFAoD4BEeu5C4gVtTlLYw/rtc_cm:comments"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_ext:com.ibm.team.workitem.attribute.checklistNotes rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.workitem.attribute.checklistNotes>
+    <rtc_ext:com.ibm.team.workitem.attribute.mvp rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.mvp>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1050</dcterms:identifier>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/nils.palsson"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cm:implementsRequirement rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-440"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <dcterms:title rdf:parseType="Literal">This is my story</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A5">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1040"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.textualReference.textuallyReferenced"/>
+    <rdf:object rdf:resource="https://ibm.biz/BdZvAY"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>configuring Essential SAFe for additional post-project initialization instructions</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A6">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#trackedWorkItem"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1044: PI Objective (Team)</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A7">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1535"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/1"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Accessibility verification using a screen reader</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems">
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1040"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1115"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/2310"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1532"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1538"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1537"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1533"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1050"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1536"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1531"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1116"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1535"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1534"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1051"/>
+    <rdfs:member rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1047"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_Om-IkJhsEeuCf98Q52-MGQ/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A8">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1531"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/1"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Accessibility verification using a screen reader</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_d9RVEBccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_p-dEcBcbEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1536">
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defect</dcterms:type>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:39.076Z</dcterms:modified>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc:shortTitle rdf:parseType="Literal">Defect 1536</oslc:shortTitle>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.defectWorkflow/com.ibm.team.workitem.defectWorkflow.state.new"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.howFound rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/howFound/howFound.literal.l1"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.defect"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_eIwMURccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_eIwMURccEeyRX90FVyTAog"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_eIwMURccEeyRX90FVyTAog/schedule"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <dcterms:title rdf:parseType="Literal">Error logging in</dcterms:title>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1536</dcterms:identifier>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/3"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1536</oslc:shortId>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:description rdf:parseType="Literal">An error occurred when I tried to log in with a user ID that contained the '@' symbol.</dcterms:description>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_eIwMURccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-IFn4RNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_eIwMURccEeyRX90FVyTAog/progressTracking"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:39.067Z</dcterms:created>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A9">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-528"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-528</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A10">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-457"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-457</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1116">
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-08T13:11:56.081Z</dcterms:modified>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_qZzxsZeNEeuCf98Q52-MGQ/rtc_cm:comments"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_qZzxsZeNEeuCf98Q52-MGQ/progressTracking"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-471"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1116</oslc:shortId>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1116</dcterms:identifier>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-479"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_qZzxsZeNEeuCf98Q52-MGQ/rtc_cm:timeSheet"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_qZzxsZeNEeuCf98Q52-MGQ"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_qZzxsZeNEeuCf98Q52-MGQ/schedule"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-07T10:40:39.882Z</dcterms:created>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1116</oslc:shortTitle>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <dcterms:title rdf:parseType="Literal"> need to create a ChangeRequest from Polarion</dcterms:title>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1532">
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_p-dEcBcbEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc:shortTitle rdf:parseType="Literal">Defect 1532</oslc:shortTitle>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_p-dEcBcbEeyRX90FVyTAog/rtc_cm:comments"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_p-dEcBcbEeyRX90FVyTAog/schedule"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defect</dcterms:type>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/3"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1532</oslc:shortId>
+    <rtc_ext:com.ibm.team.workitem.attribute.howFound rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/howFound/howFound.literal.l1"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:26:49.032Z</dcterms:modified>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.defect"/>
+    <dcterms:title rdf:parseType="Literal">Error logging in</dcterms:title>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-IFn4RNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.defectWorkflow/com.ibm.team.workitem.defectWorkflow.state.new"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_p-dEcBcbEeyRX90FVyTAog/progressTracking"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:26:49.021Z</dcterms:created>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <dcterms:description rdf:parseType="Literal">An error occurred when I tried to log in with a user ID that contained the '@' symbol.</dcterms:description>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_p-dEcBcbEeyRX90FVyTAog"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1532</dcterms:identifier>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A11">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_2uIdIROCEeuGVp2Lcoli0g"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>126288: Non-Functional Requirement</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A12">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1051"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-471"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-471</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1047">
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_ext:com.ibm.team.workitem.attribute.ubVal rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/ubVal/ubVal.literal.l1"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.successCriteria rdf:parseType="Literal"></rtc_ext:com.ibm.team.workitem.attribute.successCriteria>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:41:53.360Z</dcterms:modified>
+    <rtc_ext:com.ibm.team.workitem.attribute.epicHypothesisStatement rdf:parseType="Literal">For &lt;customers&gt; who &lt;do something&gt; the &lt;solution&gt; is a &lt;something - the "how"&gt; that &lt;provides this value&gt; Unlike &lt;competitor, current solution, or non-existing solution&gt; our solution &lt;does something better - the "why"&gt;<br></br><br></br><b>Outcomes hypothesis: </b><br></br>*<br></br>*<br></br><br></br><b>Leading indicators: </b><br></br>* (early innovation accounting measures)<br></br>*<br></br><br></br><b>NFRs: </b><br></br>*<br></br>*<br></br></rtc_ext:com.ibm.team.workitem.attribute.epicHypothesisStatement>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:com.ibm.team.workitem.attribute.jobSize rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/jobSize/jobSize.literal.l1"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1047</oslc:shortId>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeWorkType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeWorkType/safeWorkType.literal.l2"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_kC0qABOBEeutmoeSPr3-Ag/progressTracking"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:41:27.851Z</dcterms:created>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Draft</oslc_cm:status>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1047</dcterms:identifier>
+    <rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints>
+    <oslc:shortTitle rdf:parseType="Literal">Program Epic 1047</oslc:shortTitle>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjf rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.wsjf>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_ext:com.ibm.team.workitem.attribute.rroe rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/rroe/rroe.literal.l1"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_kC0qABOBEeutmoeSPr3-Ag/schedule"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_kC0qABOBEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+    <dcterms:title rdf:parseType="Literal">Program Epic</dcterms:title>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.timeCrit rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/timeCrit/timeCrit.literal.l1"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.programEpic.workflow/com.ibm.team.workitem.programEpic.workflow.state.draft"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_kC0qABOBEeutmoeSPr3-Ag"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Program Epic</dcterms:type>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeEnablerType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeEnablerType/safeEnablerType.literal.l1"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.programEpic"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.children rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_kC0qABOBEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A13">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#tracksWorkItem"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1045: Feature</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A14">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1536"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/3"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Global Verifcation Test</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_-OzT4BNvEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1051">
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-527"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-471"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1051</oslc:shortId>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1051</oslc:shortTitle>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_jM0c0FzEEeuZLP6OolfvBQ/progressTracking"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <dcterms:title rdf:parseType="Literal">Test task demo for Erik</dcterms:title>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-07T10:55:47.342Z</dcterms:modified>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_jM0c0FzEEeuZLP6OolfvBQ/rtc_cm:comments"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1051</dcterms:identifier>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-01-22T15:14:53.538Z</dcterms:created>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_jM0c0FzEEeuZLP6OolfvBQ/schedule"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_jM0c0FzEEeuZLP6OolfvBQ/rtc_cm:timeSheet"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_jM0c0FzEEeuZLP6OolfvBQ"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gm7e8BccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A15">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/2310"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/1"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Accessibility verification using a screen reader</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_ET4zEBOBEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_kC0qABOBEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A16">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1534"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/3"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Global Verifcation Test</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A17">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_pw6YwROCEeuGVp2Lcoli0g"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>126286: Team Non-Functional Requirement</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A18">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#affectsPlanItem"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-529"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-529</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/2310">
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_rcZBECQNEe6TudMrgptJIA/rtc_cm:timeSheet"/>
+    <dcterms:title rdf:parseType="Literal">Implement accessibility in Pet Store application (updated)</dcterms:title>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2310</oslc:shortId>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/1"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_rcZBECQNEe6TudMrgptJIA/rtc_cm:comments"/>
+    <oslc:shortTitle rdf:parseType="Literal">Task 2310</oslc:shortTitle>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_rcZBECQNEe6TudMrgptJIA/progressTracking"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2310</dcterms:identifier>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-07-16T19:19:27.418Z</dcterms:modified>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_rcZBECQNEe6TudMrgptJIA/schedule"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-07-16T19:19:26.374Z</dcterms:created>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:description rdf:parseType="Literal">Image elements must provide a description in the 'alt' attribute for consumption by screen readers.</dcterms:description>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_rcZBECQNEe6TudMrgptJIA"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A19">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.children"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1046: Story</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1537">
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gm7e8BccEeyRX90FVyTAog/progressTracking"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1537</dcterms:identifier>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/1"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gm7e8BccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1537</oslc:shortId>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gm7e8BccEeyRX90FVyTAog/schedule"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:56.025Z</dcterms:modified>
+    <dcterms:description rdf:parseType="Literal">Image elements must provide a description in the 'alt' attribute for consumption by screen readers.</dcterms:description>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gm7e8BccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:55.653Z</dcterms:created>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1537</oslc:shortTitle>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:title rdf:parseType="Literal">Implement accessibility in Pet Store application (updated)</dcterms:title>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_gm7e8BccEeyRX90FVyTAog"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1533">
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_RpcL8BccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1533</oslc:shortId>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_RpcL8BccEeyRX90FVyTAog"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <dcterms:title rdf:parseType="Literal">Implement accessibility in Pet Store application (updated)</dcterms:title>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/1"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1533</oslc:shortTitle>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:31:15.255Z</dcterms:created>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1533</dcterms:identifier>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_94nBcBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_RpcL8BccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_RpcL8BccEeyRX90FVyTAog/schedule"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:description rdf:parseType="Literal">Image elements must provide a description in the 'alt' attribute for consumption by screen readers.</dcterms:description>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_RpcL8BccEeyRX90FVyTAog/progressTracking"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:31:15.641Z</dcterms:modified>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_aSWD4BOAEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A20">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.parent"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1042: PI Objective (Program)</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A21">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-477"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-477</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_pvSAABcbEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_R1PzUBccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_M2x2oBOAEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A22">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1051"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-527"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-527</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044">
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_aSWD4BOAEeutmoeSPr3-Ag"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_aSWD4BOAEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1044</dcterms:identifier>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_aSWD4BOAEeutmoeSPr3-Ag/schedule"/>
+    <oslc_cm:tracksWorkItem rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.piObjective"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <oslc:shortTitle rdf:parseType="Literal">PI Objective 1044</oslc:shortTitle>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1044</oslc:shortId>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_aSWD4BOAEeutmoeSPr3-Ag/progressTracking"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.piType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/piType/piType.literal.l2"/>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.parent rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.busValueActual rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/businessValue/businessValue.literal.l11"/>
+    <dcterms:title rdf:parseType="Literal">PI Objective (Team)</dcterms:title>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_ext:com.ibm.team.workitem.attribute.stretch rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.stretch>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PI Objective</dcterms:type>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <rtc_ext:com.ibm.team.workitem.attribute.busValuePlanned rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/businessValue/businessValue.literal.l11"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.achievedValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.achievedValue>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.piObjective.workflow/com.ibm.team.workitem.piObjectiveWorkflow.state.new"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_aSWD4BOAEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:40:03.820Z</dcterms:modified>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:33:26.547Z</dcterms:created>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_qZzxsZeNEeuCf98Q52-MGQ/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems?oslc.select=*&amp;oslc.pageSize=20&amp;_srtartIndex=10">
+    <oslc:nextPage rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems?_resultToken=_PVjXQIAxEe-su-5EYbIgqQ&amp;oslc.pageSize=20&amp;oslc.select=*&amp;_startIndex=20"/>
+    <dcterms:title>Work Items</dcterms:title>
+    <oslc:totalCount>537</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_jM0c0FzEEeuZLP6OolfvBQ/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1040">
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_-OzT4BNvEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_cm:com.ibm.team.workitem.linktype.textualReference.textuallyReferenced rdf:resource="https://ibm.biz/BdZvAY"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1040</oslc:shortId>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:title rdf:parseType="Literal">Post-Project Initialization</dcterms:title>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_-OzT4BNvEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T07:35:20.513Z</dcterms:modified>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_-OzT4BNvEeutmoeSPr3-Ag/schedule"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_-OzT4BNvEeutmoeSPr3-Ag/progressTracking"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T07:35:20.370Z</dcterms:created>
+    <oslc:shortTitle rdf:parseType="Literal">Task 1040</oslc:shortTitle>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:description rdf:parseType="Literal">See, <a href="https://ibm.biz/BdZvAY">configuring Essential SAFe for additional post-project initialization instructions</a>.<br></br><br></br></dcterms:description>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.taskWorkflow/com.ibm.team.workitem.taskWorkflow.state.new"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Task</dcterms:type>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_-OzT4BNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1040</dcterms:identifier>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.task"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_4HFAoD4BEeu5C4gVtTlLYw/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A23">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1047"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.children"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1045: Feature</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A24">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_yJ-8gROCEeuGVp2Lcoli0g"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>126287: Team User Requirement</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A25">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1533"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/1"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Accessibility verification using a screen reader</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118">
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_Om-IkJhsEeuCf98Q52-MGQ"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_Om-IkJhsEeuCf98Q52-MGQ/rtc_cm:timeSheet"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <oslc_cm:affectsPlanItem rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-529"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-04-08T13:14:06.622Z</dcterms:created>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1118</dcterms:identifier>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeEnablerType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeEnablerType/safeEnablerType.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.performanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1118</oslc:shortId>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-479"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_Om-IkJhsEeuCf98Q52-MGQ/schedule"/>
+    <oslc:shortTitle rdf:parseType="Literal">Feature 1118</oslc:shortTitle>
+    <rtc_ext:com.ibm.team.workitem.attribute.doccumentation rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-528"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Draft</oslc_cm:status>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.feature.workflow/com.ibm.team.workitem.feature.state.draft"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeWorkType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeWorkType/safeWorkType.literal.l2"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_ext:com.ibm.team.workitem.attribute.uxDesign rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_ext:com.ibm.team.apt.attribute.acceptance rdf:parseType="Literal"></rtc_ext:com.ibm.team.apt.attribute.acceptance>
+    <rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <rtc_ext:com.ibm.team.workitem.attribute.timeCrit rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/timeCrit/timeCrit.literal.l1"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <rtc_ext:com.ibm.team.workitem.attribute.checklistNotes rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.workitem.attribute.checklistNotes>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/jad.el.khoury"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.rroe rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/rroe/rroe.literal.l1"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.jobSize rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/jobSize/jobSize.literal.l1"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.acceptanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-11-08T08:35:53.632Z</dcterms:modified>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_Om-IkJhsEeuCf98Q52-MGQ/rtc_cm:comments"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <dcterms:title rdf:parseType="Literal">A Change Request to trace to many development tasks in Polarion</dcterms:title>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjf rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.wsjf>
+    <oslc_cm:affectsPlanItem rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-528"/>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-477"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-457"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.ubVal rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/ubVal/ubVal.literal.l1"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <rtc_ext:com.ibm.team.workitem.attribute.mvp rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.mvp>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H6owBNvEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Feature</dcterms:type>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.feature"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_Om-IkJhsEeuCf98Q52-MGQ/progressTracking"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A26">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-525"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-525</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1538">
+    <rtc_ext:com.ibm.team.workitem.attribute.howFound rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/howFound/howFound.literal.l1"/>
+    <oslc:shortTitle rdf:parseType="Literal">Defect 1538</oslc:shortTitle>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gyhD4BccEeyRX90FVyTAog/schedule"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1538</dcterms:identifier>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gyhD4BccEeyRX90FVyTAog/progressTracking"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gyhD4BccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/3"/>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.defectWorkflow/com.ibm.team.workitem.defectWorkflow.state.new"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:description rdf:parseType="Literal">An error occurred when I tried to log in with a user ID that contained the '@' symbol.</dcterms:description>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-IFn4RNvEeutmoeSPr3-Ag"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1538</oslc:shortId>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gyhD4BccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defect</dcterms:type>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:56.877Z</dcterms:modified>
+    <dcterms:title rdf:parseType="Literal">Error logging in</dcterms:title>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:32:56.868Z</dcterms:created>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_gyhD4BccEeyRX90FVyTAog"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.defect"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_RpcL8BccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A27">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_84BzkROCEeuGVp2Lcoli0g"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>126289: User Requirement</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A28">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1116"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#relatedChangeRequest"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-479"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-479</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1534">
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_R1PzUBccEeyRX90FVyTAog/schedule"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1534</dcterms:identifier>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:title rdf:parseType="Literal">Error logging in</dcterms:title>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.defectWorkflow/com.ibm.team.workitem.defectWorkflow.state.new"/>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">New</oslc_cm:status>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Defect</dcterms:type>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+    <oslc_cm:testedByTestCase rdf:resource="http://qmprovider/testcase/3"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:31:16.492Z</dcterms:created>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.defect"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.howFound rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/howFound/howFound.literal.l1"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-16T18:31:16.501Z</dcterms:modified>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_R1PzUBccEeyRX90FVyTAog"/>
+    <oslc:shortTitle rdf:parseType="Literal">Defect 1534</oslc:shortTitle>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1534</oslc:shortId>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-IFn4RNvEeutmoeSPr3-Ag"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_R1PzUBccEeyRX90FVyTAog/rtc_cm:comments"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_R1PzUBccEeyRX90FVyTAog/progressTracking"/>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_R1PzUBccEeyRX90FVyTAog/rtc_cm:timeSheet"/>
+    <dcterms:description rdf:parseType="Literal">An error occurred when I tried to log in with a user ID that contained the '@' symbol.</dcterms:description>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A29">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1044"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#tracksWorkItem"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1046: Story</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_P7Q2UJeNEeuCf98Q52-MGQ/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A30">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1050"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#implementsRequirement"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-440"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-440</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045">
+    <oslc:instanceShape rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/shapes/workitems/_8SBOYBOAEeutmoeSPr3-Ag"/>
+    <oslc_pl:schedule rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_8SBOYBOAEeutmoeSPr3-Ag/schedule"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.rroe rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/rroe/rroe.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.ubVal rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/ubVal/ubVal.literal.l1"/>
+    <oslc_cm:verified rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:verified>
+    <rtc_ext:com.ibm.team.workitem.attribute.timeCrit rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/timeCrit/timeCrit.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.uxDesign rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <oslc_cm:implementsRequirement rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_ZfexoROCEeuGVp2Lcoli0g"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeEnablerType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeEnablerType/safeEnablerType.literal.l1"/>
+    <dcterms:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1045</dcterms:identifier>
+    <rtc_cm:timeSheet rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_8SBOYBOAEeutmoeSPr3-Ag/rtc_cm:timeSheet"/>
+    <oslc:discussedBy rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_8SBOYBOAEeutmoeSPr3-Ag/rtc_cm:comments"/>
+    <oslc_cmx:priority rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/priority/priority.literal.l01"/>
+    <rtc_ext:com.ibm.team.apt.attribute.acceptance rdf:parseType="Literal"></rtc_ext:com.ibm.team.apt.attribute.acceptance>
+    <oslc_cmx:severity rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/severity/severity.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.jobSize rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/jobSize/jobSize.literal.l1"/>
+    <oslc_cm:relatedChangeRequest rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-525"/>
+    <acc:accessContext rdf:resource="https://nordic.clm.ibmcloud.com/ccm/acclist#_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:contextId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">_2nC4UBNvEeutmoeSPr3-Ag</rtc_ext:contextId>
+    <rtc_ext:archived rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:archived>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.children rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rtc_cm:filedAgainst rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemOid/com.ibm.team.workitem.Category/_-H2-YBNvEeutmoeSPr3-Ag"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.acceptanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.performanceTest rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <dcterms:description rdf:parseType="Literal"></dcterms:description>
+    <oslc_cm:reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:reviewed>
+    <rtc_cm:type rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/types/_2nC4UBNvEeutmoeSPr3-Ag/com.ibm.team.workitem.workItemType.feature"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.mvp rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.workitem.attribute.mvp>
+    <oslc_cm:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:closed>
+    <oslc_cm:implementsRequirement rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_84BzkROCEeuGVp2Lcoli0g"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-10-21T09:37:00.992Z</dcterms:created>
+    <oslc_cm:trackedWorkItem rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <oslc_cm:fixed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:fixed>
+    <rtc_cm:modifiedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/andrii.berezovskyi"/>
+    <rtc_cm:subscribers rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc:shortId rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1045</oslc:shortId>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-12-11T15:19:32.749Z</dcterms:modified>
+    <oslc_cm:status rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Draft</oslc_cm:status>
+    <rtc_ext:com.ibm.team.workitem.attribute.doccumentation rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/checklistItemStatus/checklistItemStatus.literal.l1"/>
+    <dcterms:contributor rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <rtc_cm:progressTracking rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_8SBOYBOAEeutmoeSPr3-Ag/progressTracking"/>
+    <dcterms:title rdf:parseType="Literal">Feature</dcterms:title>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0</rtc_ext:com.ibm.team.workitem.attribute.wsjfDecimal>
+    <rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.actualStoryPoints>
+    <acp:accessControl rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/access-control/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <dcterms:type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Feature</dcterms:type>
+    <rtc_cm:repository rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/repository"/>
+    <dcterms:subject rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></dcterms:subject>
+    <rtc_cm:state rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/workflows/_2nC4UBNvEeutmoeSPr3-Ag/states/com.ibm.team.workitem.feature.workflow/com.ibm.team.workitem.feature.state.draft"/>
+    <rtc_ext:com.ibm.team.workitem.attribute.wsjf rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.wsjf>
+    <rtc_ext:com.ibm.team.workitem.attribute.checklistNotes rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.workitem.attribute.checklistNotes>
+    <rtc_ext:com.ibm.team.workitem.attribute.safeWorkType rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/enumerations/_2nC4UBNvEeutmoeSPr3-Ag/safeWorkType/safeWorkType.literal.l2"/>
+    <dcterms:creator rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/stefan.albinsson"/>
+    <oslc:shortTitle rdf:parseType="Literal">Feature 1045</oslc:shortTitle>
+    <rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</rtc_ext:com.ibm.team.workitem.attribute.estimatedStoryPoints>
+    <oslc:serviceProvider rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems/services"/>
+    <oslc_cm:approved rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:approved>
+    <oslc_cmx:project rdf:resource="https://nordic.clm.ibmcloud.com/ccm/oslc/projectareas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <oslc_cm:implementsRequirement rdf:resource="https://nordic.clm.ibmcloud.com/rm/resources/_2uIdIROCEeuGVp2Lcoli0g"/>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rtc_ext:com.ibm.team.apt.attribute.planitem.blockedReason>
+    <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+    <rtc_cm:resolvedBy rdf:resource="https://nordic.clm.ibmcloud.com/jts/users/unassigned"/>
+    <process:projectArea rdf:resource="https://nordic.clm.ibmcloud.com/ccm/process/project-areas/_2nC4UBNvEeutmoeSPr3-Ag"/>
+    <rtc_cm:com.ibm.team.workitem.linktype.parentworkitem.parent rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1047"/>
+    <oslc_cm:inprogress rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</oslc_cm:inprogress>
+    <rtc_ext:com.ibm.team.apt.attribute.planitem.blocked rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</rtc_ext:com.ibm.team.apt.attribute.planitem.blocked>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A31">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1538"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/3"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Global Verifcation Test</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_eIwMURccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A32">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1046"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.parent"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1045: Feature</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A33">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1532"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#testedByTestCase"/>
+    <rdf:object rdf:resource="http://qmprovider/testcase/3"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>Global Verifcation Test</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A34">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://jazz.net/xmlns/prod/jazz/rtc/cm/1.0/com.ibm.team.workitem.linktype.parentworkitem.parent"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1047"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1047: Program Epic</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_gyhD4BccEeyRX90FVyTAog/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A35">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1045"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#trackedWorkItem"/>
+    <rdf:object rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1042"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>1042: PI Objective (Program)</dcterms:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://nordic.clm.ibmcloud.com/ccm/oslc/workitems/_8SBOYBOAEeutmoeSPr3-Ag/rtc_cm:subscribers">
+    <dcterms:title>Subscribed By</dcterms:title>
+    <oslc:totalCount>1</oslc:totalCount>
+    <rdf:type rdf:resource="http://open-services.net/ns/core#ResponseInfo"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="A36">
+    <rdf:subject rdf:resource="https://nordic.clm.ibmcloud.com/ccm/resource/itemName/com.ibm.team.workitem.WorkItem/1118"/>
+    <rdf:predicate rdf:resource="http://open-services.net/ns/cm#affectsPlanItem"/>
+    <rdf:object rdf:resource="https://polarion.oslc.itm.kth.se/polarion/oslc/services/projects/drivepilot/workitems/DP-528"/>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement"/>
+    <dcterms:title>DP-528</dcterms:title>
+  </rdf:Description>
+</rdf:RDF>

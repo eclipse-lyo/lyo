@@ -13,11 +13,7 @@
  */
 package org.eclipse.lyo.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.io.InputStream;
-
+import jakarta.ws.rs.core.Response;
 import org.eclipse.lyo.client.query.OslcQuery;
 import org.eclipse.lyo.client.query.OslcQueryParameters;
 import org.eclipse.lyo.client.query.OslcQueryResult;
@@ -25,91 +21,98 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import jakarta.ws.rs.core.Response;
+import java.io.InputStream;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Samuel Padgett <spadgett@us.ibm.com>
  */
 public class OslcQueryResultTest {
-	@Before
-	public void clearPublicURISystemProperty() {
-		System.clearProperty(OslcQueryResult.SELECT_ANY_MEMBER);
-	}
+    @Before
+    public void clearPublicURISystemProperty() {
+        System.clearProperty(OslcQueryResult.SELECT_ANY_MEMBER);
+    }
 
-	@Test
-	public void testEmpty() {
-		 Response mockedResponse = mockClientResponse("/emptyQuery.rdf");
+    @Test
+    public void testEmpty() {
+        Response mockedResponse = mockClientResponse("/emptyQuery.rdf");
 
-		 OslcQueryParameters params = new OslcQueryParameters();
-		 params.setWhere("dceterms:identifier=3");
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query", params);
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 assertEquals(0, result.getMembersUrls().length);
-	}
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setWhere("dceterms:identifier=3");
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
+            params);
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(0, result.getMembersUrls().length);
+    }
 
-	@Test
-	public void testNoParameters() {
-		 Response mockedResponse = mockClientResponse("/noParamQuery.rdf");
+    @Test
+    public void testNoParameters() {
+        Response mockedResponse = mockClientResponse("/noParamQuery.rdf");
 
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query");
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 assertEquals(2, result.getMembersUrls().length);
-	}
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query");
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(2, result.getMembersUrls().length);
+    }
 
     @Test
     public void testFolderQuery() {
         Response mockedResponse = mockClientResponse("/queryFolderResponse.rdf");
 
         OslcQueryParameters params = new OslcQueryParameters();
-        params.setPrefix("dcterms=<http://purl.org/dc/terms/>,nav=<http://jazz.net/ns/rm/navigation#>");
+        params.setPrefix("dcterms=<http://purl.org/dc/terms/>,nav=<http://jazz" +
+            ".net/ns/rm/navigation#>");
         params.setSelect("*");
 
-        OslcQuery query = new OslcQuery(new OslcClient(), "https://192.168.99.3:9443/rm/folders", params);
+        OslcQuery query = new OslcQuery(new OslcClient(), "https://192.168.99.3:9443/rm/folders",
+            params);
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
         assertEquals(1, result.getMembersUrls().length);
     }
 
-	@Test
-	public void testQuery() {
-		 Response mockedResponse = mockClientResponse("/queryResponse.rdf");
+    @Test
+    public void testQuery() {
+        Response mockedResponse = mockClientResponse("/queryResponse.rdf");
 
-		 OslcQueryParameters params = new OslcQueryParameters();
-		 params.setWhere("ex:product=\"Product A\"");
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query", params);
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 assertEquals(2, result.getMembersUrls().length);
-	}
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setWhere("ex:product=\"Product A\"");
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
+            params);
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(2, result.getMembersUrls().length);
+    }
 
-	@Test
-	public void testBlogQuery() {
-		 Response mockedResponse = mockClientResponse("/blogQuery.rdf");
+    @Test
+    public void testBlogQuery() {
+        Response mockedResponse = mockClientResponse("/blogQuery.rdf");
 
-		 OslcQueryParameters params = new OslcQueryParameters();
-		 params.setSelect("dcterms:title");
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 result.setMemberProperty("http://open-services.net/ns/bogus/blogs#comment");
-		 assertEquals(5, result.getMembersUrls().length);
-	}
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setSelect("dcterms:title");
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        result.setMemberProperty("http://open-services.net/ns/bogus/blogs#comment");
+        assertEquals(5, result.getMembersUrls().length);
+    }
 
-	@Test
-	public void testAnyMember() {
-		System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "true");
-		 Response mockedResponse = mockClientResponse("/blogQuery.rdf");
+    @Test
+    public void testAnyMember() {
+        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "true");
+        Response mockedResponse = mockClientResponse("/blogQuery.rdf");
 
-		 OslcQueryParameters params = new OslcQueryParameters();
-		 params.setSelect("dcterms:title");
-		 OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
-		 OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
-		 assertEquals(5, result.getMembersUrls().length);
-	}
+        OslcQueryParameters params = new OslcQueryParameters();
+        params.setSelect("dcterms:title");
+        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/query");
+        OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
+        assertEquals(5, result.getMembersUrls().length);
+    }
 
-	private Response mockClientResponse(String file) {
-		final InputStream is = OslcQueryResultTest.class.getResourceAsStream(file);
-		Response mockedResponse = Mockito.mock(Response.class);
-		when(mockedResponse.readEntity(InputStream.class)).thenReturn(is);
+    private Response mockClientResponse(String file) {
+        final InputStream is = OslcQueryResultTest.class.getResourceAsStream(file);
+        Response mockedResponse = Mockito.mock(Response.class);
+        when(mockedResponse.readEntity(InputStream.class)).thenReturn(is);
 
-		return mockedResponse;
+        return mockedResponse;
     }
 
 }
