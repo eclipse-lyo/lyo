@@ -30,6 +30,8 @@ import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.InputStream;
@@ -47,6 +49,7 @@ import java.util.List;
  * This class is not currently thread safe.
  */
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
+    private static final Logger log = LoggerFactory.getLogger(OslcQueryResult.class);
     /**
      * The default member property to look for in OSLC query results
      * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
@@ -131,21 +134,68 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
             List<Resource> responseInfos = iter.toList();
 
             infoResource = null;
+            membersResource = rdfModel.getResource(query.getCapabilityUrl());
+
+            if (responseInfos.isEmpty()) {
+                return;
+            }
+
             infoResource = tryFindOnlyResponseInfo(responseInfos);
-            if (infoResource == null && responseInfos.size() > 1) {
-                infoResource = tryFindExactResponseInfoUri(responseInfos);
-            }
-            if (infoResource == null && responseInfos.size() > 1) {
-                infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
-            }
             if (infoResource == null) {
-                // TODO: also check for oslc:nextPage before giving up
+                log.trace("Cannot find exactly one ResponseInfo");
+            } else {
+                log.debug("Found exactly one ResponseInfo");
+                return;
+            }
+
+            infoResource = tryFindOnlyWithNextPage(responseInfos);
+            if (infoResource == null) {
+                log.trace("Cannot find exactly one ResponseInfo with nextPage");
+            } else {
+                log.debug("Found exactly one ResponseInfo with nextPage");
+                return;
+            }
+
+            infoResource = tryFindExactResponseInfoUri(responseInfos);
+            if (infoResource == null) {
+                log.trace("Cannot a ResponseInfo whose URI matches the query URI exactly");
+            } else {
+                log.debug("Found a ResponseInfo whose URI matches the query URI exactly");
+                return;
+            }
+
+            infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
+            if (infoResource == null) {
+                log.trace("Cannot find exactly one ResponseInfo whose URI starts with the query URI");
+            } else {
+                log.debug("Found exactly one ResponseInfo whose URI starts with the query URI");
+                return;
+            }
+
+            if (infoResource == null) {
                 throw new IllegalStateException("Failed to find an appropriate ResponseInfo " +
                     "object");
             }
 
-            membersResource = rdfModel.getResource(query.getCapabilityUrl());
         }
+    }
+
+    /**
+     * Extracts a ResourceInfo resource if one and only one has the same prefix as the query URI.
+     *
+     * @param responseInfos from OSLC Query results
+     * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
+     * @throws IllegalStateException if multiple resources satisfy the same condition
+     */
+    private Resource tryFindOnlyWithNextPage(List<Resource> responseInfos) {
+        Property nextPagePredicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
+            "nextPage");
+        var responsesWithNextPage =
+            responseInfos.stream().filter(ri -> ri.getProperty(nextPagePredicate) != null).toList();
+        if (responsesWithNextPage.size() == 1) {
+            return responsesWithNextPage.get(0);
+        }
+        return null;
     }
 
     /**
