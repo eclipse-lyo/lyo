@@ -206,7 +206,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
      *
      * @param responseInfos from OSLC Query results
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
-     * @throws IllegalStateException if multiple resources satisfy the same condition
      */
     private Resource tryFindPrefixedResponseInfoUri(List<Resource> responseInfos) {
         List<Resource> filteredObjects =
@@ -214,7 +213,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found starting with " + "the same Query URI");
+            log.warn("Multiple ResponseInfo objects found starting with " + "the same Query URI");
         }
         return null;
     }
