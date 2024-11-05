@@ -181,11 +181,11 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     }
 
     /**
-     * Extracts a ResourceInfo resource if one and only one has the same prefix as the query URI.
+     * Extracts a ResourceInfo resource if one and only one has a property with the nextPage
+     * predicate.
      *
      * @param responseInfos from OSLC Query results
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
-     * @throws IllegalStateException if multiple resources satisfy the same condition
      */
     private Resource tryFindOnlyWithNextPage(List<Resource> responseInfos) {
         Property nextPagePredicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
@@ -194,6 +194,9 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
             responseInfos.stream().filter(ri -> ri.getProperty(nextPagePredicate) != null).toList();
         if (responsesWithNextPage.size() == 1) {
             return responsesWithNextPage.get(0);
+        }
+        else if (responsesWithNextPage.size() > 1) {
+            log.warn("Multiple ResponseInfo objects found with nextPage predicate");
         }
         return null;
     }
