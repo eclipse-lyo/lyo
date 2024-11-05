@@ -166,7 +166,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
             infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
             if (infoResource == null) {
-                log.trace("Cannot find exactly one ResponseInfo whose URI starts with the query URI");
+                log.trace("Cannot find exactly one ResponseInfo whose URI starts with the query " + "URI");
             } else {
                 log.debug("Found exactly one ResponseInfo whose URI starts with the query URI");
                 return;
@@ -211,8 +211,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found starting with " +
-                "the same Query URI");
+            throw new IllegalStateException("Multiple ResponseInfo objects found starting with " + "the same Query URI");
         }
         return null;
     }
@@ -231,8 +230,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found with the same " +
-                "URI");
+            throw new IllegalStateException("Multiple ResponseInfo objects found with the same " + "URI");
         }
         return null;
     }
