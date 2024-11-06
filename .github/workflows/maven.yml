@@ -10,8 +10,8 @@ on:
 #permissions: read-all
 
 concurrency:
-  group: ${{ github.workflow }}-${{ (github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' ) && github.ref || github.sha }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' && !contains(github.event.pull_request.labels.*.name, 'ci:full') }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci:full') }}
 
 jobs:
   build:
@@ -28,6 +28,9 @@ jobs:
         # jena 3.x has some locking problems under JDK 16/17
         include:
           - jdk: '21'
+            distribution: zulu
+            experimental: false
+          - jdk: '23'
             distribution: zulu
             experimental: false
     continue-on-error: ${{ matrix.experimental }}

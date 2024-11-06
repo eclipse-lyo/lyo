@@ -25,7 +25,7 @@
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>4.10.0</v.jena>
-    <v.jackson>2.15.3</v.jackson>
+    <v.jackson>2.18.1</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.16</v.slf4j>
 
@@ -364,7 +364,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.14.1</version>
+        <version>5.14.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -376,7 +376,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.11.2</version>
+        <version>5.11.3</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -472,8 +472,8 @@
             <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
             <links>
-              <link>https://docs.oracle.com/en/java/javase/11/docs/api/</link>
-              <link>https://docs.oracle.com/javaee/7/api/</link>
+              <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
+              <link>https://jakarta.ee/specifications/platform/9/apidocs/</link>
               <link>https://jena.apache.org/documentation/javadoc/jena/</link>
               <link>https://jena.apache.org/documentation/javadoc/arq/</link>
               <link>https://guava.dev/releases/${v.guava}/api/docs/</link>
