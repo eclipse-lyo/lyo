@@ -9,8 +9,12 @@
 ### Deprecated
 
 ### Removed
+
 - Dependency to deprecated oslc4j-json4j-provider
+
 ### Fixed
+
+- Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 
 ## [6.0.0]
 
