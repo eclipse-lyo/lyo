@@ -6,6 +6,8 @@
 
 ### Changed
 
+- Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature.
+
 ### Deprecated
 
 ### Removed
