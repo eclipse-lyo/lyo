@@ -6,12 +6,12 @@
   <parent>
     <groupId>org.eclipse.lyo.clients</groupId>
     <artifactId>clients-parent</artifactId>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0.Alpha2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>oslc-client</artifactId>
-  <version>7.0.0-SNAPSHOT</version>
+  <version>7.0.0.Alpha2</version>
   <name>Lyo :: Client :: OSLC JAX-RS 2.0 (new)</name>
   <description>Eclipse Lyo OSLC Java client based on OSLC4J and JAX-RS 2.0</description>
 
