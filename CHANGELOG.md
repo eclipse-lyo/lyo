@@ -2,11 +2,21 @@
 
 ## [7.0.0-SNAPSHOT]
 
+### Security
+
+- 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
+
 ### Added
+
+This release does not contain new features.
 
 ### Changed
 
+This release does not contain other significant changes.
+
 ### Deprecated
+
+This release does not introduce deprecations.
 
 ### Removed
 
@@ -256,15 +266,30 @@ Initial release. Used Apache Jena 2.7.1
 
 ## [Unreleased]
 
+### Security
+
+This release does not contain security updates.
+
 ### Added
+
+This release does not contain new features.
 
 ### Changed
 
+This release does not contain other significant changes.
+
 ### Deprecated
+
+This release does not introduce deprecations.
 
 ### Removed
 
+This release does not remove any features.
+
 ### Fixed
+
+This release does not contain bug fixes.
+
 
 
 > See https://keepachangelog.com/en/1.0.0/ for more info.

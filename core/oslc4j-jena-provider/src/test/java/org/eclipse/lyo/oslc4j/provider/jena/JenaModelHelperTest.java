@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,13 +17,11 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.jena.datatypes.DatatypeFormatException;
-import org.apache.jena.ext.com.google.common.collect.ImmutableList;
 import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
@@ -36,14 +34,12 @@ import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.*;
 import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.*;
-import org.eclipse.lyo.oslc4j.provider.jena.resources.Animal;
+
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
 
 /**
- *
- * @version $version-stub$
  * @since 2.4.0
  */
 public class JenaModelHelperTest {

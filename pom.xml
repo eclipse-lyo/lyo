@@ -24,7 +24,7 @@
     <v.jersey>3.1.9</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
-    <v.jena>4.8.0</v.jena>
+    <v.jena>4.10.0</v.jena>
     <v.jackson>2.18.1</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.16</v.slf4j>
@@ -134,6 +134,9 @@
           <releases>
             <enabled>false</enabled>
           </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
         </repository> -->
         <!-- <repository>
           <id>jena-staging</id>
@@ -410,6 +413,7 @@
         <version>20100527</version>
       </dependency>
       <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
+      <!-- TODO: Tomcat 8.5.x will reach End-of-life (EOL) on 31 March 2024. -->
       <dependency>
         <groupId>org.apache.tomcat.embed</groupId>
         <artifactId>tomcat-embed-core</artifactId>
@@ -420,6 +424,18 @@
         <artifactId>commons-io</artifactId>
         <version>2.17.0</version>
       </dependency>
+      <!--jena and guava-->
+      <!-- <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>3.36.0</version>
+      </dependency> -->
+      <!--jena and guava-->
+      <!-- <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+        <version>2.20.0</version>
+      </dependency> -->
     </dependencies>
   </dependencyManagement>
 
