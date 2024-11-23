@@ -15,6 +15,7 @@ package org.eclipse.lyo.trs.client.util;
 
 import java.io.IOException;
 import java.net.URI;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -28,6 +29,7 @@ import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.query.Update;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -431,16 +433,13 @@ public class SparqlUtil {
     public static RepositoryConnection getRepoConnection(String queryEndpoint, String user, String pwd) {
         SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
         if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
-            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
+            repo.setUsernameAndPassword(user, pwd);
         }
-        repo.initialize();
+        repo.init();
         try {
             RepositoryConnection conn = repo.getConnection();
-            if (conn == null) {
-                logger.error("error getting sparql repo connection !");
-            }
             return conn;
-        } catch (Exception e) {
+        } catch (RepositoryException e) {
             logger.error("error getting sparql repo connection !", e);
             return null;
         }
@@ -461,18 +460,14 @@ public class SparqlUtil {
     public static RepositoryConnection getRepoConnection(String queryEndpoint, String updateEndPoint, String user,
             String pwd) {
         SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
-        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty() && !user.isEmpty()) {
+        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
             repo.setUsernameAndPassword(user, pwd);
         }
-        repo.initialize();
+        repo.init();
         try {
             RepositoryConnection conn = repo.getConnection();
-
-            if (conn == null) {
-                logger.error("error getting sparql repo connection !");
-            }
             return conn;
-        } catch (Exception e) {
+        } catch (RepositoryException e) {
             logger.error("error getting sparql repo connection !", e);
             return null;
         }
