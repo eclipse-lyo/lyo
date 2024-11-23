@@ -22,15 +22,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <!-- TODO update to org.eclipse.rdf4j:rdf4j-repository-sparql:jar:2.5.1 -->
-        <groupId>org.openrdf.sesame</groupId>
-        <artifactId>sesame-repository-sparql</artifactId>
-        <version>4.1.2</version>
-      </dependency>
-      <dependency>
         <groupId>org.eclipse.rdf4j</groupId>
         <artifactId>rdf4j-repository-sparql</artifactId>
-        <version>2.5.3</version>
+        <version>5.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
