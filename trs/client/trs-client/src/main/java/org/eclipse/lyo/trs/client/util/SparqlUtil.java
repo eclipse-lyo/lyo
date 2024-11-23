@@ -398,7 +398,7 @@ public class SparqlUtil {
     static public void processQuery_sesame(String query, String serviceUrl, String user, String pwd) {
         SPARQLRepository repo = new SPARQLRepository(serviceUrl);
         repo.setUsernameAndPassword(user, pwd);
-        repo.initialize();
+        repo.init();
         RepositoryConnection rc = repo.getConnection();
         processQuery_sesame(query, rc);
     }
