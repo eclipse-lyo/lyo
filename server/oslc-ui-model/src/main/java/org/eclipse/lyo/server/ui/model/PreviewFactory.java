@@ -15,7 +15,7 @@ package org.eclipse.lyo.server.ui.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
+import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
@@ -143,7 +143,7 @@ public class PreviewFactory {
         if (null == link) {
             return null;
         }
-        if (StringUtils.isBlank(link.getLabel())) {
+        if (StringUtils.isNullOrWhitespace(link.getLabel())) {
             return constructLink(link.getValue().toString(), link.getValue().toString());
         } else {
             return constructLink(link.getValue().toString(), link.getLabel());
