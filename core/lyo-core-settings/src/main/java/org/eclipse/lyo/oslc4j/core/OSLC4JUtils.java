@@ -36,7 +36,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import com.google.common.base.Strings;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
@@ -550,7 +549,7 @@ public class OSLC4JUtils {
 			final boolean defaultValue) {
 		Boolean value;
 		final String property = System.getProperty(key);
-		if (Strings.isNullOrEmpty(property)) {
+		if (StringUtils.isNullOrEmpty(property)) {
 			value = defaultValue;
 		} else {
 			try {

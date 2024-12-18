@@ -14,7 +14,6 @@
 
 package org.eclipse.lyo.shacl;
 
-import com.google.common.collect.ImmutableList;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
  * @author Yash Khatri
- * @version $version-stub$
  * @since 2.3.0
  */
 @OslcNamespace(ShaclConstants.SHACL_CORE_NAMESPACE)
@@ -133,8 +131,7 @@ public final class Shape extends AbstractResource {
     @OslcTitle("Properties")
     @OslcValueType(ValueType.LocalResource)
     public List<Property> getShaclProperties() {
-        return ImmutableList.copyOf(
-                properties.values().toArray(new Property[properties.size()]));
+        return List.of(properties.values().toArray(new Property[0]));
     }
 
     public void setShaclProperties(final List<Property> properties) {

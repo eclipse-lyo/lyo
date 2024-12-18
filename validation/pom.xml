@@ -50,11 +50,6 @@
       </exclusions>
     </dependency>
 
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-
     <!-- OSLC Core Libraries -->
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>

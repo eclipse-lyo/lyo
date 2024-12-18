@@ -28,8 +28,6 @@
     <v.jackson>2.18.2</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.16</v.slf4j>
-
-    <v.guava>33.3.1-jre</v.guava>
   </properties>
 
 
@@ -394,11 +392,6 @@
         <version>1.17.1</version>
       </dependency>
       <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${v.guava}</version>
-      </dependency>
-      <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
         <version>2.1.3</version>
@@ -476,7 +469,6 @@
               <link>https://jakarta.ee/specifications/platform/9/apidocs/</link>
               <link>https://jena.apache.org/documentation/javadoc/jena/</link>
               <link>https://jena.apache.org/documentation/javadoc/arq/</link>
-              <link>https://guava.dev/releases/${v.guava}/api/docs/</link>
             </links>
           </configuration>
           <executions>

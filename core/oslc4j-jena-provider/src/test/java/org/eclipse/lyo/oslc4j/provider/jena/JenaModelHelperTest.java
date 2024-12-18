@@ -17,9 +17,9 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
@@ -53,7 +53,7 @@ public class JenaModelHelperTest {
         final Model expectedModel = RDFHelper.loadResourceModel("container-element.ttl");
         final Container container = new Container();
         container.setAbout(URI.create("urn:containerA"));
-        final ImmutableList<Element> children = ImmutableList.of(element("A"), element("B"));
+        final List<Element> children = List.of(element("A"), element("B"));
         container.setChildrenL(children);
         container.setChildrenB(children);
 
