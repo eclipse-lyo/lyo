@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.core.util;
 
+import java.text.Normalizer;
 import java.util.regex.Pattern;
 
 /**
@@ -25,21 +26,45 @@ public class StringUtils {
     private static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("^\\p{Cc}&&[^\\r\\n\\t]+$");
 
     /**
-     * Trim and strip control chars
+     * Trim and strip control chars (in the Unicode Cc category that are not CR, LF, or TAB)
      */
-    public static String clean(String str) {
+    public static String cleanWithoutNormalization(String str) {
         if (str == null) return null;
 
         return CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim();
     }
 
     /**
-     * Trim and strip control chars; return an empty string if a null is encountered
+     * Trim and strip control chars (in the Unicode Cc category that are not CR, LF, or TAB);
+     * returns an empty string if a null is encountered
+     */
+    public static String cleanWithoutNormalizationNonNull(String str) {
+        if (str == null) return "";
+
+        return CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim();
+    }
+
+    /**
+     * Trim, strip control chars (in the Unicode Cc category that are not CR, LF, or TAB), and
+     * normalize the string to NFC as per W3C recommendations
+     */
+    public static String clean(String str) {
+        if (str == null) return null;
+
+        return Normalizer.normalize(CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(),
+            Normalizer.Form.NFC);
+    }
+
+    /**
+     * Trim, strip control chars (in the Unicode Cc category that are not CR, LF, or TAB), and
+     * normalize the string to NFC as per W3C recommendations;
+     * returns an empty string if a null is encountered
      */
     public static String cleanNonNull(String str) {
         if (str == null) return "";
 
-        return CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim();
+        return Normalizer.normalize(CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(),
+            Normalizer.Form.NFC);
     }
 
     public static boolean isNullOrWhitespace(String str) {
