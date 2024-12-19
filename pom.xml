@@ -29,7 +29,7 @@
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.16</v.slf4j>
 
-    <v.guava>33.3.1-jre</v.guava>
+    <v.guava>33.4.0-jre</v.guava>
   </properties>
 
 
