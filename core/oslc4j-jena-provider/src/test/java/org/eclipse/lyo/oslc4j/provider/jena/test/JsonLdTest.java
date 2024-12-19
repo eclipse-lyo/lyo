@@ -18,10 +18,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdArrayProvider;
@@ -72,7 +73,7 @@ public class JsonLdTest {
                 .getAnnotations(), OslcMediaType.APPLICATION_JSON_LD_TYPE, new
                 MultivaluedHashMap<>(), outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
 
@@ -94,7 +95,7 @@ public class JsonLdTest {
                          new MultivaluedHashMap<>(),
                          outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
     }
@@ -107,7 +108,7 @@ public class JsonLdTest {
 
         ServiceProvider sp = new ServiceProvider();
         sp.setDescription("Hello world");
-        final Collection<ServiceProvider> objects = ImmutableList.of(sp);
+        final Collection<ServiceProvider> objects = List.of(sp);
         provider.writeTo(
             new ArrayList<>(objects),
                 objects.getClass(),
@@ -117,7 +118,7 @@ public class JsonLdTest {
                 new MultivaluedHashMap<>(),
                 outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
     }
