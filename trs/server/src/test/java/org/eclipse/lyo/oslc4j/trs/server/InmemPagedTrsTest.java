@@ -1,12 +1,12 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
-import com.google.common.collect.ImmutableSet;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
@@ -30,7 +30,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testEmptyLogWithBase() {
-        final InmemPagedTrs inmemPagedTrs = buildPagedTrs(ImmutableSet.of(TRSTestUtil.dummyUri(), TRSTestUtil
+        final InmemPagedTrs inmemPagedTrs = buildPagedTrs(Set.of(TRSTestUtil.dummyUri(), TRSTestUtil
                 .dummyUri()));
 
         final Base base = inmemPagedTrs.getBaseResource(1);
@@ -40,7 +40,7 @@ public class InmemPagedTrsTest {
     @Test
     public void testEmptyLogWithPagedBase() {
         final InmemPagedTrs inmemPagedTrs = buildPagedTrs(
-                ImmutableSet.of(TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil
+                Set.of(TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil
                                 .dummyUri(), TRSTestUtil.dummyUri(),
                         TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri()));
 
@@ -55,7 +55,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testLogWithEmptyBase() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
@@ -68,7 +68,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testPagedLogWithEmptyBase() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
@@ -87,7 +87,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testLogOrderUnique() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
@@ -112,7 +112,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testLogOrderMonotonic() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
@@ -137,7 +137,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testLogPagesLinked() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
@@ -153,7 +153,7 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testLogPagesLinkedFirstNil() {
-        final InmemPagedTrs pagedTrs = buildPagedTrs(ImmutableSet.of());
+        final InmemPagedTrs pagedTrs = buildPagedTrs(Set.of());
 
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
