@@ -1,15 +1,16 @@
 package org.eclipse.lyo.oslc4j.provider.jena.ordfm;
 
 import java.util.Optional;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Cat;
-import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.WildDog;
+import org.eclipse.lyo.oslc4j.provider.jena.resources.child.ChildAnimal;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,19 +47,25 @@ public class ResourcePackagesTests {
         }
 
         Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
-        Assert.assertEquals(7, ResourcePackages.TYPES_MAPPINGS.keySet().size());
+        Assert.assertEquals(8, ResourcePackages.TYPES_MAPPINGS.keySet().size());
     }
 
     @Test
     public void testMapPackageTwice() {
+        ResourcePackages.mapPackage(ChildAnimal.class.getPackage());
         ResourcePackages.mapPackage(Pet.class.getPackage());
-        ResourcePackages.mapPackage(Dog.class.getPackage());
+        // parent package
         for (String aPackage : ResourcePackages.SCANNED_PACKAGES) {
             log.info("Scanned package: {}", aPackage);
         }
 
-        Assert.assertEquals(1, ResourcePackages.SCANNED_PACKAGES.size());
-        Assert.assertEquals(7, ResourcePackages.TYPES_MAPPINGS.keySet().size());
+        Assert.assertEquals(2, ResourcePackages.SCANNED_PACKAGES.size());
+        Assert.assertEquals(8, ResourcePackages.TYPES_MAPPINGS.keySet().size());
+        // ensure the ChildAnimal class is mapped once
+        Assert.assertEquals(1, ResourcePackages.TYPES_MAPPINGS.entrySet().stream()
+            .flatMap(it1 -> it1.getValue().stream())
+            .filter(it -> it.getCanonicalName().equals(ChildAnimal.class.getCanonicalName()))
+            .count());
     }
 
     @Test
