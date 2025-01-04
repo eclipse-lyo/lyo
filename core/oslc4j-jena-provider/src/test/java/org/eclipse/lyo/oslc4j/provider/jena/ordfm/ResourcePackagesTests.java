@@ -54,7 +54,6 @@ public class ResourcePackagesTests {
     public void testMapPackageTwice() {
         ResourcePackages.mapPackage(ChildAnimal.class.getPackage());
         ResourcePackages.mapPackage(Pet.class.getPackage());
-        // parent package
         for (String aPackage : ResourcePackages.SCANNED_PACKAGES) {
             log.info("Scanned package: {}", aPackage);
         }
@@ -63,7 +62,7 @@ public class ResourcePackagesTests {
         Assert.assertEquals(8, ResourcePackages.TYPES_MAPPINGS.keySet().size());
         // ensure the ChildAnimal class is mapped once
         Assert.assertEquals(1, ResourcePackages.TYPES_MAPPINGS.entrySet().stream()
-            .flatMap(it1 -> it1.getValue().stream())
+            .flatMap(it -> it.getValue().stream())
             .filter(it -> it.getCanonicalName().equals(ChildAnimal.class.getCanonicalName()))
             .count());
     }
