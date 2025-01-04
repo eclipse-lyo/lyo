@@ -25,6 +25,7 @@ This release does not introduce deprecations.
 ### Fixed
 
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
+- Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 
 ## [6.0.0]
 
