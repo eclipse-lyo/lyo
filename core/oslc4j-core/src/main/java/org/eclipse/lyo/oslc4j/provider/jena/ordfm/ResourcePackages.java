@@ -49,7 +49,7 @@ public class ResourcePackages {
     /**
      * The RDFs-Classes types mapping.
      */
-    static final Map<String, List<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
+    static final Map<String, Set<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
 
     private ResourcePackages() {}
 
@@ -78,7 +78,7 @@ public class ResourcePackages {
                             Class<?> rdfClass = Class.forName(classInfo.getName(), true,
                                 Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
-                            List<Class<?>> types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new ArrayList<>());
+                            var types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new HashSet<>());
                             types.add(rdfClass);
                             counter ++;
                             LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
@@ -157,12 +157,13 @@ public class ResourcePackages {
             while(rdfTypes.hasNext()) {
                 Statement statement = rdfTypes.nextStatement();
                 String typeURI = statement.getObject().asResource().getURI();
-                List<Class<?>> rdfClasses = TYPES_MAPPINGS.get(typeURI);
+                var rdfClasses = TYPES_MAPPINGS.get(typeURI);
                 if (rdfClasses == null) {
                     LOGGER.trace("[-] Unmapped class(es) for RDF:type {}", typeURI);
                 } else if (rdfClasses.size() == 1) {
-                    candidates.add(rdfClasses.get(0));
-                    LOGGER.trace("[+] Candidate class {} found for RDF:type {}", rdfClasses.get(0).getName(), typeURI);
+                    var candidate = rdfClasses.stream().findFirst().get();
+                    candidates.add(candidate);
+                    LOGGER.trace("[+] Candidate class {} found for RDF:type {}", candidate.getName(), typeURI);
                 } else if (preferredTypes.length == 0) {
                     StringBuilder sb = new StringBuilder();
                     sb.append("'preferredTypes' argument is required when more than one class (");
