@@ -2180,12 +2180,15 @@ public final class JenaModelHelper
             DatatypeConfigurationException,
             OslcCoreApplicationException
     {
-        ReifiedStatement reifiedStatement = statement.createReifiedStatement();
+        Graph graph = model.getGraph();
+        Node reifiedNode = ReifierStd.reifyAs(graph, null, statement.asTriple());
+
+        var reifiedJenaResource = model.createResource(AnonId.create(reifiedNode.getBlankNodeLabel()));
 
         buildResource(reifiedResource,
                 reifiedResource.getClass(),
                 model,
-                reifiedStatement,
+                reifiedJenaResource,
                 nestedProperties);
 
         //https://bugs.eclipse.org/bugs/show_bug.cgi?id=526188
