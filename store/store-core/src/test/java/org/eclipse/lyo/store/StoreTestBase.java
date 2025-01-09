@@ -38,9 +38,6 @@ import org.junit.jupiter.api.Test;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-
 
 /**
  * StoreTestBase allows same tests to be run on differently set up triplestores
@@ -143,7 +140,7 @@ public abstract class StoreTestBase<T extends Store> {
                 ServiceProviderCatalog.class);
 
         Assertions.assertThat(catalogs).hasSize(2);
-        Assertions.assertThat(Lists.newArrayList(catalogs)
+        Assertions.assertThat(catalogs
                 .stream()
                 .map((serviceProviderCatalog) -> serviceProviderCatalog.getAbout().toASCIIString()))
                 .contains(resource.getAbout().toASCIIString(),
@@ -190,7 +187,7 @@ public abstract class StoreTestBase<T extends Store> {
                 resource2.getAbout(), ServiceProviderCatalog.class);
 
         Assertions.assertThat(resourceUnderKey).isNotNull();
-        Assertions.assertThat(resourceUnderKey.getAbout().equals(resource2.getAbout()));
+        Assertions.assertThat(resourceUnderKey.getAbout()).isEqualTo(resource2.getAbout());
     }
 
     @Test
@@ -228,7 +225,7 @@ public abstract class StoreTestBase<T extends Store> {
         final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
-        manager.putResources(namedGraphUri, ImmutableList.of(r1WithBlankResource));
+        manager.putResources(namedGraphUri, List.of(r1WithBlankResource));
 
         final WithBlankResource resource = manager.getResource(
                 namedGraphUri,
@@ -259,7 +256,7 @@ public abstract class StoreTestBase<T extends Store> {
         final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
-        manager.putResources(namedGraphUri, ImmutableList.of(aWithTwoDepthBlankResource));
+        manager.putResources(namedGraphUri, List.of(aWithTwoDepthBlankResource));
 
         final WithTwoDepthBlankResource resource = manager.getResource(namedGraphUri,
                                                                        blankResourceURI,

@@ -18,18 +18,16 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.0.21</v.kotlin>
+    <v.kotlin>2.1.0</v.kotlin>
     <v.dokka>1.9.20</v.dokka>
 
     <v.jersey>3.1.9</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>5.2.0</v.jena>
-    <v.jackson>2.18.1</v.jackson>
+    <v.jackson>2.18.2</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.16</v.slf4j>
-
-    <v.guava>33.3.1-jre</v.guava>
   </properties>
 
 
@@ -364,7 +362,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.14.2</version>
+        <version>5.15.2</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -376,14 +374,14 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.11.3</version>
+        <version>5.11.4</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.26.3</version>
+        <version>3.27.2</version>
       </dependency>
 
 
@@ -391,12 +389,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.17.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${v.guava}</version>
+        <version>1.17.2</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -476,7 +469,6 @@
               <link>https://jakarta.ee/specifications/platform/9/apidocs/</link>
               <link>https://jena.apache.org/documentation/javadoc/jena/</link>
               <link>https://jena.apache.org/documentation/javadoc/arq/</link>
-              <link>https://guava.dev/releases/${v.guava}/api/docs/</link>
             </links>
           </configuration>
           <executions>
