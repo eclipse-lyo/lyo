@@ -192,7 +192,7 @@ public class RdfJenaProviderCollectionTest extends JerseyTest {
         } else if (OslcMediaType.TEXT_TURTLE.equals(mimeType)) {
             return RDFLanguages.TURTLE;
         } else if (OslcMediaType.APPLICATION_JSON_LD.equals(mimeType)) {
-            return RDFLanguages.JSONLD10;
+            return RDFLanguages.JSONLD11;
         } else if (OslcMediaType.APPLICATION_XML.equals(mimeType)) {
             return RDFLanguages.RDFXML;
         }
