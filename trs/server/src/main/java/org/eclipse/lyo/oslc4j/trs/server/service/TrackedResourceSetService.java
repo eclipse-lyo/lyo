@@ -19,13 +19,13 @@ import java.net.URISyntaxException;
 
 import jakarta.inject.Inject;
 
-import com.google.common.base.Strings;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TRSConstants;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
 import org.eclipse.lyo.oslc4j.core.model.Error;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
@@ -197,7 +197,7 @@ public class TrackedResourceSetService {
     }
 
     private UriBuilder uriBuilder() {
-        if(Strings.isNullOrEmpty(base)) {
+        if(StringUtils.isNullOrEmpty(base)) {
             return UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(RESOURCE_PATH);
         } else {
             return UriBuilder.fromUri(base);

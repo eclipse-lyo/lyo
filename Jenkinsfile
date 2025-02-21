@@ -88,7 +88,7 @@ pipeline {
 
           ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/$VERSION
           ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/$VERSION
-          scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
+          scp -rp target/reports/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
           '''
         }
       }
@@ -119,7 +119,7 @@ pipeline {
 
           ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/$VERSION
           ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/$VERSION
-          scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
+          scp -rp target/reports/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/$VERSION
           '''
         }
       }
@@ -142,7 +142,7 @@ pipeline {
 
           ssh genie.lyo@projects-storage.eclipse.org rm -rf $DOCS_HOME/latest
           ssh genie.lyo@projects-storage.eclipse.org mkdir -p $DOCS_HOME/latest
-          scp -rp target/site/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/latest
+          scp -rp target/reports/apidocs/ genie.lyo@projects-storage.eclipse.org:$DOCS_HOME/latest
           '''
         }
       }
