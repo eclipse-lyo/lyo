@@ -115,8 +115,6 @@
       <version>${v.lyo}</version>
     </dependency>
     <dependency>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
     </dependency>
