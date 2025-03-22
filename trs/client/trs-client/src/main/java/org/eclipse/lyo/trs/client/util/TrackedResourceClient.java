@@ -17,7 +17,7 @@ package org.eclipse.lyo.trs.client.util;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.Response;
+
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.client.IOslcClient;
 import org.eclipse.lyo.core.trs.Base;
@@ -30,6 +30,8 @@ import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.ws.rs.core.Response;
 
 public class TrackedResourceClient implements ITrackedResourceClient {
     private static final Logger log = LoggerFactory.getLogger(TrackedResourceClient.class);

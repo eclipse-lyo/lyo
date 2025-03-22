@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.eclipse.lyo.oslc4j.server</groupId>
         <artifactId>lyo-server-build</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>org.eclipse.lyo.server</groupId>
@@ -16,34 +16,27 @@
     <properties>
     </properties>
 
+    <!-- Most/All dependencies are scoped as provided to avoid the problem/warings
+    with classes becoming scanned from multiple locations -->
     <dependencies>
-        <!-- Library-specific -->
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.oauth.core</groupId>
-            <artifactId>oauth-provider</artifactId>
-        </dependency>
-
         <!-- Other Lyo modules -->
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-core</artifactId>
             <version>${v.lyo}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Generic dependencies -->
         <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -55,10 +48,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.wink</groupId>
             <artifactId>wink-json4j</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Test -->

@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriBuilder;
+
 import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -43,13 +42,16 @@ import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
 import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
-import org.apache.jena.ext.com.google.common.base.Strings;
 import org.apache.jena.rdf.model.Property;
+import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.UriBuilder;
 
 // TODO: Lyo6 extract to LyoServletUriUtils
 public class OSLC4JUtils {
@@ -548,7 +550,7 @@ public class OSLC4JUtils {
 			final boolean defaultValue) {
 		Boolean value;
 		final String property = System.getProperty(key);
-		if (Strings.isNullOrEmpty(property)) {
+		if (StringUtils.isNullOrEmpty(property)) {
 			value = defaultValue;
 		} else {
 			try {

@@ -1,5 +1,29 @@
 package org.eclipse.lyo.store;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Random;
+
+import org.apache.jena.rdf.model.Model;
+import org.assertj.core.api.Assertions;
+import org.eclipse.lyo.oslc4j.core.model.IResource;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
+import org.eclipse.lyo.store.resources.BlankResource;
+import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
+import org.eclipse.lyo.store.resources.Requirement;
+import org.eclipse.lyo.store.resources.WithBlankResource;
+import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
+import org.junit.jupiter.api.Test;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -13,32 +37,6 @@ package org.eclipse.lyo.store;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import org.apache.jena.rdf.model.Model;
-import org.assertj.core.api.Assertions;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
-import org.eclipse.lyo.store.resources.BlankResource;
-import org.eclipse.lyo.store.resources.Nsp1DomainConstants;
-import org.eclipse.lyo.store.resources.Requirement;
-import org.eclipse.lyo.store.resources.WithBlankResource;
-import org.eclipse.lyo.store.resources.WithTwoDepthBlankResource;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -142,7 +140,7 @@ public abstract class StoreTestBase<T extends Store> {
                 ServiceProviderCatalog.class);
 
         Assertions.assertThat(catalogs).hasSize(2);
-        Assertions.assertThat(Lists.newArrayList(catalogs)
+        Assertions.assertThat(catalogs
                 .stream()
                 .map((serviceProviderCatalog) -> serviceProviderCatalog.getAbout().toASCIIString()))
                 .contains(resource.getAbout().toASCIIString(),
@@ -189,7 +187,7 @@ public abstract class StoreTestBase<T extends Store> {
                 resource2.getAbout(), ServiceProviderCatalog.class);
 
         Assertions.assertThat(resourceUnderKey).isNotNull();
-        Assertions.assertThat(resourceUnderKey.getAbout().equals(resource2.getAbout()));
+        Assertions.assertThat(resourceUnderKey.getAbout()).isEqualTo(resource2.getAbout());
     }
 
     @Test
@@ -227,7 +225,7 @@ public abstract class StoreTestBase<T extends Store> {
         final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
-        manager.putResources(namedGraphUri, ImmutableList.of(r1WithBlankResource));
+        manager.putResources(namedGraphUri, List.of(r1WithBlankResource));
 
         final WithBlankResource resource = manager.getResource(
                 namedGraphUri,
@@ -258,7 +256,7 @@ public abstract class StoreTestBase<T extends Store> {
         final Store manager = buildStore();
 
         final URI namedGraphUri = new URI("urn:test");
-        manager.putResources(namedGraphUri, ImmutableList.of(aWithTwoDepthBlankResource));
+        manager.putResources(namedGraphUri, List.of(aWithTwoDepthBlankResource));
 
         final WithTwoDepthBlankResource resource = manager.getResource(namedGraphUri,
                                                                        blankResourceURI,

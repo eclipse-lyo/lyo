@@ -44,7 +44,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -82,6 +81,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use JSON-LD support in Jena provider.
@@ -141,7 +142,7 @@ public final class JsonHelper
 	 */
 	public static final String OSLC4J_READ_SPECIAL_NUMS	 = "org.eclipse.lyo.oslc4j.readSpecialNumberValues";
 
-	private static final Logger logger = Logger.getLogger(JsonHelper.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(JsonHelper.class.getName());
 
 	private JsonHelper()
 	{
@@ -936,7 +937,7 @@ public final class JsonHelper
 
 			if (value == null && ! onlyNested)
 			{
-				logger.warning("Could not add extended property " + extendedProperty.getKey() + " for resource " + extendedResource.getAbout());
+				logger.warn("Could not add extended property " + extendedProperty.getKey() + " for resource " + extendedResource.getAbout());
 			}
 			else
 			{
@@ -1615,7 +1616,7 @@ public final class JsonHelper
 			{
 				if (!JSON_PROPERTY_PREFIXES.equals(prefixedName))
 				{
-					logger.warning("Ignored JSON property '" +
+					logger.warn("Ignored JSON property '" +
 								   prefixedName +
 								   "'.");
 				}
@@ -1656,7 +1657,7 @@ public final class JsonHelper
 					{
 						if (extendedProperties == null)
 						{
-							logger.fine("Set method not found for object type:	" +
+							logger.debug("Set method not found for object type:	" +
 									beanClass.getName() +
 									", propertyDefinition:	" +
 									propertyDefinition);
@@ -1717,9 +1718,15 @@ public final class JsonHelper
 
 					if (parameter != null)
 					{
-						setMethod.invoke(bean,
-										 new Object[] {parameter});
-					}
+                        try {
+                            setMethod.invoke(bean,
+                                             new Object[] {parameter});
+                        } catch (IllegalAccessException | IllegalArgumentException |
+                                 InvocationTargetException e) {
+                            logger.warn("Failed to set property {}='{}' via '{}'", prefixedName, parameter, setMethod.getName());
+                            throw e;
+                        }
+                    }
 				}
 			}
 		}
@@ -2146,7 +2153,7 @@ public final class JsonHelper
 			{
 				if (readSpecialNumberValues())
 				{
-					logger.warning("Null double value treated as NaN.");
+					logger.warn("Null double value treated as NaN.");
 					return Double.NaN;
 				}
 				else
@@ -2160,7 +2167,7 @@ public final class JsonHelper
 			{
 				if (readSpecialNumberValues())
 				{
-					logger.warning("Null float value treated as NaN.");
+					logger.warn("Null float value treated as NaN.");
 					return Float.NaN;
 				}
 				else

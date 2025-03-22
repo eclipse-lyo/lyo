@@ -1,5 +1,27 @@
 package org.eclipse.lyo.store;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
+import org.apache.jena.rdf.model.Model;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.eclipse.lyo.store.internals.SparqlStoreImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -13,25 +35,6 @@ package org.eclipse.lyo.store;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-
-import com.google.common.base.Stopwatch;
-import org.apache.jena.rdf.model.Model;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import org.eclipse.lyo.store.internals.SparqlStoreImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
 
@@ -65,7 +68,7 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
     @Test
     public void testInsertionPerf() {
         final List<ServiceProvider> providers = genProviders();
-        final Stopwatch stopwatch = Stopwatch.createStarted();
+        var start = Instant.now();
         for (int i = 0; i < 10; i++) {
             final URI testNg = URI.create("urn:test:" + i);
             try {
@@ -74,7 +77,7 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
                 fail("Store failed", e);
             }
         }
-        System.out.printf("10 named graphs persisted (resources) in %s ms", stopwatch.stop().elapsed().toMillis());
+        System.out.printf("10 named graphs persisted (resources) in %s ms", Duration.between(start, Instant.now()).toMillis());
     }
 
     @Test
@@ -82,12 +85,12 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
             OslcCoreApplicationException, IllegalAccessException {
         final List<ServiceProvider> providers = genProviders();
         final Model jenaModel = JenaModelHelper.createJenaModel(providers.toArray());
-        final Stopwatch stopwatch = Stopwatch.createStarted();
+        var start = Instant.now();
         for (int i = 0; i < 10; i++) {
             final URI testNg = URI.create("urn:test:" + i);
             manager.insertJenaModel(testNg, jenaModel);
         }
-        System.out.printf("10 named graphs persisted (raw Model) in %s ms", stopwatch.stop().elapsed().toMillis());
+        System.out.printf("10 named graphs persisted (raw Model) in %s ms", Duration.between(start, Instant.now()).toMillis());
     }
 
     private List<ServiceProvider> genProviders() {

@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.lyo.oslc4j.server</groupId>
+        <artifactId>lyo-server-build</artifactId>
+        <version>7.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+  <groupId>org.eclipse.lyo.server</groupId>
+  <artifactId>net.oauth.core-oauth-jakarta</artifactId>
+  <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>net.oauth.core</groupId>
+      <artifactId>oauth</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+         </plugin>
+         <plugin>
+             <groupId>org.eclipse.transformer</groupId>
+             <artifactId>transformer-maven-plugin</artifactId>
+             <version>1.0.0</version>
+             <extensions>true</extensions>
+             <configuration>
+                 <rules>
+                     <jakartaDefaults>true</jakartaDefaults>
+                 </rules>
+             </configuration>
+             <executions>
+                 <execution>
+                     <id>default-jar</id>
+                     <goals>
+                         <goal>jar</goal>
+                     </goals>
+                     <configuration>
+                         <artifact>
+                          <groupId>net.oauth.core</groupId>
+                          <artifactId>oauth</artifactId>
+                         </artifact>
+                     </configuration>
+                 </execution>
+             </executions>
+         </plugin>
+
+      </plugins>
+  </build>
+</project>

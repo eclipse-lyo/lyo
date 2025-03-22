@@ -14,12 +14,12 @@
 
 package org.eclipse.lyo.server.oauth.webapp.services;
 
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 public class OAuthServletListener implements ServletContextListener {
 

@@ -14,11 +14,14 @@
 
 package org.eclipse.lyo.trs.client.config;
 
-import com.google.common.base.Strings;
 import java.util.concurrent.ScheduledExecutorService;
-import javax.ws.rs.client.ClientBuilder;
+
 import org.eclipse.lyo.client.OslcClient;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
+import com.google.common.base.Strings;
+
+import jakarta.ws.rs.client.ClientBuilder;
 
 public class TrsConsumerConfiguration {
     private final String sparqlQueryUrl;

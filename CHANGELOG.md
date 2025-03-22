@@ -1,6 +1,37 @@
 # Eclipse Lyo changelog
 
-## [6.0.0-SNAPSHOT]
+## [7.0.0-SNAPSHOT]
+
+### Security
+
+- 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
+
+### Added
+
+This release does not contain new features.
+
+### Changed
+
+- TRS Client uses Lyo Store instead of using Eclipse RDF4J directly.
+
+### Deprecated
+
+This release does not introduce deprecations.
+
+### Removed
+
+- Dependency to deprecated oslc4j-json4j-provider
+
+### Fixed
+
+- Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
+- Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
+
+## [6.0.0]
+
+### Security
+
+This release does not contain security updates.
 
 ### Added
 
@@ -9,12 +40,13 @@
 
 ### Changed
 
-- TRS Client uses Lyo Store instead of using Eclipse RDF4J directly.
 - Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
 - Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
 - 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
 
 ### Deprecated
+
+This release does not introduce deprecations.
 
 ### Removed
 
@@ -22,6 +54,8 @@
 - TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
 
 ### Fixed
+
+This release does not contain bug fixes.
 
 ## [5.1.1]
 
@@ -222,15 +256,30 @@ Initial release. Used Apache Jena 2.7.1
 
 ## [Unreleased]
 
+### Security
+
+This release does not contain security updates.
+
 ### Added
+
+This release does not contain new features.
 
 ### Changed
 
+This release does not contain other significant changes.
+
 ### Deprecated
+
+This release does not introduce deprecations.
 
 ### Removed
 
+This release does not remove any features.
+
 ### Fixed
+
+This release does not contain bug fixes.
+
 
 
 > See https://keepachangelog.com/en/1.0.0/ for more info.

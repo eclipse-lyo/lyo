@@ -15,13 +15,12 @@ package org.eclipse.lyo.server.oauth.core.token;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.oauth.OAuthAccessor;
-import net.oauth.OAuthException;
-import net.oauth.OAuthMessage;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
+
+import net.oauth.OAuthException;
+import net.oauth.OAuthMessage;
 
 /**
  * Manages and validates OAuth tokens and token secrets.

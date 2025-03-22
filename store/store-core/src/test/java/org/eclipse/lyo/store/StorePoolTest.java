@@ -1,5 +1,11 @@
 package org.eclipse.lyo.store;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.net.URI;
+import java.util.List;
+import java.util.UUID;
+
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -17,12 +23,6 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URI;
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class StorePoolTest {
     private final Logger log = LoggerFactory.getLogger(StorePoolTest.class);

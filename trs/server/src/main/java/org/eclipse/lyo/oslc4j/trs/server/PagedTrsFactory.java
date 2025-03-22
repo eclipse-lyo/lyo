@@ -4,10 +4,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.trs.server.service.TrackedResourceSetService;
+
+import jakarta.ws.rs.core.UriBuilder;
 
 public class PagedTrsFactory {
 	public InmemPagedTrs getInmemPagedTrs(final int basePageLimit, final int changelogPageLimit, final URI uriBase,

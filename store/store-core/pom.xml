@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.eclipse.lyo.store</groupId>
     <artifactId>store-parent</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -63,8 +63,8 @@
       <type>pom</type>
       <exclusions>
         <exclusion>
-          <groupId>javax.annotation</groupId>
-          <artifactId>javax.annotation-api</artifactId>
+          <groupId>jakarta.annotation</groupId>
+          <artifactId>jakarta.annotation-api</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.apache.httpcomponents</groupId>
@@ -101,10 +101,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
 
     <!-- Test -->
     <dependency>
@@ -139,7 +135,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.5.2</version>
         <executions>
           <execution>
             <goals>
@@ -152,7 +148,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
+        <version>0.8.12</version>
         <executions>
           <execution>
             <id>jacoco-initialize</id>
@@ -190,7 +186,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
+        <version>0.8.12</version>
         <!--
                         <reportSets>
                             <reportSet>
