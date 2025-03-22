@@ -20,7 +20,6 @@ if ! [ -x "$(command -v sponge)" ]; then
       brew install sponge
    elif [ -x "$(command -v apt)" ]; then
       sudo apt install moreutils
-      brew install sponge
    elif [ -x "$(command -v zypper)" ]; then
       sudo zypper in moreutils
    fi
