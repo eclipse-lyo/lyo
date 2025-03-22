@@ -24,7 +24,7 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ReifiedStatement;
+//import org.apache.jena.rdf.model.ReifiedStatement;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
