@@ -14,6 +14,7 @@
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
 import org.apache.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
@@ -88,7 +89,7 @@ public class XmlLiteralTest {
     /**
      * We only expect warnings here
      */
-    @Test
+    @Test(expected = DatatypeFormatException.class)
     public void invalidLiteralTest_NoEscape() throws DatatypeConfigurationException,
         OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
         final Model diskModel = readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);

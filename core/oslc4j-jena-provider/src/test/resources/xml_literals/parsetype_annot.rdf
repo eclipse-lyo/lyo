@@ -3,7 +3,7 @@
     xmlns:foaf="http://xmlns.com/foaf/0.1/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:dcterms="http://purl.org/dc/terms/" >
-  <rdf:Description rdf:about="">
+  <rdf:Description rdf:about="urn:x-oslc:resource_1">
     <rdf:type rdf:resource="http://example.com/ns#TestResourceWithLiterals"/>
     <foaf:firstName rdf:parseType="Literal"><span>David &amp; Mary</span></foaf:firstName>
     <dcterms:description rdf:parseType="Literal"><span>David &amp; Mary</span></dcterms:description>

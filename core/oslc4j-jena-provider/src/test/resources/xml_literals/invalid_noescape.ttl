@@ -3,7 +3,7 @@
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/>.
 
-<>      a               <http://example.com/ns#TestResourceWithLiterals> ;
-        foaf:firstName  "<span>David &amp; Mary</span>"^^rdf:XMLLiteral ;
-        dcterms:title  "<span>David &amp; Mary</span>"^^rdf:XMLLiteral ;
-        dcterms:description  "<span>David &amp; Mary</span>"^^rdf:XMLLiteral .
+<urn:x-oslc:resource_1>      a               <http://example.com/ns#TestResourceWithLiterals> ;
+        foaf:firstName  "<span>David & Mary</span>"^^rdf:XMLLiteral ;
+        dcterms:title  "<span>David & Mary</span>"^^rdf:XMLLiteral ;
+        dcterms:description  "<span>David & Mary</span>"^^rdf:XMLLiteral .
