@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -uo pipefail
-# set -e
+set -e
 # set -x
 
 SCRIPT_PATH=$(realpath "$0")
@@ -16,7 +16,14 @@ else
 fi
 
 if ! [ -x "$(command -v sponge)" ]; then
-   brew install sponge || sudo apt install moreutils || sudo zypper in moreutils
+   if [ -x "$(command -v brew)" ]; then
+      brew install sponge
+   elif [ -x "$(command -v apt)" ]; then
+      sudo apt install moreutils
+      brew install sponge
+   elif [ -x "$(command -v zypper)" ]; then
+      sudo zypper in moreutils
+   fi
 fi
 
 
