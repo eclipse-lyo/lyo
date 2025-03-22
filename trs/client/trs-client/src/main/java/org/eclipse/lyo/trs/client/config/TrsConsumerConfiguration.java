@@ -17,9 +17,8 @@ package org.eclipse.lyo.trs.client.config;
 import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.lyo.client.OslcClient;
+import org.eclipse.lyo.core.util.StringUtils;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
-import com.google.common.base.Strings;
 
 import jakarta.ws.rs.client.ClientBuilder;
 
@@ -70,7 +69,7 @@ public class TrsConsumerConfiguration {
     public OslcClient getHttpClient() {
         if (httpClient == null) {
             final ClientBuilder builder = ClientBuilder.newBuilder();
-            if (!Strings.isNullOrEmpty(basicUsername)) {
+            if (!StringUtils.isNullOrEmpty(basicUsername)) {
                 builder.register(HttpAuthenticationFeature.basic(basicUsername, basicPassword));
             }
             httpClient = new OslcClient(builder);
