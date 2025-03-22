@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.eclipse.lyo.trs</groupId>
     <artifactId>trs-parent</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -60,7 +60,7 @@
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
-      <version>6.0.0</version>
+      <version>6.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
@@ -113,10 +113,6 @@
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>oslc-client</artifactId>
       <version>${v.lyo}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
     </dependency>
     <dependency>
       <groupId>org.eclipse.rdf4j</groupId>

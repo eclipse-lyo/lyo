@@ -1,12 +1,13 @@
 #!/usr/bin/env -S pip-run
 
+# /// script
+# dependencies = ["requests==2.*","PyYAML==6.*"]
+# ///
+
 # pipx haven't released yet https://github.com/pypa/pipx/issues/1023
 #!/usr/bin/env -S pipx run
 #!/usr/bin/env -S python3 -bP
 
-# Requirements:
-# PyYAML==6.*
-#// requests==2.*
 
 import sys
 from textwrap import dedent
@@ -32,8 +33,10 @@ def generate_md_table(config):
    print(label_types, file=sys.stderr)
    print(lyo_versions, file=sys.stderr)
 
-   print("| Repo | Version | Status | PRs | Bugs | Activity |")
-   print("| ---- | ------- | ------ | --- | ---- | -------- |")
+   # print("| Repo | Version | Status | PRs | Bugs | Activity |")
+   # print("| ---- | ------- | ------ | --- | ---- | -------- |")
+   print("| Repo | Version | Status | PRs | Activity |")
+   print("| ---- | ------- | ------ | --- | -------- |")
 
    for p in config["projects"]:
       project_link = f"[{p['slug']}]({p['link']})"
@@ -43,7 +46,8 @@ def generate_md_table(config):
       pr_badge = f"[![]({p['pr_badge']})]({p['pr_link']})" if 'pr_badge' in p else "N/A"
       issues_badge = f"[![]({p['issues_badge']})]({p['issues_link']})" if 'issues_badge' in p else "N/A"
       activity_badge = f"![]({p['activity_badge']})" if 'activity_badge' in p else "N/A"
-      print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {issues_badge} | {activity_badge} |")
+      # print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {issues_badge} | {activity_badge} |")
+      print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {activity_badge} |")
    
 
 if __name__ == "__main__":

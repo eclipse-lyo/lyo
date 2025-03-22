@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.eclipse.lyo.oslc4j.core</groupId>
     <artifactId>oslc4j-core-build</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <relativePath>../oslc4j-core-build/pom.xml</relativePath>
   </parent>
   <artifactId>oslc4j-core</artifactId>
@@ -27,7 +27,7 @@
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
       <!--TODO: dep manage-->
-      <version>4.8.170</version>
+      <version>4.8.179</version>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
@@ -111,6 +111,16 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-common</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

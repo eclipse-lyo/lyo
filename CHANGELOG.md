@@ -1,29 +1,72 @@
 # Eclipse Lyo changelog
 
-## [6.0.0-SNAPSHOT]
+## [7.0.0-SNAPSHOT]
+
+### Security
+
+- 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
 
 ### Added
 
-- Introducing capability to set the servletUri to be used by the OAuthConfiguration
-- OSLC PROMCODE domain model and generated POJOs
+This release does not contain new features.
 
 ### Changed
-- 🧨Migrated from Javax to Jakarta packages 
-- upgrade to Jersey 3.1.5
-- Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
-- Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
-- 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
-- changed scope of dependencies in oauth-webapp to avoid inclusion multiple times during runtime.
-- Migrated from Javax to Jakarta packages, including upgrade to Jersey 3.1.5
+
+This release does not contain other significant changes.
 
 ### Deprecated
 
+This release does not introduce deprecations.
+
 ### Removed
 
-- 🧨 Support for JDK 11 (and all versions below 17) is removed. **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
+- Dependency to deprecated oslc4j-json4j-provider
+
+### Fixed
+
+- Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
+- Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
+
+## [6.0.0]
+
+### Security
+
+This release does not contain security updates.
+
+### Added
+
+- Introducing capability to set the `servletUri` to be used by the `OAuthConfiguration`
+- OSLC PROMCODE domain model and generated POJOs
+- Support for additional request headers to `OslcQuery` 
+
+### Changed
+
+- 🧨 Migrated from Java EE (`javax.` namespace) to Jakarta packages
+- Upgrade to Jersey 3.1.5
+- **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has 
+  been tested using JDK 17, 21, 23, and 24-ea.
+- Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with 
+  `kotlin-stdlib` due to 
+  [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
+- Allow application to reset the OAuth token cached within the server, when it
+  deems that it is no longer valid
+- 🧨 Corrected cardinality and range of the `oslc_config:acceptedBy` property (from
+  String[0..1] to Resource[0..*])
+- Changed scope of dependencies in `oauth-webapp` to avoid inclusion multiple times
+  during runtime.
+
+### Deprecated
+
+This release does not introduce deprecations.
+
+### Removed
+
+- 🧨 Support for JDK 11 (and all versions below 17) is removed.
 - 🧨 Support for Java EE and Jakarta EE 8 is removed.
 
 ### Fixed
+
+This release does not contain bug fixes.
 
 ## [5.1.1]
 
@@ -224,15 +267,30 @@ Initial release. Used Apache Jena 2.7.1
 
 ## [Unreleased]
 
+### Security
+
+This release does not contain security updates.
+
 ### Added
+
+This release does not contain new features.
 
 ### Changed
 
+This release does not contain other significant changes.
+
 ### Deprecated
+
+This release does not introduce deprecations.
 
 ### Removed
 
+This release does not remove any features.
+
 ### Fixed
+
+This release does not contain bug fixes.
+
 
 
 > See https://keepachangelog.com/en/1.0.0/ for more info.
