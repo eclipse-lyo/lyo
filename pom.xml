@@ -18,16 +18,16 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.1.0</v.kotlin>
+    <v.kotlin>2.1.10</v.kotlin>
     <v.dokka>1.9.20</v.dokka>
 
-    <v.jersey>3.1.9</v.jersey>
+    <v.jersey>3.1.10</v.jersey>
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>5.2.0</v.jena>
-    <v.jackson>2.18.2</v.jackson>
+    <v.jackson>2.18.3</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
-    <v.slf4j>2.0.16</v.slf4j>
+    <v.slf4j>2.0.17</v.slf4j>
   </properties>
 
 
@@ -223,7 +223,7 @@
       <dependency>
         <groupId>jakarta.servlet.jsp.jstl</groupId>
         <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.2</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -310,12 +310,12 @@
       <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
-        <version>3.1.0</version>
+        <version>4.0.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
-        <version>6.0.0</version>
+        <version>6.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish.jersey.containers</groupId>
@@ -362,7 +362,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.15.2</version>
+        <version>5.16.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -374,14 +374,14 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.11.4</version>
+        <version>5.12.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.27.2</version>
+        <version>3.27.3</version>
       </dependency>
 
 
@@ -389,7 +389,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.17.2</version>
+        <version>1.18.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -438,7 +438,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.13.0</version>
+          <version>3.14.0</version>
           <configuration>
             <compilerArgument>
               -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally</compilerArgument>
@@ -460,7 +460,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.1</version>
+          <version>3.11.2</version>
           <configuration>
             <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
@@ -504,7 +504,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.9.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -586,12 +586,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
