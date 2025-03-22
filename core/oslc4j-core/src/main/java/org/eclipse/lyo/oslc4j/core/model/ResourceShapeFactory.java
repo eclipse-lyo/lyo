@@ -16,7 +16,6 @@ package org.eclipse.lyo.oslc4j.core.model;
 import org.eclipse.lyo.oslc4j.core.annotation.*;
 import org.eclipse.lyo.oslc4j.core.exception.*;
 
-import javax.ws.rs.core.UriBuilder;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
