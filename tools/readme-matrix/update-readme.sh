@@ -7,7 +7,7 @@ set -e
 SCRIPT_PATH=$(realpath "$0")
 SCRIPT_DIR=$(dirname "${SCRIPT_PATH}")
 
-trap "rm ${SCRIPT_DIR}/tmp.md" err exit SIGINT SIGTERM
+trap "rm -f ${SCRIPT_DIR}/tmp.md" err exit SIGINT SIGTERM
 
 if [ -x "$(command -v gsed)" ]; then
    sed_exe=gsed
