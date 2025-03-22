@@ -13,7 +13,7 @@
  */
 package org.eclipse.lyo.server.oauth.core.utils;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Holds a status code and error message for an error response.

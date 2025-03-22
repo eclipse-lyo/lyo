@@ -66,6 +66,7 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
 import org.eclipse.lyo.oslc.domains.config.Component;
 import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.Person;
@@ -111,7 +112,7 @@ public class Configuration
     private String title;
     // Start of user code attributeAnnotation:acceptedBy
     // End of user code
-    private String acceptedBy;
+    private Set<Link> acceptedBy = new HashSet<>();
     // Start of user code attributeAnnotation:branch
     // End of user code
     private Link branch;
@@ -213,6 +214,11 @@ public class Configuration
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
+    }
+
+    public void addAcceptedBy(final Link acceptedBy)
+    {
+        this.acceptedBy.add(acceptedBy);
     }
 
     public void addSelections(final Link selections)
@@ -368,11 +374,11 @@ public class Configuration
     // End of user code
     @OslcName("acceptedBy")
     @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "acceptedBy")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
     @OslcRange({RdfsDomainConstants.CLASS_TYPE})
     @OslcReadOnly(false)
-    public String getAcceptedBy()
+    public Set<Link> getAcceptedBy()
     {
         // Start of user code getterInit:acceptedBy
         // End of user code
@@ -647,11 +653,15 @@ public class Configuration
 
     // Start of user code setterAnnotation:acceptedBy
     // End of user code
-    public void setAcceptedBy(final String acceptedBy )
+    public void setAcceptedBy(final Set<Link> acceptedBy )
     {
         // Start of user code setterInit:acceptedBy
         // End of user code
-        this.acceptedBy = acceptedBy;
+        this.acceptedBy.clear();
+        if (acceptedBy != null)
+        {
+            this.acceptedBy.addAll(acceptedBy);
+        }
         // Start of user code setterFinalize:acceptedBy
         // End of user code
     }

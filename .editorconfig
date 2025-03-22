@@ -20,3 +20,7 @@ indent_size = 4
 [*.{xml,html,js,yml,css}]
 indent_style = space
 indent_size = 2
+
+[Jenkinsfile]
+indent_style = space
+indent_size = 2

@@ -16,6 +16,7 @@ package org.eclipse.lyo.store;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import org.assertj.core.util.Strings;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.junit.jupiter.api.BeforeEach;

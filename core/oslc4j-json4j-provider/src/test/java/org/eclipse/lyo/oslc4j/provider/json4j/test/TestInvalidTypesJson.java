@@ -11,39 +11,35 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
+
 package org.eclipse.lyo.oslc4j.provider.json4j.test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.ws.rs.WebApplicationException;
-
 import org.eclipse.lyo.oslc4j.provider.json4j.OslcRdfJsonProvider;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import jakarta.ws.rs.WebApplicationException;
 
 @SuppressWarnings("deprecation")
-public class TestInvalidTypesJson
-{
-	@Test(expected = WebApplicationException.class)
-	public void testInvalidJavaAboutRelativeURI()
-		   throws IOException,
-				  URISyntaxException
-	{
-		final TestResource relativeUri = new TestResource();
+public class TestInvalidTypesJson {
+    @Test
+    public void testInvalidJavaAboutRelativeURI() throws IOException, URISyntaxException {
+        assertThrows(WebApplicationException.class, () -> {
 
-		relativeUri.setAbout(new URI("relative"));
+            final TestResource relativeUri = new TestResource();
 
-		final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
+            relativeUri.setAbout(new URI("relative"));
 
-		oslcRdfJsonProvider.writeTo(relativeUri,
-									null,
-									null,
-									null,
-									null,
-									null,
-									null);
+            final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 
-	}
+            oslcRdfJsonProvider.writeTo(relativeUri, null, null, null, null, null, null);
+        });
+
+    }
 }

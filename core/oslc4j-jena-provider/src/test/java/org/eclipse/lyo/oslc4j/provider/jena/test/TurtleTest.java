@@ -17,11 +17,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.MediaType;
-
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcTurtleProvider;
 import org.junit.Test;
+
+import jakarta.ws.rs.core.MediaType;
 
 public class TurtleTest {
 	@Test

@@ -14,8 +14,9 @@
 package org.eclipse.lyo.client;
 
 import java.util.Map;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
+
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 
 /**
  * An OSLC Client that extends the JAX-RS 2.0 REST client with OSLC specific CRUD and

@@ -1,5 +1,24 @@
 package org.eclipse.lyo.store.internals;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -14,7 +33,6 @@ package org.eclipse.lyo.store.internals;
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
 import org.apache.jena.arq.querybuilder.Order;
@@ -48,6 +66,7 @@ import org.eclipse.lyo.core.query.StringValue;
 import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value;
 import org.eclipse.lyo.core.query.WhereClause;
+import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -62,25 +81,6 @@ import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorBasicAuthImpl;
 import org.eclipse.lyo.store.internals.query.SparqlQueryExecutorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * {@link Store} interface implementation that interacts with any SPARQL-based triplestore
@@ -295,8 +295,8 @@ public class SparqlStoreImpl implements Store {
         String _prefixes = prefixes;
         String _where = where;
 
-        _prefixes = (StringUtils.isEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
-        _where = (StringUtils.isEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
+        _prefixes = (StringUtils.isNullOrEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
+        _where = (StringUtils.isNullOrEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
         Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset, additionalDistinctVars,
             additionalQueryFilter);
         return getResourcesFromModel(model, clazz);
@@ -595,7 +595,7 @@ public class SparqlStoreImpl implements Store {
         //Setup prefixes
         Map<String, String> prefixesMap = new HashMap<>();
         try {
-            if (!StringUtils.isEmpty(prefixes)) {
+            if (!StringUtils.isNullOrEmpty(prefixes)) {
                 prefixesMap = QueryUtils.parsePrefixes(prefixes);
                 for (Entry<String, String> prefix : prefixesMap.entrySet()) {
                     distinctResourcesQuery.addPrefix(prefix.getKey(), prefix.getValue());
@@ -622,7 +622,7 @@ public class SparqlStoreImpl implements Store {
         //Setup where
         WhereClause whereClause = null;
         try {
-            if (!StringUtils.isEmpty(where)) {
+            if (!StringUtils.isNullOrEmpty(where)) {
                 whereClause = QueryUtils.parseWhere(where, prefixesMap);
                 List<SimpleTerm> parseChildren = whereClause.children();
                 for (SimpleTerm simpleTerm : parseChildren) {
@@ -672,7 +672,7 @@ public class SparqlStoreImpl implements Store {
 
         //Setup searchTerms
         //Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the distinctResourcesQuery
-        if (!StringUtils.isEmpty(searchTerms)) {
+        if (!StringUtils.isNullOrEmpty(searchTerms)) {
             ExprFactory factory = new ExprFactory();
             E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
             distinctResourcesQuery.addFilter(regex);

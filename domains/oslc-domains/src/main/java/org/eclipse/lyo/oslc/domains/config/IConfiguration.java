@@ -61,6 +61,7 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
+import org.eclipse.lyo.oslc.domains.IRdfsClass;
 import org.eclipse.lyo.oslc.domains.config.IComponent;
 import org.eclipse.lyo.oslc.domains.config.IContribution;
 import org.eclipse.lyo.oslc.domains.IPerson;
@@ -77,6 +78,7 @@ public interface IConfiguration
     public void addContributor(final Link contributor );
     public void addCreator(final Link creator );
     public void addSubject(final String subject );
+    public void addAcceptedBy(final Link acceptedBy );
     public void addSelections(final Link selections );
     public void addInstanceShape(final Link instanceShape );
     public void addModifiedBy(final Link modifiedBy );
@@ -152,11 +154,11 @@ public interface IConfiguration
 
     @OslcName("acceptedBy")
     @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "acceptedBy")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
+    @OslcOccurs(Occurs.ZeroOrMany)
+    @OslcValueType(ValueType.Resource)
     @OslcRange({RdfsDomainConstants.CLASS_TYPE})
     @OslcReadOnly(false)
-    public String getAcceptedBy();
+    public Set<Link> getAcceptedBy();
 
     @OslcName("branch")
     @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "branch")
@@ -256,7 +258,7 @@ public interface IConfiguration
     public void setModified(final Date modified );
     public void setSubject(final Set<String> subject );
     public void setTitle(final String title );
-    public void setAcceptedBy(final String acceptedBy );
+    public void setAcceptedBy(final Set<Link> acceptedBy );
     public void setBranch(final Link branch );
     public void setComponent(final Link component );
     public void setContribution(final Link contribution );

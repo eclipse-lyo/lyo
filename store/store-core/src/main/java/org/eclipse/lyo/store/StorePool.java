@@ -1,5 +1,9 @@
 package org.eclipse.lyo.store;
 
+import java.net.URI;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -20,10 +24,6 @@ import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URI;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class StorePool {
     public final static URI DEFAULT_GRAPH_JENA = URI.create("urn:x-arq:DefaultGraph");

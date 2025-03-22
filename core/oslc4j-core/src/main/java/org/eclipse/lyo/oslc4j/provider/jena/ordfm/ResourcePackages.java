@@ -39,7 +39,7 @@ public class ResourcePackages {
     /**
      * The logger of this class.
      */
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResourcePackages.class);
+	private static final Logger log = LoggerFactory.getLogger(ResourcePackages.class);
 
     /**
      * The set of scanned packages.
@@ -49,7 +49,7 @@ public class ResourcePackages {
     /**
      * The RDFs-Classes types mapping.
      */
-    static final Map<String, List<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
+    static final Map<String, Set<Class<?>>> TYPES_MAPPINGS = new HashMap<>();
 
     private ResourcePackages() {}
 
@@ -62,33 +62,36 @@ public class ResourcePackages {
     public static synchronized void mapPackage(Package pkg) {
         String packageName = pkg.getName();
         if (SCANNED_PACKAGES.contains(packageName)) {
-            LOGGER.trace("> package {} already scanned", packageName);
+            log.trace("> package {} already scanned", packageName);
         } else {
             int counter = 0;
-            LOGGER.trace("> scanning package {}", packageName);
+            log.trace("> scanning package {}", packageName);
             ClassGraph classGraph = new ClassGraph().acceptPackages(pkg.getName());
             classGraph = classGraph.enableClassInfo().enableAnnotationInfo();
             try (ScanResult scanResult = classGraph.scan()) {
                 ClassInfoList classInforList = scanResult.getClassesWithAnnotation(OslcResourceShape.class.getName());
                 for (ClassInfo classInfo : classInforList) {
                     if (classInfo.isAbstract()) {
-                        LOGGER.trace("[-] Abstract class: {}", classInfo.getName());
+                        log.trace("[-] Abstract class: {}", classInfo.getName());
                     } else {
                         try {
                             Class<?> rdfClass = Class.forName(classInfo.getName(), true,
                                 Thread.currentThread().getContextClassLoader());
                             String rdfType = TypeFactory.getQualifiedName(rdfClass);
-                            List<Class<?>> types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new ArrayList<>());
-                            types.add(rdfClass);
-                            counter ++;
-                            LOGGER.trace("[+] {} -> {}", rdfType, rdfClass);
+                            var types = TYPES_MAPPINGS.computeIfAbsent(rdfType, k -> new HashSet<>());
+                            if(types.add(rdfClass)) {
+                                counter ++;
+                                log.trace("[+] {} -> {}", rdfType, rdfClass);
+                            } else {
+                                log.trace("[.] {} already registered", rdfClass.getName());
+                            }
                         } catch (ClassNotFoundException ex) {
-                            LOGGER.trace("[-] Unexpected missing class: {}", classInfo.getName());
+                            log.trace("[-] Unexpected missing class: {}", classInfo.getName());
                         }
                     }
                 }
             }
-            LOGGER.debug("< {} RDF classes found in package {}", counter, packageName);
+            log.debug("< {} RDF classes found in package {}", counter, packageName);
             SCANNED_PACKAGES.add(packageName);
         }
     }
@@ -150,19 +153,20 @@ public class ResourcePackages {
      * inheritance tree) is annotated to be mapped by the same {@code RDF:type}.
      */
     public static Optional<Class<?>> getClassOf(Resource resource, Class<?>... preferredTypes) {
-        LOGGER.trace("> resolving class for resource {}", resource.getURI());
+        log.trace("> resolving class for resource {}", resource.getURI());
         StmtIterator rdfTypes = resource.listProperties(RDF.type);
         List<Class<?>> candidates = new ArrayList<>();
         synchronized(ResourcePackages.class) {
             while(rdfTypes.hasNext()) {
                 Statement statement = rdfTypes.nextStatement();
                 String typeURI = statement.getObject().asResource().getURI();
-                List<Class<?>> rdfClasses = TYPES_MAPPINGS.get(typeURI);
+                var rdfClasses = TYPES_MAPPINGS.get(typeURI);
                 if (rdfClasses == null) {
-                    LOGGER.trace("[-] Unmapped class(es) for RDF:type {}", typeURI);
+                    log.trace("[-] Unmapped class(es) for RDF:type {}", typeURI);
                 } else if (rdfClasses.size() == 1) {
-                    candidates.add(rdfClasses.get(0));
-                    LOGGER.trace("[+] Candidate class {} found for RDF:type {}", rdfClasses.get(0).getName(), typeURI);
+                    var candidate = rdfClasses.stream().findFirst().get();
+                    candidates.add(candidate);
+                    log.trace("[+] Candidate class {} found for RDF:type {}", candidate.getName(), typeURI);
                 } else if (preferredTypes.length == 0) {
                     StringBuilder sb = new StringBuilder();
                     sb.append("'preferredTypes' argument is required when more than one class (");
@@ -170,13 +174,13 @@ public class ResourcePackages {
                     sb.append(") are mapped to the same RDF:type (");
                     sb.append(typeURI);
                     sb.append(")");
-                    LOGGER.debug(sb.toString());
+                    log.debug(sb.toString());
                     throw new IllegalArgumentException(sb.toString());
                 } else {
                     for(Class<?> preferredType : preferredTypes) {
                         if (rdfClasses.contains(preferredType)) {
                             candidates.add(preferredType);
-                            LOGGER.trace("[+] Preferred candidate class {} found for RDF:type {}",
+                            log.trace("[+] Preferred candidate class {} found for RDF:type {}",
                                 preferredType.getName(), typeURI);
                             break;
                         }
@@ -185,11 +189,11 @@ public class ResourcePackages {
             }
         }
         if (candidates.isEmpty()) {
-            LOGGER.debug("< Unmapped class for resource {}", resource.getURI());
+            log.debug("< Unmapped class for resource {}", resource.getURI());
             return Optional.empty();
         } else {
             Class<?> mappedClass = (candidates.size() == 1 ? candidates.get(0) : getMostConcreteClassOf(candidates));
-            LOGGER.debug("< Mapped class {} for resource {}", mappedClass.getName(), resource.getURI());
+            log.debug("< Mapped class {} for resource {}", mappedClass.getName(), resource.getURI());
             return Optional.of(mappedClass);
         }
     }

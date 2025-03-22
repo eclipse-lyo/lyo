@@ -13,6 +13,9 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -25,9 +28,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
@@ -41,7 +42,9 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.RdfXmlAbbreviatedWriter;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
 
 public class RdfXmlAbbreviatedWriterTest {
     @Test

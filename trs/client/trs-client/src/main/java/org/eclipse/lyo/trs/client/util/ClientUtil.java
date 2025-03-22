@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import javax.ws.rs.core.Response;
+
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.eclipse.lyo.core.trs.Base;
@@ -22,6 +22,8 @@ import org.eclipse.lyo.trs.client.exceptions.TrsEndpointConfigException;
 import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.ws.rs.core.Response;
 
 /**
  * TODO

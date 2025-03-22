@@ -13,13 +13,16 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
-import com.github.jsonldjava.utils.Obj;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.jena.ext.com.google.common.collect.ImmutableList;
-import javax.ws.rs.core.MultivaluedHashMap;
+import java.util.List;
+
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdArrayProvider;
@@ -28,7 +31,7 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdProvider;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import jakarta.ws.rs.core.MultivaluedHashMap;
 
 /**
  * Created on 2018-03-03
@@ -70,7 +73,7 @@ public class JsonLdTest {
                 .getAnnotations(), OslcMediaType.APPLICATION_JSON_LD_TYPE, new
                 MultivaluedHashMap<>(), outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
 
@@ -92,7 +95,7 @@ public class JsonLdTest {
                          new MultivaluedHashMap<>(),
                          outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
     }
@@ -105,7 +108,7 @@ public class JsonLdTest {
 
         ServiceProvider sp = new ServiceProvider();
         sp.setDescription("Hello world");
-        final Collection<ServiceProvider> objects = ImmutableList.of(sp);
+        final Collection<ServiceProvider> objects = List.of(sp);
         provider.writeTo(
             new ArrayList<>(objects),
                 objects.getClass(),
@@ -115,7 +118,7 @@ public class JsonLdTest {
                 new MultivaluedHashMap<>(),
                 outputStream);
 
-        final String jsonLD = outputStream.toString("UTF-8");
+        final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
     }

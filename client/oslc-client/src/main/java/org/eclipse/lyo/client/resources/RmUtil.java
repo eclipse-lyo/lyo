@@ -13,19 +13,20 @@
  */
 package org.eclipse.lyo.client.resources;
 
-import net.oauth.OAuthException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import jakarta.ws.rs.core.Response;
+import net.oauth.OAuthException;
 
 @Deprecated
 public final class RmUtil {

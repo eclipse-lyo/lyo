@@ -5,75 +5,69 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- Start of user code header
     -->
-    <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
-    <parent>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>lyo-parent</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
-    </parent>
-    <!-- End of user code
+  <!-- TODO: Add additional header properties here to avoid them be overrriden
+  upon future re-generation -->
+  <parent>
+    <groupId>org.eclipse.lyo</groupId>
+    <artifactId>lyo-parent</artifactId>
+    <version>7.0.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+  <!-- End of user code
     -->
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>oslc-domains</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Lyo :: Domains</name>
     <properties>
         <!-- Start of user code properties
             -->
-            <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
-            <!-- End of user code
+    <!-- TODO: Add additional properties here to avoid them be overrriden upon
+    future re-generation -->
+    <!-- End of user code
         -->
     </properties>
     <!-- Start of user code pre_dependencies
     -->
-    <!-- End of user code
+  <!-- End of user code
     -->
     <dependencies>
         <!-- Specific dependencies -->
         <!-- Start of user code dependencies
                 -->
-                <!-- TODO: Add additional dependencies here to avoid them be overrriden upon future re-generation -->
-                <!-- End of user code
+    <!-- TODO: Add additional dependencies here to avoid them be overrriden upon
+    future re-generation -->
+    <!-- End of user code
         -->
         <!-- General dependencies -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
         </dependency>
+        
         <!-- Start of user code dependencies_final
         -->
-        <!-- TODO: Add additional dependencies here to avoid them be overridden upon future re-generation -->
-        <!-- End of user code
+    <!-- TODO: Add additional dependencies here to avoid them be overridden upon
+    future re-generation -->
+    <!-- End of user code
         -->
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
-    <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-        </plugin>
-      </plugins>
-    </build>
-    <!-- End of user code
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <!-- End of user code
     -->
 </project>

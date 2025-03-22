@@ -16,10 +16,14 @@ package org.eclipse.lyo.server.oauth.core;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 
+import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import jakarta.ws.rs.core.UriBuilder;
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
@@ -27,10 +31,6 @@ import net.oauth.OAuthMessage;
 import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
-
-import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Validates that a request is authorized. The request must contain a valid
@@ -120,7 +120,7 @@ public class OAuthRequest {
      * using the validator set in the {@link OAuthConfiguration}.
      * <p>
      * If the request fails validation, you can use
-     * {@link OAuthServlet#handleException(javax.servlet.http.HttpServletResponse, Exception, String)}
+     * {@link OAuthServlet#handleException(jakarta.servlet.http.HttpServletResponse, Exception, String)}
      * to send an unauthorized response.
      * 
      * @throws OAuthException if the request fails validation
