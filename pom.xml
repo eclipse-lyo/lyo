@@ -18,7 +18,7 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.1.10</v.kotlin>
+    <v.kotlin>2.1.20</v.kotlin>
     <v.dokka>1.9.20</v.dokka>
 
     <v.jersey>3.1.10</v.jersey>
@@ -596,7 +596,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
