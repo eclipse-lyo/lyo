@@ -1,6 +1,6 @@
 name: 'Update README'
 on:
-  push:
+  pull_request:
     paths:
       - 'tools/readme-matrix/**'
 permissions:
@@ -10,8 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
