@@ -1,6 +1,6 @@
 name: 'Update README'
 on:
-  pull_request:
+  push:
     paths:
       - 'tools/readme-matrix/**'
 permissions:
