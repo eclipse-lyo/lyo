@@ -1,13 +1,8 @@
-#!/usr/bin/env -S pip-run
+#!/usr/bin/env -S uv run --script
 
 # /// script
 # dependencies = ["requests==2.*","PyYAML==6.*"]
 # ///
-
-# pipx haven't released yet https://github.com/pypa/pipx/issues/1023
-#!/usr/bin/env -S pipx run
-#!/usr/bin/env -S python3 -bP
-
 
 import sys
 from textwrap import dedent
@@ -18,7 +13,7 @@ import yaml
 def help():
    print(dedent("""
    USAGE: readme-matrix-generator.py <config.yaml>
-      
+
       <config.yaml>  should contain definitions for 'versions', 'projects', and
                      label-types
    """), file=sys.stderr)
@@ -30,8 +25,8 @@ def generate_md_table(config):
    for value, keys in config["versions"].items():
       for key in keys:
          lyo_versions[key] = value
-   print(label_types, file=sys.stderr)
-   print(lyo_versions, file=sys.stderr)
+   # print(label_types, file=sys.stderr)
+   # print(lyo_versions, file=sys.stderr)
 
    # print("| Repo | Version | Status | PRs | Bugs | Activity |")
    # print("| ---- | ------- | ------ | --- | ---- | -------- |")
@@ -48,7 +43,7 @@ def generate_md_table(config):
       activity_badge = f"![]({p['activity_badge']})" if 'activity_badge' in p else "N/A"
       # print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {issues_badge} | {activity_badge} |")
       print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {activity_badge} |")
-   
+
 
 if __name__ == "__main__":
    if len(sys.argv) != 2:

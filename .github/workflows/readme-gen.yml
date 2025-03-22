@@ -1,0 +1,26 @@
+name: 'Update README'
+on:
+  pull_request:
+    paths:
+      - 'tools/readme-matrix/**'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Run update-readme script
+        run: tools/readme-matrix/update-readme.sh
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'Update README.md'
+          git push
