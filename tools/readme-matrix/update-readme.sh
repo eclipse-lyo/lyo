@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -uo pipefail
-set -e
+# set -e
 # set -x
 
 SCRIPT_PATH=$(realpath "$0")
