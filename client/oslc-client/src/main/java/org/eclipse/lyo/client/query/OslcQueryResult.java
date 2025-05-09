@@ -20,8 +20,6 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Selector;
-import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDFS;
@@ -67,9 +65,10 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
      *
      * @see OslcQueryResult#SELECT_ANY_MEMBER
      */
-    private final class AnyMemberSelector extends SimpleSelector {
+    // FIXME: totally broken
+    private final class AnyMemberSelector {
         private AnyMemberSelector(Resource subject) {
-            super(subject, null, (RDFNode) null);
+//            super(subject, null, (RDFNode) null);
         }
 
         public boolean selects(Statement s) {
@@ -254,8 +253,9 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
             Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
                 "nextPage");
-            Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
-            StmtIterator iter = rdfModel.listStatements(select);
+//            Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
+//            StmtIterator iter = rdfModel.listStatements(select);
+            StmtIterator iter = rdfModel.listStatements(infoResource, predicate, (RDFNode) null);
             if (iter.hasNext()) {
                 Statement nextPage = iter.next();
                 nextPageUrl = nextPage.getResource().getURI();

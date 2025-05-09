@@ -44,7 +44,7 @@ public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
-        return QueryExecutionFactory.sparqlService(queryEndpoint, query);
+        return QueryExecution.service(queryEndpoint, query);
     }
 
 

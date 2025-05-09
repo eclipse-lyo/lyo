@@ -82,7 +82,7 @@
   <modules>
     <module>core/oslc4j-core-build</module>
     <module>domains/oslc-domains</module>
-    <module>client</module>
+<!--    <module>client</module>-->
     <module>server</module>
 
     <module>trs/server</module>

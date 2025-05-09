@@ -69,7 +69,8 @@ public class OSLC4JUnmarshaller {
 
 	private RDFReaderI getReader(final Model model) {
 		if (mediaType.isCompatible(MT_RDF_XML) || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
-			return model.getReader(); // Default reader handles both xml and abbreviated xml
+			// TODO: check
+            return model.getReader(FileUtils.langXML); // Default reader handles both xml and abbreviated xml
 		}
 
 		if (mediaType.isCompatible(MT_N_TRIPLES)) {
