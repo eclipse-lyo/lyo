@@ -25,6 +25,11 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.jena.rdf.model.Model;
 //import org.apache.jena.rdf.model.ReifiedStatement;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
@@ -69,7 +74,10 @@ public class ReifiedLinksTest {
 
         final Model model = model(resourceOriginal);
 
-        final List<ReifiedStatement> reifiedStatements = model.listReifiedStatements().toList();
+        var reifiedStatements = model.listStatements(null, RDF.type, RDF.Statement).toList();
+
+        RDFDataMgr.write(System.out, model, Lang.TURTLE);
+
         assertEquals("Only 'linkWithLabel' property should be reified", 1,
                 reifiedStatements.size());
     }
@@ -80,12 +88,13 @@ public class ReifiedLinksTest {
 
         final Model model = model(resourceOriginal);
 
-        final List<ReifiedStatement> reifiedStatements = model.listReifiedStatements().toList();
+        var reifiedStatements = model.listStatements(null, RDF.type, RDF.Statement).toList();
+
         assertThat(reifiedStatements).isNotEmpty();
-        for (ReifiedStatement statement : reifiedStatements) {
+        for (Statement statement : reifiedStatements) {
             // A reified statement in Lyo is serialised with 4 triples for subject, predicate,
             // object, type. If it has no other info, we consider it to be empty.
-            assertThat(statement.listProperties().toList().size()).isGreaterThan(4);
+            assertThat(statement.getSubject().listProperties().toList().size()).isGreaterThan(4);
         }
 
     }
