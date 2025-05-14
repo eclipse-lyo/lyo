@@ -27,9 +27,9 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.tdb.TDBFactory;
 import org.apache.jena.tdb.TDBLoader;
-import org.apache.jena.tdb.sys.TDBInternal;
+import org.apache.jena.tdb1.TDB1Factory;
+import org.apache.jena.tdb1.sys.TDBInternal;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
@@ -59,7 +59,7 @@ public class SparqlUtilTest {
         if (Files.exists(tempDirectoryPath)) {
             FileUtils.deleteDirectory(tempDirectoryPath.toFile());
         }
-        dataset = TDBFactory.createDataset(tempDirectoryPath.toString());
+        dataset = TDB1Factory.createDataset(tempDirectoryPath.toString());
         assert dataset != null;
         clear();
     }
