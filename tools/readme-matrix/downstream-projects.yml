@@ -6,6 +6,7 @@ versions:
   stable:
     - "6.0.0"
   milestone-warn:
+    - "7.0.0a2"
     - "5.1.0a"
     - "5.0.1.CR"
   obsolete-snapshot:
@@ -34,7 +35,7 @@ versions:
 projects:
   - slug: "oslc-op/refimpl"
     link: "https://github.com/oslc-op/refimpl"
-    version: "6.0.0"
+    version: "7.0.0a2"
     ci_badge: "https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/refimpl?label=PR"
     pr_link: "https://github.com/oslc-op/refimpl/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
@@ -43,7 +44,7 @@ projects:
     activity_badge: "https://img.shields.io/github/last-commit/oslc-op/refimpl"
   - slug: "lyo-samples/lyo-client-samples"
     link: "https://github.com/OSLC/lyo-samples"
-    version: "6.0.0"
+    version: "7.0.0a2"
     ci_badge: "https://github.com/OSLC/lyo-samples/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/OSLC/lyo-samples?label=PR"
     pr_link: "https://github.com/OSLC/lyo-samples/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
@@ -278,7 +279,7 @@ label-types:
     # color: "248232"
   - name: "milestone-warn"
     # color: "yellowgreen"
-    color: "7B1E7A"
+    color: "f3cdf2"
   - name: "obsolete-snapshot"
     # color: "yellowgreen"
     # color: "f329da"
