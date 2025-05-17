@@ -279,7 +279,7 @@ label-types:
     # color: "248232"
   - name: "milestone-warn"
     # color: "yellowgreen"
-    color: "7B1E7A"
+    color: "f3cdf2"
   - name: "obsolete-snapshot"
     # color: "yellowgreen"
     # color: "f329da"
