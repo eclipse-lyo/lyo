@@ -398,4 +398,11 @@ public interface Store {
      * @since 4.1.0
      */
     void close();
+
+    /**
+     * Execute a raw SPARQL query against the UPDATE endpoint.
+     *
+     * @param finalQueryString
+     */
+    void rawUpdateQuery(String finalQueryString);
 }
