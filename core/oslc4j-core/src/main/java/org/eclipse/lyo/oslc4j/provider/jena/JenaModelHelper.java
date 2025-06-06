@@ -714,6 +714,7 @@ public final class JenaModelHelper
             final String uri	   = predicate.getURI();
             final Method setMethod = setMethodMap.get(uri);
 
+            //TODO: split into readExtendedProperty and readAnnotatedProperty
             if (setMethod == null)
             {
                 if (RDF_TYPE_URI.equals(uri))
@@ -866,17 +867,18 @@ public final class JenaModelHelper
 
                 for (RDFNode o : objects)
                 {
+                    // read/set a non-generic non-collection annotated property
                     Object parameter = null;
                     if (o.isLiteral())
                     {
                         final Literal literal	 = o.asLiteral();
                         final String stringValue = literal.getString();
 
-                        if (String.class == setMethodComponentParameterClass)
-                        {
+                        if (String.class == setMethodComponentParameterClass) {
                             parameter = stringValue;
-                        }
-                        else if ((Boolean.class == setMethodComponentParameterClass) ||
+                        } else if (XMLLiteral.class == setMethodComponentParameterClass) {
+                            parameter = new XMLLiteral(literal.getString());
+                        } else if ((Boolean.class == setMethodComponentParameterClass) ||
                                 (Boolean.TYPE == setMethodComponentParameterClass))
                         {
                             // XML supports both 'true' and '1' for a true Boolean.
@@ -1413,6 +1415,7 @@ public final class JenaModelHelper
 
                         if (value != null)
                         {
+                            // serializing an annotated property value
                             Map<String, Object> nestedProperties = null;
                             boolean onlyNested = false;
 
@@ -1983,21 +1986,23 @@ public final class JenaModelHelper
             return;
         }
 
-        if (value instanceof String)
-        {
-            if (onlyNested)
-            {
+        if (value instanceof String) {
+            if (onlyNested) {
                 return;
             }
 
-            if (xmlLiteral)
-            {
+            if (xmlLiteral) {
                 nestedNode = model.createTypedLiteral(value.toString(),
-                        XMLLiteralType.theXMLLiteralType);
-            }
-            else
-            {
+                    XMLLiteralType.theXMLLiteralType);
+            } else {
                 nestedNode = model.createLiteral(value.toString());
+            }
+        } else if (value instanceof XMLLiteral) {
+            if (xmlLiteral) {
+                nestedNode = model.createTypedLiteral(((XMLLiteral) value).getValue(),
+                    XMLLiteralType.theXMLLiteralType);
+            } else {
+                throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
             }
         }
         // Floats need special handling for infinite values.
