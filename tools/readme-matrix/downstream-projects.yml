@@ -1,13 +1,15 @@
 versions:
   # shields.io requires '-' to be escaped thru '--'
   snapshot:
-    - "6.0.0.CR"
     - "7.0.0a3"
     - "7.0.0--S"
   stable:
     - "6.0.0"
+  obsolete-recent:
+    - "5.1.1"
   milestone-warn:
     - "7.0.0a2"
+    - "6.0.0.CR"
     - "5.1.0a"
     - "5.0.1.CR"
   obsolete-snapshot:
@@ -17,8 +19,6 @@ versions:
     - "5.0.0--S"
     - "4.1.0--S"
     - "4.0.0--S"
-  obsolete-recent:
-    - "5.1.1"
   obsolete-old:
     - "5.1.0"
     - "5.0.0"
