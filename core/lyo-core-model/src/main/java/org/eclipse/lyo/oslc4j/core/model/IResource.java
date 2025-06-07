@@ -16,6 +16,7 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 
 public interface IResource {
-	public URI getAbout();
-	public void setAbout(final URI about);
+    public URI getAbout();
+
+    public void setAbout(final URI about);
 }

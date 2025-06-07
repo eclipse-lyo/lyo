@@ -16,21 +16,20 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
 // Start of user code imports
 // End of user code
 
-public interface Oslc_configVocabularyConstants
-{
+public interface Oslc_configVocabularyConstants {
     // Start of user code user constants
     // End of user code
 
-    public static String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/config#";
+    public static String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE =
+            "http://open-services.net/ns/config#";
     public static String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config";
 
     public static String CHANGESET = "ChangeSet";
     public static String TYPE_CHANGESET = OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE + CHANGESET;
     public static String CONFIGURATION = "Configuration";
-    public static String TYPE_CONFIGURATION = OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE + CONFIGURATION;
+    public static String TYPE_CONFIGURATION =
+            OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE + CONFIGURATION;
 }

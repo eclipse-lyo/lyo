@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * Properties from olsc.select of oslc.properties clause
  */
-public interface Properties
-{
-	List<Property> children();
+public interface Properties {
+    List<Property> children();
 }

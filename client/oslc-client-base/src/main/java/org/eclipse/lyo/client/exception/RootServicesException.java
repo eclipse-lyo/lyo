@@ -13,24 +13,20 @@
  */
 package org.eclipse.lyo.client.exception;
 
-
 @SuppressWarnings("serial")
 public final class RootServicesException extends OslcClientApplicationException {
 
-private static final String MESSAGE_KEY = "RootServicesException";
+    private static final String MESSAGE_KEY = "RootServicesException";
 
-	private final String jazzUrl;
+    private final String jazzUrl;
 
+    public RootServicesException(final String jazzUrl, final Exception exception) {
+        super(MESSAGE_KEY, new Object[] {jazzUrl}, exception);
 
-	public RootServicesException(final String jazzUrl, final Exception exception) {
-		super(MESSAGE_KEY, new Object[] {jazzUrl}, exception);
+        this.jazzUrl = jazzUrl;
+    }
 
-		this.jazzUrl = jazzUrl;
-	}
-
-
-	public String getJazzUrl() {
-		return jazzUrl;
-	}
-
+    public String getJazzUrl() {
+        return jazzUrl;
+    }
 }

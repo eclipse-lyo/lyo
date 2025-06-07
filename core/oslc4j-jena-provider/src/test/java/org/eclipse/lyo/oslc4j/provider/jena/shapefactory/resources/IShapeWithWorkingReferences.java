@@ -17,52 +17,29 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.IInlinedShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.ILocalShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.IReferencedShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.Oslc_sdDomainConstants;
 
 @OslcNamespace(Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_NAMESPACE)
 @OslcName(Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_LOCALNAME)
-@OslcResourceShape(title = "ShapeWithWorkingReferences Resource Shape", describes = Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_TYPE)
-public interface IShapeWithWorkingReferences
-{
+@OslcResourceShape(
+        title = "ShapeWithWorkingReferences Resource Shape",
+        describes = Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_TYPE)
+public interface IShapeWithWorkingReferences {
 
-    public void addInlinesMany(final InlinedShape inlinesMany );
+    public void addInlinesMany(final InlinedShape inlinesMany);
 
     @OslcName("referencesAsLocal")
     @OslcPropertyDefinition(Oslc_sdDomainConstants.SPECDOMAIN_NAMSPACE + "referencesAsLocal")
@@ -105,11 +82,13 @@ public interface IShapeWithWorkingReferences
     @OslcReadOnly(false)
     public Set<InlinedShape> getInlinesMany();
 
+    public void setReferencesAsLocal(final LocalShape referencesAsLocal);
 
-    public void setReferencesAsLocal(final LocalShape referencesAsLocal );
-    public void setInlines(final InlinedShape inlines );
-    public void setReferencesAsResource(final Link referencesAsResource );
-    public void setIdentifier(final String identifier );
-    public void setInlinesMany(final Set<InlinedShape> inlinesMany );
+    public void setInlines(final InlinedShape inlines);
+
+    public void setReferencesAsResource(final Link referencesAsResource);
+
+    public void setIdentifier(final String identifier);
+
+    public void setInlinesMany(final Set<InlinedShape> inlinesMany);
 }
-

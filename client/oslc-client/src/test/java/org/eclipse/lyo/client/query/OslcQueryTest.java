@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.Map;
-
 import org.eclipse.lyo.client.OslcClient;
 import org.junit.Test;
 
@@ -32,5 +31,4 @@ public class OslcQueryTest {
         assertEquals(CAPABILITY_URL, query.getQueryUrl());
         assertEquals(Map.of("key", "value"), query.getAdditionalHeaders());
     }
-    
 }

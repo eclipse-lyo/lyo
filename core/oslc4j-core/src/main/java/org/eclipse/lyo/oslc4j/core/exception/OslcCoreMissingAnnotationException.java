@@ -14,25 +14,26 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 public final class OslcCoreMissingAnnotationException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 247462012895583998L;
+    private static final long serialVersionUID = 247462012895583998L;
 
-	private static final String MESSAGE_KEY = "MissingAnnotationException";
+    private static final String MESSAGE_KEY = "MissingAnnotationException";
 
-	private final Class<?> annotationClass;
-	private final Class<?> resourceClass;
+    private final Class<?> annotationClass;
+    private final Class<?> resourceClass;
 
-	public OslcCoreMissingAnnotationException(final Class<?> resourceClass, final Class<?> annotationClass) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), annotationClass.getName()});
+    public OslcCoreMissingAnnotationException(
+            final Class<?> resourceClass, final Class<?> annotationClass) {
+        super(MESSAGE_KEY, new Object[] {resourceClass.getName(), annotationClass.getName()});
 
-		this.annotationClass = annotationClass;
-		this.resourceClass	 = resourceClass;
-	}
+        this.annotationClass = annotationClass;
+        this.resourceClass = resourceClass;
+    }
 
-	public Class<?> getAnnotationClass() {
-		return annotationClass;
-	}
+    public Class<?> getAnnotationClass() {
+        return annotationClass;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

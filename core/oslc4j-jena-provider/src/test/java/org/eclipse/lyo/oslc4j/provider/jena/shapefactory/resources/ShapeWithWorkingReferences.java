@@ -19,46 +19,27 @@ package org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.InlinedShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.LocalShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.Oslc_sdDomainConstants;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.ReferencedShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 // Start of user code preClassCode
 // End of user code
@@ -67,11 +48,11 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 // End of user code
 @OslcNamespace(Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_NAMESPACE)
 @OslcName(Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_LOCALNAME)
-@OslcResourceShape(title = "ShapeWithWorkingReferences Resource Shape", describes = Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_TYPE)
-public class ShapeWithWorkingReferences
-    extends AbstractResource
-    implements IShapeWithWorkingReferences
-{
+@OslcResourceShape(
+        title = "ShapeWithWorkingReferences Resource Shape",
+        describes = Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_TYPE)
+public class ShapeWithWorkingReferences extends AbstractResource
+        implements IShapeWithWorkingReferences {
     // Start of user code attributeAnnotation:referencesAsLocal
     // End of user code
     private LocalShape referencesAsLocal;
@@ -92,47 +73,47 @@ public class ShapeWithWorkingReferences
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ShapeWithWorkingReferences()
-    {
+    public ShapeWithWorkingReferences() {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public ShapeWithWorkingReferences(final URI about)
-    {
+    public ShapeWithWorkingReferences(final URI about) {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_PATH,
-        ShapeWithWorkingReferences.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_sdDomainConstants.SHAPEWITHWORKINGREFERENCES_PATH,
+                ShapeWithWorkingReferences.class);
     }
 
-
-    public String toString()
-    {
+    public String toString() {
         return toString(false);
     }
 
-    public String toString(boolean asLocalResource)
-    {
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
 
         if (asLocalResource) {
-            result = result + "{a Local ShapeWithWorkingReferences Resource} - update ShapeWithWorkingReferences.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local ShapeWithWorkingReferences Resource} - update"
+                            + " ShapeWithWorkingReferences.toString() to present resource as"
+                            + " desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
 
@@ -142,11 +123,9 @@ public class ShapeWithWorkingReferences
         return result;
     }
 
-    public void addInlinesMany(final InlinedShape inlinesMany)
-    {
+    public void addInlinesMany(final InlinedShape inlinesMany) {
         this.inlinesMany.add(inlinesMany);
     }
-
 
     // Start of user code getterAnnotation:referencesAsLocal
     // End of user code
@@ -156,8 +135,7 @@ public class ShapeWithWorkingReferences
     @OslcValueType(ValueType.LocalResource)
     @OslcRange({Oslc_sdDomainConstants.LOCALSHAPE_TYPE})
     @OslcReadOnly(false)
-    public LocalShape getReferencesAsLocal()
-    {
+    public LocalShape getReferencesAsLocal() {
         // Start of user code getterInit:referencesAsLocal
         // End of user code
         return referencesAsLocal;
@@ -172,8 +150,7 @@ public class ShapeWithWorkingReferences
     @OslcRepresentation(Representation.Inline)
     @OslcRange({Oslc_sdDomainConstants.INLINEDSHAPE_TYPE})
     @OslcReadOnly(false)
-    public InlinedShape getInlines()
-    {
+    public InlinedShape getInlines() {
         // Start of user code getterInit:inlines
         // End of user code
         return inlines;
@@ -187,8 +164,7 @@ public class ShapeWithWorkingReferences
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_sdDomainConstants.REFERENCEDSHAPE_TYPE})
     @OslcReadOnly(false)
-    public Link getReferencesAsResource()
-    {
+    public Link getReferencesAsResource() {
         // Start of user code getterInit:referencesAsResource
         // End of user code
         return referencesAsResource;
@@ -201,8 +177,7 @@ public class ShapeWithWorkingReferences
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -217,18 +192,15 @@ public class ShapeWithWorkingReferences
     @OslcRepresentation(Representation.Inline)
     @OslcRange({Oslc_sdDomainConstants.INLINEDSHAPE_TYPE})
     @OslcReadOnly(false)
-    public Set<InlinedShape> getInlinesMany()
-    {
+    public Set<InlinedShape> getInlinesMany() {
         // Start of user code getterInit:inlinesMany
         // End of user code
         return inlinesMany;
     }
 
-
     // Start of user code setterAnnotation:referencesAsLocal
     // End of user code
-    public void setReferencesAsLocal(final LocalShape referencesAsLocal )
-    {
+    public void setReferencesAsLocal(final LocalShape referencesAsLocal) {
         // Start of user code setterInit:referencesAsLocal
         // End of user code
         this.referencesAsLocal = referencesAsLocal;
@@ -239,8 +211,7 @@ public class ShapeWithWorkingReferences
 
     // Start of user code setterAnnotation:inlines
     // End of user code
-    public void setInlines(final InlinedShape inlines )
-    {
+    public void setInlines(final InlinedShape inlines) {
         // Start of user code setterInit:inlines
         // End of user code
         this.inlines = inlines;
@@ -251,8 +222,7 @@ public class ShapeWithWorkingReferences
 
     // Start of user code setterAnnotation:referencesAsResource
     // End of user code
-    public void setReferencesAsResource(final Link referencesAsResource )
-    {
+    public void setReferencesAsResource(final Link referencesAsResource) {
         // Start of user code setterInit:referencesAsResource
         // End of user code
         this.referencesAsResource = referencesAsResource;
@@ -263,8 +233,7 @@ public class ShapeWithWorkingReferences
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -275,19 +244,15 @@ public class ShapeWithWorkingReferences
 
     // Start of user code setterAnnotation:inlinesMany
     // End of user code
-    public void setInlinesMany(final Set<InlinedShape> inlinesMany )
-    {
+    public void setInlinesMany(final Set<InlinedShape> inlinesMany) {
         // Start of user code setterInit:inlinesMany
         // End of user code
         this.inlinesMany.clear();
-        if (inlinesMany != null)
-        {
+        if (inlinesMany != null) {
             this.inlinesMany.addAll(inlinesMany);
         }
 
         // Start of user code setterFinalize:inlinesMany
         // End of user code
     }
-
-
 }

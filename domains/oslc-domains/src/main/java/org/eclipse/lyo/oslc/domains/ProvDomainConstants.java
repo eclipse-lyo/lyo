@@ -16,19 +16,14 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
-
 // Start of user code imports
 // End of user code
 
-public interface ProvDomainConstants
-{
+public interface ProvDomainConstants {
     // Start of user code user constants
     // End of user code
 
     public static String PROVENANCE_DOMAIN = "http://www.w3.org/ns/prov#";
     public static String PROVENANCE_NAMSPACE = "http://www.w3.org/ns/prov#";
     public static String PROVENANCE_NAMSPACE_PREFIX = "prov";
-
 }

@@ -14,7 +14,6 @@
 
 package org.eclipse.lyo.server.oauth.webapp.services;
 
-
 class OAuthServerConstants {
     static final String HDR_CACHE_CONTROL = "Cache-Control";
     static final String NO_CACHE = "no-cache";

@@ -56,9 +56,11 @@ public class StoreFactory {
      * @return Store implementation that communicates with the triplestore via SPARQL.
      *
      */
-    public static Store sparql(final String queryUrl, final String updateUrl, final String username,
+    public static Store sparql(
+            final String queryUrl,
+            final String updateUrl,
+            final String username,
             final String password) {
         return new SparqlStoreImpl(queryUrl, updateUrl, username, password);
     }
-
 }

@@ -19,8 +19,7 @@ package org.eclipse.lyo.oslc4j.core.exception;
  */
 public class LyoModelException extends RuntimeException {
 
-    public LyoModelException() {
-    }
+    public LyoModelException() {}
 
     public LyoModelException(final String message) {
         super(message);
@@ -34,7 +33,10 @@ public class LyoModelException extends RuntimeException {
         super(cause);
     }
 
-    public LyoModelException(final String message, final Throwable cause, final boolean enableSuppression,
+    public LyoModelException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
             final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }

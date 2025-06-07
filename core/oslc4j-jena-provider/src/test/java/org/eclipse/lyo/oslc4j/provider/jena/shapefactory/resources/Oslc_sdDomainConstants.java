@@ -17,14 +17,10 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
-
 // Start of user code imports
 // End of user code
 
-public interface Oslc_sdDomainConstants
-{
+public interface Oslc_sdDomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -33,27 +29,57 @@ public interface Oslc_sdDomainConstants
     public static String SPECDOMAIN_NAMSPACE_PREFIX = "oslc_sd";
 
     public static String INLINEDSHAPE_PATH = "inlinedShape";
-    public static String INLINEDSHAPE_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String INLINEDSHAPE_LOCALNAME = "InlinedShape"; //localName of the rdfs:class the resource describes
-    public static String INLINEDSHAPE_TYPE = INLINEDSHAPE_NAMESPACE + INLINEDSHAPE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String INLINEDSHAPE_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String INLINEDSHAPE_LOCALNAME =
+            "InlinedShape"; // localName of the rdfs:class the resource describes
+    public static String INLINEDSHAPE_TYPE =
+            INLINEDSHAPE_NAMESPACE
+                    + INLINEDSHAPE_LOCALNAME; // fullname of the rdfs:class the resource describes
     public static String LOCALSHAPE_PATH = "localShape";
-    public static String LOCALSHAPE_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String LOCALSHAPE_LOCALNAME = "LocalShape"; //localName of the rdfs:class the resource describes
-    public static String LOCALSHAPE_TYPE = LOCALSHAPE_NAMESPACE + LOCALSHAPE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String LOCALSHAPE_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String LOCALSHAPE_LOCALNAME =
+            "LocalShape"; // localName of the rdfs:class the resource describes
+    public static String LOCALSHAPE_TYPE =
+            LOCALSHAPE_NAMESPACE
+                    + LOCALSHAPE_LOCALNAME; // fullname of the rdfs:class the resource describes
     public static String REFERENCEDSHAPE_PATH = "referencedShape";
-    public static String REFERENCEDSHAPE_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String REFERENCEDSHAPE_LOCALNAME = "ReferencedShape"; //localName of the rdfs:class the resource describes
-    public static String REFERENCEDSHAPE_TYPE = REFERENCEDSHAPE_NAMESPACE + REFERENCEDSHAPE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String REFERENCEDSHAPE_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String REFERENCEDSHAPE_LOCALNAME =
+            "ReferencedShape"; // localName of the rdfs:class the resource describes
+    public static String REFERENCEDSHAPE_TYPE =
+            REFERENCEDSHAPE_NAMESPACE
+                    + REFERENCEDSHAPE_LOCALNAME; // fullname of the rdfs:class the resource
+    // describes
     public static String SHAPEWITHWORKINGREFERENCES_PATH = "shapeWithWorkingReferences";
-    public static String SHAPEWITHWORKINGREFERENCES_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String SHAPEWITHWORKINGREFERENCES_LOCALNAME = "ShapeWithWorkingReferences"; //localName of the rdfs:class the resource describes
-    public static String SHAPEWITHWORKINGREFERENCES_TYPE = SHAPEWITHWORKINGREFERENCES_NAMESPACE + SHAPEWITHWORKINGREFERENCES_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String SHAPEWITHWORKINGREFERENCES_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String SHAPEWITHWORKINGREFERENCES_LOCALNAME =
+            "ShapeWithWorkingReferences"; // localName of the rdfs:class the resource describes
+    public static String SHAPEWITHWORKINGREFERENCES_TYPE =
+            SHAPEWITHWORKINGREFERENCES_NAMESPACE
+                    + SHAPEWITHWORKINGREFERENCES_LOCALNAME; // fullname of the rdfs:class the
+    // resource describes
     public static String SHAPEWITHWRONGREFERENCETOINLINE_PATH = "shapeWithWrongReferenceToInline";
-    public static String SHAPEWITHWRONGREFERENCETOINLINE_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String SHAPEWITHWRONGREFERENCETOINLINE_LOCALNAME = "ShapeWithWrongReferenceToInline"; //localName of the rdfs:class the resource describes
-    public static String SHAPEWITHWRONGREFERENCETOINLINE_TYPE = SHAPEWITHWRONGREFERENCETOINLINE_NAMESPACE + SHAPEWITHWRONGREFERENCETOINLINE_LOCALNAME; //fullname of the rdfs:class the resource describes
-    public static String SHAPEWITHWRONGREFERENCETORESOURCE_PATH = "shapeWithWrongReferenceToResource";
-    public static String SHAPEWITHWRONGREFERENCETORESOURCE_NAMESPACE = SPECDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String SHAPEWITHWRONGREFERENCETORESOURCE_LOCALNAME = "ShapeWithWrongReferenceToResource"; //localName of the rdfs:class the resource describes
-    public static String SHAPEWITHWRONGREFERENCETORESOURCE_TYPE = SHAPEWITHWRONGREFERENCETORESOURCE_NAMESPACE + SHAPEWITHWRONGREFERENCETORESOURCE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String SHAPEWITHWRONGREFERENCETOINLINE_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String SHAPEWITHWRONGREFERENCETOINLINE_LOCALNAME =
+            "ShapeWithWrongReferenceToInline"; // localName of the rdfs:class the resource describes
+    public static String SHAPEWITHWRONGREFERENCETOINLINE_TYPE =
+            SHAPEWITHWRONGREFERENCETOINLINE_NAMESPACE
+                    + SHAPEWITHWRONGREFERENCETOINLINE_LOCALNAME; // fullname of the rdfs:class the
+    // resource describes
+    public static String SHAPEWITHWRONGREFERENCETORESOURCE_PATH =
+            "shapeWithWrongReferenceToResource";
+    public static String SHAPEWITHWRONGREFERENCETORESOURCE_NAMESPACE =
+            SPECDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String SHAPEWITHWRONGREFERENCETORESOURCE_LOCALNAME =
+            "ShapeWithWrongReferenceToResource"; // localName of the rdfs:class the resource
+    // describes
+    public static String SHAPEWITHWRONGREFERENCETORESOURCE_TYPE =
+            SHAPEWITHWRONGREFERENCETORESOURCE_NAMESPACE
+                    + SHAPEWITHWRONGREFERENCETORESOURCE_LOCALNAME; // fullname of the rdfs:class the
+    // resource describes
 }

@@ -1,15 +1,14 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
+import java.net.URI;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 import org.apache.commons.lang.math.RandomUtils;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
-
-import java.net.URI;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
 
 public class TRSTestUtil {
     private static Random random = new Random();
@@ -19,9 +18,11 @@ public class TRSTestUtil {
     }
 
     public static HistoryData createHistory() {
-        final HistoryData historyData = HistoryData.getInstance(new Date(),
-                URI.create(String.format("urn:uuid:%s", UUID.randomUUID().toString())),
-                HistoryData.CREATED);
+        final HistoryData historyData =
+                HistoryData.getInstance(
+                        new Date(),
+                        URI.create(String.format("urn:uuid:%s", UUID.randomUUID().toString())),
+                        HistoryData.CREATED);
         return historyData;
     }
 
@@ -36,9 +37,13 @@ public class TRSTestUtil {
         int changeOrderInt = RandomUtils.nextInt();
         String changeOrder = String.valueOf(changeOrderInt);
 
-        String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"
-                + TRSUtil.XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" +
-                changeOrder;
+        String changedUriString =
+                "urn:urn-3:"
+                        + "cm1.example.com"
+                        + ":"
+                        + TRSUtil.XSD_DATETIME_FORMAT.format(hd.getTimestamp())
+                        + ":"
+                        + changeOrder;
 
         URI changedUri = URI.create(changedUriString);
 

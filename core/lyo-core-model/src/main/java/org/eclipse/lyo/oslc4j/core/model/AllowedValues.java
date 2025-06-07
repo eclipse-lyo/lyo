@@ -16,18 +16,17 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-
 import javax.xml.namespace.QName;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
-@OslcResourceShape(title = "OSLC Allowed Values Resource Shape",
-                   describes = OslcConstants.TYPE_ALLOWED_VALUES)
+@OslcResourceShape(
+        title = "OSLC Allowed Values Resource Shape",
+        describes = OslcConstants.TYPE_ALLOWED_VALUES)
 public final class AllowedValues extends AbstractResource {
-    private static final QName PROPERTY_ALLOWED_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE,
-            "allowedValue");
+    private static final QName PROPERTY_ALLOWED_VALUE =
+            new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
 
     public AllowedValues() {
         super();

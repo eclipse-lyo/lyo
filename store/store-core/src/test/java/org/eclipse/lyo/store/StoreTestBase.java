@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
 import org.apache.jena.rdf.model.Model;
 import org.assertj.core.api.Assertions;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
@@ -37,7 +36,6 @@ import org.junit.jupiter.api.Test;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-
 
 /**
  * StoreTestBase allows same tests to be run on differently set up triplestores
@@ -73,16 +71,15 @@ public abstract class StoreTestBase<T extends Store> {
     }
 
     @Test
-    public void testStoreReadsSameValue()
-            throws StoreAccessException, ModelUnmarshallingException {
+    public void testStoreReadsSameValue() throws StoreAccessException, ModelUnmarshallingException {
         final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
         final URI testResourceURI = resource.getAbout();
 
         manager.putResources(testKeyAdd, Collections.singletonList(resource));
-        final Collection<ServiceProviderCatalog> catalogs = manager.getResources(testKeyAdd,
-                ServiceProviderCatalog.class);
+        final Collection<ServiceProviderCatalog> catalogs =
+                manager.getResources(testKeyAdd, ServiceProviderCatalog.class);
 
         Assertions.assertThat(catalogs).hasSize(1);
         final ServiceProviderCatalog catalog = catalogs.toArray(new ServiceProviderCatalog[0])[0];
@@ -92,8 +89,7 @@ public abstract class StoreTestBase<T extends Store> {
     }
 
     @Test
-    public void testStorePurgedKeyRemoved()
-            throws StoreAccessException {
+    public void testStorePurgedKeyRemoved() throws StoreAccessException {
         final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
@@ -116,8 +112,8 @@ public abstract class StoreTestBase<T extends Store> {
         manager.putResources(testKeyAdd, Collections.singletonList(resource));
         manager.putResources(testKeyAdd, Collections.singletonList(resource2));
 
-        final Collection<ServiceProviderCatalog> catalogs = manager.getResources(testKeyAdd,
-                ServiceProviderCatalog.class);
+        final Collection<ServiceProviderCatalog> catalogs =
+                manager.getResources(testKeyAdd, ServiceProviderCatalog.class);
 
         Assertions.assertThat(catalogs).hasSize(1);
         ServiceProviderCatalog[] catalogsArray = catalogs.toArray(new ServiceProviderCatalog[0]);
@@ -136,15 +132,17 @@ public abstract class StoreTestBase<T extends Store> {
         manager.appendResource(testKeyAdd, resource);
         manager.appendResource(testKeyAdd, resource2);
 
-        final Collection<ServiceProviderCatalog> catalogs = manager.getResources(testKeyAdd,
-                ServiceProviderCatalog.class);
+        final Collection<ServiceProviderCatalog> catalogs =
+                manager.getResources(testKeyAdd, ServiceProviderCatalog.class);
 
         Assertions.assertThat(catalogs).hasSize(2);
-        Assertions.assertThat(catalogs
-                .stream()
-                .map((serviceProviderCatalog) -> serviceProviderCatalog.getAbout().toASCIIString()))
-                .contains(resource.getAbout().toASCIIString(),
-                        resource2.getAbout().toASCIIString());
+        Assertions.assertThat(
+                        catalogs.stream()
+                                .map(
+                                        (serviceProviderCatalog) ->
+                                                serviceProviderCatalog.getAbout().toASCIIString()))
+                .contains(
+                        resource.getAbout().toASCIIString(), resource2.getAbout().toASCIIString());
     }
 
     @Test
@@ -159,10 +157,10 @@ public abstract class StoreTestBase<T extends Store> {
             manager.appendResource(testKeyAdd, resource);
         }
 
-        final Collection<ServiceProviderCatalog> catalogs = manager.getResources(testKeyAdd,
-                ServiceProviderCatalog.class, 51, 0);
-        final Collection<ServiceProviderCatalog> catalogs2 = manager.getResources(testKeyAdd,
-                ServiceProviderCatalog.class, 51, 50);
+        final Collection<ServiceProviderCatalog> catalogs =
+                manager.getResources(testKeyAdd, ServiceProviderCatalog.class, 51, 0);
+        final Collection<ServiceProviderCatalog> catalogs2 =
+                manager.getResources(testKeyAdd, ServiceProviderCatalog.class, 51, 50);
 
         Assertions.assertThat(catalogs).hasSize(51);
         Assertions.assertThat(catalogs2).hasSize(50);
@@ -183,16 +181,15 @@ public abstract class StoreTestBase<T extends Store> {
 
         manager.appendResources(testKeyAdd, resources);
 
-        ServiceProviderCatalog resourceUnderKey = manager.getResource(testKeyAdd,
-                resource2.getAbout(), ServiceProviderCatalog.class);
+        ServiceProviderCatalog resourceUnderKey =
+                manager.getResource(testKeyAdd, resource2.getAbout(), ServiceProviderCatalog.class);
 
         Assertions.assertThat(resourceUnderKey).isNotNull();
         Assertions.assertThat(resourceUnderKey.getAbout()).isEqualTo(resource2.getAbout());
     }
 
     @Test
-    public void testMissingResourceException()
-            throws StoreAccessException {
+    public void testMissingResourceException() throws StoreAccessException {
         final Store manager = buildStore();
         final URI testKeyAdd = buildKey();
         final IResource resource = buildResource();
@@ -205,15 +202,16 @@ public abstract class StoreTestBase<T extends Store> {
 
         manager.appendResources(testKeyAdd, resources);
 
-        assertThrows(NoSuchElementException.class, () ->
-            manager.getResource(testKeyAdd, new URI("urn:blabla"), ServiceProviderCatalog.class)
-        );
+        assertThrows(
+                NoSuchElementException.class,
+                () ->
+                        manager.getResource(
+                                testKeyAdd, new URI("urn:blabla"), ServiceProviderCatalog.class));
     }
 
     @Test
     public void testBlankNodeRetrieval()
-            throws URISyntaxException, StoreAccessException,
-            ModelUnmarshallingException {
+            throws URISyntaxException, StoreAccessException, ModelUnmarshallingException {
 
         BlankResource aBlankResource = new BlankResource();
         aBlankResource.setIntProperty(1);
@@ -227,18 +225,15 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = new URI("urn:test");
         manager.putResources(namedGraphUri, List.of(r1WithBlankResource));
 
-        final WithBlankResource resource = manager.getResource(
-                namedGraphUri,
-                blankResourceURI,
-                WithBlankResource.class);
+        final WithBlankResource resource =
+                manager.getResource(namedGraphUri, blankResourceURI, WithBlankResource.class);
 
         assertThat(resource.getRelatesToBlankResource().getIntProperty()).isEqualTo(1);
     }
 
     @Test
     public void testBlankNodeRetrievalDouble()
-            throws URISyntaxException, StoreAccessException,
-            ModelUnmarshallingException {
+            throws URISyntaxException, StoreAccessException, ModelUnmarshallingException {
 
         BlankResource anotherBlankResource = new BlankResource();
         final int intProperty = 1;
@@ -248,8 +243,8 @@ public abstract class StoreTestBase<T extends Store> {
         final String some_string = "some String";
         r2WithBlankResource.setStringProperty(some_string);
         final URI blankResourceURI = new URI("urn:2");
-        WithTwoDepthBlankResource aWithTwoDepthBlankResource = new WithTwoDepthBlankResource(
-                blankResourceURI);
+        WithTwoDepthBlankResource aWithTwoDepthBlankResource =
+                new WithTwoDepthBlankResource(blankResourceURI);
         aWithTwoDepthBlankResource.setIntProperty(1);
         aWithTwoDepthBlankResource.setRelatesToBlankResourceTwoDepth(r2WithBlankResource);
 
@@ -258,16 +253,17 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = new URI("urn:test");
         manager.putResources(namedGraphUri, List.of(aWithTwoDepthBlankResource));
 
-        final WithTwoDepthBlankResource resource = manager.getResource(namedGraphUri,
-                                                                       blankResourceURI,
-                                                                       WithTwoDepthBlankResource
-                                                                               .class);
+        final WithTwoDepthBlankResource resource =
+                manager.getResource(
+                        namedGraphUri, blankResourceURI, WithTwoDepthBlankResource.class);
 
-        assertThat(resource.getRelatesToBlankResourceTwoDepth().getStringProperty()).isEqualTo(
-                some_string);
-        assertThat(resource.getRelatesToBlankResourceTwoDepth()
-                           .getRelatesToBlankResource()
-                           .getIntProperty()).isEqualTo(intProperty);
+        assertThat(resource.getRelatesToBlankResourceTwoDepth().getStringProperty())
+                .isEqualTo(some_string);
+        assertThat(
+                        resource.getRelatesToBlankResourceTwoDepth()
+                                .getRelatesToBlankResource()
+                                .getIntProperty())
+                .isEqualTo(intProperty);
     }
 
     @Test
@@ -277,7 +273,8 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class, null, null, "", -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(namedGraphUri, Requirement.class, null, null, "", -1, -1);
         Assertions.assertThat(requirements).hasSize(6);
     }
 
@@ -288,7 +285,8 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class, null, null, "river", -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(namedGraphUri, Requirement.class, null, null, "river", -1, -1);
         Assertions.assertThat(requirements).hasSize(2);
     }
 
@@ -299,8 +297,15 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
-                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", null, -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(
+                        namedGraphUri,
+                        Requirement.class,
+                        "dcterms=<http://purl.org/dc/terms/>",
+                        "dcterms:identifier=\"observations\"",
+                        null,
+                        -1,
+                        -1);
         Assertions.assertThat(requirements).hasSize(1);
     }
 
@@ -311,8 +316,15 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
-                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", "roof", -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(
+                        namedGraphUri,
+                        Requirement.class,
+                        "dcterms=<http://purl.org/dc/terms/>",
+                        "dcterms:identifier=\"observations\"",
+                        "roof",
+                        -1,
+                        -1);
         Assertions.assertThat(requirements).hasSize(1);
     }
 
@@ -323,14 +335,20 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
-                "dcterms=<http://purl.org/dc/terms/>", "dcterms:identifier=\"observations\"", "velocity", -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(
+                        namedGraphUri,
+                        Requirement.class,
+                        "dcterms=<http://purl.org/dc/terms/>",
+                        "dcterms:identifier=\"observations\"",
+                        "velocity",
+                        -1,
+                        -1);
         Assertions.assertThat(requirements).hasSize(0);
     }
 
     @Test
-    public void testStoreQueryForAllResources()
-            throws StoreAccessException, URISyntaxException {
+    public void testStoreQueryForAllResources() throws StoreAccessException, URISyntaxException {
         final Store manager = buildStore();
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
@@ -348,9 +366,7 @@ public abstract class StoreTestBase<T extends Store> {
 
         Model model = manager.getResources(namedGraphUri, null, null, "river", -1, -1);
         Assertions.assertThat(model.listSubjects().toList()).hasSize(2);
-
     }
-
 
     @Test
     public void testStoreQueryWithWhereFilterOnStringsWithIntegerValue()
@@ -359,8 +375,15 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
-                "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">", "prf:stringProperty=\"2\"", null, -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(
+                        namedGraphUri,
+                        Requirement.class,
+                        "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">",
+                        "prf:stringProperty=\"2\"",
+                        null,
+                        -1,
+                        -1);
         Assertions.assertThat(requirements).hasSize(1);
     }
 
@@ -371,8 +394,15 @@ public abstract class StoreTestBase<T extends Store> {
         final URI namedGraphUri = buildKey();
         populateStore(manager, namedGraphUri);
 
-        List<Requirement> requirements = manager.getResources(namedGraphUri, Requirement.class,
-                "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">", "prf:intProperty=3", null, -1, -1);
+        List<Requirement> requirements =
+                manager.getResources(
+                        namedGraphUri,
+                        Requirement.class,
+                        "prf=<" + Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + ">",
+                        "prf:intProperty=3",
+                        null,
+                        -1,
+                        -1);
         Assertions.assertThat(requirements).hasSize(2);
     }
 
@@ -392,31 +422,66 @@ public abstract class StoreTestBase<T extends Store> {
         return resource;
     }
 
-	private Requirement createRequirement(String identifier, String description, String stringProperty, int intProperty) throws URISyntaxException {
-		Requirement r = new Requirement(buildKey());
-		r.setIdentifier(identifier);
-		r.setDescription(description);
-		r.setStringProperty(stringProperty);
-		r.setIntProperty(intProperty);
-		return r;
-	}
+    private Requirement createRequirement(
+            String identifier, String description, String stringProperty, int intProperty)
+            throws URISyntaxException {
+        Requirement r = new Requirement(buildKey());
+        r.setIdentifier(identifier);
+        r.setDescription(description);
+        r.setStringProperty(stringProperty);
+        r.setIntProperty(intProperty);
+        return r;
+    }
 
     private void populateStore(final Store manager, final URI namedGraphUri)
             throws StoreAccessException, URISyntaxException {
-        manager.appendResource(namedGraphUri,
-                createRequirement("rob", "Tom got a small piece of pie. Rock music approaches at high velocity.", "s-1", 1));
-        manager.appendResource(namedGraphUri, createRequirement("hang",
-                "She borrowed the book from him many years ago and hasn't yet returned it. Please wait outside of the house. The river stole the gods.", "2", 2));
-        manager.appendResource(namedGraphUri, createRequirement("observations",
-                "We have never been to Asia, nor have we visited Africa. Malls are great places to shop; I can find everything I need under one roof.", "s-3", 3));
-        manager.appendResource(namedGraphUri, createRequirement("kindly",
-                "I think I will buy the red car, or I will lease the blue one. The river stole the gods.", "s-4", 3));
-        manager.appendResource(namedGraphUri, createRequirement("itch",
-                "A song can make or ruin a person’s day if they let it get to them. The body may perhaps compensates for the loss of a true metaphysics.", "s-5", 5));
-        manager.appendResource(namedGraphUri, createRequirement("morning",
-                "They got there early, and they got really good seats. Lets all be unique together until we realise we are all the same.", "s-6", 6));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "rob",
+                        "Tom got a small piece of pie. Rock music approaches at high velocity.",
+                        "s-1",
+                        1));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "hang",
+                        "She borrowed the book from him many years ago and hasn't yet returned it."
+                                + " Please wait outside of the house. The river stole the gods.",
+                        "2",
+                        2));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "observations",
+                        "We have never been to Asia, nor have we visited Africa. Malls are great"
+                                + " places to shop; I can find everything I need under one roof.",
+                        "s-3",
+                        3));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "kindly",
+                        "I think I will buy the red car, or I will lease the blue one. The river"
+                                + " stole the gods.",
+                        "s-4",
+                        3));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "itch",
+                        "A song can make or ruin a person’s day if they let it get to them. The"
+                            + " body may perhaps compensates for the loss of a true metaphysics.",
+                        "s-5",
+                        5));
+        manager.appendResource(
+                namedGraphUri,
+                createRequirement(
+                        "morning",
+                        "They got there early, and they got really good seats. Lets all be unique"
+                                + " together until we realise we are all the same.",
+                        "s-6",
+                        6));
         manager.appendResource(namedGraphUri, buildResource());
     }
-
 }
-

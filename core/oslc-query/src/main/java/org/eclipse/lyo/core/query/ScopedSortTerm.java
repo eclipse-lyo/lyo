@@ -16,7 +16,6 @@ package org.eclipse.lyo.core.query;
 /**
  * Scoped sort term from oslc.orderBy clause
  */
-public interface ScopedSortTerm extends SortTerm
-{
-	SortTerms sortTerms();
+public interface ScopedSortTerm extends SortTerm {
+    SortTerms sortTerms();
 }

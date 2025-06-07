@@ -47,6 +47,4 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 @OslcResourceShape(title = "Change Log	Shape", describes = TRS_TYPE_CHANGE_LOG)
 @OslcName("ChangeLog")
 @Deprecated
-public class EmptyChangeLog extends AbstractChangeLog {
-
-}
+public class EmptyChangeLog extends AbstractChangeLog {}

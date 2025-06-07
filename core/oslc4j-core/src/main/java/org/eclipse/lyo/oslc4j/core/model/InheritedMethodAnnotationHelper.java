@@ -16,115 +16,93 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-public final class InheritedMethodAnnotationHelper
-{
-	private InheritedMethodAnnotationHelper()
-	{
-		super();
-	}
-	
-	public static <T extends Annotation> T getAnnotation(final Method	method,
-														 final Class<T> annotationClass)
-	{
-		// First, try method for annotation
+public final class InheritedMethodAnnotationHelper {
+    private InheritedMethodAnnotationHelper() {
+        super();
+    }
 
-		final T annotation = method.getAnnotation(annotationClass);
+    public static <T extends Annotation> T getAnnotation(
+            final Method method, final Class<T> annotationClass) {
+        // First, try method for annotation
 
-		if (annotation != null)
-		{
-			return annotation;
-		}
+        final T annotation = method.getAnnotation(annotationClass);
 
-		final Class<?> declaringClass = method.getDeclaringClass();
+        if (annotation != null) {
+            return annotation;
+        }
 
-		// Second, try superclass hierarchy for method annotation
+        final Class<?> declaringClass = method.getDeclaringClass();
 
-		Class<?> currentSuperClass = declaringClass.getSuperclass();
+        // Second, try superclass hierarchy for method annotation
 
-		while (currentSuperClass != null)
-		{
-			try
-			{
-				final Method superClassMethod = currentSuperClass.getMethod(method.getName(),
-																			method.getParameterTypes());
+        Class<?> currentSuperClass = declaringClass.getSuperclass();
 
-				final T superClassMethodAnnotation = superClassMethod.getAnnotation(annotationClass);
+        while (currentSuperClass != null) {
+            try {
+                final Method superClassMethod =
+                        currentSuperClass.getMethod(method.getName(), method.getParameterTypes());
 
-				if (superClassMethodAnnotation != null)
-				{
-					return superClassMethodAnnotation;
-				}
-			}
-			catch (final Exception exception)
-			{
-				// Ignore and fall through to code below
-			}
+                final T superClassMethodAnnotation =
+                        superClassMethod.getAnnotation(annotationClass);
 
-			currentSuperClass = currentSuperClass.getSuperclass();
-		}
+                if (superClassMethodAnnotation != null) {
+                    return superClassMethodAnnotation;
+                }
+            } catch (final Exception exception) {
+                // Ignore and fall through to code below
+            }
 
-		// Third, try superclass' interface hierarchy for method annotation
+            currentSuperClass = currentSuperClass.getSuperclass();
+        }
 
-		Class<?> currentClass = declaringClass;
+        // Third, try superclass' interface hierarchy for method annotation
 
-		do
-		{
-			final Class<?>[] interfaces = currentClass.getInterfaces();
+        Class<?> currentClass = declaringClass;
 
-			for (final Class<?> interfac : interfaces)
-			{
-				final T interfaceMethodAnnotation = getRecursiveInterfaceMethodAnnotation(interfac,
-																						  method,
-																						  annotationClass);
+        do {
+            final Class<?>[] interfaces = currentClass.getInterfaces();
 
-				if (interfaceMethodAnnotation != null)
-				{
-					return interfaceMethodAnnotation;
-				}
-			}
+            for (final Class<?> interfac : interfaces) {
+                final T interfaceMethodAnnotation =
+                        getRecursiveInterfaceMethodAnnotation(interfac, method, annotationClass);
 
-			currentClass = currentClass.getSuperclass();
-		}
-		while (currentClass != null);
+                if (interfaceMethodAnnotation != null) {
+                    return interfaceMethodAnnotation;
+                }
+            }
 
-		return null;
-	}
+            currentClass = currentClass.getSuperclass();
+        } while (currentClass != null);
 
-	private static <T extends Annotation> T getRecursiveInterfaceMethodAnnotation(final Class<?> interfac,
-																				  final Method	 method,
-																				  final Class<T> annotationClass)
-	{
-		try
-		{
-			final Method interfaceMethod = interfac.getMethod(method.getName(),
-															  method.getParameterTypes());
+        return null;
+    }
 
-			final T interfaceMethodAnnotation = interfaceMethod.getAnnotation(annotationClass);
+    private static <T extends Annotation> T getRecursiveInterfaceMethodAnnotation(
+            final Class<?> interfac, final Method method, final Class<T> annotationClass) {
+        try {
+            final Method interfaceMethod =
+                    interfac.getMethod(method.getName(), method.getParameterTypes());
 
-			if (interfaceMethodAnnotation != null)
-			{
-				return interfaceMethodAnnotation;
-			}
-		}
-		catch (final Exception exception)
-		{
-			// Ignore and fall through to code below
-		}
+            final T interfaceMethodAnnotation = interfaceMethod.getAnnotation(annotationClass);
 
-		final Class<?>[] superInterfaces = interfac.getInterfaces();
+            if (interfaceMethodAnnotation != null) {
+                return interfaceMethodAnnotation;
+            }
+        } catch (final Exception exception) {
+            // Ignore and fall through to code below
+        }
 
-		for (final Class<?> superInterface : superInterfaces)
-		{
-			final T interfaceMethodAnnotation = getRecursiveInterfaceMethodAnnotation(superInterface,
-																					  method,
-																					  annotationClass);
+        final Class<?>[] superInterfaces = interfac.getInterfaces();
 
-			if (interfaceMethodAnnotation != null)
-			{
-				return interfaceMethodAnnotation;
-			}
-		}
+        for (final Class<?> superInterface : superInterfaces) {
+            final T interfaceMethodAnnotation =
+                    getRecursiveInterfaceMethodAnnotation(superInterface, method, annotationClass);
 
-		return null;
-	}
+            if (interfaceMethodAnnotation != null) {
+                return interfaceMethodAnnotation;
+            }
+        }
+
+        return null;
+    }
 }

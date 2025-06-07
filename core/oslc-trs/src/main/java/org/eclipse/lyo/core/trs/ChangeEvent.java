@@ -13,6 +13,11 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CHANGED;
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_ORDER;
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CHANGED;
+import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_ORDER;
+
 import java.math.BigInteger;
 import java.net.URI;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
@@ -20,11 +25,6 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_CHANGED;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_ORDER;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CHANGED;
-import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_ORDER;
 
 /**
  * Each entry referenced by trs:change is a Local Resource representing a
@@ -53,9 +53,15 @@ public class ChangeEvent extends AbstractResource {
 
     @Override
     public String toString() {
-        return "ChangeEvent{" + "kind=" + this.getClass()
-                                              .getSimpleName() + ", changed=" + changed + ", " +
-                "order=" + order + '}';
+        return "ChangeEvent{"
+                + "kind="
+                + this.getClass().getSimpleName()
+                + ", changed="
+                + changed
+                + ", "
+                + "order="
+                + order
+                + '}';
     }
 
     /**

@@ -15,7 +15,6 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.shacl.annotations;
 
 import java.lang.annotation.Documented;
@@ -30,5 +29,4 @@ import java.lang.annotation.Target;
 public @interface ShaclClosed {
 
     boolean value();
-
 }

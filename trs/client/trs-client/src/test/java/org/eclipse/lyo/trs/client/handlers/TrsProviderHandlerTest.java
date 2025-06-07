@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -29,13 +29,11 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
 import org.eclipse.lyo.trs.client.util.TrackedResourceClient;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class TrsProviderHandlerTest {
 
@@ -61,8 +59,11 @@ public class TrsProviderHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-        trsProvider = new TrsProviderHandler(RDF_NIL, new TrackedResourceClient(new OslcClient()),
-                new TestProviderHandler());
+        trsProvider =
+                new TrsProviderHandler(
+                        RDF_NIL,
+                        new TrackedResourceClient(new OslcClient()),
+                        new TestProviderHandler());
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -96,8 +97,6 @@ public class TrsProviderHandlerTest {
         trs.setChangeLog(cl_p1);
     }
 
-
-
     @Test
     public final void testChangeLogContainsEvent() throws URISyntaxException {
         ChangeEvent ce = cl_p1.getChange().get(0);
@@ -129,7 +128,6 @@ public class TrsProviderHandlerTest {
         Modification memb2_m1 = new Modification();
         Modification memb2_m2 = new Modification();
 
-
         initChangeEvent(memb2_c1, baseMemberUri2);
         initChangeEvent(memb2_m1, baseMemberUri2);
         initChangeEvent(memb2_m2, baseMemberUri2);
@@ -147,8 +145,8 @@ public class TrsProviderHandlerTest {
         List<ChangeLog> changeLogsList = Collections.singletonList(changeLog);
 
         // FIXME Andrew@2019-07-15: lost access to the lastProcessedCEURI
-        List<ChangeEvent> changeEventsList = ProviderUtil.optimizedChangesList(changeLogsList,
-                null);
+        List<ChangeEvent> changeEventsList =
+                ProviderUtil.optimizedChangesList(changeLogsList, null);
 
         Assert.assertTrue(changeEventsList.size() == 2);
 
@@ -160,7 +158,6 @@ public class TrsProviderHandlerTest {
         Assert.assertFalse(changeEventsList.contains(memb1_m2));
         Assert.assertFalse(changeEventsList.contains(memb2_c1));
         Assert.assertFalse(changeEventsList.contains(memb2_m1));
-
     }
 
     private String changeEventUri() {
@@ -192,17 +189,16 @@ public class TrsProviderHandlerTest {
         ce.setAbout(changeEvenUri);
         ce.setChanged(baseMemberUri);
         ce.setOrder(changeEventNum);
-
     }
 
-    private void initChangeEvent(ChangeEvent ce, String baseMemberUriString) throws URISyntaxException {
+    private void initChangeEvent(ChangeEvent ce, String baseMemberUriString)
+            throws URISyntaxException {
         java.net.URI changeEvenUri = new URI(changeEventUri());
         java.net.URI baseMemberUri = new URI(baseMemberUriString);
 
         ce.setAbout(changeEvenUri);
         ce.setChanged(baseMemberUri);
         ce.setOrder(changeEventNum);
-
     }
 
     private static String trsUriPrefix = uriPrefix + "/trackedResourceSets";
@@ -221,8 +217,8 @@ public class TrsProviderHandlerTest {
         b_p1.getMembers().add(changedModification);
         b_p1.getMembers().add(changedDeletion);
 
-        final List<URI> compressedMemberList = ProviderUtil.baseChangeEventsOptimizationSafe(
-                changeEventsList, b_p1.getMembers());
+        final List<URI> compressedMemberList =
+                ProviderUtil.baseChangeEventsOptimizationSafe(changeEventsList, b_p1.getMembers());
 
         Assert.assertTrue(b_p1.getMembers().contains(changedCreation));
         Assert.assertFalse(compressedMemberList.contains(changedCreation));
@@ -287,15 +283,16 @@ public class TrsProviderHandlerTest {
         Page ldp = new Page();
         if (previous != null) {
 
-            ldp.setAbout(URI.create(bUriPrefix + "/" //$NON-NLS-1$
-                    + baseNum));// );
+            ldp.setAbout(
+                    URI.create(
+                            bUriPrefix
+                                    + "/" //$NON-NLS-1$
+                                    + baseNum)); // );
             ldp.setPageOf(base);
             ldp.setNextPage(previous);
         } else {
             ldp.setNextPage(RDF_NIL);
         }
         base.setNextPage(ldp);
-
     }
-
 }

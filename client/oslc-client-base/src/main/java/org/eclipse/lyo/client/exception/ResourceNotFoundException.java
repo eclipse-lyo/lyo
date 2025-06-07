@@ -13,7 +13,6 @@
  */
 package org.eclipse.lyo.client.exception;
 
-
 /**
  * Exception indicating a Jazz authentication or credentials problem
  *
@@ -21,24 +20,22 @@ package org.eclipse.lyo.client.exception;
 @SuppressWarnings("serial")
 public class ResourceNotFoundException extends OslcClientApplicationException {
 
-	private static final String MESSAGE_KEY = "ResourceNotFoundException";
+    private static final String MESSAGE_KEY = "ResourceNotFoundException";
 
-	private final String resource;
-	private final String value;
+    private final String resource;
+    private final String value;
 
-	public ResourceNotFoundException(final String resource, final String value) {
-		super(MESSAGE_KEY, new Object[] {resource, value});
-		this.resource = resource;
-		this.value = value;
-	}
+    public ResourceNotFoundException(final String resource, final String value) {
+        super(MESSAGE_KEY, new Object[] {resource, value});
+        this.resource = resource;
+        this.value = value;
+    }
 
-	public String getResource() {
-		return resource;
-	}
+    public String getResource() {
+        return resource;
+    }
 
-	public String getValue() {
-		return value;
-	}
-
-
+    public String getValue() {
+        return value;
+    }
 }

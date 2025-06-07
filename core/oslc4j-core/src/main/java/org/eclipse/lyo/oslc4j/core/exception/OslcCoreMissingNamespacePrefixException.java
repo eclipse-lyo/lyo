@@ -14,19 +14,19 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 public final class OslcCoreMissingNamespacePrefixException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 1587802829795702844L;
+    private static final long serialVersionUID = 1587802829795702844L;
 
-	private static final String MESSAGE_KEY = "MissingNamespacePrefixException";
+    private static final String MESSAGE_KEY = "MissingNamespacePrefixException";
 
-	private final String prefix;
+    private final String prefix;
 
-	public OslcCoreMissingNamespacePrefixException(final String prefix) {
-		super(MESSAGE_KEY, new Object[] {prefix});
+    public OslcCoreMissingNamespacePrefixException(final String prefix) {
+        super(MESSAGE_KEY, new Object[] {prefix});
 
-		this.prefix = prefix;
-	}
+        this.prefix = prefix;
+    }
 
-	public String getPrefix() {
-		return prefix;
-	}
+    public String getPrefix() {
+        return prefix;
+    }
 }

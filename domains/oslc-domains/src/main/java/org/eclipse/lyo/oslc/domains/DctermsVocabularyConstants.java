@@ -16,17 +16,13 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
 // Start of user code imports
 // End of user code
 
-public interface DctermsVocabularyConstants
-{
+public interface DctermsVocabularyConstants {
     // Start of user code user constants
     // End of user code
 
     public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/";
     public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms";
-
 }

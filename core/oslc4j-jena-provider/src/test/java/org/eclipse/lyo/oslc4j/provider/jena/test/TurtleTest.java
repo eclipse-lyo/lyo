@@ -15,32 +15,31 @@ package org.eclipse.lyo.oslc4j.provider.jena.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import jakarta.ws.rs.core.MediaType;
 import java.io.InputStream;
-
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcTurtleProvider;
 import org.junit.Test;
 
-import jakarta.ws.rs.core.MediaType;
-
 public class TurtleTest {
-	@Test
-	@SuppressWarnings({
-		"unchecked",
-		"rawtypes"
-	})
-	public void testContentTypeTurtleUTF8() throws Exception {
-		OslcTurtleProvider provider = new OslcTurtleProvider();
-		InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.ttl");
-		assertNotNull("Could not read file: provider.ttl", is);
-		
-		// Make sure the content is properly interpreted as Turtle if the media type is "text/turtle;charset=UTF-8"
-		ServiceProvider p = (ServiceProvider) provider.readFrom((Class) ServiceProvider.class,
-				null,
-				ServiceProvider.class.getAnnotations(),
-				MediaType.valueOf("text/turtle;charset=UTF-8"),
-				null,
-				is);
-		assertNotNull("Provider was not read", p);
-	}
+    @Test
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void testContentTypeTurtleUTF8() throws Exception {
+        OslcTurtleProvider provider = new OslcTurtleProvider();
+        InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.ttl");
+        assertNotNull("Could not read file: provider.ttl", is);
+
+        // Make sure the content is properly interpreted as Turtle if the media type is
+        // "text/turtle;charset=UTF-8"
+        ServiceProvider p =
+                (ServiceProvider)
+                        provider.readFrom(
+                                (Class) ServiceProvider.class,
+                                null,
+                                ServiceProvider.class.getAnnotations(),
+                                MediaType.valueOf("text/turtle;charset=UTF-8"),
+                                null,
+                                is);
+        assertNotNull("Provider was not read", p);
+    }
 }

@@ -18,17 +18,15 @@ package org.eclipse.lyo.core.query;
  * Operand from {@link ComparisonTerm} or {@link InTerm}
  * {@link SimpleTerm} from olsc.where clause
  */
-public interface Value
-{
-	enum Type
-	{
-		URI_REF,
-		BOOLEAN,
-		DECIMAL,
-		STRING,
-		TYPED_STRING,
-		LANGED_STRING;
-	}
-	
-	Type type();	
+public interface Value {
+    enum Type {
+        URI_REF,
+        BOOLEAN,
+        DECIMAL,
+        STRING,
+        TYPED_STRING,
+        LANGED_STRING;
+    }
+
+    Type type();
 }

@@ -7,6 +7,16 @@
  */
 package org.eclipse.lyo.client;
 
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.ext.MessageBodyReader;
+import jakarta.ws.rs.ext.MessageBodyWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +28,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
@@ -32,17 +41,6 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.ws.rs.HttpMethod;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.Invocation.Builder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-import jakarta.ws.rs.ext.MessageBodyReader;
-import jakarta.ws.rs.ext.MessageBodyWriter;
-
 /**
  * An OSLC Client that extends the JAX-RS 2.0 REST client with OSLC specific CRUD and discovery capabilities. Client
  * applications would typically provide a ClientBuilder to the constructor to configure the REST client too meet their
@@ -51,8 +49,8 @@ import jakarta.ws.rs.ext.MessageBodyWriter;
 public class OslcClient implements IOslcClient {
 
     private final String version;
-    private Client client;
-    private final static Logger LOGGER = LoggerFactory.getLogger(OslcClient.class);
+    //    private Client client;
+    private static final Logger LOGGER = LoggerFactory.getLogger(OslcClient.class);
     private static final String ACCEPT_TYPE_ALL = "*/*";
 
     /**
@@ -98,7 +96,10 @@ public class OslcClient implements IOslcClient {
      * @param version       OSLC version, see {@link OSLCConstants}
      * @param providers     Set of Providers for {@link MessageBodyReader} and {@link MessageBodyWriter}
      */
-    public OslcClient(final ClientBuilder clientBuilder, final String version, final Set<Class<?>> providers) {
+    public OslcClient(
+            final ClientBuilder clientBuilder,
+            final String version,
+            final Set<Class<?>> providers) {
         this.version = version;
         for (Class<?> provider : providers) {
             clientBuilder.register(provider);
@@ -108,7 +109,7 @@ public class OslcClient implements IOslcClient {
 
     /**
      * Returns the JAX-RS client for this OslcClient. Do not touch unless needed.
-     * 
+     *
      * @return the JAX-RS client
      */
     public Client getClient() {
@@ -150,10 +151,13 @@ public class OslcClient implements IOslcClient {
      * Gets OSLC resources in parallel from a collection of URIs and unwraps their corresponding entities.
      */
     public <T> List<T> getResources(final Collection<URI> links, final Class<T> clazz) {
-        return links.parallelStream().map(uri -> {
-            final Response resource = getResource(uri.toString());
-            return resource.readEntity(clazz);
-        }).collect(Collectors.toList());
+        return links.parallelStream()
+                .map(
+                        uri -> {
+                            final Response resource = getResource(uri.toString());
+                            return resource.readEntity(clazz);
+                        })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -171,7 +175,7 @@ public class OslcClient implements IOslcClient {
      * the media type or {@link #getResource(String, Map)} to add other request headers.
      */
     public Response getResource(String url) {
-        return getResource(url, (String)null);
+        return getResource(url, (String) null);
     }
 
     /**
@@ -196,43 +200,60 @@ public class OslcClient implements IOslcClient {
         return getResource(url, requestHeaders, OSLCConstants.CT_RDF, null);
     }
 
-    public Response getResource(String url, Map<String, String> requestHeaders, String defaultMediaType) {
+    public Response getResource(
+            String url, Map<String, String> requestHeaders, String defaultMediaType) {
         return getResource(url, requestHeaders, defaultMediaType, null, true);
     }
 
-    public Response getResource(String url, Map<String, String> requestHeaders, String defaultMediaType,
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String defaultMediaType,
             String configurationContext) {
         return getResource(url, requestHeaders, defaultMediaType, configurationContext, true);
     }
 
-    public Response getResource(String url, Map<String, String> requestHeaders, String defaultMediaType,
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String defaultMediaType,
             boolean handleRedirects) {
         return getResource(url, requestHeaders, defaultMediaType, null, handleRedirects);
     }
 
-    public Response getResource(String url, Map<String, String> requestHeaders, String defaultMediaType,
-            String configurationContext, boolean handleRedirects) {
-        return doRequest(HttpMethod.GET, url, null, configurationContext, null, defaultMediaType, OSLCConstants.CT_RDF,
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String defaultMediaType,
+            String configurationContext,
+            boolean handleRedirects) {
+        return doRequest(
+                HttpMethod.GET,
+                url,
+                null,
+                configurationContext,
+                null,
+                defaultMediaType,
+                OSLCConstants.CT_RDF,
                 requestHeaders);
     }
 
-
     /**
      * Delete an OSLC resource and return the Response
-     * 
+     *
      * @param url
      */
     public Response deleteResource(String url) {
         return deleteResource(url, null);
     }
-    
+
     /**
      * Delete an OSLC resource in the given configuration context and return the Response
      */
     public Response deleteResource(String url, String configurationContext) {
-        return doRequest(HttpMethod.DELETE, url, null, configurationContext, null, null, null, null);
+        return doRequest(
+                HttpMethod.DELETE, url, null, configurationContext, null, null, null, null);
     }
-
 
     /**
      * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
@@ -244,13 +265,26 @@ public class OslcClient implements IOslcClient {
     /**
      * Create (POST) an artifact to a URL - usually an OSLC Creation Factory
      */
-    public Response createResource(String url, final Object artifact, String mediaType, String acceptType) {
+    public Response createResource(
+            String url, final Object artifact, String mediaType, String acceptType) {
         return createResource(url, artifact, mediaType, acceptType, null);
     }
 
-    public Response createResource(String url, final Object artifact, String mediaType, String acceptType,
+    public Response createResource(
+            String url,
+            final Object artifact,
+            String mediaType,
+            String acceptType,
             String configurationContext) {
-        return doRequest(HttpMethod.POST, url, artifact, configurationContext, null, mediaType, acceptType, null);
+        return doRequest(
+                HttpMethod.POST,
+                url,
+                artifact,
+                configurationContext,
+                null,
+                mediaType,
+                acceptType,
+                null);
     }
 
     /**
@@ -263,26 +297,50 @@ public class OslcClient implements IOslcClient {
     /**
      * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
      */
-    public Response updateResource(String url, final Object artifact, String mediaType, String acceptType) {
+    public Response updateResource(
+            String url, final Object artifact, String mediaType, String acceptType) {
         return updateResource(url, artifact, mediaType, acceptType, null, null);
     }
 
     /**
      * Update (PUT) an artifact to a URL - usually the URL for an existing OSLC artifact
      */
-    public Response updateResource(String url, final Object artifact, String mediaType, String acceptType,
+    public Response updateResource(
+            String url,
+            final Object artifact,
+            String mediaType,
+            String acceptType,
             String ifMatch) {
         return updateResource(url, artifact, mediaType, acceptType, ifMatch, null);
     }
 
-
-    public Response updateResource(String url, final Object artifact, String mediaType, String acceptType,
-            String ifMatch, String configurationContext) {
-        return doRequest(HttpMethod.PUT, url, artifact, configurationContext, ifMatch, mediaType, acceptType, null);
+    public Response updateResource(
+            String url,
+            final Object artifact,
+            String mediaType,
+            String acceptType,
+            String ifMatch,
+            String configurationContext) {
+        return doRequest(
+                HttpMethod.PUT,
+                url,
+                artifact,
+                configurationContext,
+                ifMatch,
+                mediaType,
+                acceptType,
+                null);
     }
 
-    Response doRequest(String method, String url, final Object artifact, String configurationContext,
-            String ifMatch, String mediaType, String acceptType, Map<String, String> requestHeaders) {
+    Response doRequest(
+            String method,
+            String url,
+            final Object artifact,
+            String configurationContext,
+            String ifMatch,
+            String mediaType,
+            String acceptType,
+            Map<String, String> requestHeaders) {
         Response response = null;
         boolean redirect = false;
         do {
@@ -293,7 +351,8 @@ public class OslcClient implements IOslcClient {
             } else {
                 response = invocationBuilder.method(method, Entity.entity(artifact, mediaType));
             }
-            if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
+            if (Response.Status.fromStatusCode(response.getStatus()).getFamily()
+                    == Status.Family.REDIRECTION) {
                 url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
                 response.readEntity(String.class);
                 redirect = true;
@@ -303,8 +362,11 @@ public class OslcClient implements IOslcClient {
         } while (redirect);
         return response;
     }
-    
-    Map<String, String> addHeaders(Builder invocationBuilder, Map<String, String> customHeaders, String ifMatch,
+
+    Map<String, String> addHeaders(
+            Builder invocationBuilder,
+            Map<String, String> customHeaders,
+            String ifMatch,
             String configurationContext) {
         Map<String, String> requestHeaderMap = new HashMap<>();
         // customHeaders may be read only
@@ -316,9 +378,12 @@ public class OslcClient implements IOslcClient {
             requestHeaderMap.putIfAbsent(HttpHeaders.IF_MATCH, ifMatch);
         }
         if (configurationContext != null) {
-            requestHeaderMap.putIfAbsent(OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
+            requestHeaderMap.putIfAbsent(
+                    OSLCConstants.CONFIGURATION_CONTEXT_HEADER, configurationContext);
         }
-        requestHeaderMap.entrySet().forEach(h -> invocationBuilder.header(h.getKey(), h.getValue()));
+        requestHeaderMap
+                .entrySet()
+                .forEach(h -> invocationBuilder.header(h.getKey(), h.getValue()));
         return requestHeaderMap;
     }
 
@@ -329,21 +394,21 @@ public class OslcClient implements IOslcClient {
         return client.target(capabilityUri);
     }
 
-
     /**
      * Lookup the URL of a specific OSLC Service Provider in an OSLC Catalog using the service provider's title
      */
-    public String lookupServiceProviderUrl(final String catalogUrl, final String serviceProviderTitle)
+    public String lookupServiceProviderUrl(
+            final String catalogUrl, final String serviceProviderTitle)
             throws IOException, URISyntaxException, ResourceNotFoundException {
         Response response = getResource(catalogUrl, OSLCConstants.CT_RDF);
         if (response.getStatus() == HttpStatus.SC_OK) {
             ServiceProviderCatalog catalog = response.readEntity(ServiceProviderCatalog.class);
             if (catalog != null) {
                 for (ServiceProvider sp : catalog.getServiceProviders()) {
-                    if (sp.getTitle() != null && sp.getTitle().equalsIgnoreCase(serviceProviderTitle)) {
+                    if (sp.getTitle() != null
+                            && sp.getTitle().equalsIgnoreCase(serviceProviderTitle)) {
                         return sp.getAbout().toString();
                     }
-
                 }
             }
             throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
@@ -361,14 +426,14 @@ public class OslcClient implements IOslcClient {
      *                          artifact type.
      * @return                  URL of requested Query Capability or null if not found.
      */
-    public String lookupQueryCapability(final String serviceProviderUrl, final String oslcDomain,
-            final String oslcResourceType) throws IOException, URISyntaxException, ResourceNotFoundException {
+    public String lookupQueryCapability(
+            final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
+            throws IOException, URISyntaxException, ResourceNotFoundException {
         QueryCapability defaultQueryCapability = null;
         QueryCapability firstQueryCapability = null;
 
         Response response = getResource(serviceProviderUrl, OSLCConstants.CT_RDF);
         ServiceProvider serviceProvider = response.readEntity(ServiceProvider.class);
-
 
         if (serviceProvider != null) {
             for (Service service : serviceProvider.getServices()) {
@@ -389,7 +454,8 @@ public class OslcClient implements IOslcClient {
                             // Check if this is the default capability
                             for (URI usage : queryCapability.getUsages()) {
                                 if (usage.toString() != null
-                                        && usage.toString().equals(OSLCConstants.USAGE_DEFAULT_URI)) {
+                                        && usage.toString()
+                                                .equals(OSLCConstants.USAGE_DEFAULT_URI)) {
                                     defaultQueryCapability = queryCapability;
                                 }
                             }
@@ -403,7 +469,8 @@ public class OslcClient implements IOslcClient {
         if (defaultQueryCapability != null) {
             // return default, if present
             return defaultQueryCapability.getQueryBase().toString();
-        } else if (firstQueryCapability != null && firstQueryCapability.getResourceTypes().length == 0) {
+        } else if (firstQueryCapability != null
+                && firstQueryCapability.getResourceTypes().length == 0) {
             // return the first for the domain, if present
             return firstQueryCapability.getQueryBase().toString();
         }
@@ -411,13 +478,18 @@ public class OslcClient implements IOslcClient {
         throw new ResourceNotFoundException(serviceProviderUrl, "QueryCapability");
     }
 
-    public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain,
-            final String oslcResourceType) throws IOException, URISyntaxException, ResourceNotFoundException {
-        return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, null);
+    public CreationFactory lookupCreationFactoryResource(
+            final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
+            throws IOException, URISyntaxException, ResourceNotFoundException {
+        return lookupCreationFactoryResource(
+                serviceProviderUrl, oslcDomain, oslcResourceType, null);
     }
 
-    public CreationFactory lookupCreationFactoryResource(final String serviceProviderUrl, final String oslcDomain,
-            final String oslcResourceType, final String oslcUsage)
+    public CreationFactory lookupCreationFactoryResource(
+            final String serviceProviderUrl,
+            final String oslcDomain,
+            final String oslcResourceType,
+            final String oslcUsage)
             throws IOException, URISyntaxException, ResourceNotFoundException {
         CreationFactory defaultCreationFactory = null;
         CreationFactory firstCreationFactory = null;
@@ -453,7 +525,8 @@ public class OslcClient implements IOslcClient {
                             // Check if this is the default factory
                             for (URI usage : creationFactory.getUsages()) {
                                 if (usage.toString() != null
-                                        && usage.toString().equals(OSLCConstants.USAGE_DEFAULT_URI)) {
+                                        && usage.toString()
+                                                .equals(OSLCConstants.USAGE_DEFAULT_URI)) {
                                     defaultCreationFactory = creationFactory;
                                 }
                             }
@@ -467,7 +540,8 @@ public class OslcClient implements IOslcClient {
         if (defaultCreationFactory != null) {
             // return default, if present
             return defaultCreationFactory;
-        } else if (firstCreationFactory != null && firstCreationFactory.getResourceTypes().length == 0) {
+        } else if (firstCreationFactory != null
+                && firstCreationFactory.getResourceTypes().length == 0) {
             // return the first for the domain, if present
             return firstCreationFactory;
         }
@@ -483,8 +557,9 @@ public class OslcClient implements IOslcClient {
      *                          artifact type.
      * @return                  URL of requested Creation Factory or null if not found.
      */
-    public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain,
-            final String oslcResourceType) throws IOException, URISyntaxException, ResourceNotFoundException {
+    public String lookupCreationFactory(
+            final String serviceProviderUrl, final String oslcDomain, final String oslcResourceType)
+            throws IOException, URISyntaxException, ResourceNotFoundException {
         return lookupCreationFactory(serviceProviderUrl, oslcDomain, oslcResourceType, null);
     }
 
@@ -496,10 +571,15 @@ public class OslcClient implements IOslcClient {
      *                          artifact type.
      * @return                  URL of requested Creation Factory or null if not found.
      */
-    public String lookupCreationFactory(final String serviceProviderUrl, final String oslcDomain,
-            final String oslcResourceType, final String oslcUsage)
+    public String lookupCreationFactory(
+            final String serviceProviderUrl,
+            final String oslcDomain,
+            final String oslcResourceType,
+            final String oslcUsage)
             throws IOException, URISyntaxException, ResourceNotFoundException {
-        return lookupCreationFactoryResource(serviceProviderUrl, oslcDomain, oslcResourceType, oslcUsage).getCreation()
+        return lookupCreationFactoryResource(
+                        serviceProviderUrl, oslcDomain, oslcResourceType, oslcUsage)
+                .getCreation()
                 .toString();
     }
 }

@@ -22,6 +22,6 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 @OslcNamespace(EmptyNameResource.TEST_NAMESPACE)
 @OslcResourceShape(title = "Test Resource", describes = EmptyNameResource.TEST_RESOURCE_TYPE)
 public class EmptyNameResource extends AbstractResource {
-	public final static String TEST_NAMESPACE = "http://example.com/ns#";
-	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
+    public static final String TEST_NAMESPACE = "http://example.com/ns#";
+    public static final String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
 }

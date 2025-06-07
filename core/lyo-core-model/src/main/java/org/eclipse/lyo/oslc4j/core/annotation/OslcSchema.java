@@ -18,7 +18,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 
 @Documented
@@ -26,19 +25,19 @@ import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcSchema {
 
-	/**
-	 * The namespace mappings for the package.
-	 */
-	OslcNamespaceDefinition[] value();
+    /**
+     * The namespace mappings for the package.
+     */
+    OslcNamespaceDefinition[] value();
 
-	/**
-	 * Any class that implements the {@link IOslcCustomNamespaceProvider}.
-	 * This must be a concrete implementation and have a public no args constructor.
-	 *
-	 * @return {@link IOslcCustomNamespaceProvider} .class is the default value,
-	 * because this field must not be required and since it is not a concrete
-	 * implementation of the interface it will be ignored.
-	 */
-	Class<? extends IOslcCustomNamespaceProvider> customNamespaceProvider() default IOslcCustomNamespaceProvider.class;
-
+    /**
+     * Any class that implements the {@link IOslcCustomNamespaceProvider}.
+     * This must be a concrete implementation and have a public no args constructor.
+     *
+     * @return {@link IOslcCustomNamespaceProvider} .class is the default value,
+     * because this field must not be required and since it is not a concrete
+     * implementation of the interface it will be ignored.
+     */
+    Class<? extends IOslcCustomNamespaceProvider> customNamespaceProvider() default
+            IOslcCustomNamespaceProvider.class;
 }

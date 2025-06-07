@@ -32,10 +32,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(Nsp1DomainConstants.WITHBLANKRESOURCE_NAMESPACE)
 @OslcName(Nsp1DomainConstants.WITHBLANKRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "WithBlankResource Resource Shape", describes = Nsp1DomainConstants.WITHBLANKRESOURCE_TYPE)
-public interface IWithBlankResource
-{
-
+@OslcResourceShape(
+        title = "WithBlankResource Resource Shape",
+        describes = Nsp1DomainConstants.WITHBLANKRESOURCE_TYPE)
+public interface IWithBlankResource {
 
     @OslcName("relatesToBlankResource")
     @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "relatesToBlankResource")
@@ -52,8 +52,7 @@ public interface IWithBlankResource
     @OslcReadOnly(false)
     public String getStringProperty();
 
+    public void setRelatesToBlankResource(final BlankResource relatesToBlankResource);
 
-    public void setRelatesToBlankResource(final BlankResource relatesToBlankResource );
-    public void setStringProperty(final String stringProperty );
+    public void setStringProperty(final String stringProperty);
 }
-

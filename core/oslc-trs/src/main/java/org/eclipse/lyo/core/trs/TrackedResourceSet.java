@@ -13,9 +13,10 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import static org.eclipse.lyo.core.trs.TRSConstants.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -23,8 +24,6 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-
-import static org.eclipse.lyo.core.trs.TRSConstants.*;
 
 /**
  * An HTTP GET on a Tracked Resource Set URI returns a representation structured

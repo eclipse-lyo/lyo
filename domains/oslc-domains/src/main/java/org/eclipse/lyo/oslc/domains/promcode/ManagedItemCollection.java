@@ -19,53 +19,28 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.Issue;
-import org.eclipse.lyo.oslc.domains.promcode.Project;
-import org.eclipse.lyo.oslc.domains.promcode.Risk;
-import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 
@@ -76,11 +51,15 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_LOCALNAME)
-@OslcResourceShape(title = "ManagedItemCollection Shape", description = "A managed item collection is container of managed items. Any combination of subclass such as a scope item, work item, artifact or issue can be hold in a ManagedItemCollection as a snapshot. ManagedItemCollection has concrete subclasses such as Plan, Report and IssueCollection.", describes = Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_TYPE)
-public class ManagedItemCollection
-    extends AbstractResource
-    implements IManagedItemCollection
-{
+@OslcResourceShape(
+        title = "ManagedItemCollection Shape",
+        description =
+                "A managed item collection is container of managed items. Any combination of"
+                    + " subclass such as a scope item, work item, artifact or issue can be hold in"
+                    + " a ManagedItemCollection as a snapshot. ManagedItemCollection has concrete"
+                    + " subclasses such as Plan, Report and IssueCollection.",
+        describes = Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_TYPE)
+public class ManagedItemCollection extends AbstractResource implements IManagedItemCollection {
     // Start of user code attributeAnnotation:date
     // End of user code
     private Date date;
@@ -102,67 +81,64 @@ public class ManagedItemCollection
     // Start of user code attributeAnnotation:collects
     // End of user code
     private Set<Link> collects = new HashSet<Link>();
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ManagedItemCollection()
-    {
+    public ManagedItemCollection() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public ManagedItemCollection(final URI about)
-    {
+
+    public ManagedItemCollection(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_PATH,
-        ManagedItemCollection.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.MANAGEDITEMCOLLECTION_PATH,
+                ManagedItemCollection.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local ManagedItemCollection Resource} - update ManagedItemCollection.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local ManagedItemCollection Resource} - update"
+                            + " ManagedItemCollection.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public void addCollects(final Link collects)
-    {
+
+    public void addCollects(final Link collects) {
         this.collects.add(collects);
     }
-    
-    
+
     // Start of user code getterAnnotation:date
     // End of user code
     @OslcName("date")
@@ -170,8 +146,7 @@ public class ManagedItemCollection
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getDate()
-    {
+    public Date getDate() {
         // Start of user code getterInit:date
         // End of user code
         return date;
@@ -184,8 +159,7 @@ public class ManagedItemCollection
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -198,8 +172,7 @@ public class ManagedItemCollection
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -212,8 +185,7 @@ public class ManagedItemCollection
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getSource()
-    {
+    public String getSource() {
         // Start of user code getterInit:source
         // End of user code
         return source;
@@ -226,8 +198,7 @@ public class ManagedItemCollection
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -241,8 +212,7 @@ public class ManagedItemCollection
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
     @OslcReadOnly(false)
-    public Link getBelongsTo()
-    {
+    public Link getBelongsTo() {
         // Start of user code getterInit:belongsTo
         // End of user code
         return belongsTo;
@@ -254,10 +224,15 @@ public class ManagedItemCollection
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ISSUE_TYPE, Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.ISSUE_TYPE,
+        Oslc_promcodeDomainConstants.RISK_TYPE,
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
-    public Set<Link> getCollects()
-    {
+    public Set<Link> getCollects() {
         // Start of user code getterInit:collects
         // End of user code
         return collects;
@@ -265,8 +240,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:date
     // End of user code
-    public void setDate(final Date date )
-    {
+    public void setDate(final Date date) {
         // Start of user code setterInit:date
         // End of user code
         this.date = date;
@@ -276,8 +250,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -287,8 +260,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -298,8 +270,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:source
     // End of user code
-    public void setSource(final String source )
-    {
+    public void setSource(final String source) {
         // Start of user code setterInit:source
         // End of user code
         this.source = source;
@@ -309,8 +280,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -320,8 +290,7 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:belongsTo
     // End of user code
-    public void setBelongsTo(final Link belongsTo )
-    {
+    public void setBelongsTo(final Link belongsTo) {
         // Start of user code setterInit:belongsTo
         // End of user code
         this.belongsTo = belongsTo;
@@ -331,17 +300,14 @@ public class ManagedItemCollection
 
     // Start of user code setterAnnotation:collects
     // End of user code
-    public void setCollects(final Set<Link> collects )
-    {
+    public void setCollects(final Set<Link> collects) {
         // Start of user code setterInit:collects
         // End of user code
         this.collects.clear();
-        if (collects != null)
-        {
+        if (collects != null) {
             this.collects.addAll(collects);
         }
         // Start of user code setterFinalize:collects
         // End of user code
     }
-
 }

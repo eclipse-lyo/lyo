@@ -14,26 +14,7 @@
 
 package org.eclipse.lyo.oslc4j.trs.server.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import jakarta.inject.Inject;
-
-import org.eclipse.lyo.core.trs.Base;
-import org.eclipse.lyo.core.trs.ChangeLog;
-import org.eclipse.lyo.core.trs.Page;
-import org.eclipse.lyo.core.trs.TRSConstants;
-import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.core.util.StringUtils;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
-import org.eclipse.lyo.oslc4j.core.model.Error;
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
-import org.eclipse.lyo.oslc4j.trs.server.TRSUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -42,6 +23,22 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.eclipse.lyo.core.trs.Base;
+import org.eclipse.lyo.core.trs.ChangeLog;
+import org.eclipse.lyo.core.trs.Page;
+import org.eclipse.lyo.core.trs.TRSConstants;
+import org.eclipse.lyo.core.trs.TrackedResourceSet;
+import org.eclipse.lyo.core.util.StringUtils;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcService;
+import org.eclipse.lyo.oslc4j.core.model.Error;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.TRSUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The service class for the TRS interface. This class needs to be implemented by an OSLC adapter
@@ -53,7 +50,7 @@ import jakarta.ws.rs.core.UriBuilder;
 @Path(TrackedResourceSetService.RESOURCE_PATH)
 @OslcService(TRSConstants.TRS_NAMESPACE)
 public class TrackedResourceSetService {
-    private static final Logger log     = LoggerFactory.getLogger(TrackedResourceSetService.class);
+    private static final Logger log = LoggerFactory.getLogger(TrackedResourceSetService.class);
     public static final String BASE_PATH = "base";
     public static final String CHANGELOG_PATH = "changeLog";
     public static final String RESOURCE_PATH = "/trs";
@@ -64,10 +61,10 @@ public class TrackedResourceSetService {
      * ChangeHistories class
      */
     private PagedTrs changeHistories;
+
     private String base;
 
-    public TrackedResourceSetService() {
-    }
+    public TrackedResourceSetService() {}
 
     @Inject
     public TrackedResourceSetService(PagedTrs _changeHistories) {
@@ -85,16 +82,19 @@ public class TrackedResourceSetService {
      * @return the tracked resource set representation
      */
     @GET
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-            OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    public TrackedResourceSet getTrackedResourceSet()
-            throws URISyntaxException {
+    @Produces({
+        OslcMediaType.TEXT_TURTLE,
+        OslcMediaType.APPLICATION_RDF_XML,
+        OslcMediaType.APPLICATION_XML,
+        OslcMediaType.APPLICATION_JSON
+    })
+    public TrackedResourceSet getTrackedResourceSet() throws URISyntaxException {
         TrackedResourceSet result = new TrackedResourceSet();
 
         result.setAbout(uriBuilder().build());
         result.setBase(uriBuilder().path(BASE_PATH).build());
 
-        if(getPagedTrs().changelogPageCount() == 0) {
+        if (getPagedTrs().changelogPageCount() == 0) {
             // FIXME Andrew@2019-04-27: remove this exception from the signature
             result.setChangeLog(new ChangeLog());
         } else {
@@ -125,8 +125,12 @@ public class TrackedResourceSetService {
      */
     @GET
     @Path(BASE_PATH + "/{page}")
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({
+        OslcMediaType.TEXT_TURTLE,
+        OslcMediaType.APPLICATION_RDF_XML,
+        OslcMediaType.APPLICATION_XML,
+        OslcMediaType.APPLICATION_JSON
+    })
     public Response getBasePage(@PathParam("page") int pageNo) {
         Base base = getPagedTrs().getBaseResource(pageNo);
         if (base == null) {
@@ -171,7 +175,6 @@ public class TrackedResourceSetService {
         return Response.seeOther(newURI).build();
     }
 
-
     /**
      * Returns the requested page of the change log
      *
@@ -180,8 +183,12 @@ public class TrackedResourceSetService {
      */
     @GET
     @Path(CHANGELOG_PATH + "/{page}")
-    @Produces({OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_RDF_XML,
-                      OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @Produces({
+        OslcMediaType.TEXT_TURTLE,
+        OslcMediaType.APPLICATION_RDF_XML,
+        OslcMediaType.APPLICATION_XML,
+        OslcMediaType.APPLICATION_JSON
+    })
     public Response getChangeLogPage(@PathParam("page") int page) {
         log.trace("TRS Change Log page '{}' requested", page);
 
@@ -197,7 +204,7 @@ public class TrackedResourceSetService {
     }
 
     private UriBuilder uriBuilder() {
-        if(StringUtils.isNullOrEmpty(base)) {
+        if (StringUtils.isNullOrEmpty(base)) {
             return UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(RESOURCE_PATH);
         } else {
             return UriBuilder.fromUri(base);

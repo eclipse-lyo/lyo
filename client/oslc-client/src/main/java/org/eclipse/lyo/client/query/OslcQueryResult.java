@@ -14,6 +14,13 @@
 package org.eclipse.lyo.client.query;
 
 import jakarta.ws.rs.core.Response;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -33,15 +40,6 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-
 /**
  * The results of an OSLC query. If the query was paged, subsequent pages can be retrieved using
  * the Iterator interface.
@@ -50,17 +48,18 @@ import java.util.List;
  */
 public class OslcQueryResult implements Iterator<OslcQueryResult> {
     private static final Logger log = LoggerFactory.getLogger(OslcQueryResult.class);
+
     /**
      * The default member property to look for in OSLC query results
      * (rdfs:member). Can be changed using {@link #setMemberProperty(String)}.
      */
-    public final static Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
+    public static final Property DEFAULT_MEMBER_PROPERTY = RDFS.member;
 
     /**
      * If system property {@value} is set to true, find any member in the
      */
-    public final static String SELECT_ANY_MEMBER = "org.eclipse.lyo.client.oslc.query" +
-        ".selectAnyMember";
+    public static final String SELECT_ANY_MEMBER =
+            "org.eclipse.lyo.client.oslc.query" + ".selectAnyMember";
 
     /**
      * Treat any resource in the members resource as a query result (except rdf:type).
@@ -74,7 +73,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         public boolean selects(Statement s) {
             String fqPredicateName =
-                s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
+                    s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
             if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
                 return false;
             }
@@ -104,8 +103,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         this.response = response;
 
         this.pageNumber = 1;
-
-
     }
 
     private OslcQueryResult(OslcQueryResult prev) {
@@ -115,7 +112,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
         this.memberProperty = prev.memberProperty;
 
         this.pageNumber = prev.pageNumber + 1;
-
     }
 
     private synchronized void initializeRdf() {
@@ -124,13 +120,13 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
             rdfModel = ModelFactory.createDefaultModel();
             rdfModel.read(response.readEntity(InputStream.class), query.getCapabilityUrl());
 
-            //Find a resource with rdf:type of oslc:ResourceInfo
+            // Find a resource with rdf:type of oslc:ResourceInfo
             Property rdfType = rdfModel.createProperty(OslcConstants.RDF_NAMESPACE, "type");
-            Property responseInfo = rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE,
-                "ResponseInfo");
+            Property responseInfo =
+                    rdfModel.createProperty(OslcConstants.OSLC_CORE_NAMESPACE, "ResponseInfo");
             ResIterator iter = rdfModel.listResourcesWithProperty(rdfType, responseInfo);
 
-            //The main ResponseInfo shall have the query URI or a page URI
+            // The main ResponseInfo shall have the query URI or a page URI
             List<Resource> responseInfos = iter.toList();
 
             infoResource = null;
@@ -166,16 +162,17 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
             infoResource = tryFindPrefixedResponseInfoUri(responseInfos);
             if (infoResource == null) {
-                log.trace("Cannot find exactly one ResponseInfo whose URI starts with the query URI");
+                log.trace(
+                        "Cannot find exactly one ResponseInfo whose URI starts with the query URI");
             } else {
                 log.debug("Found exactly one ResponseInfo whose URI starts with the query URI");
                 return;
             }
 
             if (infoResource == null) {
-                throw new IllegalStateException("Failed to find an appropriate ResponseInfo object");
+                throw new IllegalStateException(
+                        "Failed to find an appropriate ResponseInfo object");
             }
-
         }
     }
 
@@ -187,14 +184,15 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
      * @return a ResourceInfo resource if one satisfies the conditions; null if none satisfy
      */
     private Resource tryFindOnlyWithNextPage(List<Resource> responseInfos) {
-        Property nextPagePredicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
-            "nextPage");
+        Property nextPagePredicate =
+                rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
         var responsesWithNextPage =
-            responseInfos.stream().filter(ri -> ri.getProperty(nextPagePredicate) != null).toList();
+                responseInfos.stream()
+                        .filter(ri -> ri.getProperty(nextPagePredicate) != null)
+                        .toList();
         if (responsesWithNextPage.size() == 1) {
             return responsesWithNextPage.get(0);
-        }
-        else if (responsesWithNextPage.size() > 1) {
+        } else if (responsesWithNextPage.size() > 1) {
             log.warn("Multiple ResponseInfo objects found with nextPage predicate");
         }
         return null;
@@ -208,7 +206,9 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
      */
     private Resource tryFindPrefixedResponseInfoUri(List<Resource> responseInfos) {
         List<Resource> filteredObjects =
-            responseInfos.stream().filter(ri -> ri.getURI().startsWith(query.getQueryUrl())).toList();
+                responseInfos.stream()
+                        .filter(ri -> ri.getURI().startsWith(query.getQueryUrl()))
+                        .toList();
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
@@ -227,11 +227,14 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
      */
     private Resource tryFindExactResponseInfoUri(List<Resource> responseInfos) {
         List<Resource> filteredObjects =
-            responseInfos.stream().filter(ri -> ri.getURI().equals(query.getQueryUrl())).toList();
+                responseInfos.stream()
+                        .filter(ri -> ri.getURI().equals(query.getQueryUrl()))
+                        .toList();
         if (filteredObjects.size() == 1) {
             return filteredObjects.get(0);
         } else if (filteredObjects.size() > 1) {
-            throw new IllegalStateException("Multiple ResponseInfo objects found with the same URI");
+            throw new IllegalStateException(
+                    "Multiple ResponseInfo objects found with the same URI");
         }
         return null;
     }
@@ -252,8 +255,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     String getNextPageUrl() {
         initializeRdf();
         if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
-            Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE,
-                "nextPage");
+            Property predicate =
+                    rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
             Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
             StmtIterator iter = rdfModel.listStatements(select);
             if (iter.hasNext()) {
@@ -366,30 +369,36 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
-        Iterable<T> result = () -> new Iterator<>() {
-            public boolean hasNext() {
-                return iter.hasNext();
-            }
+        Iterable<T> result =
+                () ->
+                        new Iterator<>() {
+                            public boolean hasNext() {
+                                return iter.hasNext();
+                            }
 
-            @SuppressWarnings("unchecked")
-            public T next() {
-                Statement member = iter.next();
+                            @SuppressWarnings("unchecked")
+                            public T next() {
+                                Statement member = iter.next();
 
-                try {
-                    return (T) JenaModelHelper.fromJenaResource((Resource) member.getObject(),
-                        clazz);
-                } catch (DatatypeConfigurationException | IllegalAccessException |
-                         InvocationTargetException | InstantiationException |
-                         OslcCoreApplicationException | NoSuchMethodException |
-                         URISyntaxException e) {
-                    throw new LyoModelException(e);
-                }
-            }
+                                try {
+                                    return (T)
+                                            JenaModelHelper.fromJenaResource(
+                                                    (Resource) member.getObject(), clazz);
+                                } catch (DatatypeConfigurationException
+                                        | IllegalAccessException
+                                        | InvocationTargetException
+                                        | InstantiationException
+                                        | OslcCoreApplicationException
+                                        | NoSuchMethodException
+                                        | URISyntaxException e) {
+                                    throw new LyoModelException(e);
+                                }
+                            }
 
-            public void remove() {
-                iter.remove();
-            }
-        };
+                            public void remove() {
+                                iter.remove();
+                            }
+                        };
 
         return result;
     }
@@ -404,28 +413,29 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
         Selector select = getMemberSelector();
         final StmtIterator iter = rdfModel.listStatements(select);
-        Iterable<Resource> result = () -> new Iterator<>() {
-            public boolean hasNext() {
-                return iter.hasNext();
-            }
+        Iterable<Resource> result =
+                () ->
+                        new Iterator<>() {
+                            public boolean hasNext() {
+                                return iter.hasNext();
+                            }
 
-            @SuppressWarnings("unchecked")
-            public Resource next() {
-                Statement member = iter.next();
+                            @SuppressWarnings("unchecked")
+                            public Resource next() {
+                                Statement member = iter.next();
 
-                try {
-                    return (Resource) member.getObject();
-                } catch (IllegalArgumentException | SecurityException e) {
-                    throw new IllegalStateException(e);
-                }
-            }
+                                try {
+                                    return (Resource) member.getObject();
+                                } catch (IllegalArgumentException | SecurityException e) {
+                                    throw new IllegalStateException(e);
+                                }
+                            }
 
-            public void remove() {
-                iter.remove();
-            }
-        };
+                            public void remove() {
+                                iter.remove();
+                            }
+                        };
 
         return result;
     }
-
 }

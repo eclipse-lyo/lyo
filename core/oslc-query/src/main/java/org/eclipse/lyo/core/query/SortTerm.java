@@ -16,15 +16,13 @@ package org.eclipse.lyo.core.query;
 /**
  * Sort term from oslc.orderBy clause
  */
-public interface SortTerm
-{
-	enum Type
-	{
-		SIMPLE,
-		SCOPED
-	}
-	
-	Type type();
-	
-	PName identifier();
+public interface SortTerm {
+    enum Type {
+        SIMPLE,
+        SCOPED
+    }
+
+    Type type();
+
+    PName identifier();
 }

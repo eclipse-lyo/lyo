@@ -40,8 +40,11 @@ public class ModelUnmarshallingException extends Exception {
         super(cause);
     }
 
-    protected ModelUnmarshallingException(final String message, final Throwable cause,
-            final boolean enableSuppression, final boolean stackTrace) {
+    protected ModelUnmarshallingException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
+            final boolean stackTrace) {
         super(message, cause, enableSuppression, stackTrace);
     }
 }

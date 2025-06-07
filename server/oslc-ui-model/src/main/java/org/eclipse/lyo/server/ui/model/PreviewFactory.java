@@ -15,6 +15,12 @@ package org.eclipse.lyo.server.ui.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
@@ -27,36 +33,51 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
 public class PreviewFactory {
 
-    public static Preview getPreview(final AbstractResource aResource, List<String> getterMethodNames,
-                                     boolean showPropertyHeadingsAsLinks) throws IllegalAccessException,
-        IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public static Preview getPreview(
+            final AbstractResource aResource,
+            List<String> getterMethodNames,
+            boolean showPropertyHeadingsAsLinks)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    NoSuchMethodException,
+                    SecurityException {
         ArrayList<Property> previewItems = new ArrayList<>();
         Method getterMethod;
         for (String getterMethodName : getterMethodNames) {
             getterMethod = aResource.getClass().getMethod(getterMethodName);
-            boolean multiple = getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany) ||
-                getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.OneOrMany);
-            final boolean isResourceValueType = (null != getterMethod.getAnnotation(OslcValueType.class))
-                    && (getterMethod.getAnnotation(OslcValueType.class).value().equals(ValueType.Resource));
-            final boolean isNotInlinedRepresentation = (null == getterMethod.getAnnotation(OslcRepresentation.class))
-                    || ((null != getterMethod.getAnnotation(OslcRepresentation.class))
-                            && (!getterMethod.getAnnotation(OslcRepresentation.class).value().equals(Representation.Inline)));
+            boolean multiple =
+                    getterMethod.getAnnotation(OslcOccurs.class).value().equals(Occurs.ZeroOrMany)
+                            || getterMethod
+                                    .getAnnotation(OslcOccurs.class)
+                                    .value()
+                                    .equals(Occurs.OneOrMany);
+            final boolean isResourceValueType =
+                    (null != getterMethod.getAnnotation(OslcValueType.class))
+                            && (getterMethod
+                                    .getAnnotation(OslcValueType.class)
+                                    .value()
+                                    .equals(ValueType.Resource));
+            final boolean isNotInlinedRepresentation =
+                    (null == getterMethod.getAnnotation(OslcRepresentation.class))
+                            || ((null != getterMethod.getAnnotation(OslcRepresentation.class))
+                                    && (!getterMethod
+                                            .getAnnotation(OslcRepresentation.class)
+                                            .value()
+                                            .equals(Representation.Inline)));
             boolean showPropertyValueAsLink = isResourceValueType && isNotInlinedRepresentation;
             PropertyDefintion key;
             if (showPropertyHeadingsAsLinks) {
-                key = constructPropertyDefintion(getterMethod.getAnnotation(OslcPropertyDefinition.class).value(),
-                    getterMethod.getAnnotation(OslcName.class).value());
+                key =
+                        constructPropertyDefintion(
+                                getterMethod.getAnnotation(OslcPropertyDefinition.class).value(),
+                                getterMethod.getAnnotation(OslcName.class).value());
             } else {
-                key = constructPropertyDefintion(getterMethod.getAnnotation(OslcName.class).value());
+                key =
+                        constructPropertyDefintion(
+                                getterMethod.getAnnotation(OslcName.class).value());
             }
             PropertyValue value;
             if (showPropertyValueAsLink) {
@@ -66,28 +87,51 @@ public class PreviewFactory {
                     for (Link link : links) {
                         l.add(constructLink(link));
                     }
-                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
+                    value =
+                            constructPropertyValue(
+                                    PropertyDefintion.RepresentationType.LINK, multiple, l);
                 } else {
                     Link link = (Link) getterMethod.invoke(aResource);
-                    value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, constructLink(link));
+                    value =
+                            constructPropertyValue(
+                                    PropertyDefintion.RepresentationType.LINK,
+                                    multiple,
+                                    constructLink(link));
                 }
             } else {
-            	if (!isNotInlinedRepresentation) {
+                if (!isNotInlinedRepresentation) {
                     if (multiple) {
-                        Collection<AbstractResource> rs = (Collection<AbstractResource>) getterMethod.invoke(aResource);
+                        Collection<AbstractResource> rs =
+                                (Collection<AbstractResource>) getterMethod.invoke(aResource);
                         List<org.eclipse.lyo.server.ui.model.Link> l = new ArrayList<>();
-                        for (AbstractResource r: rs) {
-                            l.add((null == r ? null : constructLink(r.getAbout().toString(), r.toString())));
+                        for (AbstractResource r : rs) {
+                            l.add(
+                                    (null == r
+                                            ? null
+                                            : constructLink(
+                                                    r.getAbout().toString(), r.toString())));
                         }
-                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, l);
+                        value =
+                                constructPropertyValue(
+                                        PropertyDefintion.RepresentationType.LINK, multiple, l);
                     } else {
-                    	AbstractResource r = (AbstractResource) getterMethod.invoke(aResource);
-                        value = constructPropertyValue(PropertyDefintion.RepresentationType.LINK, multiple, (null == r ? null : constructLink(r.getAbout().toString(), r.toString())));
+                        AbstractResource r = (AbstractResource) getterMethod.invoke(aResource);
+                        value =
+                                constructPropertyValue(
+                                        PropertyDefintion.RepresentationType.LINK,
+                                        multiple,
+                                        (null == r
+                                                ? null
+                                                : constructLink(
+                                                        r.getAbout().toString(), r.toString())));
                     }
-            	}
-            	else {
-                    value = constructPropertyValue(PropertyDefintion.RepresentationType.TEXT, multiple, getterMethod.invoke(aResource));
-            	}
+                } else {
+                    value =
+                            constructPropertyValue(
+                                    PropertyDefintion.RepresentationType.TEXT,
+                                    multiple,
+                                    getterMethod.invoke(aResource));
+                }
             }
             previewItems.add(constructProperty(key, value));
         }
@@ -96,26 +140,36 @@ public class PreviewFactory {
         return oslcPreviewDataSet;
     }
 
-    public static String getPreviewAsJsonString(final AbstractResource aResource, List<String> getterMethodNames,
-                                                boolean showPropertyHeadingsAsLinks) throws IllegalAccessException,
-        IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException,
-        JsonProcessingException {
-        Preview preview = PreviewFactory.getPreview(aResource, getterMethodNames, showPropertyHeadingsAsLinks);
+    public static String getPreviewAsJsonString(
+            final AbstractResource aResource,
+            List<String> getterMethodNames,
+            boolean showPropertyHeadingsAsLinks)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    NoSuchMethodException,
+                    SecurityException,
+                    JsonProcessingException {
+        Preview preview =
+                PreviewFactory.getPreview(
+                        aResource, getterMethodNames, showPropertyHeadingsAsLinks);
         ObjectMapper mapper = new ObjectMapper();
         String previewAsString = mapper.writeValueAsString(preview);
         return previewAsString;
     }
 
-
-    private static Property constructProperty(PropertyDefintion propertyDefintion, PropertyValue propertyValue) {
+    private static Property constructProperty(
+            PropertyDefintion propertyDefintion, PropertyValue propertyValue) {
         Property item = new Property();
         item.setPropertyDefintion(propertyDefintion);
         item.setPropertyValue(propertyValue);
         return item;
     }
 
-    private static PropertyValue constructPropertyValue(PropertyDefintion.RepresentationType representationType,
-                                                        Boolean representAsList, Object data) {
+    private static PropertyValue constructPropertyValue(
+            PropertyDefintion.RepresentationType representationType,
+            Boolean representAsList,
+            Object data) {
         PropertyValue value = new PropertyValue();
         value.setRepresentationType(representationType);
         value.setRepresentAsList(representAsList);
@@ -123,8 +177,8 @@ public class PreviewFactory {
         return value;
     }
 
-    private static PropertyDefintion getPropertyDefintion(PropertyDefintion.RepresentationType representationType,
-                                                          Object data) {
+    private static PropertyDefintion getPropertyDefintion(
+            PropertyDefintion.RepresentationType representationType, Object data) {
         PropertyDefintion key = new PropertyDefintion();
         key.setRepresentationType(representationType);
         key.setData(data);
@@ -136,7 +190,8 @@ public class PreviewFactory {
     }
 
     private static PropertyDefintion constructPropertyDefintion(String linkUri, String linkTitle) {
-        return getPropertyDefintion(PropertyDefintion.RepresentationType.LINK, constructLink(linkUri, linkTitle));
+        return getPropertyDefintion(
+                PropertyDefintion.RepresentationType.LINK, constructLink(linkUri, linkTitle));
     }
 
     private static org.eclipse.lyo.server.ui.model.Link constructLink(Link link) {

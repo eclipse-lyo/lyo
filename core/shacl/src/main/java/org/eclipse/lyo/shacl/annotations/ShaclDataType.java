@@ -19,7 +19,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.eclipse.lyo.shacl.DataType;
 
 /**
@@ -33,5 +32,4 @@ import org.eclipse.lyo.shacl.DataType;
 public @interface ShaclDataType {
 
     DataType value();
-
 }

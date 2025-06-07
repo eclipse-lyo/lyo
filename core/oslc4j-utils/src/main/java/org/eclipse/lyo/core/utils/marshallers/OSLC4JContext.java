@@ -14,17 +14,17 @@
 package org.eclipse.lyo.core.utils.marshallers;
 
 public class OSLC4JContext {
-	protected OSLC4JContext(){}
-	
-	public static OSLC4JContext newInstance(){
-		return new OSLC4JContext();
-	}
-	
-	public OSLC4JMarshaller createMarshaller(){
-		return new OSLC4JMarshaller();
-	}
-	
-	public OSLC4JUnmarshaller createUnmarshaller(){
-		return new OSLC4JUnmarshaller();
-	}
+    protected OSLC4JContext() {}
+
+    public static OSLC4JContext newInstance() {
+        return new OSLC4JContext();
+    }
+
+    public OSLC4JMarshaller createMarshaller() {
+        return new OSLC4JMarshaller();
+    }
+
+    public OSLC4JUnmarshaller createUnmarshaller() {
+        return new OSLC4JUnmarshaller();
+    }
 }

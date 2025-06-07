@@ -20,6 +20,4 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
  * due to differences between RDF/XML output for a change log with
  * and without entries.
  */
-public abstract class AbstractChangeLog extends AbstractResource
-{
-}
+public abstract class AbstractChangeLog extends AbstractResource {}

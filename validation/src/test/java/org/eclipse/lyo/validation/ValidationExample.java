@@ -19,9 +19,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
@@ -37,25 +35,36 @@ public class ValidationExample {
 
     /**
      * Loads an example SHACL file and validates all focus nodes against all shapes.
-     * 
+     *
      * @throws URISyntaxException
      * @throws NoSuchMethodException
      * @throws SecurityException
      * @throws InstantiationException
      * @throws IllegalArgumentException
      */
-    public static void validateModelAgainstShaclModel() throws IllegalAccessException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException, IllegalArgumentException,
-            InstantiationException, SecurityException, NoSuchMethodException, URISyntaxException {
+    public static void validateModelAgainstShaclModel()
+            throws IllegalAccessException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    URISyntaxException {
 
         // Load the main data model
         Model dataModel = ModelFactory.createDefaultModel();
-        dataModel.read(ValidationExample.class.getResourceAsStream("/aResource-Data.ttl"), "urn:dummy",
+        dataModel.read(
+                ValidationExample.class.getResourceAsStream("/aResource-Data.ttl"),
+                "urn:dummy",
                 FileUtils.langTurtle);
 
         // Load the SHACL shape model
         Model shapeModel = ModelFactory.createDefaultModel();
-        shapeModel.read(ValidationExample.class.getResourceAsStream("/aResource-Shape.ttl"), "urn:dummy",
+        shapeModel.read(
+                ValidationExample.class.getResourceAsStream("/aResource-Shape.ttl"),
+                "urn:dummy",
                 FileUtils.langTurtle);
 
         Validator validator = ValidatorFactory.createShaclExValidator();
@@ -67,15 +76,22 @@ public class ValidationExample {
     /**
      * Creates an OSLC resource, and validates it against its class annotations
      * defining its SHACL Shape.
-     * 
+     *
      * @throws NoSuchMethodException
      * @throws SecurityException
      * @throws InstantiationException
      */
     public static void validateOslcResourceWithShaclAnnotations()
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException,
-            InstantiationException, SecurityException, NoSuchMethodException {
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    DatatypeConfigurationException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException {
 
         // Create an OSLC resource
         AResource aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
@@ -91,18 +107,26 @@ public class ValidationExample {
     /**
      * Creates an OSLC resource, and validates it against its class annotations
      * defining its OSLC Shape.
-     * 
+     *
      * @throws NoSuchMethodException
      * @throws SecurityException
      * @throws InstantiationException
      */
     public static void validateOslcResourceWithOslcAnnotations()
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            OslcCoreApplicationException, URISyntaxException, ParseException, DatatypeConfigurationException,
-            InstantiationException, SecurityException, NoSuchMethodException {
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    DatatypeConfigurationException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException {
 
         // Create an OSLC resource
-        AnOslcResource anOslcResource = new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
+        AnOslcResource anOslcResource =
+                new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
         anOslcResource.setAnIntegerProperty(new BigInteger("101"));
 
         // Validate the OSLC resource against the OSLC Shape annotations - as defined in

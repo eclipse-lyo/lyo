@@ -16,33 +16,33 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 
 public enum Occurs {
-	ExactlyOne(OslcConstants.OSLC_CORE_NAMESPACE + "Exactly-one"),
-	ZeroOrOne(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-one"),
-	ZeroOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-many"),
-	OneOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "One-or-many");
+    ExactlyOne(OslcConstants.OSLC_CORE_NAMESPACE + "Exactly-one"),
+    ZeroOrOne(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-one"),
+    ZeroOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-many"),
+    OneOrMany(OslcConstants.OSLC_CORE_NAMESPACE + "One-or-many");
 
-	private String uri;
+    private String uri;
 
-	Occurs(final String uri) {
-		this.uri = uri;
-	}
+    Occurs(final String uri) {
+        this.uri = uri;
+    }
 
-	@Override
-	public String toString() {
-		return uri;
-	}
+    @Override
+    public String toString() {
+        return uri;
+    }
 
-	public static Occurs fromString(final String string) {
-		final Occurs[] values = Occurs.values();
-		for (final Occurs value : values) {
-			if (value.uri.equals(string)) {
-				return value;
-			}
-		}
-		return null;
-	}
-	
-	public static Occurs fromURI(final URI uri) {
-		return fromString(uri.toString());
-	}
+    public static Occurs fromString(final String string) {
+        final Occurs[] values = Occurs.values();
+        for (final Occurs value : values) {
+            if (value.uri.equals(string)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    public static Occurs fromURI(final URI uri) {
+        return fromString(uri.toString());
+    }
 }

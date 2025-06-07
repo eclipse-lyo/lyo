@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcMemberProperty {
-	/**
-	 * f set to true, this indicates that the property is a membership property.
-	 */
-	boolean value();
+    /**
+     * f set to true, this indicates that the property is a membership property.
+     */
+    boolean value();
 }

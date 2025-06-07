@@ -14,17 +14,18 @@
 package org.eclipse.lyo.client.oslc.resources;
 
 @Deprecated
-public interface ArchitectureConstants
-{
-    public static final String ARCHITECTURE_DOMAIN        = "http://open-services.net/ns/am#";
-    public static final String ARCHITECTURE_NAMESPACE     = "http://open-services.net/ns/am#";
-    public static final String ARCHITECTURE_PREFIX        = "oslc_am";
-    public static final String ARCHITECTURE_RESOURCE  = "Resource";
+public interface ArchitectureConstants {
+    public static final String ARCHITECTURE_DOMAIN = "http://open-services.net/ns/am#";
+    public static final String ARCHITECTURE_NAMESPACE = "http://open-services.net/ns/am#";
+    public static final String ARCHITECTURE_PREFIX = "oslc_am";
+    public static final String ARCHITECTURE_RESOURCE = "Resource";
     public static final String ARCHITECTURE_LINK_TYPE = "LinkType";
-    public static final String FOAF_NAMESPACE                              = "http://xmlns.com/foaf/0.1/";
-    public static final String FOAF_NAMESPACE_PREFIX                       = "foaf";
+    public static final String FOAF_NAMESPACE = "http://xmlns.com/foaf/0.1/";
+    public static final String FOAF_NAMESPACE_PREFIX = "foaf";
 
-    public static final String TYPE_ARCHITECTURE_RESOURCE  = ARCHITECTURE_NAMESPACE + ARCHITECTURE_RESOURCE;
-    public static final String TYPE_ARCHITECTURE_LINK_TYPE = ARCHITECTURE_NAMESPACE + ARCHITECTURE_LINK_TYPE;
-    public static final String TYPE_PERSON                = FOAF_NAMESPACE + "Person";
+    public static final String TYPE_ARCHITECTURE_RESOURCE =
+            ARCHITECTURE_NAMESPACE + ARCHITECTURE_RESOURCE;
+    public static final String TYPE_ARCHITECTURE_LINK_TYPE =
+            ARCHITECTURE_NAMESPACE + ARCHITECTURE_LINK_TYPE;
+    public static final String TYPE_PERSON = FOAF_NAMESPACE + "Person";
 }

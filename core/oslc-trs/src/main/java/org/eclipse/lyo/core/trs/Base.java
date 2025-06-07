@@ -24,7 +24,6 @@ import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TERM_CUTOFFEVENT;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcHidden;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
@@ -130,65 +129,68 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 @OslcName(LDP_TERM_CONTAINER)
 @OslcResourceShape(title = "Tracked Resource Set Base Shape", describes = LDP_CONTAINER)
 public class Base extends AbstractResource {
-	private List<URI> members;
-	private URI cutoffEvent;
-	private Page nextPage;
+    private List<URI> members;
+    private URI cutoffEvent;
+    private Page nextPage;
 
-	/**
-	 * @return the members
-	 */
-	@OslcName(RDFS_TERM_MEMBER)
-	@OslcDescription("A member Resource of the Resource Set.")
-	@OslcPropertyDefinition(RDFS_MEMBER)
-	@OslcTitle("Member")
-	public List<URI> getMembers() {
-		if(members == null){
-			members = new ArrayList<>();
-		}
-		return members;
-	}
+    /**
+     * @return the members
+     */
+    @OslcName(RDFS_TERM_MEMBER)
+    @OslcDescription("A member Resource of the Resource Set.")
+    @OslcPropertyDefinition(RDFS_MEMBER)
+    @OslcTitle("Member")
+    public List<URI> getMembers() {
+        if (members == null) {
+            members = new ArrayList<>();
+        }
+        return members;
+    }
 
-	/**
-	 * @param members the members to set
-	 */
-	public void setMembers(List<URI> members) {
-		this.members = members;
-	}
+    /**
+     * @param members the members to set
+     */
+    public void setMembers(List<URI> members) {
+        this.members = members;
+    }
 
-	/**
-	 * @return the cutoffIdentifier
-	 */
-	@OslcName(TRS_TERM_CUTOFFEVENT)
-	@OslcDescription("The most recent Change Log entry that is accounted for in this Base. When rdf:nil, the Base is an enumeration at the start of time.")
-	@OslcPropertyDefinition(TRS_CUTOFFEVENT)
-	@OslcTitle("Cutoff Event")
-	public URI getCutoffEvent() {
-		return cutoffEvent;
-	}
-	/**
-	 * @param cutoffEvent the cutoffEvent to set
-	 */
-	public void setCutoffEvent(URI cutoffEvent) {
-		this.cutoffEvent = cutoffEvent;
-	}
+    /**
+     * @return the cutoffIdentifier
+     */
+    @OslcName(TRS_TERM_CUTOFFEVENT)
+    @OslcDescription(
+            "The most recent Change Log entry that is accounted for in this Base. When rdf:nil, the"
+                    + " Base is an enumeration at the start of time.")
+    @OslcPropertyDefinition(TRS_CUTOFFEVENT)
+    @OslcTitle("Cutoff Event")
+    public URI getCutoffEvent() {
+        return cutoffEvent;
+    }
 
-	/**
-	 * Return a Page object containing information about the next base page.
-	 * The OslcHidden annotation works around a limitation in OSLC4J.  If we do
-	 * not hide the nextPage variable we get an incorrect ldp:nextPage reference
-	 * in the Base.
-	 *
-	 * @return the nextPage
-	 */
-	@OslcHidden(value=true)
-	public Page getNextPage() {
-		return nextPage;
-	}
+    /**
+     * @param cutoffEvent the cutoffEvent to set
+     */
+    public void setCutoffEvent(URI cutoffEvent) {
+        this.cutoffEvent = cutoffEvent;
+    }
 
-	/**
-	 * @param nextPage the nextPage to set
-	 */
-	public void setNextPage(Page nextPage) {
-		this.nextPage = nextPage;
-	}
+    /**
+     * Return a Page object containing information about the next base page.
+     * The OslcHidden annotation works around a limitation in OSLC4J.  If we do
+     * not hide the nextPage variable we get an incorrect ldp:nextPage reference
+     * in the Base.
+     *
+     * @return the nextPage
+     */
+    @OslcHidden(value = true)
+    public Page getNextPage() {
+        return nextPage;
+    }
+
+    /**
+     * @param nextPage the nextPage to set
+     */
+    public void setNextPage(Page nextPage) {
+        this.nextPage = nextPage;
+    }
 }

@@ -19,15 +19,12 @@ import java.net.URI;
  * Represents a resource of any (unknown) type, usually the object of a
  * statement in an {@link IExtendedResource}.
  */
-public class AnyResource extends AbstractResource
-{
-	public AnyResource()
-	{
-		super();
-	}
+public class AnyResource extends AbstractResource {
+    public AnyResource() {
+        super();
+    }
 
-	public AnyResource(URI about)
-	{
-		super(about);
-	}
+    public AnyResource(URI about) {
+        super(about);
+    }
 }

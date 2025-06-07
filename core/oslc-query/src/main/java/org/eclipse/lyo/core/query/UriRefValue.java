@@ -17,7 +17,6 @@ package org.eclipse.lyo.core.query;
 /**
  * URI_REF operand from oslc.where clause
  */
-public interface UriRefValue extends Value
-{
-	String value();
+public interface UriRefValue extends Value {
+    String value();
 }

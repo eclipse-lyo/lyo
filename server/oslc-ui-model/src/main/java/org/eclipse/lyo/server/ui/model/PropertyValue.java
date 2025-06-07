@@ -16,15 +16,10 @@ package org.eclipse.lyo.server.ui.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "data",
-    "representAsList",
-    "representationType"
-})
+@JsonPropertyOrder({"data", "representAsList", "representationType"})
 public class PropertyValue {
 
     /**
@@ -34,8 +29,10 @@ public class PropertyValue {
      */
     @JsonProperty("data")
     private Object data;
+
     @JsonProperty("representAsList")
     private Boolean representAsList;
+
     /**
      *
      * (Required)
@@ -97,21 +94,24 @@ public class PropertyValue {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(PropertyValue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(PropertyValue.class.getName())
+                .append('@')
+                .append(Integer.toHexString(System.identityHashCode(this)))
+                .append('[');
         sb.append("data");
         sb.append('=');
-        sb.append(((this.data == null)?"<null>":this.data));
+        sb.append(((this.data == null) ? "<null>" : this.data));
         sb.append(',');
         sb.append("representAsList");
         sb.append('=');
-        sb.append(((this.representAsList == null)?"<null>":this.representAsList));
+        sb.append(((this.representAsList == null) ? "<null>" : this.representAsList));
         sb.append(',');
         sb.append("representationType");
         sb.append('=');
-        sb.append(((this.representationType == null)?"<null>":this.representationType));
+        sb.append(((this.representationType == null) ? "<null>" : this.representationType));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -121,9 +121,15 @@ public class PropertyValue {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.representationType == null)? 0 :this.representationType.hashCode()));
-        result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
-        result = ((result* 31)+((this.representAsList == null)? 0 :this.representAsList.hashCode()));
+        result =
+                ((result * 31)
+                        + ((this.representationType == null)
+                                ? 0
+                                : this.representationType.hashCode()));
+        result = ((result * 31) + ((this.data == null) ? 0 : this.data.hashCode()));
+        result =
+                ((result * 31)
+                        + ((this.representAsList == null) ? 0 : this.representAsList.hashCode()));
         return result;
     }
 
@@ -136,7 +142,8 @@ public class PropertyValue {
             return false;
         }
         PropertyValue rhs = ((PropertyValue) other);
-        return (((Objects.equals(this.representationType, rhs.representationType))&&(Objects.equals(this.data, rhs.data)))&&(Objects.equals(this.representAsList, rhs.representAsList)));
+        return (((Objects.equals(this.representationType, rhs.representationType))
+                        && (Objects.equals(this.data, rhs.data)))
+                && (Objects.equals(this.representAsList, rhs.representAsList)));
     }
-
 }

@@ -15,12 +15,11 @@ package org.eclipse.lyo.core.query;
 
 /**
  * Decimal literal operand from olsc.where clause.<p>
- * 
+ *
  * Not converted to any Java native class as only clients of this
  * interface can convert to native DB field values without losing
  * precision.
  */
-public interface DecimalValue extends Value
-{
-	String value();
+public interface DecimalValue extends Value {
+    String value();
 }

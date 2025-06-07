@@ -14,30 +14,26 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 @OslcName("Test")
 @OslcNamespace(TestResource.TEST_NAMESPACE)
 @OslcResourceShape(title = "Test Resource", describes = TestResource.TEST_RESOURCE_TYPE)
-public class ResourceWithReifiedLinks extends AbstractResource
-{
-	public final static String TEST_NAMESPACE = "http://example.com/ns#";
-	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
+public class ResourceWithReifiedLinks extends AbstractResource {
+    public static final String TEST_NAMESPACE = "http://example.com/ns#";
+    public static final String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
 
     private String title;
     private Link linkWithNoLabel = new Link();
     private Link linkWithLabel = new Link();
-    
-    public ResourceWithReifiedLinks() throws URISyntaxException
-    {
+
+    public ResourceWithReifiedLinks() throws URISyntaxException {
         super();
     }
-    
-    public ResourceWithReifiedLinks(final URI about) throws URISyntaxException
-    {
+
+    public ResourceWithReifiedLinks(final URI about) throws URISyntaxException {
         super(about);
     }
-    
+
     @OslcName("linkWithNoLabel")
     @OslcPropertyDefinition(TEST_NAMESPACE + "linkWithNoLabel")
     @OslcValueType(ValueType.Resource)
-    public Link getLinkWithNoLabel()
-    {
+    public Link getLinkWithNoLabel() {
         return linkWithNoLabel;
     }
 
@@ -48,12 +44,10 @@ public class ResourceWithReifiedLinks extends AbstractResource
         return linkWithLabel;
     }
 
-
     @OslcName("title")
     @OslcPropertyDefinition(TEST_NAMESPACE + "title")
     @OslcValueType(ValueType.String)
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 

@@ -17,15 +17,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 public class OSLC4JUtilsTest {
 
@@ -145,7 +143,6 @@ public class OSLC4JUtilsTest {
         assertFalse(OSLC4JUtils.isLyoStorePagingUnsafe());
     }
 
-
     @Test
     public void storePagingNplus1LimitOffByDefault() {
         System.clearProperty(OSLC4JConstants.LYO_STORE_PAGING_PRECISE_LIMIT);
@@ -183,11 +180,11 @@ public class OSLC4JUtilsTest {
 
     @Test
     public void isWellFormed() {
-        List<Pair<Boolean, String>> pairs = List.of(
-            Pair.of(true, "<span>John &amp; Mary</span>")
-            ,Pair.of(false, "<span>John & Mary</span>")
-            ,Pair.of(false, "John and Mary")
-        );
+        List<Pair<Boolean, String>> pairs =
+                List.of(
+                        Pair.of(true, "<span>John &amp; Mary</span>"),
+                        Pair.of(false, "<span>John & Mary</span>"),
+                        Pair.of(false, "John and Mary"));
         for (Pair<Boolean, String> pair : pairs) {
             boolean checkResult = OSLC4JUtils.isWellFormed(pair.getRight());
             assertEquals(pair.getLeft(), checkResult);

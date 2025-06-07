@@ -20,16 +20,17 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 /**
  * Resource shape to be used by test classes.
- * 
+ *
  * @author Daniel Figueiredo Caetano
  *
  */
 @OslcName("CustomNamespace")
 @OslcNamespace(CustomNamespaceResource.CUSTOM_NAMESPACE)
-@OslcResourceShape(title = "Test Resource", describes = CustomNamespaceResource.CUSTOM_RESOURCE_TYPE)
+@OslcResourceShape(
+        title = "Test Resource",
+        describes = CustomNamespaceResource.CUSTOM_RESOURCE_TYPE)
 public class CustomNamespaceResource extends AbstractResource {
 
-	public final static String CUSTOM_NAMESPACE = "http://customnamespace.oslc.com/ns#";
-	public final static String CUSTOM_RESOURCE_TYPE = CUSTOM_NAMESPACE + "Test";
-	
+    public static final String CUSTOM_NAMESPACE = "http://customnamespace.oslc.com/ns#";
+    public static final String CUSTOM_RESOURCE_TYPE = CUSTOM_NAMESPACE + "Test";
 }

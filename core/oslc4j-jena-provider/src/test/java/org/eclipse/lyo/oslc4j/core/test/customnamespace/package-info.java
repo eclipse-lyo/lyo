@@ -15,19 +15,18 @@
 /**
  * Used to test the custom namespce prefix mappings.
  * The namespace provider implementation {@link org.eclipse.lyo.oslc4j.core.test.customnamespace.AnyNamespaceProvider}
- * is passed in the {@link org.eclipse.lyo.oslc4j.core.annotation.OslcSchema#customNamespaceProvider()} 
- * field. 
- * 
+ * is passed in the {@link org.eclipse.lyo.oslc4j.core.annotation.OslcSchema#customNamespaceProvider()}
+ * field.
+ *
  * @author Daniel Figueiredo Caetano
  *
  */
 @OslcSchema(
-	customNamespaceProvider= AnyNamespaceProvider.class,
-	value={
-		@OslcNamespaceDefinition(prefix=TEST1_PREFIX,namespaceURI=TEST1_URL),
-		@OslcNamespaceDefinition(prefix=TEST2_PREFIX,namespaceURI=TEST2_URL)
-	}
-)
+        customNamespaceProvider = AnyNamespaceProvider.class,
+        value = {
+            @OslcNamespaceDefinition(prefix = TEST1_PREFIX, namespaceURI = TEST1_URL),
+            @OslcNamespaceDefinition(prefix = TEST2_PREFIX, namespaceURI = TEST2_URL)
+        })
 package org.eclipse.lyo.oslc4j.core.test.customnamespace;
 
 import static org.eclipse.lyo.oslc4j.core.test.customnamespace.CustomNamespaceConstants.TEST1_PREFIX;

@@ -31,6 +31,4 @@ public class ChildAnimal extends AbstractResource implements Pet {
     public void eat() {
         System.out.println("Eating like an animal");
     }
-
-
 }

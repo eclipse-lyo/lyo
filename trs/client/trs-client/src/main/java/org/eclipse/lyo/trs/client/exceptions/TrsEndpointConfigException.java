@@ -1,6 +1,5 @@
 package org.eclipse.lyo.trs.client.exceptions;
 
-
 /**
  * TRS Client has a wrong configuration of a TRS Server endpoint.
  *
@@ -24,8 +23,11 @@ public class TrsEndpointConfigException extends TrsEndpointException {
         super(cause);
     }
 
-    protected TrsEndpointConfigException(final String message, final Throwable cause,
-            final boolean enableSuppression, final boolean writableStackTrace) {
+    protected TrsEndpointConfigException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
+            final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

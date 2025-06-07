@@ -19,17 +19,14 @@ import org.antlr.runtime.RecognitionException;
  * Wrapper for {@link RecognitionException} so clients of OLSC query
  * functionality don't need to import ANTLR classes.
  */
-public class ParseException extends Exception
-{
-	ParseException(RecognitionException cause)
-	{
-		super(cause);
-	}
-	
-	ParseException(String msg)
-	{
-		super(msg);
-	}
-	
-	private static final long serialVersionUID = 2373494371127406191L;
+public class ParseException extends Exception {
+    ParseException(RecognitionException cause) {
+        super(cause);
+    }
+
+    ParseException(String msg) {
+        super(msg);
+    }
+
+    private static final long serialVersionUID = 2373494371127406191L;
 }

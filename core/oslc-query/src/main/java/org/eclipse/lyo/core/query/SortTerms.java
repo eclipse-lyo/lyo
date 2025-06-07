@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * List of sort terms from oslc.orderBy clause
  */
-public interface SortTerms
-{
-	List<SortTerm> children();
+public interface SortTerms {
+    List<SortTerm> children();
 }

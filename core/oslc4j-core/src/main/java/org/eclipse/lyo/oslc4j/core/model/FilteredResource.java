@@ -20,24 +20,20 @@ import java.util.Map;
  * Wrapper for resources to pass in properties map to filter output
  * to a subset of the resource's properties
  */
-public class FilteredResource<T extends Object> extends AbstractResource
-{
-	public
-	FilteredResource(
-		T resource,
-		Map<String, Object> properties
-	)
-	{
-		this.resource = resource;
-		this.properties = properties;
-	}
-	
-	public T
-	resource() { return resource; }
-	
-	public Map<String, Object>
-	properties() { return properties; }
-	
-	private final T resource;
-	private final Map<String, Object> properties;
+public class FilteredResource<T extends Object> extends AbstractResource {
+    public FilteredResource(T resource, Map<String, Object> properties) {
+        this.resource = resource;
+        this.properties = properties;
+    }
+
+    public T resource() {
+        return resource;
+    }
+
+    public Map<String, Object> properties() {
+        return properties;
+    }
+
+    private final T resource;
+    private final Map<String, Object> properties;
 }

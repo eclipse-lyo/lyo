@@ -13,15 +13,6 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
-import org.eclipse.lyo.oslc4j.core.model.Compact;
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -30,6 +21,13 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import org.eclipse.lyo.oslc4j.core.model.Compact;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini
@@ -37,80 +35,78 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Produces(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
 @Consumes(OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)
-public class OslcCompactRdfProvider
-	   extends AbstractOslcRdfXmlProvider
-	   implements MessageBodyReader<Compact>,
-				  MessageBodyWriter<Compact>
-{
-	public OslcCompactRdfProvider()
-	{
-		super();
-	}
+public class OslcCompactRdfProvider extends AbstractOslcRdfXmlProvider
+        implements MessageBodyReader<Compact>, MessageBodyWriter<Compact> {
+    public OslcCompactRdfProvider() {
+        super();
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return ProviderHelper.isCompactResource(type);
-	}
+    @Override
+    public boolean isWriteable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        return ProviderHelper.isCompactResource(type);
+    }
 
-	@Override
-	public boolean isReadable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return ProviderHelper.isCompactResource(type);
-	}
+    @Override
+    public boolean isReadable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        return ProviderHelper.isCompactResource(type);
+    }
 
-	@Override
-	public void writeTo(final Compact						 compact,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		writeTo(false,
-				new Compact[] {compact},
-				OslcMediaType.APPLICATION_XML_TYPE,
-				map,
-				outputStream);
-	}
+    @Override
+    public void writeTo(
+            final Compact compact,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream)
+            throws IOException, WebApplicationException {
+        writeTo(
+                false,
+                new Compact[] {compact},
+                OslcMediaType.APPLICATION_XML_TYPE,
+                map,
+                outputStream);
+    }
 
+    @Override
+    public Compact readFrom(
+            final Class<Compact> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, String> map,
+            final InputStream inputStream)
+            throws IOException, WebApplicationException {
+        final Object[] objects =
+                readFrom(type, OslcMediaType.APPLICATION_XML_TYPE, map, inputStream);
 
+        if ((objects != null) && (objects.length > 0)) {
+            final Object object = objects[0];
 
-	@Override
-	public Compact readFrom(final Class<Compact>				 type,
-							final Type							 genericType,
-							final Annotation[]					 annotations,
-							final MediaType						 mediaType,
-							final MultivaluedMap<String, String> map,
-							final InputStream					 inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		final Object[] objects = readFrom(type,
-										  OslcMediaType.APPLICATION_XML_TYPE,
-										  map,
-										  inputStream);
+            if (object instanceof Compact) {
+                return (Compact) object;
+            }
+        }
 
-		if ((objects != null) &&
-			(objects.length > 0))
-		{
-			final Object object = objects[0];
+        return null;
+    }
 
-			if (object instanceof Compact)
-			{
-				return (Compact) object;
-			}
-		}
-
-		return null;
-	}
-
-	@Override
-	public long getSize(final Compact compact, final Class<?> type, final Type genericType,
-			final Annotation[] annotation, final MediaType mediaType) {
-		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
-	}
+    @Override
+    public long getSize(
+            final Compact compact,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotation,
+            final MediaType mediaType) {
+        return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
+    }
 }

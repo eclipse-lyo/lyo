@@ -15,7 +15,6 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
 
 public interface SampleAdaptorConstants {
@@ -36,6 +35,4 @@ public interface SampleAdaptorConstants {
     public static String TYPE_ANOTHERRESOURCE = SAMPLEDOMAIN_NAMSPACE + "AnotherResource";
 
     public static final String HDR_OSLC_VERSION = "OSLC-Core-Version";
-
 }
-

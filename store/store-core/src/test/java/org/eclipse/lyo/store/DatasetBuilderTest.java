@@ -21,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
-
 import org.apache.jena.query.Dataset;
 import org.eclipse.lyo.store.internals.DatasetBuilder;
 import org.junit.Ignore;
@@ -40,7 +39,6 @@ public class DatasetBuilderTest {
 
         assertThat(names).isExhausted();
     }
-
 
     @Ignore("Because of Gitlab CI container permissions")
     @Test(expected = IOException.class)

@@ -14,12 +14,13 @@
 
 package org.eclipse.lyo.oslc4j.core.model;
 
-import java.net.URI;
-import java.util.HashSet;
-import java.util.Set;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
+
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Test;
 
 public class LinkTest {
@@ -52,15 +53,21 @@ public class LinkTest {
     @Test
     public void testEqualsWorksInHashSet() throws Exception {
 
-        Set<Link> setA = new HashSet<>() {{
-            this.add(new Link(URI.create(URI_A), LABEL_A));
-            this.add(new Link(URI.create(URI_B), LABEL_B));
-        }};
+        Set<Link> setA =
+                new HashSet<>() {
+                    {
+                        this.add(new Link(URI.create(URI_A), LABEL_A));
+                        this.add(new Link(URI.create(URI_B), LABEL_B));
+                    }
+                };
 
-        Set<Link> setB = new HashSet<>() {{
-            this.add(new Link(URI.create(URI_B), LABEL_B));
-            this.add(new Link(URI.create(URI_A), LABEL_A));
-        }};
+        Set<Link> setB =
+                new HashSet<>() {
+                    {
+                        this.add(new Link(URI.create(URI_B), LABEL_B));
+                        this.add(new Link(URI.create(URI_A), LABEL_A));
+                    }
+                };
 
         assertThat(setA, equalTo(setB));
     }
@@ -68,14 +75,20 @@ public class LinkTest {
     @Test
     public void testEqualsWorksInHashSetWhenDifferent() throws Exception {
 
-        Set<Link> setA = new HashSet<>() {{
-            this.add(new Link(URI.create(URI_A), LABEL_A));
-            this.add(new Link(URI.create(URI_B), LABEL_B));
-        }};
+        Set<Link> setA =
+                new HashSet<>() {
+                    {
+                        this.add(new Link(URI.create(URI_A), LABEL_A));
+                        this.add(new Link(URI.create(URI_B), LABEL_B));
+                    }
+                };
 
-        Set<Link> setB = new HashSet<>() {{
-            this.add(new Link(URI.create(URI_A)));
-        }};
+        Set<Link> setB =
+                new HashSet<>() {
+                    {
+                        this.add(new Link(URI.create(URI_A)));
+                    }
+                };
 
         assertThat(setA, not(equalTo(setB)));
     }

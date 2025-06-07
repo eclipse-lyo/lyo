@@ -13,6 +13,14 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyReader;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,20 +44,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.eclipse.lyo.oslc4j.core.CoreHelper;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.ext.MessageBodyReader;
-import jakarta.ws.rs.ext.MessageBodyWriter;
-import jakarta.ws.rs.ext.Provider;
 
 /**
  *
@@ -58,25 +56,21 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
-public class OslcRdfXmlCollectionProvider
-	   extends AbstractOslcRdfXmlProvider
-	   implements MessageBodyReader<Collection<Object>>,
-				  MessageBodyWriter<Collection<Object>>
-{
-	private final static Logger log = LoggerFactory.getLogger(OslcRdfXmlCollectionProvider.class);
+public class OslcRdfXmlCollectionProvider extends AbstractOslcRdfXmlProvider
+        implements MessageBodyReader<Collection<Object>>, MessageBodyWriter<Collection<Object>> {
+    private static final Logger log = LoggerFactory.getLogger(OslcRdfXmlCollectionProvider.class);
 
-	public OslcRdfXmlCollectionProvider()
-	{
-		super();
-	}
+    public OslcRdfXmlCollectionProvider() {
+        super();
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?>	  type,
-							   final Type		  genericType,
-							   final Annotation[] annotations,
-							   final MediaType	  mediaType)
-	{
-		if (Collection.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) {
+    @Override
+    public boolean isWriteable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        if (Collection.class.isAssignableFrom(type) && genericType instanceof ParameterizedType) {
             final ParameterizedType parameterizedType = (ParameterizedType) genericType;
             final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
@@ -84,169 +78,155 @@ public class OslcRdfXmlCollectionProvider
                 Type firstTypeArg = actualTypeArguments[0];
                 if (firstTypeArg instanceof Class) {
                     if (log.isTraceEnabled()) {
-                        log.trace("isWritable() call on a generic type arg: <{}> (comptime)",
-                           CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                        log.trace(
+                                "isWritable() call on a generic type arg: <{}> (comptime)",
+                                CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
                     }
                     return true;
                 } else if (firstTypeArg instanceof TypeVariable) {
                     if (log.isTraceEnabled()) {
-                        log.trace("isWritable() call on a generic type arg: <{}> (runtime)",
-                            CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
+                        log.trace(
+                                "isWritable() call on a generic type arg: <{}> (runtime)",
+                                CoreHelper.getActualTypeArgument(firstTypeArg).getSimpleName());
                     }
                     return true;
                 }
                 return false;
-            }
-            else {
+            } else {
                 log.error("Collection type must have exactly one generic type");
             }
-		} else {
-            throw new IllegalArgumentException("This provider should only be applied to Collection<?>");
+        } else {
+            throw new IllegalArgumentException(
+                    "This provider should only be applied to Collection<?>");
         }
 
-		return false;
-	}
-
-	@Override
-	public void writeTo(final Collection<Object>			 collection,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		final ParameterizedType parameterizedType = (ParameterizedType) genericType;
-		final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-
-		writeTo(ProviderHelper.isQueryResult(CoreHelper.getActualTypeArgument(actualTypeArguments[0]), annotations),
-				collection.toArray(new Object[0]),
-				mediaType,
-				map,
-				outputStream);
-	}
+        return false;
+    }
 
     @Override
-	public boolean isReadable(final Class<?>	 type,
-							  final Type		 genericType,
-							  final Annotation[] annotations,
-							  final MediaType	 mediaType)
-	{
-		if ((Collection.class.isAssignableFrom(type)) &&
-			(genericType instanceof ParameterizedType))
-		{
-			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+    public void writeTo(
+            final Collection<Object> collection,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream)
+            throws IOException, WebApplicationException {
+        final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+        final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        writeTo(
+                ProviderHelper.isQueryResult(
+                        CoreHelper.getActualTypeArgument(actualTypeArguments[0]), annotations),
+                collection.toArray(new Object[0]),
+                mediaType,
+                map,
+                outputStream);
+    }
 
-			if (actualTypeArguments.length == 1)
-			{
-				final Type actualTypeArgument = actualTypeArguments[0];
+    @Override
+    public boolean isReadable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        if ((Collection.class.isAssignableFrom(type))
+                && (genericType instanceof ParameterizedType)) {
+            final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 
-				if (URI.class.equals(actualTypeArgument))
-				{
-					log.error("Support for reading Collection<URI> is not implemented");
-					return true;
-				}
+            final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-				if (actualTypeArgument instanceof Class)
-				{
-					return true;
-				}
-			}
-		}
+            if (actualTypeArguments.length == 1) {
+                final Type actualTypeArgument = actualTypeArguments[0];
 
-		return false;
-	}
+                if (URI.class.equals(actualTypeArgument)) {
+                    log.error("Support for reading Collection<URI> is not implemented");
+                    return true;
+                }
 
-	@Override
-	public Collection<Object> readFrom(final Class<Collection<Object>>		type,
-									   final Type							genericType,
-									   final Annotation[]					annotations,
-									   final MediaType						mediaType,
-									   final MultivaluedMap<String, String> map,
-									   final InputStream					inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		if (genericType instanceof ParameterizedType)
-		{
-			final ParameterizedType parameterizedType = (ParameterizedType) genericType;
+                if (actualTypeArgument instanceof Class) {
+                    return true;
+                }
+            }
+        }
 
-			final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        return false;
+    }
 
-			if (actualTypeArguments.length == 1)
-			{
-				final Type actualTypeArgument = actualTypeArguments[0];
+    @Override
+    public Collection<Object> readFrom(
+            final Class<Collection<Object>> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, String> map,
+            final InputStream inputStream)
+            throws IOException, WebApplicationException {
+        if (genericType instanceof ParameterizedType) {
+            final ParameterizedType parameterizedType = (ParameterizedType) genericType;
 
-				if (actualTypeArgument instanceof Class)
-				{
-					final Object[] objects = readFrom((Class<?>) actualTypeArgument,
-													  mediaType,
-													  map,
-													  inputStream);
+            final Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
-					final Collection<Object> collection;
+            if (actualTypeArguments.length == 1) {
+                final Type actualTypeArgument = actualTypeArguments[0];
 
-					// Handle the Collection, List, Deque, Queue interfaces.
-					// Handle the AbstractCollection, AbstractList, AbstractSequentialList classes
-					if ((Collection.class.equals(type)) ||
-						(List.class.equals(type))||
-						(Deque.class.equals(type)) ||
-						(Queue.class.equals(type)) ||
-						(AbstractCollection.class.equals(type)) ||
-						(AbstractList.class.equals(type)) ||
-						(AbstractSequentialList.class.equals(type)))
-					{
-						collection = new LinkedList<>();
-					}
-					// Handle the Set interface
-					// Handle the AbstractSet class
-					else if ((Set.class.equals(type)) ||
-							 (AbstractSet.class.equals(type)))
-					{
-						collection = new HashSet<>();
-					}
-					// Handle the SortedSet and NavigableSet interfaces
-					else if ((SortedSet.class.equals(type)) ||
-							 (NavigableSet.class.equals(type)))
-					{
-						collection = new TreeSet<>();
-					}
-					// Not handled above.  Let's try newInstance with possible failure.
-					else
-					{
-						try
-						{
-							@SuppressWarnings("cast")
-							final Collection<Object> tempCollection = type.newInstance();
+                if (actualTypeArgument instanceof Class) {
+                    final Object[] objects =
+                            readFrom((Class<?>) actualTypeArgument, mediaType, map, inputStream);
 
-							collection = tempCollection;
-						}
-						catch (final Exception exception)
-						{
-							throw new WebApplicationException(exception,
-															  buildBadRequestResponse(exception,
-																					  mediaType,
-																					  map));
-						}
-					}
+                    final Collection<Object> collection;
 
-					collection.addAll(Arrays.asList(objects));
+                    // Handle the Collection, List, Deque, Queue interfaces.
+                    // Handle the AbstractCollection, AbstractList, AbstractSequentialList classes
+                    if ((Collection.class.equals(type))
+                            || (List.class.equals(type))
+                            || (Deque.class.equals(type))
+                            || (Queue.class.equals(type))
+                            || (AbstractCollection.class.equals(type))
+                            || (AbstractList.class.equals(type))
+                            || (AbstractSequentialList.class.equals(type))) {
+                        collection = new LinkedList<>();
+                    }
+                    // Handle the Set interface
+                    // Handle the AbstractSet class
+                    else if ((Set.class.equals(type)) || (AbstractSet.class.equals(type))) {
+                        collection = new HashSet<>();
+                    }
+                    // Handle the SortedSet and NavigableSet interfaces
+                    else if ((SortedSet.class.equals(type)) || (NavigableSet.class.equals(type))) {
+                        collection = new TreeSet<>();
+                    }
+                    // Not handled above.  Let's try newInstance with possible failure.
+                    else {
+                        try {
+                            @SuppressWarnings("cast")
+                            final Collection<Object> tempCollection = type.newInstance();
 
-					return collection;
-				}
-			}
-		}
+                            collection = tempCollection;
+                        } catch (final Exception exception) {
+                            throw new WebApplicationException(
+                                    exception, buildBadRequestResponse(exception, mediaType, map));
+                        }
+                    }
 
-		return null;
-	}
+                    collection.addAll(Arrays.asList(objects));
 
-	@Override
-	public long getSize(final Collection<Object> collection, final Class<?> type,
-			final Type genericType, final Annotation[] annotation, final MediaType mediaType) {
-		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
-	}
+                    return collection;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public long getSize(
+            final Collection<Object> collection,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotation,
+            final MediaType mediaType) {
+        return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
+    }
 }

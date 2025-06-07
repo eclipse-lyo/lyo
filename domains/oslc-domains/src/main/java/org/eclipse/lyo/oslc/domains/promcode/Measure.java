@@ -19,47 +19,24 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
 
@@ -70,11 +47,11 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASURE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASURE_LOCALNAME)
-@OslcResourceShape(title = "Measure Shape", description = "A measure is an observation of some measurable aspect of an artifact.", describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
-public class Measure
-    extends AbstractResource
-    implements IMeasure
-{
+@OslcResourceShape(
+        title = "Measure Shape",
+        description = "A measure is an observation of some measurable aspect of an artifact.",
+        describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
+public class Measure extends AbstractResource implements IMeasure {
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -93,62 +70,60 @@ public class Measure
     // Start of user code attributeAnnotation:valueOfMeasure
     // End of user code
     private Float valueOfMeasure;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Measure()
-    {
+    public Measure() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Measure(final URI about)
-    {
+
+    public Measure(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.MEASURE_PATH,
-        Measure.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.MEASURE_PATH,
+                Measure.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Measure Resource} - update Measure.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Measure Resource} - update Measure.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -156,8 +131,7 @@ public class Measure
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -170,8 +144,7 @@ public class Measure
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -184,8 +157,7 @@ public class Measure
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -198,8 +170,7 @@ public class Measure
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getMetricOfMeasure()
-    {
+    public Link getMetricOfMeasure() {
         // Start of user code getterInit:metricOfMeasure
         // End of user code
         return metricOfMeasure;
@@ -212,8 +183,7 @@ public class Measure
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getUnitOfMeasure()
-    {
+    public Link getUnitOfMeasure() {
         // Start of user code getterInit:unitOfMeasure
         // End of user code
         return unitOfMeasure;
@@ -226,8 +196,7 @@ public class Measure
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Float)
     @OslcReadOnly(false)
-    public Float getValueOfMeasure()
-    {
+    public Float getValueOfMeasure() {
         // Start of user code getterInit:valueOfMeasure
         // End of user code
         return valueOfMeasure;
@@ -235,8 +204,7 @@ public class Measure
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -246,8 +214,7 @@ public class Measure
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -257,8 +224,7 @@ public class Measure
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -268,8 +234,7 @@ public class Measure
 
     // Start of user code setterAnnotation:metricOfMeasure
     // End of user code
-    public void setMetricOfMeasure(final Link metricOfMeasure )
-    {
+    public void setMetricOfMeasure(final Link metricOfMeasure) {
         // Start of user code setterInit:metricOfMeasure
         // End of user code
         this.metricOfMeasure = metricOfMeasure;
@@ -279,8 +244,7 @@ public class Measure
 
     // Start of user code setterAnnotation:unitOfMeasure
     // End of user code
-    public void setUnitOfMeasure(final Link unitOfMeasure )
-    {
+    public void setUnitOfMeasure(final Link unitOfMeasure) {
         // Start of user code setterInit:unitOfMeasure
         // End of user code
         this.unitOfMeasure = unitOfMeasure;
@@ -290,13 +254,11 @@ public class Measure
 
     // Start of user code setterAnnotation:valueOfMeasure
     // End of user code
-    public void setValueOfMeasure(final Float valueOfMeasure )
-    {
+    public void setValueOfMeasure(final Float valueOfMeasure) {
         // Start of user code setterInit:valueOfMeasure
         // End of user code
         this.valueOfMeasure = valueOfMeasure;
         // Start of user code setterFinalize:valueOfMeasure
         // End of user code
     }
-
 }

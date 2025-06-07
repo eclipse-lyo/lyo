@@ -16,6 +16,4 @@ package org.eclipse.lyo.core.query;
 /**
  * PName identifier from olsc.select of oslc.properties clause
  */
-public interface Identifier extends Property
-{
-}
+public interface Identifier extends Property {}

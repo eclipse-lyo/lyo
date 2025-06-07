@@ -16,7 +16,6 @@ package org.eclipse.lyo.store;
 
 import java.io.IOException;
 import java.util.Properties;
-
 import org.assertj.core.util.Strings;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,8 +29,10 @@ public class SparqlStoreImplIT extends StoreTestBase<SparqlStoreImpl> {
 
     @Override
     protected SparqlStoreImpl buildStore() {
-        final SparqlStoreImpl jenaSparqlStore = new SparqlStoreImpl(triplestore.getProperty(
-                SparqlStoreImplIT.SPARQL), triplestore.getProperty(SparqlStoreImplIT.SPARUL));
+        final SparqlStoreImpl jenaSparqlStore =
+                new SparqlStoreImpl(
+                        triplestore.getProperty(SparqlStoreImplIT.SPARQL),
+                        triplestore.getProperty(SparqlStoreImplIT.SPARUL));
         jenaSparqlStore.removeAll();
         return jenaSparqlStore;
     }
@@ -45,12 +46,14 @@ public class SparqlStoreImplIT extends StoreTestBase<SparqlStoreImpl> {
     @BeforeEach
     public void setUp() throws IOException {
         triplestore = new Properties();
-        triplestore.load(SparqlStoreImplIT.class.getClassLoader()
-                .getResourceAsStream("triplestore.properties"));
+        triplestore.load(
+                SparqlStoreImplIT.class
+                        .getClassLoader()
+                        .getResourceAsStream("triplestore.properties"));
         if (Strings.isNullOrEmpty(triplestore.getProperty(SparqlStoreImplIT.SPARQL))) {
             throw new IllegalStateException(
                     "triplestore.properties file needs to be filled before running "
-                    + "integration tests");
+                            + "integration tests");
         }
     }
 }

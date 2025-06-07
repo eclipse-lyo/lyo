@@ -1,5 +1,6 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
@@ -11,8 +12,6 @@ import java.util.stream.Collectors;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class InmemPagedTrsTest {
 
@@ -30,8 +29,8 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testEmptyLogWithBase() {
-        final InmemPagedTrs inmemPagedTrs = buildPagedTrs(Set.of(TRSTestUtil.dummyUri(), TRSTestUtil
-                .dummyUri()));
+        final InmemPagedTrs inmemPagedTrs =
+                buildPagedTrs(Set.of(TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri()));
 
         final Base base = inmemPagedTrs.getBaseResource(1);
         assertThat(base.getMembers()).hasSize(2);
@@ -39,10 +38,16 @@ public class InmemPagedTrsTest {
 
     @Test
     public void testEmptyLogWithPagedBase() {
-        final InmemPagedTrs inmemPagedTrs = buildPagedTrs(
-                Set.of(TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri(), TRSTestUtil
-                                .dummyUri(), TRSTestUtil.dummyUri(),
-                        TRSTestUtil.dummyUri(), TRSTestUtil.dummyUri()));
+        final InmemPagedTrs inmemPagedTrs =
+                buildPagedTrs(
+                        Set.of(
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri(),
+                                TRSTestUtil.dummyUri()));
 
         assertThat(inmemPagedTrs.basePageCount()).isEqualTo(2);
 
@@ -98,16 +103,16 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        assertThat(pagedTrs.getChangeLog(1)
-                .getChange()
-                .stream()
-                .map(e -> e.getOrder())
-                .collect(Collectors.toSet())).hasSize(5);
-        assertThat(pagedTrs.getChangeLog(2)
-                .getChange()
-                .stream()
-                .map(e -> e.getOrder())
-                .collect(Collectors.toSet())).hasSize(2);
+        assertThat(
+                        pagedTrs.getChangeLog(1).getChange().stream()
+                                .map(e -> e.getOrder())
+                                .collect(Collectors.toSet()))
+                .hasSize(5);
+        assertThat(
+                        pagedTrs.getChangeLog(2).getChange().stream()
+                                .map(e -> e.getOrder())
+                                .collect(Collectors.toSet()))
+                .hasSize(2);
     }
 
     @Test
@@ -123,16 +128,15 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        final Optional<BigInteger> firstPageOrderMax = pagedTrs.getChangeLog(1)
-                .getChange()
-                .stream()
-                .map(ChangeEvent::getOrder)
-                .max(BigInteger::compareTo);
-        assertThat(pagedTrs.getChangeLog(2)
-                .getChange()
-                .stream()
-                .filter(e -> e.getOrder().compareTo(firstPageOrderMax.get()) > 0)
-                .collect(Collectors.toSet())).hasSize(2);
+        final Optional<BigInteger> firstPageOrderMax =
+                pagedTrs.getChangeLog(1).getChange().stream()
+                        .map(ChangeEvent::getOrder)
+                        .max(BigInteger::compareTo);
+        assertThat(
+                        pagedTrs.getChangeLog(2).getChange().stream()
+                                .filter(e -> e.getOrder().compareTo(firstPageOrderMax.get()) > 0)
+                                .collect(Collectors.toSet()))
+                .hasSize(2);
     }
 
     @Test
@@ -148,7 +152,8 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        assertThat(pagedTrs.getChangeLog(2).getPrevious()).isEqualTo(pagedTrs.getChangeLog(1).getAbout());
+        assertThat(pagedTrs.getChangeLog(2).getPrevious())
+                .isEqualTo(pagedTrs.getChangeLog(1).getAbout());
     }
 
     @Test
@@ -168,12 +173,11 @@ public class InmemPagedTrsTest {
     }
 
     private InmemPagedTrs buildPagedTrs() {
-        return new InmemPagedTrs(5, 5, URI.create("http://localhost:1337/trs/"),
-                new ArrayList<>(0));
+        return new InmemPagedTrs(
+                5, 5, URI.create("http://localhost:1337/trs/"), new ArrayList<>(0));
     }
 
     private InmemPagedTrs buildPagedTrs(final Collection<URI> baseUris) {
         return new InmemPagedTrs(5, 5, URI.create("http://localhost:1337/trs/"), baseUris);
     }
-
 }

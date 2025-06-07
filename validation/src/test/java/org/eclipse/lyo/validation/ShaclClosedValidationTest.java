@@ -15,13 +15,11 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.shacl.ShaclShapeFactory;
@@ -58,13 +56,14 @@ public class ShaclClosedValidationTest {
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
 
-            Model dataModel = JenaModelHelper.createJenaModel(new Object[] { aResource });
+            Model dataModel = JenaModelHelper.createJenaModel(new Object[] {aResource});
             Shape shaclShape = ShaclShapeFactory.createShaclShape(AResource.class);
 
             // Removing "anIntegerProperty" from the ShaclShape properties.
-            shaclShape.removeProperty(new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anIntegerProperty"));
+            shaclShape.removeProperty(
+                    new URI(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE + "anIntegerProperty"));
             shaclShape.setClosed(true);
-            Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
+            Model shapeModel = JenaModelHelper.createJenaModel(new Object[] {shaclShape});
 
             Validator validator = ValidatorFactory.createShaclExValidator();
             ValidationReport vr = validator.validate(dataModel, shapeModel);
@@ -75,7 +74,6 @@ public class ShaclClosedValidationTest {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -99,5 +97,4 @@ public class ShaclClosedValidationTest {
             Assert.fail("Exception should not be thrown");
         }
     }
-
 }

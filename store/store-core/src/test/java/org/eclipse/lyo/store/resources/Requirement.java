@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -20,10 +19,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(Oslc_rmDomainConstants.REQUIREMENT_NAMESPACE)
 @OslcName(Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME)
-@OslcResourceShape(title = "Requirement Resource Shape", describes = Oslc_rmDomainConstants.REQUIREMENT_TYPE)
-public class Requirement
-    extends AbstractResource
-{
+@OslcResourceShape(
+        title = "Requirement Resource Shape",
+        describes = Oslc_rmDomainConstants.REQUIREMENT_TYPE)
+public class Requirement extends AbstractResource {
     private static final String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/";
 
     private String title;
@@ -34,48 +33,48 @@ public class Requirement
     private String stringProperty;
     private Integer intProperty;
 
-    public Requirement()
-           throws URISyntaxException
-    {
+    public Requirement() throws URISyntaxException {
         super();
     }
 
-    public Requirement(final URI about)
-           throws URISyntaxException
-    {
+    public Requirement(final URI about) throws URISyntaxException {
         super(about);
     }
 
     @OslcName("title")
     @OslcPropertyDefinition(DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
     @OslcName("description")
     @OslcPropertyDefinition(DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     @OslcName("identifier")
     @OslcPropertyDefinition(DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return identifier;
     }
 
@@ -85,8 +84,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCreated()
-    {
+    public Date getCreated() {
         return created;
     }
 
@@ -96,8 +94,7 @@ public class Requirement
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public HashSet<Link> getDecomposes()
-    {
+    public HashSet<Link> getDecomposes() {
         return decomposes;
     }
 
@@ -106,8 +103,7 @@ public class Requirement
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getStringProperty()
-    {
+    public String getStringProperty() {
         return stringProperty;
     }
 
@@ -116,50 +112,38 @@ public class Requirement
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Integer)
     @OslcReadOnly(false)
-    public Integer getIntProperty()
-    {
+    public Integer getIntProperty() {
         return intProperty;
     }
 
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         this.title = title;
-
     }
 
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         this.identifier = identifier;
     }
 
-
-    public void setCreated(final Date created )
-    {
+    public void setCreated(final Date created) {
         this.created = created;
     }
 
-    public void setDecomposes(final HashSet<Link> decomposes )
-    {
+    public void setDecomposes(final HashSet<Link> decomposes) {
         this.decomposes.clear();
-        if (decomposes != null)
-        {
+        if (decomposes != null) {
             this.decomposes.addAll(decomposes);
         }
     }
 
-    public void setStringProperty(final String stringProperty )
-    {
+    public void setStringProperty(final String stringProperty) {
         this.stringProperty = stringProperty;
     }
 
-    public void setIntProperty(final Integer intProperty )
-    {
+    public void setIntProperty(final Integer intProperty) {
         this.intProperty = intProperty;
     }
-
 }

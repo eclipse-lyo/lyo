@@ -20,6 +20,4 @@ import java.util.Map;
  * indicate that when selecting properties for output all immediate,
  * properties of the resource should be output
  */
-public interface SingletonWildcardProperties
-{
-}
+public interface SingletonWildcardProperties {}

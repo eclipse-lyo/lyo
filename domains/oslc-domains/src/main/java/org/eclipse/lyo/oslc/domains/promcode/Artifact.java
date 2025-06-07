@@ -19,49 +19,26 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.ManagedItem;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // Start of user code imports
 // End of user code
 
@@ -72,11 +49,11 @@ import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.ARTIFACT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ARTIFACT_LOCALNAME)
-@OslcResourceShape(title = "Artifact Shape", description = "Shape resource of an Artifact resource.", describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
-public class Artifact
-    extends ManagedItem
-    implements IArtifact
-{
+@OslcResourceShape(
+        title = "Artifact Shape",
+        description = "Shape resource of an Artifact resource.",
+        describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
+public class Artifact extends ManagedItem implements IArtifact {
     // Start of user code attributeAnnotation:isPartOf
     // End of user code
     private Link isPartOf;
@@ -86,72 +63,68 @@ public class Artifact
     // Start of user code attributeAnnotation:targets
     // End of user code
     private Set<Link> targets = new HashSet<Link>();
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Artifact()
-    {
+    public Artifact() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Artifact(final URI about)
-    {
+
+    public Artifact(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.ARTIFACT_PATH,
-        Artifact.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.ARTIFACT_PATH,
+                Artifact.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Artifact Resource} - update Artifact.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Artifact Resource} - update Artifact.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public void addProducedFor(final String producedFor)
-    {
+
+    public void addProducedFor(final String producedFor) {
         this.producedFor.add(producedFor);
     }
-    
-    public void addTargets(final Link targets)
-    {
+
+    public void addTargets(final Link targets) {
         this.targets.add(targets);
     }
-    
-    
+
     // Start of user code getterAnnotation:isPartOf
     // End of user code
     @OslcName("isPartOf")
@@ -160,8 +133,7 @@ public class Artifact
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
     @OslcReadOnly(false)
-    public Link getIsPartOf()
-    {
+    public Link getIsPartOf() {
         // Start of user code getterInit:isPartOf
         // End of user code
         return isPartOf;
@@ -173,10 +145,12 @@ public class Artifact
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
-    @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
-    public Set<String> getProducedFor()
-    {
+    public Set<String> getProducedFor() {
         // Start of user code getterInit:producedFor
         // End of user code
         return producedFor;
@@ -190,8 +164,7 @@ public class Artifact
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getTargets()
-    {
+    public Set<Link> getTargets() {
         // Start of user code getterInit:targets
         // End of user code
         return targets;
@@ -199,8 +172,7 @@ public class Artifact
 
     // Start of user code setterAnnotation:isPartOf
     // End of user code
-    public void setIsPartOf(final Link isPartOf )
-    {
+    public void setIsPartOf(final Link isPartOf) {
         // Start of user code setterInit:isPartOf
         // End of user code
         this.isPartOf = isPartOf;
@@ -210,13 +182,11 @@ public class Artifact
 
     // Start of user code setterAnnotation:producedFor
     // End of user code
-    public void setProducedFor(final Set<String> producedFor )
-    {
+    public void setProducedFor(final Set<String> producedFor) {
         // Start of user code setterInit:producedFor
         // End of user code
         this.producedFor.clear();
-        if (producedFor != null)
-        {
+        if (producedFor != null) {
             this.producedFor.addAll(producedFor);
         }
         // Start of user code setterFinalize:producedFor
@@ -225,17 +195,14 @@ public class Artifact
 
     // Start of user code setterAnnotation:targets
     // End of user code
-    public void setTargets(final Set<Link> targets )
-    {
+    public void setTargets(final Set<Link> targets) {
         // Start of user code setterInit:targets
         // End of user code
         this.targets.clear();
-        if (targets != null)
-        {
+        if (targets != null) {
             this.targets.addAll(targets);
         }
         // Start of user code setterFinalize:targets
         // End of user code
     }
-
 }

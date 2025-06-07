@@ -15,13 +15,11 @@ package org.eclipse.lyo.client;
 
 public class OslcClientFactory {
 
-    static public OslcOAuthClientBuilder oslcOAuthClientBuilder() {
+    public static OslcOAuthClientBuilder oslcOAuthClientBuilder() {
         return new OslcOAuthClientBuilder();
     }
 
-    static public OslcClientBuilder oslcClientBuilder() {
+    public static OslcClientBuilder oslcClientBuilder() {
         return new OslcClientBuilder();
     }
-
-
 }

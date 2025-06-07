@@ -12,16 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SparqlBatchingHandler implements IProviderEventHandler {
-    private final static Logger log = LoggerFactory.getLogger(
-            SparqlBatchingHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(SparqlBatchingHandler.class);
 
     private final List<String> queries = new ArrayList<>();
     private final String sparqlUpdateService;
     private final String sparql_baseAuth_userName;
     private final String sparql_baseAuth_pwd;
 
-    public SparqlBatchingHandler(final String sparqlUpdateService,
-            final String sparql_baseAuth_userName, final String sparql_baseAuth_pwd) {
+    public SparqlBatchingHandler(
+            final String sparqlUpdateService,
+            final String sparql_baseAuth_userName,
+            final String sparql_baseAuth_pwd) {
         this.sparqlUpdateService = sparqlUpdateService;
         this.sparql_baseAuth_userName = sparql_baseAuth_userName;
         this.sparql_baseAuth_pwd = sparql_baseAuth_pwd;
@@ -33,8 +34,11 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
         String finalQueryString = buildYugeQuery(queries);
         log.debug("sending Update SPARQL Query to server");
 
-        SparqlUtil.processQuery_sesame(finalQueryString, sparqlUpdateService,
-                sparql_baseAuth_userName, sparql_baseAuth_pwd);
+        SparqlUtil.processQuery_sesame(
+                finalQueryString,
+                sparqlUpdateService,
+                sparql_baseAuth_userName,
+                sparql_baseAuth_pwd);
         log.debug("Update SPARQL Queries successful!");
 
         queries.clear();
@@ -44,8 +48,8 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
     public void handleBaseMember(final BaseMember baseMember) {
         StringBuilder query = new StringBuilder();
         String graphCreationQuery = SparqlUtil.createGraphQuery(baseMember.getUri());
-        String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(baseMember.getUri(),
-                baseMember.getModel());
+        String addTriplesToGraphQuery =
+                SparqlUtil.addTriplesToGraphQuery(baseMember.getUri(), baseMember.getModel());
         query.append(graphCreationQuery);
         query.append("; \n");
         query.append(addTriplesToGraphQuery);
@@ -61,8 +65,8 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
             String query = SparqlUtil.getChangeEventQuery(event, null);
             queries.add(query);
         } else {
-            String query = SparqlUtil.getChangeEventQuery(event,
-                    eventMessageTR.getTrackedResourceModel());
+            String query =
+                    SparqlUtil.getChangeEventQuery(event, eventMessageTR.getTrackedResourceModel());
             queries.add(query);
         }
     }
@@ -80,9 +84,11 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
             queriesStringBuilder.append("; \n");
         }
 
-//          TODO  simply join instead of append - or check for the last element
-        queriesStringBuilder.replace(queriesStringBuilder.lastIndexOf("; \n"),
-                queriesStringBuilder.lastIndexOf("; \n") + 1, "");
+        //          TODO  simply join instead of append - or check for the last element
+        queriesStringBuilder.replace(
+                queriesStringBuilder.lastIndexOf("; \n"),
+                queriesStringBuilder.lastIndexOf("; \n") + 1,
+                "");
 
         // TODO Andrew@2018-02-28: this is a YUGE query that can crash everything
         // I think individual queries are better executed in the handlers

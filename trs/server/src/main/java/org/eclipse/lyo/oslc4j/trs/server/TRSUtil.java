@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFWriterI;
@@ -56,11 +54,11 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
  */
 public class TRSUtil {
     public static final SimpleDateFormat XSD_DATETIME_FORMAT;
-    public final static URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
+    public static final URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
     public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
 
-//    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparing(
-//            ChangeEvent::getOrder, BigInteger::compareTo).reversed();
+    //    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparing(
+    //            ChangeEvent::getOrder, BigInteger::compareTo).reversed();
 
     static {
         XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -75,13 +73,13 @@ public class TRSUtil {
      *
      * @return a list of rdf resources with the given type
      */
-    public static List<Resource> getResourcesWithTypeFromModel(Model model,
-            String fullQualifiedRDFTypeName) {
+    public static List<Resource> getResourcesWithTypeFromModel(
+            Model model, String fullQualifiedRDFTypeName) {
         List<Resource> resources = new ArrayList<>();
         ResIterator listSubjects = null;
-        listSubjects = model.listSubjectsWithProperty(
-                RDF.type,
-                model.getResource(fullQualifiedRDFTypeName));
+        listSubjects =
+                model.listSubjectsWithProperty(
+                        RDF.type, model.getResource(fullQualifiedRDFTypeName));
 
         for (final ResIterator resIterator = listSubjects; resIterator.hasNext(); ) {
             Resource resource = resIterator.next();
@@ -100,38 +98,39 @@ public class TRSUtil {
      * @return the list of change events found in the rdf model
      */
     public static List<ChangeEvent> getChangeEventsFromChangeLogJenaModel(Model changeLogJenaModel)
-            throws IllegalAccessException, IllegalArgumentException, InstantiationException,
-            InvocationTargetException, SecurityException, NoSuchMethodException,
-            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException {
         List<ChangeEvent> changeEvents = new ArrayList<>();
-        List<Resource> modificationResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                                                                             TRSConstants
-                                                                                     .TRS_TYPE_MODIFICATION);
-        List<Resource> creationResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                                                                         TRSConstants
-                                                                                 .TRS_TYPE_CREATION);
-        List<Resource> deletionResources = getResourcesWithTypeFromModel(changeLogJenaModel,
-                                                                         TRSConstants
-                                                                                 .TRS_TYPE_DELETION);
+        List<Resource> modificationResources =
+                getResourcesWithTypeFromModel(
+                        changeLogJenaModel, TRSConstants.TRS_TYPE_MODIFICATION);
+        List<Resource> creationResources =
+                getResourcesWithTypeFromModel(changeLogJenaModel, TRSConstants.TRS_TYPE_CREATION);
+        List<Resource> deletionResources =
+                getResourcesWithTypeFromModel(changeLogJenaModel, TRSConstants.TRS_TYPE_DELETION);
 
         for (Resource jenaRes : modificationResources) {
-            ChangeEvent changeEvent = (Modification) JenaModelHelper.fromJenaResource(
-                    jenaRes,
-                    Modification.class);
+            ChangeEvent changeEvent =
+                    (Modification) JenaModelHelper.fromJenaResource(jenaRes, Modification.class);
             changeEvents.add(changeEvent);
         }
 
         for (Resource jenaRes : creationResources) {
-            ChangeEvent changeEvent = (Creation) JenaModelHelper.fromJenaResource(
-                    jenaRes,
-                    Creation.class);
+            ChangeEvent changeEvent =
+                    (Creation) JenaModelHelper.fromJenaResource(jenaRes, Creation.class);
             changeEvents.add(changeEvent);
         }
 
         for (Resource jenaRes : deletionResources) {
-            ChangeEvent changeEvent = (Deletion) JenaModelHelper.fromJenaResource(
-                    jenaRes,
-                    Deletion.class);
+            ChangeEvent changeEvent =
+                    (Deletion) JenaModelHelper.fromJenaResource(jenaRes, Deletion.class);
             changeEvents.add(changeEvent);
         }
 
@@ -185,8 +184,7 @@ public class TRSUtil {
     public static HistoryData changeEventToHistoryData(ChangeEvent objToConvert) {
         ChangeEvent changeEvent = objToConvert;
         URI changed = changeEvent.getChanged();
-        Date modificationDate = (Date) changeEvent.getExtendedProperties()
-                                                  .get(dateModifiedQname);
+        Date modificationDate = (Date) changeEvent.getExtendedProperties().get(dateModifiedQname);
         HistoryData hd = null;
         if (changeEvent instanceof Deletion) {
             hd = HistoryData.getInstance(modificationDate, changed, HistoryData.DELETED);
@@ -209,9 +207,20 @@ public class TRSUtil {
         URI pageOf = nextPage.getPageOf().getAbout();
         StringBuilder sb = new StringBuilder();
         final String newline = "\n";
-        String headerValue = urize(pageOf.toString()) + "; rel=\"first\"," + newline + urize(
-                nextPage.getNextPage().toString()) + "; rel=\"next\"," + newline + "<http://www"
-                + "" + "" + "" + ".w3.org/ns/ldp#Page>; " + "rel=\"type\"" + newline;
+        String headerValue =
+                urize(pageOf.toString())
+                        + "; rel=\"first\","
+                        + newline
+                        + urize(nextPage.getNextPage().toString())
+                        + "; rel=\"next\","
+                        + newline
+                        + "<http://www"
+                        + ""
+                        + ""
+                        + ""
+                        + ".w3.org/ns/ldp#Page>; "
+                        + "rel=\"type\""
+                        + newline;
         return headerValue;
     }
 

@@ -13,21 +13,17 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "data",
-    "representationType"
-})
+@JsonPropertyOrder({"data", "representationType"})
 public class PropertyDefintion {
 
     /**
@@ -37,6 +33,7 @@ public class PropertyDefintion {
      */
     @JsonProperty("data")
     private Object data;
+
     /**
      *
      * (Required)
@@ -88,17 +85,20 @@ public class PropertyDefintion {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(PropertyDefintion.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(PropertyDefintion.class.getName())
+                .append('@')
+                .append(Integer.toHexString(System.identityHashCode(this)))
+                .append('[');
         sb.append("data");
         sb.append('=');
-        sb.append(((this.data == null)?"<null>":this.data));
+        sb.append(((this.data == null) ? "<null>" : this.data));
         sb.append(',');
         sb.append("representationType");
         sb.append('=');
-        sb.append(((this.representationType == null)?"<null>":this.representationType));
+        sb.append(((this.representationType == null) ? "<null>" : this.representationType));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -108,8 +108,12 @@ public class PropertyDefintion {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
-        result = ((result* 31)+((this.representationType == null)? 0 :this.representationType.hashCode()));
+        result = ((result * 31) + ((this.data == null) ? 0 : this.data.hashCode()));
+        result =
+                ((result * 31)
+                        + ((this.representationType == null)
+                                ? 0
+                                : this.representationType.hashCode()));
         return result;
     }
 
@@ -122,18 +126,19 @@ public class PropertyDefintion {
             return false;
         }
         PropertyDefintion rhs = ((PropertyDefintion) other);
-        return ((Objects.equals(this.data, rhs.data))&&(Objects.equals(this.representationType, rhs.representationType)));
+        return ((Objects.equals(this.data, rhs.data))
+                && (Objects.equals(this.representationType, rhs.representationType)));
     }
 
     public enum RepresentationType {
-
         TEXT("Text"),
         LINK("Link");
         private final String value;
-        private final static Map<String, PropertyDefintion.RepresentationType> CONSTANTS = new HashMap<>();
+        private static final Map<String, PropertyDefintion.RepresentationType> CONSTANTS =
+                new HashMap<>();
 
         static {
-            for (PropertyDefintion.RepresentationType c: values()) {
+            for (PropertyDefintion.RepresentationType c : values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -161,7 +166,5 @@ public class PropertyDefintion {
                 return constant;
             }
         }
-
     }
-
 }

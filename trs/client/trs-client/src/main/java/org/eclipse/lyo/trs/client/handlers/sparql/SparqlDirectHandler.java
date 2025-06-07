@@ -26,22 +26,21 @@ import org.slf4j.LoggerFactory;
 
 public class SparqlDirectHandler implements IProviderEventHandler {
 
-    private final static Logger log = LoggerFactory.getLogger(SparqlDirectHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(SparqlDirectHandler.class);
     private final String sparqlUpdateService;
 
-    public SparqlDirectHandler(
-            final String sparqlUpdateService) {this.sparqlUpdateService = sparqlUpdateService;}
+    public SparqlDirectHandler(final String sparqlUpdateService) {
+        this.sparqlUpdateService = sparqlUpdateService;
+    }
 
     @Override
-    public void finishCycle() {
-
-    }
+    public void finishCycle() {}
 
     @Override
     public void handleBaseMember(final BaseMember baseMember) {
         SparqlUtil.createGraph(baseMember.getUri().toString(), sparqlUpdateService);
-        SparqlUtil.addTriplesToNamedGraph(baseMember.getModel(), baseMember.getUri().toString(),
-                sparqlUpdateService);
+        SparqlUtil.addTriplesToNamedGraph(
+                baseMember.getModel(), baseMember.getUri().toString(), sparqlUpdateService);
     }
 
     @Override
@@ -55,11 +54,8 @@ public class SparqlDirectHandler implements IProviderEventHandler {
                 SparqlUtil.processChangeEvent(changeEvent, trsResourceModel, sparqlUpdateService);
             }
         }
-
     }
 
     @Override
-    public void rebase() {
-
-    }
+    public void rebase() {}
 }

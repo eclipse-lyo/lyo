@@ -13,6 +13,8 @@
  */
 package org.eclipse.lyo.trs.client;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +23,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
@@ -42,8 +43,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.junit.Assert.*;
 
 public class SparqlUtilTest {
 
@@ -85,9 +84,14 @@ public class SparqlUtilTest {
 
         try {
             File elvisModelFile = FileUtils.toFile(elvisModel);
-            InputStream in = new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()));
-            TDBLoader.load(TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, Lang.NTRIPLES,
-                true, true);
+            InputStream in =
+                    new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()));
+            TDBLoader.load(
+                    TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()),
+                    in,
+                    Lang.NTRIPLES,
+                    true,
+                    true);
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -197,8 +201,9 @@ public class SparqlUtilTest {
         String sparqlUpdate = SparqlUtil.getModificationEventQuery(graphName, defaultModelNTrip);
         executeUpdate(sparqlUpdate);
 
-        String statement = "<http://www.w3.org/People/EM/contact#me> <http://www" +
-                ".w3.org/2000/10/swap/pim/contact#fullName> \"Eric Miller\" .";
+        String statement =
+                "<http://www.w3.org/People/EM/contact#me> <http://www"
+                        + ".w3.org/2000/10/swap/pim/contact#fullName> \"Eric Miller\" .";
 
         String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, statement);
         executeUpdate(addTriplesToGraphQuery);
@@ -256,7 +261,6 @@ public class SparqlUtilTest {
         }
         dataset.commit();
         dataset.end();
-
     }
 
     private static void clear() {

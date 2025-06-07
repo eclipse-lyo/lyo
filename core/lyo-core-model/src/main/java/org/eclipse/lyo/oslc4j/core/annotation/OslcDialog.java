@@ -23,38 +23,38 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcDialog {
-	/**
-	 * Title string that could be used for display
-	 */
-	String title();
+    /**
+     * Title string that could be used for display
+     */
+    String title();
 
-	/**
-	 * Very short label for use in menu items
-	 */
-	String label() default "";
+    /**
+     * Very short label for use in menu items
+     */
+    String label() default "";
 
-	/**
-	 * The URI of the dialog
-	 */
-	String uri();
+    /**
+     * The URI of the dialog
+     */
+    String uri();
 
-	/**
-	 * Values MUST be expressed in relative length units.  Em and ex units are interpreted relative to the default system font (at 100% size).
-	 */
-	String hintWidth() default "";
+    /**
+     * Values MUST be expressed in relative length units.  Em and ex units are interpreted relative to the default system font (at 100% size).
+     */
+    String hintWidth() default "";
 
-	/**
-	 * Values MUST be expressed in relative length units.  Em and ex units are interpreted relative to the default system font (at 100% size).
-	 */
-	String hintHeight() default "";
+    /**
+     * Values MUST be expressed in relative length units.  Em and ex units are interpreted relative to the default system font (at 100% size).
+     */
+    String hintHeight() default "";
 
-	/**
-	 * Resource types
-	 */
-	String[] resourceTypes() default {};
+    /**
+     * Resource types
+     */
+    String[] resourceTypes() default {};
 
-	/**
-	 * Usages
-	 */
-	String[] usages() default {};
+    /**
+     * Usages
+     */
+    String[] usages() default {};
 }

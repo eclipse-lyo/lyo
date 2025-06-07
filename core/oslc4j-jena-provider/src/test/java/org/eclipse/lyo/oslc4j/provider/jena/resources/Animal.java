@@ -30,6 +30,4 @@ public class Animal extends AbstractResource implements Pet {
     public void eat() {
         System.out.println("Eating like an animal");
     }
-
-
 }

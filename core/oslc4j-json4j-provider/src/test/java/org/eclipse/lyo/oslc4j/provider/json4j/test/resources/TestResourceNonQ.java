@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.oslc4j.provider.json4j.test.resources;
 
+import java.net.URI;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -26,22 +27,21 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import java.net.URI;
-
 @OslcName("TestNonQ")
 @OslcNotQueryResult
 @OslcNamespace(TestResourceNonQ.TEST_NAMESPACE)
-@OslcResourceShape(title = "Test Resource (not a query result)", describes = TestResourceNonQ.TEST_RESOURCE_TYPE)
+@OslcResourceShape(
+        title = "Test Resource (not a query result)",
+        describes = TestResourceNonQ.TEST_RESOURCE_TYPE)
 public class TestResourceNonQ extends AbstractResource {
-	public final static String TEST_NAMESPACE = "http://example.com/ns#";
-	public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
+    public static final String TEST_NAMESPACE = "http://example.com/ns#";
+    public static final String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "Test";
 
     public TestResourceNonQ(URI about) {
         super(about);
     }
 
-    public TestResourceNonQ() {
-    }
+    public TestResourceNonQ() {}
 
     private String _aproperty;
 

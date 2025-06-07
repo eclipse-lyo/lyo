@@ -18,12 +18,11 @@ import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_N_TR
 import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_RDF_XML;
 import static org.eclipse.lyo.core.utils.marshallers.MarshallerConstants.MT_TURTLE;
 
+import jakarta.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFReaderI;
@@ -31,67 +30,73 @@ import org.apache.jena.util.FileUtils;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
-import jakarta.ws.rs.core.MediaType;
-
 public class OSLC4JUnmarshaller {
 
-	MediaType mediaType = MT_RDF_XML;
+    MediaType mediaType = MT_RDF_XML;
 
-	OSLC4JUnmarshaller(){}
+    OSLC4JUnmarshaller() {}
 
-	@SuppressWarnings("unchecked")
-	public <T> T unmarshal(InputStream inputStream, Class<T> clazz) throws IllegalArgumentException, SecurityException, DatatypeConfigurationException, IllegalAccessException, InstantiationException, InvocationTargetException, OslcCoreApplicationException, URISyntaxException, NoSuchMethodException{
-		final Model model = ModelFactory.createDefaultModel();
-		final RDFReaderI reader = getReader(model);
-		if (reader == null) { // unsupported media type
-			return null;
-		}
+    @SuppressWarnings("unchecked")
+    public <T> T unmarshal(InputStream inputStream, Class<T> clazz)
+            throws IllegalArgumentException,
+                    SecurityException,
+                    DatatypeConfigurationException,
+                    IllegalAccessException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    NoSuchMethodException {
+        final Model model = ModelFactory.createDefaultModel();
+        final RDFReaderI reader = getReader(model);
+        if (reader == null) { // unsupported media type
+            return null;
+        }
 
-		// Pass the empty string as the base URI. This allows Jena to
-		// resolve relative URIs commonly used to in reified statements
-		// for OSLC link labels. See this section of the CM specification
-		// for an example:
-		// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
-		reader.read(model,
-				inputStream,
-				"");
+        // Pass the empty string as the base URI. This allows Jena to
+        // resolve relative URIs commonly used to in reified statements
+        // for OSLC link labels. See this section of the CM specification
+        // for an example:
+        // http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+        reader.read(model, inputStream, "");
 
-		Object[] result = JenaModelHelper.fromJenaModel(model, clazz);
+        Object[] result = JenaModelHelper.fromJenaModel(model, clazz);
 
-		T ret = null;
+        T ret = null;
 
-		if(result != null && result.length > 0){
-			ret = (T)result[0];
-		}
+        if (result != null && result.length > 0) {
+            ret = (T) result[0];
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 
-	private RDFReaderI getReader(final Model model) {
-		if (mediaType.isCompatible(MT_RDF_XML) || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
-			return model.getReader(); // Default reader handles both xml and abbreviated xml
-		}
+    private RDFReaderI getReader(final Model model) {
+        if (mediaType.isCompatible(MT_RDF_XML)
+                || mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
+            return model.getReader(); // Default reader handles both xml and abbreviated xml
+        }
 
-		if (mediaType.isCompatible(MT_N_TRIPLES)) {
-			return model.getReader(FileUtils.langNTriple);
-		}
+        if (mediaType.isCompatible(MT_N_TRIPLES)) {
+            return model.getReader(FileUtils.langNTriple);
+        }
 
-		if (mediaType.isCompatible(MT_N3)) {
-			return model.getReader(FileUtils.langN3);
-		}
+        if (mediaType.isCompatible(MT_N3)) {
+            return model.getReader(FileUtils.langN3);
+        }
 
-		if (mediaType.isCompatible(MT_TURTLE)) {
-			return model.getReader(FileUtils.langTurtle);
-		}
+        if (mediaType.isCompatible(MT_TURTLE)) {
+            return model.getReader(FileUtils.langTurtle);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public MediaType getMediaType() {
-		return mediaType;
-	}
+    public MediaType getMediaType() {
+        return mediaType;
+    }
 
-	public void setMediaType(MediaType mediaType) {
-		this.mediaType = mediaType;
-	}
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
 }

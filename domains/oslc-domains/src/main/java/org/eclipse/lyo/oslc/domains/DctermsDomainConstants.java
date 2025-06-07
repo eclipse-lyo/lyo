@@ -16,14 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-
 // Start of user code imports
 // End of user code
 
-public interface DctermsDomainConstants
-{
+public interface DctermsDomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -32,8 +28,13 @@ public interface DctermsDomainConstants
      */
     @Deprecated(since = "5.0.1")
     public static String DUBLIN_CORE_DOMAIN = "http://purl.org/dc/terms/";
-    public static String DUBLIN_CORE_DOMAIN_NAME = "Dublin Core";
-    public static String DUBLIN_CORE_NAMSPACE = "http://purl.org/dc/terms/"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
-    public static String DUBLIN_CORE_NAMSPACE_PREFIX = "dcterms"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
+    public static String DUBLIN_CORE_DOMAIN_NAME = "Dublin Core";
+    public static String DUBLIN_CORE_NAMSPACE =
+            "http://purl.org/dc/terms/"; // Vocabulary namespace for the resources and resource
+    // properties, when no explicit vocabulary (describes, or
+    // propertyDefinition) is defined
+    public static String DUBLIN_CORE_NAMSPACE_PREFIX =
+            "dcterms"; // Vocabulary prefix for the resources and resource properties, when no
+    // explicit vocabulary (describes, or propertyDefinition) is defined
 }

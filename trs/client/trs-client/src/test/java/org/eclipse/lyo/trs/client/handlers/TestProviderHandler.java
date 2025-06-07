@@ -19,22 +19,14 @@ import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 
 public class TestProviderHandler implements IProviderEventHandler {
     @Override
-    public void finishCycle() {
-
-    }
+    public void finishCycle() {}
 
     @Override
-    public void handleBaseMember(final BaseMember baseMember) {
-
-    }
+    public void handleBaseMember(final BaseMember baseMember) {}
 
     @Override
-    public void handleChangeEvent(final ChangeEventMessageTR eventMessageTR) {
-
-    }
+    public void handleChangeEvent(final ChangeEventMessageTR eventMessageTR) {}
 
     @Override
-    public void rebase() {
-
-    }
+    public void rebase() {}
 }

@@ -38,6 +38,7 @@ public class Container extends AbstractResource {
     public final String getName() {
         return name;
     }
+
     /**
      * Sets the name of this artifact.
      * @param name the name of this artifact.
@@ -55,7 +56,6 @@ public class Container extends AbstractResource {
     public void setChildrenL(List<Element> children) {
         this.children = children;
     }
-
 
     @OslcRdfCollectionType(collectionType = OslcRdfCollectionType.RDF_BAG)
     @OslcPropertyDefinition("http://locahost:7001/vocabulary/childrenB")
@@ -86,5 +86,4 @@ public class Container extends AbstractResource {
     public void setChildrenS(List<Element> children) {
         this.children = children;
     }
-
 }

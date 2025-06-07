@@ -14,10 +14,10 @@
 
 package org.eclipse.lyo.trs.client.util;
 
+import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.client.IOslcClient;
 import org.eclipse.lyo.core.trs.Base;
@@ -31,13 +31,13 @@ import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.ws.rs.core.Response;
-
 public class TrackedResourceClient implements ITrackedResourceClient {
     private static final Logger log = LoggerFactory.getLogger(TrackedResourceClient.class);
     private final IOslcClient oslcClient;
 
-    public TrackedResourceClient(final IOslcClient oslcClient) {this.oslcClient = oslcClient;}
+    public TrackedResourceClient(final IOslcClient oslcClient) {
+        this.oslcClient = oslcClient;
+    }
 
     @Override
     public Model fetchTRSRemoteResource(final URI uri) throws RepresentationRetrievalException {
@@ -48,7 +48,7 @@ public class TrackedResourceClient implements ITrackedResourceClient {
             // TODO Andrew@2019-07-15: switch to extractModel
             resource = (Model) ClientUtil.extractResourceFromResponse(response, Model.class);
             response.close();
-            if(resource != null) {
+            if (resource != null) {
                 return resource;
             } else {
                 throw new RepresentationRetrievalException("Empty model was retrieved");
@@ -65,7 +65,6 @@ public class TrackedResourceClient implements ITrackedResourceClient {
             throw new RepresentationRetrievalException(e);
         }
     }
-
 
     /**
      * Return a list of base objects corresponding to the pages of the base
@@ -105,8 +104,10 @@ public class TrackedResourceClient implements ITrackedResourceClient {
 
     @Override
     public ChangeLog fetchRemoteChangeLog(URI changeLogURl)
-            throws IllegalArgumentException, SecurityException, LyoModelException,
-            RepresentationRetrievalException {
+            throws IllegalArgumentException,
+                    SecurityException,
+                    LyoModelException,
+                    RepresentationRetrievalException {
         Model rdfModel = fetchTRSRemoteResource(changeLogURl);
         return ClientUtil.extractChangeLogFromRdfModel(rdfModel);
     }

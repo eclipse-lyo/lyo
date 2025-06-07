@@ -21,7 +21,6 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFLanguages;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelperTest;
 
 /**
  * @version $version-stub$
@@ -38,15 +37,14 @@ public class RDFHelper {
     public static Model loadResourceModel(final String fileName) throws IOException {
         final Model model;
         model = ModelFactory.createDefaultModel();
-        try (InputStream s = RDFHelper.class.getClassLoader().getResourceAsStream
-                (fileName)) {
+        try (InputStream s = RDFHelper.class.getClassLoader().getResourceAsStream(fileName)) {
             RDFDataMgr.read(model, s, RDFLanguages.filenameToLang(fileName));
-//            RDFParser.create()
-//                     .source(s)
-//                     .lang(RDFLanguages.filenameToLang(fileName))
-//                     .errorHandler(ErrorHandlerFactory.errorHandlerStrict)
-////                     .base("http://example/base")
-//                     .parse(graph);
+            //            RDFParser.create()
+            //                     .source(s)
+            //                     .lang(RDFLanguages.filenameToLang(fileName))
+            //                     .errorHandler(ErrorHandlerFactory.errorHandlerStrict)
+            ////                     .base("http://example/base")
+            //                     .parse(graph);
 
         }
         return model;

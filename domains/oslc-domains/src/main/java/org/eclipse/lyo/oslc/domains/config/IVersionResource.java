@@ -16,76 +16,62 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.IAgent;
-import org.eclipse.lyo.oslc.domains.config.IComponent;
-import org.eclipse.lyo.oslc.domains.config.IConceptResource;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc.domains.config.IVersionResource;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_configDomainConstants.VERSIONRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.VERSIONRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "VersionResource Shape", describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
-public interface IVersionResource
-{
+@OslcResourceShape(
+        title = "VersionResource Shape",
+        describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
+public interface IVersionResource {
 
-    public void addContributor(final Link contributor );
-    public void addCreator(final Link creator );
-    public void addSubject(final String subject );
-    public void addCommitter(final Link committer );
-    public void addInstanceShape(final Link instanceShape );
-    public void addModifiedBy(final Link modifiedBy );
-    public void addServiceProvider(final Link serviceProvider );
-    public void addWasDerivedFrom(final Link wasDerivedFrom );
-    public void addWasRevisionOf(final Link wasRevisionOf );
+    public void addContributor(final Link contributor);
+
+    public void addCreator(final Link creator);
+
+    public void addSubject(final String subject);
+
+    public void addCommitter(final Link committer);
+
+    public void addInstanceShape(final Link instanceShape);
+
+    public void addModifiedBy(final Link modifiedBy);
+
+    public void addServiceProvider(final Link serviceProvider);
+
+    public void addWasDerivedFrom(final Link wasDerivedFrom);
+
+    public void addWasRevisionOf(final Link wasRevisionOf);
 
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "Contributor or contributors to the resource. The link target is usually a foaf:Person"
+                    + " or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
@@ -102,7 +88,9 @@ public interface IVersionResource
 
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type")
+    @OslcDescription(
+            "Creator or creators of the resource. The link target is usually a foaf:Person or"
+                    + " foaf:Agent, but could be any type")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
@@ -111,7 +99,9 @@ public interface IVersionResource
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -119,7 +109,10 @@ public interface IVersionResource
 
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -127,7 +120,9 @@ public interface IVersionResource
 
     @OslcName("isVersionOf")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isVersionOf")
-    @OslcDescription("The concept resource of which this resource is a version. The subject of this property must be the version resource URI.")
+    @OslcDescription(
+            "The concept resource of which this resource is a version. The subject of this property"
+                    + " must be the version resource URI.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
@@ -145,7 +140,9 @@ public interface IVersionResource
 
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
+    @OslcDescription(
+            "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes"
+                    + " an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -154,22 +151,28 @@ public interface IVersionResource
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getTitle();
 
     @OslcName("committed")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
-    @OslcDescription("Date and time this version resource was checked in. Absent for mutable (checked out) versions.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
+    @OslcDescription(
+            "Date and time this version resource was checked in. Absent for mutable (checked out)"
+                    + " versions.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
     public Date getCommitted();
 
     @OslcName("committer")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
     @OslcDescription("The entity that checked in this version.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -178,8 +181,12 @@ public interface IVersionResource
     public Set<Link> getCommitter();
 
     @OslcName("component")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "component")
-    @OslcDescription("The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "component")
+    @OslcDescription(
+            "The component to which this version belongs. Configuration Management provider should"
+                    + " indicate the owning component for each version resource using either this"
+                    + " property, or using the membership relationship from the component LDPC.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.COMPONENT_TYPE})
@@ -187,8 +194,14 @@ public interface IVersionResource
     public Link getComponent();
 
     @OslcName("versionId")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "versionId")
-    @OslcDescription("A short human-readable identifier for the version of a resource. All versioned resources should have this property; where the property is present, this identifier must be unique amongst all currently existing versions of the same concept resource. The subject of this property should be the concept resource URI.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "versionId")
+    @OslcDescription(
+            "A short human-readable identifier for the version of a resource. All versioned"
+                + " resources should have this property; where the property is present, this"
+                + " identifier must be unique amongst all currently existing versions of the same"
+                + " concept resource. The subject of this property should be the concept resource"
+                + " URI.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -203,7 +216,13 @@ public interface IVersionResource
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
+    @OslcDescription(
+            "The URI of a Resource Shape that describes the possible properties, occurrence, value"
+                + " types, allowed values and labels. This shape information is useful in"
+                + " displaying the subject resource as well as guiding clients in performing"
+                + " modifications. Instance shapes may be specific to the authenticated user"
+                + " associated with the request that retrieved the resource, the current state of"
+                + " the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
@@ -212,7 +231,9 @@ public interface IVersionResource
 
     @OslcName("modifiedBy")
     @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
-    @OslcDescription("The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "The entity that most recently modified the subject resource. The link target is"
+                    + " usually a foaf:Person or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.AGENT_TYPE, FoafDomainConstants.PERSON_TYPE})
@@ -221,7 +242,10 @@ public interface IVersionResource
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
+    @OslcDescription(
+            "A link to the resource's OSLC Service Provider. There may be cases when the subject"
+                + " resource is available from a service provider that implements multiple domain"
+                + " specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
@@ -238,7 +262,10 @@ public interface IVersionResource
 
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Shorter form of dcterms:title for the resource represented as rich text in XHTML"
+                    + " content. SHOULD include only content that is valid inside an XHTML <span>"
+                    + " element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -264,27 +291,45 @@ public interface IVersionResource
     @OslcReadOnly(false)
     public Set<Link> getWasRevisionOf();
 
+    public void setContributor(final Set<Link> contributor);
 
-    public void setContributor(final Set<Link> contributor );
-    public void setCreated(final Date created );
-    public void setCreator(final Set<Link> creator );
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setIsVersionOf(final Link isVersionOf );
-    public void setModified(final Date modified );
-    public void setSubject(final Set<String> subject );
-    public void setTitle(final String title );
-    public void setCommitted(final Date committed );
-    public void setCommitter(final Set<Link> committer );
-    public void setComponent(final Link component );
-    public void setVersionId(final String versionId );
-    public void setArchived(final Boolean archived );
-    public void setInstanceShape(final Set<Link> instanceShape );
-    public void setModifiedBy(final Set<Link> modifiedBy );
-    public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setShortId(final String shortId );
-    public void setShortTitle(final String shortTitle );
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom );
-    public void setWasRevisionOf(final Set<Link> wasRevisionOf );
+    public void setCreated(final Date created);
+
+    public void setCreator(final Set<Link> creator);
+
+    public void setDescription(final String description);
+
+    public void setIdentifier(final String identifier);
+
+    public void setIsVersionOf(final Link isVersionOf);
+
+    public void setModified(final Date modified);
+
+    public void setSubject(final Set<String> subject);
+
+    public void setTitle(final String title);
+
+    public void setCommitted(final Date committed);
+
+    public void setCommitter(final Set<Link> committer);
+
+    public void setComponent(final Link component);
+
+    public void setVersionId(final String versionId);
+
+    public void setArchived(final Boolean archived);
+
+    public void setInstanceShape(final Set<Link> instanceShape);
+
+    public void setModifiedBy(final Set<Link> modifiedBy);
+
+    public void setServiceProvider(final Set<Link> serviceProvider);
+
+    public void setShortId(final String shortId);
+
+    public void setShortTitle(final String shortTitle);
+
+    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom);
+
+    public void setWasRevisionOf(final Set<Link> wasRevisionOf);
 }
-

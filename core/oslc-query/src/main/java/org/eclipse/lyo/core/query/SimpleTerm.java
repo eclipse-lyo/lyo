@@ -17,21 +17,19 @@ package org.eclipse.lyo.core.query;
 /**
  * simple term from oslc.where clause
  */
-public interface SimpleTerm
-{
-	enum Type
-	{
-		COMPARISON,
-		IN_TERM,
-		NESTED,
-		TOP_LEVEL;
-	}
-	
-	Type type();
-	
-	/**
-	 * @return type of simple term.	 When {@link CompoundTerm}
-	 * return <code>null</code>.
-	 */
-	PName property();
+public interface SimpleTerm {
+    enum Type {
+        COMPARISON,
+        IN_TERM,
+        NESTED,
+        TOP_LEVEL;
+    }
+
+    Type type();
+
+    /**
+     * @return type of simple term.	 When {@link CompoundTerm}
+     * return <code>null</code>.
+     */
+    PName property();
 }

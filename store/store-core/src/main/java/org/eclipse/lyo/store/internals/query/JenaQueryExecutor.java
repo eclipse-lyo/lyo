@@ -65,7 +65,10 @@ public interface JenaQueryExecutor {
     void release();
 
     void beginWrite();
+
     void beginRead();
+
     void commit();
+
     void end();
 }

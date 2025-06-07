@@ -1,7 +1,5 @@
 package org.eclipse.lyo.store.internals.query;
 
-import static org.apache.jena.http.HttpLib.basicAuth;
-
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
@@ -15,6 +13,8 @@ import static org.apache.jena.http.HttpLib.basicAuth;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
+
+import static org.apache.jena.http.HttpLib.basicAuth;
 
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
@@ -40,8 +40,11 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
     private final String login;
     private final String password;
 
-    public SparqlQueryExecutorBasicAuthImpl(final String sparqlEndpoint,
-            final String updateEndpoint, final String login, final String password) {
+    public SparqlQueryExecutorBasicAuthImpl(
+            final String sparqlEndpoint,
+            final String updateEndpoint,
+            final String login,
+            final String password) {
         this.queryEndpoint = sparqlEndpoint;
         this.updateEndpoint = updateEndpoint;
         this.login = login;
@@ -51,19 +54,19 @@ public class SparqlQueryExecutorBasicAuthImpl implements JenaQueryExecutor {
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
         return QueryExecutionHTTPBuilder.create()
-            .endpoint(queryEndpoint)
-            .httpHeader("Authorization", basicAuth(login, password))
-            .query(query)
-            .build();
+                .endpoint(queryEndpoint)
+                .httpHeader("Authorization", basicAuth(login, password))
+                .query(query)
+                .build();
     }
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
         return UpdateExecutionHTTPBuilder.create()
-            .endpoint(updateEndpoint)
-            .httpHeader("Authorization", basicAuth(login, password))
-            .update(updateRequest)
-            .build();
+                .endpoint(updateEndpoint)
+                .httpHeader("Authorization", basicAuth(login, password))
+                .update(updateRequest)
+                .build();
     }
 
     @Override

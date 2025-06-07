@@ -16,28 +16,24 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class JenaSimpleProvidersRegistry
-{
-	private static final Set<Class<?>> PROVIDERS = new HashSet<>();
+public final class JenaSimpleProvidersRegistry {
+    private static final Set<Class<?>> PROVIDERS = new HashSet<>();
 
-	static
-	{
-		PROVIDERS.add(OslcCompactRdfProvider.class);
-		PROVIDERS.add(OslcSimpleRdfXmlArrayProvider.class);
-		PROVIDERS.add(OslcSimpleRdfXmlCollectionProvider.class);
-		PROVIDERS.add(OslcRdfXmlProvider.class);
-	}
+    static {
+        PROVIDERS.add(OslcCompactRdfProvider.class);
+        PROVIDERS.add(OslcSimpleRdfXmlArrayProvider.class);
+        PROVIDERS.add(OslcSimpleRdfXmlCollectionProvider.class);
+        PROVIDERS.add(OslcRdfXmlProvider.class);
+    }
 
-	private JenaSimpleProvidersRegistry()
-	{
-		super();
-	}
+    private JenaSimpleProvidersRegistry() {
+        super();
+    }
 
-	/**
-	 * Returns a mutable set of provider classes.  Each request returns a new Set.
-	 */
-	public static final Set<Class<?>> getProviders()
-	{
-		return new HashSet<>(PROVIDERS);
-	}
+    /**
+     * Returns a mutable set of provider classes.  Each request returns a new Set.
+     */
+    public static final Set<Class<?>> getProviders() {
+        return new HashSet<>(PROVIDERS);
+    }
 }

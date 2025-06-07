@@ -14,35 +14,37 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 import java.lang.reflect.Method;
-
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 public final class OslcCoreInvalidValueTypeException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = -989384752764371312L;
+    private static final long serialVersionUID = -989384752764371312L;
 
-	private static final String MESSAGE_KEY = "InvalidValueTypeException";
+    private static final String MESSAGE_KEY = "InvalidValueTypeException";
 
-	private final Method	method;
-	private final Class<?>	resourceClass;
-	private final ValueType valueType;
+    private final Method method;
+    private final Class<?> resourceClass;
+    private final ValueType valueType;
 
-	public OslcCoreInvalidValueTypeException(final Class<?> resourceClass, final Method method, final ValueType valueType) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName(), valueType.toString()});
+    public OslcCoreInvalidValueTypeException(
+            final Class<?> resourceClass, final Method method, final ValueType valueType) {
+        super(
+                MESSAGE_KEY,
+                new Object[] {resourceClass.getName(), method.getName(), valueType.toString()});
 
-		this.method		   = method;
-		this.resourceClass = resourceClass;
-		this.valueType	   = valueType;
-	}
+        this.method = method;
+        this.resourceClass = resourceClass;
+        this.valueType = valueType;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 
-	public ValueType getValueType() {
-		return valueType;
-	}
+    public ValueType getValueType() {
+        return valueType;
+    }
 }

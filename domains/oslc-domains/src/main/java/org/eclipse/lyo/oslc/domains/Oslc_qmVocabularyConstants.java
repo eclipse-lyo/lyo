@@ -16,13 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
 // Start of user code imports
 // End of user code
 
-public interface Oslc_qmVocabularyConstants
-{
+public interface Oslc_qmVocabularyConstants {
     // Start of user code user constants
     // End of user code
 
@@ -32,7 +29,8 @@ public interface Oslc_qmVocabularyConstants
     public static String TESTCASE = "TestCase";
     public static String TYPE_TESTCASE = QUALITY_MANAGEMENT_NAMSPACE + TESTCASE;
     public static String TESTEXECUTIONRECORD = "TestExecutionRecord";
-    public static String TYPE_TESTEXECUTIONRECORD = QUALITY_MANAGEMENT_NAMSPACE + TESTEXECUTIONRECORD;
+    public static String TYPE_TESTEXECUTIONRECORD =
+            QUALITY_MANAGEMENT_NAMSPACE + TESTEXECUTIONRECORD;
     public static String TESTPLAN = "TestPlan";
     public static String TYPE_TESTPLAN = QUALITY_MANAGEMENT_NAMSPACE + TESTPLAN;
     public static String TESTRESULT = "TestResult";

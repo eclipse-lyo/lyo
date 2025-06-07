@@ -19,8 +19,7 @@ package org.eclipse.lyo.store.resources;
 // Start of user code imports
 // End of user code
 
-public interface Nsp1DomainConstants
-{
+public interface Nsp1DomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -29,15 +28,29 @@ public interface Nsp1DomainConstants
     public static String TESTDOMAIN_NAMSPACE_PREFIX = "nsp1";
 
     public static String BLANKRESOURCE_PATH = "blankResource";
-    public static String BLANKRESOURCE_NAMESPACE = TESTDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String BLANKRESOURCE_LOCALNAME = "BlankResource"; //localName of the rdfs:class the resource describes
-    public static String BLANKRESOURCE_TYPE = BLANKRESOURCE_NAMESPACE + BLANKRESOURCE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String BLANKRESOURCE_NAMESPACE =
+            TESTDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String BLANKRESOURCE_LOCALNAME =
+            "BlankResource"; // localName of the rdfs:class the resource describes
+    public static String BLANKRESOURCE_TYPE =
+            BLANKRESOURCE_NAMESPACE
+                    + BLANKRESOURCE_LOCALNAME; // fullname of the rdfs:class the resource describes
     public static String WITHBLANKRESOURCE_PATH = "withBlankResource";
-    public static String WITHBLANKRESOURCE_NAMESPACE = TESTDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String WITHBLANKRESOURCE_LOCALNAME = "WithBlankResource"; //localName of the rdfs:class the resource describes
-    public static String WITHBLANKRESOURCE_TYPE = WITHBLANKRESOURCE_NAMESPACE + WITHBLANKRESOURCE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String WITHBLANKRESOURCE_NAMESPACE =
+            TESTDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String WITHBLANKRESOURCE_LOCALNAME =
+            "WithBlankResource"; // localName of the rdfs:class the resource describes
+    public static String WITHBLANKRESOURCE_TYPE =
+            WITHBLANKRESOURCE_NAMESPACE
+                    + WITHBLANKRESOURCE_LOCALNAME; // fullname of the rdfs:class the resource
+    // describes
     public static String WITHTWODEPTHBLANKRESOURCE_PATH = "withTwoDepthBlankResource";
-    public static String WITHTWODEPTHBLANKRESOURCE_NAMESPACE = TESTDOMAIN_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String WITHTWODEPTHBLANKRESOURCE_LOCALNAME = "WithTwoDepthBlankResource"; //localName of the rdfs:class the resource describes
-    public static String WITHTWODEPTHBLANKRESOURCE_TYPE = WITHTWODEPTHBLANKRESOURCE_NAMESPACE + WITHTWODEPTHBLANKRESOURCE_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String WITHTWODEPTHBLANKRESOURCE_NAMESPACE =
+            TESTDOMAIN_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String WITHTWODEPTHBLANKRESOURCE_LOCALNAME =
+            "WithTwoDepthBlankResource"; // localName of the rdfs:class the resource describes
+    public static String WITHTWODEPTHBLANKRESOURCE_TYPE =
+            WITHTWODEPTHBLANKRESOURCE_NAMESPACE
+                    + WITHTWODEPTHBLANKRESOURCE_LOCALNAME; // fullname of the rdfs:class the
+    // resource describes
 }

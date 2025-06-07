@@ -16,7 +16,6 @@ package org.eclipse.lyo.core.query;
 /**
  * Boolean literal operand from olsc.where clause
  */
-public interface BooleanValue extends Value
-{
-	boolean value();
+public interface BooleanValue extends Value {
+    boolean value();
 }

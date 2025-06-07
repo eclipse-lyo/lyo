@@ -1,12 +1,11 @@
 package org.eclipse.lyo.core.trs;
 
+import java.io.ByteArrayOutputStream;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.ByteArrayOutputStream;
 
 public class Helper {
     private static final Logger log = LoggerFactory.getLogger(Helper.class);

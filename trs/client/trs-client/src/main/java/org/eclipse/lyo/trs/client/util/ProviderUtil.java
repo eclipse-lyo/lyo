@@ -15,7 +15,6 @@
 package org.eclipse.lyo.trs.client.util;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,21 +23,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
-import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
-import org.eclipse.lyo.core.trs.Page;
-import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProviderUtil {
-    private final static Logger log = LoggerFactory.getLogger(ProviderUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(ProviderUtil.class);
 
     public static boolean isNotEmptySingletonArray(Object[] changeLogs) {
         return changeLogs != null && changeLogs.length == 1;
@@ -76,8 +69,8 @@ public class ProviderUtil {
      *
      * @return the optimized ordered list of change events
      */
-    public static List<ChangeEvent> optimizedChangesList(List<ChangeLog> changeLogs,
-            URI lastProcessedChangeEventUri) {
+    public static List<ChangeEvent> optimizedChangesList(
+            List<ChangeLog> changeLogs, URI lastProcessedChangeEventUri) {
         Collections.reverse(changeLogs);
 
         ChangeLog firstChangeLog = changeLogs.get(0);
@@ -88,7 +81,7 @@ public class ProviderUtil {
         firstChangeLog.setChange(firstChangelogEvents);
 
         // TODO Andrew@2018-02-28: just delete this line, getter after setter is some superstition
-//        firstChangelogEvents = firstChangeLog.getChange();
+        //        firstChangelogEvents = firstChangeLog.getChange();
 
         // if the last processed event is in the CL, it must be in the first
         // see 'fetchUpdatedChangeLogs' for details why
@@ -100,8 +93,8 @@ public class ProviderUtil {
             }
         }
 
-        firstChangelogEvents = firstChangelogEvents.subList(indexOfSync + 1,
-                firstChangelogEvents.size());
+        firstChangelogEvents =
+                firstChangelogEvents.subList(indexOfSync + 1, firstChangelogEvents.size());
         firstChangeLog.setChange(firstChangelogEvents);
 
         List<ChangeEvent> changesToProcess = new ArrayList<>();
@@ -111,9 +104,11 @@ public class ProviderUtil {
         }
         changesToProcess.sort(Comparator.comparing(ChangeEvent::getOrder));
 
-        // NB! Andrew@2018-02-27: this is not going to work for getting all changes via MQTT embedding
+        // NB! Andrew@2018-02-27: this is not going to work for getting all changes via MQTT
+        // embedding
         // TODO Andrew@2019-01-15: refactor to support MQTT
-        // TODO Andrew@2018-02-27: output warning for the events we missed if compress eliminated anything
+        // TODO Andrew@2018-02-27: output warning for the events we missed if compress eliminated
+        // anything
 
         // replace all change events for a single resource with the latest event only
         List<ChangeEvent> compressedChanges = compressChanges(changesToProcess);
@@ -123,17 +118,20 @@ public class ProviderUtil {
     public static List<URI> baseChangeEventsOptimizationSafe(
             List<ChangeEvent> compressedChangesList, List<URI> baseMembers) {
         // do it once to improve performance actually
-        final Set<URI> compressedUris = compressedChangesList.stream()
-                .map(AbstractResource::getAbout)
-                .collect(Collectors.toSet());
+        final Set<URI> compressedUris =
+                compressedChangesList.stream()
+                        .map(AbstractResource::getAbout)
+                        .collect(Collectors.toSet());
         List<URI> filteredBase = new ArrayList<>(baseMembers.size());
 
         for (URI baseMember : baseMembers) {
             if (!compressedUris.contains(baseMember)) {
                 filteredBase.add(baseMember);
             } else {
-                log.debug("Removing {} from the base because it has been updated since in the " +
-                        "changelog", baseMember);
+                log.debug(
+                        "Removing {} from the base because it has been updated since in the "
+                                + "changelog",
+                        baseMember);
             }
         }
 

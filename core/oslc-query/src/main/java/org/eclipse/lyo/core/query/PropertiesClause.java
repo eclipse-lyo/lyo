@@ -13,10 +13,7 @@
  */
 package org.eclipse.lyo.core.query;
 
-
 /**
  * Top-level properties from oslc.Properties clause
  */
-public interface PropertiesClause extends Properties
-{
-}
+public interface PropertiesClause extends Properties {}

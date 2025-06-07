@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcRange {
-	/**
-	 * Specify the range of possible resource types allowed (for properties with a resource value-type).
-	 */
-	String[] value();
+    /**
+     * Specify the range of possible resource types allowed (for properties with a resource value-type).
+     */
+    String[] value();
 }

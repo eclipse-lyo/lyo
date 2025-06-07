@@ -16,17 +16,15 @@ package org.eclipse.lyo.core.query;
 /**
  * Property list element from olsc.select of oslc.properties clause
  */
-public interface Property
-{
-	enum Type
-	{
-		IDENTIFIER,
-		NESTED_PROPERTY
-	}
-	
-	Type type();
-	
-	boolean isWildcard();
-	
-	PName identifier();
+public interface Property {
+    enum Type {
+        IDENTIFIER,
+        NESTED_PROPERTY
+    }
+
+    Type type();
+
+    boolean isWildcard();
+
+    PName identifier();
 }

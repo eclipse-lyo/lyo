@@ -21,40 +21,32 @@ package org.eclipse.lyo.oslc4j.core;
  *
  * @see "AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES"
  */
+public class UnparseableLiteral {
+    private String rawValue;
+    private String datatype;
 
-public class UnparseableLiteral
-{
-	private String rawValue;
-	private String datatype;
+    public UnparseableLiteral(String rawValue, String datatype) {
+        this.setDatatype(datatype);
+        this.setRawValue(rawValue);
+    }
 
-	public UnparseableLiteral(String rawValue, String datatype)
-	{
-		this.setDatatype(datatype);
-		this.setRawValue(rawValue);
-	}
+    public String getRawValue() {
+        return this.rawValue;
+    }
 
-	public String getRawValue()
-	{
-		return this.rawValue;
-	}
+    public String getDatatype() {
+        return this.datatype;
+    }
 
-	public String getDatatype()
-	{
-		return this.datatype;
-	}
+    public void setRawValue(String value) {
+        this.rawValue = value;
+    }
 
-	public void setRawValue(String value)
-	{
-		this.rawValue = value;
-	}
+    public void setDatatype(String value) {
+        this.datatype = value;
+    }
 
-	public void setDatatype(String value)
-	{
-		this.datatype = value;
-	}
-
-	public String toString()
-	{
-		return "unparseable literal: \""+this.rawValue+"\"^^<"+this.datatype+">";
-	}
+    public String toString() {
+        return "unparseable literal: \"" + this.rawValue + "\"^^<" + this.datatype + ">";
+    }
 }

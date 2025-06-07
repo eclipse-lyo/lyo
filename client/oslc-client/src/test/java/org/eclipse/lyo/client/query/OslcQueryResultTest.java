@@ -13,16 +13,15 @@
  */
 package org.eclipse.lyo.client.query;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
 import jakarta.ws.rs.core.Response;
+import java.io.InputStream;
 import org.eclipse.lyo.client.OslcClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.io.InputStream;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 /**
  * @author Samuel Padgett <spadgett@us.ibm.com>
@@ -39,8 +38,8 @@ public class OslcQueryResultTest {
 
         OslcQueryParameters params = new OslcQueryParameters();
         params.setWhere("dceterms:identifier=3");
-        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
-            params);
+        OslcQuery query =
+                new OslcQuery(new OslcClient(), "http://example.com/provider/query", params);
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
         assertEquals(0, result.getMembersUrls().length);
     }
@@ -59,12 +58,12 @@ public class OslcQueryResultTest {
         Response mockedResponse = mockClientResponse("/queryFolderResponse.rdf");
 
         OslcQueryParameters params = new OslcQueryParameters();
-        params.setPrefix("dcterms=<http://purl.org/dc/terms/>,nav=<http://jazz" +
-            ".net/ns/rm/navigation#>");
+        params.setPrefix(
+                "dcterms=<http://purl.org/dc/terms/>,nav=<http://jazz" + ".net/ns/rm/navigation#>");
         params.setSelect("*");
 
-        OslcQuery query = new OslcQuery(new OslcClient(), "https://192.168.99.3:9443/rm/folders",
-            params);
+        OslcQuery query =
+                new OslcQuery(new OslcClient(), "https://192.168.99.3:9443/rm/folders", params);
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
         assertEquals(1, result.getMembersUrls().length);
     }
@@ -75,8 +74,8 @@ public class OslcQueryResultTest {
 
         OslcQueryParameters params = new OslcQueryParameters();
         params.setWhere("ex:product=\"Product A\"");
-        OslcQuery query = new OslcQuery(new OslcClient(), "http://example.com/provider/query",
-            params);
+        OslcQuery query =
+                new OslcQuery(new OslcClient(), "http://example.com/provider/query", params);
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
         assertEquals(2, result.getMembersUrls().length);
     }
@@ -108,13 +107,16 @@ public class OslcQueryResultTest {
     @Test
     public void testMultiResponseInfos() {
         // seems to work with both
-//        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "false");
+        //        System.setProperty(OslcQueryResult.SELECT_ANY_MEMBER, "false");
         Response mockedResponse = mockClientResponse("/multiResponseQuery.rdf");
 
         OslcQueryParameters params = new OslcQueryParameters();
         params.setSelect("dcterms:title");
-        OslcQuery query = new OslcQuery(new OslcClient(), "https://nordic.clm.ibmcloud" +
-            ".com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems");
+        OslcQuery query =
+                new OslcQuery(
+                        new OslcClient(),
+                        "https://nordic.clm.ibmcloud"
+                                + ".com/ccm/oslc/contexts/_2nC4UBNvEeutmoeSPr3-Ag/workitems");
         OslcQueryResult result = new OslcQueryResult(query, mockedResponse);
         assertEquals(20, result.getMembersUrls().length);
     }
@@ -126,5 +128,4 @@ public class OslcQueryResultTest {
 
         return mockedResponse;
     }
-
 }

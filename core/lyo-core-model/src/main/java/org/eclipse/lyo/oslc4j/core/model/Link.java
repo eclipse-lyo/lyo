@@ -13,11 +13,10 @@
  */
 package org.eclipse.lyo.oslc4j.core.model;
 
-import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-
 import java.net.URI;
 import java.util.Objects;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 
 /**
  * Special OSLC link type. Differs from {@link URI} since it can hold a label,
@@ -27,8 +26,7 @@ import java.util.Objects;
 public class Link extends AbstractReifiedResource<URI> {
     private String label;
 
-    public Link() {
-    }
+    public Link() {}
 
     public Link(URI resource) {
         setValue(resource);
@@ -62,7 +60,8 @@ public class Link extends AbstractReifiedResource<URI> {
      * Gets the link label.
      *
      * @return the label
-     */ public String getLabel() {
+     */
+    public String getLabel() {
         return label;
     }
 
@@ -76,8 +75,6 @@ public class Link extends AbstractReifiedResource<URI> {
 
     @Override
     public String toString() {
-        return "Link{to='" + getValue() +
-                "'; label='" + label + '\'' +
-                '}';
+        return "Link{to='" + getValue() + "'; label='" + label + '\'' + '}';
     }
 }

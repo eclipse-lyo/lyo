@@ -13,13 +13,6 @@
  */
 package org.eclipse.lyo.client;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientRequestContext;
@@ -33,6 +26,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A filter that can be registered in order to non-preemptively handle JEE Form
@@ -50,7 +48,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private static final String J_SECURITY_CHECK = "j_security_check";
     private static final String J_USERNAME = "j_username";
     private static final String J_PASSWORD = "j_password";
-    private static final String FORM_AUTHENTICATOR_REUSED = "org.eclipse.lyo.client.oslc.JEEFormAuthenticator.reused";
+    private static final String FORM_AUTHENTICATOR_REUSED =
+            "org.eclipse.lyo.client.oslc.JEEFormAuthenticator.reused";
     private static final String JAZZ_AUTH_MESSAGE_HEADER = "X-com-ibm-team-repository-web-auth-msg";
     private static final String JAZZ_AUTH_REQUIRED = "authrequired";
     private static final String JAZZ_AUTH_FAILED = "authfailed";
@@ -61,7 +60,6 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private boolean followingRedirects = false;
     Client authClient = null;
     private final List<Object> cookies = new ArrayList<>();
-
 
     // requires by @Provider
     public JEEFormAuthenticator() {
@@ -75,7 +73,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
      * @param username user's credentials
      * @param password
      */
-    public JEEFormAuthenticator(final String baseUri, final String username, final String password) {
+    public JEEFormAuthenticator(
+            final String baseUri, final String username, final String password) {
         this.userId = username;
         this.password = password;
         this.baseUri = baseUri;
@@ -92,7 +91,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     public void filter(ClientRequestContext request, ClientResponseContext response) {
         if (followingRedirects) return;
 
-        boolean authRequired = JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
+        boolean authRequired =
+                JAZZ_AUTH_REQUIRED.equals(response.getHeaderString(JAZZ_AUTH_MESSAGE_HEADER));
         boolean authAlreadyAttempted = isAuthAlreadyAttempted(request);
 
         if (authRequired && authAlreadyAttempted) {
@@ -100,7 +100,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
             log.trace("Jazz auth cookies were appended but the request was UNAUTHORIZED anyway");
             return;
         } else if (!authRequired) {
-            log.trace("Response was non-401, skipping the ClientResponseFilter for Jazz Forms auth");
+            log.trace(
+                    "Response was non-401, skipping the ClientResponseFilter for Jazz Forms auth");
             return;
         }
 
@@ -112,15 +113,16 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         final Form form = new Form();
         form.param(J_USERNAME, this.userId);
         form.param(J_PASSWORD, this.password);
-        Response authResponse = authClient
-            .target(this.baseUri)
-            .path(J_SECURITY_CHECK)
-            .request(MediaType.APPLICATION_FORM_URLENCODED)
-            .property(FORM_AUTHENTICATOR_REUSED, "true")  // only post once
-            .header("Accept", "*/*")
-            .header("X-Requested-With", "XMLHttpRequest")
-            .header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
-            .post(Entity.form(form));
+        Response authResponse =
+                authClient
+                        .target(this.baseUri)
+                        .path(J_SECURITY_CHECK)
+                        .request(MediaType.APPLICATION_FORM_URLENCODED)
+                        .property(FORM_AUTHENTICATOR_REUSED, "true") // only post once
+                        .header("Accept", "*/*")
+                        .header("X-Requested-With", "XMLHttpRequest")
+                        .header(OSLCConstants.OSLC_CORE_VERSION, OSLCConstants.OSLC2_0)
+                        .post(Entity.form(form));
         authResponse.getCookies().values().forEach(cookie -> cookies.add(cookie.toCookie()));
         int statusCode = authResponse.getStatus();
         // Check the result
@@ -143,9 +145,8 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
         // retry the request with the updated cookies
         Client requestClient = request.getClient();
-        Invocation.Builder retryBuilder = requestClient
-            .target(request.getUri())
-            .request(request.getMediaType());
+        Invocation.Builder retryBuilder =
+                requestClient.target(request.getUri()).request(request.getMediaType());
         retryBuilder.property(FORM_AUTHENTICATOR_REUSED, "true"); // prevent infinite loops
         MultivaluedMap<String, Object> newHeaders = new MultivaluedHashMap<>();
         newHeaders.putAll(request.getHeaders());
@@ -156,8 +157,10 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
         if (request.getEntity() == null) {
             invocation = retryBuilder.build(requestMethod);
         } else {
-            invocation = retryBuilder.build(requestMethod,
-                    Entity.entity(request.getEntity(), request.getMediaType()));
+            invocation =
+                    retryBuilder.build(
+                            requestMethod,
+                            Entity.entity(request.getEntity(), request.getMediaType()));
         }
         log.trace("Retrying the failed request with Jazz cookies");
         Response retryResponse = invocation.invoke();
@@ -177,8 +180,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
     private int followRedirects(int statusCode, String location) {
         followingRedirects = true;
-        while ( location != null && statusCode >= 301 && statusCode <=399 )
-        {
+        while (location != null && statusCode >= 301 && statusCode <= 399) {
             Response lastRedirectResponse = authClient.target(location).request().get();
             statusCode = lastRedirectResponse.getStatus();
             location = lastRedirectResponse.getHeaderString("Location");
@@ -194,7 +196,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
 
     @Override
     public void filter(ClientRequestContext requestContext) {
-        if(cookies.size() > 0) {
+        if (cookies.size() > 0) {
             requestContext.getHeaders().add(COOKIE, cookies);
             log.trace("Jazz auth cookies appended to the request");
         } else {

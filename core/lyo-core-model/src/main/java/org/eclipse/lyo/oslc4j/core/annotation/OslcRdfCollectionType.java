@@ -18,7 +18,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 /**
@@ -28,20 +27,19 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OslcRdfCollectionType
-{
-	String RDF_LIST = "List";
-	String RDF_SEQ = "Seq";
-	String RDF_ALT = "Alt";
-	String RDF_BAG = "Bag";
+public @interface OslcRdfCollectionType {
+    String RDF_LIST = "List";
+    String RDF_SEQ = "Seq";
+    String RDF_ALT = "Alt";
+    String RDF_BAG = "Bag";
 
-	/**
-	 * Namespace URI.
-	 */
-	String namespaceURI() default OslcConstants.RDF_NAMESPACE;
+    /**
+     * Namespace URI.
+     */
+    String namespaceURI() default OslcConstants.RDF_NAMESPACE;
 
-	/**
-	 * Prefix for the namespace.
-	 */
-	String collectionType() default "List";
+    /**
+     * Prefix for the namespace.
+     */
+    String collectionType() default "List";
 }

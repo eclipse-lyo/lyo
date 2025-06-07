@@ -19,52 +19,28 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.Issue;
-import org.eclipse.lyo.oslc.domains.promcode.Risk;
-import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 
@@ -76,10 +52,7 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 @OslcNamespace(Oslc_promcodeDomainConstants.RISK_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISK_LOCALNAME)
 @OslcResourceShape(title = "Risk Shape", describes = Oslc_promcodeDomainConstants.RISK_TYPE)
-public class Risk
-    extends AbstractResource
-    implements IRisk
-{
+public class Risk extends AbstractResource implements IRisk {
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -104,67 +77,64 @@ public class Risk
     // Start of user code attributeAnnotation:stateOfRisk
     // End of user code
     private Link stateOfRisk;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Risk()
-    {
+    public Risk() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Risk(final URI about)
-    {
+
+    public Risk(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.RISK_PATH,
-        Risk.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.RISK_PATH,
+                Risk.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Risk Resource} - update Risk.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Risk Resource} - update Risk.toString() to present resource"
+                            + " as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public void addIdentifiedBy(final Link identifiedBy)
-    {
+
+    public void addIdentifiedBy(final Link identifiedBy) {
         this.identifiedBy.add(identifiedBy);
     }
-    
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -172,8 +142,7 @@ public class Risk
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -186,8 +155,7 @@ public class Risk
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -200,8 +168,7 @@ public class Risk
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getSource()
-    {
+    public String getSource() {
         // Start of user code getterInit:source
         // End of user code
         return source;
@@ -214,8 +181,7 @@ public class Risk
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -227,10 +193,15 @@ public class Risk
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedBy")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ISSUE_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.RISK_TYPE,
+        Oslc_promcodeDomainConstants.ISSUE_TYPE,
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
-    public Set<Link> getIdentifiedBy()
-    {
+    public Set<Link> getIdentifiedBy() {
         // Start of user code getterInit:identifiedBy
         // End of user code
         return identifiedBy;
@@ -243,8 +214,7 @@ public class Risk
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getIdentifiedDate()
-    {
+    public Date getIdentifiedDate() {
         // Start of user code getterInit:identifiedDate
         // End of user code
         return identifiedDate;
@@ -257,8 +227,7 @@ public class Risk
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Integer)
     @OslcReadOnly(false)
-    public Integer getSequenceNumber()
-    {
+    public Integer getSequenceNumber() {
         // Start of user code getterInit:sequenceNumber
         // End of user code
         return sequenceNumber;
@@ -271,8 +240,7 @@ public class Risk
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getStateOfRisk()
-    {
+    public Link getStateOfRisk() {
         // Start of user code getterInit:stateOfRisk
         // End of user code
         return stateOfRisk;
@@ -280,8 +248,7 @@ public class Risk
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -291,8 +258,7 @@ public class Risk
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -302,8 +268,7 @@ public class Risk
 
     // Start of user code setterAnnotation:source
     // End of user code
-    public void setSource(final String source )
-    {
+    public void setSource(final String source) {
         // Start of user code setterInit:source
         // End of user code
         this.source = source;
@@ -313,8 +278,7 @@ public class Risk
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -324,13 +288,11 @@ public class Risk
 
     // Start of user code setterAnnotation:identifiedBy
     // End of user code
-    public void setIdentifiedBy(final Set<Link> identifiedBy )
-    {
+    public void setIdentifiedBy(final Set<Link> identifiedBy) {
         // Start of user code setterInit:identifiedBy
         // End of user code
         this.identifiedBy.clear();
-        if (identifiedBy != null)
-        {
+        if (identifiedBy != null) {
             this.identifiedBy.addAll(identifiedBy);
         }
         // Start of user code setterFinalize:identifiedBy
@@ -339,8 +301,7 @@ public class Risk
 
     // Start of user code setterAnnotation:identifiedDate
     // End of user code
-    public void setIdentifiedDate(final Date identifiedDate )
-    {
+    public void setIdentifiedDate(final Date identifiedDate) {
         // Start of user code setterInit:identifiedDate
         // End of user code
         this.identifiedDate = identifiedDate;
@@ -350,8 +311,7 @@ public class Risk
 
     // Start of user code setterAnnotation:sequenceNumber
     // End of user code
-    public void setSequenceNumber(final Integer sequenceNumber )
-    {
+    public void setSequenceNumber(final Integer sequenceNumber) {
         // Start of user code setterInit:sequenceNumber
         // End of user code
         this.sequenceNumber = sequenceNumber;
@@ -361,13 +321,11 @@ public class Risk
 
     // Start of user code setterAnnotation:stateOfRisk
     // End of user code
-    public void setStateOfRisk(final Link stateOfRisk )
-    {
+    public void setStateOfRisk(final Link stateOfRisk) {
         // Start of user code setterInit:stateOfRisk
         // End of user code
         this.stateOfRisk = stateOfRisk;
         // Start of user code setterFinalize:stateOfRisk
         // End of user code
     }
-
 }

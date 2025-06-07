@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TRSScheduledExecutorService extends ScheduledThreadPoolExecutor {
 
-    final static Logger logger = LoggerFactory.getLogger(TRSScheduledExecutorService.class);
+    static final Logger logger = LoggerFactory.getLogger(TRSScheduledExecutorService.class);
 
     public TRSScheduledExecutorService(int corePoolSize) {
         super(corePoolSize);

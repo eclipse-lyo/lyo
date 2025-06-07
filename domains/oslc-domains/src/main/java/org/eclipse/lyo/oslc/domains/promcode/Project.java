@@ -19,47 +19,25 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
 
@@ -70,11 +48,11 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.PROJECT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.PROJECT_LOCALNAME)
-@OslcResourceShape(title = "Project Shape", description = "A project is software development work to achieve some business goal.", describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
-public class Project
-    extends AbstractResource
-    implements IProject
-{
+@OslcResourceShape(
+        title = "Project Shape",
+        description = "A project is software development work to achieve some business goal.",
+        describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
+public class Project extends AbstractResource implements IProject {
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -105,62 +83,60 @@ public class Project
     // Start of user code attributeAnnotation:unitOfScopeItemSize
     // End of user code
     private Link unitOfScopeItemSize;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Project()
-    {
+    public Project() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Project(final URI about)
-    {
+
+    public Project(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.PROJECT_PATH,
-        Project.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.PROJECT_PATH,
+                Project.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Project Resource} - update Project.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Project Resource} - update Project.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:description
     // End of user code
     @OslcName("description")
@@ -168,8 +144,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -182,8 +157,7 @@ public class Project
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -196,8 +170,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getSource()
-    {
+    public String getSource() {
         // Start of user code getterInit:source
         // End of user code
         return source;
@@ -210,8 +183,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -224,8 +196,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getActualEndDate()
-    {
+    public Date getActualEndDate() {
         // Start of user code getterInit:actualEndDate
         // End of user code
         return actualEndDate;
@@ -238,8 +209,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getActualStartDate()
-    {
+    public Date getActualStartDate() {
         // Start of user code getterInit:actualStartDate
         // End of user code
         return actualStartDate;
@@ -248,12 +218,12 @@ public class Project
     // Start of user code getterAnnotation:metricOfScopeItemSize
     // End of user code
     @OslcName("metricOfScopeItemSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
+    @OslcPropertyDefinition(
+            Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getMetricOfScopeItemSize()
-    {
+    public Link getMetricOfScopeItemSize() {
         // Start of user code getterInit:metricOfScopeItemSize
         // End of user code
         return metricOfScopeItemSize;
@@ -266,8 +236,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getPlannedEndDate()
-    {
+    public Date getPlannedEndDate() {
         // Start of user code getterInit:plannedEndDate
         // End of user code
         return plannedEndDate;
@@ -280,8 +249,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getPlannedStartDate()
-    {
+    public Date getPlannedStartDate() {
         // Start of user code getterInit:plannedStartDate
         // End of user code
         return plannedStartDate;
@@ -294,8 +262,7 @@ public class Project
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getUnitOfScopeItemSize()
-    {
+    public Link getUnitOfScopeItemSize() {
         // Start of user code getterInit:unitOfScopeItemSize
         // End of user code
         return unitOfScopeItemSize;
@@ -303,8 +270,7 @@ public class Project
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -314,8 +280,7 @@ public class Project
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -325,8 +290,7 @@ public class Project
 
     // Start of user code setterAnnotation:source
     // End of user code
-    public void setSource(final String source )
-    {
+    public void setSource(final String source) {
         // Start of user code setterInit:source
         // End of user code
         this.source = source;
@@ -336,8 +300,7 @@ public class Project
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -347,8 +310,7 @@ public class Project
 
     // Start of user code setterAnnotation:actualEndDate
     // End of user code
-    public void setActualEndDate(final Date actualEndDate )
-    {
+    public void setActualEndDate(final Date actualEndDate) {
         // Start of user code setterInit:actualEndDate
         // End of user code
         this.actualEndDate = actualEndDate;
@@ -358,8 +320,7 @@ public class Project
 
     // Start of user code setterAnnotation:actualStartDate
     // End of user code
-    public void setActualStartDate(final Date actualStartDate )
-    {
+    public void setActualStartDate(final Date actualStartDate) {
         // Start of user code setterInit:actualStartDate
         // End of user code
         this.actualStartDate = actualStartDate;
@@ -369,8 +330,7 @@ public class Project
 
     // Start of user code setterAnnotation:metricOfScopeItemSize
     // End of user code
-    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize )
-    {
+    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize) {
         // Start of user code setterInit:metricOfScopeItemSize
         // End of user code
         this.metricOfScopeItemSize = metricOfScopeItemSize;
@@ -380,8 +340,7 @@ public class Project
 
     // Start of user code setterAnnotation:plannedEndDate
     // End of user code
-    public void setPlannedEndDate(final Date plannedEndDate )
-    {
+    public void setPlannedEndDate(final Date plannedEndDate) {
         // Start of user code setterInit:plannedEndDate
         // End of user code
         this.plannedEndDate = plannedEndDate;
@@ -391,8 +350,7 @@ public class Project
 
     // Start of user code setterAnnotation:plannedStartDate
     // End of user code
-    public void setPlannedStartDate(final Date plannedStartDate )
-    {
+    public void setPlannedStartDate(final Date plannedStartDate) {
         // Start of user code setterInit:plannedStartDate
         // End of user code
         this.plannedStartDate = plannedStartDate;
@@ -402,13 +360,11 @@ public class Project
 
     // Start of user code setterAnnotation:unitOfScopeItemSize
     // End of user code
-    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize )
-    {
+    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize) {
         // Start of user code setterInit:unitOfScopeItemSize
         // End of user code
         this.unitOfScopeItemSize = unitOfScopeItemSize;
         // Start of user code setterFinalize:unitOfScopeItemSize
         // End of user code
     }
-
 }

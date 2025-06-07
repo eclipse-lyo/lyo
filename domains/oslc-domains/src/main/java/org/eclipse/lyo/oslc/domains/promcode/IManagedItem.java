@@ -17,53 +17,30 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_promcodeDomainConstants.MANAGEDITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MANAGEDITEM_LOCALNAME)
-@OslcResourceShape(title = "ManagedItem Shape", description = "A managed item is a scope item, work item, artifact, issue, or some other entity that is part of a project. Managed item resources use dcterms:type to specify concrete subclasses. This practice is deprecated in OSLC Core 3.0.", describes = Oslc_promcodeDomainConstants.MANAGEDITEM_TYPE)
-public interface IManagedItem
-{
-
+@OslcResourceShape(
+        title = "ManagedItem Shape",
+        description =
+                "A managed item is a scope item, work item, artifact, issue, or some other entity"
+                    + " that is part of a project. Managed item resources use dcterms:type to"
+                    + " specify concrete subclasses. This practice is deprecated in OSLC Core 3.0.",
+        describes = Oslc_promcodeDomainConstants.MANAGEDITEM_TYPE)
+public interface IManagedItem {
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -100,11 +77,13 @@ public interface IManagedItem
     @OslcReadOnly(false)
     public Integer getSequenceNumber();
 
+    public void setDescription(final String description);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setSequenceNumber(final Integer sequenceNumber );
+    public void setIdentifier(final String identifier);
+
+    public void setSource(final String source);
+
+    public void setTitle(final String title);
+
+    public void setSequenceNumber(final Integer sequenceNumber);
 }
-

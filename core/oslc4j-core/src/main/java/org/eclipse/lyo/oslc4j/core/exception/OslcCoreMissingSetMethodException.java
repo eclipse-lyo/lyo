@@ -16,27 +16,26 @@ package org.eclipse.lyo.oslc4j.core.exception;
 import java.lang.reflect.Method;
 
 public final class OslcCoreMissingSetMethodException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 4513570830160136304L;
+    private static final long serialVersionUID = 4513570830160136304L;
 
-	private static final String MESSAGE_KEY = "MissingSetMethodException";
+    private static final String MESSAGE_KEY = "MissingSetMethodException";
 
-	private final Class<?> resourceClass;
-	private final Method   getMethod;
+    private final Class<?> resourceClass;
+    private final Method getMethod;
 
-	public OslcCoreMissingSetMethodException(final Class<?> resourceClass, final Method getMethod, final Exception exception) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), getMethod.getName()}, exception);
+    public OslcCoreMissingSetMethodException(
+            final Class<?> resourceClass, final Method getMethod, final Exception exception) {
+        super(MESSAGE_KEY, new Object[] {resourceClass.getName(), getMethod.getName()}, exception);
 
-		this.getMethod	   = getMethod;
-		this.resourceClass = resourceClass;
-	}
+        this.getMethod = getMethod;
+        this.resourceClass = resourceClass;
+    }
 
-	public Method getGetMethod()
-	{
-		return getMethod;
-	}
+    public Method getGetMethod() {
+        return getMethod;
+    }
 
-	public Class<?> getResourceClass()
-	{
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

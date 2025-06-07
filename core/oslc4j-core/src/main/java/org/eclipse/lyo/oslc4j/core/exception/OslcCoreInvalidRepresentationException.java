@@ -14,35 +14,41 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 import java.lang.reflect.Method;
-
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 
 public final class OslcCoreInvalidRepresentationException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = -3803394959079264170L;
+    private static final long serialVersionUID = -3803394959079264170L;
 
-	private static final String MESSAGE_KEY = "InvalidRepresentationException";
+    private static final String MESSAGE_KEY = "InvalidRepresentationException";
 
-	private final Method		 method;
-	private final Representation representation;
-	private final Class<?>		 resourceClass;
+    private final Method method;
+    private final Representation representation;
+    private final Class<?> resourceClass;
 
-	public OslcCoreInvalidRepresentationException(final Class<?> resourceClass, final Method method, final Representation representation) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName(), representation.toString()});
+    public OslcCoreInvalidRepresentationException(
+            final Class<?> resourceClass,
+            final Method method,
+            final Representation representation) {
+        super(
+                MESSAGE_KEY,
+                new Object[] {
+                    resourceClass.getName(), method.getName(), representation.toString()
+                });
 
-		this.method			= method;
-		this.representation = representation;
-		this.resourceClass	= resourceClass;
-	}
+        this.method = method;
+        this.representation = representation;
+        this.resourceClass = resourceClass;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public Representation getRepresentation() {
-		return representation;
-	}
+    public Representation getRepresentation() {
+        return representation;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

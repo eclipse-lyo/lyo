@@ -16,52 +16,14 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import org.eclipse.lyo.oslc4j.core.model.Link;
-import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_cmDomainConstants.STATE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.STATE_LOCALNAME)
 @OslcResourceShape(title = "State Shape", describes = Oslc_cmDomainConstants.STATE_TYPE)
-public interface IState
-{
-
-
-
-}
-
+public interface IState {}

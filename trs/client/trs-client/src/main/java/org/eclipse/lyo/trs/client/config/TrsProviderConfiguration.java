@@ -19,7 +19,8 @@ public final class TrsProviderConfiguration {
         return this.basicAuthPassword;
     }
 
-    public TrsProviderConfiguration(URI trsUri, String basicAuthUsername, String basicAuthPassword) {
+    public TrsProviderConfiguration(
+            URI trsUri, String basicAuthUsername, String basicAuthPassword) {
         super();
         this.trsUri = trsUri;
         this.basicAuthUsername = basicAuthUsername;
@@ -31,9 +32,9 @@ public final class TrsProviderConfiguration {
         return new TrsProviderConfiguration(trsUri, null, null);
     }
 
-    public static final TrsProviderConfiguration forHttpWithBasicAuth(String trsEndpointUri, String trsEndpointUsername, String trsEndpointPassword) {
+    public static final TrsProviderConfiguration forHttpWithBasicAuth(
+            String trsEndpointUri, String trsEndpointUsername, String trsEndpointPassword) {
         URI trsUri = URI.create(trsEndpointUri);
         return new TrsProviderConfiguration(trsUri, trsEndpointUsername, trsEndpointPassword);
     }
-
 }

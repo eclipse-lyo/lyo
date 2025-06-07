@@ -18,61 +18,55 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.namespace.QName;
 
 public abstract class AbstractResource implements IExtendedResource {
-	private URI about;
-	private Collection<URI> types = new ArrayList<>();
-	private Map<QName, Object> extendedProperties = new HashMap<>();
+    private URI about;
+    private Collection<URI> types = new ArrayList<>();
+    private Map<QName, Object> extendedProperties = new HashMap<>();
 
-	protected AbstractResource(final URI about) {
-		super();
+    protected AbstractResource(final URI about) {
+        super();
 
-		this.about = about;
-	}
+        this.about = about;
+    }
 
-	protected AbstractResource() {
-		super();
-	}
+    protected AbstractResource() {
+        super();
+    }
 
-	@Override
-	public final URI getAbout() {
-		return about;
-	}
+    @Override
+    public final URI getAbout() {
+        return about;
+    }
 
-	@Override
-	public final void setAbout(final URI about) {
-		this.about = about;
-	}
+    @Override
+    public final void setAbout(final URI about) {
+        this.about = about;
+    }
 
-	@Override
-	public void setExtendedProperties(final Map<QName, Object> properties)
-	{
-		this.extendedProperties = properties;
-	}
+    @Override
+    public void setExtendedProperties(final Map<QName, Object> properties) {
+        this.extendedProperties = properties;
+    }
 
-	@Override
-	public Map<QName, Object> getExtendedProperties()
-	{
-		return extendedProperties;
-	}
+    @Override
+    public Map<QName, Object> getExtendedProperties() {
+        return extendedProperties;
+    }
 
-	@Override
-	public Collection<URI> getTypes()
-	{
-		return types;
-	}
+    @Override
+    public Collection<URI> getTypes() {
+        return types;
+    }
 
-	@Override
-	public void setTypes(final Collection<URI> type)
-	{
-		this.types = type;
-	}
+    @Override
+    public void setTypes(final Collection<URI> type) {
+        this.types = type;
+    }
 
-	@Override
-	public void addType(final URI type)
-	{
-		this.types.add(type);
-	}
+    @Override
+    public void addType(final URI type) {
+        this.types.add(type);
+    }
 }

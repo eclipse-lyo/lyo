@@ -14,7 +14,6 @@
 package org.eclipse.lyo.shacl;
 
 import java.net.URI;
-
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 public enum DataType {

@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcDefaultValue {
-	/**
-	 * A default value for property, inlined into property definition.
-	 */
-	String value();
+    /**
+     * A default value for property, inlined into property definition.
+     */
+    String value();
 }

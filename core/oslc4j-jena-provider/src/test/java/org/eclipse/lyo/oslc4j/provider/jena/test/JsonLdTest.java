@@ -16,13 +16,13 @@ package org.eclipse.lyo.oslc4j.provider.jena.test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import jakarta.ws.rs.core.MultivaluedHashMap;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdArrayProvider;
@@ -30,8 +30,6 @@ import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdCollectionProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcJsonLdProvider;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import jakarta.ws.rs.core.MultivaluedHashMap;
 
 /**
  * Created on 2018-03-03
@@ -42,22 +40,22 @@ import jakarta.ws.rs.core.MultivaluedHashMap;
  */
 public class JsonLdTest {
     @Test
-    @SuppressWarnings({
-                              "unchecked",
-                              "rawtypes"
-                      })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void testContentTypeTurtleUTF8() throws Exception {
         OslcJsonLdProvider provider = new OslcJsonLdProvider();
 
         InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.jsonld");
         assertNotNull("Could not read file: provider.jsonld", is);
 
-        ServiceProvider p = (ServiceProvider) provider.readFrom((Class) ServiceProvider.class,
-                                                                null,
-                                                                ServiceProvider.class.getAnnotations(),
-                                                                OslcMediaType.APPLICATION_JSON_LD_TYPE,
-                                                                null,
-                                                                is);
+        ServiceProvider p =
+                (ServiceProvider)
+                        provider.readFrom(
+                                (Class) ServiceProvider.class,
+                                null,
+                                ServiceProvider.class.getAnnotations(),
+                                OslcMediaType.APPLICATION_JSON_LD_TYPE,
+                                null,
+                                is);
         assertNotNull("Provider was not read", p);
     }
 
@@ -69,14 +67,18 @@ public class JsonLdTest {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        provider.writeTo(sp, ServiceProvider.class, ServiceProvider.class, ServiceProvider.class
-                .getAnnotations(), OslcMediaType.APPLICATION_JSON_LD_TYPE, new
-                MultivaluedHashMap<>(), outputStream);
+        provider.writeTo(
+                sp,
+                ServiceProvider.class,
+                ServiceProvider.class,
+                ServiceProvider.class.getAnnotations(),
+                OslcMediaType.APPLICATION_JSON_LD_TYPE,
+                new MultivaluedHashMap<>(),
+                outputStream);
 
         final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
-
     }
 
     @Test
@@ -87,13 +89,14 @@ public class JsonLdTest {
         ServiceProvider sp = new ServiceProvider();
         sp.setDescription("Hello world");
         final Object[] objects = {sp};
-        provider.writeTo(objects,
-                         objects.getClass(),
-                         ServiceProvider.class,
-                         ServiceProvider.class.getAnnotations(),
-                         OslcMediaType.APPLICATION_JSON_LD_TYPE,
-                         new MultivaluedHashMap<>(),
-                         outputStream);
+        provider.writeTo(
+                objects,
+                objects.getClass(),
+                ServiceProvider.class,
+                ServiceProvider.class.getAnnotations(),
+                OslcMediaType.APPLICATION_JSON_LD_TYPE,
+                new MultivaluedHashMap<>(),
+                outputStream);
 
         final String jsonLD = outputStream.toString(StandardCharsets.UTF_8);
 
@@ -110,7 +113,7 @@ public class JsonLdTest {
         sp.setDescription("Hello world");
         final Collection<ServiceProvider> objects = List.of(sp);
         provider.writeTo(
-            new ArrayList<>(objects),
+                new ArrayList<>(objects),
                 objects.getClass(),
                 objects.getClass().getGenericSuperclass(),
                 ServiceProvider.class.getAnnotations(),
@@ -122,6 +125,4 @@ public class JsonLdTest {
 
         assertTrue("Provider was not read", jsonLD.contains("Hello world"));
     }
-
-
 }

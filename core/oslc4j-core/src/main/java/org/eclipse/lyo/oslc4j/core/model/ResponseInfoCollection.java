@@ -22,30 +22,24 @@ import java.util.Map;
  * Concrete ResponseInfo collection wrapper where resource are sent
  * as an {@link Collection}
  */
-public class ResponseInfoCollection<T extends Object> extends ResponseInfo<Collection<T>>
-{
-	public
-	ResponseInfoCollection(
-		Collection<T> collection,
-		Map<String, Object> properties,
-		Integer totalCount,
-		String nextPage
-	)
-	{
-		super(collection, properties, totalCount, nextPage);
-	}
-	
-	public
-	ResponseInfoCollection(
-		Collection<T> collection,
-		Map<String, Object> properties,
-		Integer totalCount,
-		URI nextPage
-	)
-	{
-		super(collection, properties, totalCount, nextPage);
-	}
-	
-	public Collection<T>
-	collection() { return resource(); }
+public class ResponseInfoCollection<T extends Object> extends ResponseInfo<Collection<T>> {
+    public ResponseInfoCollection(
+            Collection<T> collection,
+            Map<String, Object> properties,
+            Integer totalCount,
+            String nextPage) {
+        super(collection, properties, totalCount, nextPage);
+    }
+
+    public ResponseInfoCollection(
+            Collection<T> collection,
+            Map<String, Object> properties,
+            Integer totalCount,
+            URI nextPage) {
+        super(collection, properties, totalCount, nextPage);
+    }
+
+    public Collection<T> collection() {
+        return resource();
+    }
 }

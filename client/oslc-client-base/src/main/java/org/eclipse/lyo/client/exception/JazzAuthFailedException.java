@@ -13,7 +13,6 @@
  */
 package org.eclipse.lyo.client.exception;
 
-
 /**
  * Thrown when the HTTP status code for the response from the Jazz server
  * indicates an error in the request.  Contains the status code and URL of
@@ -23,24 +22,22 @@ package org.eclipse.lyo.client.exception;
 @SuppressWarnings("serial")
 public class JazzAuthFailedException extends OslcClientApplicationException {
 
-	private static final String MESSAGE_KEY = "JazzAuthFailedException";
+    private static final String MESSAGE_KEY = "JazzAuthFailedException";
 
-	private final String user;
-	private final String jazzUrl;
+    private final String user;
+    private final String jazzUrl;
 
-	public JazzAuthFailedException(final String user, final String jazzUrl) {
-		super(MESSAGE_KEY, new Object[] {user, jazzUrl});
-		this.user = user;
-		this.jazzUrl = jazzUrl;
-	}
+    public JazzAuthFailedException(final String user, final String jazzUrl) {
+        super(MESSAGE_KEY, new Object[] {user, jazzUrl});
+        this.user = user;
+        this.jazzUrl = jazzUrl;
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public String getJazzUrl() {
-		return jazzUrl;
-	}
-
-
+    public String getJazzUrl() {
+        return jazzUrl;
+    }
 }

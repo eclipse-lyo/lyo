@@ -16,57 +16,48 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class JenaProvidersRegistry
-{
-	private static Set<Class<?>> PROVIDERS = new HashSet<>();
+public final class JenaProvidersRegistry {
+    private static Set<Class<?>> PROVIDERS = new HashSet<>();
 
-	static
-	{
-		PROVIDERS.add(OslcCompactRdfProvider.class);
-		PROVIDERS.add(OslcRdfXmlArrayProvider.class);
-		PROVIDERS.add(OslcRdfXmlCollectionProvider.class);
-		PROVIDERS.add(OslcRdfXmlProvider.class);
-		PROVIDERS.add(OslcXmlArrayProvider.class);
-		PROVIDERS.add(OslcXmlCollectionProvider.class);
-		PROVIDERS.add(OslcXmlProvider.class);
-		PROVIDERS.add(OslcTurtleArrayProvider.class);
-		PROVIDERS.add(OslcTurtleCollectionProvider.class);
-		PROVIDERS.add(OslcTurtleProvider.class);
-		PROVIDERS.add(OslcJsonLdProvider.class);
-		PROVIDERS.add(OslcJsonLdArrayProvider.class);
-		PROVIDERS.add(OslcJsonLdCollectionProvider.class);
+    static {
+        PROVIDERS.add(OslcCompactRdfProvider.class);
+        PROVIDERS.add(OslcRdfXmlArrayProvider.class);
+        PROVIDERS.add(OslcRdfXmlCollectionProvider.class);
+        PROVIDERS.add(OslcRdfXmlProvider.class);
+        PROVIDERS.add(OslcXmlArrayProvider.class);
+        PROVIDERS.add(OslcXmlCollectionProvider.class);
+        PROVIDERS.add(OslcXmlProvider.class);
+        PROVIDERS.add(OslcTurtleArrayProvider.class);
+        PROVIDERS.add(OslcTurtleCollectionProvider.class);
+        PROVIDERS.add(OslcTurtleProvider.class);
+        PROVIDERS.add(OslcJsonLdProvider.class);
+        PROVIDERS.add(OslcJsonLdArrayProvider.class);
+        PROVIDERS.add(OslcJsonLdCollectionProvider.class);
+    }
 
-	}
+    private JenaProvidersRegistry() {
+        super();
+    }
 
-	private JenaProvidersRegistry()
-	{
-		super();
-	}
+    /**
+     * Returns a mutable set of provider classes.  Each request returns a new Set.
+     */
+    public static final Set<Class<?>> getProviders() {
+        return new HashSet<>(PROVIDERS);
+    }
 
-	/**
-	 * Returns a mutable set of provider classes.  Each request returns a new Set.
-	 */
-	public static final Set<Class<?>> getProviders()
-	{
-		return new HashSet<>(PROVIDERS);
-	}
+    public static final Set<Class<?>> setProviders(Set<Class<?>> providers) {
+        if (providers != null && PROVIDERS != null) {
+            PROVIDERS.clear();
+            PROVIDERS.addAll(providers);
+        }
+        return new HashSet<>(PROVIDERS);
+    }
 
-	public static final Set<Class<?>> setProviders (Set<Class<?>> providers)
-	{
-		if (providers != null && PROVIDERS != null)
-		{
-			PROVIDERS.clear();
-			PROVIDERS.addAll(providers);
-		}
-		return new HashSet<>(PROVIDERS);
-	}
-
-	public static final Set<Class<?>> removeProviders (Set<Class<?>> providers)
-	{
-		if (providers != null && PROVIDERS != null)
-		{
-			PROVIDERS.removeAll(providers);
-		}
-		return new HashSet<>(PROVIDERS);
-	}
+    public static final Set<Class<?>> removeProviders(Set<Class<?>> providers) {
+        if (providers != null && PROVIDERS != null) {
+            PROVIDERS.removeAll(providers);
+        }
+        return new HashSet<>(PROVIDERS);
+    }
 }

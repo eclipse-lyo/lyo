@@ -16,9 +16,8 @@ package org.eclipse.lyo.core.query;
 /**
  * Typed value operand from oslc.where clause
  */
-public interface TypedValue extends Value
-{
-	String value();
-	
-	PName prefixedName();
+public interface TypedValue extends Value {
+    String value();
+
+    PName prefixedName();
 }

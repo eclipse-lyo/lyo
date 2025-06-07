@@ -20,9 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ReifiedStatement;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -35,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 public class ReifiedLinksTest {
 
-    private final static Logger log = LoggerFactory.getLogger(ReifiedLinksTest.class);
+    private static final Logger log = LoggerFactory.getLogger(ReifiedLinksTest.class);
 
     static String uriOfLinkWithNoLabel = "http://example.com/link.with.no.label";
     static String uriOfLinkWithLabel = "http://example.com/link.with.label";
@@ -47,9 +45,11 @@ public class ReifiedLinksTest {
         ResourceWithReifiedLinks resourceExtracted = extract(model(resourceOriginal));
 
         assertEquals(resourceOriginal.getTitle(), resourceExtracted.getTitle());
-        assertEquals(resourceOriginal.getLinkWithNoLabel().getValue(),
+        assertEquals(
+                resourceOriginal.getLinkWithNoLabel().getValue(),
                 resourceExtracted.getLinkWithNoLabel().getValue());
-        assertEquals(resourceOriginal.getLinkWithLabel().getValue(),
+        assertEquals(
+                resourceOriginal.getLinkWithLabel().getValue(),
                 resourceExtracted.getLinkWithLabel().getValue());
     }
 
@@ -59,7 +59,8 @@ public class ReifiedLinksTest {
 
         ResourceWithReifiedLinks resourceExtracted = extract(model(resourceOriginal));
 
-        assertEquals(resourceOriginal.getLinkWithLabel().getLabel(),
+        assertEquals(
+                resourceOriginal.getLinkWithLabel().getLabel(),
                 resourceExtracted.getLinkWithLabel().getLabel());
     }
 
@@ -70,8 +71,8 @@ public class ReifiedLinksTest {
         final Model model = model(resourceOriginal);
 
         final List<ReifiedStatement> reifiedStatements = model.listReifiedStatements().toList();
-        assertEquals("Only 'linkWithLabel' property should be reified", 1,
-                reifiedStatements.size());
+        assertEquals(
+                "Only 'linkWithLabel' property should be reified", 1, reifiedStatements.size());
     }
 
     @Test
@@ -87,31 +88,36 @@ public class ReifiedLinksTest {
             // object, type. If it has no other info, we consider it to be empty.
             assertThat(statement.listProperties().toList().size()).isGreaterThan(4);
         }
-
     }
 
     private Model model(ResourceWithReifiedLinks resource) {
         try {
-            return JenaModelHelper.createJenaModel(new Object[]{resource});
-        } catch (DatatypeConfigurationException | IllegalAccessException |
-                InvocationTargetException | OslcCoreApplicationException e) {
+            return JenaModelHelper.createJenaModel(new Object[] {resource});
+        } catch (DatatypeConfigurationException
+                | IllegalAccessException
+                | InvocationTargetException
+                | OslcCoreApplicationException e) {
             throw new IllegalArgumentException("Jena model can't be created from the resource", e);
         }
     }
 
     private ResourceWithReifiedLinks extract(Model m) {
         try {
-            final Object[] objects = JenaModelHelper.fromJenaModel(m,
-                    ResourceWithReifiedLinks.class);
+            final Object[] objects =
+                    JenaModelHelper.fromJenaModel(m, ResourceWithReifiedLinks.class);
             if (objects.length != 1) {
                 log.error("{} objects in a model", objects.length);
                 throw new IllegalStateException(
                         "Jena model must have exactly one ResourceWithReifiedLinks object");
             }
             return (ResourceWithReifiedLinks) objects[0];
-        } catch (DatatypeConfigurationException | IllegalAccessException | InstantiationException
-                | OslcCoreApplicationException | InvocationTargetException | URISyntaxException |
-                NoSuchMethodException e) {
+        } catch (DatatypeConfigurationException
+                | IllegalAccessException
+                | InstantiationException
+                | OslcCoreApplicationException
+                | InvocationTargetException
+                | URISyntaxException
+                | NoSuchMethodException e) {
             throw new IllegalArgumentException("Cannot deserialise the resource from model", e);
         }
     }
