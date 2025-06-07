@@ -15,19 +15,32 @@
  */
 // End of user code
 
-@OslcSchema ({
-    @OslcNamespaceDefinition(prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,             namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
-    @OslcNamespaceDefinition(prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX,           namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
-    @OslcNamespaceDefinition(prefix = OslcConstants.OSLC_DATA_NAMESPACE_PREFIX,           namespaceURI = OslcConstants.OSLC_DATA_NAMESPACE),
-    @OslcNamespaceDefinition(prefix = OslcConstants.RDF_NAMESPACE_PREFIX,                 namespaceURI = OslcConstants.RDF_NAMESPACE),
-    @OslcNamespaceDefinition(prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,                namespaceURI = OslcConstants.RDFS_NAMESPACE),
-    @OslcNamespaceDefinition(prefix = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX, namespaceURI = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE),
-    @OslcNamespaceDefinition(prefix = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX, namespaceURI = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE),
+@OslcSchema({
+    @OslcNamespaceDefinition(
+            prefix = OslcConstants.DCTERMS_NAMESPACE_PREFIX,
+            namespaceURI = OslcConstants.DCTERMS_NAMESPACE),
+    @OslcNamespaceDefinition(
+            prefix = OslcConstants.OSLC_CORE_NAMESPACE_PREFIX,
+            namespaceURI = OslcConstants.OSLC_CORE_NAMESPACE),
+    @OslcNamespaceDefinition(
+            prefix = OslcConstants.OSLC_DATA_NAMESPACE_PREFIX,
+            namespaceURI = OslcConstants.OSLC_DATA_NAMESPACE),
+    @OslcNamespaceDefinition(
+            prefix = OslcConstants.RDF_NAMESPACE_PREFIX,
+            namespaceURI = OslcConstants.RDF_NAMESPACE),
+    @OslcNamespaceDefinition(
+            prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,
+            namespaceURI = OslcConstants.RDFS_NAMESPACE),
+    @OslcNamespaceDefinition(
+            prefix = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX,
+            namespaceURI = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE),
+    @OslcNamespaceDefinition(
+            prefix = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX,
+            namespaceURI = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE),
 })
 package org.eclipse.lyo.oslc.domains.config;
 
+import org.eclipse.lyo.oslc.domains.Oslc_configVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.Oslc_configVocabularyConstants;

@@ -14,7 +14,6 @@
 package org.eclipse.lyo.oslc4j.core.test;
 
 import java.net.URISyntaxException;
-
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingAnnotationException;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
@@ -23,14 +22,13 @@ import org.eclipse.lyo.oslc4j.core.test.resources.MissingResourceShapeAnnotation
 import org.junit.Test;
 
 public class ShapeTest {
-	@Test(expected = OslcCoreMissingAnnotationException.class)
-	public void testResourceClassMissingResourceShapeAnnotation()
-		   throws OslcCoreApplicationException,
-				  URISyntaxException
-	{
-		ResourceShapeFactory.createResourceShape("http://bogus",
-												 OslcConstants.PATH_RESOURCE_SHAPES,
-												 "bogus",
-												 MissingResourceShapeAnnotation.class);
-	}
+    @Test(expected = OslcCoreMissingAnnotationException.class)
+    public void testResourceClassMissingResourceShapeAnnotation()
+            throws OslcCoreApplicationException, URISyntaxException {
+        ResourceShapeFactory.createResourceShape(
+                "http://bogus",
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                "bogus",
+                MissingResourceShapeAnnotation.class);
+    }
 }

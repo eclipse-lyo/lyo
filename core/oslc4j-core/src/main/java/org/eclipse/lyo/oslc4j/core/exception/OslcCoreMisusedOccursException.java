@@ -16,25 +16,25 @@ package org.eclipse.lyo.oslc4j.core.exception;
 import java.lang.reflect.Method;
 
 public final class OslcCoreMisusedOccursException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = -7018793552909566125L;
+    private static final long serialVersionUID = -7018793552909566125L;
 
-	private static final String MESSAGE_KEY = "MisusedOccursException";
+    private static final String MESSAGE_KEY = "MisusedOccursException";
 
-	private final Method	 method;
-	private final Class<?>	 resourceClass;
+    private final Method method;
+    private final Class<?> resourceClass;
 
-	public OslcCoreMisusedOccursException(final Class<?> resourceClass, final Method method) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName()});
+    public OslcCoreMisusedOccursException(final Class<?> resourceClass, final Method method) {
+        super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName()});
 
-		this.method		   = method;
-		this.resourceClass = resourceClass;
-	}
+        this.method = method;
+        this.resourceClass = resourceClass;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

@@ -17,53 +17,29 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_promcodeDomainConstants.PROJECT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.PROJECT_LOCALNAME)
-@OslcResourceShape(title = "Project Shape", description = "A project is software development work to achieve some business goal.", describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
-public interface IProject
-{
-
+@OslcResourceShape(
+        title = "Project Shape",
+        description = "A project is software development work to achieve some business goal.",
+        describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
+public interface IProject {
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
@@ -108,7 +84,8 @@ public interface IProject
     public Date getActualStartDate();
 
     @OslcName("metricOfScopeItemSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
+    @OslcPropertyDefinition(
+            Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
@@ -135,16 +112,23 @@ public interface IProject
     @OslcReadOnly(false)
     public Link getUnitOfScopeItemSize();
 
+    public void setDescription(final String description);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setActualEndDate(final Date actualEndDate );
-    public void setActualStartDate(final Date actualStartDate );
-    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize );
-    public void setPlannedEndDate(final Date plannedEndDate );
-    public void setPlannedStartDate(final Date plannedStartDate );
-    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize );
+    public void setIdentifier(final String identifier);
+
+    public void setSource(final String source);
+
+    public void setTitle(final String title);
+
+    public void setActualEndDate(final Date actualEndDate);
+
+    public void setActualStartDate(final Date actualStartDate);
+
+    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize);
+
+    public void setPlannedEndDate(final Date plannedEndDate);
+
+    public void setPlannedStartDate(final Date plannedStartDate);
+
+    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize);
 }
-

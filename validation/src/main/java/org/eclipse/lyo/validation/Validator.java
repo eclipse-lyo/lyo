@@ -16,9 +16,7 @@ package org.eclipse.lyo.validation;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -39,16 +37,23 @@ public interface Validator {
      * @param resource Resource to be validated
      *
      * @return {@link ValidationReport}
-     * @throws NoSuchMethodException 
-     * @throws SecurityException 
-     * @throws InstantiationException 
+     * @throws NoSuchMethodException
+     * @throws SecurityException
+     * @throws InstantiationException
      *
      * @see ShaclShapeFactory#createShaclShape(Class)
      */
     ValidationReport validate(AbstractResource resource)
-            throws OslcCoreApplicationException, URISyntaxException, ParseException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, InstantiationException, SecurityException, NoSuchMethodException;
+            throws OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException;
 
     /**
      * Validate.
@@ -58,7 +63,7 @@ public interface Validator {
      * ValidationResultModel
      * <p>
      * It iterates on all the resources with in the <code>dataModel</code> and returns all the errors
-     * found in all resources. 
+     * found in all resources.
      *
      * @param dataModel  the data model
      * @param shapeModel the shape model
@@ -69,15 +74,22 @@ public interface Validator {
      * @throws InvocationTargetException      the invocation target exception
      * @throws DatatypeConfigurationException the datatype configuration exception
      * @throws OslcCoreApplicationException   the oslc core application exception
-     * @throws URISyntaxException 
-     * @throws NoSuchMethodException 
-     * @throws SecurityException 
-     * @throws InstantiationException 
-     * @throws IllegalArgumentException 
+     * @throws URISyntaxException
+     * @throws NoSuchMethodException
+     * @throws SecurityException
+     * @throws InstantiationException
+     * @throws IllegalArgumentException
      */
     ValidationReport validate(Model dataModel, Model shapeModel)
-            throws IllegalAccessException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException, IllegalArgumentException, InstantiationException, SecurityException, NoSuchMethodException, URISyntaxException;
+            throws IllegalAccessException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    URISyntaxException;
 
     /**
      * Validate <code>dataModel</code> against the {@link Shape} that is constructed from
@@ -91,12 +103,19 @@ public interface Validator {
      * @param clazz     Resource class with shape annotations
      *
      * @return {@link ValidationReport}
-     * @throws NoSuchMethodException 
-     * @throws SecurityException 
-     * @throws InstantiationException 
+     * @throws NoSuchMethodException
+     * @throws SecurityException
+     * @throws InstantiationException
      */
     ValidationReport validate(Model dataModel, Class<? extends AbstractResource> clazz)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
-            ParseException, InstantiationException, SecurityException, NoSuchMethodException;
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException;
 }

@@ -14,15 +14,12 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ext.Provider;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
 @Produces({OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
 @Consumes({OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML})
-public class OslcSimpleXmlArrayProvider extends OslcSimpleRdfXmlArrayProvider {
-
-}
+public class OslcSimpleXmlArrayProvider extends OslcSimpleRdfXmlArrayProvider {}

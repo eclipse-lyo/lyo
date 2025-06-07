@@ -15,7 +15,6 @@ package org.eclipse.lyo.oslc4j.core;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
 
 /**
@@ -84,5 +83,4 @@ public class OslcGlobalNamespaceProvider {
             this.prefixDefinitionMap = prefixDefinitionMap;
         }
     }
-
 }

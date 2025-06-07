@@ -16,17 +16,14 @@ package org.eclipse.lyo.trs.client.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
 import org.apache.jena.rdf.model.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RdfUtil {
-    static public String modelToRdfXml(Model model) throws IOException {
+    public static String modelToRdfXml(Model model) throws IOException {
         return modelToString(model, "RDF/XML");
     }
 
-    static public String modelToNTriple(Model model) throws IOException {
+    public static String modelToNTriple(Model model) throws IOException {
         return modelToString(model, "N-TRIPLE");
     }
 
@@ -40,12 +37,11 @@ public class RdfUtil {
      * @return the seralization of the model as a string
      * @throws IOException
      */
-    static public String modelToString(Model model, String syntax) throws IOException {
+    public static String modelToString(Model model, String syntax) throws IOException {
         // try "N-TRIPLE" or "TURTLE"
         final StringWriter out = new StringWriter();
         model.write(out, syntax);
         final String result = out.toString();
         return result;
     }
-
 }

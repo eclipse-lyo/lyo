@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcName {
-	/**
-	 *	Name of the element.
-	 */
-	String value();
+    /**
+     *	Name of the element.
+     */
+    String value();
 }

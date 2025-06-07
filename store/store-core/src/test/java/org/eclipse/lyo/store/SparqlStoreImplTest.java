@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
@@ -58,7 +56,8 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
         sp.setCreated(new Date());
         try {
             manager.putResources(testNg, Collections.singletonList(sp));
-            final List<ServiceProvider> providers = manager.getResources(testNg, ServiceProvider.class);
+            final List<ServiceProvider> providers =
+                    manager.getResources(testNg, ServiceProvider.class);
             assertThat(providers).hasSize(1);
         } catch (StoreAccessException | ModelUnmarshallingException e) {
             fail("Store failed", e);
@@ -77,12 +76,17 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
                 fail("Store failed", e);
             }
         }
-        System.out.printf("10 named graphs persisted (resources) in %s ms", Duration.between(start, Instant.now()).toMillis());
+        System.out.printf(
+                "10 named graphs persisted (resources) in %s ms",
+                Duration.between(start, Instant.now()).toMillis());
     }
 
     @Test
-    public void testInsertionPerfRaw() throws InvocationTargetException, DatatypeConfigurationException,
-            OslcCoreApplicationException, IllegalAccessException {
+    public void testInsertionPerfRaw()
+            throws InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    IllegalAccessException {
         final List<ServiceProvider> providers = genProviders();
         final Model jenaModel = JenaModelHelper.createJenaModel(providers.toArray());
         var start = Instant.now();
@@ -90,7 +94,9 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
             final URI testNg = URI.create("urn:test:" + i);
             manager.insertJenaModel(testNg, jenaModel);
         }
-        System.out.printf("10 named graphs persisted (raw Model) in %s ms", Duration.between(start, Instant.now()).toMillis());
+        System.out.printf(
+                "10 named graphs persisted (raw Model) in %s ms",
+                Duration.between(start, Instant.now()).toMillis());
     }
 
     private List<ServiceProvider> genProviders() {
@@ -104,6 +110,4 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
         }
         return providers;
     }
-
-
 }

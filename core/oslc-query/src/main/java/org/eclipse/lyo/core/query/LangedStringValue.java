@@ -16,9 +16,8 @@ package org.eclipse.lyo.core.query;
 /**
  * Language specified string value operand from oslc.where clause
  */
-public interface LangedStringValue extends Value
-{
-	String value();
-	
-	String langTag();
+public interface LangedStringValue extends Value {
+    String value();
+
+    String langTag();
 }

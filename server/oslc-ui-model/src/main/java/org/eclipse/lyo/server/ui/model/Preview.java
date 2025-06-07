@@ -13,18 +13,15 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "properties"
-})
+@JsonPropertyOrder({"properties"})
 public class Preview {
 
     /**
@@ -58,13 +55,16 @@ public class Preview {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Preview.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Preview.class.getName())
+                .append('@')
+                .append(Integer.toHexString(System.identityHashCode(this)))
+                .append('[');
         sb.append("properties");
         sb.append('=');
-        sb.append(((this.properties == null)?"<null>":this.properties));
+        sb.append(((this.properties == null) ? "<null>" : this.properties));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -74,7 +74,7 @@ public class Preview {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.properties == null)? 0 :this.properties.hashCode()));
+        result = ((result * 31) + ((this.properties == null) ? 0 : this.properties.hashCode()));
         return result;
     }
 
@@ -89,5 +89,4 @@ public class Preview {
         Preview rhs = ((Preview) other);
         return (Objects.equals(this.properties, rhs.properties));
     }
-
 }

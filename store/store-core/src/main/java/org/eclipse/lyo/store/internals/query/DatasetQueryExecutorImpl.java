@@ -56,8 +56,9 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
 
     @Override
     public QueryExecution prepareSparqlQuery(final String query) {
-        if(released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        if (released) {
+            throw new IllegalStateException(
+                    "Cannot execute queries after releasing the connection");
         }
         log.debug("Running query: '{}'", query);
         return QueryExecutionFactory.create(query, dataset);
@@ -65,8 +66,9 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
 
     @Override
     public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
-        if(released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
+        if (released) {
+            throw new IllegalStateException(
+                    "Cannot execute queries after releasing the connection");
         }
         return UpdateExecutionFactory.create(updateRequest, dataset);
     }

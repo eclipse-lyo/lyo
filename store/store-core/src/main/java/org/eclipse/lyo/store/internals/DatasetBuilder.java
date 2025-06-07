@@ -1,9 +1,5 @@
 package org.eclipse.lyo.store.internals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -17,7 +13,9 @@ import java.nio.file.Path;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb.TDB;
@@ -34,7 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings("WeakerAccess")
 public class DatasetBuilder {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DatasetBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatasetBuilder.class);
 
     /**
      * Initialises a persistent Jena TDB Dataset instance in a given subdirectory (created if

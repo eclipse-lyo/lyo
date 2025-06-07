@@ -19,8 +19,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
 /**
  * Array or collection of these elements where value is <code>true</code>
  * will not be presented as a query result.
@@ -28,11 +26,10 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OslcNotQueryResult
-{
-	/**
-	 * True if the now ResponseInfo is to be generated for array or
-	 * collection of elements with this annotation
-	 */
-	boolean value() default true;
+public @interface OslcNotQueryResult {
+    /**
+     * True if the now ResponseInfo is to be generated for array or
+     * collection of elements with this annotation
+     */
+    boolean value() default true;
 }

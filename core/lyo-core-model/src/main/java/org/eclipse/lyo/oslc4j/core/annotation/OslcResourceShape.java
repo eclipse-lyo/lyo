@@ -23,18 +23,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcResourceShape {
-	/**
-	 * Title of the resource shape.
-	 */
-	String title() default "";
+    /**
+     * Title of the resource shape.
+     */
+    String title() default "";
 
-     /**
+    /**
      * Description of the resource shape.
      */
     String description() default "";
 
-	/**
-	 * Type or types of resource described by this shape.
-	 */
-	String[] describes() default {};
+    /**
+     * Type or types of resource described by this shape.
+     */
+    String[] describes() default {};
 }

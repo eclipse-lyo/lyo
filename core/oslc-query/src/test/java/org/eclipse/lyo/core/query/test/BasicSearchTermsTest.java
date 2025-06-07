@@ -21,27 +21,20 @@ import org.junit.Test;
 /**
  * Basic tests of oslc.searchTerms clause parsing
  */
-public class BasicSearchTermsTest
-{
-	@Test
-	public void testSearchTerms() throws ParseException
-	{
-		String[] expressions = {
-				"\"foobar\"",
-				"\"foobar\",\"whatsis\\\"yousa\""
-		};
+public class BasicSearchTermsTest {
+    @Test
+    public void testSearchTerms() throws ParseException {
+        String[] expressions = {"\"foobar\"", "\"foobar\",\"whatsis\\\"yousa\""};
 
-		for (String expression : expressions) {
-			SearchTermsClause stringList =
-					QueryUtils.parseSearchTerms(expression);
+        for (String expression : expressions) {
+            SearchTermsClause stringList = QueryUtils.parseSearchTerms(expression);
 
-			System.out.println(stringList);
-		}
-	}
+            System.out.println(stringList);
+        }
+    }
 
-	@Test(expected=ParseException.class)
-	public void testBadSearchTerms() throws ParseException
-	{
-		QueryUtils.parseSearchTerms("");
-	}
+    @Test(expected = ParseException.class)
+    public void testBadSearchTerms() throws ParseException {
+        QueryUtils.parseSearchTerms("");
+    }
 }

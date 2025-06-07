@@ -18,61 +18,39 @@ package org.eclipse.lyo.oslc.domains.qm;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
+// Start of user code imports
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
-import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.qm.TestScript;
-// Start of user code imports
-import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
@@ -83,10 +61,7 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 @OslcNamespace(Oslc_qmDomainConstants.TESTCASE_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTCASE_LOCALNAME)
 @OslcResourceShape(title = "TestCase Shape", describes = Oslc_qmDomainConstants.TESTCASE_TYPE)
-public class TestCase
-    extends AbstractResource
-    implements ITestCase
-{
+public class TestCase extends AbstractResource implements ITestCase {
     // Start of user code attributeAnnotation:contributor
     // End of user code
     private Set<Link> contributor = new HashSet<>();
@@ -137,47 +112,46 @@ public class TestCase
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public TestCase()
-    {
+    public TestCase() {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public TestCase(final URI about)
-    {
+    public TestCase(final URI about) {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_qmDomainConstants.TESTCASE_PATH,
-        TestCase.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_qmDomainConstants.TESTCASE_PATH,
+                TestCase.class);
     }
 
-
-    public String toString()
-    {
+    public String toString() {
         return toString(false);
     }
 
-    public String toString(boolean asLocalResource)
-    {
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
 
         if (asLocalResource) {
-            result = result + "{a Local TestCase Resource} - update TestCase.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local TestCase Resource} - update TestCase.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
 
@@ -188,68 +162,58 @@ public class TestCase
         return result;
     }
 
-    public void addContributor(final Link contributor)
-    {
+    public void addContributor(final Link contributor) {
         this.contributor.add(contributor);
     }
 
-    public void addCreator(final Link creator)
-    {
+    public void addCreator(final Link creator) {
         this.creator.add(creator);
     }
 
-    public void addInstanceShape(final Link instanceShape)
-    {
+    public void addInstanceShape(final Link instanceShape) {
         this.instanceShape.add(instanceShape);
     }
 
-    public void addServiceProvider(final Link serviceProvider)
-    {
+    public void addServiceProvider(final Link serviceProvider) {
         this.serviceProvider.add(serviceProvider);
     }
 
-    public void addSubject(final String subject)
-    {
+    public void addSubject(final String subject) {
         this.subject.add(subject);
     }
 
-    public void addType(final Link type)
-    {
+    public void addType(final Link type) {
         this.type.add(type);
     }
 
-    public void addRelatedChangeRequest(final Link relatedChangeRequest)
-    {
+    public void addRelatedChangeRequest(final Link relatedChangeRequest) {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
 
-    public void addTestsChangeRequest(final Link testsChangeRequest)
-    {
+    public void addTestsChangeRequest(final Link testsChangeRequest) {
         this.testsChangeRequest.add(testsChangeRequest);
     }
 
-    public void addUsesTestScript(final Link usesTestScript)
-    {
+    public void addUsesTestScript(final Link usesTestScript) {
         this.usesTestScript.add(usesTestScript);
     }
 
-    public void addValidatesRequirement(final Link validatesRequirement)
-    {
+    public void addValidatesRequirement(final Link validatesRequirement) {
         this.validatesRequirement.add(validatesRequirement);
     }
-
 
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcDescription(
+            "Contributor or contributors to the resource. It is likely that the target resource"
+                    + " will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getContributor()
-    {
+    public Set<Link> getContributor() {
         // Start of user code getterInit:contributor
         // End of user code
         return contributor;
@@ -263,8 +227,7 @@ public class TestCase
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCreated()
-    {
+    public Date getCreated() {
         // Start of user code getterInit:created
         // End of user code
         return created;
@@ -274,13 +237,14 @@ public class TestCase
     // End of user code
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcDescription(
+            "Creator or creators of the resource. It is likely that the target resource will be a"
+                    + " foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getCreator()
-    {
+    public Set<Link> getCreator() {
         // Start of user code getterInit:creator
         // End of user code
         return creator;
@@ -290,12 +254,13 @@ public class TestCase
     // End of user code
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -305,12 +270,14 @@ public class TestCase
     // End of user code
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -324,8 +291,7 @@ public class TestCase
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getModified()
-    {
+    public Date getModified() {
         // Start of user code getterInit:modified
         // End of user code
         return modified;
@@ -335,13 +301,18 @@ public class TestCase
     // End of user code
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
+    @OslcDescription(
+            "The URI of a Resource Shape that describes the possible properties, occurrence, value"
+                + " types, allowed values and labels. This shape information is useful in"
+                + " displaying the subject resource as well as guiding clients in performing"
+                + " modifications. Instance shapes may be specific to the authenticated user"
+                + " associated with the request that retrieved the resource, the current state of"
+                + " the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getInstanceShape()
-    {
+    public Set<Link> getInstanceShape() {
         // Start of user code getterInit:instanceShape
         // End of user code
         return instanceShape;
@@ -351,13 +322,15 @@ public class TestCase
     // End of user code
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
+    @OslcDescription(
+            "A link to the resource's OSLC Service Provider. There may be cases when the subject"
+                + " resource is available from a service provider that implements multiple domain"
+                + " specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getServiceProvider()
-    {
+    public Set<Link> getServiceProvider() {
         // Start of user code getterInit:serviceProvider
         // End of user code
         return serviceProvider;
@@ -367,13 +340,14 @@ public class TestCase
     // End of user code
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
+    @OslcDescription(
+            "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes"
+                    + " an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public Set<String> getSubject()
-    {
+    public Set<String> getSubject() {
         // Start of user code getterInit:subject
         // End of user code
         return subject;
@@ -383,12 +357,13 @@ public class TestCase
     // End of user code
     @OslcName("title")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -402,8 +377,7 @@ public class TestCase
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Set<Link> getType()
-    {
+    public Set<Link> getType() {
         // Start of user code getterInit:type
         // End of user code
         return type;
@@ -412,15 +386,17 @@ public class TestCase
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
-    @OslcDescription("A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+    @OslcDescription(
+            "A related change request. It is likely that the target resource will be an"
+                    + " oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getRelatedChangeRequest()
-    {
+    public Set<Link> getRelatedChangeRequest() {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
         return relatedChangeRequest;
@@ -429,15 +405,17 @@ public class TestCase
     // Start of user code getterAnnotation:testsChangeRequest
     // End of user code
     @OslcName("testsChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
-    @OslcDescription("Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
+    @OslcDescription(
+            "Change Request tested by the Test Case. It is likely that the target resource will be"
+                    + " an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getTestsChangeRequest()
-    {
+    public Set<Link> getTestsChangeRequest() {
         // Start of user code getterInit:testsChangeRequest
         // End of user code
         return testsChangeRequest;
@@ -446,14 +424,16 @@ public class TestCase
     // Start of user code getterAnnotation:usesTestScript
     // End of user code
     @OslcName("usesTestScript")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
-    @OslcDescription("Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
+    @OslcDescription(
+            "Test Script used by the Test Case. It is likely that the target resource will be an"
+                    + " oslc_qm:TestScript but that is not necessarily the case.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_qmDomainConstants.TESTSCRIPT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getUsesTestScript()
-    {
+    public Set<Link> getUsesTestScript() {
         // Start of user code getterInit:usesTestScript
         // End of user code
         return usesTestScript;
@@ -462,15 +442,17 @@ public class TestCase
     // Start of user code getterAnnotation:validatesRequirement
     // End of user code
     @OslcName("validatesRequirement")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
-    @OslcDescription("Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
+    @OslcDescription(
+            "Requirement that is validated by the Test Case. It is likely that the target resource"
+                    + " will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getValidatesRequirement()
-    {
+    public Set<Link> getValidatesRequirement() {
         // Start of user code getterInit:validatesRequirement
         // End of user code
         return validatesRequirement;
@@ -478,13 +460,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final Set<Link> contributor )
-    {
+    public void setContributor(final Set<Link> contributor) {
         // Start of user code setterInit:contributor
         // End of user code
         this.contributor.clear();
-        if (contributor != null)
-        {
+        if (contributor != null) {
             this.contributor.addAll(contributor);
         }
         // Start of user code setterFinalize:contributor
@@ -493,8 +473,7 @@ public class TestCase
 
     // Start of user code setterAnnotation:created
     // End of user code
-    public void setCreated(final Date created )
-    {
+    public void setCreated(final Date created) {
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
@@ -504,13 +483,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final Set<Link> creator )
-    {
+    public void setCreator(final Set<Link> creator) {
         // Start of user code setterInit:creator
         // End of user code
         this.creator.clear();
-        if (creator != null)
-        {
+        if (creator != null) {
             this.creator.addAll(creator);
         }
         // Start of user code setterFinalize:creator
@@ -519,8 +496,7 @@ public class TestCase
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -530,8 +506,7 @@ public class TestCase
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -541,8 +516,7 @@ public class TestCase
 
     // Start of user code setterAnnotation:modified
     // End of user code
-    public void setModified(final Date modified )
-    {
+    public void setModified(final Date modified) {
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
@@ -552,13 +526,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final Set<Link> instanceShape )
-    {
+    public void setInstanceShape(final Set<Link> instanceShape) {
         // Start of user code setterInit:instanceShape
         // End of user code
         this.instanceShape.clear();
-        if (instanceShape != null)
-        {
+        if (instanceShape != null) {
             this.instanceShape.addAll(instanceShape);
         }
         // Start of user code setterFinalize:instanceShape
@@ -567,13 +539,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final Set<Link> serviceProvider )
-    {
+    public void setServiceProvider(final Set<Link> serviceProvider) {
         // Start of user code setterInit:serviceProvider
         // End of user code
         this.serviceProvider.clear();
-        if (serviceProvider != null)
-        {
+        if (serviceProvider != null) {
             this.serviceProvider.addAll(serviceProvider);
         }
         // Start of user code setterFinalize:serviceProvider
@@ -582,13 +552,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final Set<String> subject )
-    {
+    public void setSubject(final Set<String> subject) {
         // Start of user code setterInit:subject
         // End of user code
         this.subject.clear();
-        if (subject != null)
-        {
+        if (subject != null) {
             this.subject.addAll(subject);
         }
         // Start of user code setterFinalize:subject
@@ -597,8 +565,7 @@ public class TestCase
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -608,13 +575,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:type
     // End of user code
-    public void setType(final Set<Link> type )
-    {
+    public void setType(final Set<Link> type) {
         // Start of user code setterInit:type
         // End of user code
         this.type.clear();
-        if (type != null)
-        {
+        if (type != null) {
             this.type.addAll(type);
         }
         // Start of user code setterFinalize:type
@@ -623,13 +588,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
-    {
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest) {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
         this.relatedChangeRequest.clear();
-        if (relatedChangeRequest != null)
-        {
+        if (relatedChangeRequest != null) {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
         // Start of user code setterFinalize:relatedChangeRequest
@@ -638,13 +601,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:testsChangeRequest
     // End of user code
-    public void setTestsChangeRequest(final Set<Link> testsChangeRequest )
-    {
+    public void setTestsChangeRequest(final Set<Link> testsChangeRequest) {
         // Start of user code setterInit:testsChangeRequest
         // End of user code
         this.testsChangeRequest.clear();
-        if (testsChangeRequest != null)
-        {
+        if (testsChangeRequest != null) {
             this.testsChangeRequest.addAll(testsChangeRequest);
         }
         // Start of user code setterFinalize:testsChangeRequest
@@ -653,13 +614,11 @@ public class TestCase
 
     // Start of user code setterAnnotation:usesTestScript
     // End of user code
-    public void setUsesTestScript(final Set<Link> usesTestScript )
-    {
+    public void setUsesTestScript(final Set<Link> usesTestScript) {
         // Start of user code setterInit:usesTestScript
         // End of user code
         this.usesTestScript.clear();
-        if (usesTestScript != null)
-        {
+        if (usesTestScript != null) {
             this.usesTestScript.addAll(usesTestScript);
         }
         // Start of user code setterFinalize:usesTestScript
@@ -668,17 +627,14 @@ public class TestCase
 
     // Start of user code setterAnnotation:validatesRequirement
     // End of user code
-    public void setValidatesRequirement(final Set<Link> validatesRequirement )
-    {
+    public void setValidatesRequirement(final Set<Link> validatesRequirement) {
         // Start of user code setterInit:validatesRequirement
         // End of user code
         this.validatesRequirement.clear();
-        if (validatesRequirement != null)
-        {
+        if (validatesRequirement != null) {
             this.validatesRequirement.addAll(validatesRequirement);
         }
         // Start of user code setterFinalize:validatesRequirement
         // End of user code
     }
-
 }

@@ -19,7 +19,6 @@ package org.eclipse.lyo.shacl;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -47,11 +46,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 // End of user code
 @OslcNamespace(ShDomainConstants.VALIDATIONREPORT_NAMESPACE)
 @OslcName(ShDomainConstants.VALIDATIONREPORT_LOCALNAME)
-@OslcResourceShape(title = "ValidationReport Resource Shape", describes = ShDomainConstants.VALIDATIONREPORT_TYPE)
-public class ValidationReport
-    extends AbstractResource
-    implements IValidationReport
-{
+@OslcResourceShape(
+        title = "ValidationReport Resource Shape",
+        describes = ShDomainConstants.VALIDATIONREPORT_TYPE)
+public class ValidationReport extends AbstractResource implements IValidationReport {
     // Start of user code attributeAnnotation:conforms
     // End of user code
     private Boolean conforms;
@@ -63,38 +61,32 @@ public class ValidationReport
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ValidationReport()
-           throws URISyntaxException
-    {
+    public ValidationReport() throws URISyntaxException {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public ValidationReport(final URI about)
-           throws URISyntaxException
-    {
+    public ValidationReport(final URI about) throws URISyntaxException {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        ShDomainConstants.VALIDATIONREPORT_PATH,
-        ValidationReport.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                ShDomainConstants.VALIDATIONREPORT_PATH,
+                ValidationReport.class);
     }
 
-
-    public void addResult(final ValidationResult result)
-    {
+    public void addResult(final ValidationResult result) {
         this.result.add(result);
     }
-
 
     // Start of user code getterAnnotation:conforms
     // End of user code
@@ -103,8 +95,7 @@ public class ValidationReport
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isConforms()
-    {
+    public Boolean isConforms() {
         // Start of user code getterInit:conforms
         // End of user code
         return conforms;
@@ -118,18 +109,15 @@ public class ValidationReport
     @OslcValueType(ValueType.LocalResource)
     @OslcRange({ShDomainConstants.VALIDATIONRESULT_TYPE})
     @OslcReadOnly(false)
-    public HashSet<ValidationResult> getResult()
-    {
+    public HashSet<ValidationResult> getResult() {
         // Start of user code getterInit:result
         // End of user code
         return result;
     }
 
-
     // Start of user code setterAnnotation:conforms
     // End of user code
-    public void setConforms(final Boolean conforms )
-    {
+    public void setConforms(final Boolean conforms) {
         // Start of user code setterInit:conforms
         // End of user code
         this.conforms = conforms;
@@ -140,13 +128,11 @@ public class ValidationReport
 
     // Start of user code setterAnnotation:result
     // End of user code
-    public void setResult(final HashSet<ValidationResult> result )
-    {
+    public void setResult(final HashSet<ValidationResult> result) {
         // Start of user code setterInit:result
         // End of user code
         this.result.clear();
-        if (result != null)
-        {
+        if (result != null) {
             this.result.addAll(result);
         }
 

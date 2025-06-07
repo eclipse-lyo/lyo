@@ -14,16 +14,34 @@
 
 package org.eclipse.lyo.server.oauth.webapp.services;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+import net.oauth.OAuth;
+import net.oauth.OAuth.Parameter;
+import net.oauth.OAuthAccessor;
+import net.oauth.OAuthException;
+import net.oauth.OAuthMessage;
+import net.oauth.OAuthProblemException;
+import net.oauth.OAuthValidator;
+import net.oauth.server.OAuthServlet;
 import org.apache.wink.json4j.JSON;
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
@@ -37,27 +55,6 @@ import org.eclipse.lyo.server.oauth.core.token.TokenStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
-import jakarta.ws.rs.core.UriBuilder;
-import net.oauth.OAuth;
-import net.oauth.OAuth.Parameter;
-import net.oauth.OAuthAccessor;
-import net.oauth.OAuthException;
-import net.oauth.OAuthMessage;
-import net.oauth.OAuthProblemException;
-import net.oauth.OAuthValidator;
-import net.oauth.server.OAuthServlet;
-
 /**
  * Issues OAuth request tokens, handles authentication, and then exchanges
  * request tokens for access tokens based on the OAuth configuration set in the
@@ -68,11 +65,9 @@ import net.oauth.server.OAuthServlet;
  */
 @Path("/oauth")
 public class OAuthService {
-    @Context
-    protected HttpServletRequest httpRequest;
+    @Context protected HttpServletRequest httpRequest;
 
-    @Context
-    protected HttpServletResponse httpResponse;
+    @Context protected HttpServletResponse httpResponse;
 
     private static final Logger log = LoggerFactory.getLogger(OAuthService.class);
 
@@ -128,27 +123,35 @@ public class OAuthService {
              */
             OAuthMessage message = OAuthServlet.getMessage(httpRequest, null);
             OAuthConfiguration config = OAuthConfiguration.getInstance();
-            String consumerKey = config.getTokenStrategy().validateRequestToken(httpRequest, message);
+            String consumerKey =
+                    config.getTokenStrategy().validateRequestToken(httpRequest, message);
 
-            LyoOAuthConsumer consumer = OAuthConfiguration.getInstance().getConsumerStore().getConsumer(consumerKey);
+            LyoOAuthConsumer consumer =
+                    OAuthConfiguration.getInstance().getConsumerStore().getConsumer(consumerKey);
 
             // Pass some data to the JSP.
             httpRequest.setAttribute("requestToken", message.getToken());
             httpRequest.setAttribute("consumerName", consumer.getName());
             httpRequest.setAttribute("callback", getCallbackURL(message, consumer));
-            boolean callbackConfirmed = consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
+            boolean callbackConfirmed =
+                    consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A;
             httpRequest.setAttribute("callbackConfirmed", callbackConfirmed);
 
             // The application name is displayed on the OAuth login page.
             httpRequest.setAttribute("applicationName", config.getApplication().getName());
 
-            httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
+            httpResponse.setHeader(
+                    OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
             if (config.getApplication().isAuthenticated(httpRequest)) {
                 // Show the grant access page.
-                httpRequest.getRequestDispatcher("/oauth/authorize.jsp").forward(httpRequest, httpResponse);
+                httpRequest
+                        .getRequestDispatcher("/oauth/authorize.jsp")
+                        .forward(httpRequest, httpResponse);
             } else {
                 // Show the login page.
-                httpRequest.getRequestDispatcher("/oauth/login.jsp").forward(httpRequest, httpResponse);
+                httpRequest
+                        .getRequestDispatcher("/oauth/login.jsp")
+                        .forward(httpRequest, httpResponse);
             }
 
             return null;
@@ -165,7 +168,9 @@ public class OAuthService {
      */
     @POST
     @Path("/login")
-    public Response login(@FormParam("id") String id, @FormParam("password") String password,
+    public Response login(
+            @FormParam("id") String id,
+            @FormParam("password") String password,
             @FormParam("requestToken") String requestToken) {
         CSRFPrevent.check(httpRequest);
 
@@ -178,13 +183,21 @@ public class OAuthService {
             if (message == null || "".equals(message)) {
                 message = "Incorrect username or password.";
             }
-            return Response.status(Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Status.CONFLICT)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
 
         try {
-            OAuthConfiguration.getInstance().getTokenStrategy().markRequestTokenAuthorized(httpRequest, requestToken);
+            OAuthConfiguration.getInstance()
+                    .getTokenStrategy()
+                    .markRequestTokenAuthorized(httpRequest, requestToken);
         } catch (OAuthException e) {
-            return Response.status(Status.CONFLICT).entity("Request token invalid.").type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Status.CONFLICT)
+                    .entity("Request token invalid.")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
 
         return Response.noContent().build();
@@ -208,9 +221,14 @@ public class OAuthService {
 
     private Response authorizeToken(String requestToken) {
         try {
-            OAuthConfiguration.getInstance().getTokenStrategy().markRequestTokenAuthorized(httpRequest, requestToken);
+            OAuthConfiguration.getInstance()
+                    .getTokenStrategy()
+                    .markRequestTokenAuthorized(httpRequest, requestToken);
         } catch (OAuthException e) {
-            return Response.status(Status.CONFLICT).entity("Request token invalid.").type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Status.CONFLICT)
+                    .entity("Request token invalid.")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
 
         return Response.noContent().build();
@@ -244,7 +262,8 @@ public class OAuthService {
             // The verification code MUST be passed in the request if this is
             // OAuth 1.0a.
             if (!config.isV1_0Allowed()
-                    || oAuthRequest.getConsumer().getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
+                    || oAuthRequest.getConsumer().getOAuthVersion()
+                            == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
                 strategy.validateVerificationCode(oAuthRequest);
             }
 
@@ -274,7 +293,7 @@ public class OAuthService {
     @Path("/requestKey")
     // Some consumers do not set an appropriate Content-Type header.
     // @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Produces({MediaType.APPLICATION_JSON})
     public Response provisionalKey() throws NullPointerException, IOException {
         try {
             // Create the consumer from the request.
@@ -310,13 +329,16 @@ public class OAuthService {
             response.put("key", key);
 
             return Response.ok(response.write())
-                    .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE).build();
+                    .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE)
+                    .build();
         } catch (JSONException e) {
             log.info("Encountered an exception while processing JSON: {}", e.getMessage());
             return Response.status(Status.BAD_REQUEST).build();
         } catch (ConsumerStoreException e) {
             log.warn("Exception caught from consumer store: {}", e.getMessage());
-            return Response.status(Status.SERVICE_UNAVAILABLE).type(MediaType.TEXT_PLAIN).entity(e.getMessage())
+            return Response.status(Status.SERVICE_UNAVAILABLE)
+                    .type(MediaType.TEXT_PLAIN)
+                    .entity(e.getMessage())
                     .build();
         }
     }
@@ -333,8 +355,9 @@ public class OAuthService {
      */
     @GET
     @Path("/approveKey")
-    @Produces({ MediaType.TEXT_HTML })
-    public Response showApproveKeyPage(@QueryParam("key") String key) throws ServletException, IOException {
+    @Produces({MediaType.TEXT_HTML})
+    public Response showApproveKeyPage(@QueryParam("key") String key)
+            throws ServletException, IOException {
         if (key == null || "".equals(key)) {
             return showConsumerKeyManagementPage();
         }
@@ -349,24 +372,31 @@ public class OAuthService {
                 return showAdminLogin();
             }
 
-            LyoOAuthConsumer provisionalConsumer = OAuthConfiguration.getInstance().getConsumerStore().getConsumer(key);
+            LyoOAuthConsumer provisionalConsumer =
+                    OAuthConfiguration.getInstance().getConsumerStore().getConsumer(key);
 
             if (provisionalConsumer == null) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
 
-            httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
+            httpResponse.setHeader(
+                    OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
             httpRequest.setAttribute("consumerName", provisionalConsumer.getName());
             httpRequest.setAttribute("consumerKey", provisionalConsumer.consumerKey);
             httpRequest.setAttribute("trusted", provisionalConsumer.isTrusted());
-            final String dispatchTo = (provisionalConsumer.isProvisional()) ? "/oauth/approveKey.jsp"
-                    : "/oauth/keyAlreadyApproved.jsp";
+            final String dispatchTo =
+                    (provisionalConsumer.isProvisional())
+                            ? "/oauth/approveKey.jsp"
+                            : "/oauth/keyAlreadyApproved.jsp";
             httpRequest.getRequestDispatcher(dispatchTo).forward(httpRequest, httpResponse);
             return null;
 
         } catch (ConsumerStoreException e) {
             log.warn("Exception caught from consumer store: {}", e.getMessage());
-            return Response.status(Status.CONFLICT).type(MediaType.TEXT_PLAIN).entity(e.getMessage()).build();
+            return Response.status(Status.CONFLICT)
+                    .type(MediaType.TEXT_PLAIN)
+                    .entity(e.getMessage())
+                    .build();
         } catch (OAuthProblemException e) {
             return respondWithOAuthProblem(e);
         }
@@ -394,7 +424,8 @@ public class OAuthService {
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
 
-        httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
+        httpResponse.setHeader(
+                OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
         httpRequest.getRequestDispatcher("/oauth/manage.jsp").forward(httpRequest, httpResponse);
         return null;
     }
@@ -418,8 +449,10 @@ public class OAuthService {
                 return Response.noContent().build();
             }
 
-            return Response.status(Status.CONFLICT).entity("The user '" + id + "' is not an administrator.")
-                    .type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Status.CONFLICT)
+                    .entity("The user '" + id + "' is not an administrator.")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         } catch (OAuthException e) {
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
         } catch (AuthenticationException e) {
@@ -427,13 +460,19 @@ public class OAuthService {
             if (message == null || "".equals(message)) {
                 message = "Incorrect username or password.";
             }
-            return Response.status(Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Status.CONFLICT)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
     }
 
     protected boolean confirmCallback(OAuthRequest oAuthRequest) throws OAuthException {
-        boolean callbackConfirmed = OAuthConfiguration.getInstance().getTokenStrategy().getCallback(httpRequest,
-                oAuthRequest.getAccessor().requestToken) != null;
+        boolean callbackConfirmed =
+                OAuthConfiguration.getInstance()
+                                .getTokenStrategy()
+                                .getCallback(httpRequest, oAuthRequest.getAccessor().requestToken)
+                        != null;
         if (callbackConfirmed) {
             oAuthRequest.getConsumer().setOAuthVersion(LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A);
         } else {
@@ -476,20 +515,25 @@ public class OAuthService {
 
     protected Response respondWithToken(String token, String tokenSecret, boolean callbackConfirmed)
             throws IOException {
-        List<Parameter> oAuthParameters = OAuth.newList(OAuth.OAUTH_TOKEN, token, OAuth.OAUTH_TOKEN_SECRET,
-                tokenSecret);
+        List<Parameter> oAuthParameters =
+                OAuth.newList(OAuth.OAUTH_TOKEN, token, OAuth.OAUTH_TOKEN_SECRET, tokenSecret);
         if (callbackConfirmed) {
             oAuthParameters.add(new Parameter(OAuth.OAUTH_CALLBACK_CONFIRMED, "true"));
         }
 
         String responseBody = OAuth.formEncode(oAuthParameters);
-        return Response.ok(responseBody).type(MediaType.APPLICATION_FORM_URLENCODED)
-                .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE).build();
+        return Response.ok(responseBody)
+                .type(MediaType.APPLICATION_FORM_URLENCODED)
+                .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE)
+                .build();
     }
 
-    protected Response respondWithOAuthProblem(OAuthException e) throws IOException, ServletException {
+    protected Response respondWithOAuthProblem(OAuthException e)
+            throws IOException, ServletException {
         try {
-            OAuthServlet.handleException(httpResponse, e,
+            OAuthServlet.handleException(
+                    httpResponse,
+                    e,
                     OAuthConfiguration.getInstance().getApplication().getRealm(httpRequest));
         } catch (OAuthProblemException serviceUnavailableException) {
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
@@ -498,33 +542,40 @@ public class OAuthService {
         return Response.status(Status.UNAUTHORIZED).build();
     }
 
-    private String getCallbackURL(OAuthMessage message, LyoOAuthConsumer consumer) throws IOException, OAuthException {
+    private String getCallbackURL(OAuthMessage message, LyoOAuthConsumer consumer)
+            throws IOException, OAuthException {
         String callback = null;
         switch (consumer.getOAuthVersion()) {
-        case OAUTH_1_0:
-            if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
-                throw new OAuthProblemException(OAuth.Problems.VERSION_REJECTED);
-            }
+            case OAUTH_1_0:
+                if (!OAuthConfiguration.getInstance().isV1_0Allowed()) {
+                    throw new OAuthProblemException(OAuth.Problems.VERSION_REJECTED);
+                }
 
-            // If this is OAuth 1.0, the callback should be a request parameter.
-            callback = message.getParameter(OAuth.OAUTH_CALLBACK);
-            break;
+                // If this is OAuth 1.0, the callback should be a request parameter.
+                callback = message.getParameter(OAuth.OAUTH_CALLBACK);
+                break;
 
-        case OAUTH_1_0A:
-            // If this is OAuth 1.0a, the callback was passed when the consumer
-            // asked for a request token.
-            String requestToken = message.getToken();
-            callback = OAuthConfiguration.getInstance().getTokenStrategy().getCallback(httpRequest, requestToken);
+            case OAUTH_1_0A:
+                // If this is OAuth 1.0a, the callback was passed when the consumer
+                // asked for a request token.
+                String requestToken = message.getToken();
+                callback =
+                        OAuthConfiguration.getInstance()
+                                .getTokenStrategy()
+                                .getCallback(httpRequest, requestToken);
         }
 
         if (callback == null) {
             return null;
         }
 
-        UriBuilder uriBuilder = UriBuilder.fromUri(callback).queryParam(OAuth.OAUTH_TOKEN, message.getToken());
+        UriBuilder uriBuilder =
+                UriBuilder.fromUri(callback).queryParam(OAuth.OAUTH_TOKEN, message.getToken());
         if (consumer.getOAuthVersion() == LyoOAuthConsumer.OAuthVersion.OAUTH_1_0A) {
-            String verificationCode = OAuthConfiguration.getInstance().getTokenStrategy()
-                    .generateVerificationCode(httpRequest, message.getToken());
+            String verificationCode =
+                    OAuthConfiguration.getInstance()
+                            .getTokenStrategy()
+                            .generateVerificationCode(httpRequest, message.getToken());
             uriBuilder.queryParam(OAuth.OAUTH_VERIFIER, verificationCode);
         }
 
@@ -546,7 +597,8 @@ public class OAuthService {
     }
 
     private Response showAdminLogin() throws ServletException, IOException {
-        httpResponse.setHeader(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
+        httpResponse.setHeader(
+                OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE);
         StringBuffer callback = httpRequest.getRequestURL();
         String query = httpRequest.getQueryString();
         if (query != null) {
@@ -554,7 +606,9 @@ public class OAuthService {
             callback.append(query);
         }
         httpRequest.setAttribute("callback", callback.toString());
-        httpRequest.getRequestDispatcher("/oauth/adminLogin.jsp").forward(httpRequest, httpResponse);
+        httpRequest
+                .getRequestDispatcher("/oauth/adminLogin.jsp")
+                .forward(httpRequest, httpResponse);
         return null;
     }
 }

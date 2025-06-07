@@ -14,36 +14,41 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 import java.lang.reflect.Method;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
 
 public final class OslcCoreInvalidPropertyDefinitionException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 6043500589743612250L;
+    private static final long serialVersionUID = 6043500589743612250L;
 
-	private static final String MESSAGE_KEY = "InvalidPropertyDefinitionException";
+    private static final String MESSAGE_KEY = "InvalidPropertyDefinitionException";
 
-	private final Method				 method;
-	private final OslcPropertyDefinition oslcPropertyDefinition;
-	private final Class<?>				 resourceClass;
+    private final Method method;
+    private final OslcPropertyDefinition oslcPropertyDefinition;
+    private final Class<?> resourceClass;
 
-	public OslcCoreInvalidPropertyDefinitionException(final Class<?> resourceClass, final Method method, final OslcPropertyDefinition oslcPropertyDefinition) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName(), oslcPropertyDefinition.value()});
+    public OslcCoreInvalidPropertyDefinitionException(
+            final Class<?> resourceClass,
+            final Method method,
+            final OslcPropertyDefinition oslcPropertyDefinition) {
+        super(
+                MESSAGE_KEY,
+                new Object[] {
+                    resourceClass.getName(), method.getName(), oslcPropertyDefinition.value()
+                });
 
-		this.method					= method;
-		this.oslcPropertyDefinition = oslcPropertyDefinition;
-		this.resourceClass			= resourceClass;
-	}
+        this.method = method;
+        this.oslcPropertyDefinition = oslcPropertyDefinition;
+        this.resourceClass = resourceClass;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public OslcPropertyDefinition getOslcPropertyDefinition()
-	{
-		return oslcPropertyDefinition;
-	}
+    public OslcPropertyDefinition getOslcPropertyDefinition() {
+        return oslcPropertyDefinition;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

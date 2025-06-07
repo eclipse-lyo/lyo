@@ -27,5 +27,4 @@ public class ServerRollBackException extends RuntimeException {
     public ServerRollBackException(String string) {
         super(string);
     }
-
 }

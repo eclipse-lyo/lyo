@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcAllowedValue {
-	/**
-	 * A value allowed for property, inlined into property definition.
-	 */
-	String[] value();
+    /**
+     * A value allowed for property, inlined into property definition.
+     */
+    String[] value();
 }

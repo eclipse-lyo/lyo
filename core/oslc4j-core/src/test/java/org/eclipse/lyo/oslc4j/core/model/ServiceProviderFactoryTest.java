@@ -2,13 +2,11 @@ package org.eclipse.lyo.oslc4j.core.model;
 
 import static org.junit.Assert.assertEquals;
 
+import jakarta.ws.rs.Path;
 import java.util.HashMap;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import jakarta.ws.rs.Path;
 
 /**
  * Unit test for verifying {@link ServiceProviderFactory} URI-related code.
@@ -27,10 +25,14 @@ public class ServiceProviderFactoryTest {
     @Test
     public void createCreationFactory() throws Exception {
         HashMap<String, Object> pathParameterValues = new HashMap<>();
-        CreationFactory creationFactory = ServiceProviderFactory.createCreationFactory(FAKE_BASE,
-                pathParameterValues, FakeService.class.getMethod("fakeCreationFactory"));
+        CreationFactory creationFactory =
+                ServiceProviderFactory.createCreationFactory(
+                        FAKE_BASE,
+                        pathParameterValues,
+                        FakeService.class.getMethod("fakeCreationFactory"));
 
-        assertEquals(getCreationFactoryUri(FAKE_SERVICE, FAKE_CREATION_FACTORY),
+        assertEquals(
+                getCreationFactoryUri(FAKE_SERVICE, FAKE_CREATION_FACTORY),
                 creationFactory.getCreation().toString());
     }
 
@@ -38,11 +40,15 @@ public class ServiceProviderFactoryTest {
     public void createCreationFactoryOnParametrisedMethod() throws Exception {
         HashMap<String, Object> pathParameterValues = new HashMap<>();
         pathParameterValues.put("id", ID_VALUE);
-        CreationFactory creationFactory = ServiceProviderFactory.createCreationFactory(FAKE_BASE,
-                pathParameterValues, FakeService.class.getMethod("fakeCreationFactoryWithId"));
+        CreationFactory creationFactory =
+                ServiceProviderFactory.createCreationFactory(
+                        FAKE_BASE,
+                        pathParameterValues,
+                        FakeService.class.getMethod("fakeCreationFactoryWithId"));
 
         String substitutedURI = FAKE_CREATION_FACTORY_WITH_ID.replace("{id}", ID_VALUE);
-        assertEquals(getCreationFactoryUri(FAKE_SERVICE, substitutedURI),
+        assertEquals(
+                getCreationFactoryUri(FAKE_SERVICE, substitutedURI),
                 creationFactory.getCreation().toString());
     }
 
@@ -60,23 +66,30 @@ public class ServiceProviderFactoryTest {
 
         HashMap<String, Object> pathParameterValues = new HashMap<>();
         pathParameterValues.put("id", ID_VALUE);
-        CreationFactory creationFactory = ServiceProviderFactory.createCreationFactory(FAKE_BASE,
-                pathParameterValues, classPath, creationFactoryAnnotation, methodPath);
+        CreationFactory creationFactory =
+                ServiceProviderFactory.createCreationFactory(
+                        FAKE_BASE,
+                        pathParameterValues,
+                        classPath,
+                        creationFactoryAnnotation,
+                        methodPath);
 
-        assertEquals(getUri("mockService/23/mockFactory/23"),
-                creationFactory.getCreation().toString());
+        assertEquals(
+                getUri("mockService/23/mockFactory/23"), creationFactory.getCreation().toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createCreationFactoryOnParametrisedMethodWithNullParam() throws Exception {
         HashMap<String, Object> pathParameterValues = new HashMap<>();
         pathParameterValues.put("id", null);
-        ServiceProviderFactory.createCreationFactory(FAKE_BASE, pathParameterValues,
+        ServiceProviderFactory.createCreationFactory(
+                FAKE_BASE,
+                pathParameterValues,
                 FakeService.class.getMethod("fakeCreationFactoryWithId"));
     }
 
-    private String getCreationFactoryUri(final String fakeService,
-            final String fakeCreationFactory) {
+    private String getCreationFactoryUri(
+            final String fakeService, final String fakeCreationFactory) {
         String s = fakeService + "/" + fakeCreationFactory;
         return getUri(s);
     }
@@ -95,5 +108,4 @@ public class ServiceProviderFactoryTest {
         @Path(FAKE_CREATION_FACTORY_WITH_ID)
         public void fakeCreationFactoryWithId() {}
     }
-
 }

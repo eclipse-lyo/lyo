@@ -13,20 +13,21 @@
  */
 package org.eclipse.lyo.oslc4j.core.exception;
 
-public final class OslcCoreMissingNamespaceDeclarationException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 2334531336078063672L;
+public final class OslcCoreMissingNamespaceDeclarationException
+        extends OslcCoreApplicationException {
+    private static final long serialVersionUID = 2334531336078063672L;
 
-	private static final String MESSAGE_KEY = "MissingNamespaceDeclarationException";
+    private static final String MESSAGE_KEY = "MissingNamespaceDeclarationException";
 
-	private final String namespace;
+    private final String namespace;
 
-	public OslcCoreMissingNamespaceDeclarationException(final String namespace) {
-		super(MESSAGE_KEY, new Object[] {namespace});
+    public OslcCoreMissingNamespaceDeclarationException(final String namespace) {
+        super(MESSAGE_KEY, new Object[] {namespace});
 
-		this.namespace = namespace;
-	}
+        this.namespace = namespace;
+    }
 
-	public String getNamespace() {
-		return namespace;
-	}
+    public String getNamespace() {
+        return namespace;
+    }
 }

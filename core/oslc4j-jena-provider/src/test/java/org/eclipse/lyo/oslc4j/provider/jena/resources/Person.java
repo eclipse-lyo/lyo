@@ -12,7 +12,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 @OslcNamespace("http://locahost:7001/vocabulary/")
 @OslcResourceShape(title = "AbstractTypesTest")
 public class Person extends AbstractResource {
-    
+
     private String name;
     private Pet pet;
 
@@ -33,5 +33,4 @@ public class Person extends AbstractResource {
     public void setPet(Pet pet) {
         this.pet = pet;
     }
-
 }

@@ -17,7 +17,6 @@
 package org.eclipse.lyo.shacl;
 
 import java.net.URI;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -34,10 +33,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(ShDomainConstants.VALIDATIONRESULT_NAMESPACE)
 @OslcName(ShDomainConstants.VALIDATIONRESULT_LOCALNAME)
-@OslcResourceShape(title = "ValidationResult Resource Shape", describes = ShDomainConstants.VALIDATIONRESULT_TYPE)
-public interface IValidationResult
-{
-
+@OslcResourceShape(
+        title = "ValidationResult Resource Shape",
+        describes = ShDomainConstants.VALIDATIONRESULT_TYPE)
+public interface IValidationResult {
 
     @OslcName("resultPath")
     @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultPath")
@@ -62,13 +61,18 @@ public interface IValidationResult
     @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultSeverity")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcReadOnly(false)
-    @OslcAllowedValue({"http://www.w3.org/ns/shacl#Info", "http://www.w3.org/ns/shacl#Warning", "http://www.w3.org/ns/shacl#Violation"})
+    @OslcAllowedValue({
+        "http://www.w3.org/ns/shacl#Info",
+        "http://www.w3.org/ns/shacl#Warning",
+        "http://www.w3.org/ns/shacl#Violation"
+    })
     public URI getResultSeverity();
 
+    public void setResultPath(final URI resultPath);
 
-    public void setResultPath(final URI resultPath );
-    public void setFocusNode(final URI focusNode );
-    public void setMessage(final String message );
-    public void setResultSeverity(final URI resultSeverity );
+    public void setFocusNode(final URI focusNode);
+
+    public void setMessage(final String message);
+
+    public void setResultSeverity(final URI resultSeverity);
 }
-

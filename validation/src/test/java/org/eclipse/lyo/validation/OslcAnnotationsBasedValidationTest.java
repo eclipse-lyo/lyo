@@ -15,13 +15,11 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.eclipse.lyo.shacl.ValidationReport;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,10 +28,9 @@ import org.junit.Test;
  * The Class OslcAnnotationsBasedValidationTest.
  *
  *
- * @author Yash Khatri 
- * 
+ * @author Yash Khatri
+ *
  */
-
 public class OslcAnnotationsBasedValidationTest {
 
     /** The a resource. */
@@ -50,7 +47,8 @@ public class OslcAnnotationsBasedValidationTest {
     public void OslcBasedNegativetest() {
 
         try {
-            anOslcResource = new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
+            anOslcResource =
+                    new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
             anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
             anOslcResource.setAnIntegerProperty(new BigInteger("12"));
             anOslcResource.setIntegerProperty3(new BigInteger("12"));
@@ -74,7 +72,8 @@ public class OslcAnnotationsBasedValidationTest {
     public void OslcBasedPositivetest() {
 
         try {
-            anOslcResource = new AnOslcResource(new URI("http://www.sampledomain.org/sam#anOslcResource"));
+            anOslcResource =
+                    new AnOslcResource(new URI("http://www.sampledomain.org/sam#anOslcResource"));
             anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
             anOslcResource.setAnIntegerProperty(new BigInteger("12"));
             anOslcResource.setIntegerProperty3(new BigInteger("12"));
@@ -90,5 +89,4 @@ public class OslcAnnotationsBasedValidationTest {
             Assert.fail("Exception should not be thrown");
         }
     }
-
 }

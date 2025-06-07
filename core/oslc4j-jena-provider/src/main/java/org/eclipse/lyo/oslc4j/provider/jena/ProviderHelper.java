@@ -11,14 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 final class ProviderHelper {
-    private final static Logger log = LoggerFactory.getLogger(ProviderHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(ProviderHelper.class);
 
-    final static int CANNOT_BE_DETERMINED_IN_ADVANCE = -1;
+    static final int CANNOT_BE_DETERMINED_IN_ADVANCE = -1;
 
     static boolean hasNotQueryResultTypeAnnot(final Class<?> type) {
         Class<?> annotatedType = type;
         final Class<?> componentType = type.getComponentType();
-        if(componentType != null) {
+        if (componentType != null) {
             annotatedType = componentType;
         }
         OslcNotQueryResult notQueryResult = annotatedType.getAnnotation(OslcNotQueryResult.class);
@@ -81,17 +81,14 @@ final class ProviderHelper {
         return Compact.class.isAssignableFrom(type);
     }
 
-    protected static boolean isOslcQuery(final String parmString)
-    {
+    protected static boolean isOslcQuery(final String parmString) {
         boolean containsOslcParm = false;
 
-        final String [] uriParts = parmString.toLowerCase().split("oslc\\.",2);
-        if (uriParts.length > 1)
-        {
+        final String[] uriParts = parmString.toLowerCase().split("oslc\\.", 2);
+        if (uriParts.length > 1) {
             containsOslcParm = true;
         }
 
         return containsOslcParm;
     }
-
 }

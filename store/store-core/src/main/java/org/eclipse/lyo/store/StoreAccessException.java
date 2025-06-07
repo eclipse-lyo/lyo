@@ -39,8 +39,11 @@ public class StoreAccessException extends Exception {
         super(cause);
     }
 
-    protected StoreAccessException(final String message, final Throwable cause,
-            final boolean enableSuppression, final boolean stackTrace) {
+    protected StoreAccessException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
+            final boolean stackTrace) {
         super(message, cause, enableSuppression, stackTrace);
     }
 }

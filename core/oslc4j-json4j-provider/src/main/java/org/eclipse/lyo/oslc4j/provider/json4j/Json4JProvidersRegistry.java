@@ -20,28 +20,24 @@ import java.util.Set;
  * Use JSON-LD support in Jena provider.
  */
 @Deprecated
-public final class Json4JProvidersRegistry
-{
-	private static final Set<Class<?>> PROVIDERS = new HashSet<>();
+public final class Json4JProvidersRegistry {
+    private static final Set<Class<?>> PROVIDERS = new HashSet<>();
 
-	static
-	{
-		PROVIDERS.add(OslcCompactJsonProvider.class);
-		PROVIDERS.add(OslcRdfJsonArrayProvider.class);
-		PROVIDERS.add(OslcRdfJsonCollectionProvider.class);
-		PROVIDERS.add(OslcRdfJsonProvider.class);
-	}
+    static {
+        PROVIDERS.add(OslcCompactJsonProvider.class);
+        PROVIDERS.add(OslcRdfJsonArrayProvider.class);
+        PROVIDERS.add(OslcRdfJsonCollectionProvider.class);
+        PROVIDERS.add(OslcRdfJsonProvider.class);
+    }
 
-	private Json4JProvidersRegistry()
-	{
-		super();
-	}
+    private Json4JProvidersRegistry() {
+        super();
+    }
 
-	/**
-	 * Returns a mutable set of provider classes.  Each request returns a new Set.
-	 */
-	public static final Set<Class<?>> getProviders()
-	{
-		return new HashSet<>(PROVIDERS);
-	}
+    /**
+     * Returns a mutable set of provider classes.  Each request returns a new Set.
+     */
+    public static final Set<Class<?>> getProviders() {
+        return new HashSet<>(PROVIDERS);
+    }
 }

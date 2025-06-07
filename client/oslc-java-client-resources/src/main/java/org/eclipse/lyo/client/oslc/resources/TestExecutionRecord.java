@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -34,56 +33,51 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
  * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestExecutionRecord">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestExecutionRecord</a>
  */
 @Deprecated
-@OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_EXECUTION_RECORD)
+@OslcResourceShape(
+        title = "Quality Management Resource Shape",
+        describes = QmConstants.TYPE_TEST_EXECUTION_RECORD)
 @OslcNamespace(QmConstants.QUALITY_MANAGEMENT_NAMESPACE)
-public class TestExecutionRecord
-       extends QmResource
-{
-    private final Set<Link>     blockedByChangeRequests       = new HashSet<>();
-    private final Set<URI>      contributors                = new TreeSet<>();
-    private final Set<URI>      creators                    = new TreeSet<>();
-    private final Set<Link>     relatedChangeRequests       = new HashSet<>();
+public class TestExecutionRecord extends QmResource {
+    private final Set<Link> blockedByChangeRequests = new HashSet<>();
+    private final Set<URI> contributors = new TreeSet<>();
+    private final Set<URI> creators = new TreeSet<>();
+    private final Set<Link> relatedChangeRequests = new HashSet<>();
 
-    private Link     reportsOnTestPlan;
-    private URI      runsOnTestEnvironment;
-    private Link     runsTestCase;
+    private Link reportsOnTestPlan;
+    private URI runsOnTestEnvironment;
+    private Link runsTestCase;
 
-    public TestExecutionRecord()
-    {
+    public TestExecutionRecord() {
         super();
     }
 
     protected URI getRdfType() {
-    	return URI.create(QmConstants.TYPE_TEST_EXECUTION_RECORD);
+        return URI.create(QmConstants.TYPE_TEST_EXECUTION_RECORD);
     }
 
-    public void addBlockedByChangeRequest(final Link blockingChangeRequest)
-    {
+    public void addBlockedByChangeRequest(final Link blockingChangeRequest) {
         this.blockedByChangeRequests.add(blockingChangeRequest);
     }
 
-    public void addContributor(final URI contributor)
-    {
+    public void addContributor(final URI contributor) {
         this.contributors.add(contributor);
     }
 
-    public void addCreator(final URI creator)
-    {
+    public void addCreator(final URI creator) {
         this.creators.add(creator);
     }
 
-    public void addRelatedChangeRequest(final Link relatedChangeRequest)
-    {
+    public void addRelatedChangeRequest(final Link relatedChangeRequest) {
         this.relatedChangeRequests.add(relatedChangeRequest);
     }
 
-    @OslcDescription("The person(s) who are responsible for the work needed to complete the change request.")
+    @OslcDescription(
+            "The person(s) who are responsible for the work needed to complete the change request.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
     @OslcRange(QmConstants.TYPE_PERSON)
     @OslcTitle("Contributors")
-    public URI[] getContributors()
-    {
+    public URI[] getContributors() {
         return contributors.toArray(new URI[contributors.size()]);
     }
 
@@ -92,8 +86,7 @@ public class TestExecutionRecord
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "creator")
     @OslcRange(QmConstants.TYPE_PERSON)
     @OslcTitle("Creators")
-    public URI[] getCreators()
-    {
+    public URI[] getCreators() {
         return creators.toArray(new URI[creators.size()]);
     }
 
@@ -103,8 +96,7 @@ public class TestExecutionRecord
     @OslcRange(QmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Blocked By Change Request")
-    public Link[] getBlockedByChangeRequests()
-    {
+    public Link[] getBlockedByChangeRequests() {
         return blockedByChangeRequests.toArray(new Link[blockedByChangeRequests.size()]);
     }
 
@@ -114,8 +106,7 @@ public class TestExecutionRecord
     @OslcRange(QmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Related Change Requests")
-    public Link[] getRelatedChangeRequests()
-    {
+    public Link[] getRelatedChangeRequests() {
         return relatedChangeRequests.toArray(new Link[relatedChangeRequests.size()]);
     }
 
@@ -125,16 +116,15 @@ public class TestExecutionRecord
     @OslcRange(QmConstants.TYPE_TEST_PLAN)
     @OslcReadOnly(false)
     @OslcTitle("Reports On Test Plan")
-    public Link getReportsOnTestPlan()
-    {
+    public Link getReportsOnTestPlan() {
         return reportsOnTestPlan;
     }
 
-    @OslcDescription("Indicates the environment details of the test case for this execution record.")
+    @OslcDescription(
+            "Indicates the environment details of the test case for this execution record.")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "runsOnTestEnvironment")
     @OslcTitle("Runs On Test Environment")
-    public URI getRunsOnTestEnvironment()
-    {
+    public URI getRunsOnTestEnvironment() {
         return runsOnTestEnvironment;
     }
 
@@ -144,64 +134,51 @@ public class TestExecutionRecord
     @OslcRange(QmConstants.TYPE_TEST_CASE)
     @OslcReadOnly(false)
     @OslcTitle("Runs Test Case")
-    public Link getRunsTestCase()
-    {
+    public Link getRunsTestCase() {
         return runsTestCase;
     }
 
-    public void setBlockedByChangeRequests(final Link[] blockedByChangeRequests)
-    {
+    public void setBlockedByChangeRequests(final Link[] blockedByChangeRequests) {
         this.blockedByChangeRequests.clear();
 
-        if (blockedByChangeRequests != null)
-        {
+        if (blockedByChangeRequests != null) {
             this.blockedByChangeRequests.addAll(Arrays.asList(blockedByChangeRequests));
         }
     }
 
-    public void setContributors(final URI[] contributors)
-    {
+    public void setContributors(final URI[] contributors) {
         this.contributors.clear();
 
-        if (contributors != null)
-        {
+        if (contributors != null) {
             this.contributors.addAll(Arrays.asList(contributors));
         }
     }
 
-    public void setCreators(final URI[] creators)
-    {
+    public void setCreators(final URI[] creators) {
         this.creators.clear();
 
-        if (creators != null)
-        {
+        if (creators != null) {
             this.creators.addAll(Arrays.asList(creators));
         }
     }
 
-    public void setRelatedChangeRequests(final Link[] relatedChangeRequests)
-    {
+    public void setRelatedChangeRequests(final Link[] relatedChangeRequests) {
         this.relatedChangeRequests.clear();
 
-        if (relatedChangeRequests != null)
-        {
+        if (relatedChangeRequests != null) {
             this.relatedChangeRequests.addAll(Arrays.asList(relatedChangeRequests));
         }
     }
 
-    public void setReportsOnTestPlan(final Link reportsOnTestPlan)
-    {
+    public void setReportsOnTestPlan(final Link reportsOnTestPlan) {
         this.reportsOnTestPlan = reportsOnTestPlan;
     }
 
-    public void setRunsOnTestEnvironment(final URI runsOnTestEnvironment)
-    {
+    public void setRunsOnTestEnvironment(final URI runsOnTestEnvironment) {
         this.runsOnTestEnvironment = runsOnTestEnvironment;
     }
 
-    public void setRunsTestCase(final Link runsTestCase)
-    {
+    public void setRunsTestCase(final Link runsTestCase) {
         this.runsTestCase = runsTestCase;
     }
-
 }

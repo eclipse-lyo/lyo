@@ -14,35 +14,25 @@
 package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
-
 import org.eclipse.lyo.core.query.Property.Type;
-
 
 /**
  * Proxy implementation of {@link org.eclipse.lyo.core.query.Wildcard Wildcard} interface
  */
-public class WildcardInvocationHandler extends PropertyInvocationHandler
-{
-	public
-	WildcardInvocationHandler()
-	{
-		super(null, Type.IDENTIFIER, null, true);
-	}
+public class WildcardInvocationHandler extends PropertyInvocationHandler {
+    public WildcardInvocationHandler() {
+        super(null, Type.IDENTIFIER, null, true);
+    }
 
-	/**
-	 * @see org.eclipse.lyo.core.query.impl.PropertiesInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-	 */
-	@Override
-	public Object invoke(
-		Object proxy,
-		Method method,
-		Object[] args
-	) throws Throwable
-	{
-		if (! method.getName().equals("toString")) {
-			return super.invoke(proxy, method, args);
-		}
-		
-		return "*";
-	}
+    /**
+     * @see org.eclipse.lyo.core.query.impl.PropertiesInvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (!method.getName().equals("toString")) {
+            return super.invoke(proxy, method, args);
+        }
+
+        return "*";
+    }
 }

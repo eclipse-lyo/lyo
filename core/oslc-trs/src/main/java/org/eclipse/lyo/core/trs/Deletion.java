@@ -13,30 +13,28 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import static org.eclipse.lyo.core.trs.TRSConstants.*;
+
 import java.math.BigInteger;
 import java.net.URI;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-
-import static org.eclipse.lyo.core.trs.TRSConstants.*;
 
 @OslcNamespace(TRS_NAMESPACE)
 @OslcResourceShape(title = "Deletion  Shape", describes = TRS_TYPE_DELETION)
 public class Deletion extends ChangeEvent {
 
-	public Deletion() {}
+    public Deletion() {}
 
+    /**
+     * @param changed
+     * @param order
+     */
+    public Deletion(URI about, URI changed, BigInteger order) {
+        super(about, changed, order);
+    }
 
-	/**
-	 * @param changed
-	 * @param order
-	 */
-	public Deletion(URI about, URI changed, BigInteger order) {
-		super(about, changed, order);
-	}
-
-	public Deletion(URI about, URI changed, long order) {
-		super(about, changed, BigInteger.valueOf(order));
-	}
+    public Deletion(URI about, URI changed, long order) {
+        super(about, changed, BigInteger.valueOf(order));
+    }
 }

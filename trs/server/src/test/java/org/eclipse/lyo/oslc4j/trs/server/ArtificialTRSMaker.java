@@ -31,13 +31,14 @@ import org.slf4j.LoggerFactory;
  */
 public class ArtificialTRSMaker {
 
-    private final static Logger log = LoggerFactory.getLogger(ArtificialTRSMaker.class);
+    private static final Logger log = LoggerFactory.getLogger(ArtificialTRSMaker.class);
 
     /**
      * a boolean flag set to true after the history data is created for the resources once
      */
-    private boolean hasBeenTweaked                         = false;
-    private int     resourcesWithArtificialChangeDataLimit = -1;
+    private boolean hasBeenTweaked = false;
+
+    private int resourcesWithArtificialChangeDataLimit = -1;
 
     public ArtificialTRSMaker() {
         super();
@@ -107,5 +108,4 @@ public class ArtificialTRSMaker {
         }
         return tweakedHd;
     }
-
 }

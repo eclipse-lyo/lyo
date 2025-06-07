@@ -19,55 +19,31 @@ package org.eclipse.lyo.oslc.domains.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.config.Configuration;
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.Agent;
-import org.eclipse.lyo.oslc.domains.config.Baseline;
-import org.eclipse.lyo.oslc.domains.config.Component;
-import org.eclipse.lyo.oslc.domains.config.Configuration;
-import org.eclipse.lyo.oslc.domains.config.Contribution;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.config.Selections;
 // Start of user code imports
 // End of user code
 
@@ -78,11 +54,13 @@ import org.eclipse.lyo.oslc.domains.config.Selections;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.BASELINE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.BASELINE_LOCALNAME)
-@OslcResourceShape(title = "The shape of a baseline. Properties of a baseline defined in this specification must be read-only unless stated otherwise", description = "", describes = Oslc_configDomainConstants.BASELINE_TYPE)
-public class Baseline
-    extends Configuration
-    implements IBaseline
-{
+@OslcResourceShape(
+        title =
+                "The shape of a baseline. Properties of a baseline defined in this specification"
+                        + " must be read-only unless stated otherwise",
+        description = "",
+        describes = Oslc_configDomainConstants.BASELINE_TYPE)
+public class Baseline extends Configuration implements IBaseline {
     // Start of user code attributeAnnotation:baselineOfStream
     // End of user code
     private Link baselineOfStream;
@@ -103,47 +81,46 @@ public class Baseline
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Baseline()
-    {
+    public Baseline() {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public Baseline(final URI about)
-    {
+    public Baseline(final URI about) {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_configDomainConstants.BASELINE_PATH,
-        Baseline.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_configDomainConstants.BASELINE_PATH,
+                Baseline.class);
     }
 
-
-    public String toString()
-    {
+    public String toString() {
         return toString(false);
     }
 
-    public String toString(boolean asLocalResource)
-    {
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
 
         if (asLocalResource) {
-            result = result + "{a Local Baseline Resource} - update Baseline.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Baseline Resource} - update Baseline.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
 
@@ -153,27 +130,24 @@ public class Baseline
         return result;
     }
 
-    public void addCommitter(final Link committer)
-    {
+    public void addCommitter(final Link committer) {
         this.committer.add(committer);
     }
 
-    public void addWasDerivedFrom(final Link wasDerivedFrom)
-    {
+    public void addWasDerivedFrom(final Link wasDerivedFrom) {
         this.wasDerivedFrom.add(wasDerivedFrom);
     }
-
 
     // Start of user code getterAnnotation:baselineOfStream
     // End of user code
     @OslcName("baselineOfStream")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
     @OslcReadOnly(false)
-    public Link getBaselineOfStream()
-    {
+    public Link getBaselineOfStream() {
         // Start of user code getterInit:baselineOfStream
         // End of user code
         return baselineOfStream;
@@ -182,13 +156,15 @@ public class Baseline
     // Start of user code getterAnnotation:committed
     // End of user code
     @OslcName("committed")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
-    @OslcDescription("Date and time this version resource was checked in. Absent for mutable (checked out) versions.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
+    @OslcDescription(
+            "Date and time this version resource was checked in. Absent for mutable (checked out)"
+                    + " versions.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCommitted()
-    {
+    public Date getCommitted() {
         // Start of user code getterInit:committed
         // End of user code
         return committed;
@@ -197,14 +173,14 @@ public class Baseline
     // Start of user code getterAnnotation:committer
     // End of user code
     @OslcName("committer")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
     @OslcDescription("The entity that checked in this version.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
     @OslcReadOnly(true)
-    public Set<Link> getCommitter()
-    {
+    public Set<Link> getCommitter() {
         // Start of user code getterInit:committer
         // End of user code
         return committer;
@@ -213,13 +189,13 @@ public class Baseline
     // Start of user code getterAnnotation:previousBaseline
     // End of user code
     @OslcName("previousBaseline")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
     @OslcReadOnly(false)
-    public Link getPreviousBaseline()
-    {
+    public Link getPreviousBaseline() {
         // Start of user code getterInit:previousBaseline
         // End of user code
         return previousBaseline;
@@ -235,8 +211,7 @@ public class Baseline
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom()
-    {
+    public Set<Link> getWasDerivedFrom() {
         // Start of user code getterInit:wasDerivedFrom
         // End of user code
         return wasDerivedFrom;
@@ -244,8 +219,7 @@ public class Baseline
 
     // Start of user code setterAnnotation:baselineOfStream
     // End of user code
-    public void setBaselineOfStream(final Link baselineOfStream )
-    {
+    public void setBaselineOfStream(final Link baselineOfStream) {
         // Start of user code setterInit:baselineOfStream
         // End of user code
         this.baselineOfStream = baselineOfStream;
@@ -255,8 +229,7 @@ public class Baseline
 
     // Start of user code setterAnnotation:committed
     // End of user code
-    public void setCommitted(final Date committed )
-    {
+    public void setCommitted(final Date committed) {
         // Start of user code setterInit:committed
         // End of user code
         this.committed = committed;
@@ -266,13 +239,11 @@ public class Baseline
 
     // Start of user code setterAnnotation:committer
     // End of user code
-    public void setCommitter(final Set<Link> committer )
-    {
+    public void setCommitter(final Set<Link> committer) {
         // Start of user code setterInit:committer
         // End of user code
         this.committer.clear();
-        if (committer != null)
-        {
+        if (committer != null) {
             this.committer.addAll(committer);
         }
         // Start of user code setterFinalize:committer
@@ -281,8 +252,7 @@ public class Baseline
 
     // Start of user code setterAnnotation:previousBaseline
     // End of user code
-    public void setPreviousBaseline(final Link previousBaseline )
-    {
+    public void setPreviousBaseline(final Link previousBaseline) {
         // Start of user code setterInit:previousBaseline
         // End of user code
         this.previousBaseline = previousBaseline;
@@ -292,17 +262,14 @@ public class Baseline
 
     // Start of user code setterAnnotation:wasDerivedFrom
     // End of user code
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom )
-    {
+    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom) {
         // Start of user code setterInit:wasDerivedFrom
         // End of user code
         this.wasDerivedFrom.clear();
-        if (wasDerivedFrom != null)
-        {
+        if (wasDerivedFrom != null) {
             this.wasDerivedFrom.addAll(wasDerivedFrom);
         }
         // Start of user code setterFinalize:wasDerivedFrom
         // End of user code
     }
-
 }

@@ -31,5 +31,4 @@ import java.lang.annotation.Target;
 public @interface ShaclMaxExclusive {
 
     int value();
-
 }

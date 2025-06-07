@@ -16,31 +16,34 @@ package org.eclipse.lyo.oslc4j.core.exception;
 import java.net.URI;
 
 public final class OslcCoreDeregistrationException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 2969548886287595367L;
+    private static final long serialVersionUID = 2969548886287595367L;
 
-	private static final String MESSAGE_KEY = "DeregistrationException";
+    private static final String MESSAGE_KEY = "DeregistrationException";
 
-	private final String responseMessage;
-	private final URI	 serviceProviderURI;
-	private final int	 statusCode;
+    private final String responseMessage;
+    private final URI serviceProviderURI;
+    private final int statusCode;
 
-	public OslcCoreDeregistrationException(final URI serviceProviderURI, final int statusCode, final String responseMessage) {
-		super(MESSAGE_KEY, new Object[] {serviceProviderURI.toString(), statusCode, responseMessage});
+    public OslcCoreDeregistrationException(
+            final URI serviceProviderURI, final int statusCode, final String responseMessage) {
+        super(
+                MESSAGE_KEY,
+                new Object[] {serviceProviderURI.toString(), statusCode, responseMessage});
 
-		this.responseMessage	= responseMessage;
-		this.serviceProviderURI = serviceProviderURI;
-		this.statusCode			= statusCode;
-	}
+        this.responseMessage = responseMessage;
+        this.serviceProviderURI = serviceProviderURI;
+        this.statusCode = statusCode;
+    }
 
-	public String getResponseMessage() {
-		return responseMessage;
-	}
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 
-	public URI getServiceProviderURI() {
-		return serviceProviderURI;
-	}
+    public URI getServiceProviderURI() {
+        return serviceProviderURI;
+    }
 
-	public int getStatusCode() {
-		return statusCode;
-	}
+    public int getStatusCode() {
+        return statusCode;
+    }
 }

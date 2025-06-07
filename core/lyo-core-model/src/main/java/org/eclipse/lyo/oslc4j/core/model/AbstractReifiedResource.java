@@ -17,26 +17,21 @@ package org.eclipse.lyo.oslc4j.core.model;
  * Abstract implementation of {@link IReifiedResource}.
  */
 public abstract class AbstractReifiedResource<T> implements IReifiedResource<T> {
-	private T value;
-	
-	protected AbstractReifiedResource()
-	{
-	}
-	
-	protected AbstractReifiedResource(T value)
-	{
-		this.value = value;
-	}
-	
-	@Override
-	public T getValue()
-	{
-		return value;
-	}
+    private T value;
 
-	@Override
-	public void setValue(T value)
-	{
-		this.value = value;
-	}
+    protected AbstractReifiedResource() {}
+
+    protected AbstractReifiedResource(T value) {
+        this.value = value;
+    }
+
+    @Override
+    public T getValue() {
+        return value;
+    }
+
+    @Override
+    public void setValue(T value) {
+        this.value = value;
+    }
 }

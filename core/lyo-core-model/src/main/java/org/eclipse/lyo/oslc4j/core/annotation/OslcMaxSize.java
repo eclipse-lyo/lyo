@@ -23,9 +23,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcMaxSize {
-	/**
-	 * For String properties only, specifies maximum characters allowed.
-	 * If not set, then there is no maximum or maximum is specified elsewhere.
-	 */
-	int value();
+    /**
+     * For String properties only, specifies maximum characters allowed.
+     * If not set, then there is no maximum or maximum is specified elsewhere.
+     */
+    int value();
 }

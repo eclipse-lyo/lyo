@@ -2,15 +2,16 @@ package org.eclipse.lyo.oslc4j.provider.json4j;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
@@ -32,10 +33,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
 public class OslcJsonProviderCollectionTest extends JerseyTest {
 
     @Override
@@ -45,28 +42,28 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
         // Jetty has no servlet-enabled factory
 
         // Only JAX-RS init, no Servlet
-//        return new GrizzlyTestContainerFactory();
-//        return new JettyTestContainerFactory();
+        //        return new GrizzlyTestContainerFactory();
+        //        return new JettyTestContainerFactory();
     }
 
     @Override
     protected DeploymentContext configureDeployment() {
         return ServletDeploymentContext.builder(configure())
-            // either the same configure() value needs to be passed to builder() and servlet()
-            // or PROVIDER_PACKAGES needs to be supplied
-            .servlet(new ServletContainer(configure()))
-//            .initParam(ServerProperties.PROVIDER_PACKAGES, this.getClass().getPackage().getName())
-            .build();
-        // see https://stackoverflow.com/questions/28436040/hk2-is-not-injecting-the-httpservletrequest-with-jersey
+                // either the same configure() value needs to be passed to builder() and servlet()
+                // or PROVIDER_PACKAGES needs to be supplied
+                .servlet(new ServletContainer(configure()))
+                //            .initParam(ServerProperties.PROVIDER_PACKAGES,
+                // this.getClass().getPackage().getName())
+                .build();
+        // see
+        // https://stackoverflow.com/questions/28436040/hk2-is-not-injecting-the-httpservletrequest-with-jersey
         // for session support
     }
-
 
     @Override
     protected void configureClient(final ClientConfig config) {
         configureProviders().forEach(config::register);
     }
-
 
     @Override
     protected ResourceConfig configure() {
@@ -74,41 +71,43 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
 
         return new ResourceConfig(ProviderCollectionResource.class)
-            .registerClasses(configureProviders());
+                .registerClasses(configureProviders());
     }
 
     private static Set<Class<?>> configureProviders() {
         return Json4JProvidersRegistry.getProviders();
-        //FIXME: tests fail on "simple" or "updated" sets of providers
-//        return Json4JSimpleProvidersRegistry.getProviders();
-//        return Json4JUpdatedProvidersRegistry.getProviders();
+        // FIXME: tests fail on "simple" or "updated" sets of providers
+        //        return Json4JSimpleProvidersRegistry.getProviders();
+        //        return Json4JUpdatedProvidersRegistry.getProviders();
     }
 
     @Test
     public void testSetEndpoint() {
         Response response = target("/test").request().get();
 
-        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-            Response.Status.Family.SUCCESSFUL);
+        assertThat(response.getStatusInfo().getFamily())
+                .isEqualTo(Response.Status.Family.SUCCESSFUL);
     }
-
 
     @ParameterizedTest
     @ArgumentsSource(ProviderCollectionTestArguments.class)
     public void testQueryList(String path, boolean isExpectedQuery)
-        throws JSONException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
-        InvocationTargetException, IllegalAccessException, InstantiationException {
+            throws JSONException,
+                    DatatypeConfigurationException,
+                    URISyntaxException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException,
+                    InstantiationException {
         Response response = target(path).request(MediaType.APPLICATION_JSON).get();
         response.bufferEntity();
 
-        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-            Response.Status.Family.SUCCESSFUL);
-        List<TestResource> rdfResponse = response.readEntity(new GenericType<>() {
-        });
+        assertThat(response.getStatusInfo().getFamily())
+                .isEqualTo(Response.Status.Family.SUCCESSFUL);
+        List<TestResource> rdfResponse = response.readEntity(new GenericType<>() {});
         String rdfResponseString = response.readEntity(String.class);
         JSONObject responseJSON = new JSONObject(rdfResponseString);
         Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
-
 
         boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;
         assertThat(isQueryResponse).isEqualTo(isExpectedQuery);
@@ -121,35 +120,38 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
      */
     @Test
     public void testQueryArray() {
-        Response response = target("/test/qc-array-method-json").request(MediaType.APPLICATION_JSON).get();
+        Response response =
+                target("/test/qc-array-method-json").request(MediaType.APPLICATION_JSON).get();
 
         TestResource[] rdfResponse =
-            response.readEntity(((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
+                response.readEntity(
+                        ((TestResource[]) Array.newInstance(TestResource.class, 0)).getClass());
 
-        assertThat(response.getStatusInfo().getFamily()).isEqualTo(
-            Response.Status.Family.SUCCESSFUL);
+        assertThat(response.getStatusInfo().getFamily())
+                .isEqualTo(Response.Status.Family.SUCCESSFUL);
 
         assertThat(rdfResponse).hasSize(10);
     }
 
     private static class ProviderCollectionTestArguments implements ArgumentsProvider {
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-            return  Stream.of(
-                // path, isQueryResponse
-                Arguments.of("/test/qc-array-method-json", true)
-                ,Arguments.of("/test/qc-array-response-json", true)
-                ,Arguments.of("/test/qc-coll-method-json", true)
-                ,Arguments.of("/test/qc-coll-response-json", true)
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext)
+                throws Exception {
+            return Stream.of(
+                    // path, isQueryResponse
+                    Arguments.of("/test/qc-array-method-json", true),
+                    Arguments.of("/test/qc-array-response-json", true),
+                    Arguments.of("/test/qc-coll-method-json", true),
+                    Arguments.of("/test/qc-coll-response-json", true)
 
-                /*
-                OSLC JSON provider does not provide marshaling of non-Query resource collections.
-                @OslcQueryCapability and @OslcNotQueryResult are ignored.
-                 */
-                ,Arguments.of("/test/qc-nonq-coll-response-json", true)
-                ,Arguments.of("/test/nonqc-nonq-coll-response-json", true)
-                ,Arguments.of("/test/nonqc-array-response-json", true)
-            );
+                    /*
+                    OSLC JSON provider does not provide marshaling of non-Query resource collections.
+                    @OslcQueryCapability and @OslcNotQueryResult are ignored.
+                     */
+                    ,
+                    Arguments.of("/test/qc-nonq-coll-response-json", true),
+                    Arguments.of("/test/nonqc-nonq-coll-response-json", true),
+                    Arguments.of("/test/nonqc-array-response-json", true));
         }
     }
 }

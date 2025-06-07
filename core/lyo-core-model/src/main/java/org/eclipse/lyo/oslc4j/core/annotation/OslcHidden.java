@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcHidden {
-	/**
-	 * A hint that indicates that property MAY be hidden when presented in a user interface.
-	 */
-	boolean value();
+    /**
+     * A hint that indicates that property MAY be hidden when presented in a user interface.
+     */
+    boolean value();
 }

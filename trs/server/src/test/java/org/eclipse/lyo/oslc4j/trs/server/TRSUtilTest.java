@@ -16,12 +16,9 @@ package org.eclipse.lyo.oslc4j.trs.server;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
-import java.util.UUID;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Modification;
-import org.eclipse.lyo.oslc4j.trs.server.HistoryData;
-import org.eclipse.lyo.oslc4j.trs.server.TRSUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,10 +27,10 @@ import org.junit.Test;
 public class TRSUtilTest {
     static HistoryData hd;
     static ChangeEvent ce;
-    static String uriPrefix      = "https://host";
-    static String ceUriPrefix    = uriPrefix + "/changeEvents";
-    static int    changeEventNum = 0;
-    static int    baseMemberNum  = 0;
+    static String uriPrefix = "https://host";
+    static String ceUriPrefix = uriPrefix + "/changeEvents";
+    static int changeEventNum = 0;
+    static int baseMemberNum = 0;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -50,17 +47,19 @@ public class TRSUtilTest {
         HistoryData convertedHd = TRSUtil.changeEventToHistoryData(ce);
 
         Assert.assertTrue(convertedCe.getChanged().equals(hd.getUri()));
-        Assert.assertTrue(convertedCe.getExtendedProperties()
-                                     .get(TRSUtil.dateModifiedQname)
-                                     .equals(hd.getTimestamp()));
+        Assert.assertTrue(
+                convertedCe
+                        .getExtendedProperties()
+                        .get(TRSUtil.dateModifiedQname)
+                        .equals(hd.getTimestamp()));
         Assert.assertTrue(convertedCe instanceof Creation);
 
         Assert.assertTrue(ce.getChanged().equals(convertedHd.getUri()));
-        Assert.assertTrue(ce.getExtendedProperties()
-                            .get(TRSUtil.dateModifiedQname)
-                            .equals(convertedHd.getTimestamp()));
+        Assert.assertTrue(
+                ce.getExtendedProperties()
+                        .get(TRSUtil.dateModifiedQname)
+                        .equals(convertedHd.getTimestamp()));
         Assert.assertTrue(convertedHd.getType().equals(HistoryData.MODIFIED));
-
     }
 
     private static void initChangeEvent(ChangeEvent ce) throws URISyntaxException {
@@ -70,7 +69,6 @@ public class TRSUtilTest {
         ce.setAbout(changeEvenUri);
         ce.setChanged(baseMemberUri);
         ce.setOrder(changeEventNum);
-
     }
 
     private static String changeEventUri() {
@@ -80,5 +78,4 @@ public class TRSUtilTest {
     private static String baseMemberUri() {
         return ceUriPrefix + "/" + baseMemberNum++;
     }
-
 }

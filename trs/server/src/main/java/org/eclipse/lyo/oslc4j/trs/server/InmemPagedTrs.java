@@ -13,6 +13,7 @@
  */
 package org.eclipse.lyo.oslc4j.trs.server;
 
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
-
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -34,8 +34,6 @@ import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.ws.rs.core.UriBuilder;
-
 /**
  * This class is the backbone of the Tracked resource set service class. This class is extended by
  * oslc adapters wishing to implement an OSLC TRS interface. The implementing classes need to
@@ -46,7 +44,7 @@ import jakarta.ws.rs.core.UriBuilder;
  * @since 2.3.0
  */
 public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
-    private final static Logger log = LoggerFactory.getLogger(InmemPagedTrs.class);
+    private static final Logger log = LoggerFactory.getLogger(InmemPagedTrs.class);
 
     /**
      * Max items per changelog Page
@@ -93,8 +91,13 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
      * @param changeLogRelativePath   The relative path of the changeLog, may contain URI template parameters.
      * @param baseResourceUris   Initial set of the TRS Base resource URIs
      */
-    public InmemPagedTrs(final int basePageLimit, final int changelogPageLimit, final URI uriBase,
-            final String baseRelativePath, final String changeLogRelativePath, final Collection<URI> baseResourceUris) {
+    public InmemPagedTrs(
+            final int basePageLimit,
+            final int changelogPageLimit,
+            final URI uriBase,
+            final String baseRelativePath,
+            final String changeLogRelativePath,
+            final Collection<URI> baseResourceUris) {
         this.basePageLimit = basePageLimit;
         this.changelogPageLimit = changelogPageLimit;
         this.uriBase = uriBase;
@@ -109,7 +112,10 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
      * @param uriBase            Set it via eg <pre>UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("trs").build()</pre>
      * @param baseResourceUris   Initial set of the TRS Base resource URIs
      */
-    public InmemPagedTrs(final int basePageLimit, final int changelogPageLimit, final URI uriBase,
+    public InmemPagedTrs(
+            final int basePageLimit,
+            final int changelogPageLimit,
+            final URI uriBase,
             final Collection<URI> baseResourceUris) {
         this.basePageLimit = basePageLimit;
         this.changelogPageLimit = changelogPageLimit;
@@ -122,7 +128,7 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
     @Override
     public Base getBaseResource(final Integer pageId) {
         int listIdx = pageIdToListIdx(pageId);
-        if (listIdx  < 0 || listIdx >= baseResources.size()) {
+        if (listIdx < 0 || listIdx >= baseResources.size()) {
             throw new IllegalArgumentException("There is no such Base page");
         }
         return baseResources.get(listIdx);
@@ -158,22 +164,22 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
 
     @Override
     public void onCreated(final IResource resource) {
-        final HistoryData instance = HistoryData.getInstance(new Date(), resource.getAbout(),
-                HistoryData.CREATED);
+        final HistoryData instance =
+                HistoryData.getInstance(new Date(), resource.getAbout(), HistoryData.CREATED);
         onHistoryData(instance);
     }
 
     @Override
     public void onModified(final IResource resource) {
-        final HistoryData instance = HistoryData.getInstance(new Date(), resource.getAbout(),
-                HistoryData.MODIFIED);
+        final HistoryData instance =
+                HistoryData.getInstance(new Date(), resource.getAbout(), HistoryData.MODIFIED);
         onHistoryData(instance);
     }
 
     @Override
     public void onDeleted(final URI resourceUri) {
-        final HistoryData instance = HistoryData.getInstance(new Date(), resourceUri,
-                HistoryData.DELETED);
+        final HistoryData instance =
+                HistoryData.getInstance(new Date(), resourceUri, HistoryData.DELETED);
         onHistoryData(instance);
     }
 
@@ -183,8 +189,11 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
         changeLog.getChange().add(changeEvent);
     }
 
-    private ChangeEvent createChangeEvent(final long changeOrder, final URI trackedResourceUri,
-            final URI eventUri, final String histDataType) {
+    private ChangeEvent createChangeEvent(
+            final long changeOrder,
+            final URI trackedResourceUri,
+            final URI eventUri,
+            final String histDataType) {
         final ChangeEvent ce;
         if (changeOrder >= Integer.MAX_VALUE) {
             throw new IllegalStateException("Switch ChangeEvents to use longs");
@@ -273,8 +282,9 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
         return basePage;
     }
 
-    //the last page of the changeLog's URI is set to null, since it needs to be a local resource in the trackedResourceSet.
-    //All other pages will have a URI
+    // the last page of the changeLog's URI is set to null, since it needs to be a local resource in
+    // the trackedResourceSet.
+    // All other pages will have a URI
     private ChangeLog findOrCreateChangelogPage() {
         final ChangeLog page;
         if (this.changelogResources.isEmpty()) {
@@ -339,13 +349,18 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
     }
 
     private URI createBasePageUri(final int pageId) {
-        final URI uri = getUriBuilder().path(this.baseRelativePath).path(String.valueOf(pageId)).build();
+        final URI uri =
+                getUriBuilder().path(this.baseRelativePath).path(String.valueOf(pageId)).build();
         return uri;
     }
 
     private URI createChangelogUri() {
         final int nextPageId = this.changelogResources.size();
-        final URI uri = getUriBuilder().path(this.changeLogRelativePath).path(String.valueOf(nextPageId)).build();
+        final URI uri =
+                getUriBuilder()
+                        .path(this.changeLogRelativePath)
+                        .path(String.valueOf(nextPageId))
+                        .build();
         return uri;
     }
 

@@ -17,41 +17,41 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Holds a status code and error message for an error response.
- * 
+ *
  * @author Samuel Padgett
  */
 public class RestException extends Exception {
-	private int statusCode;
-	private String message;
-	
-	public RestException(int statusCode, String message) {
-		this.statusCode = statusCode;
-		this.message = message;
-	}
-	
-	public RestException(Throwable t) {
-		this(t, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	}
-	
-	public RestException(Throwable t, int statusCode) {
-		super(t);
-		this.message = t.getMessage();
-		this.statusCode = statusCode;
-	}
+    private int statusCode;
+    private String message;
 
-	public int getStatusCode() {
-		return statusCode;
-	}
-	
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
-	
-	public String getMessage() {
-		return message;
-	}
-	
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public RestException(int statusCode, String message) {
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+
+    public RestException(Throwable t) {
+        this(t, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+
+    public RestException(Throwable t, int statusCode) {
+        super(t);
+        this.message = t.getMessage();
+        this.statusCode = statusCode;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

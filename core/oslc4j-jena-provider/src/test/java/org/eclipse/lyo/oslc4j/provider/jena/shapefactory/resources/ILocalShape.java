@@ -27,16 +27,15 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_sdDomainConstants.LOCALSHAPE_NAMESPACE)
 @OslcName(Oslc_sdDomainConstants.LOCALSHAPE_LOCALNAME)
-@OslcResourceShape(title = "LocalShape Resource Shape", describes = Oslc_sdDomainConstants.LOCALSHAPE_TYPE)
-public interface ILocalShape
-{
-
+@OslcResourceShape(
+        title = "LocalShape Resource Shape",
+        describes = Oslc_sdDomainConstants.LOCALSHAPE_TYPE)
+public interface ILocalShape {
 
     @OslcName("identifier")
     @OslcPropertyDefinition(Oslc_sdDomainConstants.SPECDOMAIN_NAMSPACE + "identifier")
@@ -45,7 +44,5 @@ public interface ILocalShape
     @OslcReadOnly(false)
     public String getIdentifier();
 
-
-    public void setIdentifier(final String identifier );
+    public void setIdentifier(final String identifier);
 }
-

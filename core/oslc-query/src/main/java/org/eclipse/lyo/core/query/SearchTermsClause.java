@@ -18,6 +18,4 @@ import java.util.List;
 /**
  * String list from oslc.searchTerms clause
  */
-public interface SearchTermsClause extends List<String>
-{
-}
+public interface SearchTermsClause extends List<String> {}

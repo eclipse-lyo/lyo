@@ -13,20 +13,18 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.util.Collection;
-
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Andrew Berezovskyi
@@ -34,32 +32,29 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
-public class OslcSimpleRdfXmlCollectionProvider
-	   extends OslcRdfXmlCollectionProvider
-{
-	public OslcSimpleRdfXmlCollectionProvider()
-	{
-		super();
-	}
+public class OslcSimpleRdfXmlCollectionProvider extends OslcRdfXmlCollectionProvider {
+    public OslcSimpleRdfXmlCollectionProvider() {
+        super();
+    }
 
-	@Override
-	public void writeTo(final Collection<Object>			 collection,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		writeTo(collection.toArray(new Object[0]),
-				mediaType,
-				map,
-				outputStream,
-				null,
-				null,
-				null,
-				null);
-	}
+    @Override
+    public void writeTo(
+            final Collection<Object> collection,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream)
+            throws IOException, WebApplicationException {
+        writeTo(
+                collection.toArray(new Object[0]),
+                mediaType,
+                map,
+                outputStream,
+                null,
+                null,
+                null,
+                null);
+    }
 }

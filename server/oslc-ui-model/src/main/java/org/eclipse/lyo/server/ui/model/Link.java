@@ -16,14 +16,10 @@ package org.eclipse.lyo.server.ui.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "link",
-    "title"
-})
+@JsonPropertyOrder({"link", "title"})
 public class Link {
 
     /**
@@ -33,6 +29,7 @@ public class Link {
      */
     @JsonProperty("link")
     private String link;
+
     /**
      *
      * (Required)
@@ -84,17 +81,20 @@ public class Link {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Link.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Link.class.getName())
+                .append('@')
+                .append(Integer.toHexString(System.identityHashCode(this)))
+                .append('[');
         sb.append("link");
         sb.append('=');
-        sb.append(((this.link == null)?"<null>":this.link));
+        sb.append(((this.link == null) ? "<null>" : this.link));
         sb.append(',');
         sb.append("title");
         sb.append('=');
-        sb.append(((this.title == null)?"<null>":this.title));
+        sb.append(((this.title == null) ? "<null>" : this.title));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -104,8 +104,8 @@ public class Link {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.link == null)? 0 :this.link.hashCode()));
-        result = ((result* 31)+((this.title == null)? 0 :this.title.hashCode()));
+        result = ((result * 31) + ((this.link == null) ? 0 : this.link.hashCode()));
+        result = ((result * 31) + ((this.title == null) ? 0 : this.title.hashCode()));
         return result;
     }
 
@@ -118,7 +118,6 @@ public class Link {
             return false;
         }
         Link rhs = ((Link) other);
-        return ((Objects.equals(this.link, rhs.link))&&(Objects.equals(this.title, rhs.title)));
+        return ((Objects.equals(this.link, rhs.link)) && (Objects.equals(this.title, rhs.title)));
     }
-
 }

@@ -19,7 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
@@ -43,63 +42,67 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
  */
 @OslcNamespace(ShaclConstants.SHACL_CORE_NAMESPACE)
 @OslcName("Property")
-@OslcResourceShape(title = "SHACL Property Resource Shape",
-                   describes = ShaclConstants.TYPE_SHACL_PROPERTY)
+@OslcResourceShape(
+        title = "SHACL Property Resource Shape",
+        describes = ShaclConstants.TYPE_SHACL_PROPERTY)
 public class Property extends AbstractResource {
 
     private URI path;
 
-    //Value Type Constraints
+    // Value Type Constraints
     private URI classType;
     private ValueType dataType;
     private URI nodeKind;
 
-    //Cardinality Constraints
+    // Cardinality Constraints
     private BigInteger minCount;
     private BigInteger maxCount;
 
-    //Value Range Constraints
+    // Value Range Constraints
     private BigInteger minExclusive;
     private BigInteger maxExclusive;
     private BigInteger minInclusive;
     private BigInteger maxInclusive;
 
-    //String Based Constraints
+    // String Based Constraints
     private BigInteger minLength;
     private BigInteger maxLength;
     private String pattern;
     private String[] languageIn;
     private Boolean uniqueLang;
 
-    //Values Based Constraints
+    // Values Based Constraints
     private String[] in;
 
-    //Non Validating Property Shape Characteristics.
+    // Non Validating Property Shape Characteristics.
     private String name;
     private String description;
     private BigInteger order;
     private URI group;
 
-    //Shapes
+    // Shapes
     private URI severity;
     private String message;
     private Boolean deactivated;
     private URI node;
 
-    //Property Pair Constraint Components
+    // Property Pair Constraint Components
     private URI equals;
     private URI disjoint;
     private URI lessThan;
     private URI lessThanOrEquals;
 
-    //Other Constraint Components
+    // Other Constraint Components
     private URI hasValue;
 
     public Property() {
         super();
     }
 
-    public Property(final URI path, final ValueType dataType, final BigInteger minCount,
+    public Property(
+            final URI path,
+            final ValueType dataType,
+            final BigInteger minCount,
             final BigInteger maxCount) {
         this();
 
@@ -111,15 +114,49 @@ public class Property extends AbstractResource {
 
     @Override
     public String toString() {
-        return "Property [path=" + path + ", classType=" + classType + ", dataType=" + dataType +
-                ", nodeKind=" + nodeKind + ", minCount=" + minCount + ", maxCount=" + maxCount +
-                ", minExclusive=" + minExclusive + ", maxExclusive=" + maxExclusive + ", " +
-                "minInclusive=" + minInclusive + ", maxInclusive=" + maxInclusive + ", " +
-                "minLength=" + minLength + ", maxLength=" + maxLength + ", pattern=" + pattern +
-                ", languageIn=" + Arrays
-                .toString(languageIn) + ", uniqueLang=" + uniqueLang + ", in=" + Arrays.toString(
-                in) + ", name=" + name + ", description=" + description + ", severity=" +
-                severity + ", message=" + message + "]";
+        return "Property [path="
+                + path
+                + ", classType="
+                + classType
+                + ", dataType="
+                + dataType
+                + ", nodeKind="
+                + nodeKind
+                + ", minCount="
+                + minCount
+                + ", maxCount="
+                + maxCount
+                + ", minExclusive="
+                + minExclusive
+                + ", maxExclusive="
+                + maxExclusive
+                + ", "
+                + "minInclusive="
+                + minInclusive
+                + ", maxInclusive="
+                + maxInclusive
+                + ", "
+                + "minLength="
+                + minLength
+                + ", maxLength="
+                + maxLength
+                + ", pattern="
+                + pattern
+                + ", languageIn="
+                + Arrays.toString(languageIn)
+                + ", uniqueLang="
+                + uniqueLang
+                + ", in="
+                + Arrays.toString(in)
+                + ", name="
+                + name
+                + ", description="
+                + description
+                + ", severity="
+                + severity
+                + ", message="
+                + message
+                + "]";
     }
 
     @OslcDescription("Use cases of this feature include shape reuse and debugging.")
@@ -170,12 +207,16 @@ public class Property extends AbstractResource {
         this.group = group;
     }
 
-    @OslcAllowedValue(
-            {OslcConstants.XML_NAMESPACE + "boolean", OslcConstants.XML_NAMESPACE + "dateTime",
-                    OslcConstants.XML_NAMESPACE + "decimal", OslcConstants.XML_NAMESPACE +
-                    "double", OslcConstants.XML_NAMESPACE + "float", OslcConstants.XML_NAMESPACE
-                    + "integer", OslcConstants.XML_NAMESPACE + "string", OslcConstants
-                    .RDF_NAMESPACE + "XMLLiteral"})
+    @OslcAllowedValue({
+        OslcConstants.XML_NAMESPACE + "boolean",
+        OslcConstants.XML_NAMESPACE + "dateTime",
+        OslcConstants.XML_NAMESPACE + "decimal",
+        OslcConstants.XML_NAMESPACE + "double",
+        OslcConstants.XML_NAMESPACE + "float",
+        OslcConstants.XML_NAMESPACE + "integer",
+        OslcConstants.XML_NAMESPACE + "string",
+        OslcConstants.RDF_NAMESPACE + "XMLLiteral"
+    })
     @OslcDescription("See list of allowed values for sh:datatype")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "datatype")
@@ -395,8 +436,8 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "Specifies the node kind. Values can be: sh:BlankNode, sh:IRI, sh:Literal " +
-                    "sh:BlankNodeOrIRI, sh:BlankNodeOrLiteral and sh:IRIOrLiteral")
+            "Specifies the node kind. Values can be: sh:BlankNode, sh:IRI, sh:Literal "
+                    + "sh:BlankNodeOrIRI, sh:BlankNodeOrLiteral and sh:IRIOrLiteral")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "nodeKind")
     @OslcTitle("Node Kind")
     public URI getNodeKind() {
@@ -408,8 +449,8 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "sh:node specifies the condition that each value node conforms to the given node " +
-                    "shape.")
+            "sh:node specifies the condition that each value node conforms to the given node "
+                    + "shape.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "node")
     @OslcTitle("Node")
     public URI getNode() {
@@ -434,8 +475,8 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "The specific values of sh:severity have no impact on the validation, but may be " +
-                    "used by user interface tools to categorize validation results.")
+            "The specific values of sh:severity have no impact on the validation, but may be "
+                    + "used by user interface tools to categorize validation results.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "severity")
     @OslcReadOnly
     @OslcName("severity")
@@ -449,8 +490,9 @@ public class Property extends AbstractResource {
 
     @OslcDescription(
             "sh:equals specifies the condition that the set of all value nodes is equal to the "
-                    + "set of objects of the triples that have the focus node as subject and" +
-                    " " + "the value of sh:equals as predicate.")
+                    + "set of objects of the triples that have the focus node as subject and"
+                    + " "
+                    + "the value of sh:equals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "equals")
     @OslcReadOnly
     @OslcName("equals")
@@ -463,9 +505,9 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "sh:disjoint specifies the condition that the set of value nodes is disjoint with " +
-                    "the set of objects of the triples that have the focus node as " +
-                    "subject and the value of sh:equals as predicate.")
+            "sh:disjoint specifies the condition that the set of value nodes is disjoint with "
+                    + "the set of objects of the triples that have the focus node as "
+                    + "subject and the value of sh:equals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "disjoint")
     @OslcReadOnly
     @OslcName("disjoint")
@@ -478,9 +520,9 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "sh:lessThan specifies the condition that each value node is smaller than all the " +
-                    "objects of the triples that have the focus node as subject and the " +
-                    "value of sh:lessThan as predicate.")
+            "sh:lessThan specifies the condition that each value node is smaller than all the "
+                    + "objects of the triples that have the focus node as subject and the "
+                    + "value of sh:lessThan as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "lessThan")
     @OslcReadOnly
     @OslcName("lessThan")
@@ -493,9 +535,9 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "sh:lessThanOrEquals specifies the condition that each value node is smaller than or " +
-                    "equal to all the objects of the triples that have the focus node " +
-                    "as subject and the value of sh:lessThanOrEquals as predicate.")
+            "sh:lessThanOrEquals specifies the condition that each value node is smaller than or "
+                    + "equal to all the objects of the triples that have the focus node "
+                    + "as subject and the value of sh:lessThanOrEquals as predicate.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "lessThanOrEquals")
     @OslcReadOnly
     @OslcName("lessThanOrEquals")
@@ -508,8 +550,8 @@ public class Property extends AbstractResource {
     }
 
     @OslcDescription(
-            "sh:hasValue specifies the condition that at least one value node is equal to the " +
-                    "given RDF term.")
+            "sh:hasValue specifies the condition that at least one value node is equal to the "
+                    + "given RDF term.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "hasValue")
     @OslcReadOnly
     @OslcName("hasValue")
@@ -530,7 +572,5 @@ public class Property extends AbstractResource {
         ArrayList<Object> temp = new ArrayList<>(Arrays.asList(obj));
         temp.add(newObj);
         return temp.toArray();
-
     }
-
 }

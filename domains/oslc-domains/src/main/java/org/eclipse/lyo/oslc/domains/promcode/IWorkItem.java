@@ -17,56 +17,36 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_promcodeDomainConstants.WORKITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.WORKITEM_LOCALNAME)
-@OslcResourceShape(title = "WorkItem Shape", description = "A work item describes work to be performed in a project delivery contract. It adds detail to the description of work that is described by a scope item. These details typically include cost, schedule, and resource requirements. The set of all work items in a project form a work breakdown structure.", describes = Oslc_promcodeDomainConstants.WORKITEM_TYPE)
-public interface IWorkItem
-{
+@OslcResourceShape(
+        title = "WorkItem Shape",
+        description =
+                "A work item describes work to be performed in a project delivery contract. It adds"
+                    + " detail to the description of work that is described by a scope item. These"
+                    + " details typically include cost, schedule, and resource requirements. The"
+                    + " set of all work items in a project form a work breakdown structure.",
+        describes = Oslc_promcodeDomainConstants.WORKITEM_TYPE)
+public interface IWorkItem {
 
-    public void addRequiredBy(final Link requiredBy );
+    public void addRequiredBy(final Link requiredBy);
 
     @OslcName("actualEndDate")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
@@ -115,17 +95,24 @@ public interface IWorkItem
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "requiredBy")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE,
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE
+    })
     @OslcReadOnly(false)
     public Set<Link> getRequiredBy();
 
+    public void setActualEndDate(final Date actualEndDate);
 
-    public void setActualEndDate(final Date actualEndDate );
-    public void setActualStartDate(final Date actualStartDate );
-    public void setIsPartOf(final Link isPartOf );
-    public void setPlannedEndDate(final Date plannedEndDate );
-    public void setPlannedStartDate(final Date plannedStartDate );
-    public void setRepresentedBy(final Link representedBy );
-    public void setRequiredBy(final Set<Link> requiredBy );
+    public void setActualStartDate(final Date actualStartDate);
+
+    public void setIsPartOf(final Link isPartOf);
+
+    public void setPlannedEndDate(final Date plannedEndDate);
+
+    public void setPlannedStartDate(final Date plannedStartDate);
+
+    public void setRepresentedBy(final Link representedBy);
+
+    public void setRequiredBy(final Set<Link> requiredBy);
 }
-

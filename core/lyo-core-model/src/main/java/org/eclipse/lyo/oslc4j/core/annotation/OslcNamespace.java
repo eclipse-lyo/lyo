@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcNamespace {
-	/**
-	 * Namespace URI of the element.
-	 */
-	String value();
+    /**
+     * Namespace URI of the element.
+     */
+    String value();
 }

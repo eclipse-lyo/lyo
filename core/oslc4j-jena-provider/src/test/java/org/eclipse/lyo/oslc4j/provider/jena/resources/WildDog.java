@@ -15,5 +15,4 @@ public class WildDog extends Dog {
     public void eat() {
         System.out.println("Eating like a wild dog");
     }
-    
 }

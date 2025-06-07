@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -29,7 +29,6 @@ import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.core.trs.Page;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.trs.client.util.ProviderUtil;
 import org.eclipse.lyo.trs.client.util.TrackedResourceClient;
 import org.junit.Assert;
@@ -61,7 +60,11 @@ public class TrsProviderTest {
 
     @Before
     public void setUp() throws Exception {
-        trsProvider = new TrsProviderHandler(RDF_NIL, new TrackedResourceClient(new OslcClient()), new TestProviderHandler());
+        trsProvider =
+                new TrsProviderHandler(
+                        RDF_NIL,
+                        new TrackedResourceClient(new OslcClient()),
+                        new TestProviderHandler());
         trs = new TrackedResourceSet();
         cl_p1 = new ChangeLog();
         cl_p2 = new ChangeLog();
@@ -161,8 +164,8 @@ public class TrsProviderTest {
         List<ChangeLog> changeLogsList = Collections.singletonList(changeLog);
 
         // FIXME Andrew@2019-07-15:
-        List<ChangeEvent> changeEventsList = ProviderUtil.optimizedChangesList(changeLogsList,
-                null);
+        List<ChangeEvent> changeEventsList =
+                ProviderUtil.optimizedChangesList(changeLogsList, null);
 
         Assert.assertEquals(2, changeEventsList.size());
 
@@ -174,7 +177,6 @@ public class TrsProviderTest {
         Assert.assertFalse(changeEventsList.contains(memb1_m2));
         Assert.assertFalse(changeEventsList.contains(memb2_c1));
         Assert.assertFalse(changeEventsList.contains(memb2_m1));
-
     }
 
     private String changeEventUri() {
@@ -206,7 +208,6 @@ public class TrsProviderTest {
         ce.setAbout(changeEvenUri);
         ce.setChanged(baseMemberUri);
         ce.setOrder(changeEventNum);
-
     }
 
     private void initChangeEvent(ChangeEvent ce, String baseMemberUriString)
@@ -217,7 +218,6 @@ public class TrsProviderTest {
         ce.setAbout(changeEvenUri);
         ce.setChanged(baseMemberUri);
         ce.setOrder(changeEventNum);
-
     }
 
     private void initBase(Base base, URI previous) throws URISyntaxException {
@@ -232,15 +232,17 @@ public class TrsProviderTest {
         Page ldp = new Page();
         if (previous != null) {
 
-            ldp.setAbout(URI.create(bUriPrefix + "/" //$NON-NLS-1$
-                    + baseNum));// );
+            ldp.setAbout(
+                    URI.create(
+                            bUriPrefix
+                                    + "/" //$NON-NLS-1$
+                                    + baseNum)); // );
             ldp.setPageOf(base);
             ldp.setNextPage(previous);
         } else {
             ldp.setNextPage(RDF_NIL);
         }
         base.setNextPage(ldp);
-
     }
 
     private void initChangeLog(ChangeLog cl, URI previous) throws URISyntaxException {
@@ -262,5 +264,4 @@ public class TrsProviderTest {
 
         cl.setPrevious(Objects.requireNonNullElse(previous, RDF_NIL));
     }
-
 }

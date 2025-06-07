@@ -17,70 +17,53 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.IAgent;
-import org.eclipse.lyo.oslc.domains.config.IConfiguration;
-import org.eclipse.lyo.oslc.domains.IPerson;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_configDomainConstants.COMPONENT_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.COMPONENT_LOCALNAME)
 @OslcResourceShape(title = "Component Shape", describes = Oslc_configDomainConstants.COMPONENT_TYPE)
-public interface IComponent
-{
+public interface IComponent {
 
-    public void addContributor(final Link contributor );
-    public void addCreator(final Link creator );
-    public void addSubject(final String subject );
-    public void addInstanceShape(final Link instanceShape );
-    public void addModifiedBy(final Link modifiedBy );
-    public void addServiceProvider(final Link serviceProvider );
+    public void addContributor(final Link contributor);
+
+    public void addCreator(final Link creator);
+
+    public void addSubject(final String subject);
+
+    public void addInstanceShape(final Link instanceShape);
+
+    public void addModifiedBy(final Link modifiedBy);
+
+    public void addServiceProvider(final Link serviceProvider);
 
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "Contributor or contributors to the resource. The link target is usually a foaf:Person"
+                    + " or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
@@ -97,7 +80,9 @@ public interface IComponent
 
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type")
+    @OslcDescription(
+            "Creator or creators of the resource. The link target is usually a foaf:Person or"
+                    + " foaf:Agent, but could be any type")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
@@ -106,7 +91,10 @@ public interface IComponent
 
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -114,7 +102,9 @@ public interface IComponent
 
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -130,7 +120,9 @@ public interface IComponent
 
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
+    @OslcDescription(
+            "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes"
+                    + " an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -139,14 +131,17 @@ public interface IComponent
 
     @OslcName("title")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getTitle();
 
     @OslcName("configurations")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configurations")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configurations")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
@@ -155,7 +150,13 @@ public interface IComponent
 
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
+    @OslcDescription(
+            "The URI of a Resource Shape that describes the possible properties, occurrence, value"
+                + " types, allowed values and labels. This shape information is useful in"
+                + " displaying the subject resource as well as guiding clients in performing"
+                + " modifications. Instance shapes may be specific to the authenticated user"
+                + " associated with the request that retrieved the resource, the current state of"
+                + " the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
@@ -164,7 +165,9 @@ public interface IComponent
 
     @OslcName("modifiedBy")
     @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
-    @OslcDescription("The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "The entity that most recently modified the subject resource. The link target is"
+                    + " usually a foaf:Person or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.AGENT_TYPE, FoafDomainConstants.PERSON_TYPE})
@@ -173,7 +176,10 @@ public interface IComponent
 
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
+    @OslcDescription(
+            "A link to the resource's OSLC Service Provider. There may be cases when the subject"
+                + " resource is available from a service provider that implements multiple domain"
+                + " specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
@@ -190,26 +196,40 @@ public interface IComponent
 
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Shorter form of dcterms:title for the resource represented as rich text in XHTML"
+                    + " content. SHOULD include only content that is valid inside an XHTML <span>"
+                    + " element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getShortTitle();
 
+    public void setContributor(final Set<Link> contributor);
 
-    public void setContributor(final Set<Link> contributor );
-    public void setCreated(final Date created );
-    public void setCreator(final Set<Link> creator );
-    public void setIdentifier(final String identifier );
-    public void setDescription(final String description );
-    public void setModified(final Date modified );
-    public void setSubject(final Set<String> subject );
-    public void setTitle(final String title );
-    public void setConfigurations(final Link configurations );
-    public void setInstanceShape(final Set<Link> instanceShape );
-    public void setModifiedBy(final Set<Link> modifiedBy );
-    public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setShortId(final String shortId );
-    public void setShortTitle(final String shortTitle );
+    public void setCreated(final Date created);
+
+    public void setCreator(final Set<Link> creator);
+
+    public void setIdentifier(final String identifier);
+
+    public void setDescription(final String description);
+
+    public void setModified(final Date modified);
+
+    public void setSubject(final Set<String> subject);
+
+    public void setTitle(final String title);
+
+    public void setConfigurations(final Link configurations);
+
+    public void setInstanceShape(final Set<Link> instanceShape);
+
+    public void setModifiedBy(final Set<Link> modifiedBy);
+
+    public void setServiceProvider(final Set<Link> serviceProvider);
+
+    public void setShortId(final String shortId);
+
+    public void setShortTitle(final String shortTitle);
 }
-

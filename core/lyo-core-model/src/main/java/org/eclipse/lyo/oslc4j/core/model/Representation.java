@@ -16,32 +16,32 @@ package org.eclipse.lyo.oslc4j.core.model;
 import java.net.URI;
 
 public enum Representation {
-	Reference(OslcConstants.OSLC_CORE_NAMESPACE + "Reference"),
-	Inline(OslcConstants.OSLC_CORE_NAMESPACE + "Inline");
-//	Either(OslcConstants.OSLC_CORE_NAMESPACE + "Either"); // Either not supported by OSLC4J
+    Reference(OslcConstants.OSLC_CORE_NAMESPACE + "Reference"),
+    Inline(OslcConstants.OSLC_CORE_NAMESPACE + "Inline");
+    //	Either(OslcConstants.OSLC_CORE_NAMESPACE + "Either"); // Either not supported by OSLC4J
 
-	private String uri;
+    private String uri;
 
-	Representation(final String uri) {
-		this.uri = uri;
-	}
+    Representation(final String uri) {
+        this.uri = uri;
+    }
 
-	@Override
-	public String toString() {
-		return uri;
-	}
+    @Override
+    public String toString() {
+        return uri;
+    }
 
-	public static Representation fromString(final String string) {
-		final Representation[] values = Representation.values();
-		for (final Representation value : values) {
-			if (value.uri.equals(string)) {
-				return value;
-			}
-		}
-		return null;
-	}
+    public static Representation fromString(final String string) {
+        final Representation[] values = Representation.values();
+        for (final Representation value : values) {
+            if (value.uri.equals(string)) {
+                return value;
+            }
+        }
+        return null;
+    }
 
-	public static Representation fromURI(final URI uri) {
-		return fromString(uri.toString());
-	}
+    public static Representation fromURI(final URI uri) {
+        return fromString(uri.toString());
+    }
 }

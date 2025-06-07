@@ -17,26 +17,26 @@ import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * An exception indicating that authentication failed.
- * 
+ *
  * @author Samuel Padgett
  * @see Application#login(HttpServletRequest, String, String)
  */
 public class AuthenticationException extends Exception {
-	private static final long serialVersionUID = -7357859796941279773L;
+    private static final long serialVersionUID = -7357859796941279773L;
 
-	public AuthenticationException() {
-		super();
-	}
+    public AuthenticationException() {
+        super();
+    }
 
-	public AuthenticationException(String message, Throwable t) {
-		super(message, t);
-	}
+    public AuthenticationException(String message, Throwable t) {
+        super(message, t);
+    }
 
-	public AuthenticationException(String message) {
-		super(message);
-	}
+    public AuthenticationException(String message) {
+        super(message);
+    }
 
-	public AuthenticationException(Throwable t) {
-		super(t);
-	}
+    public AuthenticationException(Throwable t) {
+        super(t);
+    }
 }

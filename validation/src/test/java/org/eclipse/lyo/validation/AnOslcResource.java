@@ -15,7 +15,6 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
 
 import java.lang.reflect.InvocationTargetException;
@@ -25,9 +24,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -53,8 +50,9 @@ import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ANOSLCRESOURCE)
-@OslcResourceShape(title = "AResource Resource Shape",
-                   describes = SampleAdaptorConstants.TYPE_ARESOURCE)
+@OslcResourceShape(
+        title = "AResource Resource Shape",
+        describes = SampleAdaptorConstants.TYPE_ARESOURCE)
 public class AnOslcResource extends AbstractResource {
     private static Shape shaclShape = null;
     private static ResourceShape resourceShape = null;
@@ -79,9 +77,16 @@ public class AnOslcResource extends AbstractResource {
     }
 
     public ValidationReport validate()
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
-            ParseException, InstantiationException, SecurityException, NoSuchMethodException {
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException {
         return new ShaclExValidatorImpl().validate(this);
     }
 
@@ -206,9 +211,10 @@ public class AnOslcResource extends AbstractResource {
 
     private ResourceShape createResourceShape()
             throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape("Temp_Service_Base",
-                OslcConstants.PATH_RESOURCE_SHAPES, SampleAdaptorConstants.PATH_ANOSLCRESOURCE,
+        return ResourceShapeFactory.createResourceShape(
+                "Temp_Service_Base",
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                SampleAdaptorConstants.PATH_ANOSLCRESOURCE,
                 AnOslcResource.class);
     }
-
 }

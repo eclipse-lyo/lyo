@@ -20,19 +20,17 @@ import org.junit.Test;
 /**
  * Basic tests of oslc.searchTerms clause parsing
  */
-public class BasicPrefixesTest
-{
-	@Test
-	public void testPrefixes() throws ParseException
-	{
-		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>," +
-				"olsc=<http://open-services.net/ns/core#>," +
-				"xs=<http://www.w3.org/2001/XMLSchema>");
-	}
-	
-	@Test(expected=ParseException.class)
-	public void testBadPrefixes() throws ParseException
-	{
-		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>,XXX>");
-	}
+public class BasicPrefixesTest {
+    @Test
+    public void testPrefixes() throws ParseException {
+        QueryUtils.parsePrefixes(
+                "qm=<http://qm.example.com/ns>,"
+                        + "olsc=<http://open-services.net/ns/core#>,"
+                        + "xs=<http://www.w3.org/2001/XMLSchema>");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testBadPrefixes() throws ParseException {
+        QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>,XXX>");
+    }
 }

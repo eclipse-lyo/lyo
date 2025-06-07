@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcReadOnly {
-	/**
-	 * True if the property is read-only. If not set, or set to false, then the property is writable.
-	 */
-	boolean value() default true;
+    /**
+     * True if the property is read-only. If not set, or set to false, then the property is writable.
+     */
+    boolean value() default true;
 }

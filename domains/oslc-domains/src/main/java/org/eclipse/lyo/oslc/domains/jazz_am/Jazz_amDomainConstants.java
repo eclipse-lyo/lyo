@@ -16,14 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains.jazz_am;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
-
 // Start of user code imports
 // End of user code
 
-public interface Jazz_amDomainConstants
-{
+public interface Jazz_amDomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -32,8 +28,13 @@ public interface Jazz_amDomainConstants
      */
     @Deprecated(since = "5.0.1")
     public static String JAZZ_ARCHITECTURE_MANAGEMENT_DOMAIN = "http://jazz.net/ns/dm/linktypes#";
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_DOMAIN_NAME = "Jazz Architecture Management ";
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE = "http://jazz.net/ns/dm/linktypes#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
-    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX = "jazz_am"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_DOMAIN_NAME = "Jazz Architecture Management ";
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE =
+            "http://jazz.net/ns/dm/linktypes#"; // Vocabulary namespace for the resources and
+    // resource properties, when no explicit vocabulary
+    // (describes, or propertyDefinition) is defined
+    public static String JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX =
+            "jazz_am"; // Vocabulary prefix for the resources and resource properties, when no
+    // explicit vocabulary (describes, or propertyDefinition) is defined
 }

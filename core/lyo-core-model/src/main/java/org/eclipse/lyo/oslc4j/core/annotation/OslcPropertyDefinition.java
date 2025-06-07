@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcPropertyDefinition {
-	/**
-	 * URI of the property whose usage is being described.
-	 */
-	String value();
+    /**
+     * URI of the property whose usage is being described.
+     */
+    String value();
 }

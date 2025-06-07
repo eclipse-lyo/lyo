@@ -14,12 +14,13 @@
 
 package org.eclipse.lyo.core.trs;
 
-import org.apache.jena.rdf.model.Model;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
-import static org.junit.Assert.*;
-import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 
 /**
@@ -36,12 +37,14 @@ public class TrackedResourceSetTest {
 
         final TrackedResourceSet trsExpected = aTrsWithChangelog(changeLog);
 
-        final Model model = JenaModelHelper.createJenaModel(new Object[]{trsExpected});
+        final Model model = JenaModelHelper.createJenaModel(new Object[] {trsExpected});
         final Object[] objects = JenaModelHelper.fromJenaModel(model, TrackedResourceSet.class);
         final TrackedResourceSet trsJena = (TrackedResourceSet) objects[0];
 
         assertEquals("TRS Base URI is preserved", trsExpected.getBase(), trsJena.getBase());
-        assertEquals("TRS Changelog About URI is preserved", trsExpected.getChangeLog().getAbout(),
+        assertEquals(
+                "TRS Changelog About URI is preserved",
+                trsExpected.getChangeLog().getAbout(),
                 trsJena.getChangeLog().getAbout());
     }
 
@@ -49,20 +52,27 @@ public class TrackedResourceSetTest {
     public void simpleTrsIsUnmarshalled() throws Exception {
         final ChangeLog changeLog = new ChangeLog();
         changeLog.setAbout(URI.create("http://example.com/dummy/changelog"));
-        changeLog.getChange().add(new Modification(URI.create("http://example.com/dummy/MOD-001"),
-                URI.create("http://example.com/dummy/RES-001"), 543));
+        changeLog
+                .getChange()
+                .add(
+                        new Modification(
+                                URI.create("http://example.com/dummy/MOD-001"),
+                                URI.create("http://example.com/dummy/RES-001"),
+                                543));
 
         final TrackedResourceSet trsExpected = aTrsWithChangelog(changeLog);
 
-        final Model model = JenaModelHelper.createJenaModel(new Object[]{trsExpected});
+        final Model model = JenaModelHelper.createJenaModel(new Object[] {trsExpected});
         final Object[] objects = JenaModelHelper.fromJenaModel(model, TrackedResourceSet.class);
         final TrackedResourceSet trsJena = (TrackedResourceSet) objects[0];
 
         assertEquals("TRS Base URI is preserved", trsExpected.getBase(), trsJena.getBase());
-        assertEquals("TRS Changelog About URI is preserved", trsExpected.getChangeLog().getAbout(),
+        assertEquals(
+                "TRS Changelog About URI is preserved",
+                trsExpected.getChangeLog().getAbout(),
                 trsJena.getChangeLog().getAbout());
-        assertThat(trsJena.getChangeLog().getChange()).hasSize(
-                trsExpected.getChangeLog().getChange().size());
+        assertThat(trsJena.getChangeLog().getChange())
+                .hasSize(trsExpected.getChangeLog().getChange().size());
     }
 
     private TrackedResourceSet aTrsWithChangelog(final ChangeLog changeLog)

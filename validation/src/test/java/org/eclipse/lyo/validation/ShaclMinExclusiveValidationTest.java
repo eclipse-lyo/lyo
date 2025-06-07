@@ -17,7 +17,6 @@ package org.eclipse.lyo.validation;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,17 +46,17 @@ public class ShaclMinExclusiveValidationTest {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAStringProperty("Between");
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
-            //Invalid Value. Min allowed value is 6.
+            // Invalid Value. Min allowed value is 6.
             aResource.setIntegerProperty2(new BigInteger("5"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "minExclusive violation. Expected 5 > 5");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource), "minExclusive violation. Expected 5 > 5");
 
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -80,5 +79,4 @@ public class ShaclMinExclusiveValidationTest {
             Assert.fail("Exception should not be thrown");
         }
     }
-
 }

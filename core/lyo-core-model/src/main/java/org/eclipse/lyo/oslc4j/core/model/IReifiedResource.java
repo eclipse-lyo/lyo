@@ -24,24 +24,23 @@ package org.eclipse.lyo.oslc4j.core.model;
  * <p>
  * Note: The parameterized type T must be a {@link java.net.URI URI} to serialize to JSON due
  * to current limitations in the OSLC JSON format.
- * 
+ *
  * @see AbstractReifiedResource
  * @see <a href="http://www.w3.org/TR/rdf-mt/#Reif">RDF Semantics: Reification</a>
  * @see <a href="http://www.w3.org/TR/rdf-primer/#reification">RDF Primer: Reification</a>
  */
-public interface IReifiedResource<T>
-{
-	/**
-	 * Gets the object of the reified statement.
-	 * 
-	 * @return the object of the reified statement
-	 */
-	public T getValue();
-	
-	/**
-	 * Sets the object of the reified statement.
-	 * 
-	 * @param value the object of the reified statement
-	 */
-	public void setValue(T value);
+public interface IReifiedResource<T> {
+    /**
+     * Gets the object of the reified statement.
+     *
+     * @return the object of the reified statement
+     */
+    public T getValue();
+
+    /**
+     * Sets the object of the reified statement.
+     *
+     * @param value the object of the reified statement
+     */
+    public void setValue(T value);
 }

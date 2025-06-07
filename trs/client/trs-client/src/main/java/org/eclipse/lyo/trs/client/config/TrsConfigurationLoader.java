@@ -15,7 +15,6 @@
 package org.eclipse.lyo.trs.client.config;
 
 import com.google.common.base.Strings;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +47,8 @@ public class TrsConfigurationLoader {
 
             String trsUriParam = p.getProperty("trs_uri");
             if (Strings.isNullOrEmpty(trsUriParam)) {
-                throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
+                throw new IllegalStateException(
+                        "The 'trs_uri' field is missing in file " + f.getName());
             }
 
             String user = p.getProperty("baseAuth_user");

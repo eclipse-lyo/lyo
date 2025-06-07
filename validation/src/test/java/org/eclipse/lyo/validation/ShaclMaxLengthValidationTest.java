@@ -17,7 +17,6 @@ package org.eclipse.lyo.validation;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,19 +45,19 @@ public class ShaclMaxLengthValidationTest {
 
         try {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            //Invalid Value. The max allowed length of String is 10.
+            // Invalid Value. The max allowed length of String is 10.
             aResource.setAStringProperty("Between two and four");
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "maxLength violation. Expected length(\"Between two and four\") <= 10");
-
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource),
+                    "maxLength violation. Expected length(\"Between two and four\") <= 10");
 
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -75,12 +74,9 @@ public class ShaclMaxLengthValidationTest {
 
             TestHelper.assertPositive(TestHelper.performTest(aResource));
 
-
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
-
 }

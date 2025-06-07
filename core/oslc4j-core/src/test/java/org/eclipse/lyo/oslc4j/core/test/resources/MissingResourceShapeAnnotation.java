@@ -13,7 +13,4 @@
  */
 package org.eclipse.lyo.oslc4j.core.test.resources;
 
-public class MissingResourceShapeAnnotation
-{
-
-}
+public class MissingResourceShapeAnnotation {}

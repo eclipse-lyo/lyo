@@ -17,20 +17,21 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Corresponds to an HTTP 401 response.
- * 
+ *
  * @author Samuel Padgett
  */
 public class UnauthorizedException extends RestException {
-	public UnauthorizedException() {
-		super(HttpServletResponse.SC_UNAUTHORIZED,
-				"You must authenticate with your tool for this request.");
-	}
-	
-	public UnauthorizedException(String message) {
-		super(HttpServletResponse.SC_UNAUTHORIZED, message);
-	}
-	
-	public UnauthorizedException(Throwable t) {
-		super(t, HttpServletResponse.SC_UNAUTHORIZED);
-	}
+    public UnauthorizedException() {
+        super(
+                HttpServletResponse.SC_UNAUTHORIZED,
+                "You must authenticate with your tool for this request.");
+    }
+
+    public UnauthorizedException(String message) {
+        super(HttpServletResponse.SC_UNAUTHORIZED, message);
+    }
+
+    public UnauthorizedException(Throwable t) {
+        super(t, HttpServletResponse.SC_UNAUTHORIZED);
+    }
 }

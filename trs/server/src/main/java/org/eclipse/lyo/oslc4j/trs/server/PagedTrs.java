@@ -32,5 +32,4 @@ public interface PagedTrs {
      * @return number of the ChangeLog pages
      */
     int changelogPageCount();
-
 }

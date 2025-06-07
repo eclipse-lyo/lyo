@@ -16,31 +16,34 @@ package org.eclipse.lyo.oslc4j.core.exception;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
 public final class OslcCoreRegistrationException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 2094758752309893978L;
+    private static final long serialVersionUID = 2094758752309893978L;
 
-	private static final String MESSAGE_KEY = "RegistrationException";
+    private static final String MESSAGE_KEY = "RegistrationException";
 
-	private final String		  responseMessage;
-	private final ServiceProvider serviceProvider;
-	private final int			  statusCode;
+    private final String responseMessage;
+    private final ServiceProvider serviceProvider;
+    private final int statusCode;
 
-	public OslcCoreRegistrationException(final ServiceProvider serviceProvider, final int statusCode, final String responseMessage) {
-		super(MESSAGE_KEY, new Object[] {serviceProvider.getTitle(), statusCode, responseMessage});
+    public OslcCoreRegistrationException(
+            final ServiceProvider serviceProvider,
+            final int statusCode,
+            final String responseMessage) {
+        super(MESSAGE_KEY, new Object[] {serviceProvider.getTitle(), statusCode, responseMessage});
 
-		this.responseMessage = responseMessage;
-		this.serviceProvider = serviceProvider;
-		this.statusCode		 = statusCode;
-	}
+        this.responseMessage = responseMessage;
+        this.serviceProvider = serviceProvider;
+        this.statusCode = statusCode;
+    }
 
-	public String getResponseMessage() {
-		return responseMessage;
-	}
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 
-	public ServiceProvider getServiceProvider() {
-		return serviceProvider;
-	}
+    public ServiceProvider getServiceProvider() {
+        return serviceProvider;
+    }
 
-	public int getStatusCode() {
-		return statusCode;
-	}
+    public int getStatusCode() {
+        return statusCode;
+    }
 }

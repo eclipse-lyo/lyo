@@ -19,7 +19,6 @@ import static org.eclipse.lyo.oslc4j.core.test.customnamespace.CustomNamespaceCo
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
 
 /**
@@ -33,16 +32,15 @@ import org.eclipse.lyo.oslc4j.core.model.IOslcCustomNamespaceProvider;
  */
 public class AnyNamespaceProvider implements IOslcCustomNamespaceProvider {
 
-	/**
-	 * Creates a map with a custom prefix, used for tests.
-	 *
-	 * @return always a new map.
-	 */
-	@Override
-	public Map<String, String> getCustomNamespacePrefixes() {
-		Map<String, String> customNamespacePrefixes = new HashMap<>(1);
-		customNamespacePrefixes.put(CUSTOM_PREFIX, CUSTOM_URL);
-		return customNamespacePrefixes;
-	}
-
+    /**
+     * Creates a map with a custom prefix, used for tests.
+     *
+     * @return always a new map.
+     */
+    @Override
+    public Map<String, String> getCustomNamespacePrefixes() {
+        Map<String, String> customNamespacePrefixes = new HashMap<>(1);
+        customNamespacePrefixes.put(CUSTOM_PREFIX, CUSTOM_URL);
+        return customNamespacePrefixes;
+    }
 }

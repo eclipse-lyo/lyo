@@ -32,13 +32,14 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(Nsp1DomainConstants.WITHTWODEPTHBLANKRESOURCE_NAMESPACE)
 @OslcName(Nsp1DomainConstants.WITHTWODEPTHBLANKRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "WithTwoDepthBlankResource Resource Shape", describes = Nsp1DomainConstants.WITHTWODEPTHBLANKRESOURCE_TYPE)
-public interface IWithTwoDepthBlankResource
-{
-
+@OslcResourceShape(
+        title = "WithTwoDepthBlankResource Resource Shape",
+        describes = Nsp1DomainConstants.WITHTWODEPTHBLANKRESOURCE_TYPE)
+public interface IWithTwoDepthBlankResource {
 
     @OslcName("relatesToBlankResourceTwoDepth")
-    @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "relatesToBlankResourceTwoDepth")
+    @OslcPropertyDefinition(
+            Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "relatesToBlankResourceTwoDepth")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.LocalResource)
     @OslcRange({Nsp1DomainConstants.WITHBLANKRESOURCE_TYPE})
@@ -59,9 +60,10 @@ public interface IWithTwoDepthBlankResource
     @OslcReadOnly(false)
     public Integer getIntProperty();
 
+    public void setRelatesToBlankResourceTwoDepth(
+            final WithBlankResource relatesToBlankResourceTwoDepth);
 
-    public void setRelatesToBlankResourceTwoDepth(final WithBlankResource relatesToBlankResourceTwoDepth );
-    public void setStringProperty(final String stringProperty );
-    public void setIntProperty(final Integer intProperty );
+    public void setStringProperty(final String stringProperty);
+
+    public void setIntProperty(final Integer intProperty);
 }
-

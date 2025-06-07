@@ -13,10 +13,8 @@
  */
 package org.eclipse.lyo.client;
 
-import org.apache.http.client.HttpClient;
-
 import jakarta.ws.rs.client.Client;
-
+import org.apache.http.client.HttpClient;
 
 public interface UnderlyingHttpClient {
     /**

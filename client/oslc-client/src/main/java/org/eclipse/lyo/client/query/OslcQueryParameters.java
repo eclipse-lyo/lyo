@@ -26,163 +26,166 @@ import java.util.logging.Logger;
  */
 public class OslcQueryParameters {
 
-	private String where;
-	private String select;
-	private String searchTerms;
-	private String orderBy;
-	private String prefix;
-	private String configurationContext;
+    private String where;
+    private String select;
+    private String searchTerms;
+    private String orderBy;
+    private String prefix;
+    private String configurationContext;
 
-	private static final Logger logger = Logger.getLogger(OslcQuery.class.getName());
+    private static final Logger logger = Logger.getLogger(OslcQuery.class.getName());
 
-	public OslcQueryParameters()
-	{
+    public OslcQueryParameters() {}
 
-	}
+    /**
+     * Initialize an OSLC Parameter using the supplied terms
+     *
+     * @param where
+     * @param select
+     * @param searchTerms
+     * @param orderBy
+     * @param prefix
+     */
+    public OslcQueryParameters(
+            String where, String select, String searchTerms, String orderBy, String prefix) {
+        this.where = where;
+        this.select = select;
+        this.searchTerms = searchTerms;
+        this.orderBy = orderBy;
+        this.prefix = prefix;
+    }
 
-	/**
-	 * Initialize an OSLC Parameter using the supplied terms
-	 *
-	 * @param where
-	 * @param select
-	 * @param searchTerms
-	 * @param orderBy
-	 * @param prefix
-	 */
-	public OslcQueryParameters (String where, String select, String searchTerms, String orderBy, String prefix) {
-		this.where       = where;
-		this.select      = select;
-		this.searchTerms = searchTerms;
-		this.orderBy     = orderBy;
-		this.prefix      = prefix;
-	}
+    /**
+     * Initialize an OSLC Parameter using the supplied terms
+     *
+     * @param where
+     * @param select
+     * @param searchTerms
+     * @param orderBy
+     * @param prefix
+     * @param configurationContext
+     */
+    public OslcQueryParameters(
+            String where,
+            String select,
+            String searchTerms,
+            String orderBy,
+            String prefix,
+            String configurationContext) {
+        this.where = where;
+        this.select = select;
+        this.searchTerms = searchTerms;
+        this.orderBy = orderBy;
+        this.prefix = prefix;
+        this.configurationContext = configurationContext;
+    }
 
-	/**
-	 * Initialize an OSLC Parameter using the supplied terms
-	 *
-	 * @param where
-	 * @param select
-	 * @param searchTerms
-	 * @param orderBy
-	 * @param prefix
-	 * @param configurationContext
-	 */
-	public OslcQueryParameters (String where, String select, String searchTerms, String orderBy, String prefix,
-								String configurationContext) {
-		this.where                = where;
-		this.select               = select;
-		this.searchTerms          = searchTerms;
-		this.orderBy              = orderBy;
-		this.prefix               = prefix;
-		this.configurationContext = configurationContext;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getWhere() {
+        return where;
+    }
 
+    /**
+     *
+     * @param where
+     */
+    public void setWhere(String where) {
+        this.where = where;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getWhere() {
-		return where;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getSelect() {
+        return select;
+    }
 
-	/**
-	 *
-	 * @param where
-	 */
-	public void setWhere(String where) {
-		this.where = where;
-	}
+    /**
+     *
+     * @param select
+     */
+    public void setSelect(String select) {
+        this.select = select;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getSelect() {
-		return select;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getSearchTerms() {
+        return searchTerms;
+    }
 
-	/**
-	 *
-	 * @param select
-	 */
-	public void setSelect(String select) {
-		this.select = select;
-	}
+    /**
+     *
+     * @param searchTerms
+     */
+    public void setSearchTerms(String searchTerms) {
+        this.searchTerms = searchTerms;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getSearchTerms() {
-		return searchTerms;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getOrderBy() {
+        return orderBy;
+    }
 
-	/**
-	 *
-	 * @param searchTerms
-	 */
-	public void setSearchTerms(String searchTerms) {
-		this.searchTerms = searchTerms;
-	}
+    /**
+     *
+     * @param orderBy
+     */
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getOrderBy() {
-		return orderBy;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getPrefix() {
+        return prefix;
+    }
 
-	/**
-	 *
-	 * @param orderBy
-	 */
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
-	}
+    /**
+     *
+     * @param prefix
+     */
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getPrefix() {
-		return prefix;
-	}
+    /**
+     *
+     * @return
+     */
+    public String getConfigurationContext() {
+        return configurationContext;
+    }
 
-	/**
-	 *
-	 * @param prefix
-	 */
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    /**
+     *
+     * @param configurationContext
+     */
+    public void setConfigurationContext(String configurationContext) {
+        this.configurationContext = configurationContext;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	public String getConfigurationContext() {
-		return configurationContext;
-	}
+    private String encodeQueryParams(String oslcQueryParam) {
+        String encodedQueryParms = null;
+        try {
+            encodedQueryParms = URLEncoder.encode(oslcQueryParam, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // Should not occur
+            logger.log(
+                    Level.SEVERE, "Could not UTF-8 encode query parameters: " + oslcQueryParam, e);
+        }
 
-	/**
-	 *
-	 * @param configurationContext
-	 */
-	public void setConfigurationContext(String configurationContext) {
-		this.configurationContext = configurationContext;
-	}
-
-	private String encodeQueryParams(String oslcQueryParam) {
-		String encodedQueryParms = null;
-		try {
-			encodedQueryParms = URLEncoder.encode(oslcQueryParam, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			//Should not occur
-			logger.log(Level.SEVERE, "Could not UTF-8 encode query parameters: " + oslcQueryParam, e);
-		}
-
-		return encodedQueryParms;
-	}
+        return encodedQueryParms;
+    }
 }

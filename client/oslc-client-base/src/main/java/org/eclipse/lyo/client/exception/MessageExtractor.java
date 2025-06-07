@@ -27,25 +27,27 @@ public class MessageExtractor {
     private static final String BUNDLE_NAME = "oslc4jclient";
     private static ResourceBundle bundle = null;
 
-    private MessageExtractor(){
-    }
+    private MessageExtractor() {}
 
-    private static synchronized ResourceBundle getMessageBundle(final Locale locale){
-        if(bundle == null) {
+    private static synchronized ResourceBundle getMessageBundle(final Locale locale) {
+        if (bundle == null) {
             bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
         }
         return bundle;
     }
 
-    private static String getString(final Locale locale, final String key, final Object[] args ) {
+    private static String getString(final Locale locale, final String key, final Object[] args) {
         final ResourceBundle messages = getMessageBundle(locale);
 
         if (messages != null) {
             try {
-                final String message = messages.getString( key );
+                final String message = messages.getString(key);
                 return formatMessage(locale, message, args);
-            } catch ( final MissingResourceException missingResourceException ) {
-                logger.log(Level.SEVERE, missingResourceException.getMessage(), missingResourceException );
+            } catch (final MissingResourceException missingResourceException) {
+                logger.log(
+                        Level.SEVERE,
+                        missingResourceException.getMessage(),
+                        missingResourceException);
                 return "???" + key + "???";
             }
         }
@@ -54,24 +56,25 @@ public class MessageExtractor {
         return "???" + key + "???";
     }
 
-    private static String formatMessage(final Locale locale, final String message, final Object[] args) {
+    private static String formatMessage(
+            final Locale locale, final String message, final Object[] args) {
         final String fixedMessage = FixMessageFormat.fixPattern(message);
         return new MessageFormat(fixedMessage, locale).format(args);
     }
 
-    public static String getMessage(final Locale locale, final String key, final Object[] params){
+    public static String getMessage(final Locale locale, final String key, final Object[] params) {
         return getString(locale, key, params);
     }
 
-    public static String getMessage(final Locale locale, final String key){
+    public static String getMessage(final Locale locale, final String key) {
         return getMessage(locale, key, null);
     }
 
-    public static String getMessage(final String key){
+    public static String getMessage(final String key) {
         return getMessage(key, null);
     }
 
-    public static String getMessage(final String key, final Object[] params){
+    public static String getMessage(final String key, final Object[] params) {
         return getMessage(Locale.getDefault(), key, params);
     }
 }

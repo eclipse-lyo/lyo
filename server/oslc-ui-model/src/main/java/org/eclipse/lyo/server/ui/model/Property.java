@@ -16,14 +16,10 @@ package org.eclipse.lyo.server.ui.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "propertyDefintion",
-    "propertyValue"
-})
+@JsonPropertyOrder({"propertyDefintion", "propertyValue"})
 public class Property {
 
     /**
@@ -33,6 +29,7 @@ public class Property {
      */
     @JsonProperty("propertyDefintion")
     private PropertyDefintion propertyDefintion;
+
     /**
      *
      * (Required)
@@ -84,17 +81,20 @@ public class Property {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Property.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Property.class.getName())
+                .append('@')
+                .append(Integer.toHexString(System.identityHashCode(this)))
+                .append('[');
         sb.append("propertyDefintion");
         sb.append('=');
-        sb.append(((this.propertyDefintion == null)?"<null>":this.propertyDefintion));
+        sb.append(((this.propertyDefintion == null) ? "<null>" : this.propertyDefintion));
         sb.append(',');
         sb.append("propertyValue");
         sb.append('=');
-        sb.append(((this.propertyValue == null)?"<null>":this.propertyValue));
+        sb.append(((this.propertyValue == null) ? "<null>" : this.propertyValue));
         sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
@@ -104,8 +104,14 @@ public class Property {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.propertyValue == null)? 0 :this.propertyValue.hashCode()));
-        result = ((result* 31)+((this.propertyDefintion == null)? 0 :this.propertyDefintion.hashCode()));
+        result =
+                ((result * 31)
+                        + ((this.propertyValue == null) ? 0 : this.propertyValue.hashCode()));
+        result =
+                ((result * 31)
+                        + ((this.propertyDefintion == null)
+                                ? 0
+                                : this.propertyDefintion.hashCode()));
         return result;
     }
 
@@ -118,7 +124,7 @@ public class Property {
             return false;
         }
         Property rhs = ((Property) other);
-        return ((Objects.equals(this.propertyValue, rhs.propertyValue))&&(Objects.equals(this.propertyDefintion, rhs.propertyDefintion)));
+        return ((Objects.equals(this.propertyValue, rhs.propertyValue))
+                && (Objects.equals(this.propertyDefintion, rhs.propertyDefintion)));
     }
-
 }

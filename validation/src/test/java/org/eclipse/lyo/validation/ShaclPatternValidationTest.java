@@ -18,13 +18,11 @@
  * @version $version-stub$
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,14 +51,14 @@ public class ShaclPatternValidationTest {
             aResource.setAStringProperty("Catalyzer");
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource),
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource),
                     "pattern violation. Expected \"Catalyzer\" to match '^B'");
 
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -83,5 +81,4 @@ public class ShaclPatternValidationTest {
             Assert.fail("Exception should not be thrown");
         }
     }
-
 }

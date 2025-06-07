@@ -18,15 +18,14 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcRepresentation {
-	/**
-	 * Specify how the resource will be represented (for properties with a resource value-type).
-	 */
-	Representation value();
+    /**
+     * Specify how the resource will be represented (for properties with a resource value-type).
+     */
+    Representation value();
 }

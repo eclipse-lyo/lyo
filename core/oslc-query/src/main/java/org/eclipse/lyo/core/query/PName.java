@@ -14,10 +14,11 @@
 package org.eclipse.lyo.core.query;
 
 public class PName {
-	public String namespace;
-	public String prefix;
-	public String local;
-	public String toString(){
-		return prefix + ':' + local;
-	}
+    public String namespace;
+    public String prefix;
+    public String local;
+
+    public String toString() {
+        return prefix + ':' + local;
+    }
 }

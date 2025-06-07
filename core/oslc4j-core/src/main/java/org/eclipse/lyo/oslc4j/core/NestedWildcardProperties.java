@@ -21,11 +21,10 @@ import java.util.Map;
  * resource properties of the resource should be output with entries
  * in the {@link NestedWildcardProperties#commonNestedProperties()}
  */
-public interface NestedWildcardProperties
-{
-	/**
-	 * @return map of all member properties of nested resources to be
-	 * output
-	 */
-	Map<String, Object> commonNestedProperties();
+public interface NestedWildcardProperties {
+    /**
+     * @return map of all member properties of nested resources to be
+     * output
+     */
+    Map<String, Object> commonNestedProperties();
 }

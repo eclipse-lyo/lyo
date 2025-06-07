@@ -47,7 +47,6 @@ public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
         return QueryExecutionFactory.sparqlService(queryEndpoint, query);
     }
 
-
     @Override
     public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
         return UpdateExecutionFactory.createRemote(updateRequest, updateEndpoint);

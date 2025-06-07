@@ -13,11 +13,10 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ext.Provider;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * @author Andrew Berezovskyi
@@ -26,4 +25,4 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Produces({OslcMediaType.APPLICATION_JSON_LD})
 @Consumes({OslcMediaType.APPLICATION_JSON_LD})
-public class OslcJsonLdCollectionProvider extends OslcRdfXmlCollectionProvider { }
+public class OslcJsonLdCollectionProvider extends OslcRdfXmlCollectionProvider {}

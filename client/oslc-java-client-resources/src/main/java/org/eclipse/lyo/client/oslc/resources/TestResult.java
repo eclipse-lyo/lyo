@@ -17,7 +17,6 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -36,30 +35,28 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
  * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult</a>
  */
 @Deprecated
-@OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_RESULT)
+@OslcResourceShape(
+        title = "Quality Management Resource Shape",
+        describes = QmConstants.TYPE_TEST_RESULT)
 @OslcNamespace(QmConstants.QUALITY_MANAGEMENT_NAMESPACE)
-public class TestResult
-       extends QmResource
-{
-    private final Set<Link>     affectedByChangeRequests       = new HashSet<>();
+public class TestResult extends QmResource {
+    private final Set<Link> affectedByChangeRequests = new HashSet<>();
 
-    private Link     executesTestScript;
-    private Link     reportsOnTestCase;
-    private Link     reportsOnTestPlan;
-    private Link     producedByTestExecutionRecord;
-    private String   status;
+    private Link executesTestScript;
+    private Link reportsOnTestCase;
+    private Link reportsOnTestPlan;
+    private Link producedByTestExecutionRecord;
+    private String status;
 
-    public TestResult()
-    {
+    public TestResult() {
         super();
     }
 
     protected URI getRdfType() {
-    	return URI.create(QmConstants.TYPE_TEST_RESULT);
+        return URI.create(QmConstants.TYPE_TEST_RESULT);
     }
 
-    public void addAffectedByChangeRequest(final Link affectingChangeRequest)
-    {
+    public void addAffectedByChangeRequest(final Link affectingChangeRequest) {
         this.affectedByChangeRequests.add(affectingChangeRequest);
     }
 
@@ -69,8 +66,7 @@ public class TestResult
     @OslcRange(QmConstants.TYPE_CHANGE_REQUEST)
     @OslcReadOnly(false)
     @OslcTitle("Affected By Change Request")
-    public Link[] getAffectedByChangeRequests()
-    {
+    public Link[] getAffectedByChangeRequests() {
         return affectedByChangeRequests.toArray(new Link[affectedByChangeRequests.size()]);
     }
 
@@ -80,8 +76,7 @@ public class TestResult
     @OslcRange(QmConstants.TYPE_TEST_PLAN)
     @OslcReadOnly(false)
     @OslcTitle("Reports On Test Plan")
-    public Link getReportsOnTestPlan()
-    {
+    public Link getReportsOnTestPlan() {
         return reportsOnTestPlan;
     }
 
@@ -91,73 +86,64 @@ public class TestResult
     @OslcRange(QmConstants.TYPE_TEST_CASE)
     @OslcReadOnly(false)
     @OslcTitle("Reports On Test Case")
-    public Link getReportsOnTestCase()
-    {
+    public Link getReportsOnTestCase() {
         return reportsOnTestCase;
     }
 
     @OslcDescription("Test Script executed to produce the Test Result.")
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "executesTestScript")
     @OslcTitle("Executes Test Script")
-    public Link getExecutesTestScript()
-    {
+    public Link getExecutesTestScript() {
         return executesTestScript;
     }
 
     @OslcDescription("Test Execution Record that the Test Result was produced by.")
     @OslcName("producedByTestExecutionRecord")
-    @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "producedByTestExecutionRecord")
+    @OslcPropertyDefinition(
+            QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "producedByTestExecutionRecord")
     @OslcRange(QmConstants.TYPE_TEST_EXECUTION_RECORD)
     @OslcReadOnly(false)
     @OslcTitle("Produced By Test Execution Record")
-    public Link getProducedByTestExecutionRecord()
-    {
+    public Link getProducedByTestExecutionRecord() {
         return producedByTestExecutionRecord;
     }
 
-    @OslcDescription("Used to indicate the state of the Test Result based on values defined by the service provider.")
+    @OslcDescription(
+            "Used to indicate the state of the Test Result based on values defined by the service"
+                    + " provider.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcPropertyDefinition(QmConstants.QUALITY_MANAGEMENT_NAMESPACE + "status")
     @OslcTitle("Status")
     @OslcValueType(ValueType.XMLLiteral)
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
 
-    public void setAffectedByChangeRequests(final Link[] affectedByChangeRequests)
-    {
+    public void setAffectedByChangeRequests(final Link[] affectedByChangeRequests) {
         this.affectedByChangeRequests.clear();
 
-        if (affectedByChangeRequests != null)
-        {
+        if (affectedByChangeRequests != null) {
             this.affectedByChangeRequests.addAll(Arrays.asList(affectedByChangeRequests));
         }
     }
 
-    public void setReportsOnTestPlan(final Link reportsOnTestPlan)
-    {
+    public void setReportsOnTestPlan(final Link reportsOnTestPlan) {
         this.reportsOnTestPlan = reportsOnTestPlan;
     }
 
-    public void setReportsOnTestCase(final Link reportsOnTestCase)
-    {
+    public void setReportsOnTestCase(final Link reportsOnTestCase) {
         this.reportsOnTestCase = reportsOnTestCase;
     }
 
-    public void setProducedByTestExecutionRecord(final Link producedByTestExecutionRecord)
-    {
+    public void setProducedByTestExecutionRecord(final Link producedByTestExecutionRecord) {
         this.producedByTestExecutionRecord = producedByTestExecutionRecord;
     }
 
-    public void setExecutesTestScript(final Link executesTestScript)
-    {
+    public void setExecutesTestScript(final Link executesTestScript) {
         this.executesTestScript = executesTestScript;
     }
 
-    public void setStatus(final String status)
-    {
+    public void setStatus(final String status) {
         this.status = status;
     }
-
 }

@@ -19,22 +19,22 @@ package org.eclipse.lyo.client;
  */
 public interface RootServicesConstants {
 
-	//rootservices catalog properties.  See starting at:
-	//https://jazz.net/wiki/bin/view/Main/RootServicesSpec#Change_Management_Service_Provid
+    // rootservices catalog properties.  See starting at:
+    // https://jazz.net/wiki/bin/view/Main/RootServicesSpec#Change_Management_Service_Provid
 
-	static String CM_ROOTSERVICES_CATALOG_PROP = "cmServiceProviders";
-	static String QM_ROOTSERVICES_CATALOG_PROP = "qmServiceProviders";
-	static String RM_ROOTSERVICES_CATALOG_PROP = "rmServiceProviders";
-	static String AM_ROOTSERVICES_CATALOG_PROP = "amServiceProviders";
-	static String AUTO_ROOTSERVICES_CATALOG_PROP = "autoServiceProviders";
+    static String CM_ROOTSERVICES_CATALOG_PROP = "cmServiceProviders";
+    static String QM_ROOTSERVICES_CATALOG_PROP = "qmServiceProviders";
+    static String RM_ROOTSERVICES_CATALOG_PROP = "rmServiceProviders";
+    static String AM_ROOTSERVICES_CATALOG_PROP = "amServiceProviders";
+    static String AUTO_ROOTSERVICES_CATALOG_PROP = "autoServiceProviders";
 
-	//OAuth entries
-	static String OAUTH_REQUEST_TOKEN_URL = "oauthRequestTokenUrl";
-	static String OAUTH_USER_AUTH_URL     = "oauthUserAuthorizationUrl";
-	static String OAUTH_ACCESS_TOKEN_URL  = "oauthAccessTokenUrl";
-	static String OAUTH_REALM_NAME        = "oauthRealmName";
+    // OAuth entries
+    static String OAUTH_REQUEST_TOKEN_URL = "oauthRequestTokenUrl";
+    static String OAUTH_USER_AUTH_URL = "oauthUserAuthorizationUrl";
+    static String OAUTH_ACCESS_TOKEN_URL = "oauthAccessTokenUrl";
+    static String OAUTH_REALM_NAME = "oauthRealmName";
 
-	//https://jazz.net/wiki/bin/view/Main/RootServicesSpecAddendum2
-	static String OAUTH_REQUEST_CONSUMER_KEY_URL = "oauthRequestConsumerKeyUrl";
-	static String OAUTH_APPROVAL_MODULE_URL = "oauthApprovalModuleUrl";
+    // https://jazz.net/wiki/bin/view/Main/RootServicesSpecAddendum2
+    static String OAUTH_REQUEST_CONSUMER_KEY_URL = "oauthRequestConsumerKeyUrl";
+    static String OAUTH_APPROVAL_MODULE_URL = "oauthApprovalModuleUrl";
 }

@@ -14,14 +14,11 @@
 
 package org.eclipse.lyo.trs.client.config;
 
+import com.google.common.base.Strings;
+import jakarta.ws.rs.client.ClientBuilder;
 import java.util.concurrent.ScheduledExecutorService;
-
 import org.eclipse.lyo.client.OslcClient;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-
-import com.google.common.base.Strings;
-
-import jakarta.ws.rs.client.ClientBuilder;
 
 public class TrsConsumerConfiguration {
     private final String sparqlQueryUrl;
@@ -33,9 +30,13 @@ public class TrsConsumerConfiguration {
     private final String basicPassword;
     private OslcClient httpClient;
 
-    public TrsConsumerConfiguration(final String sparqlQueryUrl, final String sparqlUpdateUrl,
-            final String sparqlUsername, final String sparqlPassword,
-            final ScheduledExecutorService scheduler, final String basicUsername,
+    public TrsConsumerConfiguration(
+            final String sparqlQueryUrl,
+            final String sparqlUpdateUrl,
+            final String sparqlUsername,
+            final String sparqlPassword,
+            final ScheduledExecutorService scheduler,
+            final String basicUsername,
             final String basicPassword) {
         this.sparqlQueryUrl = sparqlQueryUrl;
         this.sparqlUpdateUrl = sparqlUpdateUrl;

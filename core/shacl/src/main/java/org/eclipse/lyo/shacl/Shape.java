@@ -31,9 +31,9 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 @OslcName("Shape")
 @OslcResourceShape(title = "Shacl Resource Shape", describes = ShaclConstants.TYPE_SHACL_SHAPE)
 public final class Shape extends AbstractResource {
-    //Core Constraints
+    // Core Constraints
     private final Map<URI, Property> properties = new HashMap<>();
-    //Targets
+    // Targets
     private URI targetClass;
     private URI targetNode;
     private URI targetSubjectsOf;
@@ -178,14 +178,14 @@ public final class Shape extends AbstractResource {
     }
 
     @OslcDescription(
-            "If set to true, the model is not allowed to have any other property apart from " +
-                    "those" + " in shapes graph.")
+            "If set to true, the model is not allowed to have any other property apart from "
+                    + "those"
+                    + " in shapes graph.")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "closed")
     @OslcValueType(ValueType.Boolean)
     @OslcTitle("Closed")
     public boolean isClosed() {
         return isClosed;
-
     }
 
     public void setClosed(boolean isClosed) {
@@ -193,8 +193,8 @@ public final class Shape extends AbstractResource {
     }
 
     @OslcDescription(
-            "Optional SHACL list of properties that are also permitted in addition to those " +
-                    "explicitly enumerated via sh:property..")
+            "Optional SHACL list of properties that are also permitted in addition to those "
+                    + "explicitly enumerated via sh:property..")
     @OslcPropertyDefinition(ShaclConstants.SHACL_CORE_NAMESPACE + "ignoredProperties")
     @OslcTitle("IgnoredProperties")
     @OslcRdfCollectionType
@@ -213,5 +213,4 @@ public final class Shape extends AbstractResource {
     public void setReadShaclAnnotations(boolean useShaclAnnotations) {
         this.readShaclAnnotations = useShaclAnnotations;
     }
-
 }

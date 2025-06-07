@@ -9,7 +9,8 @@ import org.eclipse.lyo.oslc4j.core.model.IExtendedResource;
 public interface Pet extends IExtendedResource {
 
     String getName();
-    void setName(String name);
-    void eat();
 
+    void setName(String name);
+
+    void eat();
 }

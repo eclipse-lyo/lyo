@@ -18,57 +18,36 @@ package org.eclipse.lyo.oslc.domains.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.Agent;
-import org.eclipse.lyo.oslc.domains.config.Component;
-import org.eclipse.lyo.oslc.domains.config.ConceptResource;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.config.VersionResource;
 // Start of user code imports
 // End of user code
 
@@ -79,11 +58,10 @@ import org.eclipse.lyo.oslc.domains.config.VersionResource;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.VERSIONRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.VERSIONRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "VersionResource Shape", describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
-public class VersionResource
-    extends AbstractResource
-    implements IVersionResource
-{
+@OslcResourceShape(
+        title = "VersionResource Shape",
+        describes = Oslc_configDomainConstants.VERSIONRESOURCE_TYPE)
+public class VersionResource extends AbstractResource implements IVersionResource {
     // Start of user code attributeAnnotation:contributor
     // End of user code
     private Set<Link> contributor = new HashSet<>();
@@ -152,47 +130,46 @@ public class VersionResource
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public VersionResource()
-    {
+    public VersionResource() {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public VersionResource(final URI about)
-    {
+    public VersionResource(final URI about) {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_configDomainConstants.VERSIONRESOURCE_PATH,
-        VersionResource.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_configDomainConstants.VERSIONRESOURCE_PATH,
+                VersionResource.class);
     }
 
-
-    public String toString()
-    {
+    public String toString() {
         return toString(false);
     }
 
-    public String toString(boolean asLocalResource)
-    {
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
 
         if (asLocalResource) {
-            result = result + "{a Local VersionResource Resource} - update VersionResource.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local VersionResource Resource} - update"
+                            + " VersionResource.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
 
@@ -202,63 +179,54 @@ public class VersionResource
         return result;
     }
 
-    public void addContributor(final Link contributor)
-    {
+    public void addContributor(final Link contributor) {
         this.contributor.add(contributor);
     }
 
-    public void addCreator(final Link creator)
-    {
+    public void addCreator(final Link creator) {
         this.creator.add(creator);
     }
 
-    public void addSubject(final String subject)
-    {
+    public void addSubject(final String subject) {
         this.subject.add(subject);
     }
 
-    public void addCommitter(final Link committer)
-    {
+    public void addCommitter(final Link committer) {
         this.committer.add(committer);
     }
 
-    public void addInstanceShape(final Link instanceShape)
-    {
+    public void addInstanceShape(final Link instanceShape) {
         this.instanceShape.add(instanceShape);
     }
 
-    public void addModifiedBy(final Link modifiedBy)
-    {
+    public void addModifiedBy(final Link modifiedBy) {
         this.modifiedBy.add(modifiedBy);
     }
 
-    public void addServiceProvider(final Link serviceProvider)
-    {
+    public void addServiceProvider(final Link serviceProvider) {
         this.serviceProvider.add(serviceProvider);
     }
 
-    public void addWasDerivedFrom(final Link wasDerivedFrom)
-    {
+    public void addWasDerivedFrom(final Link wasDerivedFrom) {
         this.wasDerivedFrom.add(wasDerivedFrom);
     }
 
-    public void addWasRevisionOf(final Link wasRevisionOf)
-    {
+    public void addWasRevisionOf(final Link wasRevisionOf) {
         this.wasRevisionOf.add(wasRevisionOf);
     }
-
 
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "Contributor or contributors to the resource. The link target is usually a foaf:Person"
+                    + " or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getContributor()
-    {
+    public Set<Link> getContributor() {
         // Start of user code getterInit:contributor
         // End of user code
         return contributor;
@@ -272,8 +240,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCreated()
-    {
+    public Date getCreated() {
         // Start of user code getterInit:created
         // End of user code
         return created;
@@ -283,13 +250,14 @@ public class VersionResource
     // End of user code
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type")
+    @OslcDescription(
+            "Creator or creators of the resource. The link target is usually a foaf:Person or"
+                    + " foaf:Agent, but could be any type")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getCreator()
-    {
+    public Set<Link> getCreator() {
         // Start of user code getterInit:creator
         // End of user code
         return creator;
@@ -299,12 +267,13 @@ public class VersionResource
     // End of user code
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -314,12 +283,14 @@ public class VersionResource
     // End of user code
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -329,14 +300,15 @@ public class VersionResource
     // End of user code
     @OslcName("isVersionOf")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isVersionOf")
-    @OslcDescription("The concept resource of which this resource is a version. The subject of this property must be the version resource URI.")
+    @OslcDescription(
+            "The concept resource of which this resource is a version. The subject of this property"
+                    + " must be the version resource URI.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE})
     @OslcReadOnly(false)
-    public Link getIsVersionOf()
-    {
+    public Link getIsVersionOf() {
         // Start of user code getterInit:isVersionOf
         // End of user code
         return isVersionOf;
@@ -350,8 +322,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getModified()
-    {
+    public Date getModified() {
         // Start of user code getterInit:modified
         // End of user code
         return modified;
@@ -361,13 +332,14 @@ public class VersionResource
     // End of user code
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
+    @OslcDescription(
+            "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes"
+                    + " an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public Set<String> getSubject()
-    {
+    public Set<String> getSubject() {
         // Start of user code getterInit:subject
         // End of user code
         return subject;
@@ -377,12 +349,13 @@ public class VersionResource
     // End of user code
     @OslcName("title")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -391,13 +364,15 @@ public class VersionResource
     // Start of user code getterAnnotation:committed
     // End of user code
     @OslcName("committed")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
-    @OslcDescription("Date and time this version resource was checked in. Absent for mutable (checked out) versions.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
+    @OslcDescription(
+            "Date and time this version resource was checked in. Absent for mutable (checked out)"
+                    + " versions.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCommitted()
-    {
+    public Date getCommitted() {
         // Start of user code getterInit:committed
         // End of user code
         return committed;
@@ -406,14 +381,14 @@ public class VersionResource
     // Start of user code getterAnnotation:committer
     // End of user code
     @OslcName("committer")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
     @OslcDescription("The entity that checked in this version.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
     @OslcReadOnly(true)
-    public Set<Link> getCommitter()
-    {
+    public Set<Link> getCommitter() {
         // Start of user code getterInit:committer
         // End of user code
         return committer;
@@ -422,14 +397,17 @@ public class VersionResource
     // Start of user code getterAnnotation:component
     // End of user code
     @OslcName("component")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "component")
-    @OslcDescription("The component to which this version belongs. Configuration Management provider should indicate the owning component for each version resource using either this property, or using the membership relationship from the component LDPC.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "component")
+    @OslcDescription(
+            "The component to which this version belongs. Configuration Management provider should"
+                    + " indicate the owning component for each version resource using either this"
+                    + " property, or using the membership relationship from the component LDPC.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.COMPONENT_TYPE})
     @OslcReadOnly(false)
-    public Link getComponent()
-    {
+    public Link getComponent() {
         // Start of user code getterInit:component
         // End of user code
         return component;
@@ -438,13 +416,18 @@ public class VersionResource
     // Start of user code getterAnnotation:versionId
     // End of user code
     @OslcName("versionId")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "versionId")
-    @OslcDescription("A short human-readable identifier for the version of a resource. All versioned resources should have this property; where the property is present, this identifier must be unique amongst all currently existing versions of the same concept resource. The subject of this property should be the concept resource URI.")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "versionId")
+    @OslcDescription(
+            "A short human-readable identifier for the version of a resource. All versioned"
+                + " resources should have this property; where the property is present, this"
+                + " identifier must be unique amongst all currently existing versions of the same"
+                + " concept resource. The subject of this property should be the concept resource"
+                + " URI.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getVersionId()
-    {
+    public String getVersionId() {
         // Start of user code getterInit:versionId
         // End of user code
         return versionId;
@@ -457,8 +440,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isArchived()
-    {
+    public Boolean isArchived() {
         // Start of user code getterInit:archived
         // End of user code
         return archived;
@@ -468,13 +450,18 @@ public class VersionResource
     // End of user code
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
+    @OslcDescription(
+            "The URI of a Resource Shape that describes the possible properties, occurrence, value"
+                + " types, allowed values and labels. This shape information is useful in"
+                + " displaying the subject resource as well as guiding clients in performing"
+                + " modifications. Instance shapes may be specific to the authenticated user"
+                + " associated with the request that retrieved the resource, the current state of"
+                + " the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getInstanceShape()
-    {
+    public Set<Link> getInstanceShape() {
         // Start of user code getterInit:instanceShape
         // End of user code
         return instanceShape;
@@ -484,13 +471,14 @@ public class VersionResource
     // End of user code
     @OslcName("modifiedBy")
     @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
-    @OslcDescription("The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
+    @OslcDescription(
+            "The entity that most recently modified the subject resource. The link target is"
+                    + " usually a foaf:Person or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.AGENT_TYPE, FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getModifiedBy()
-    {
+    public Set<Link> getModifiedBy() {
         // Start of user code getterInit:modifiedBy
         // End of user code
         return modifiedBy;
@@ -500,13 +488,15 @@ public class VersionResource
     // End of user code
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
+    @OslcDescription(
+            "A link to the resource's OSLC Service Provider. There may be cases when the subject"
+                + " resource is available from a service provider that implements multiple domain"
+                + " specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getServiceProvider()
-    {
+    public Set<Link> getServiceProvider() {
         // Start of user code getterInit:serviceProvider
         // End of user code
         return serviceProvider;
@@ -520,8 +510,7 @@ public class VersionResource
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getShortId()
-    {
+    public String getShortId() {
         // Start of user code getterInit:shortId
         // End of user code
         return shortId;
@@ -531,12 +520,14 @@ public class VersionResource
     // End of user code
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Shorter form of dcterms:title for the resource represented as rich text in XHTML"
+                    + " content. SHOULD include only content that is valid inside an XHTML <span>"
+                    + " element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getShortTitle()
-    {
+    public String getShortTitle() {
         // Start of user code getterInit:shortTitle
         // End of user code
         return shortTitle;
@@ -552,8 +543,7 @@ public class VersionResource
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom()
-    {
+    public Set<Link> getWasDerivedFrom() {
         // Start of user code getterInit:wasDerivedFrom
         // End of user code
         return wasDerivedFrom;
@@ -569,8 +559,7 @@ public class VersionResource
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_configDomainConstants.VERSIONRESOURCE_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getWasRevisionOf()
-    {
+    public Set<Link> getWasRevisionOf() {
         // Start of user code getterInit:wasRevisionOf
         // End of user code
         return wasRevisionOf;
@@ -578,13 +567,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final Set<Link> contributor )
-    {
+    public void setContributor(final Set<Link> contributor) {
         // Start of user code setterInit:contributor
         // End of user code
         this.contributor.clear();
-        if (contributor != null)
-        {
+        if (contributor != null) {
             this.contributor.addAll(contributor);
         }
         // Start of user code setterFinalize:contributor
@@ -593,8 +580,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:created
     // End of user code
-    public void setCreated(final Date created )
-    {
+    public void setCreated(final Date created) {
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
@@ -604,13 +590,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final Set<Link> creator )
-    {
+    public void setCreator(final Set<Link> creator) {
         // Start of user code setterInit:creator
         // End of user code
         this.creator.clear();
-        if (creator != null)
-        {
+        if (creator != null) {
             this.creator.addAll(creator);
         }
         // Start of user code setterFinalize:creator
@@ -619,8 +603,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -630,8 +613,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -641,8 +623,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:isVersionOf
     // End of user code
-    public void setIsVersionOf(final Link isVersionOf )
-    {
+    public void setIsVersionOf(final Link isVersionOf) {
         // Start of user code setterInit:isVersionOf
         // End of user code
         this.isVersionOf = isVersionOf;
@@ -652,8 +633,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:modified
     // End of user code
-    public void setModified(final Date modified )
-    {
+    public void setModified(final Date modified) {
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
@@ -663,13 +643,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final Set<String> subject )
-    {
+    public void setSubject(final Set<String> subject) {
         // Start of user code setterInit:subject
         // End of user code
         this.subject.clear();
-        if (subject != null)
-        {
+        if (subject != null) {
             this.subject.addAll(subject);
         }
         // Start of user code setterFinalize:subject
@@ -678,8 +656,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -689,8 +666,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:committed
     // End of user code
-    public void setCommitted(final Date committed )
-    {
+    public void setCommitted(final Date committed) {
         // Start of user code setterInit:committed
         // End of user code
         this.committed = committed;
@@ -700,13 +676,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:committer
     // End of user code
-    public void setCommitter(final Set<Link> committer )
-    {
+    public void setCommitter(final Set<Link> committer) {
         // Start of user code setterInit:committer
         // End of user code
         this.committer.clear();
-        if (committer != null)
-        {
+        if (committer != null) {
             this.committer.addAll(committer);
         }
         // Start of user code setterFinalize:committer
@@ -715,8 +689,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:component
     // End of user code
-    public void setComponent(final Link component )
-    {
+    public void setComponent(final Link component) {
         // Start of user code setterInit:component
         // End of user code
         this.component = component;
@@ -726,8 +699,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:versionId
     // End of user code
-    public void setVersionId(final String versionId )
-    {
+    public void setVersionId(final String versionId) {
         // Start of user code setterInit:versionId
         // End of user code
         this.versionId = versionId;
@@ -737,8 +709,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:archived
     // End of user code
-    public void setArchived(final Boolean archived )
-    {
+    public void setArchived(final Boolean archived) {
         // Start of user code setterInit:archived
         // End of user code
         this.archived = archived;
@@ -748,13 +719,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final Set<Link> instanceShape )
-    {
+    public void setInstanceShape(final Set<Link> instanceShape) {
         // Start of user code setterInit:instanceShape
         // End of user code
         this.instanceShape.clear();
-        if (instanceShape != null)
-        {
+        if (instanceShape != null) {
             this.instanceShape.addAll(instanceShape);
         }
         // Start of user code setterFinalize:instanceShape
@@ -763,13 +732,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:modifiedBy
     // End of user code
-    public void setModifiedBy(final Set<Link> modifiedBy )
-    {
+    public void setModifiedBy(final Set<Link> modifiedBy) {
         // Start of user code setterInit:modifiedBy
         // End of user code
         this.modifiedBy.clear();
-        if (modifiedBy != null)
-        {
+        if (modifiedBy != null) {
             this.modifiedBy.addAll(modifiedBy);
         }
         // Start of user code setterFinalize:modifiedBy
@@ -778,13 +745,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final Set<Link> serviceProvider )
-    {
+    public void setServiceProvider(final Set<Link> serviceProvider) {
         // Start of user code setterInit:serviceProvider
         // End of user code
         this.serviceProvider.clear();
-        if (serviceProvider != null)
-        {
+        if (serviceProvider != null) {
             this.serviceProvider.addAll(serviceProvider);
         }
         // Start of user code setterFinalize:serviceProvider
@@ -793,8 +758,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:shortId
     // End of user code
-    public void setShortId(final String shortId )
-    {
+    public void setShortId(final String shortId) {
         // Start of user code setterInit:shortId
         // End of user code
         this.shortId = shortId;
@@ -804,8 +768,7 @@ public class VersionResource
 
     // Start of user code setterAnnotation:shortTitle
     // End of user code
-    public void setShortTitle(final String shortTitle )
-    {
+    public void setShortTitle(final String shortTitle) {
         // Start of user code setterInit:shortTitle
         // End of user code
         this.shortTitle = shortTitle;
@@ -815,13 +778,11 @@ public class VersionResource
 
     // Start of user code setterAnnotation:wasDerivedFrom
     // End of user code
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom )
-    {
+    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom) {
         // Start of user code setterInit:wasDerivedFrom
         // End of user code
         this.wasDerivedFrom.clear();
-        if (wasDerivedFrom != null)
-        {
+        if (wasDerivedFrom != null) {
             this.wasDerivedFrom.addAll(wasDerivedFrom);
         }
         // Start of user code setterFinalize:wasDerivedFrom
@@ -830,17 +791,14 @@ public class VersionResource
 
     // Start of user code setterAnnotation:wasRevisionOf
     // End of user code
-    public void setWasRevisionOf(final Set<Link> wasRevisionOf )
-    {
+    public void setWasRevisionOf(final Set<Link> wasRevisionOf) {
         // Start of user code setterInit:wasRevisionOf
         // End of user code
         this.wasRevisionOf.clear();
-        if (wasRevisionOf != null)
-        {
+        if (wasRevisionOf != null) {
             this.wasRevisionOf.addAll(wasRevisionOf);
         }
         // Start of user code setterFinalize:wasRevisionOf
         // End of user code
     }
-
 }

@@ -14,35 +14,39 @@
 package org.eclipse.lyo.oslc4j.core.exception;
 
 import java.lang.reflect.Method;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 
 public final class OslcCoreInvalidOccursException extends OslcCoreApplicationException {
-	private static final long serialVersionUID = 8373429675756819476L;
+    private static final long serialVersionUID = 8373429675756819476L;
 
-	private static final String MESSAGE_KEY = "InvalidOccursException";
+    private static final String MESSAGE_KEY = "InvalidOccursException";
 
-	private final Method	 method;
-	private final OslcOccurs oslcOccurs;
-	private final Class<?>	 resourceClass;
+    private final Method method;
+    private final OslcOccurs oslcOccurs;
+    private final Class<?> resourceClass;
 
-	public OslcCoreInvalidOccursException(final Class<?> resourceClass, final Method method, final OslcOccurs oslcOccurs) {
-		super(MESSAGE_KEY, new Object[] {resourceClass.getName(), method.getName(), oslcOccurs.value().toString()});
+    public OslcCoreInvalidOccursException(
+            final Class<?> resourceClass, final Method method, final OslcOccurs oslcOccurs) {
+        super(
+                MESSAGE_KEY,
+                new Object[] {
+                    resourceClass.getName(), method.getName(), oslcOccurs.value().toString()
+                });
 
-		this.method		   = method;
-		this.oslcOccurs	   = oslcOccurs;
-		this.resourceClass = resourceClass;
-	}
+        this.method = method;
+        this.oslcOccurs = oslcOccurs;
+        this.resourceClass = resourceClass;
+    }
 
-	public Method getMethod() {
-		return method;
-	}
+    public Method getMethod() {
+        return method;
+    }
 
-	public OslcOccurs getOslcOccurs() {
-		return oslcOccurs;
-	}
+    public OslcOccurs getOslcOccurs() {
+        return oslcOccurs;
+    }
 
-	public Class<?> getResourceClass() {
-		return resourceClass;
-	}
+    public Class<?> getResourceClass() {
+        return resourceClass;
+    }
 }

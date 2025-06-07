@@ -17,62 +17,35 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IIssue;
-import org.eclipse.lyo.oslc.domains.promcode.IMeasurement;
-import org.eclipse.lyo.oslc.domains.promcode.IPlan;
-import org.eclipse.lyo.oslc.domains.promcode.IProject;
-import org.eclipse.lyo.oslc.domains.promcode.IRisk;
-import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_promcodeDomainConstants.REPORT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.REPORT_LOCALNAME)
-@OslcResourceShape(title = "Report Shape", description = "A Report is a resource which is a subclass of ManagedItemCollection to describe a report. A Report is associated to corresponding Plan.", describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
-public interface IReport
-{
+@OslcResourceShape(
+        title = "Report Shape",
+        description =
+                "A Report is a resource which is a subclass of ManagedItemCollection to describe a"
+                        + " report. A Report is associated to corresponding Plan.",
+        describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
+public interface IReport {
 
-    public void addOslc_promcodeCollects(final Link collects );
-    public void addIncludes(final Link includes );
+    public void addOslc_promcodeCollects(final Link collects);
+
+    public void addIncludes(final Link includes);
 
     @OslcName("belongsTo")
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
@@ -86,7 +59,11 @@ public interface IReport
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
     public Set<Link> getOslc_promcodeCollects();
 
@@ -106,10 +83,11 @@ public interface IReport
     @OslcReadOnly(false)
     public Set<Link> getIncludes();
 
+    public void setOslc_promcodeBelongsTo(final Link belongsTo);
 
-    public void setOslc_promcodeBelongsTo(final Link belongsTo );
-    public void setOslc_promcodeCollects(final Set<Link> collects );
-    public void setCorrespondsTo(final Link correspondsTo );
-    public void setIncludes(final Set<Link> includes );
+    public void setOslc_promcodeCollects(final Set<Link> collects);
+
+    public void setCorrespondsTo(final Link correspondsTo);
+
+    public void setIncludes(final Set<Link> includes);
 }
-

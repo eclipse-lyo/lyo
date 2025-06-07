@@ -17,7 +17,6 @@
 package org.eclipse.lyo.shacl;
 
 import java.util.HashSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
@@ -34,11 +33,12 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(ShDomainConstants.VALIDATIONREPORT_NAMESPACE)
 @OslcName(ShDomainConstants.VALIDATIONREPORT_LOCALNAME)
-@OslcResourceShape(title = "ValidationReport Resource Shape", describes = ShDomainConstants.VALIDATIONREPORT_TYPE)
-public interface IValidationReport
-{
+@OslcResourceShape(
+        title = "ValidationReport Resource Shape",
+        describes = ShDomainConstants.VALIDATIONREPORT_TYPE)
+public interface IValidationReport {
 
-    public void addResult(final ValidationResult result );
+    public void addResult(final ValidationResult result);
 
     @OslcName("conforms")
     @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "conforms")
@@ -55,8 +55,7 @@ public interface IValidationReport
     @OslcReadOnly(false)
     public HashSet<ValidationResult> getResult();
 
+    public void setConforms(final Boolean conforms);
 
-    public void setConforms(final Boolean conforms );
-    public void setResult(final HashSet<ValidationResult> result );
+    public void setResult(final HashSet<ValidationResult> result);
 }
-

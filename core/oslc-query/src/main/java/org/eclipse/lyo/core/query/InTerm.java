@@ -19,10 +19,9 @@ import java.util.List;
 /**
  * <i>in</i> operator simple term from olsc.where clause
  */
-public interface InTerm extends SimpleTerm
-{
-	/**
-	 * @return immutable list of values
-	 */
-	List<Value> values();
+public interface InTerm extends SimpleTerm {
+    /**
+     * @return immutable list of values
+     */
+    List<Value> values();
 }

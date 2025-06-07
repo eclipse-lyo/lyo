@@ -18,48 +18,25 @@ package org.eclipse.lyo.oslc.domains;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
-import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.RdfsClass;
 // Start of user code imports
 // End of user code
 
@@ -71,69 +48,64 @@ import org.eclipse.lyo.oslc.domains.RdfsClass;
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)
 @OslcResourceShape(title = "Class Shape", describes = RdfsDomainConstants.CLASS_TYPE)
-public class RdfsClass
-    extends AbstractResource
-    implements IRdfsClass
-{
+public class RdfsClass extends AbstractResource implements IRdfsClass {
     // Start of user code attributeAnnotation:subClassOf
     // End of user code
     private Link subClassOf;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public RdfsClass()
-    {
+    public RdfsClass() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public RdfsClass(final URI about)
-    {
+
+    public RdfsClass(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        RdfsDomainConstants.CLASS_PATH,
-        RdfsClass.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                RdfsDomainConstants.CLASS_PATH,
+                RdfsClass.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Class Resource} - update Class.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Class Resource} - update Class.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:subClassOf
     // End of user code
     @OslcName("subClassOf")
@@ -143,8 +115,7 @@ public class RdfsClass
     @OslcValueType(ValueType.Resource)
     @OslcRange({RdfsDomainConstants.CLASS_TYPE})
     @OslcReadOnly(false)
-    public Link getSubClassOf()
-    {
+    public Link getSubClassOf() {
         // Start of user code getterInit:subClassOf
         // End of user code
         return subClassOf;
@@ -152,13 +123,11 @@ public class RdfsClass
 
     // Start of user code setterAnnotation:subClassOf
     // End of user code
-    public void setSubClassOf(final Link subClassOf )
-    {
+    public void setSubClassOf(final Link subClassOf) {
         // Start of user code setterInit:subClassOf
         // End of user code
         this.subClassOf = subClassOf;
         // Start of user code setterFinalize:subClassOf
         // End of user code
     }
-
 }

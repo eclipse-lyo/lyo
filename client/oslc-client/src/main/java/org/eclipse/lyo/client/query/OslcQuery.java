@@ -7,20 +7,17 @@
  */
 package org.eclipse.lyo.client.query;
 
-import java.util.Collections;
-import java.util.Map;
-
-import org.eclipse.lyo.client.OSLCConstants;
-import org.eclipse.lyo.client.OslcClient;
-
 import jakarta.ws.rs.client.Invocation.Builder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.Map;
+import org.eclipse.lyo.client.OSLCConstants;
+import org.eclipse.lyo.client.OslcClient;
 
 /**
  * Represents an OSLC query (HTTP GET) request to be made of a remote system. Immutable.
  */
-
 @SuppressWarnings("WeakerAccess")
 public class OslcQuery {
 
@@ -62,7 +59,9 @@ public class OslcQuery {
      * @param oslcQueryParams an OslcQueryParameters object
      * @see                   OslcQueryParameters
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl,
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
             final OslcQueryParameters oslcQueryParams) {
         this(oslcClient, capabilityUrl, 0, oslcQueryParams);
     }
@@ -76,7 +75,10 @@ public class OslcQuery {
      * @param additionalHeaders additional request headers sent with the query
      * @see                     OslcQueryParameters
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl, final OslcQueryParameters oslcQueryParams,
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
+            final OslcQueryParameters oslcQueryParams,
             final Map<String, String> additionalHeaders) {
         this(oslcClient, capabilityUrl, 0, oslcQueryParams, additionalHeaders);
     }
@@ -100,7 +102,10 @@ public class OslcQuery {
      * @param pageSize        the number of results to include on each page (OslcQueryResult)
      * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl, final int pageSize,
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
+            final int pageSize,
             final OslcQueryParameters oslcQueryParams) {
         this(oslcClient, capabilityUrl, pageSize, oslcQueryParams, OSLCConstants.OSLC2_0);
     }
@@ -114,9 +119,19 @@ public class OslcQuery {
      * @param oslcQueryParams   an OslcQueryParameters object (see {@link OslcQueryParameters})
      * @param additionalHeaders additional request headers sent with the query
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl, final int pageSize,
-            final OslcQueryParameters oslcQueryParams, final Map<String, String> additionalHeaders) {
-        this(oslcClient, capabilityUrl, pageSize, oslcQueryParams, OSLCConstants.OSLC2_0, additionalHeaders);
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
+            final int pageSize,
+            final OslcQueryParameters oslcQueryParams,
+            final Map<String, String> additionalHeaders) {
+        this(
+                oslcClient,
+                capabilityUrl,
+                pageSize,
+                oslcQueryParams,
+                OSLCConstants.OSLC2_0,
+                additionalHeaders);
     }
 
     /**
@@ -128,8 +143,12 @@ public class OslcQuery {
      * @param oslcQueryParams an OslcQueryParameters object (see {@link OslcQueryParameters})
      * @param version         OSLC Version (see {@link OSLCConstants})
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl, final int pageSize,
-            final OslcQueryParameters oslcQueryParams, final String version) {
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
+            final int pageSize,
+            final OslcQueryParameters oslcQueryParams,
+            final String version) {
         this(oslcClient, capabilityUrl, pageSize, oslcQueryParams, version, Collections.emptyMap());
     }
 
@@ -143,8 +162,12 @@ public class OslcQuery {
      * @param version           OSLC Version (see {@link OSLCConstants})
      * @param additionalHeaders additional request headers sent with the query
      */
-    public OslcQuery(final OslcClient oslcClient, final String capabilityUrl, final int pageSize,
-            final OslcQueryParameters oslcQueryParams, final String version,
+    public OslcQuery(
+            final OslcClient oslcClient,
+            final String capabilityUrl,
+            final int pageSize,
+            final OslcQueryParameters oslcQueryParams,
+            final String version,
             final Map<String, String> additionalHeaders) {
         this.oslcClient = oslcClient;
         this.capabilityUrl = capabilityUrl;
@@ -159,7 +182,11 @@ public class OslcQuery {
             this.prefix = oslcQueryParams.getPrefix();
             this.configurationContext = oslcQueryParams.getConfigurationContext();
         } else {
-            this.where = this.select = this.orderBy = this.searchTerms = this.prefix = this.configurationContext = null;
+            this.where =
+                    this.select =
+                            this.orderBy =
+                                    this.searchTerms =
+                                            this.prefix = this.configurationContext = null;
         }
         this.queryResource = createQueryResource(this.getCapabilityUrl());
         this.queryUrl = this.getQueryUrl();
@@ -247,13 +274,17 @@ public class OslcQuery {
     }
 
     Response getResponse() {
-        Builder builder = queryResource.request(OSLCConstants.CT_RDF).header(OSLCConstants.OSLC_CORE_VERSION, version);
+        Builder builder =
+                queryResource
+                        .request(OSLCConstants.CT_RDF)
+                        .header(OSLCConstants.OSLC_CORE_VERSION, version);
         if (additionalHeaders != null) {
-            additionalHeaders.entrySet().forEach(header -> builder.header(header.getKey(), header.getValue()));
+            additionalHeaders
+                    .entrySet()
+                    .forEach(header -> builder.header(header.getKey(), header.getValue()));
         }
         return builder.get();
     }
-
 
     Map<String, String> getAdditionalHeaders() {
         return additionalHeaders;

@@ -1,11 +1,11 @@
 package org.eclipse.lyo.trs.client.util;
 
+import jakarta.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.eclipse.lyo.core.trs.Base;
@@ -23,8 +23,6 @@ import org.eclipse.lyo.trs.client.exceptions.TrsEndpointErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.ws.rs.core.Response;
-
 /**
  * TODO
  *
@@ -32,7 +30,7 @@ import jakarta.ws.rs.core.Response;
  */
 class ClientUtil {
 
-    private final static Logger log = LoggerFactory.getLogger(ClientUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientUtil.class);
 
     /**
      * extract the change log projo from the rdf model of the change log
@@ -100,12 +98,13 @@ class ClientUtil {
 
         if (baseObj == null) {
             log.error("Base page object is null");
-            //FIXME nulls
-//            throw new IllegalStateException();
+            // FIXME nulls
+            //            throw new IllegalStateException();
             return null;
         }
 
-        if (ProviderUtil.isNotEmptySingletonArray(nextPageArray) && nextPageArray[0] instanceof Page) {
+        if (ProviderUtil.isNotEmptySingletonArray(nextPageArray)
+                && nextPageArray[0] instanceof Page) {
             nextPage = (Page) nextPageArray[0];
             baseObj.setNextPage(nextPage);
         } else {
@@ -123,14 +122,14 @@ class ClientUtil {
      *
      * @return the TRS pojo extracted from the TRS rdf model
      */
-    static TrackedResourceSet extractTrsFromRdfModel(Model rdFModel)
-            throws LyoModelException {
+    static TrackedResourceSet extractTrsFromRdfModel(Model rdFModel) throws LyoModelException {
         log.debug("started extracting tracked resource set from rdf model");
 
-        TrackedResourceSet[] trackedResourceSets = JenaModelHelper.unmarshal(rdFModel,
-                TrackedResourceSet.class);
+        TrackedResourceSet[] trackedResourceSets =
+                JenaModelHelper.unmarshal(rdFModel, TrackedResourceSet.class);
 
-        if (ProviderUtil.isNotEmptySingletonArray(trackedResourceSets) && trackedResourceSets[0] != null) {
+        if (ProviderUtil.isNotEmptySingletonArray(trackedResourceSets)
+                && trackedResourceSets[0] != null) {
             TrackedResourceSet trs = trackedResourceSets[0];
             ChangeLog trsChangeLog = extractChangeLogFromRdfModel(rdFModel);
             try {
@@ -150,10 +149,10 @@ class ClientUtil {
         final Response.StatusType responseInfo = response.getStatusInfo();
         final Response.Status.Family httpCodeType = responseInfo.getFamily();
         if (httpCodeType.equals(Response.Status.Family.CLIENT_ERROR)) {
-//            TODO these are not TRS exceptions but OSLC Client exceptions
+            //            TODO these are not TRS exceptions but OSLC Client exceptions
             throw new TrsEndpointConfigException("Error " + responseInfo.getReasonPhrase());
         } else if (httpCodeType.equals(Response.Status.Family.SERVER_ERROR)) {
-//            TODO these are not TRS exceptions but OSLC Client exceptions
+            //            TODO these are not TRS exceptions but OSLC Client exceptions
             throw new TrsEndpointErrorException("Error " + responseInfo.getReasonPhrase());
         }
         if (AbstractResource.class.isAssignableFrom(objClass)) {
@@ -210,5 +209,4 @@ class ClientUtil {
 
         return rdFModel;
     }
-
 }

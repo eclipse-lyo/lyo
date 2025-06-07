@@ -13,30 +13,27 @@
  */
 package org.eclipse.lyo.client.oslc.resources;
 
-
 @Deprecated
-public interface AutomationConstants
-{
-    String AUTOMATION_DOMAIN          = "http://open-services.net/ns/auto#";
-    String AUTOMATION_NAMESPACE       = "http://open-services.net/ns/auto#";
-    String AUTOMATION_PREFIX          = "oslc_auto";
+public interface AutomationConstants {
+    String AUTOMATION_DOMAIN = "http://open-services.net/ns/auto#";
+    String AUTOMATION_NAMESPACE = "http://open-services.net/ns/auto#";
+    String AUTOMATION_PREFIX = "oslc_auto";
 
-    String TYPE_AUTOMATION_PLAN       = AUTOMATION_NAMESPACE + "AutomationPlan";
-    String TYPE_AUTOMATION_REQUEST    = AUTOMATION_NAMESPACE + "AutomationRequest";
-    String TYPE_AUTOMATION_RESULT     = AUTOMATION_NAMESPACE + "AutomationResult";
-    String TYPE_PARAMETER_INSTANCE    = AUTOMATION_NAMESPACE + "ParameterInstance";
+    String TYPE_AUTOMATION_PLAN = AUTOMATION_NAMESPACE + "AutomationPlan";
+    String TYPE_AUTOMATION_REQUEST = AUTOMATION_NAMESPACE + "AutomationRequest";
+    String TYPE_AUTOMATION_RESULT = AUTOMATION_NAMESPACE + "AutomationResult";
+    String TYPE_PARAMETER_INSTANCE = AUTOMATION_NAMESPACE + "ParameterInstance";
 
-    String STATE_NEW                  = AUTOMATION_NAMESPACE + "new";
-    String STATE_QUEUED               = AUTOMATION_NAMESPACE + "queued";
-    String STATE_IN_PROGRESS          = AUTOMATION_NAMESPACE + "inProgress";
-    String STATE_CANCELING            = AUTOMATION_NAMESPACE + "canceling";
-    String STATE_CANCELED             = AUTOMATION_NAMESPACE + "canceled";
-    String STATE_COMPLETE             = AUTOMATION_NAMESPACE + "complete";
+    String STATE_NEW = AUTOMATION_NAMESPACE + "new";
+    String STATE_QUEUED = AUTOMATION_NAMESPACE + "queued";
+    String STATE_IN_PROGRESS = AUTOMATION_NAMESPACE + "inProgress";
+    String STATE_CANCELING = AUTOMATION_NAMESPACE + "canceling";
+    String STATE_CANCELED = AUTOMATION_NAMESPACE + "canceled";
+    String STATE_COMPLETE = AUTOMATION_NAMESPACE + "complete";
 
-    String VERDICT_UNAVAILABLE        = AUTOMATION_NAMESPACE + "unavailable";
-    String VERDICT_PASSED             = AUTOMATION_NAMESPACE + "passed";
-    String VERDICT_WARNING            = AUTOMATION_NAMESPACE + "warning";
-    String VERDICT_FAILED             = AUTOMATION_NAMESPACE + "failed";
-    String VERDICT_ERROR              = AUTOMATION_NAMESPACE + "error";
-
+    String VERDICT_UNAVAILABLE = AUTOMATION_NAMESPACE + "unavailable";
+    String VERDICT_PASSED = AUTOMATION_NAMESPACE + "passed";
+    String VERDICT_WARNING = AUTOMATION_NAMESPACE + "warning";
+    String VERDICT_FAILED = AUTOMATION_NAMESPACE + "failed";
+    String VERDICT_ERROR = AUTOMATION_NAMESPACE + "error";
 }

@@ -19,49 +19,27 @@ package org.eclipse.lyo.oslc.domains.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.config.Configuration;
 // Start of user code imports
 // End of user code
 
@@ -72,11 +50,10 @@ import org.eclipse.lyo.oslc.domains.config.Configuration;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.CONTRIBUTION_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONTRIBUTION_LOCALNAME)
-@OslcResourceShape(title = "Contribution Shape", describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
-public class Contribution
-    extends AbstractResource
-    implements IContribution
-{
+@OslcResourceShape(
+        title = "Contribution Shape",
+        describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
+public class Contribution extends AbstractResource implements IContribution {
     // Start of user code attributeAnnotation:modified
     // End of user code
     private Date modified;
@@ -89,62 +66,60 @@ public class Contribution
     // Start of user code attributeAnnotation:overrides
     // End of user code
     private Link overrides;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Contribution()
-    {
+    public Contribution() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Contribution(final URI about)
-    {
+
+    public Contribution(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_configDomainConstants.CONTRIBUTION_PATH,
-        Contribution.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_configDomainConstants.CONTRIBUTION_PATH,
+                Contribution.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Contribution Resource} - update Contribution.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Contribution Resource} - update Contribution.toString() to"
+                            + " present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:modified
     // End of user code
     @OslcName("modified")
@@ -153,8 +128,7 @@ public class Contribution
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getModified()
-    {
+    public Date getModified() {
         // Start of user code getterInit:modified
         // End of user code
         return modified;
@@ -163,13 +137,13 @@ public class Contribution
     // Start of user code getterAnnotation:configuration
     // End of user code
     @OslcName("configuration")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
     @OslcReadOnly(false)
-    public Link getConfiguration()
-    {
+    public Link getConfiguration() {
         // Start of user code getterInit:configuration
         // End of user code
         return configuration;
@@ -178,12 +152,12 @@ public class Contribution
     // Start of user code getterAnnotation:contributionOrder
     // End of user code
     @OslcName("contributionOrder")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getContributionOrder()
-    {
+    public String getContributionOrder() {
         // Start of user code getterInit:contributionOrder
         // End of user code
         return contributionOrder;
@@ -192,13 +166,13 @@ public class Contribution
     // Start of user code getterAnnotation:overrides
     // End of user code
     @OslcName("overrides")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
+    @OslcPropertyDefinition(
+            Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
     @OslcReadOnly(false)
-    public Link getOverrides()
-    {
+    public Link getOverrides() {
         // Start of user code getterInit:overrides
         // End of user code
         return overrides;
@@ -206,8 +180,7 @@ public class Contribution
 
     // Start of user code setterAnnotation:modified
     // End of user code
-    public void setModified(final Date modified )
-    {
+    public void setModified(final Date modified) {
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
@@ -217,8 +190,7 @@ public class Contribution
 
     // Start of user code setterAnnotation:configuration
     // End of user code
-    public void setConfiguration(final Link configuration )
-    {
+    public void setConfiguration(final Link configuration) {
         // Start of user code setterInit:configuration
         // End of user code
         this.configuration = configuration;
@@ -228,8 +200,7 @@ public class Contribution
 
     // Start of user code setterAnnotation:contributionOrder
     // End of user code
-    public void setContributionOrder(final String contributionOrder )
-    {
+    public void setContributionOrder(final String contributionOrder) {
         // Start of user code setterInit:contributionOrder
         // End of user code
         this.contributionOrder = contributionOrder;
@@ -239,13 +210,11 @@ public class Contribution
 
     // Start of user code setterAnnotation:overrides
     // End of user code
-    public void setOverrides(final Link overrides )
-    {
+    public void setOverrides(final Link overrides) {
         // Start of user code setterInit:overrides
         // End of user code
         this.overrides = overrides;
         // Start of user code setterFinalize:overrides
         // End of user code
     }
-
 }

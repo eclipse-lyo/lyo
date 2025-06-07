@@ -14,15 +14,12 @@
 
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ext.Provider;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 @Provider
 @Produces({OslcMediaType.TEXT_TURTLE})
 @Consumes({OslcMediaType.TEXT_TURTLE})
-public class OslcTurtleArrayProvider extends OslcRdfXmlArrayProvider {
-
-}
+public class OslcTurtleArrayProvider extends OslcRdfXmlArrayProvider {}

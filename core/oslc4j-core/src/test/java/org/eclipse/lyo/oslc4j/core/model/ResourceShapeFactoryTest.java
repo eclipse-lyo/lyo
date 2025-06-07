@@ -1,13 +1,12 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreMissingSetMethodException;
+import org.junit.Test;
 
 /**
  * @version $version-stub$
@@ -17,16 +16,18 @@ public class ResourceShapeFactoryTest {
 
     @Test
     public void detectCollectionType() throws NoSuchMethodException {
-        final boolean isCollectionType = ResourceShapeFactory.isCollectionType(
-                Dummy.class.getMethod("getValue").getReturnType());
+        final boolean isCollectionType =
+                ResourceShapeFactory.isCollectionType(
+                        Dummy.class.getMethod("getValue").getReturnType());
 
         assertThat(isCollectionType).isTrue();
     }
 
     @Test
     public void detectNonCollectionType() throws NoSuchMethodException {
-        final boolean isCollectionType = ResourceShapeFactory.isCollectionType(
-                Dummy.class.getMethod("getValue2").getReturnType());
+        final boolean isCollectionType =
+                ResourceShapeFactory.isCollectionType(
+                        Dummy.class.getMethod("getValue2").getReturnType());
 
         assertThat(isCollectionType).isFalse();
     }
@@ -34,19 +35,22 @@ public class ResourceShapeFactoryTest {
     @Test
     public void findSetterNonCollection()
             throws NoSuchMethodException, OslcCoreMissingSetMethodException {
-        ResourceShapeFactory.validateSetMethodExists(Dummy.class, Dummy.class.getMethod("getValue2"));
+        ResourceShapeFactory.validateSetMethodExists(
+                Dummy.class, Dummy.class.getMethod("getValue2"));
     }
 
     @Test
     public void findSetterCollection()
             throws NoSuchMethodException, OslcCoreMissingSetMethodException {
-        ResourceShapeFactory.validateSetMethodExists(Dummy.class, Dummy.class.getMethod("getValue"));
+        ResourceShapeFactory.validateSetMethodExists(
+                Dummy.class, Dummy.class.getMethod("getValue"));
     }
 
     @Test(expected = OslcCoreMissingSetMethodException.class)
     public void findSetterCollectionMismachGenType()
             throws NoSuchMethodException, OslcCoreMissingSetMethodException {
-        ResourceShapeFactory.validateSetMethodExists(Dummy.class, Dummy.class.getMethod("getValueDifferent"));
+        ResourceShapeFactory.validateSetMethodExists(
+                Dummy.class, Dummy.class.getMethod("getValueDifferent"));
     }
 
     interface Dummy {

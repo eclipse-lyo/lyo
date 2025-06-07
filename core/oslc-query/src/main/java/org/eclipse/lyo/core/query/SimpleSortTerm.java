@@ -16,7 +16,6 @@ package org.eclipse.lyo.core.query;
 /**
  * Simple sort termf from oslc.orderBy clause
  */
-public interface SimpleSortTerm extends SortTerm
-{
-	boolean ascending();
+public interface SimpleSortTerm extends SortTerm {
+    boolean ascending();
 }

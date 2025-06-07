@@ -16,14 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-
-
 // Start of user code imports
 // End of user code
 
-public interface Nsp10DomainConstants
-{
+public interface Nsp10DomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -32,8 +28,14 @@ public interface Nsp10DomainConstants
      */
     @Deprecated(since = "5.0.1")
     public static String MATLAB_DOMAIN_DOMAIN = "http://your.organisation.domain/nsp10#";
-    public static String MATLAB_DOMAIN_DOMAIN_NAME = "Matlab Domain";
-    public static String MATLAB_DOMAIN_NAMSPACE = "http://your.organisation.domain/nsp10#"; //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
-    public static String MATLAB_DOMAIN_NAMSPACE_PREFIX = "nsp10"; //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
 
+    public static String MATLAB_DOMAIN_DOMAIN_NAME = "Matlab Domain";
+    public static String MATLAB_DOMAIN_NAMSPACE =
+            "http://your.organisation.domain/nsp10#"; // Vocabulary namespace for the resources and
+    // resource properties, when no explicit
+    // vocabulary (describes, or
+    // propertyDefinition) is defined
+    public static String MATLAB_DOMAIN_NAMSPACE_PREFIX =
+            "nsp10"; // Vocabulary prefix for the resources and resource properties, when no
+    // explicit vocabulary (describes, or propertyDefinition) is defined
 }

@@ -41,20 +41,24 @@ import org.slf4j.LoggerFactory;
  * @author Omar
  */
 public class TrsProviderHandler implements IProviderHandler {
-    private final static Logger log = LoggerFactory.getLogger(TrsProviderHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(TrsProviderHandler.class);
 
     private final ITrackedResourceClient trsClient;
     private final IProviderEventHandler handler;
+
     /**
      * The URI of the last processed change event
      */
     private URI lastProcessedChangeEventUri;
+
     /**
      * The entry point URI for the tracked resource set of this provider
      */
     private URI trsUriBase;
 
-    public TrsProviderHandler(URI trsUriBase, final ITrackedResourceClient trsClient,
+    public TrsProviderHandler(
+            URI trsUriBase,
+            final ITrackedResourceClient trsClient,
             final IProviderEventHandler handler) {
         this.trsUriBase = trsUriBase;
         this.trsClient = trsClient;
@@ -100,8 +104,8 @@ public class TrsProviderHandler implements IProviderHandler {
             trsResourceModel = trsClient.fetchTRSRemoteResource(changed);
         }
 
-        final ChangeEventMessageTR eventMessageTR = new ChangeEventMessageTR(changeEvent,
-                trsResourceModel);
+        final ChangeEventMessageTR eventMessageTR =
+                new ChangeEventMessageTR(changeEvent, trsResourceModel);
 
         handler.handleChangeEvent(eventMessageTR);
 
@@ -147,28 +151,28 @@ public class TrsProviderHandler implements IProviderHandler {
         same resource and overwriting update / creation events of a resource with more recent
         deletion events.
          */
-        List<ChangeEvent> compressedChanges = ProviderUtil.optimizedChangesList(changeLogs,
-                lastProcessedChangeEventUri);
+        List<ChangeEvent> compressedChanges =
+                ProviderUtil.optimizedChangesList(changeLogs, lastProcessedChangeEventUri);
 
         /*======================================================*
-          COMMON CODE END (with concurrent TRS provider handler)
-         *======================================================*/
+         COMMON CODE END (with concurrent TRS provider handler)
+        *======================================================*/
 
         /* Andrew: why does indexing here happens AFTER the change events are processed WHILE the
-         concurrent handler does it first (though the change handlers don't wait for the base to
-         be updated, the ExecutorService is fired async there).
-         */
+        concurrent handler does it first (though the change handlers don't wait for the base to
+        be updated, the ExecutorService is fired async there).
+        */
         /*
-          If it is the indexing stage, remove the resources for which the most
-          recent change event has already been processed and then process the
-          remaining members
-         */
+         If it is the indexing stage, remove the resources for which the most
+         recent change event has already been processed and then process the
+         remaining members
+        */
         if (indexingStage) {
-//            baseChangeEventsOptimization(compressedChanges, baseMembers);
+            //            baseChangeEventsOptimization(compressedChanges, baseMembers);
             // FIXME Andrew@2018-02-28: the base resource gets lost at this stage
             // Andrew@2019-01-15: not sure if I registered any resource losses before
-            baseMembers = ProviderUtil.baseChangeEventsOptimizationSafe(compressedChanges,
-                    baseMembers);
+            baseMembers =
+                    ProviderUtil.baseChangeEventsOptimizationSafe(compressedChanges, baseMembers);
 
             for (URI baseMemberUri : baseMembers) {
                 log.debug("Fetching TRS base from {}", baseMemberUri);
@@ -179,7 +183,6 @@ public class TrsProviderHandler implements IProviderHandler {
 
                 // actually it is possible to generate a Creation event per resource in base!
                 log.trace("Finished processing base member '{}' creation event", baseMemberUri);
-
             }
         }
 
@@ -195,7 +198,6 @@ public class TrsProviderHandler implements IProviderHandler {
 
         handler.finishCycle();
         log.info("finished dealing with TRS Provider: " + trsUriBase);
-
     }
 
     /**
@@ -206,12 +208,13 @@ public class TrsProviderHandler implements IProviderHandler {
      * @param baseMembers           the members of the base
      */
     @Deprecated
-    protected void baseChangeEventsOptimization(List<ChangeEvent> compressedChangesList,
-            List<URI> baseMembers) {
+    protected void baseChangeEventsOptimization(
+            List<ChangeEvent> compressedChangesList, List<URI> baseMembers) {
         for (ChangeEvent changeEvent : compressedChangesList) {
             URI changedResource = changeEvent.getChanged();
             if (baseMembers.contains(changedResource)) {
-                log.debug("Removing '{}' from the base because it is already in the changelog",
+                log.debug(
+                        "Removing '{}' from the base because it is already in the changelog",
                         changeEvent);
                 baseMembers.remove(changedResource);
             }
@@ -239,9 +242,11 @@ public class TrsProviderHandler implements IProviderHandler {
         if (!foundSyncEvent) {
             lastProcessedChangeEventUri = null;
             throw new ServerRollBackException(
-                    "The sync event can not be found. The sever provinding the trs at: " +
-                            trsUriBase + " seems to " + "have been rollecd back to a previous " +
-                            "state");
+                    "The sync event can not be found. The sever provinding the trs at: "
+                            + trsUriBase
+                            + " seems to "
+                            + "have been rollecd back to a previous "
+                            + "state");
         }
         return changeLogs;
     }
@@ -266,8 +271,8 @@ public class TrsProviderHandler implements IProviderHandler {
         do {
             if (currentChangeLog != null) {
                 changeLogs.add(currentChangeLog);
-                if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
-                        currentChangeLog)) {
+                if (ProviderUtil.changeLogContainsEvent(
+                        lastProcessedChangeEventUri, currentChangeLog)) {
                     foundChangeEvent = true;
                     break;
                 }
@@ -279,5 +284,4 @@ public class TrsProviderHandler implements IProviderHandler {
         } while (!RDF.nil.getURI().equals(previousChangeLog.toString()));
         return foundChangeEvent;
     }
-
 }

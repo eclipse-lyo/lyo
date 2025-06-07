@@ -15,59 +15,46 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.apache.jena.rdf.model.RDFErrorHandler;
 import org.apache.jena.shared.JenaException;
 
-public final class ErrorHandler
-	   implements RDFErrorHandler
-{
-	private static final Logger logger = Logger.getLogger(ErrorHandler.class.getName());
-	private static final String JENA_RELATIVE_URI_WARNING_ID = "W130";
+public final class ErrorHandler implements RDFErrorHandler {
+    private static final Logger logger = Logger.getLogger(ErrorHandler.class.getName());
+    private static final String JENA_RELATIVE_URI_WARNING_ID = "W130";
 
-	public ErrorHandler()
-	{
-		super();
-	}
+    public ErrorHandler() {
+        super();
+    }
 
-	@Override
-	public void error(final Exception exception)
-	{
-		handleException(exception);
-	}
+    @Override
+    public void error(final Exception exception) {
+        handleException(exception);
+    }
 
-	@Override
-	public void fatalError(final Exception exception)
-	{
-		handleException(exception);
-	}
+    @Override
+    public void fatalError(final Exception exception) {
+        handleException(exception);
+    }
 
-	@Override
-	public void warning(final Exception exception)
-	{
-		Level level = Level.WARNING;
+    @Override
+    public void warning(final Exception exception) {
+        Level level = Level.WARNING;
 
-		//Workaround to avoid flooding the logs with Jena warnings about using
-		//relative URIs with no base URI.  Common for reified statements in OSLC
-		String msg = exception.getMessage();
-		if (msg != null && (msg.contains(JENA_RELATIVE_URI_WARNING_ID)))
-		{
-			level=Level.FINE;
-		}
+        // Workaround to avoid flooding the logs with Jena warnings about using
+        // relative URIs with no base URI.  Common for reified statements in OSLC
+        String msg = exception.getMessage();
+        if (msg != null && (msg.contains(JENA_RELATIVE_URI_WARNING_ID))) {
+            level = Level.FINE;
+        }
 
-		logger.log(level,
-				"Warning in Jena handling",
-				exception);
+        logger.log(level, "Warning in Jena handling", exception);
+    }
 
-	}
+    private static void handleException(final Exception exception) {
+        if (exception instanceof RuntimeException) {
+            throw (RuntimeException) exception;
+        }
 
-	private static void handleException(final Exception exception)
-	{
-		if (exception instanceof RuntimeException)
-		{
-			throw (RuntimeException) exception;
-		}
-
-		throw new JenaException(exception);
-	}
+        throw new JenaException(exception);
+    }
 }

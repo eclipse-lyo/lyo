@@ -19,49 +19,26 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.ManagedItem;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 
@@ -72,11 +49,15 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.WORKITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.WORKITEM_LOCALNAME)
-@OslcResourceShape(title = "WorkItem Shape", description = "A work item describes work to be performed in a project delivery contract. It adds detail to the description of work that is described by a scope item. These details typically include cost, schedule, and resource requirements. The set of all work items in a project form a work breakdown structure.", describes = Oslc_promcodeDomainConstants.WORKITEM_TYPE)
-public class WorkItem
-    extends ManagedItem
-    implements IWorkItem
-{
+@OslcResourceShape(
+        title = "WorkItem Shape",
+        description =
+                "A work item describes work to be performed in a project delivery contract. It adds"
+                    + " detail to the description of work that is described by a scope item. These"
+                    + " details typically include cost, schedule, and resource requirements. The"
+                    + " set of all work items in a project form a work breakdown structure.",
+        describes = Oslc_promcodeDomainConstants.WORKITEM_TYPE)
+public class WorkItem extends ManagedItem implements IWorkItem {
     // Start of user code attributeAnnotation:actualEndDate
     // End of user code
     private Date actualEndDate;
@@ -98,67 +79,64 @@ public class WorkItem
     // Start of user code attributeAnnotation:requiredBy
     // End of user code
     private Set<Link> requiredBy = new HashSet<Link>();
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public WorkItem()
-    {
+    public WorkItem() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public WorkItem(final URI about)
-    {
+
+    public WorkItem(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.WORKITEM_PATH,
-        WorkItem.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.WORKITEM_PATH,
+                WorkItem.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local WorkItem Resource} - update WorkItem.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local WorkItem Resource} - update WorkItem.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public void addRequiredBy(final Link requiredBy)
-    {
+
+    public void addRequiredBy(final Link requiredBy) {
         this.requiredBy.add(requiredBy);
     }
-    
-    
+
     // Start of user code getterAnnotation:actualEndDate
     // End of user code
     @OslcName("actualEndDate")
@@ -166,8 +144,7 @@ public class WorkItem
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getActualEndDate()
-    {
+    public Date getActualEndDate() {
         // Start of user code getterInit:actualEndDate
         // End of user code
         return actualEndDate;
@@ -180,8 +157,7 @@ public class WorkItem
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getActualStartDate()
-    {
+    public Date getActualStartDate() {
         // Start of user code getterInit:actualStartDate
         // End of user code
         return actualStartDate;
@@ -195,8 +171,7 @@ public class WorkItem
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE})
     @OslcReadOnly(false)
-    public Link getIsPartOf()
-    {
+    public Link getIsPartOf() {
         // Start of user code getterInit:isPartOf
         // End of user code
         return isPartOf;
@@ -209,8 +184,7 @@ public class WorkItem
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getPlannedEndDate()
-    {
+    public Date getPlannedEndDate() {
         // Start of user code getterInit:plannedEndDate
         // End of user code
         return plannedEndDate;
@@ -223,8 +197,7 @@ public class WorkItem
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getPlannedStartDate()
-    {
+    public Date getPlannedStartDate() {
         // Start of user code getterInit:plannedStartDate
         // End of user code
         return plannedStartDate;
@@ -237,8 +210,7 @@ public class WorkItem
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcReadOnly(false)
-    public Link getRepresentedBy()
-    {
+    public Link getRepresentedBy() {
         // Start of user code getterInit:representedBy
         // End of user code
         return representedBy;
@@ -250,10 +222,12 @@ public class WorkItem
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "requiredBy")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE,
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE
+    })
     @OslcReadOnly(false)
-    public Set<Link> getRequiredBy()
-    {
+    public Set<Link> getRequiredBy() {
         // Start of user code getterInit:requiredBy
         // End of user code
         return requiredBy;
@@ -261,8 +235,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:actualEndDate
     // End of user code
-    public void setActualEndDate(final Date actualEndDate )
-    {
+    public void setActualEndDate(final Date actualEndDate) {
         // Start of user code setterInit:actualEndDate
         // End of user code
         this.actualEndDate = actualEndDate;
@@ -272,8 +245,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:actualStartDate
     // End of user code
-    public void setActualStartDate(final Date actualStartDate )
-    {
+    public void setActualStartDate(final Date actualStartDate) {
         // Start of user code setterInit:actualStartDate
         // End of user code
         this.actualStartDate = actualStartDate;
@@ -283,8 +255,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:isPartOf
     // End of user code
-    public void setIsPartOf(final Link isPartOf )
-    {
+    public void setIsPartOf(final Link isPartOf) {
         // Start of user code setterInit:isPartOf
         // End of user code
         this.isPartOf = isPartOf;
@@ -294,8 +265,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:plannedEndDate
     // End of user code
-    public void setPlannedEndDate(final Date plannedEndDate )
-    {
+    public void setPlannedEndDate(final Date plannedEndDate) {
         // Start of user code setterInit:plannedEndDate
         // End of user code
         this.plannedEndDate = plannedEndDate;
@@ -305,8 +275,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:plannedStartDate
     // End of user code
-    public void setPlannedStartDate(final Date plannedStartDate )
-    {
+    public void setPlannedStartDate(final Date plannedStartDate) {
         // Start of user code setterInit:plannedStartDate
         // End of user code
         this.plannedStartDate = plannedStartDate;
@@ -316,8 +285,7 @@ public class WorkItem
 
     // Start of user code setterAnnotation:representedBy
     // End of user code
-    public void setRepresentedBy(final Link representedBy )
-    {
+    public void setRepresentedBy(final Link representedBy) {
         // Start of user code setterInit:representedBy
         // End of user code
         this.representedBy = representedBy;
@@ -327,17 +295,14 @@ public class WorkItem
 
     // Start of user code setterAnnotation:requiredBy
     // End of user code
-    public void setRequiredBy(final Set<Link> requiredBy )
-    {
+    public void setRequiredBy(final Set<Link> requiredBy) {
         // Start of user code setterInit:requiredBy
         // End of user code
         this.requiredBy.clear();
-        if (requiredBy != null)
-        {
+        if (requiredBy != null) {
             this.requiredBy.addAll(requiredBy);
         }
         // Start of user code setterFinalize:requiredBy
         // End of user code
     }
-
 }

@@ -18,64 +18,38 @@ package org.eclipse.lyo.oslc.domains.cm;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+// Start of user code imports
+import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
+import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
-import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
-import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
-import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.Agent;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.config.ChangeSet;
-import org.eclipse.lyo.oslc.domains.cm.Defect;
-import org.eclipse.lyo.oslc4j.core.model.Discussion;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.cm.Priority;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.cm.State;
-// Start of user code imports
-import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 
 // Start of user code preClassCode
@@ -85,11 +59,10 @@ import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME)
-@OslcResourceShape(title = "ChangeRequest Shape", describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
-public class ChangeRequest
-    extends AbstractResource
-    implements IChangeRequest
-{
+@OslcResourceShape(
+        title = "ChangeRequest Shape",
+        describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
+public class ChangeRequest extends AbstractResource implements IChangeRequest {
     // Start of user code attributeAnnotation:shortTitle
     // End of user code
     private String shortTitle;
@@ -188,143 +161,131 @@ public class ChangeRequest
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ChangeRequest()
-    {
+    public ChangeRequest() {
         super();
 
         // Start of user code constructor1
         // End of user code
     }
 
-    public ChangeRequest(final URI about)
-    {
+    public ChangeRequest(final URI about) {
         super(about);
 
         // Start of user code constructor2
         // End of user code
     }
 
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.CHANGEREQUEST_PATH,
-        ChangeRequest.class);
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_cmDomainConstants.CHANGEREQUEST_PATH,
+                ChangeRequest.class);
     }
 
-
-    public String toString()
-    {
+    public String toString() {
         return toString(false);
     }
 
-    public String toString(boolean asLocalResource)
-    {
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
 
         if (asLocalResource) {
-            result = result + "{a Local ChangeRequest Resource} - update ChangeRequest.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local ChangeRequest Resource} - update ChangeRequest.toString()"
+                            + " to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
 
         // Start of user code toString_finalize
-        result = String.format("[%s]: %s (Change Request; id=%s)", this.getShortTitle(), this.getTitle(), this.getIdentifier());
+        result =
+                String.format(
+                        "[%s]: %s (Change Request; id=%s)",
+                        this.getShortTitle(), this.getTitle(), this.getIdentifier());
         // End of user code
 
         return result;
     }
 
-    public void addSubject(final String subject)
-    {
+    public void addSubject(final String subject) {
         this.subject.add(subject);
     }
 
-    public void addCreator(final Link creator)
-    {
+    public void addCreator(final Link creator) {
         this.creator.add(creator);
     }
 
-    public void addContributor(final Link contributor)
-    {
+    public void addContributor(final Link contributor) {
         this.contributor.add(contributor);
     }
 
-    public void addServiceProvider(final Link serviceProvider)
-    {
+    public void addServiceProvider(final Link serviceProvider) {
         this.serviceProvider.add(serviceProvider);
     }
 
-    public void addInstanceShape(final Link instanceShape)
-    {
+    public void addInstanceShape(final Link instanceShape) {
         this.instanceShape.add(instanceShape);
     }
 
-    public void addRelatedChangeRequest(final Link relatedChangeRequest)
-    {
+    public void addRelatedChangeRequest(final Link relatedChangeRequest) {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
 
-    public void addAffectsPlanItem(final Link affectsPlanItem)
-    {
+    public void addAffectsPlanItem(final Link affectsPlanItem) {
         this.affectsPlanItem.add(affectsPlanItem);
     }
 
-    public void addAffectedByDefect(final Link affectedByDefect)
-    {
+    public void addAffectedByDefect(final Link affectedByDefect) {
         this.affectedByDefect.add(affectedByDefect);
     }
 
-    public void addTracksRequirement(final Link tracksRequirement)
-    {
+    public void addTracksRequirement(final Link tracksRequirement) {
         this.tracksRequirement.add(tracksRequirement);
     }
 
-    public void addImplementsRequirement(final Link implementsRequirement)
-    {
+    public void addImplementsRequirement(final Link implementsRequirement) {
         this.implementsRequirement.add(implementsRequirement);
     }
 
-    public void addAffectsRequirement(final Link affectsRequirement)
-    {
+    public void addAffectsRequirement(final Link affectsRequirement) {
         this.affectsRequirement.add(affectsRequirement);
     }
 
-    public void addTracksChangeSet(final Link tracksChangeSet)
-    {
+    public void addTracksChangeSet(final Link tracksChangeSet) {
         this.tracksChangeSet.add(tracksChangeSet);
     }
 
-    public void addParent(final Link parent)
-    {
+    public void addParent(final Link parent) {
         this.parent.add(parent);
     }
 
-    public void addPriority(final Link priority)
-    {
+    public void addPriority(final Link priority) {
         this.priority.add(priority);
     }
 
-    public void addAuthorizer(final Link authorizer)
-    {
+    public void addAuthorizer(final Link authorizer) {
         this.authorizer.add(authorizer);
     }
-
 
     // Start of user code getterAnnotation:shortTitle
     // End of user code
     @OslcName("shortTitle")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Shorter form of dcterms:title for the resource represented as rich text in XHTML"
+                    + " content. SHOULD include only content that is valid inside an XHTML <span>"
+                    + " element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getShortTitle()
-    {
+    public String getShortTitle() {
         // Start of user code getterInit:shortTitle
         // End of user code
         return shortTitle;
@@ -334,12 +295,13 @@ public class ChangeRequest
     // End of user code
     @OslcName("description")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getDescription()
-    {
+    public String getDescription() {
         // Start of user code getterInit:description
         // End of user code
         return description;
@@ -349,12 +311,13 @@ public class ChangeRequest
     // End of user code
     @OslcName("title")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
+    @OslcDescription(
+            "Title of the resource represented as rich text in XHTML content. SHOULD include only"
+                    + " content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
-    public String getTitle()
-    {
+    public String getTitle() {
         // Start of user code getterInit:title
         // End of user code
         return title;
@@ -364,12 +327,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("identifier")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Typically read-only and assigned by the service"
+                    + " provider when a resource is created. Not typically intended for end-user"
+                    + " display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
@@ -379,13 +344,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("subject")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
+    @OslcDescription(
+            "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes"
+                    + " an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     @OslcTitle("")
-    public Set<String> getSubject()
-    {
+    public Set<String> getSubject() {
         // Start of user code getterInit:subject
         // End of user code
         return subject;
@@ -395,13 +361,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("creator")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcDescription(
+            "Creator or creators of the resource. It is likely that the target resource will be a"
+                    + " foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getCreator()
-    {
+    public Set<Link> getCreator() {
         // Start of user code getterInit:creator
         // End of user code
         return creator;
@@ -411,13 +378,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("contributor")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
+    @OslcDescription(
+            "Contributor or contributors to the resource. It is likely that the target resource"
+                    + " will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.PERSON_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getContributor()
-    {
+    public Set<Link> getContributor() {
         // Start of user code getterInit:contributor
         // End of user code
         return contributor;
@@ -431,8 +399,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCreated()
-    {
+    public Date getCreated() {
         // Start of user code getterInit:created
         // End of user code
         return created;
@@ -446,8 +413,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getModified()
-    {
+    public Date getModified() {
         // Start of user code getterInit:modified
         // End of user code
         return modified;
@@ -457,13 +423,15 @@ public class ChangeRequest
     // End of user code
     @OslcName("serviceProvider")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
+    @OslcDescription(
+            "A link to the resource's OSLC Service Provider. There may be cases when the subject"
+                + " resource is available from a service provider that implements multiple domain"
+                + " specifications, which could result in multiple values for this property.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getServiceProvider()
-    {
+    public Set<Link> getServiceProvider() {
         // Start of user code getterInit:serviceProvider
         // End of user code
         return serviceProvider;
@@ -473,13 +441,18 @@ public class ChangeRequest
     // End of user code
     @OslcName("instanceShape")
     @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
+    @OslcDescription(
+            "The URI of a Resource Shape that describes the possible properties, occurrence, value"
+                + " types, allowed values and labels. This shape information is useful in"
+                + " displaying the subject resource as well as guiding clients in performing"
+                + " modifications. Instance shapes may be specific to the authenticated user"
+                + " associated with the request that retrieved the resource, the current state of"
+                + " the resource and other factors and thus should not be cached.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getInstanceShape()
-    {
+    public Set<Link> getInstanceShape() {
         // Start of user code getterInit:instanceShape
         // End of user code
         return instanceShape;
@@ -494,8 +467,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({OslcDomainConstants.DISCUSSION_TYPE})
     @OslcReadOnly(false)
-    public Link getDiscussedBy()
-    {
+    public Link getDiscussedBy() {
         // Start of user code getterInit:discussedBy
         // End of user code
         return discussedBy;
@@ -504,13 +476,13 @@ public class ChangeRequest
     // Start of user code getterAnnotation:closeDate
     // End of user code
     @OslcName("closeDate")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closeDate")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closeDate")
     @OslcDescription("The date at which no further activity or work is intended to be conducted.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
     @OslcReadOnly(false)
-    public Date getCloseDate()
-    {
+    public Date getCloseDate() {
         // Start of user code getterInit:closeDate
         // End of user code
         return closeDate;
@@ -520,12 +492,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("status")
     @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "status")
-    @OslcDescription("Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc.")
+    @OslcDescription(
+            "Used to indicate the status of the change request based on values defined by the"
+                    + " service provider. Most often a read-only property. Some possible values may"
+                    + " include: 'Submitted', 'Done', 'InProgress', etc.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getStatus()
-    {
+    public String getStatus() {
         // Start of user code getterInit:status
         // End of user code
         return status;
@@ -535,12 +509,13 @@ public class ChangeRequest
     // End of user code
     @OslcName("closed")
     @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "closed")
-    @OslcDescription("Whether or not the Change Request is completely done, no further fixes or fix verification is needed.")
+    @OslcDescription(
+            "Whether or not the Change Request is completely done, no further fixes or fix"
+                    + " verification is needed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isClosed()
-    {
+    public Boolean isClosed() {
         // Start of user code getterInit:closed
         // End of user code
         return closed;
@@ -550,12 +525,14 @@ public class ChangeRequest
     // End of user code
     @OslcName("inProgress")
     @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
-    @OslcDescription("Whether or not the Change Request in a state indicating that active work is occurring. If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false")
+    @OslcDescription(
+            "Whether or not the Change Request in a state indicating that active work is occurring."
+                + " If oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also"
+                + " be false")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isInProgress()
-    {
+    public Boolean isInProgress() {
         // Start of user code getterInit:inProgress
         // End of user code
         return inProgress;
@@ -569,8 +546,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isFixed()
-    {
+    public Boolean isFixed() {
         // Start of user code getterInit:fixed
         // End of user code
         return fixed;
@@ -584,8 +560,7 @@ public class ChangeRequest
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isApproved()
-    {
+    public Boolean isApproved() {
         // Start of user code getterInit:approved
         // End of user code
         return approved;
@@ -594,13 +569,13 @@ public class ChangeRequest
     // Start of user code getterAnnotation:reviewed
     // End of user code
     @OslcName("reviewed")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "reviewed")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "reviewed")
     @OslcDescription("Whether or not the Change Request has been reviewed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isReviewed()
-    {
+    public Boolean isReviewed() {
         // Start of user code getterInit:reviewed
         // End of user code
         return reviewed;
@@ -609,13 +584,14 @@ public class ChangeRequest
     // Start of user code getterAnnotation:verified
     // End of user code
     @OslcName("verified")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "verified")
-    @OslcDescription("Whether or not the resolution or fix of the Change Request has been verified.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "verified")
+    @OslcDescription(
+            "Whether or not the resolution or fix of the Change Request has been verified.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
     @OslcReadOnly(false)
-    public Boolean isVerified()
-    {
+    public Boolean isVerified() {
         // Start of user code getterInit:verified
         // End of user code
         return verified;
@@ -624,14 +600,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:relatedChangeRequest
     // End of user code
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedChangeRequest")
-    @OslcDescription("This relationship is loosely coupled and has no specific meaning. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedChangeRequest")
+    @OslcDescription(
+            "This relationship is loosely coupled and has no specific meaning. It is likely that"
+                    + " the target resource will be an oslc_cm:ChangeRequest but that is not"
+                    + " necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getRelatedChangeRequest()
-    {
+    public Set<Link> getRelatedChangeRequest() {
         // Start of user code getterInit:relatedChangeRequest
         // End of user code
         return relatedChangeRequest;
@@ -640,14 +619,16 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectsPlanItem
     // End of user code
     @OslcName("affectsPlanItem")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsPlanItem")
-    @OslcDescription("Change request affects a plan item. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsPlanItem")
+    @OslcDescription(
+            "Change request affects a plan item. It is likely that the target resource will be an"
+                    + " oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcReadOnly(false)
-    public Set<Link> getAffectsPlanItem()
-    {
+    public Set<Link> getAffectsPlanItem() {
         // Start of user code getterInit:affectsPlanItem
         // End of user code
         return affectsPlanItem;
@@ -656,15 +637,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectedByDefect
     // End of user code
     @OslcName("affectedByDefect")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectedByDefect")
-    @OslcDescription("Change request is affected by a reported defect. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectedByDefect")
+    @OslcDescription(
+            "Change request is affected by a reported defect. It is likely that the target resource"
+                    + " will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_cmDomainConstants.DEFECT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getAffectedByDefect()
-    {
+    public Set<Link> getAffectedByDefect() {
         // Start of user code getterInit:affectedByDefect
         // End of user code
         return affectedByDefect;
@@ -673,14 +656,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:tracksRequirement
     // End of user code
     @OslcName("tracksRequirement")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
-    @OslcDescription("Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
+    @OslcDescription(
+            "Tracks the associated Requirement or Requirement ChangeSet resources. It is likely"
+                    + " that the target resource will be an oslc_rm:Requirement but that is not"
+                    + " necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getTracksRequirement()
-    {
+    public Set<Link> getTracksRequirement() {
         // Start of user code getterInit:tracksRequirement
         // End of user code
         return tracksRequirement;
@@ -689,15 +675,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:implementsRequirement
     // End of user code
     @OslcName("implementsRequirement")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "implementsRequirement")
-    @OslcDescription("Implements associated Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "implementsRequirement")
+    @OslcDescription(
+            "Implements associated Requirement. It is likely that the target resource will be an"
+                    + " oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getImplementsRequirement()
-    {
+    public Set<Link> getImplementsRequirement() {
         // Start of user code getterInit:implementsRequirement
         // End of user code
         return implementsRequirement;
@@ -706,15 +694,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:affectsRequirement
     // End of user code
     @OslcName("affectsRequirement")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsRequirement")
-    @OslcDescription("Change request affecting a Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsRequirement")
+    @OslcDescription(
+            "Change request affecting a Requirement. It is likely that the target resource will be"
+                    + " an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getAffectsRequirement()
-    {
+    public Set<Link> getAffectsRequirement() {
         // Start of user code getterInit:affectsRequirement
         // End of user code
         return affectsRequirement;
@@ -723,15 +713,17 @@ public class ChangeRequest
     // Start of user code getterAnnotation:tracksChangeSet
     // End of user code
     @OslcName("tracksChangeSet")
-    @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
-    @OslcDescription("Tracks SCM change set resource. It is likely that the target resource will be an oslc_scm:ChangeSet but that is not necessarily the case.")
+    @OslcPropertyDefinition(
+            Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
+    @OslcDescription(
+            "Tracks SCM change set resource. It is likely that the target resource will be an"
+                    + " oslc_scm:ChangeSet but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRepresentation(Representation.Reference)
     @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getTracksChangeSet()
-    {
+    public Set<Link> getTracksChangeSet() {
         // Start of user code getterInit:tracksChangeSet
         // End of user code
         return tracksChangeSet;
@@ -745,8 +737,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getParent()
-    {
+    public Set<Link> getParent() {
         // Start of user code getterInit:parent
         // End of user code
         return parent;
@@ -760,8 +751,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.PRIORITY_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getPriority()
-    {
+    public Set<Link> getPriority() {
         // Start of user code getterInit:priority
         // End of user code
         return priority;
@@ -775,8 +765,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})
     @OslcReadOnly(false)
-    public Link getState()
-    {
+    public Link getState() {
         // Start of user code getterInit:state
         // End of user code
         return state;
@@ -790,8 +779,7 @@ public class ChangeRequest
     @OslcValueType(ValueType.Resource)
     @OslcRange({FoafDomainConstants.AGENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getAuthorizer()
-    {
+    public Set<Link> getAuthorizer() {
         // Start of user code getterInit:authorizer
         // End of user code
         return authorizer;
@@ -799,8 +787,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:shortTitle
     // End of user code
-    public void setShortTitle(final String shortTitle )
-    {
+    public void setShortTitle(final String shortTitle) {
         // Start of user code setterInit:shortTitle
         // End of user code
         this.shortTitle = shortTitle;
@@ -810,8 +797,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:description
     // End of user code
-    public void setDescription(final String description )
-    {
+    public void setDescription(final String description) {
         // Start of user code setterInit:description
         // End of user code
         this.description = description;
@@ -821,8 +807,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:title
     // End of user code
-    public void setTitle(final String title )
-    {
+    public void setTitle(final String title) {
         // Start of user code setterInit:title
         // End of user code
         this.title = title;
@@ -832,8 +817,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
@@ -843,13 +827,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:subject
     // End of user code
-    public void setSubject(final Set<String> subject )
-    {
+    public void setSubject(final Set<String> subject) {
         // Start of user code setterInit:subject
         // End of user code
         this.subject.clear();
-        if (subject != null)
-        {
+        if (subject != null) {
             this.subject.addAll(subject);
         }
         // Start of user code setterFinalize:subject
@@ -858,13 +840,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:creator
     // End of user code
-    public void setCreator(final Set<Link> creator )
-    {
+    public void setCreator(final Set<Link> creator) {
         // Start of user code setterInit:creator
         // End of user code
         this.creator.clear();
-        if (creator != null)
-        {
+        if (creator != null) {
             this.creator.addAll(creator);
         }
         // Start of user code setterFinalize:creator
@@ -873,13 +853,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:contributor
     // End of user code
-    public void setContributor(final Set<Link> contributor )
-    {
+    public void setContributor(final Set<Link> contributor) {
         // Start of user code setterInit:contributor
         // End of user code
         this.contributor.clear();
-        if (contributor != null)
-        {
+        if (contributor != null) {
             this.contributor.addAll(contributor);
         }
         // Start of user code setterFinalize:contributor
@@ -888,8 +866,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:created
     // End of user code
-    public void setCreated(final Date created )
-    {
+    public void setCreated(final Date created) {
         // Start of user code setterInit:created
         // End of user code
         this.created = created;
@@ -899,8 +876,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:modified
     // End of user code
-    public void setModified(final Date modified )
-    {
+    public void setModified(final Date modified) {
         // Start of user code setterInit:modified
         // End of user code
         this.modified = modified;
@@ -910,13 +886,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:serviceProvider
     // End of user code
-    public void setServiceProvider(final Set<Link> serviceProvider )
-    {
+    public void setServiceProvider(final Set<Link> serviceProvider) {
         // Start of user code setterInit:serviceProvider
         // End of user code
         this.serviceProvider.clear();
-        if (serviceProvider != null)
-        {
+        if (serviceProvider != null) {
             this.serviceProvider.addAll(serviceProvider);
         }
         // Start of user code setterFinalize:serviceProvider
@@ -925,13 +899,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:instanceShape
     // End of user code
-    public void setInstanceShape(final Set<Link> instanceShape )
-    {
+    public void setInstanceShape(final Set<Link> instanceShape) {
         // Start of user code setterInit:instanceShape
         // End of user code
         this.instanceShape.clear();
-        if (instanceShape != null)
-        {
+        if (instanceShape != null) {
             this.instanceShape.addAll(instanceShape);
         }
         // Start of user code setterFinalize:instanceShape
@@ -940,8 +912,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:discussedBy
     // End of user code
-    public void setDiscussedBy(final Link discussedBy )
-    {
+    public void setDiscussedBy(final Link discussedBy) {
         // Start of user code setterInit:discussedBy
         // End of user code
         this.discussedBy = discussedBy;
@@ -951,8 +922,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:closeDate
     // End of user code
-    public void setCloseDate(final Date closeDate )
-    {
+    public void setCloseDate(final Date closeDate) {
         // Start of user code setterInit:closeDate
         // End of user code
         this.closeDate = closeDate;
@@ -962,8 +932,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:status
     // End of user code
-    public void setStatus(final String status )
-    {
+    public void setStatus(final String status) {
         // Start of user code setterInit:status
         // End of user code
         this.status = status;
@@ -973,8 +942,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:closed
     // End of user code
-    public void setClosed(final Boolean closed )
-    {
+    public void setClosed(final Boolean closed) {
         // Start of user code setterInit:closed
         // End of user code
         this.closed = closed;
@@ -984,8 +952,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:inProgress
     // End of user code
-    public void setInProgress(final Boolean inProgress )
-    {
+    public void setInProgress(final Boolean inProgress) {
         // Start of user code setterInit:inProgress
         // End of user code
         this.inProgress = inProgress;
@@ -995,8 +962,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:fixed
     // End of user code
-    public void setFixed(final Boolean fixed )
-    {
+    public void setFixed(final Boolean fixed) {
         // Start of user code setterInit:fixed
         // End of user code
         this.fixed = fixed;
@@ -1006,8 +972,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:approved
     // End of user code
-    public void setApproved(final Boolean approved )
-    {
+    public void setApproved(final Boolean approved) {
         // Start of user code setterInit:approved
         // End of user code
         this.approved = approved;
@@ -1017,8 +982,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:reviewed
     // End of user code
-    public void setReviewed(final Boolean reviewed )
-    {
+    public void setReviewed(final Boolean reviewed) {
         // Start of user code setterInit:reviewed
         // End of user code
         this.reviewed = reviewed;
@@ -1028,8 +992,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:verified
     // End of user code
-    public void setVerified(final Boolean verified )
-    {
+    public void setVerified(final Boolean verified) {
         // Start of user code setterInit:verified
         // End of user code
         this.verified = verified;
@@ -1039,13 +1002,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:relatedChangeRequest
     // End of user code
-    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest )
-    {
+    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest) {
         // Start of user code setterInit:relatedChangeRequest
         // End of user code
         this.relatedChangeRequest.clear();
-        if (relatedChangeRequest != null)
-        {
+        if (relatedChangeRequest != null) {
             this.relatedChangeRequest.addAll(relatedChangeRequest);
         }
         // Start of user code setterFinalize:relatedChangeRequest
@@ -1054,13 +1015,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:affectsPlanItem
     // End of user code
-    public void setAffectsPlanItem(final Set<Link> affectsPlanItem )
-    {
+    public void setAffectsPlanItem(final Set<Link> affectsPlanItem) {
         // Start of user code setterInit:affectsPlanItem
         // End of user code
         this.affectsPlanItem.clear();
-        if (affectsPlanItem != null)
-        {
+        if (affectsPlanItem != null) {
             this.affectsPlanItem.addAll(affectsPlanItem);
         }
         // Start of user code setterFinalize:affectsPlanItem
@@ -1069,13 +1028,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:affectedByDefect
     // End of user code
-    public void setAffectedByDefect(final Set<Link> affectedByDefect )
-    {
+    public void setAffectedByDefect(final Set<Link> affectedByDefect) {
         // Start of user code setterInit:affectedByDefect
         // End of user code
         this.affectedByDefect.clear();
-        if (affectedByDefect != null)
-        {
+        if (affectedByDefect != null) {
             this.affectedByDefect.addAll(affectedByDefect);
         }
         // Start of user code setterFinalize:affectedByDefect
@@ -1084,13 +1041,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:tracksRequirement
     // End of user code
-    public void setTracksRequirement(final Set<Link> tracksRequirement )
-    {
+    public void setTracksRequirement(final Set<Link> tracksRequirement) {
         // Start of user code setterInit:tracksRequirement
         // End of user code
         this.tracksRequirement.clear();
-        if (tracksRequirement != null)
-        {
+        if (tracksRequirement != null) {
             this.tracksRequirement.addAll(tracksRequirement);
         }
         // Start of user code setterFinalize:tracksRequirement
@@ -1099,13 +1054,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:implementsRequirement
     // End of user code
-    public void setImplementsRequirement(final Set<Link> implementsRequirement )
-    {
+    public void setImplementsRequirement(final Set<Link> implementsRequirement) {
         // Start of user code setterInit:implementsRequirement
         // End of user code
         this.implementsRequirement.clear();
-        if (implementsRequirement != null)
-        {
+        if (implementsRequirement != null) {
             this.implementsRequirement.addAll(implementsRequirement);
         }
         // Start of user code setterFinalize:implementsRequirement
@@ -1114,13 +1067,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:affectsRequirement
     // End of user code
-    public void setAffectsRequirement(final Set<Link> affectsRequirement )
-    {
+    public void setAffectsRequirement(final Set<Link> affectsRequirement) {
         // Start of user code setterInit:affectsRequirement
         // End of user code
         this.affectsRequirement.clear();
-        if (affectsRequirement != null)
-        {
+        if (affectsRequirement != null) {
             this.affectsRequirement.addAll(affectsRequirement);
         }
         // Start of user code setterFinalize:affectsRequirement
@@ -1129,13 +1080,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:tracksChangeSet
     // End of user code
-    public void setTracksChangeSet(final Set<Link> tracksChangeSet )
-    {
+    public void setTracksChangeSet(final Set<Link> tracksChangeSet) {
         // Start of user code setterInit:tracksChangeSet
         // End of user code
         this.tracksChangeSet.clear();
-        if (tracksChangeSet != null)
-        {
+        if (tracksChangeSet != null) {
             this.tracksChangeSet.addAll(tracksChangeSet);
         }
         // Start of user code setterFinalize:tracksChangeSet
@@ -1144,13 +1093,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:parent
     // End of user code
-    public void setParent(final Set<Link> parent )
-    {
+    public void setParent(final Set<Link> parent) {
         // Start of user code setterInit:parent
         // End of user code
         this.parent.clear();
-        if (parent != null)
-        {
+        if (parent != null) {
             this.parent.addAll(parent);
         }
         // Start of user code setterFinalize:parent
@@ -1159,13 +1106,11 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:priority
     // End of user code
-    public void setPriority(final Set<Link> priority )
-    {
+    public void setPriority(final Set<Link> priority) {
         // Start of user code setterInit:priority
         // End of user code
         this.priority.clear();
-        if (priority != null)
-        {
+        if (priority != null) {
             this.priority.addAll(priority);
         }
         // Start of user code setterFinalize:priority
@@ -1174,8 +1119,7 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:state
     // End of user code
-    public void setState(final Link state )
-    {
+    public void setState(final Link state) {
         // Start of user code setterInit:state
         // End of user code
         this.state = state;
@@ -1185,17 +1129,14 @@ public class ChangeRequest
 
     // Start of user code setterAnnotation:authorizer
     // End of user code
-    public void setAuthorizer(final Set<Link> authorizer )
-    {
+    public void setAuthorizer(final Set<Link> authorizer) {
         // Start of user code setterInit:authorizer
         // End of user code
         this.authorizer.clear();
-        if (authorizer != null)
-        {
+        if (authorizer != null) {
             this.authorizer.addAll(authorizer);
         }
         // Start of user code setterFinalize:authorizer
         // End of user code
     }
-
 }

@@ -51,8 +51,8 @@ public class StringUtils {
     public static String clean(String str) {
         if (str == null) return null;
 
-        return Normalizer.normalize(CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(),
-            Normalizer.Form.NFC);
+        return Normalizer.normalize(
+                CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(), Normalizer.Form.NFC);
     }
 
     /**
@@ -63,8 +63,8 @@ public class StringUtils {
     public static String cleanNonNull(String str) {
         if (str == null) return "";
 
-        return Normalizer.normalize(CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(),
-            Normalizer.Form.NFC);
+        return Normalizer.normalize(
+                CONTROL_CHAR_PATTERN.matcher(str).replaceAll("").trim(), Normalizer.Form.NFC);
     }
 
     public static boolean isNullOrWhitespace(String str) {

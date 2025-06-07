@@ -13,6 +13,10 @@
  */
 package org.eclipse.lyo.client;
 
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -20,30 +24,24 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import org.apache.http.client.HttpClient;
-import org.eclipse.lyo.core.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jakarta.ws.rs.HttpMethod;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.Response;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
 import net.oauth.client.OAuthClient;
 import net.oauth.client.httpclient4.HttpClient4;
+import org.apache.http.client.HttpClient;
+import org.eclipse.lyo.core.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OslcOAuthClient implements IOslcClient {
 
-	private OAuthAccessor oauthAccessor;
-	private String oauthRealmName;
+    private OAuthAccessor oauthAccessor;
+    private String oauthRealmName;
     private UnderlyingHttpClient underlyingHttpClient;
     private OslcClient oslcClient;
 
-    private final static Logger log = LoggerFactory.getLogger(OslcOAuthClient.class);
+    private static final Logger log = LoggerFactory.getLogger(OslcOAuthClient.class);
 
     /**
      * Initialize an OAuthClient with the required OAuth URLs
@@ -64,8 +62,7 @@ public class OslcOAuthClient implements IOslcClient {
 
         if (null == clientBuilder) {
             oslcClient = new OslcClient();
-        }
-        else {
+        } else {
             oslcClient = new OslcClient(clientBuilder);
         }
         this.underlyingHttpClient = underlyingHttpClient;
@@ -75,7 +72,9 @@ public class OslcOAuthClient implements IOslcClient {
         return oslcClient;
     }
 
-    private Map<String, String> appendAuthorizationHeader(String url, String httpMethod, Map<String, String> requestHeaders) throws IOException, OAuthException, URISyntaxException {
+    private Map<String, String> appendAuthorizationHeader(
+            String url, String httpMethod, Map<String, String> requestHeaders)
+            throws IOException, OAuthException, URISyntaxException {
         if (requestHeaders == null) {
             requestHeaders = new HashMap<>();
         }
@@ -83,11 +82,15 @@ public class OslcOAuthClient implements IOslcClient {
         return requestHeaders;
     }
 
-    private String getAuthorizationHeader(String url, String httpMethod) throws IOException, OAuthException, URISyntaxException {
+    private String getAuthorizationHeader(String url, String httpMethod)
+            throws IOException, OAuthException, URISyntaxException {
         if (!performedOAuthNegotiation()) {
-            throw new IllegalStateException("You need to obtain an AccessToken by first calling performOAuthNegotiation()");
+            throw new IllegalStateException(
+                    "You need to obtain an AccessToken by first calling performOAuthNegotiation()");
         }
-        return oauthAccessor.newRequestMessage(httpMethod, url, null).getAuthorizationHeader(oauthRealmName);
+        return oauthAccessor
+                .newRequestMessage(httpMethod, url, null)
+                .getAuthorizationHeader(oauthRealmName);
     }
 
     /**
@@ -110,42 +113,54 @@ public class OslcOAuthClient implements IOslcClient {
      * @throws OAuthException
      * @throws URISyntaxException
      */
-    public Optional<String> performOAuthNegotiation(String callbackURL) throws IOException, OAuthException, URISyntaxException {
+    public Optional<String> performOAuthNegotiation(String callbackURL)
+            throws IOException, OAuthException, URISyntaxException {
         return performOAuthNegotiationInternal(false, callbackURL);
     }
 
-    private Optional<String> performOAuthNegotiationInternal(boolean restart, String callbackURL) throws IOException, OAuthException, URISyntaxException {
-        //No request token yet, get the request token and throw exception to redirect for authorization.
+    private Optional<String> performOAuthNegotiationInternal(boolean restart, String callbackURL)
+            throws IOException, OAuthException, URISyntaxException {
+        // No request token yet, get the request token and throw exception to redirect for
+        // authorization.
         if (oauthAccessor.requestToken == null) {
-            OAuthClient client = new OAuthClient(new HttpClient4() {
-                public HttpClient getHttpClient(URL url) {
-                    return underlyingHttpClient.get(oslcClient.getClient());
-                }
-            });
-            OAuthMessage message = client.getRequestTokenResponse(oauthAccessor, OAuthMessage.GET, null);
+            OAuthClient client =
+                    new OAuthClient(
+                            new HttpClient4() {
+                                public HttpClient getHttpClient(URL url) {
+                                    return underlyingHttpClient.get(oslcClient.getClient());
+                                }
+                            });
+            OAuthMessage message =
+                    client.getRequestTokenResponse(oauthAccessor, OAuthMessage.GET, null);
 
-            String userAuthorizationURL = oauthAccessor.consumer.serviceProvider.userAuthorizationURL +
-            "?oauth_token=" + oauthAccessor.requestToken +
-            "&oauth_callback="+URLEncoder.encode(callbackURL, "UTF-8");
+            String userAuthorizationURL =
+                    oauthAccessor.consumer.serviceProvider.userAuthorizationURL
+                            + "?oauth_token="
+                            + oauthAccessor.requestToken
+                            + "&oauth_callback="
+                            + URLEncoder.encode(callbackURL, "UTF-8");
 
             return Optional.of(userAuthorizationURL);
         }
 
-        //Exchange request token for access token.
+        // Exchange request token for access token.
         if (oauthAccessor.accessToken == null) {
             try {
-                OAuthClient client = new OAuthClient(new HttpClient4() {
-                            public HttpClient getHttpClient(URL url) {
-                                return underlyingHttpClient.get(oslcClient.getClient());
-                            }
-                        });
-                OAuthMessage message = client.getAccessToken(oauthAccessor, OAuthMessage.POST, null);
+                OAuthClient client =
+                        new OAuthClient(
+                                new HttpClient4() {
+                                    public HttpClient getHttpClient(URL url) {
+                                        return underlyingHttpClient.get(oslcClient.getClient());
+                                    }
+                                });
+                OAuthMessage message =
+                        client.getAccessToken(oauthAccessor, OAuthMessage.POST, null);
             } catch (OAuthException e) {
                 log.debug("OAuthException caught: " + e.getMessage());
                 if (restart) {
                     log.error("Failed to get access key.", e);
                 } else {
-                    //restart the dance
+                    // restart the dance
                     oauthAccessor.accessToken = null;
                     oauthAccessor.requestToken = null;
                     performOAuthNegotiationInternal(true, callbackURL);
@@ -182,24 +197,38 @@ public class OslcOAuthClient implements IOslcClient {
     }
 
     @Override
-    public Response getResource(String url, Map<String, String> requestHeaders, String mediaType, String configurationContext) {
-        return this.getResource(url, requestHeaders, mediaType,configurationContext, true);
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String mediaType,
+            String configurationContext) {
+        return this.getResource(url, requestHeaders, mediaType, configurationContext, true);
     }
 
     @Override
-    public Response getResource(String url, Map<String, String> requestHeaders, String mediaType, boolean handleRedirects) {
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String mediaType,
+            boolean handleRedirects) {
         return this.getResource(url, requestHeaders, mediaType, null, handleRedirects);
     }
 
     @Override
-    public Response getResource(String url, Map<String, String> requestHeaders, String mediaType, String configurationContext, boolean handleRedirects) {
+    public Response getResource(
+            String url,
+            Map<String, String> requestHeaders,
+            String mediaType,
+            String configurationContext,
+            boolean handleRedirects) {
         Map<String, String> headers = null;
         try {
             headers = appendAuthorizationHeader(url, HttpMethod.GET, requestHeaders);
         } catch (IOException | OAuthException | URISyntaxException e) {
             throw new IllegalStateException(e);
         }
-        return oslcClient.getResource(url, headers, mediaType,configurationContext, handleRedirects);
+        return oslcClient.getResource(
+                url, headers, mediaType, configurationContext, handleRedirects);
     }
 
     @Override
@@ -218,12 +247,18 @@ public class OslcOAuthClient implements IOslcClient {
     }
 
     @Override
-    public Response createResource(String url, Object artifact, String mediaType, String acceptType) {
+    public Response createResource(
+            String url, Object artifact, String mediaType, String acceptType) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response createResource(String url, Object artifact, String mediaType, String acceptType, String configurationContext) {
+    public Response createResource(
+            String url,
+            Object artifact,
+            String mediaType,
+            String acceptType,
+            String configurationContext) {
         throw new UnsupportedOperationException();
     }
 
@@ -233,17 +268,25 @@ public class OslcOAuthClient implements IOslcClient {
     }
 
     @Override
-    public Response updateResource(String url, Object artifact, String mediaType, String acceptType) {
+    public Response updateResource(
+            String url, Object artifact, String mediaType, String acceptType) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response updateResource(String url, Object artifact, String mediaType, String acceptType, String ifMatch) {
+    public Response updateResource(
+            String url, Object artifact, String mediaType, String acceptType, String ifMatch) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response updateResource(String url, Object artifact, String mediaType, String acceptType, String ifMatch, String configurationContext) {
+    public Response updateResource(
+            String url,
+            Object artifact,
+            String mediaType,
+            String acceptType,
+            String ifMatch,
+            String configurationContext) {
         throw new UnsupportedOperationException();
     }
 }

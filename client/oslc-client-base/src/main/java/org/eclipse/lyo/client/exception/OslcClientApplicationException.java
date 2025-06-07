@@ -23,7 +23,8 @@ public abstract class OslcClientApplicationException extends Exception {
         super(MessageExtractor.getMessage(messageKey, args));
     }
 
-    public OslcClientApplicationException(final String messageKey, final Object[] args, final Throwable t) {
+    public OslcClientApplicationException(
+            final String messageKey, final Object[] args, final Throwable t) {
         super(MessageExtractor.getMessage(messageKey, args), t);
     }
 }

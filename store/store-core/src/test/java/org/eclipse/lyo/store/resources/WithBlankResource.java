@@ -18,7 +18,6 @@ package org.eclipse.lyo.store.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -46,102 +45,98 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 // End of user code
 @OslcNamespace(Nsp1DomainConstants.WITHBLANKRESOURCE_NAMESPACE)
 @OslcName(Nsp1DomainConstants.WITHBLANKRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "WithBlankResource Resource Shape", describes = Nsp1DomainConstants.WITHBLANKRESOURCE_TYPE)
-public class WithBlankResource
-    extends AbstractResource
-    implements IWithBlankResource
-{
+@OslcResourceShape(
+        title = "WithBlankResource Resource Shape",
+        describes = Nsp1DomainConstants.WITHBLANKRESOURCE_TYPE)
+public class WithBlankResource extends AbstractResource implements IWithBlankResource {
     // Start of user code attributeAnnotation:relatesToBlankResource
     // End of user code
     private BlankResource relatesToBlankResource = new BlankResource();
     // Start of user code attributeAnnotation:stringProperty
     // End of user code
     private String stringProperty;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public WithBlankResource()
-           throws URISyntaxException
-    {
+    public WithBlankResource() throws URISyntaxException {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public WithBlankResource(final URI about)
-           throws URISyntaxException
-    {
+
+    public WithBlankResource(final URI about) throws URISyntaxException {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Nsp1DomainConstants.WITHBLANKRESOURCE_PATH,
-        WithBlankResource.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Nsp1DomainConstants.WITHBLANKRESOURCE_PATH,
+                WithBlankResource.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local WithBlankResource Resource} - update WithBlankResource.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local WithBlankResource Resource} - update"
+                            + " WithBlankResource.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = getAbout().toString();
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public String toHtml()
-    {
+
+    public String toHtml() {
         return toHtml(false);
     }
-    
-    public String toHtml(boolean asLocalResource)
-    {
+
+    public String toHtml(boolean asLocalResource) {
         String result = "";
         // Start of user code toHtml_init
         // End of user code
-    
+
         if (asLocalResource) {
             result = toString(true);
             // Start of user code toHtml_bodyForLocalResource
             // End of user code
+        } else {
+            result =
+                    "<a href=\""
+                            + getAbout()
+                            + "\" class=\"oslc-resource-link\">"
+                            + toString()
+                            + "</a>";
         }
-        else {
-            result = "<a href=\"" + getAbout() + "\" class=\"oslc-resource-link\">" + toString() + "</a>";
-        }
-    
+
         // Start of user code toHtml_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:relatesToBlankResource
     // End of user code
     @OslcName("relatesToBlankResource")
@@ -150,13 +145,12 @@ public class WithBlankResource
     @OslcValueType(ValueType.LocalResource)
     @OslcRange({Nsp1DomainConstants.BLANKRESOURCE_TYPE})
     @OslcReadOnly(false)
-    public BlankResource getRelatesToBlankResource()
-    {
+    public BlankResource getRelatesToBlankResource() {
         // Start of user code getterInit:relatesToBlankResource
         // End of user code
         return relatesToBlankResource;
     }
-    
+
     // Start of user code getterAnnotation:stringProperty
     // End of user code
     @OslcName("stringProperty")
@@ -164,86 +158,75 @@ public class WithBlankResource
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getStringProperty()
-    {
+    public String getStringProperty() {
         // Start of user code getterInit:stringProperty
         // End of user code
         return stringProperty;
     }
-    
-    
+
     // Start of user code setterAnnotation:relatesToBlankResource
     // End of user code
-    public void setRelatesToBlankResource(final BlankResource relatesToBlankResource )
-    {
+    public void setRelatesToBlankResource(final BlankResource relatesToBlankResource) {
         // Start of user code setterInit:relatesToBlankResource
         // End of user code
         this.relatesToBlankResource = relatesToBlankResource;
-    
+
         // Start of user code setterFinalize:relatesToBlankResource
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:stringProperty
     // End of user code
-    public void setStringProperty(final String stringProperty )
-    {
+    public void setStringProperty(final String stringProperty) {
         // Start of user code setterInit:stringProperty
         // End of user code
         this.stringProperty = stringProperty;
-    
+
         // Start of user code setterFinalize:stringProperty
         // End of user code
     }
 
-    
-    public String relatesToBlankResourceToHtml()
-    {
+    public String relatesToBlankResourceToHtml() {
         String s = "";
-    
+
         // Start of user code relatesToBlankResourcetoHtml_mid
         // End of user code
-    
+
         try {
             if (relatesToBlankResource == null) {
                 s = s + "<em>null</em>";
-            }
-            else {
+            } else {
                 s = s + relatesToBlankResource.toHtml(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
         // Start of user code relatesToBlankResourcetoHtml_finalize
         // End of user code
-    
+
         return s;
     }
-    
-    public String stringPropertyToHtml()
-    {
+
+    public String stringPropertyToHtml() {
         String s = "";
-    
+
         // Start of user code stringPropertytoHtml_mid
         // End of user code
-    
+
         try {
             if (stringProperty == null) {
                 s = s + "<em>null</em>";
-            }
-            else {
+            } else {
                 s = s + stringProperty.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
+
         // Start of user code stringPropertytoHtml_finalize
         // End of user code
-    
+
         return s;
     }
-    
-    
 }

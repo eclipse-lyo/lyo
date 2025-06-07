@@ -27,5 +27,4 @@ public class ShaclConstants {
 
     public static final String TYPE_SHACL_PROPERTY = SHACL_CORE_NAMESPACE + "Property";
     public static final String TYPE_SHACL_SHAPE = SHACL_CORE_NAMESPACE + "Shape";
-
 }

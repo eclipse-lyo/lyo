@@ -17,57 +17,34 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IMeasure;
 // Start of user code imports
 // End of user code
 
 @OslcNamespace(Oslc_promcodeDomainConstants.ARTIFACT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ARTIFACT_LOCALNAME)
-@OslcResourceShape(title = "Artifact Shape", description = "Shape resource of an Artifact resource.", describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
-public interface IArtifact
-{
+@OslcResourceShape(
+        title = "Artifact Shape",
+        description = "Shape resource of an Artifact resource.",
+        describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
+public interface IArtifact {
 
-    public void addProducedFor(final String producedFor );
-    public void addTargets(final Link targets );
+    public void addProducedFor(final String producedFor);
+
+    public void addTargets(final Link targets);
 
     @OslcName("isPartOf")
     @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
@@ -81,7 +58,10 @@ public interface IArtifact
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
-    @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
     public Set<String> getProducedFor();
 
@@ -93,9 +73,9 @@ public interface IArtifact
     @OslcReadOnly(false)
     public Set<Link> getTargets();
 
+    public void setIsPartOf(final Link isPartOf);
 
-    public void setIsPartOf(final Link isPartOf );
-    public void setProducedFor(final Set<String> producedFor );
-    public void setTargets(final Set<Link> targets );
+    public void setProducedFor(final Set<String> producedFor);
+
+    public void setTargets(final Set<Link> targets);
 }
-

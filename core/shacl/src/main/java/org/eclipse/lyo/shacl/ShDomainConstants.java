@@ -16,12 +16,10 @@
 
 package org.eclipse.lyo.shacl;
 
-
 // Start of user code imports
 // End of user code
 
-public interface ShDomainConstants
-{
+public interface ShDomainConstants {
     // Start of user code user constants
     // End of user code
 
@@ -30,11 +28,21 @@ public interface ShDomainConstants
     public static String SHACL_NAMSPACE_PREFIX = "sh";
 
     public static String VALIDATIONREPORT_PATH = "validationReport";
-    public static String VALIDATIONREPORT_NAMESPACE = SHACL_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String VALIDATIONREPORT_LOCALNAME = "ValidationReport"; //localName of the rdfs:class the resource describes
-    public static String VALIDATIONREPORT_TYPE = VALIDATIONREPORT_NAMESPACE + VALIDATIONREPORT_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String VALIDATIONREPORT_NAMESPACE =
+            SHACL_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String VALIDATIONREPORT_LOCALNAME =
+            "ValidationReport"; // localName of the rdfs:class the resource describes
+    public static String VALIDATIONREPORT_TYPE =
+            VALIDATIONREPORT_NAMESPACE
+                    + VALIDATIONREPORT_LOCALNAME; // fullname of the rdfs:class the resource
+    // describes
     public static String VALIDATIONRESULT_PATH = "validationResult";
-    public static String VALIDATIONRESULT_NAMESPACE = SHACL_NAMSPACE; //namespace of the rdfs:class the resource describes
-    public static String VALIDATIONRESULT_LOCALNAME = "ValidationResult"; //localName of the rdfs:class the resource describes
-    public static String VALIDATIONRESULT_TYPE = VALIDATIONRESULT_NAMESPACE + VALIDATIONRESULT_LOCALNAME; //fullname of the rdfs:class the resource describes
+    public static String VALIDATIONRESULT_NAMESPACE =
+            SHACL_NAMSPACE; // namespace of the rdfs:class the resource describes
+    public static String VALIDATIONRESULT_LOCALNAME =
+            "ValidationResult"; // localName of the rdfs:class the resource describes
+    public static String VALIDATIONRESULT_TYPE =
+            VALIDATIONRESULT_NAMESPACE
+                    + VALIDATIONRESULT_LOCALNAME; // fullname of the rdfs:class the resource
+    // describes
 }

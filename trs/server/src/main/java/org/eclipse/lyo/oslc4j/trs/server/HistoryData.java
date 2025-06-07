@@ -15,7 +15,6 @@ package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
 import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,31 +28,40 @@ public class HistoryData {
     /**
      * trs:Creation
      */
-    final public static  String CREATED  = "Created";
+    public static final String CREATED = "Created";
+
     /**
      * trs:Modification
      */
-    final public static  String MODIFIED = "Modified";
+    public static final String MODIFIED = "Modified";
+
     /**
      * trs:Deletion
      */
-    final public static  String DELETED  = "Deleted";
-    private final static Logger log      = LoggerFactory.getLogger(HistoryData.class);
+    public static final String DELETED = "Deleted";
+
+    private static final Logger log = LoggerFactory.getLogger(HistoryData.class);
     private Date timestamp;
 
     /**
      * Tracked resource URI
      */
-    private URI  uri;
+    private URI uri;
 
     private String type = CREATED;
 
-    private HistoryData() {
-    }
+    private HistoryData() {}
 
     @Override
     public String toString() {
-        return "Type=" + getType() + ", " + "Timestamp=" + getTimestamp() + ", " + "URI=" + getUri()
+        return "Type="
+                + getType()
+                + ", "
+                + "Timestamp="
+                + getTimestamp()
+                + ", "
+                + "URI="
+                + getUri()
                 + "\n";
     }
 

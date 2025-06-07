@@ -18,14 +18,13 @@ import java.util.List;
 
 /**
  * Compound term from oslc.where clause.<p>
- * 
+ *
  * <b>Note:</b> If top-level compound term, {@link SimpleTerm#property()}
  * will return <code>null</code>.
  */
-public interface CompoundTerm extends SimpleTerm
-{
-	/**
-	 * @return immutable list of child simple terms
-	 */
-	List<SimpleTerm> children();
+public interface CompoundTerm extends SimpleTerm {
+    /**
+     * @return immutable list of child simple terms
+     */
+    List<SimpleTerm> children();
 }

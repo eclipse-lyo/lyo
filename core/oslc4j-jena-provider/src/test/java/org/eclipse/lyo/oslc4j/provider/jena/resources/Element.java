@@ -27,7 +27,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 @OslcName("Element")
 @OslcNamespace("http://locahost:7001/vocabulary")
 @OslcResourceShape(title = "ElementTest")
-public class Element  extends AbstractResource {
+public class Element extends AbstractResource {
 
     private String name;
 
@@ -35,6 +35,7 @@ public class Element  extends AbstractResource {
     public final String getName() {
         return name;
     }
+
     /**
      * Sets the name of this artifact.
      * @param name the name of this artifact.
@@ -42,6 +43,4 @@ public class Element  extends AbstractResource {
     public final void setName(String name) {
         this.name = name;
     }
-
-
 }

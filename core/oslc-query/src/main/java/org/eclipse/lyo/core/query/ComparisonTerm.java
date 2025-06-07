@@ -17,40 +17,35 @@ package org.eclipse.lyo.core.query;
 /**
  * Simple comparison term from oslc.where clause
  */
-public interface ComparisonTerm extends SimpleTerm
-{
-	enum Operator
-	{
-		EQUALS,
-		NOT_EQUALS,
-		LESS_THAN,
-		GREATER_THAN,
-		LESS_EQUALS,
-		GREATER_EQUALS;
-		
-		public String
-		toString()
-		{
-			switch (this)
-			{
-			case EQUALS:
-				return "=";
-			case NOT_EQUALS:
-				return "!=";
-			case LESS_THAN:
-				return "<";
-			case GREATER_THAN:
-				return ">";
-			case LESS_EQUALS:
-				return "<=";
-			default:
-			case GREATER_EQUALS:
-				return ">=";
-			}
-		}
-	};
-	
-	Operator operator();
-	
-	Value operand();
+public interface ComparisonTerm extends SimpleTerm {
+    enum Operator {
+        EQUALS,
+        NOT_EQUALS,
+        LESS_THAN,
+        GREATER_THAN,
+        LESS_EQUALS,
+        GREATER_EQUALS;
+
+        public String toString() {
+            switch (this) {
+                case EQUALS:
+                    return "=";
+                case NOT_EQUALS:
+                    return "!=";
+                case LESS_THAN:
+                    return "<";
+                case GREATER_THAN:
+                    return ">";
+                case LESS_EQUALS:
+                    return "<=";
+                default:
+                case GREATER_EQUALS:
+                    return ">=";
+            }
+        }
+    };
+
+    Operator operator();
+
+    Value operand();
 }

@@ -23,7 +23,6 @@ import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TYPE_CHANGE_LOG;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -152,8 +151,8 @@ public class ChangeLog extends AbstractChangeLog {
      */
     @OslcName(TRS_TERM_PREVIOUS)
     @OslcDescription(
-            "The continuation of the Change Log, containing the next group of chronologically " +
-                    "earlier Change Events. ")
+            "The continuation of the Change Log, containing the next group of chronologically "
+                    + "earlier Change Events. ")
     @OslcPropertyDefinition(TRS_PREVIOUS)
     @OslcTitle("Previous")
     public URI getPrevious() {

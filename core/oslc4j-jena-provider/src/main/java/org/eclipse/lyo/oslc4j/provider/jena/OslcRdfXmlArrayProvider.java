@@ -13,14 +13,6 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -29,6 +21,12 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Andrew Berezovskyi
@@ -36,62 +34,68 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Produces({OslcMediaType.APPLICATION_RDF_XML})
 @Consumes({OslcMediaType.APPLICATION_RDF_XML})
-public class OslcRdfXmlArrayProvider
-	   extends AbstractOslcRdfXmlProvider
-	   implements MessageBodyReader<Object[]>,
-				  MessageBodyWriter<Object[]>
-{
-	public OslcRdfXmlArrayProvider()
-	{
-		super();
-	}
+public class OslcRdfXmlArrayProvider extends AbstractOslcRdfXmlProvider
+        implements MessageBodyReader<Object[]>, MessageBodyWriter<Object[]> {
+    public OslcRdfXmlArrayProvider() {
+        super();
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return true;
-	}
+    @Override
+    public boolean isWriteable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        return true;
+    }
 
-	@Override
-	public boolean isReadable(final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return true;
-	}
+    @Override
+    public boolean isReadable(
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        return true;
+    }
 
-	@Override
-	public void writeTo(final Object[]						 objects,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException {
+    @Override
+    public void writeTo(
+            final Object[] objects,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream)
+            throws IOException, WebApplicationException {
 
-		writeTo(ProviderHelper.isQueryResult(type, annotations), objects, mediaType, map,
-				outputStream);
-	}
+        writeTo(
+                ProviderHelper.isQueryResult(type, annotations),
+                objects,
+                mediaType,
+                map,
+                outputStream);
+    }
 
-	@Override
-	public Object[] readFrom(final Class<Object[]>				  type,
-							 final Type							  genericType,
-							 final Annotation[]					  annotations,
-							 final MediaType					  mediaType,
-							 final MultivaluedMap<String, String> map,
-							 final InputStream					  inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		return readFrom(type.getComponentType(),
-						mediaType,
-						map,
-						inputStream);
-	}
+    @Override
+    public Object[] readFrom(
+            final Class<Object[]> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType,
+            final MultivaluedMap<String, String> map,
+            final InputStream inputStream)
+            throws IOException, WebApplicationException {
+        return readFrom(type.getComponentType(), mediaType, map, inputStream);
+    }
 
-	@Override
-	public long getSize(final Object[] objects, final Class<?> type, final Type genericType,
-			final Annotation[] annotations, final MediaType mediaType) {
-		return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
-	}
+    @Override
+    public long getSize(
+            final Object[] objects,
+            final Class<?> type,
+            final Type genericType,
+            final Annotation[] annotations,
+            final MediaType mediaType) {
+        return ProviderHelper.CANNOT_BE_DETERMINED_IN_ADVANCE;
+    }
 }

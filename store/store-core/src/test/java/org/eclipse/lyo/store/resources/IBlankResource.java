@@ -31,10 +31,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @OslcNamespace(Nsp1DomainConstants.BLANKRESOURCE_NAMESPACE)
 @OslcName(Nsp1DomainConstants.BLANKRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "BlankResource Resource Shape", describes = Nsp1DomainConstants.BLANKRESOURCE_TYPE)
-public interface IBlankResource
-{
-
+@OslcResourceShape(
+        title = "BlankResource Resource Shape",
+        describes = Nsp1DomainConstants.BLANKRESOURCE_TYPE)
+public interface IBlankResource {
 
     @OslcName("intProperty")
     @OslcPropertyDefinition(Nsp1DomainConstants.TESTDOMAIN_NAMSPACE + "intProperty")
@@ -43,7 +43,5 @@ public interface IBlankResource
     @OslcReadOnly(false)
     public Integer getIntProperty();
 
-
-    public void setIntProperty(final Integer intProperty );
+    public void setIntProperty(final Integer intProperty);
 }
-

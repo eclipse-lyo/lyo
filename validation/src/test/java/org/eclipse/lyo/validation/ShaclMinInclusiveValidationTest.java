@@ -17,7 +17,6 @@ package org.eclipse.lyo.validation;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,13 +50,13 @@ public class ShaclMinInclusiveValidationTest {
             aResource.setIntegerProperty3(new BigInteger("4"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "minInclusive violation. Expected 4 >= 5");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource), "minInclusive violation. Expected 4 >= 5");
 
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -79,7 +78,5 @@ public class ShaclMinInclusiveValidationTest {
             e.printStackTrace();
             Assert.fail("Exception should not be thrown");
         }
-
     }
-
 }

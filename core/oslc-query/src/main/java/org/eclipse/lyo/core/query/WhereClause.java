@@ -17,6 +17,4 @@ package org.eclipse.lyo.core.query;
 /**
  * Top-level {@link CompoundTerm} from olsc.where clause
  */
-public interface WhereClause extends CompoundTerm
-{
-}
+public interface WhereClause extends CompoundTerm {}

@@ -19,120 +19,101 @@ package org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.InlinedShape;
-import org.eclipse.lyo.oslc4j.provider.jena.shapefactory.resources.Oslc_sdDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 // Start of user code preClassCode
 // End of user code
 
 // Start of user code classAnnotations
-//THis class is invalid since the "inlines" attribute is of type Link, yet it is annotated to be represented as inlined.
+// THis class is invalid since the "inlines" attribute is of type Link, yet it is annotated to be
+// represented as inlined.
 // End of user code
 @OslcNamespace(Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_NAMESPACE)
 @OslcName(Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_LOCALNAME)
-@OslcResourceShape(title = "ShapeWithWrongReferenceToInline Resource Shape", describes = Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_TYPE)
-public class ShapeWithWrongReferenceToInline
-    extends AbstractResource
-    implements IShapeWithWrongReferenceToInline
-{
+@OslcResourceShape(
+        title = "ShapeWithWrongReferenceToInline Resource Shape",
+        describes = Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_TYPE)
+public class ShapeWithWrongReferenceToInline extends AbstractResource
+        implements IShapeWithWrongReferenceToInline {
     // Start of user code attributeAnnotation:inlines
     // End of user code
     private Link inlines;
     // Start of user code attributeAnnotation:identifier
     // End of user code
     private String identifier;
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public ShapeWithWrongReferenceToInline()
-    {
+    public ShapeWithWrongReferenceToInline() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public ShapeWithWrongReferenceToInline(final URI about)
-    {
+
+    public ShapeWithWrongReferenceToInline(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_PATH,
-        ShapeWithWrongReferenceToInline.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_sdDomainConstants.SHAPEWITHWRONGREFERENCETOINLINE_PATH,
+                ShapeWithWrongReferenceToInline.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local ShapeWithWrongReferenceToInline Resource} - update ShapeWithWrongReferenceToInline.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local ShapeWithWrongReferenceToInline Resource} - update"
+                            + " ShapeWithWrongReferenceToInline.toString() to present resource as"
+                            + " desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    
+
     // Start of user code getterAnnotation:inlines
     // End of user code
     @OslcName("inlines")
@@ -142,13 +123,12 @@ public class ShapeWithWrongReferenceToInline
     @OslcRepresentation(Representation.Inline)
     @OslcRange({Oslc_sdDomainConstants.INLINEDSHAPE_TYPE})
     @OslcReadOnly(false)
-    public Link getInlines()
-    {
+    public Link getInlines() {
         // Start of user code getterInit:inlines
         // End of user code
         return inlines;
     }
-    
+
     // Start of user code getterAnnotation:identifier
     // End of user code
     @OslcName("identifier")
@@ -156,37 +136,31 @@ public class ShapeWithWrongReferenceToInline
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         // Start of user code getterInit:identifier
         // End of user code
         return identifier;
     }
-    
-    
+
     // Start of user code setterAnnotation:inlines
     // End of user code
-    public void setInlines(final Link inlines )
-    {
+    public void setInlines(final Link inlines) {
         // Start of user code setterInit:inlines
         // End of user code
         this.inlines = inlines;
-    
+
         // Start of user code setterFinalize:inlines
         // End of user code
     }
-    
+
     // Start of user code setterAnnotation:identifier
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
+    public void setIdentifier(final String identifier) {
         // Start of user code setterInit:identifier
         // End of user code
         this.identifier = identifier;
-    
+
         // Start of user code setterFinalize:identifier
         // End of user code
     }
-    
-    
 }

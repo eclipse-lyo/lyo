@@ -16,6 +16,4 @@ package org.eclipse.lyo.core.query;
 /**
  * Top-level {@link SortTerms} from oslc.orderBy clause
  */
-public interface OrderByClause extends SortTerms
-{
-}
+public interface OrderByClause extends SortTerms {}

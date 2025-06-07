@@ -21,8 +21,9 @@ package org.eclipse.lyo.trs.client.exceptions;
  */
 public class RepresentationRetrievalException extends RuntimeException {
     private static final long serialVersionUID = -5190311252768510792L;
-    private static String defaultMessage = "The representation of one of the resources could not be " +
-            "retrieved while processing the tracked resource set !";
+    private static String defaultMessage =
+            "The representation of one of the resources could not be "
+                    + "retrieved while processing the tracked resource set !";
 
     public RepresentationRetrievalException() {
         super(defaultMessage);
@@ -40,9 +41,11 @@ public class RepresentationRetrievalException extends RuntimeException {
         super(cause);
     }
 
-    public RepresentationRetrievalException(final String message, final Throwable cause, final boolean enableSuppression,
+    public RepresentationRetrievalException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
             final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
 }

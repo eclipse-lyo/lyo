@@ -1,6 +1,5 @@
 package org.eclipse.lyo.trs.client.exceptions;
 
-
 /**
  * TRS Server endpoint returns a server error.
  *
@@ -24,8 +23,11 @@ public class TrsEndpointErrorException extends TrsEndpointException {
         super(cause);
     }
 
-    protected TrsEndpointErrorException(final String message, final Throwable cause,
-            final boolean enableSuppression, final boolean writableStackTrace) {
+    protected TrsEndpointErrorException(
+            final String message,
+            final Throwable cause,
+            final boolean enableSuppression,
+            final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

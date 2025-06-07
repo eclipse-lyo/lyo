@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
@@ -48,14 +47,14 @@ import org.slf4j.LoggerFactory;
  * @author Omar
  */
 public class ConcurrentTrsProviderHandler implements IProviderHandler {
-    private final static Logger log = LoggerFactory.getLogger(ConcurrentTrsProviderHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ConcurrentTrsProviderHandler.class);
     private final URI trsUriBase;
     private final ITrackedResourceClient trsClient;
     private final IProviderEventHandler handler;
     private URI lastProcessedChangeEventUri;
 
-    public ConcurrentTrsProviderHandler(URI trsUriBase, final ITrackedResourceClient trsClient,
-            IProviderEventHandler handler) {
+    public ConcurrentTrsProviderHandler(
+            URI trsUriBase, final ITrackedResourceClient trsClient, IProviderEventHandler handler) {
         this.trsUriBase = trsUriBase;
         this.trsClient = trsClient;
         this.handler = handler;
@@ -93,18 +92,18 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         do {
             if (currentChangeLog != null) {
                 changeLogs.add(currentChangeLog);
-                if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
-                        currentChangeLog)) {
+                if (ProviderUtil.changeLogContainsEvent(
+                        lastProcessedChangeEventUri, currentChangeLog)) {
                     foundChangeEvent = true;
                     break;
                 }
                 previousChangeLog = currentChangeLog.getPrevious();
-                if(previousChangeLog == null || URI.create(RDF.nil.getURI()).equals(previousChangeLog)) {
-                    if(URI.create(RDF.nil.getURI()).equals(lastProcessedChangeEventUri)) {
+                if (previousChangeLog == null
+                        || URI.create(RDF.nil.getURI()).equals(previousChangeLog)) {
+                    if (URI.create(RDF.nil.getURI()).equals(lastProcessedChangeEventUri)) {
                         log.debug("First ChangeLog page reached");
                         foundChangeEvent = true;
-                    }
-                    else {
+                    } else {
                         log.error("Changelog read to the end without finding the cutoff event URI");
                     }
                     break;
@@ -141,13 +140,13 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         List<ChangeLog> changeLogs = fetchUpdatedChangeLogs(updatedTrs);
         log.debug("change Logs Retrieved ! ");
         log.debug("Compressing the list of changes ! ");
-        List<ChangeEvent> compressedChanges = ProviderUtil.optimizedChangesList(changeLogs,
-                lastProcessedChangeEventUri);
+        List<ChangeEvent> compressedChanges =
+                ProviderUtil.optimizedChangesList(changeLogs, lastProcessedChangeEventUri);
         log.debug("Change list compressed ! ");
 
         /*======================================================*
-          COMMON CODE END (with TRS provider handler)
-         *======================================================*/
+         COMMON CODE END (with TRS provider handler)
+        *======================================================*/
 
         log.debug("starting the processing of change events and base members creations");
 
@@ -156,34 +155,45 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         ExecutorService handlerExecutor = Executors.newCachedThreadPool();
 
         if (indexingStage) {
-            log.debug("optimizing the list of base members against the change events to be " +
-                    "processed.");
-            baseMembers = ProviderUtil.baseChangeEventsOptimizationSafe(compressedChanges,
-                    baseMembers);
-            log.debug("finished optimizing the list of base members against the change events to " +
-                    "" + "" + "" + "be" + " processed !");
-            log.debug("Indexing stage. Base members creations will be be added to the list of " +
-                    "events to be processed.");
+            log.debug(
+                    "optimizing the list of base members against the change events to be "
+                            + "processed.");
+            baseMembers =
+                    ProviderUtil.baseChangeEventsOptimizationSafe(compressedChanges, baseMembers);
+            log.debug(
+                    "finished optimizing the list of base members against the change events to "
+                            + ""
+                            + ""
+                            + ""
+                            + "be"
+                            + " processed !");
+            log.debug(
+                    "Indexing stage. Base members creations will be be added to the list of "
+                            + "events to be processed.");
 
             for (URI baseMemberUri : baseMembers) {
-                handlerExecutor.execute(() -> {
-                    try {
-                        Model graphToUpload = trsClient.fetchTRSRemoteResource(baseMemberUri);
-                        final BaseMember baseMember = new BaseMember(baseMemberUri, graphToUpload);
-                        handler.handleBaseMember(baseMember);
-                    } catch (RepresentationRetrievalException e) {
-                        log.warn("Failed to retrieve {}", baseMemberUri);
-                    }
-                });
+                handlerExecutor.execute(
+                        () -> {
+                            try {
+                                Model graphToUpload =
+                                        trsClient.fetchTRSRemoteResource(baseMemberUri);
+                                final BaseMember baseMember =
+                                        new BaseMember(baseMemberUri, graphToUpload);
+                                handler.handleBaseMember(baseMember);
+                            } catch (RepresentationRetrievalException e) {
+                                log.warn("Failed to retrieve {}", baseMemberUri);
+                            }
+                        });
             }
         }
 
         for (ChangeEvent compressedChangeEvent : compressedChanges) {
-            handlerExecutor.execute(() -> {
-                final ChangeEventMessageTR eventMessageTR = new ChangeEventMessageTR(
-                        compressedChangeEvent, null);
-                handler.handleChangeEvent(eventMessageTR);
-            });
+            handlerExecutor.execute(
+                    () -> {
+                        final ChangeEventMessageTR eventMessageTR =
+                                new ChangeEventMessageTR(compressedChangeEvent, null);
+                        handler.handleChangeEvent(eventMessageTR);
+                    });
             lastProcessedChangeEventUri = compressedChangeEvent.getAbout();
         }
 
@@ -201,8 +211,12 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         handler.finishCycle();
         Date finishProcessingData = new Date();
         log.info("finished dealing with TRS Provider: " + trsUriBase);
-        log.debug("start dealing at: " + sdf.format(processingDateStart) + " . Finished dealing " +
-                "with provider at: " + sdf.format(finishProcessingData));
+        log.debug(
+                "start dealing at: "
+                        + sdf.format(processingDateStart)
+                        + " . Finished dealing "
+                        + "with provider at: "
+                        + sdf.format(finishProcessingData));
     }
 
     /**
@@ -226,11 +240,12 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         if (!foundSyncEvent) {
             lastProcessedChangeEventUri = null;
             throw new ServerRollBackException(
-                    "The sync event can not be found. The sever provinding the trs at: " +
-                            trsUriBase + " seems to " + "have been rollecd back to a previous " +
-                            "state");
+                    "The sync event can not be found. The sever provinding the trs at: "
+                            + trsUriBase
+                            + " seems to "
+                            + "have been rollecd back to a previous "
+                            + "state");
         }
         return changeLogs;
     }
-
 }

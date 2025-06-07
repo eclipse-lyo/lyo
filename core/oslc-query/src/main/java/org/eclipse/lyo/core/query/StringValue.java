@@ -17,7 +17,6 @@ package org.eclipse.lyo.core.query;
 /**
  * String literal operand from olsc.where clause
  */
-public interface StringValue extends Value
-{
-	String value();
+public interface StringValue extends Value {
+    String value();
 }

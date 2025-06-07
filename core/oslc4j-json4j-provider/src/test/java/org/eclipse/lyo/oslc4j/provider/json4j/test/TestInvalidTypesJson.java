@@ -16,30 +16,28 @@ package org.eclipse.lyo.oslc4j.provider.json4j.test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import jakarta.ws.rs.WebApplicationException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.lyo.oslc4j.provider.json4j.OslcRdfJsonProvider;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
 import org.junit.jupiter.api.Test;
-
-import jakarta.ws.rs.WebApplicationException;
 
 @SuppressWarnings("deprecation")
 public class TestInvalidTypesJson {
     @Test
     public void testInvalidJavaAboutRelativeURI() throws IOException, URISyntaxException {
-        assertThrows(WebApplicationException.class, () -> {
+        assertThrows(
+                WebApplicationException.class,
+                () -> {
+                    final TestResource relativeUri = new TestResource();
 
-            final TestResource relativeUri = new TestResource();
+                    relativeUri.setAbout(new URI("relative"));
 
-            relativeUri.setAbout(new URI("relative"));
+                    final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
 
-            final OslcRdfJsonProvider oslcRdfJsonProvider = new OslcRdfJsonProvider();
-
-            oslcRdfJsonProvider.writeTo(relativeUri, null, null, null, null, null, null);
-        });
-
+                    oslcRdfJsonProvider.writeTo(relativeUri, null, null, null, null, null, null);
+                });
     }
 }

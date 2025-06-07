@@ -18,19 +18,19 @@ import java.util.Map;
 
 /**
  * Least recently used cache for storing OAuth tokens.
- * 
+ *
  * @author Samuel Padgett
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
-	private static final long serialVersionUID = -3846345693980360667L;
-	private final int max;
+    private static final long serialVersionUID = -3846345693980360667L;
+    private final int max;
 
-	public LRUCache(final int max) {
-		this.max = max;
-	}
+    public LRUCache(final int max) {
+        this.max = max;
+    }
 
-	@Override
-	protected boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
-		return super.size() > max;
-	}
+    @Override
+    protected boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
+        return super.size() > max;
+    }
 }

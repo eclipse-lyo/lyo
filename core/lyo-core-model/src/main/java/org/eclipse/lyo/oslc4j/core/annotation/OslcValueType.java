@@ -18,15 +18,14 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcValueType {
-	/**
-	 * Value-type of the property.
-	 */
-	ValueType value();
+    /**
+     * Value-type of the property.
+     */
+    ValueType value();
 }

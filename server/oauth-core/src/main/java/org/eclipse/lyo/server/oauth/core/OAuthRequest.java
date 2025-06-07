@@ -13,17 +13,11 @@
  */
 package org.eclipse.lyo.server.oauth.core;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.ws.rs.core.UriBuilder;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthException;
@@ -31,15 +25,18 @@ import net.oauth.OAuthMessage;
 import net.oauth.OAuthProblemException;
 import net.oauth.OAuthValidator;
 import net.oauth.server.OAuthServlet;
+import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Validates that a request is authorized. The request must contain a valid
  * access token and pass {@link OAuthValidator} tests. To change the validator
  * used, call {@link OAuthConfiguration#setValidator(OAuthValidator)}.
- * 
+ *
  * <p>
  * Usage:
- * 
+ *
  * <pre>
  * try {
  *     OAuthRequest request = new OAuthRequest(httpRequest);
@@ -49,7 +46,7 @@ import net.oauth.server.OAuthServlet;
  *     OAuthServlet.handleException(httpResponse, e, OAuthConfiguration.getInstance().getRealm());
  * }
  * </pre>
- * 
+ *
  * @author Samuel Padgett
  */
 public class OAuthRequest {
@@ -66,11 +63,13 @@ public class OAuthRequest {
      *            parameter is null, this method will try to reconstruct the URL
      *            from the HTTP request; which may be wrong in some cases.
      */
-    public OAuthRequest(HttpServletRequest request, String requestUrl) throws OAuthException, IOException {
+    public OAuthRequest(HttpServletRequest request, String requestUrl)
+            throws OAuthException, IOException {
         this.httpRequest = request;
         this.message = OAuthServlet.getMessage(httpRequest, requestUrl);
 
-        LyoOAuthConsumer consumer = OAuthConfiguration.getInstance().getConsumerStore().getConsumer(message);
+        LyoOAuthConsumer consumer =
+                OAuthConfiguration.getInstance().getConsumerStore().getConsumer(message);
         if (consumer == null) {
             throw new OAuthProblemException(OAuth.Problems.CONSUMER_KEY_REJECTED);
         }
@@ -80,17 +79,22 @@ public class OAuthRequest {
         // Fill in the token secret if it's there.
         String token = this.message.getToken();
         if (token != null) {
-            this.accessor.tokenSecret = OAuthConfiguration.getInstance().getTokenStrategy()
-                    .getTokenSecret(this.httpRequest, token);
+            this.accessor.tokenSecret =
+                    OAuthConfiguration.getInstance()
+                            .getTokenStrategy()
+                            .getTokenSecret(this.httpRequest, token);
         }
     }
 
     public OAuthRequest(HttpServletRequest request) throws OAuthException, IOException {
-        this(request, 
-                null != OAuthConfiguration.getInstance().getServletUri() ?
-                UriBuilder.fromUri(OAuthConfiguration.getInstance().getServletUri()).path(request.getPathInfo()).build().toString()
-                : null
-                );
+        this(
+                request,
+                null != OAuthConfiguration.getInstance().getServletUri()
+                        ? UriBuilder.fromUri(OAuthConfiguration.getInstance().getServletUri())
+                                .path(request.getPathInfo())
+                                .build()
+                                .toString()
+                        : null);
     }
 
     public HttpServletRequest getHttpRequest() {
@@ -122,7 +126,7 @@ public class OAuthRequest {
      * If the request fails validation, you can use
      * {@link OAuthServlet#handleException(jakarta.servlet.http.HttpServletResponse, Exception, String)}
      * to send an unauthorized response.
-     * 
+     *
      * @throws OAuthException if the request fails validation
      */
     public void validate() throws OAuthException, IOException, ServletException {

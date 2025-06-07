@@ -14,6 +14,16 @@
 
 package org.eclipse.lyo.validation.impl;
 
+import cats.effect.IO;
+import cats.effect.unsafe.IORuntime;
+import cats.effect.unsafe.IORuntime$;
+import es.weso.rdf.PrefixMap;
+import es.weso.rdf.RDFBuilder;
+import es.weso.rdf.jena.RDFAsJenaModel;
+import es.weso.schema.RDFReport;
+import es.weso.schema.Result;
+import es.weso.schema.Schema;
+import es.weso.schema.Schemas;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -21,9 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFLanguages;
@@ -36,17 +44,6 @@ import org.eclipse.lyo.shacl.ValidationReport;
 import org.eclipse.lyo.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import cats.effect.IO;
-import cats.effect.unsafe.IORuntime;
-import cats.effect.unsafe.IORuntime$;
-import es.weso.rdf.PrefixMap;
-import es.weso.rdf.RDFBuilder;
-import es.weso.rdf.jena.RDFAsJenaModel;
-import es.weso.schema.RDFReport;
-import es.weso.schema.Result;
-import es.weso.schema.Schema;
-import es.weso.schema.Schemas;
 import scala.Option;
 import scala.collection.immutable.HashMap;
 
@@ -63,39 +60,69 @@ public class ShaclExValidatorImpl implements Validator {
     private static final IORuntime IO_RUNTIME = IORuntime$.MODULE$.global();
 
     @Override
-    public ValidationReport validate(AbstractResource resource) throws OslcCoreApplicationException, URISyntaxException,
-            ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, InstantiationException, SecurityException, NoSuchMethodException {
+    public ValidationReport validate(AbstractResource resource)
+            throws OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException {
         Shape shaclShape = ShaclShapeFactory.createShaclShape(resource.getClass());
-        Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
-        Model dataModel = JenaModelHelper.createJenaModel(new Object[] { resource });
+        Model shapeModel = JenaModelHelper.createJenaModel(new Object[] {shaclShape});
+        Model dataModel = JenaModelHelper.createJenaModel(new Object[] {resource});
         return getValidationResults(dataModel, shapeModel);
     }
 
     @Override
-    public ValidationReport validate(Model dataModel, Model shapeModel) throws IllegalAccessException,
-            IllegalArgumentException, InstantiationException, InvocationTargetException, SecurityException,
-            NoSuchMethodException, DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
+    public ValidationReport validate(Model dataModel, Model shapeModel)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException {
         return getValidationResults(dataModel, shapeModel);
     }
 
     @Override
     public ValidationReport validate(Model dataModel, Class<? extends AbstractResource> clazz)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException, ParseException,
-            InstantiationException, SecurityException, NoSuchMethodException {
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException,
+                    ParseException,
+                    InstantiationException,
+                    SecurityException,
+                    NoSuchMethodException {
         Shape shaclShape = ShaclShapeFactory.createShaclShape(clazz);
-        Model shapeModel = JenaModelHelper.createJenaModel(new Object[] { shaclShape });
+        Model shapeModel = JenaModelHelper.createJenaModel(new Object[] {shaclShape});
         return getValidationResults(dataModel, shapeModel);
     }
 
-    private ValidationReport getValidationResults(Model dataModel, Model shapeModel) throws IllegalAccessException,
-            IllegalArgumentException, InstantiationException, InvocationTargetException, SecurityException,
-            NoSuchMethodException, DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
+    private ValidationReport getValidationResults(Model dataModel, Model shapeModel)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException {
         Model valResultJenaModel = ModelFactory.createDefaultModel();
         if (log.isDebugEnabled()) {
             log.debug("Data model: \n{}", dataModel.write(System.out, RDFLanguages.strLangTurtle));
-            log.debug("Shape model: \n{}", shapeModel.write(System.out, RDFLanguages.strLangTurtle));
+            log.debug(
+                    "Shape model: \n{}", shapeModel.write(System.out, RDFLanguages.strLangTurtle));
         }
 
         Result result = validateInternal(dataModel, shapeModel);
@@ -108,7 +135,8 @@ public class ShaclExValidatorImpl implements Validator {
 
         final String turtleReport = reportToTurtle(validationReport);
 
-        final InputStream in = new ByteArrayInputStream(turtleReport.getBytes(StandardCharsets.UTF_8));
+        final InputStream in =
+                new ByteArrayInputStream(turtleReport.getBytes(StandardCharsets.UTF_8));
         valResultJenaModel.read(in, null, RDFLanguages.strLangTurtle);
         return populateValidationReport(result);
     }
@@ -118,19 +146,26 @@ public class ShaclExValidatorImpl implements Validator {
         final RDFAsJenaModel rdfAsJenaModel = getRdfAsJenaModel(model);
         final IO<RDFBuilder> builderIO = validationReport.toRDF(rdfAsJenaModel);
         final RDFBuilder rdfBuilder = builderIO.unsafeRunSync(IO_RUNTIME);
-        final IO<String> stringIO = rdfBuilder.serialize(RDFLanguages.strLangNTriples, Option.apply(null));
+        final IO<String> stringIO =
+                rdfBuilder.serialize(RDFLanguages.strLangNTriples, Option.apply(null));
         final String turtleReport = stringIO.unsafeRunSync(IO_RUNTIME);
         return turtleReport;
     }
 
     private RDFAsJenaModel getRdfAsJenaModel(Model model) {
-        final IO<RDFAsJenaModel> modelIO = RDFAsJenaModel.fromModel(model, Option.apply(null),
-            Option.apply(null), new HashMap<>(), new HashMap<>());
+        final IO<RDFAsJenaModel> modelIO =
+                RDFAsJenaModel.fromModel(
+                        model,
+                        Option.apply(null),
+                        Option.apply(null),
+                        new HashMap<>(),
+                        new HashMap<>());
         final RDFAsJenaModel rdfAsJenaModel = modelIO.unsafeRunSync(IO_RUNTIME);
         return rdfAsJenaModel;
     }
 
-    private Result validateInternal(Model resourceAsModel, Model shapeAsModel) throws IllegalArgumentException {
+    private Result validateInternal(Model resourceAsModel, Model shapeAsModel)
+            throws IllegalArgumentException {
         RDFAsJenaModel resourceAsRDFReader = getRdfAsJenaModel(resourceAsModel);
         RDFAsJenaModel shapeAsRDFReader = getRdfAsJenaModel(shapeAsModel);
         return validate(resourceAsRDFReader, shapeAsRDFReader);
@@ -140,20 +175,41 @@ public class ShaclExValidatorImpl implements Validator {
         PrefixMap nodeMap = rdf.getPrefixMap().unsafeRunSync(IO_RUNTIME);
         PrefixMap shapesMap = schema.pm();
         final Option<RDFBuilder> rdfOption = Option.apply(rdf);
-        return schema.validate(rdf, TRIGGER_MODE_TARGET_DECLS, EMPTY_MAP, OPTION_NONE, OPTION_NONE, nodeMap, shapesMap, rdfOption)
-            .unsafeRunSync(IO_RUNTIME);
+        return schema.validate(
+                        rdf,
+                        TRIGGER_MODE_TARGET_DECLS,
+                        EMPTY_MAP,
+                        OPTION_NONE,
+                        OPTION_NONE,
+                        nodeMap,
+                        shapesMap,
+                        rdfOption)
+                .unsafeRunSync(IO_RUNTIME);
     }
 
     private Result validate(RDFAsJenaModel resourceAsRDFReader, RDFAsJenaModel shapeAsRDFReader) {
-        final Schema schema = Schemas.fromRDF(shapeAsRDFReader, SHACLEX)
-            .onError(throwable -> {throw new IllegalArgumentException("A given Shape cannot be used to create a correct " + "Schema");})
-            .unsafeRunSync(IO_RUNTIME);
+        final Schema schema =
+                Schemas.fromRDF(shapeAsRDFReader, SHACLEX)
+                        .onError(
+                                throwable -> {
+                                    throw new IllegalArgumentException(
+                                            "A given Shape cannot be used to create a correct "
+                                                    + "Schema");
+                                })
+                        .unsafeRunSync(IO_RUNTIME);
         return validate(resourceAsRDFReader, schema);
     }
 
-    ValidationReport populateValidationReport(Result result) throws IllegalAccessException, IllegalArgumentException,
-            InstantiationException, InvocationTargetException, SecurityException, NoSuchMethodException,
-            DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
+    ValidationReport populateValidationReport(Result result)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException {
         Model valReportJenaModel = ModelFactory.createDefaultModel();
         final RDFReport valReport = result.validationReport();
         String valReportAsTurtle = reportToTurtle(valReport);
@@ -171,13 +227,20 @@ public class ShaclExValidatorImpl implements Validator {
         return desearializeJenaModelToJavaObject(valReportJenaModel);
     }
 
-    ValidationReport desearializeJenaModelToJavaObject(Model valReportJenaModel) throws IllegalAccessException,
-            IllegalArgumentException, InstantiationException, InvocationTargetException, SecurityException,
-            NoSuchMethodException, DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException {
+    ValidationReport desearializeJenaModelToJavaObject(Model valReportJenaModel)
+            throws IllegalAccessException,
+                    IllegalArgumentException,
+                    InstantiationException,
+                    InvocationTargetException,
+                    SecurityException,
+                    NoSuchMethodException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    URISyntaxException {
 
-        Object[] fromJenaModel = JenaModelHelper.fromJenaModel(valReportJenaModel, ValidationReport.class);
+        Object[] fromJenaModel =
+                JenaModelHelper.fromJenaModel(valReportJenaModel, ValidationReport.class);
 
         return (ValidationReport) fromJenaModel[0];
-
     }
 }

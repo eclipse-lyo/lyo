@@ -16,6 +16,4 @@ package org.eclipse.lyo.core.query;
 /**
  * Top level select clause from olsc.select
  */
-public interface SelectClause extends Properties
-{
-}
+public interface SelectClause extends Properties {}

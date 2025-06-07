@@ -13,30 +13,29 @@
  */
 package org.eclipse.lyo.core.trs;
 
+import static org.eclipse.lyo.core.trs.TRSConstants.*;
+
 import java.math.BigInteger;
 import java.net.URI;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-
-import static org.eclipse.lyo.core.trs.TRSConstants.*;
 
 @OslcNamespace(TRS_NAMESPACE)
 @OslcResourceShape(title = "Creation  Shape", describes = TRS_TYPE_CREATION)
 public class Creation extends ChangeEvent {
 
-	public Creation() {}
+    public Creation() {}
 
-	/**
-	 * @param about
-	 * @param changed
-	 * @param order
-	 */
-	public Creation(URI about, URI changed, BigInteger order) {
-		super(about, changed, order);
-	}
+    /**
+     * @param about
+     * @param changed
+     * @param order
+     */
+    public Creation(URI about, URI changed, BigInteger order) {
+        super(about, changed, order);
+    }
 
     public Creation(URI about, URI changed, long order) {
-		super(about, changed, BigInteger.valueOf(order));
-	}
+        super(about, changed, BigInteger.valueOf(order));
+    }
 }

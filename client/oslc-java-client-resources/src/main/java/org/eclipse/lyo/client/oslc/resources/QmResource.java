@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
@@ -36,36 +35,31 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
  * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2">http://open-services.net/bin/view/Main/QmSpecificationV2</a>
  */
 @Deprecated
-public abstract class QmResource
-       extends AbstractResource
-{
-    private final Set<URI>      rdfTypes                    = new TreeSet<>();
+public abstract class QmResource extends AbstractResource {
+    private final Set<URI> rdfTypes = new TreeSet<>();
 
-    private Date     created;
-    private String   identifier;
-    private URI      instanceShape;
-    private Date     modified;
-    private URI      serviceProvider;
-    private String   title;
+    private Date created;
+    private String identifier;
+    private URI instanceShape;
+    private Date modified;
+    private URI serviceProvider;
+    private String title;
 
-    public QmResource()
-     {
-         super();
+    public QmResource() {
+        super();
 
-         rdfTypes.add(getRdfType());
-     }
+        rdfTypes.add(getRdfType());
+    }
 
-     public QmResource(final URI about)
-     {
-         super(about);
+    public QmResource(final URI about) {
+        super(about);
 
-         rdfTypes.add(getRdfType());
-     }
+        rdfTypes.add(getRdfType());
+    }
 
     protected abstract URI getRdfType();
 
-    public void addRdfType(final URI rdfType)
-    {
+    public void addRdfType(final URI rdfType) {
         this.rdfTypes.add(rdfType);
     }
 
@@ -73,27 +67,28 @@ public abstract class QmResource
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "created")
     @OslcReadOnly
     @OslcTitle("Created")
-    public Date getCreated()
-    {
+    public Date getCreated() {
         return created;
     }
 
-    @OslcDescription("A unique identifier for a resource. Assigned by the service provider when a resource is created. Not intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Assigned by the service provider when a resource"
+                    + " is created. Not intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
     @OslcReadOnly
     @OslcTitle("Identifier")
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return identifier;
     }
 
-    @OslcDescription("Resource Shape that provides hints as to resource property value-types and allowed values. ")
+    @OslcDescription(
+            "Resource Shape that provides hints as to resource property value-types and allowed"
+                    + " values. ")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "instanceShape")
     @OslcRange(OslcConstants.TYPE_RESOURCE_SHAPE)
     @OslcTitle("Instance Shape")
-    public URI getInstanceShape()
-    {
+    public URI getInstanceShape() {
         return instanceShape;
     }
 
@@ -101,8 +96,7 @@ public abstract class QmResource
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "modified")
     @OslcReadOnly
     @OslcTitle("Modified")
-    public Date getModified()
-    {
+    public Date getModified() {
         return modified;
     }
 
@@ -110,8 +104,7 @@ public abstract class QmResource
     @OslcName("type")
     @OslcPropertyDefinition(OslcConstants.RDF_NAMESPACE + "type")
     @OslcTitle("Types")
-    public URI[] getRdfTypes()
-    {
+    public URI[] getRdfTypes() {
         return rdfTypes.toArray(new URI[rdfTypes.size()]);
     }
 
@@ -119,59 +112,50 @@ public abstract class QmResource
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "serviceProvider")
     @OslcRange(OslcConstants.TYPE_SERVICE_PROVIDER)
     @OslcTitle("Service Provider")
-    public URI getServiceProvider()
-    {
+    public URI getServiceProvider() {
         return serviceProvider;
     }
 
-    @OslcDescription("Title (reference: Dublin Core) or often a single line summary of the resource represented as rich text in XHTML content.")
+    @OslcDescription(
+            "Title (reference: Dublin Core) or often a single line summary of the resource"
+                    + " represented as rich text in XHTML content.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
     @OslcTitle("Title")
     @OslcValueType(ValueType.XMLLiteral)
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setCreated(final Date created)
-    {
+    public void setCreated(final Date created) {
         this.created = created;
     }
 
-    public void setIdentifier(final String identifier)
-    {
+    public void setIdentifier(final String identifier) {
         this.identifier = identifier;
     }
 
-    public void setInstanceShape(final URI instanceShape)
-    {
+    public void setInstanceShape(final URI instanceShape) {
         this.instanceShape = instanceShape;
     }
 
-    public void setModified(final Date modified)
-    {
+    public void setModified(final Date modified) {
         this.modified = modified;
     }
 
-    public void setRdfTypes(final URI[] rdfTypes)
-    {
+    public void setRdfTypes(final URI[] rdfTypes) {
         this.rdfTypes.clear();
 
-        if (rdfTypes != null)
-        {
+        if (rdfTypes != null) {
             this.rdfTypes.addAll(Arrays.asList(rdfTypes));
         }
     }
 
-    public void setServiceProvider(final URI serviceProvider)
-    {
+    public void setServiceProvider(final URI serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
 
-    public void setTitle(final String title)
-    {
+    public void setTitle(final String title) {
         this.title = title;
     }
-
 }

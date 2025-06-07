@@ -16,7 +16,6 @@ package org.eclipse.lyo.server.oauth.webapp.services;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,5 +34,4 @@ public class OAuthServletListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0) {
         log.info("Initialising Lyo OAuth webapp");
     }
-
 }

@@ -11,7 +11,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
- package org.eclipse.lyo.oslc4j.provider.jena.helpers;
+package org.eclipse.lyo.oslc4j.provider.jena.helpers;
 
 import org.apache.jena.rdf.model.Model;
 import org.assertj.core.api.AbstractAssert;
@@ -32,13 +32,13 @@ public class JenaAssert extends AbstractAssert<JenaAssert, Model> {
     public JenaAssert isomorphicWith(Model m) {
         isNotNull();
 
-        if(!actual.isIsomorphicWith(m)) {
-             failWithMessage("Expected models to be isomorphic, but they differ too much"
-                                     + ".\n\nEXPECTED:\n\n%s\n***\n\nACTUAL:\n\n%s\n===",
-                             RDFHelper.toTurtleString(m), RDFHelper.toTurtleString(actual));
+        if (!actual.isIsomorphicWith(m)) {
+            failWithMessage(
+                    "Expected models to be isomorphic, but they differ too much"
+                            + ".\n\nEXPECTED:\n\n%s\n***\n\nACTUAL:\n\n%s\n===",
+                    RDFHelper.toTurtleString(m), RDFHelper.toTurtleString(actual));
         }
 
         return this;
     }
-
 }

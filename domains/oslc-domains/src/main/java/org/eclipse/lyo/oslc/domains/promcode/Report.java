@@ -19,54 +19,25 @@ package org.eclipse.lyo.oslc.domains.promcode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.Iterator;
-
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcAllowedValue;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcMemberProperty;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRdfCollectionType;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcRange;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcRepresentation;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
-import org.eclipse.lyo.oslc4j.core.model.Representation;
-import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
+import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.ManagedItemCollection;
-import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.Artifact;
-import org.eclipse.lyo.oslc.domains.promcode.Issue;
-import org.eclipse.lyo.oslc.domains.promcode.Measurement;
-import org.eclipse.lyo.oslc.domains.promcode.Plan;
-import org.eclipse.lyo.oslc.domains.promcode.Project;
-import org.eclipse.lyo.oslc.domains.promcode.Risk;
-import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 
@@ -77,11 +48,13 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.REPORT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.REPORT_LOCALNAME)
-@OslcResourceShape(title = "Report Shape", description = "A Report is a resource which is a subclass of ManagedItemCollection to describe a report. A Report is associated to corresponding Plan.", describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
-public class Report
-    extends ManagedItemCollection
-    implements IReport
-{
+@OslcResourceShape(
+        title = "Report Shape",
+        description =
+                "A Report is a resource which is a subclass of ManagedItemCollection to describe a"
+                        + " report. A Report is associated to corresponding Plan.",
+        describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
+public class Report extends ManagedItemCollection implements IReport {
     // Start of user code attributeAnnotation:oslc_promcodeBelongsTo
     // End of user code
     private Link oslc_promcodeBelongsTo;
@@ -94,72 +67,68 @@ public class Report
     // Start of user code attributeAnnotation:includes
     // End of user code
     private Set<Link> includes = new HashSet<Link>();
-    
+
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
     // End of user code
-    public Report()
-    {
+    public Report() {
         super();
-    
+
         // Start of user code constructor1
         // End of user code
     }
-    
-    public Report(final URI about)
-    {
+
+    public Report(final URI about) {
         super(about);
-    
+
         // Start of user code constructor2
         // End of user code
     }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
-        OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_promcodeDomainConstants.REPORT_PATH,
-        Report.class);
+
+    public static ResourceShape createResourceShape()
+            throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(
+                OSLC4JUtils.getServletURI(),
+                OslcConstants.PATH_RESOURCE_SHAPES,
+                Oslc_promcodeDomainConstants.REPORT_PATH,
+                Report.class);
     }
-    
-    
-    public String toString()
-    {
+
+    public String toString() {
         return toString(false);
     }
-    
-    public String toString(boolean asLocalResource)
-    {
+
+    public String toString(boolean asLocalResource) {
         String result = "";
         // Start of user code toString_init
         // End of user code
-    
+
         if (asLocalResource) {
-            result = result + "{a Local Report Resource} - update Report.toString() to present resource as desired.";
+            result =
+                    result
+                            + "{a Local Report Resource} - update Report.toString() to present"
+                            + " resource as desired.";
             // Start of user code toString_bodyForLocalResource
             // End of user code
-        }
-        else {
+        } else {
             result = String.valueOf(getAbout());
         }
-    
+
         // Start of user code toString_finalize
         // End of user code
-    
+
         return result;
     }
-    
-    public void addOslc_promcodeCollects(final Link collects)
-    {
+
+    public void addOslc_promcodeCollects(final Link collects) {
         this.oslc_promcodeCollects.add(collects);
     }
-    
-    public void addIncludes(final Link includes)
-    {
+
+    public void addIncludes(final Link includes) {
         this.includes.add(includes);
     }
-    
-    
+
     // Start of user code getterAnnotation:oslc_promcodeBelongsTo
     // End of user code
     @OslcName("belongsTo")
@@ -168,8 +137,7 @@ public class Report
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
     @OslcReadOnly(false)
-    public Link getOslc_promcodeBelongsTo()
-    {
+    public Link getOslc_promcodeBelongsTo() {
         // Start of user code getterInit:oslc_promcodeBelongsTo
         // End of user code
         return oslc_promcodeBelongsTo;
@@ -181,10 +149,13 @@ public class Report
     @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+    @OslcRange({
+        Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+        Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+        Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+    })
     @OslcReadOnly(false)
-    public Set<Link> getOslc_promcodeCollects()
-    {
+    public Set<Link> getOslc_promcodeCollects() {
         // Start of user code getterInit:oslc_promcodeCollects
         // End of user code
         return oslc_promcodeCollects;
@@ -198,8 +169,7 @@ public class Report
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.PLAN_TYPE})
     @OslcReadOnly(false)
-    public Link getCorrespondsTo()
-    {
+    public Link getCorrespondsTo() {
         // Start of user code getterInit:correspondsTo
         // End of user code
         return correspondsTo;
@@ -213,8 +183,7 @@ public class Report
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.MEASUREMENT_TYPE})
     @OslcReadOnly(false)
-    public Set<Link> getIncludes()
-    {
+    public Set<Link> getIncludes() {
         // Start of user code getterInit:includes
         // End of user code
         return includes;
@@ -222,8 +191,7 @@ public class Report
 
     // Start of user code setterAnnotation:oslc_promcodeBelongsTo
     // End of user code
-    public void setOslc_promcodeBelongsTo(final Link belongsTo )
-    {
+    public void setOslc_promcodeBelongsTo(final Link belongsTo) {
         // Start of user code setterInit:oslc_promcodeBelongsTo
         // End of user code
         this.oslc_promcodeBelongsTo = belongsTo;
@@ -233,13 +201,11 @@ public class Report
 
     // Start of user code setterAnnotation:oslc_promcodeCollects
     // End of user code
-    public void setOslc_promcodeCollects(final Set<Link> collects )
-    {
+    public void setOslc_promcodeCollects(final Set<Link> collects) {
         // Start of user code setterInit:oslc_promcodeCollects
         // End of user code
         this.oslc_promcodeCollects.clear();
-        if (collects != null)
-        {
+        if (collects != null) {
             this.oslc_promcodeCollects.addAll(collects);
         }
         // Start of user code setterFinalize:oslc_promcodeCollects
@@ -248,8 +214,7 @@ public class Report
 
     // Start of user code setterAnnotation:correspondsTo
     // End of user code
-    public void setCorrespondsTo(final Link correspondsTo )
-    {
+    public void setCorrespondsTo(final Link correspondsTo) {
         // Start of user code setterInit:correspondsTo
         // End of user code
         this.correspondsTo = correspondsTo;
@@ -259,17 +224,14 @@ public class Report
 
     // Start of user code setterAnnotation:includes
     // End of user code
-    public void setIncludes(final Set<Link> includes )
-    {
+    public void setIncludes(final Set<Link> includes) {
         // Start of user code setterInit:includes
         // End of user code
         this.includes.clear();
-        if (includes != null)
-        {
+        if (includes != null) {
             this.includes.addAll(includes);
         }
         // Start of user code setterFinalize:includes
         // End of user code
     }
-
 }

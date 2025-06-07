@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -36,66 +35,60 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
  * @see <a href="http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/">http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/</a>
  */
 @Deprecated
-@OslcResourceShape(title = "Architecture Management LinkType Resource Shape", describes = ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE)
+@OslcResourceShape(
+        title = "Architecture Management LinkType Resource Shape",
+        describes = ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE)
 @OslcNamespace(ArchitectureConstants.ARCHITECTURE_NAMESPACE)
 @OslcName(ArchitectureConstants.ARCHITECTURE_LINK_TYPE)
-public class ArchitectureLinkType
-extends AbstractResource
-{
-	private final Set<URI>      contributors                = new TreeSet<>();
-    private final Set<URI>      creators                    = new TreeSet<>();
-    private final Set<URI>      rdfTypes                    = new TreeSet<>();
+public class ArchitectureLinkType extends AbstractResource {
+    private final Set<URI> contributors = new TreeSet<>();
+    private final Set<URI> creators = new TreeSet<>();
+    private final Set<URI> rdfTypes = new TreeSet<>();
 
+    private Date created;
+    private String comment;
+    private String label;
+    private String identifier;
+    private URI instanceShape;
+    private Date modified;
+    private URI serviceProvider;
 
-    private Date     created;
-    private String   comment;
-    private String   label;
-    private String   identifier;
-    private URI      instanceShape;
-    private Date     modified;
-    private URI      serviceProvider;
+    public ArchitectureLinkType() {
+        super();
 
-
-	public ArchitectureLinkType()
-	{
-		super();
-
-		rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE));
-	}
-
-    public ArchitectureLinkType(final URI about)
-     {
-         super(about);
-
-		rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE));
-     }
-
-    protected URI getRdfType() {
-    	return URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE);
+        rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE));
     }
 
-    public void addContributor(final URI contributor)
-    {
+    public ArchitectureLinkType(final URI about) {
+        super(about);
+
+        rdfTypes.add(URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE));
+    }
+
+    protected URI getRdfType() {
+        return URI.create(ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE);
+    }
+
+    public void addContributor(final URI contributor) {
         this.contributors.add(contributor);
     }
 
-    public void addCreator(final URI creator)
-    {
+    public void addCreator(final URI creator) {
         this.creators.add(creator);
     }
 
-    public void addRdfType(final URI rdfType)
-    {
+    public void addRdfType(final URI rdfType) {
         this.rdfTypes.add(rdfType);
     }
 
-    @OslcDescription("The person(s) who are responsible for the work needed to complete the automation plan.")
+    @OslcDescription(
+            "The person(s) who are responsible for the work needed to complete the automation"
+                    + " plan.")
     @OslcName("contributor")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "contributor")
     @OslcRange(QmConstants.TYPE_PERSON)
     @OslcTitle("Contributors")
-    public URI[] getContributors()
-    {
+    public URI[] getContributors() {
         return contributors.toArray(new URI[contributors.size()]);
     }
 
@@ -103,8 +96,7 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "created")
     @OslcReadOnly
     @OslcTitle("Created")
-    public Date getCreated()
-    {
+    public Date getCreated() {
         return created;
     }
 
@@ -113,8 +105,7 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "creator")
     @OslcRange(ArchitectureConstants.TYPE_PERSON)
     @OslcTitle("Creators")
-    public URI[] getCreators()
-    {
+    public URI[] getCreators() {
         return creators.toArray(new URI[creators.size()]);
     }
 
@@ -122,8 +113,7 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.RDFS_NAMESPACE + "label")
     @OslcTitle("Label")
     @OslcOccurs(Occurs.ExactlyOne)
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
@@ -131,27 +121,28 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.RDFS_NAMESPACE + "comment")
     @OslcTitle("Comment")
     @OslcOccurs(Occurs.ZeroOrOne)
-    public String getComment()
-    {
+    public String getComment() {
         return comment;
     }
 
-    @OslcDescription("A unique identifier for a resource. Assigned by the service provider when a resource is created. Not intended for end-user display.")
+    @OslcDescription(
+            "A unique identifier for a resource. Assigned by the service provider when a resource"
+                    + " is created. Not intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
     @OslcReadOnly
     @OslcTitle("Identifier")
-    public String getIdentifier()
-    {
+    public String getIdentifier() {
         return identifier;
     }
 
-    @OslcDescription("Resource Shape that provides hints as to resource property value-types and allowed values. ")
+    @OslcDescription(
+            "Resource Shape that provides hints as to resource property value-types and allowed"
+                    + " values. ")
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "instanceShape")
     @OslcRange(OslcConstants.TYPE_RESOURCE_SHAPE)
     @OslcTitle("Instance Shape")
-    public URI getInstanceShape()
-    {
+    public URI getInstanceShape() {
         return instanceShape;
     }
 
@@ -159,8 +150,7 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "modified")
     @OslcReadOnly
     @OslcTitle("Modified")
-    public Date getModified()
-    {
+    public Date getModified() {
         return modified;
     }
 
@@ -168,8 +158,7 @@ extends AbstractResource
     @OslcName("type")
     @OslcPropertyDefinition(OslcConstants.RDF_NAMESPACE + "type")
     @OslcTitle("Types")
-    public URI[] getRdfTypes()
-    {
+    public URI[] getRdfTypes() {
         return rdfTypes.toArray(new URI[rdfTypes.size()]);
     }
 
@@ -177,74 +166,59 @@ extends AbstractResource
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "serviceProvider")
     @OslcRange(OslcConstants.TYPE_SERVICE_PROVIDER)
     @OslcTitle("Service Provider")
-    public URI getServiceProvider()
-    {
+    public URI getServiceProvider() {
         return serviceProvider;
     }
 
-    public void setContributors(final URI[] contributors)
-    {
+    public void setContributors(final URI[] contributors) {
         this.contributors.clear();
 
-        if (contributors != null)
-        {
+        if (contributors != null) {
             this.contributors.addAll(Arrays.asList(contributors));
         }
     }
 
-    public void setCreated(final Date created)
-    {
+    public void setCreated(final Date created) {
         this.created = created;
     }
 
-    public void setCreators(final URI[] creators)
-    {
+    public void setCreators(final URI[] creators) {
         this.creators.clear();
 
-        if (creators != null)
-        {
+        if (creators != null) {
             this.creators.addAll(Arrays.asList(creators));
         }
     }
 
-    public void setLabel(final String label)
-    {
+    public void setLabel(final String label) {
         this.label = label;
     }
 
-    public void setComment(final String comment)
-    {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
-    public void setIdentifier(final String identifier)
-    {
+    public void setIdentifier(final String identifier) {
         this.identifier = identifier;
     }
 
-    public void setInstanceShape(final URI instanceShape)
-    {
+    public void setInstanceShape(final URI instanceShape) {
         this.instanceShape = instanceShape;
     }
 
-    public void setModified(final Date modified)
-    {
+    public void setModified(final Date modified) {
         this.modified = modified;
     }
 
-    public void setRdfTypes(final URI[] rdfTypes)
-    {
+    public void setRdfTypes(final URI[] rdfTypes) {
         this.rdfTypes.clear();
 
-        if (rdfTypes != null)
-        {
+        if (rdfTypes != null) {
             this.rdfTypes.addAll(Arrays.asList(rdfTypes));
         }
     }
 
-    public void setServiceProvider(final URI serviceProvider)
-    {
+    public void setServiceProvider(final URI serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
-
 }

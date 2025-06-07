@@ -13,7 +13,6 @@
  */
 package org.eclipse.lyo.client.exception;
 
-
 /**
  * Thrown when an HTTP response comes back from the Jazz server with an HTTP response header
  * X-com-ibm-team-repository-web-auth-msg with a value of "authfailed". The server sends this
@@ -24,24 +23,22 @@ package org.eclipse.lyo.client.exception;
 @SuppressWarnings("serial")
 public class JazzAuthErrorException extends OslcClientApplicationException {
 
-	private static final String MESSAGE_KEY = "JazzAuthErrorException";
+    private static final String MESSAGE_KEY = "JazzAuthErrorException";
 
-	private final int status;
-	private final String jazzUrl;
+    private final int status;
+    private final String jazzUrl;
 
-	public JazzAuthErrorException(final int status, final String jazzUrl) {
-		super(MESSAGE_KEY, new Object[] {status, jazzUrl});
-		this.status = status;
-		this.jazzUrl = jazzUrl;
-	}
+    public JazzAuthErrorException(final int status, final String jazzUrl) {
+        super(MESSAGE_KEY, new Object[] {status, jazzUrl});
+        this.status = status;
+        this.jazzUrl = jazzUrl;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public String getJazzUrl() {
-		return jazzUrl;
-	}
-
-
+    public String getJazzUrl() {
+        return jazzUrl;
+    }
 }

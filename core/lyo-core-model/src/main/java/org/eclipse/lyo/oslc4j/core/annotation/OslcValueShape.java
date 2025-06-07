@@ -23,9 +23,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OslcValueShape {
-	/**
-	 * If the value-type is a resource type, then Property MAY provide a shape value
-	 * to indicate the Resource Shape that applies to the resource.
-	 */
-	String value();
+    /**
+     * If the value-type is a resource type, then Property MAY provide a shape value
+     * to indicate the Resource Shape that applies to the resource.
+     */
+    String value();
 }
