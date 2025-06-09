@@ -49,8 +49,8 @@ import org.slf4j.LoggerFactory;
 public class OslcClient implements IOslcClient {
 
     private final String version;
-    //    private Client client;
-    private static final Logger LOGGER = LoggerFactory.getLogger(OslcClient.class);
+    private Client client;
+    private static final Logger logger = LoggerFactory.getLogger(OslcClient.class);
     private static final String ACCEPT_TYPE_ALL = "*/*";
 
     /**
@@ -413,7 +413,7 @@ public class OslcClient implements IOslcClient {
             }
             throw new ResourceNotFoundException(catalogUrl, serviceProviderTitle);
         } else {
-            LOGGER.warn("Cannot read {} status: {}", catalogUrl, response.getStatus());
+            logger.warn("Cannot read {} status: {}", catalogUrl, response.getStatus());
             return null;
         }
     }

@@ -677,6 +677,12 @@
             <!-- Using validate phase, so this happens before enforce-style -->
             <phase>validate</phase>
           </execution>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
         </executions>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
@@ -707,6 +713,7 @@
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>false</formatJavadoc>
             </googleJavaFormat>
+            <endWithNewline />
           </java>
         </configuration>
       </plugin>
