@@ -15,15 +15,14 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclMaxExclusiveValidationTest.
@@ -45,17 +44,17 @@ public class ShaclMaxExclusiveValidationTest {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAStringProperty("Between");
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
-            //Invalid Value. Maximum allowed value is 14.
+            // Invalid Value. Maximum allowed value is 14.
             aResource.setIntegerProperty2(new BigInteger("16"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "maxExclusive violation. Expected 16 < 15");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource), "maxExclusive violation. Expected 16 < 15");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -75,9 +74,7 @@ public class ShaclMaxExclusiveValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
-
 }

@@ -12,76 +12,64 @@
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 
-/**
- *
- * @author Yash Khatri
- * @version $version-stub$
- * @since 2.3.0
- */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Class ShaclPatternValidationTest.
+ * Tests for SHACL pattern validation constraints.
  */
+@DisplayName("SHACL Pattern Validation Tests")
 public class ShaclPatternValidationTest {
 
-    /** The a resource. */
-    AResource aResource;
+    private AResource aResource;
 
-    /**
-     * Shacl pattern negative test.
-     *
-     * This test will fail because the pattern for StringProperty does not satisfy.
-     * It should start with "B" to be valid. But Here in this example, it starts
-     * with "C".
-     */
-    @Test
-    public void ShaclPatternNegativetest() {
-
-        try {
-            aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            aResource.setAnotherIntegerProperty(new BigInteger("12"));
-            // Invalid Value. Should Start with 'B' to be valid.
-            aResource.setAStringProperty("Catalyzer");
-            aResource.addASetOfDates(new Date());
-
-            TestHelper.assertNegative(TestHelper.performTest(aResource),
-                    "pattern violation. Expected \"Catalyzer\" to match '^B'");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
-        }
-
+    @BeforeEach
+    void setUp() throws Exception {
+        aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
+        aResource.setAnotherIntegerProperty(new BigInteger("12"));
+        aResource.addASetOfDates(new Date());
     }
 
     /**
-     * Shacl pattern positive test.
-     *
+     * Tests that validation fails when string property does not match the required pattern.
+     * The pattern requires strings to start with "B", but "Catalyzer" starts with "C".
      */
     @Test
-    public void ShaclPatternPositivetest() {
+    @DisplayName("Should fail validation when string does not match pattern")
+    void shouldFailValidationWhenStringDoesNotMatchPattern() {
+        // Given - Invalid value that should start with 'B' to be valid
+        aResource.setAStringProperty("Catalyzer");
 
-        try {
-            aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            aResource.setAnotherIntegerProperty(new BigInteger("12"));
-            aResource.setAStringProperty("Between");
-            aResource.addASetOfDates(new Date());
-
-            TestHelper.assertPositive(TestHelper.performTest(aResource));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
-        }
+        // When & Then
+        assertDoesNotThrow(
+                () -> {
+                    TestHelper.assertNegative(
+                            TestHelper.performTest(aResource),
+                            "pattern violation. Expected \"Catalyzer\" to match '^B'");
+                });
     }
 
+    /**
+     * Tests that validation passes when string property matches the required pattern.
+     */
+    @Test
+    @DisplayName("Should pass validation when string matches pattern")
+    void shouldPassValidationWhenStringMatchesPattern() {
+        // Given - Valid value that starts with 'B'
+        aResource.setAStringProperty("Between");
+
+        // When & Then
+        assertDoesNotThrow(
+                () -> {
+                    TestHelper.assertPositive(TestHelper.performTest(aResource));
+                });
+    }
 }
