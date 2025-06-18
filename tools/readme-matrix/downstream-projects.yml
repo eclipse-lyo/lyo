@@ -1,11 +1,15 @@
 versions:
   # shields.io requires '-' to be escaped thru '--'
   snapshot:
-    - "6.0.0.CR"
+    - "7.0.0a3"
     - "7.0.0--S"
   stable:
     - "6.0.0"
+  obsolete-recent:
+    - "5.1.1"
   milestone-warn:
+    - "7.0.0a2"
+    - "6.0.0.CR"
     - "5.1.0a"
     - "5.0.1.CR"
   obsolete-snapshot:
@@ -15,8 +19,6 @@ versions:
     - "5.0.0--S"
     - "4.1.0--S"
     - "4.0.0--S"
-  obsolete-recent:
-    - "5.1.1"
   obsolete-old:
     - "5.1.0"
     - "5.0.0"
@@ -34,7 +36,7 @@ versions:
 projects:
   - slug: "oslc-op/refimpl"
     link: "https://github.com/oslc-op/refimpl"
-    version: "6.0.0"
+    version: "7.0.0a3"
     ci_badge: "https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/oslc-op/refimpl?label=PR"
     pr_link: "https://github.com/oslc-op/refimpl/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
@@ -43,7 +45,7 @@ projects:
     activity_badge: "https://img.shields.io/github/last-commit/oslc-op/refimpl"
   - slug: "lyo-samples/lyo-client-samples"
     link: "https://github.com/OSLC/lyo-samples"
-    version: "6.0.0"
+    version: "7.0.0a3"
     ci_badge: "https://github.com/OSLC/lyo-samples/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/OSLC/lyo-samples?label=PR"
     pr_link: "https://github.com/OSLC/lyo-samples/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
@@ -68,6 +70,15 @@ projects:
     issues_badge: "https://img.shields.io/github/issues/oslc-op/sysml-oslc-server/Type:%20Bug?label=bugs"
     issues_link: "https://github.com/oslc-op/sysml-oslc-server/issues?q=is%3Aopen+label%3Abug+sort%3Aupdated-desc"
     activity_badge: "https://img.shields.io/github/last-commit/oslc-op/sysml-oslc-server"
+  - slug: "OSLC/promcode-lyo-server"
+    link: "https://github.com/OSLC/promcode-lyo-server"
+    version: "5.1.1"
+    ci_badge: "https://github.com/OSLC/promcode-lyo-server/actions/workflows/maven.yml/badge.svg"
+    pr_badge: "https://img.shields.io/github/issues-pr/OSLC/promcode-lyo-server?label=PR"
+    pr_link: "https://github.com/OSLC/promcode-lyo-server/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
+    issues_badge: "https://img.shields.io/github/issues/OSLC/promcode-lyo-server/Type:%20Bug?label=bugs"
+    issues_link: "https://github.com/OSLC/promcode-lyo-server/issues?q=is%3Aopen+label%3Abug+sort%3Aupdated-desc"
+    activity_badge: "https://img.shields.io/github/last-commit/OSLC/promcode-lyo-server"
   - slug: "OSLC/lyo-adaptor-sample-modelling"
     link: "https://github.com/OSLC/lyo-adaptor-sample-modelling"
     version: "5.0.1.CR"
@@ -267,16 +278,17 @@ label-types:
   - name: "stable"
     color: "brightgreen"
     # color: "248232"
+  - name: "obsolete-recent"
+    color: "yellowgreen"
+    # color: "17C3B2"
+    # color: "255F85"
   - name: "milestone-warn"
     # color: "yellowgreen"
-    color: "7B1E7A"
+    color: "f3cdf2"
   - name: "obsolete-snapshot"
     # color: "yellowgreen"
     # color: "f329da"
     color: "E77728"
-  - name: "obsolete-recent"
-    color: "17C3B2"
-    # color: "255F85"
   - name: "obsolete-old"
     color: "red"
   - name: "obsolete-danger"
