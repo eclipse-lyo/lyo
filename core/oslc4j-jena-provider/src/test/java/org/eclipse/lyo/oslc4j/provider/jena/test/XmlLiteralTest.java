@@ -13,6 +13,13 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
+import static org.junit.Assert.*;
+
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.namespace.QName;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
@@ -30,14 +37,6 @@ import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResourceWithLiter
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.namespace.QName;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-
-import static org.junit.Assert.*;
-
 public class XmlLiteralTest {
 
     private final QName FIRST_NAME_PROP = new QName(FOAF.NS, "firstName");
@@ -50,25 +49,37 @@ public class XmlLiteralTest {
     /* ROUND-TRIPPING TESTS */
 
     @Test
-    public void roundtripTestXmlDatatypeRDF() throws DatatypeConfigurationException, OslcCoreApplicationException,
-        InvocationTargetException, IllegalAccessException {
-        final Model diskModel = readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
+    public void roundtripTestXmlDatatypeRDF()
+            throws DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException {
+        final Model diskModel =
+                readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     @Test
-    public void roundtripTestXmlParsetypeWithAnnotatedLiteralProperty() throws DatatypeConfigurationException,
-        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-        final Model diskModel = readModel("/xml_literals/parsetype_annot.rdf", RDFLanguages.strLangRDFXML);
+    public void roundtripTestXmlParsetypeWithAnnotatedLiteralProperty()
+            throws DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException {
+        final Model diskModel =
+                readModel("/xml_literals/parsetype_annot.rdf", RDFLanguages.strLangRDFXML);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
 
     @Test
-    public void roundtripTestXmlParsetypeWithAnnotatedStringProperty() throws DatatypeConfigurationException,
-        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-        final Model diskModel = readModel("/xml_literals/parsetype_annot_string.rdf", RDFLanguages.strLangRDFXML);
+    public void roundtripTestXmlParsetypeWithAnnotatedStringProperty()
+            throws DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException {
+        final Model diskModel =
+                readModel("/xml_literals/parsetype_annot_string.rdf", RDFLanguages.strLangRDFXML);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
@@ -79,9 +90,13 @@ public class XmlLiteralTest {
      * We only expect warnings here
      */
     @Test
-    public void invalidLiteralTest_NoRoot() throws DatatypeConfigurationException,
-        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-        final Model diskModel = readModel("/xml_literals/invalid_noroot.ttl", RDFLanguages.strLangTurtle);
+    public void invalidLiteralTest_NoRoot()
+            throws DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException {
+        final Model diskModel =
+                readModel("/xml_literals/invalid_noroot.ttl", RDFLanguages.strLangTurtle);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
@@ -90,9 +105,13 @@ public class XmlLiteralTest {
      * We only expect warnings here
      */
     @Test(expected = DatatypeFormatException.class)
-    public void invalidLiteralTest_NoEscape() throws DatatypeConfigurationException,
-        OslcCoreApplicationException, InvocationTargetException, IllegalAccessException {
-        final Model diskModel = readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);
+    public void invalidLiteralTest_NoEscape()
+            throws DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    InvocationTargetException,
+                    IllegalAccessException {
+        final Model diskModel =
+                readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);
 
         assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
     }
@@ -103,12 +122,12 @@ public class XmlLiteralTest {
      */
     @Test(expected = RiotException.class)
     public void invalidLiteralTest_BadXml() {
-        final Model diskModel = readModel("/xml_literals/invalid_badxml.rdf", RDFLanguages.strLangTurtle);
+        final Model diskModel =
+                readModel("/xml_literals/invalid_badxml.rdf", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel,
-            TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
     }
-
 
     /* BASE TYPE TESTS */
 
@@ -116,21 +135,24 @@ public class XmlLiteralTest {
     public void literalTestTurtleXSD() {
         final Model m = readModel("/xml_literals/xsd_xmlliteral.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof BaseDatatype.TypedValue);
-        assertEquals("http://www.w3.org/2001/XMLSchema#XMLLiteral",
-            ((BaseDatatype.TypedValue) firstName).datatypeURI);
+        assertEquals(
+                "http://www.w3.org/2001/XMLSchema#XMLLiteral",
+                ((BaseDatatype.TypedValue) firstName).datatypeURI);
     }
 
     @Test
     public void literalTestTurtleRDF() {
         final Model m = readModel("/xml_literals/rdf_xmlliteral.ttl", RDFLanguages.strLangTurtle);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
@@ -143,22 +165,24 @@ public class XmlLiteralTest {
     public void literalTestXmlDatatypeXSD() {
         final Model m = readModel("/xml_literals/datatype_xsd.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
 
         assertTrue(firstName instanceof BaseDatatype.TypedValue);
-        assertEquals("http://www.w3.org/2001/XMLSchema#XMLLiteral",
-            ((BaseDatatype.TypedValue) firstName).datatypeURI);
+        assertEquals(
+                "http://www.w3.org/2001/XMLSchema#XMLLiteral",
+                ((BaseDatatype.TypedValue) firstName).datatypeURI);
     }
-
 
     @Test
     public void literalTestXmlDatatypeRDF() {
         final Model m = readModel("/xml_literals/datatype_rdf.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
@@ -171,7 +195,8 @@ public class XmlLiteralTest {
     public void literalTestXmlParsetype() {
         final Model m = readModel("/xml_literals/parsetype.rdf", RDFLanguages.strLangRDFXML);
 
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(m, TestResourceWithLiterals.class);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
         Object firstName = resource.getExtendedProperties().get(FIRST_NAME_PROP);
@@ -190,22 +215,30 @@ public class XmlLiteralTest {
 
     /*HELPERS*/
 
-    private void assertModelUnmarshalsAndBackIsomorphically(Model diskModel, Class<TestResourceWithLiterals> klass)
-        throws DatatypeConfigurationException, IllegalAccessException, InvocationTargetException,
-        OslcCoreApplicationException {
-        final TestResourceWithLiterals[] testResources = JenaModelHelper.unmarshal(diskModel, klass);
+    private void assertModelUnmarshalsAndBackIsomorphically(
+            Model diskModel, Class<TestResourceWithLiterals> klass)
+            throws DatatypeConfigurationException,
+                    IllegalAccessException,
+                    InvocationTargetException,
+                    OslcCoreApplicationException {
+        final TestResourceWithLiterals[] testResources =
+                JenaModelHelper.unmarshal(diskModel, klass);
         assertEquals("Expected only one TestResource resource", 1, testResources.length);
         final TestResourceWithLiterals resource = testResources[0];
 
-        Model lyoModel = JenaModelHelper.createJenaModel(new Object[]{resource});
+        Model lyoModel = JenaModelHelper.createJenaModel(new Object[] {resource});
 
-        assertTrue("Models should match: " + showModels(diskModel, lyoModel), diskModel.isIsomorphicWith(lyoModel));
+        assertTrue(
+                "Models should match: " + showModels(diskModel, lyoModel),
+                diskModel.isIsomorphicWith(lyoModel));
     }
 
     private String showModels(Model expected, Model resulting) {
-        return String.format("EXPECTED model:\n\n%s\n" +
-            "=======================================================\n\n"
-            + "RESULTING model:\n\n%s\n", prettyPrintModel(expected), prettyPrintModel(resulting));
+        return String.format(
+                "EXPECTED model:\n\n%s\n"
+                        + "=======================================================\n\n"
+                        + "RESULTING model:\n\n%s\n",
+                prettyPrintModel(expected), prettyPrintModel(resulting));
     }
 
     private String prettyPrintModel(Model model) {
@@ -213,5 +246,4 @@ public class XmlLiteralTest {
         RDFDataMgr.write(writer, model, RDFFormat.TRIG_PRETTY);
         return writer.toString();
     }
-
 }

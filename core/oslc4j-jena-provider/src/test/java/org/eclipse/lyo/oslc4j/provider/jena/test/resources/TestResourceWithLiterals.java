@@ -23,14 +23,16 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 @OslcNamespace(TestResourceWithLiterals.TEST_NAMESPACE)
 @OslcResourceShape(title = "Test Resource", describes = TestResourceWithLiterals.TEST_RESOURCE_TYPE)
 public class TestResourceWithLiterals extends AbstractResource {
-    public final static String TEST_NAMESPACE = "http://example.com/ns#";
-    public final static String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "TestResourceWithLiterals";
+    public static final String TEST_NAMESPACE = "http://example.com/ns#";
+    public static final String TEST_RESOURCE_TYPE = TEST_NAMESPACE + "TestResourceWithLiterals";
 
     private XMLLiteral description;
 
     @OslcName("description")
     @OslcPropertyDefinition("http://purl.org/dc/terms/description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -46,7 +48,9 @@ public class TestResourceWithLiterals extends AbstractResource {
 
     @OslcName("title")
     @OslcPropertyDefinition("http://purl.org/dc/terms/title")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
+    @OslcDescription(
+            "Descriptive text about resource represented as rich text in XHTML content. SHOULD"
+                + " include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -57,5 +61,4 @@ public class TestResourceWithLiterals extends AbstractResource {
     public void setTitle(final String value) {
         this.title = value;
     }
-
 }
