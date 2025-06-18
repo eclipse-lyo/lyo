@@ -36,6 +36,8 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
+        # Needed for spotless to do the ratchet
+        fetch-depth: 0
         show-progress: false
 
     # Initializes the CodeQL tools for scanning.
