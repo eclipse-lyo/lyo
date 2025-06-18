@@ -25,7 +25,7 @@
     <v.servlet>3.1.0</v.servlet>
 
     <v.jena>4.10.0</v.jena>
-    <v.jackson>2.19.0</v.jackson>
+    <v.jackson>2.19.1</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.17</v.slf4j>
   </properties>
@@ -185,7 +185,7 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.7.0</version>
+            <version>0.8.0</version>
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
@@ -526,10 +526,10 @@
               <configuration>
                 <rules>
                   <requireMavenVersion>
-                    <version>3.6.0</version>
+                    <version>3.8.1</version>
                   </requireMavenVersion>
                   <requireJavaVersion>
-                    <version>11</version>
+                    <version>17</version>
                   </requireJavaVersion>
                   <bannedDependencies>
                     <excludes>
@@ -670,6 +670,52 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.44.5</version>
+        <executions>
+          <execution>
+            <id>auto-style</id>
+            <goals>
+              <goal>apply</goal>
+            </goals>
+            <!-- Using validate phase, so this happens before enforce-style -->
+            <phase>validate</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- optional: limit format enforcement to just the files changed by this feature branch -->
+          <ratchetFrom>origin/master</ratchetFrom>
+          <formats>
+            <!-- you can define as many formats as you want, each is independent -->
+            <format>
+              <!-- define the files to apply to -->
+              <includes>
+                <include>.gitattributes</include>
+                <include>.gitignore</include>
+              </includes>
+              <!-- define the steps to apply to those files -->
+              <trimTrailingWhitespace/>
+              <endWithNewline/>
+              <indent>
+                <tabs>true</tabs>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+            </format>
+          </formats>
+          <!-- define a language-specific format -->
+          <java>
+            <!-- apply a specific flavor of google-java-format and reflow long strings -->
+            <googleJavaFormat>
+              <version>1.27.0</version>
+              <style>AOSP</style>
+              <reflowLongStrings>true</reflowLongStrings>
+              <formatJavadoc>false</formatJavadoc>
+            </googleJavaFormat>
+          </java>
+        </configuration>
       </plugin>
     </plugins>
   </build>
