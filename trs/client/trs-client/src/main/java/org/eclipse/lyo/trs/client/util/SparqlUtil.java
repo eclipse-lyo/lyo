@@ -15,7 +15,6 @@ package org.eclipse.lyo.trs.client.util;
 
 import java.io.IOException;
 import java.net.URI;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -52,25 +51,25 @@ public class SparqlUtil {
      *            name of the named graph to be created
      * @return the graph creation sparql query as a string
      */
-    static public String createGraphQuery(String namedGraphUrl) {
+    public static String createGraphQuery(String namedGraphUrl) {
         String query = "CREATE GRAPH <" + namedGraphUrl + ">";
         logger.debug("query for creation of graph: " + namedGraphUrl);
         logger.debug(query);
         return query;
     }
 
-    static public String createGraphQuery(URI namedGraphUrl) {
+    public static String createGraphQuery(URI namedGraphUrl) {
         return createGraphQuery(namedGraphUrl.toASCIIString());
     }
 
-        /**
-         * returns the query deleting siltently the graph with the given name
-         *
-         * @param namedGraphUrl
-         *            the name of the graph to be deleted
-         * @return the deletion query as a string
-         */
-    static public String dropGraphQuery(String namedGraphUrl) {
+    /**
+     * returns the query deleting siltently the graph with the given name
+     *
+     * @param namedGraphUrl
+     *            the name of the graph to be deleted
+     * @return the deletion query as a string
+     */
+    public static String dropGraphQuery(String namedGraphUrl) {
         String query = "DROP GRAPH <" + namedGraphUrl + ">";
         logger.debug("query for removal of graph: " + namedGraphUrl);
         logger.debug(query);
@@ -85,10 +84,36 @@ public class SparqlUtil {
      *            graph to be emptied
      * @return the query for emptying the graph
      */
-    static public String removeAllTriplesInGraphQuery(String namedGraphUrl) {
-        String query = "WITH" + " " + "<" + namedGraphUrl + ">" + "\n" + "DELETE" + "\n" + "{?s ?p ?o }" + "\n"
-                + "WHERE" + "\n" + "{" + "\n" + "GRAPH" + " " + "<" + namedGraphUrl + ">" + "\n" + "{" + "\n"
-                + "?s ?p ?o" + "\n" + "}" + "\n" + "}" + "\n";
+    public static String removeAllTriplesInGraphQuery(String namedGraphUrl) {
+        String query =
+                "WITH"
+                        + " "
+                        + "<"
+                        + namedGraphUrl
+                        + ">"
+                        + "\n"
+                        + "DELETE"
+                        + "\n"
+                        + "{?s ?p ?o }"
+                        + "\n"
+                        + "WHERE"
+                        + "\n"
+                        + "{"
+                        + "\n"
+                        + "GRAPH"
+                        + " "
+                        + "<"
+                        + namedGraphUrl
+                        + ">"
+                        + "\n"
+                        + "{"
+                        + "\n"
+                        + "?s ?p ?o"
+                        + "\n"
+                        + "}"
+                        + "\n"
+                        + "}"
+                        + "\n";
         logger.debug("query for removal of all triples from graph: " + namedGraphUrl);
         logger.debug(query);
         return query;
@@ -105,7 +130,7 @@ public class SparqlUtil {
      *            graph
      * @return the sparql update
      */
-    static public String addTriplesToGraphQuery(String namedGraphUrl, Model jenaModel) {
+    public static String addTriplesToGraphQuery(String namedGraphUrl, Model jenaModel) {
         try {
             String nTripleRepresentation = RdfUtil.modelToNTriple(jenaModel);
             return addTriplesToGraphQuery(namedGraphUrl, nTripleRepresentation);
@@ -115,24 +140,39 @@ public class SparqlUtil {
         }
     }
 
-    static public String addTriplesToGraphQuery(URI namedGraphUrl, Model jenaModel) {
+    public static String addTriplesToGraphQuery(URI namedGraphUrl, Model jenaModel) {
         return addTriplesToGraphQuery(namedGraphUrl.toASCIIString(), jenaModel);
     }
 
-
-        /**
-         * Gets a set of statements and a named graph as arguments and returns a
-         * sparql query for adding the statements to the named graph
-         *
-         * @param namedGraphUrl
-         *            named graph to which the statements shall be added
-         * @param triples
-         *            statements to be added to the named graph
-         * @return the sparql update
-         */
-    static public String addTriplesToGraphQuery(String namedGraphUrl, String triples) {
-        String query = "INSERT DATA" + "\n" + "{" + "\n" + "  GRAPH" + " " + "<" + namedGraphUrl + ">" + "\n" + "{"
-                + "\n" + triples + "\n" + "}" + "\n" + "}";
+    /**
+     * Gets a set of statements and a named graph as arguments and returns a
+     * sparql query for adding the statements to the named graph
+     *
+     * @param namedGraphUrl
+     *            named graph to which the statements shall be added
+     * @param triples
+     *            statements to be added to the named graph
+     * @return the sparql update
+     */
+    public static String addTriplesToGraphQuery(String namedGraphUrl, String triples) {
+        String query =
+                "INSERT DATA"
+                        + "\n"
+                        + "{"
+                        + "\n"
+                        + "  GRAPH"
+                        + " "
+                        + "<"
+                        + namedGraphUrl
+                        + ">"
+                        + "\n"
+                        + "{"
+                        + "\n"
+                        + triples
+                        + "\n"
+                        + "}"
+                        + "\n"
+                        + "}";
         logger.debug("query for creation of triples in graph: " + namedGraphUrl);
         logger.debug(query);
         return query;
@@ -149,7 +189,7 @@ public class SparqlUtil {
      *            for a deletion event)
      * @return the sparql update
      */
-    static public String getChangeEventQuery(ChangeEvent changeEvent, Model model) {
+    public static String getChangeEventQuery(ChangeEvent changeEvent, Model model) {
 
         if (changeEvent instanceof Creation) {
             return getCreationEventQuery(changeEvent, model);
@@ -159,7 +199,6 @@ public class SparqlUtil {
             return getModificationEventQuery(changeEvent, model);
         }
         return null;
-
     }
 
     /**
@@ -173,7 +212,7 @@ public class SparqlUtil {
      *            the changed resource
      * @return the sparql update
      */
-    static public String getModificationEventQuery(ChangeEvent changeEvent, Model model) {
+    public static String getModificationEventQuery(ChangeEvent changeEvent, Model model) {
         String result = "";
         String changeEventTarget = changeEvent.getChanged().toString();
         String dropGraphQuery = dropGraphQuery(changeEventTarget);
@@ -200,7 +239,7 @@ public class SparqlUtil {
      *            representation of the changed resource
      * @return the sparql update
      */
-    static public String getModificationEventQuery(ChangeEvent changeEvent, String triples) {
+    public static String getModificationEventQuery(ChangeEvent changeEvent, String triples) {
 
         String changeEventTarget = changeEvent.getChanged().toString();
         return getModificationEventQuery(changeEventTarget, triples);
@@ -217,7 +256,7 @@ public class SparqlUtil {
      *            representation of the changed resource
      * @return the sparql update
      */
-    static public String getModificationEventQuery(String changeEventTarget, String triples) {
+    public static String getModificationEventQuery(String changeEventTarget, String triples) {
         String result = "";
         String dropGraphQuery = dropGraphQuery(changeEventTarget);
         String addGraphQuery = createGraphQuery(changeEventTarget);
@@ -242,7 +281,7 @@ public class SparqlUtil {
      *            updated rdf representation of the changed resource
      * @return
      */
-    static public String getCreationEventQuery(ChangeEvent changeEvent, Model model) {
+    public static String getCreationEventQuery(ChangeEvent changeEvent, Model model) {
         String result = "";
 
         String changeEventTarget = changeEvent.getChanged().toString();
@@ -264,7 +303,7 @@ public class SparqlUtil {
      *            created
      * @return the sparql update
      */
-    static public String getDeletionEventQuery(ChangeEvent changeEvent) {
+    public static String getDeletionEventQuery(ChangeEvent changeEvent) {
         String result = "";
 
         String changeEventTarget = changeEvent.getChanged().toString();
@@ -285,7 +324,7 @@ public class SparqlUtil {
      * @param serviceUrl
      *            sparql update endpoint url
      */
-    static public void createGraph(String namedGraphUrl, String serviceUrl) {
+    public static void createGraph(String namedGraphUrl, String serviceUrl) {
         UpdateRequest request = UpdateFactory.create();
         request.add(createGraphQuery(namedGraphUrl));
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, serviceUrl);
@@ -301,7 +340,7 @@ public class SparqlUtil {
      * @param serviceUrl
      *            sparql update endpoint url
      */
-    static public void dropGraph(String namedGraphUrl, String serviceUrl) {
+    public static void dropGraph(String namedGraphUrl, String serviceUrl) {
         UpdateRequest request = UpdateFactory.create();
         request.add(dropGraphQuery(namedGraphUrl));
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, serviceUrl);
@@ -320,7 +359,8 @@ public class SparqlUtil {
      * @param serviceUrl
      *            the sparql update endpoint
      */
-    static public void addTriplesToNamedGraph(Model jenaModel, String namedGraphUrl, String serviceUrl) {
+    public static void addTriplesToNamedGraph(
+            Model jenaModel, String namedGraphUrl, String serviceUrl) {
         UpdateRequest request = UpdateFactory.create();
         request.add(addTriplesToGraphQuery(namedGraphUrl, jenaModel));
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, serviceUrl);
@@ -336,7 +376,7 @@ public class SparqlUtil {
      * @param serviceUrl
      *            the sparql update endpoint
      */
-    static public void removeAllTriplesInNamedGraph(String namedGraphUrl, String serviceUrl) {
+    public static void removeAllTriplesInNamedGraph(String namedGraphUrl, String serviceUrl) {
         UpdateRequest request = UpdateFactory.create();
         request.add(removeAllTriplesInGraphQuery(namedGraphUrl));
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, serviceUrl);
@@ -355,7 +395,7 @@ public class SparqlUtil {
      * @param serviceUrl
      *            the sparql update endpoint
      */
-    static public void processChangeEvent(ChangeEvent changeEvent, Model model, String serviceUrl) {
+    public static void processChangeEvent(ChangeEvent changeEvent, Model model, String serviceUrl) {
         String changeEventQuery = getChangeEventQuery(changeEvent, model);
         processQuery(changeEventQuery, serviceUrl);
     }
@@ -369,7 +409,7 @@ public class SparqlUtil {
      * @param serviceUrl
      *            sparql update endpoint for processing the sparql update
      */
-    static public void processQuery(String query, String serviceUrl) {
+    public static void processQuery(String query, String serviceUrl) {
         UpdateRequest request = UpdateFactory.create();
         request.add(query);
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, serviceUrl);
@@ -389,13 +429,14 @@ public class SparqlUtil {
      * @param pwd
      *            password for authentication if applicable
      */
-//    static public void processQuery_sesame(String query, String serviceUrl, String user, String pwd) {
-//        SPARQLRepository repo = new SPARQLRepository(serviceUrl);
-//        repo.setUsernameAndPassword(user, pwd);
-//        repo.initialize();
-//        RepositoryConnection rc = repo.getConnection();
-//        processQuery_sesame(query, rc);
-//    }
+    //    static public void processQuery_sesame(String query, String serviceUrl, String user,
+    // String pwd) {
+    //        SPARQLRepository repo = new SPARQLRepository(serviceUrl);
+    //        repo.setUsernameAndPassword(user, pwd);
+    //        repo.initialize();
+    //        RepositoryConnection rc = repo.getConnection();
+    //        processQuery_sesame(query, rc);
+    //    }
 
     /**
      * Send the given sparql update to the sparql update service using the
@@ -407,10 +448,10 @@ public class SparqlUtil {
      *            the repository connection object holding credentials and the
      *            sparql update endpoint
      */
-//    static public void processQuery_sesame(String query, RepositoryConnection conn) {
-//        Update u = conn.prepareUpdate(query);
-//        u.execute();
-//    }
+    //    static public void processQuery_sesame(String query, RepositoryConnection conn) {
+    //        Update u = conn.prepareUpdate(query);
+    //        u.execute();
+    //    }
 
     /**
      * return the repo connection object in order to be able to use the sesame
@@ -424,23 +465,24 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
-//    public static RepositoryConnection getRepoConnection(String queryEndpoint, String user, String pwd) {
-//        SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
-//        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
-//            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
-//        }
-//        repo.initialize();
-//        try {
-//            RepositoryConnection conn = repo.getConnection();
-//            if (conn == null) {
-//                logger.error("error getting sparql repo connection !");
-//            }
-//            return conn;
-//        } catch (Exception e) {
-//            logger.error("error getting sparql repo connection !", e);
-//            return null;
-//        }
-//    }
+    //    public static RepositoryConnection getRepoConnection(String queryEndpoint, String user,
+    // String pwd) {
+    //        SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
+    //        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
+    //            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
+    //        }
+    //        repo.initialize();
+    //        try {
+    //            RepositoryConnection conn = repo.getConnection();
+    //            if (conn == null) {
+    //                logger.error("error getting sparql repo connection !");
+    //            }
+    //            return conn;
+    //        } catch (Exception e) {
+    //            logger.error("error getting sparql repo connection !", e);
+    //            return null;
+    //        }
+    //    }
 
     /**
      * return the repo connection object in order to be able to use the sesame
@@ -454,25 +496,27 @@ public class SparqlUtil {
      *            password for authentication if applicable
      * @return
      */
-//    public static RepositoryConnection getRepoConnection(String queryEndpoint, String updateEndPoint, String user,
-//            String pwd) {
-//        SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
-//        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty() && !user.isEmpty()) {
-//            repo.setUsernameAndPassword(user, pwd);
-//        }
-//        repo.initialize();
-//        try {
-//            RepositoryConnection conn = repo.getConnection();
-//
-//            if (conn == null) {
-//                logger.error("error getting sparql repo connection !");
-//            }
-//            return conn;
-//        } catch (Exception e) {
-//            logger.error("error getting sparql repo connection !", e);
-//            return null;
-//        }
-//    }
+    //    public static RepositoryConnection getRepoConnection(String queryEndpoint, String
+    // updateEndPoint, String user,
+    //            String pwd) {
+    //        SPARQLRepository repo = new SPARQLRepository(queryEndpoint, updateEndPoint);
+    //        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty() &&
+    // !user.isEmpty()) {
+    //            repo.setUsernameAndPassword(user, pwd);
+    //        }
+    //        repo.initialize();
+    //        try {
+    //            RepositoryConnection conn = repo.getConnection();
+    //
+    //            if (conn == null) {
+    //                logger.error("error getting sparql repo connection !");
+    //            }
+    //            return conn;
+    //        } catch (Exception e) {
+    //            logger.error("error getting sparql repo connection !", e);
+    //            return null;
+    //        }
+    //    }
 
     /**
      * evaluate the given sparql query against the given sparql query endpoint
@@ -487,19 +531,20 @@ public class SparqlUtil {
      *            sparql query
      * @return the result of the querie's evaluation
      */
-//    public static TupleQueryResult evalQuery(String queryEndpoint, String user, String pwd, String query) {
-//        RepositoryConnection conn = getRepoConnection(queryEndpoint, user, pwd, query);
-//        TupleQueryResult result = null;
-//        try {
-//
-//            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate();
-//        } catch (Exception e) {
-//            logger.error("error during the execution of the query !", e);
-//        } finally {
-//            conn.close();
-//        }
-//        return result;
-//    }
+    //    public static TupleQueryResult evalQuery(String queryEndpoint, String user, String pwd,
+    // String query) {
+    //        RepositoryConnection conn = getRepoConnection(queryEndpoint, user, pwd, query);
+    //        TupleQueryResult result = null;
+    //        try {
+    //
+    //            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, query).evaluate();
+    //        } catch (Exception e) {
+    //            logger.error("error during the execution of the query !", e);
+    //        } finally {
+    //            conn.close();
+    //        }
+    //        return result;
+    //    }
 
     /**
      * evaluate the given sparql update using the sesame repository connection
@@ -510,14 +555,14 @@ public class SparqlUtil {
      * @param sparqlQuery
      *            sparql update to evaluate
      */
-//    public static void evalUpdate(RepositoryConnection conn, String sparqlQuery) {
-//        try {
-//
-//            conn.prepareUpdate(QueryLanguage.SPARQL, sparqlQuery).execute();
-//        } catch (Exception e) {
-//            logger.error("error during the execution of the query !", e);
-//        }
-//    }
+    //    public static void evalUpdate(RepositoryConnection conn, String sparqlQuery) {
+    //        try {
+    //
+    //            conn.prepareUpdate(QueryLanguage.SPARQL, sparqlQuery).execute();
+    //        } catch (Exception e) {
+    //            logger.error("error during the execution of the query !", e);
+    //        }
+    //    }
 
     /**
      * evaluate the given sparql query using the sesame repository connection
@@ -529,18 +574,18 @@ public class SparqlUtil {
      *            sparql query to evaluate
      * @return the queri's evaluation result
      */
-//    public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
-//        TupleQueryResult result = null;
-//        try {
-//
-//            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery).evaluate();
-//
-//        } catch (Exception e) {
-//            logger.error("error during the execution of the query !", e);
-//        }
-//
-//        return result;
-//    }
+    //    public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
+    //        TupleQueryResult result = null;
+    //        try {
+    //
+    //            result = conn.prepareTupleQuery(QueryLanguage.SPARQL, sparqlQuery).evaluate();
+    //
+    //        } catch (Exception e) {
+    //            logger.error("error during the execution of the query !", e);
+    //        }
+    //
+    //        return result;
+    //    }
 
     /**
      * append a sparql update to another
@@ -579,10 +624,11 @@ public class SparqlUtil {
      * @param graphName
      *            named graph to which the triples shall be added
      */
-//    public void processTripleAdditionQuery(RepositoryConnection conn, String triples, String graphName) {
-//        String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, triples);
-//        SparqlUtil.processQuery_sesame(addTriplesToGraphQuery, conn);
-//    }
+    //    public void processTripleAdditionQuery(RepositoryConnection conn, String triples, String
+    // graphName) {
+    //        String addTriplesToGraphQuery = SparqlUtil.addTriplesToGraphQuery(graphName, triples);
+    //        SparqlUtil.processQuery_sesame(addTriplesToGraphQuery, conn);
+    //    }
 
     /**
      * Create a triple with the link type as a predicate the src as subject and
@@ -607,5 +653,4 @@ public class SparqlUtil {
         sb.append(" .");
         return sb.toString();
     }
-
 }
