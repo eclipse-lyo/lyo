@@ -100,4 +100,104 @@ public class BasicWhereTest
 		UriRefValue uriRef = (UriRefValue) v;
 		assertEquals("http://example.org/tests/24", uriRef.value());
 	}
+
+	// Helper method to reduce redundancy
+	private ComparisonTerm parseWhereCondition(String expression, Map<String, String> prefixMap) throws ParseException {
+		WhereClause where = QueryUtils.parseWhere(expression, prefixMap);
+		List<SimpleTerm> children = where.children();
+		assertEquals("Where clause should have one term for this test", 1, children.size());
+		SimpleTerm simpleTerm = children.get(0);
+		assertTrue("Term should be a ComparisonTerm", simpleTerm instanceof ComparisonTerm);
+		return (ComparisonTerm) simpleTerm;
+	}
+
+	@Test
+	public void testLessThanInteger() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:answer<42", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsanswer", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a literal decimal value", v instanceof org.eclipse.lyo.core.query.DecimalValue);
+		org.eclipse.lyo.core.query.DecimalValue decimalValue = (org.eclipse.lyo.core.query.DecimalValue) v;
+		assertEquals(42.0, decimalValue.value().doubleValue(), 0.001);
+	}
+
+	@Test
+	public void testLessThanOrEqualsInteger() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:answer<=42", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsanswer", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN_OR_EQUALS, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a literal decimal value", v instanceof org.eclipse.lyo.core.query.DecimalValue);
+		org.eclipse.lyo.core.query.DecimalValue decimalValue = (org.eclipse.lyo.core.query.DecimalValue) v;
+		assertEquals(42.0, decimalValue.value().doubleValue(), 0.001);
+	}
+
+	@Test
+	public void testLessThanOrEqualsString() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:question<=\"The ultimate...\"", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsquestion", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN_OR_EQUALS, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a literal string value", v instanceof org.eclipse.lyo.core.query.StringValue);
+		org.eclipse.lyo.core.query.StringValue stringValue = (org.eclipse.lyo.core.query.StringValue) v;
+		assertEquals("The ultimate...", stringValue.value());
+	}
+
+	@Test
+	public void testLessThanOrEqualsUri() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:question<=<urn:qm:ultimate>", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsquestion", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN_OR_EQUALS, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a UriRefValue", v instanceof UriRefValue);
+		UriRefValue uriRefValue = (UriRefValue) v;
+		assertEquals("urn:qm:ultimate", uriRefValue.value());
+	}
+
+	@Test
+	public void testLessThanNegativeInteger() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:age<-5", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsage", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a literal decimal value", v instanceof org.eclipse.lyo.core.query.DecimalValue);
+		org.eclipse.lyo.core.query.DecimalValue decimalValue = (org.eclipse.lyo.core.query.DecimalValue) v;
+		assertEquals(-5.0, decimalValue.value().doubleValue(), 0.001);
+	}
+
+	@Test
+	public void testLessThanOrEqualsEmptyString() throws ParseException {
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+		ComparisonTerm comparison = parseWhereCondition("qm:name<=\"\"", prefixMap);
+
+		PName prop = comparison.property();
+		assertEquals("http://qm.example.com/nsname", prop.namespace + prop.local);
+		assertEquals(ComparisonTerm.Operator.LESS_THAN_OR_EQUALS, comparison.operator());
+
+		Value v = comparison.operand();
+		assertTrue("Operand should be a literal string value", v instanceof org.eclipse.lyo.core.query.StringValue);
+		org.eclipse.lyo.core.query.StringValue stringValue = (org.eclipse.lyo.core.query.StringValue) v;
+		assertEquals("", stringValue.value());
+	}
 }
