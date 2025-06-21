@@ -16,7 +16,9 @@
     <name>Lyo :: BOM</name>
     <description>Lyo Bill of Materials</description>
 
-    <!-- Properties section removed, will inherit from lyo-parent -->
+    <properties>
+        <swagger.version>2.2.28</swagger.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -77,13 +79,8 @@
                 <version>${v.lyo}</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.lyo.client</groupId>
+                <groupId>org.eclipse.lyo.clients</groupId>
                 <artifactId>oslc-client</artifactId>
-                <version>${v.lyo}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.lyo.client</groupId>
-                <artifactId>oslc-client-base</artifactId>
                 <version>${v.lyo}</version>
             </dependency>
             <dependency>
@@ -206,11 +203,11 @@
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${v.slf4j}</version>
             </dependency>
-            <dependency>
+            <!-- <dependency>
                 <groupId>stax</groupId>
                 <artifactId>stax-api</artifactId>
                 <version>1.0.1</version>
-            </dependency>
+            </dependency> -->
             <dependency>
                 <groupId>org.apache.jena</groupId>
                 <artifactId>jena-core</artifactId>
@@ -269,11 +266,9 @@
                 <version>${v.jersey}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${v.jackson}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-multipart</artifactId>
+                <version>${v.jersey}</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -302,14 +297,83 @@
                 <version>20100527</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>8.5.100</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.19.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-jaxrs2-jakarta</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <!-- convergence betw. swagger and jersey -->
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>3.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${v.jackson}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- to override swagger jackson deps -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+                <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+                <artifactId>jackson-jakarta-rs-base</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${v.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${v.jackson}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
