@@ -207,13 +207,15 @@ public class SparqlStoreImpl implements Store {
     public boolean namedGraphExists(final URI namedGraphUri) {
         final QuerySolutionMap map = new QuerySolutionMap();
         map.add("g", new ResourceImpl(String.valueOf(namedGraphUri)));
+
+        // Check if graph exists by looking for any triples in the graph
         final ParameterizedSparqlString sparqlString =
-                new ParameterizedSparqlString("ASK {GRAPH ?g {?s ?p ?o} }", map);
-        final String query = sparqlString.toString();
+                new ParameterizedSparqlString("ASK WHERE { GRAPH ?g { ?s ?p ?o } }", map);
 
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(sparqlString.toString());
             return queryExecution.execAsk();
         } finally {
             queryExecutor.end();
@@ -504,8 +506,19 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
-    public void rawUpdateQuery(String finalQueryString) {
-        queryExecutor.prepareSparqlUpdate(finalQueryString).execute();
+    public void rawUpdateQuery(String finalQueryString) throws StoreAccessException {
+        queryExecutor.beginWrite();
+        try {
+            final UpdateProcessor updateProcessor =
+                    queryExecutor.prepareSparqlUpdate(finalQueryString);
+            updateProcessor.execute();
+            queryExecutor.commit();
+        } catch (Exception e) {
+            // Don't commit on error - just end the transaction which will abort it
+            throw new StoreAccessException("Failed to execute raw update query", e);
+        } finally {
+            queryExecutor.end();
+        }
     }
 
     private <T extends IResource> String oslcQueryPrefixes(final Class<T> clazz) {

@@ -426,5 +426,5 @@ public interface Store {
      *
      * @param finalQueryString
      */
-    void rawUpdateQuery(String finalQueryString);
+    void rawUpdateQuery(String finalQueryString) throws StoreAccessException;
 }
