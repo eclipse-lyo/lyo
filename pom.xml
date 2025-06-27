@@ -22,7 +22,8 @@
     <v.dokka>2.0.0</v.dokka>
 
     <v.jersey>3.1.10</v.jersey>
-    <v.servlet>6.1.0</v.servlet>
+    <v.servlet>6.0.0</v.servlet>
+    <v.jaxrs>3.1.0</v.jaxrs>
 
     <v.jena>4.10.0</v.jena>
     <v.jackson>2.19.1</v.jackson>
@@ -318,14 +319,22 @@
       </dependency>
 
       <dependency>
+          <groupId>org.glassfish.jersey</groupId>
+          <artifactId>jersey-bom</artifactId>
+          <version>${v.jersey}</version>
+          <type>pom</type>
+          <scope>import</scope>
+      </dependency>
+
+      <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
-        <version>3.1.0</version>
+        <version>${v.jaxrs}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
-        <version>6.1.0</version>
+        <version>${v.servlet}</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish.jersey.containers</groupId>
