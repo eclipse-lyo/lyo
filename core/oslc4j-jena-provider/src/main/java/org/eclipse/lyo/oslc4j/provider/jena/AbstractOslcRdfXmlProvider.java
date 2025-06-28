@@ -27,6 +27,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFReaderI;
 import org.apache.jena.rdf.model.RDFWriterI;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.util.FileUtils;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
@@ -149,9 +151,13 @@ public abstract class AbstractOslcRdfXmlProvider
 				String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 				outputStream.write(xmlDeclaration.getBytes());
 			}
-			writer.write(model,
-						 outputStream,
-						 null);
+            if (writer instanceof RdfXmlAbbreviatedWriter) {
+                writer.write(model,
+                    outputStream,
+                    null);
+            } else {
+                RDFDataMgr.write(outputStream, model, resolveFormat(serializationLanguage));
+            }
             Instant finish = Instant.now();
             log.trace("writeObjectsTo - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
 		}
@@ -162,7 +168,22 @@ public abstract class AbstractOslcRdfXmlProvider
 		}
 	}
 
-	private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
+    private RDFFormat resolveFormat(String serializationLanguage) {
+        switch (serializationLanguage) {
+            case RDFLanguages.strLangRDFXML:
+                return RDFFormat.RDFXML_PLAIN;
+            case RDFLanguages.strLangTurtle:
+                return RDFFormat.TURTLE_PRETTY;
+            case RDFLanguages.strLangNTriples:
+                return RDFFormat.NTRIPLES_UTF8;
+            case RDFLanguages.strLangJSONLD:
+                return RDFFormat.JSONLD10_COMPACT_PRETTY;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
 		RDFWriterI writer;
 		if	(serializationLanguage.equals(FileUtils.langXMLAbbrev))
         {
