@@ -18,15 +18,14 @@
  * @version $version-stub$
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclMinLengthValidationTest.
@@ -49,18 +48,19 @@ public class ShaclMinLengthValidationTest {
 
         try {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            //Invalid Value. Length should be at least 7.
+            // Invalid Value. Length should be at least 7.
             aResource.setAStringProperty("Betwee");
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "minLength violation. Expected length(\"Betwee\") >= 7");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource),
+                    "minLength violation. Expected length(\"Betwee\") >= 7");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -80,8 +80,7 @@ public class ShaclMinLengthValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
     }
-
 }
