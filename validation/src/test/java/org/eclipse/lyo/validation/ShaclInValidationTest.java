@@ -15,15 +15,14 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclInValidationTest.
@@ -50,14 +49,15 @@ public class ShaclInValidationTest {
             // Invalid value. Allowed values are "A" or "B" or "C".
             aResource.setAnotherStringProperty("D");
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource),
-                    "In violation. Expected \"D\" to be in List(LiteralValue(\"C\"), LiteralValue(\"B\"), LiteralValue(\"A\"))");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource),
+                    "In violation. Expected \"D\" to be in List(LiteralValue(\"C\"),"
+                            + " LiteralValue(\"B\"), LiteralValue(\"A\"))");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -76,9 +76,7 @@ public class ShaclInValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
-
 }
