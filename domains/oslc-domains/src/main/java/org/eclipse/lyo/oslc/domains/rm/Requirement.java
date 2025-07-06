@@ -207,7 +207,10 @@ public class Requirement
         }
     
         // Start of user code toString_finalize
-        result = String.format("%s: %s (Requirement; id=%s)", this.getShortTitle(), this.getTitle(), this.getIdentifier());
+        result =
+                String.format(
+                        "%s: %s (Requirement; id=%s)",
+                        this.getShortTitle(), this.getTitle(), this.getIdentifier());
 
         // End of user code
     
