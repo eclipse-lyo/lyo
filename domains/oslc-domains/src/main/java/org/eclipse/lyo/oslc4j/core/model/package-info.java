@@ -35,15 +35,10 @@
       prefix = OslcConstants.RDFS_NAMESPACE_PREFIX,
       namespaceURI = OslcConstants.RDFS_NAMESPACE),
   @OslcNamespaceDefinition(
-      prefix = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX,
-      namespaceURI = Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE),
-  @OslcNamespaceDefinition(
-      prefix = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX,
-      namespaceURI = Oslc_configVocabularyConstants.OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE),
+      prefix = OslcDomainConstants.OSLC_NAMSPACE_PREFIX,
+      namespaceURI = OslcDomainConstants.OSLC_NAMSPACE),
 })
-package org.eclipse.lyo.oslc.domains.config;
+package org.eclipse.lyo.oslc4j.core.model;
 
-import org.eclipse.lyo.oslc.domains.Oslc_configVocabularyConstants;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespaceDefinition;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcSchema;
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
