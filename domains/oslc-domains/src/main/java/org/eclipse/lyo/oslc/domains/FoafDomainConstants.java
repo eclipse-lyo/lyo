@@ -16,10 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 
-// spotless:off
 // Start of user code imports
 // End of user code
 // spotless:on

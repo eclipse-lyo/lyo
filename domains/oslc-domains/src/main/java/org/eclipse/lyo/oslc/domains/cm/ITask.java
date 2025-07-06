@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -61,7 +62,6 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IState;
-// spotless:off
 // Start of user code imports
 // End of user code
 // spotless:on

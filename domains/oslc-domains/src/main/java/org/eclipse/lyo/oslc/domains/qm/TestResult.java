@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.qm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -70,7 +71,6 @@ import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
-// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code

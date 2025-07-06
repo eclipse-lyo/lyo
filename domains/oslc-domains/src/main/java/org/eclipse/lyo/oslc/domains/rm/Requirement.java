@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.rm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -64,7 +65,6 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
-// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code

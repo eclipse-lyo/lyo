@@ -16,10 +16,10 @@
 
 package org.eclipse.lyo.oslc.domains.jazz_am;
 
+// spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 
-// spotless:off
 // Start of user code imports
 // End of user code
 // spotless:on

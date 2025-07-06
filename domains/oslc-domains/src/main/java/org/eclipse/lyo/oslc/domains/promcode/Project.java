@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-// spotless:off
 // Start of user code imports
 // End of user code
 // spotless:on
