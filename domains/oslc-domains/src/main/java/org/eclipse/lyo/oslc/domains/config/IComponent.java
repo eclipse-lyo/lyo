@@ -70,148 +70,189 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 @OslcNamespace(Oslc_configDomainConstants.COMPONENT_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.COMPONENT_LOCALNAME)
 @OslcResourceShape(title = "Component Shape", describes = Oslc_configDomainConstants.COMPONENT_TYPE)
-public interface IComponent
-{
+public interface IComponent {
 
-    public void addContributor(final Link contributor );
-    public void addCreator(final Link creator );
-    public void addSubject(final String subject );
-    public void addInstanceShape(final Link instanceShape );
-    public void addModifiedBy(final Link modifiedBy );
-    public void addServiceProvider(final Link serviceProvider );
+  public void addContributor(final Link contributor);
 
-    @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getContributor();
+  public void addCreator(final Link creator);
 
-    @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
-    @OslcDescription("Timestamp of resource creation")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCreated();
+  public void addSubject(final String subject);
 
-    @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getCreator();
+  public void addInstanceShape(final Link instanceShape);
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  public void addModifiedBy(final Link modifiedBy);
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  public void addServiceProvider(final Link serviceProvider);
 
-    @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
-    @OslcDescription("Timestamp of latest resource modification")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getModified();
+  @OslcName("contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcDescription(
+      "Contributor or contributors to the resource. The link target is usually a foaf:Person or"
+          + " foaf:Agent, but could be any type.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getContributor();
 
-    @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    @OslcTitle("")
-    public Set<String> getSubject();
+  @OslcName("created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcDescription("Timestamp of resource creation")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getCreated();
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcDescription(
+      "Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent,"
+          + " but could be any type")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getCreator();
 
-    @OslcName("configurations")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configurations")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getConfigurations();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcDescription(
+      "A unique identifier for a resource. Typically read-only and assigned by the service provider"
+          + " when a resource is created. Not typically intended for end-user display.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("instanceShape")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getInstanceShape();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcDescription(
+      "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
+          + " only content that is valid and suitable inside an XHTML <div> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("modifiedBy")
-    @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
-    @OslcDescription("The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.AGENT_TYPE, FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getModifiedBy();
+  @OslcName("modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcDescription("Timestamp of latest resource modification")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getModified();
 
-    @OslcName("serviceProvider")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getServiceProvider();
+  @OslcName("subject")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
+  @OslcDescription(
+      "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an"
+          + " additional tag for the resource.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  @OslcTitle("")
+  public Set<String> getSubject();
 
-    @OslcName("shortId")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortId")
-    @OslcDescription("Shorter form of dcterms:identifier for the resource, such as a number.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getShortId();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcDescription(
+      "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
+          + " that is valid inside an XHTML <span> element.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
-    @OslcName("shortTitle")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getShortTitle();
+  @OslcName("configurations")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configurations")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getConfigurations();
 
+  @OslcName("instanceShape")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcDescription(
+      "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
+          + " allowed values and labels. This shape information is useful in displaying the subject"
+          + " resource as well as guiding clients in performing modifications. Instance shapes may"
+          + " be specific to the authenticated user associated with the request that retrieved the"
+          + " resource, the current state of the resource and other factors and thus should not be"
+          + " cached.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getInstanceShape();
 
-    public void setContributor(final Set<Link> contributor );
-    public void setCreated(final Date created );
-    public void setCreator(final Set<Link> creator );
-    public void setIdentifier(final String identifier );
-    public void setDescription(final String description );
-    public void setModified(final Date modified );
-    public void setSubject(final Set<String> subject );
-    public void setTitle(final String title );
-    public void setConfigurations(final Link configurations );
-    public void setInstanceShape(final Set<Link> instanceShape );
-    public void setModifiedBy(final Set<Link> modifiedBy );
-    public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setShortId(final String shortId );
-    public void setShortTitle(final String shortTitle );
+  @OslcName("modifiedBy")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
+  @OslcDescription(
+      "The entity that most recently modified the subject resource. The link target is usually a"
+          + " foaf:Person or foaf:Agent, but could be any type.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.AGENT_TYPE, FoafDomainConstants.PERSON_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getModifiedBy();
+
+  @OslcName("serviceProvider")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcDescription(
+      "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
+          + " is available from a service provider that implements multiple domain specifications,"
+          + " which could result in multiple values for this property.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getServiceProvider();
+
+  @OslcName("shortId")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortId")
+  @OslcDescription("Shorter form of dcterms:identifier for the resource, such as a number.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getShortId();
+
+  @OslcName("shortTitle")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+  @OslcDescription(
+      "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
+          + " SHOULD include only content that is valid inside an XHTML <span> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getShortTitle();
+
+  public void setContributor(final Set<Link> contributor);
+
+  public void setCreated(final Date created);
+
+  public void setCreator(final Set<Link> creator);
+
+  public void setIdentifier(final String identifier);
+
+  public void setDescription(final String description);
+
+  public void setModified(final Date modified);
+
+  public void setSubject(final Set<String> subject);
+
+  public void setTitle(final String title);
+
+  public void setConfigurations(final Link configurations);
+
+  public void setInstanceShape(final Set<Link> instanceShape);
+
+  public void setModifiedBy(final Set<Link> modifiedBy);
+
+  public void setServiceProvider(final Set<Link> serviceProvider);
+
+  public void setShortId(final String shortId);
+
+  public void setShortTitle(final String shortTitle);
 }
-

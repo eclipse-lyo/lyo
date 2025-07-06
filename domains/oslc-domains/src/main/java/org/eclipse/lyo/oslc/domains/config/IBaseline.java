@@ -71,61 +71,74 @@ import org.eclipse.lyo.oslc.domains.config.ISelections;
 
 @OslcNamespace(Oslc_configDomainConstants.BASELINE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.BASELINE_LOCALNAME)
-@OslcResourceShape(title = "The shape of a baseline. Properties of a baseline defined in this specification must be read-only unless stated otherwise", description = "", describes = Oslc_configDomainConstants.BASELINE_TYPE)
-public interface IBaseline
-{
+@OslcResourceShape(
+    title =
+        "The shape of a baseline. Properties of a baseline defined in this specification must be"
+            + " read-only unless stated otherwise",
+    description = "",
+    describes = Oslc_configDomainConstants.BASELINE_TYPE)
+public interface IBaseline {
 
-    public void addCommitter(final Link committer );
-    public void addWasDerivedFrom(final Link wasDerivedFrom );
+  public void addCommitter(final Link committer);
 
-    @OslcName("baselineOfStream")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getBaselineOfStream();
+  public void addWasDerivedFrom(final Link wasDerivedFrom);
 
-    @OslcName("committed")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
-    @OslcDescription("Date and time this version resource was checked in. Absent for mutable (checked out) versions.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCommitted();
+  @OslcName("baselineOfStream")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getBaselineOfStream();
 
-    @OslcName("committer")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
-    @OslcDescription("The entity that checked in this version.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
-    @OslcReadOnly(true)
-    public Set<Link> getCommitter();
+  @OslcName("committed")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
+  @OslcDescription(
+      "Date and time this version resource was checked in. Absent for mutable (checked out)"
+          + " versions.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getCommitted();
 
-    @OslcName("previousBaseline")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getPreviousBaseline();
+  @OslcName("committer")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
+  @OslcDescription("The entity that checked in this version.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
+  @OslcReadOnly(true)
+  public Set<Link> getCommitter();
 
-    @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
-    @OslcDescription("")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom();
+  @OslcName("previousBaseline")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getPreviousBaseline();
 
+  @OslcName("wasDerivedFrom")
+  @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
+  @OslcDescription("")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getWasDerivedFrom();
 
-    public void setBaselineOfStream(final Link baselineOfStream );
-    public void setCommitted(final Date committed );
-    public void setCommitter(final Set<Link> committer );
-    public void setPreviousBaseline(final Link previousBaseline );
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom );
+  public void setBaselineOfStream(final Link baselineOfStream);
+
+  public void setCommitted(final Date committed);
+
+  public void setCommitter(final Set<Link> committer);
+
+  public void setPreviousBaseline(final Link previousBaseline);
+
+  public void setWasDerivedFrom(final Set<Link> wasDerivedFrom);
 }
-

@@ -24,12 +24,10 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 // End of user code
 // spotless:on
 
-public interface OsclVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public interface OsclVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    public static String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
-    public static String OSLC_CORE_NAMSPACE_PREFIX = "oscl";
-
+  public static String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
+  public static String OSLC_CORE_NAMSPACE_PREFIX = "oscl";
 }

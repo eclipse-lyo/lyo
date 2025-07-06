@@ -72,50 +72,53 @@ import org.eclipse.lyo.oslc.domains.config.ISelections;
 @OslcNamespace(Oslc_configDomainConstants.STREAM_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.STREAM_LOCALNAME)
 @OslcResourceShape(title = "Stream Shape", describes = Oslc_configDomainConstants.STREAM_TYPE)
-public interface IStream
-{
+public interface IStream {
 
-    public void addAccepts(final Link accepts );
-    public void addWasDerivedFrom(final Link wasDerivedFrom );
+  public void addAccepts(final Link accepts);
 
-    @OslcName("accepts")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getAccepts();
+  public void addWasDerivedFrom(final Link wasDerivedFrom);
 
-    @OslcName("baselines")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselines")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getBaselines();
+  @OslcName("accepts")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getAccepts();
 
-    @OslcName("previousBaseline")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getPreviousBaseline();
+  @OslcName("baselines")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselines")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getBaselines();
 
-    @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
-    @OslcDescription("")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom();
+  @OslcName("previousBaseline")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getPreviousBaseline();
 
+  @OslcName("wasDerivedFrom")
+  @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
+  @OslcDescription("")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getWasDerivedFrom();
 
-    public void setAccepts(final Set<Link> accepts );
-    public void setBaselines(final Link baselines );
-    public void setPreviousBaseline(final Link previousBaseline );
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom );
+  public void setAccepts(final Set<Link> accepts);
+
+  public void setBaselines(final Link baselines);
+
+  public void setPreviousBaseline(final Link previousBaseline);
+
+  public void setWasDerivedFrom(final Set<Link> wasDerivedFrom);
 }
-

@@ -64,40 +64,46 @@ import org.eclipse.lyo.oslc.domains.promcode.IMeasure;
 
 @OslcNamespace(Oslc_promcodeDomainConstants.ARTIFACT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ARTIFACT_LOCALNAME)
-@OslcResourceShape(title = "Artifact Shape", description = "Shape resource of an Artifact resource.", describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
-public interface IArtifact
-{
+@OslcResourceShape(
+    title = "Artifact Shape",
+    description = "Shape resource of an Artifact resource.",
+    describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
+public interface IArtifact {
 
-    public void addProducedFor(final String producedFor );
-    public void addTargets(final Link targets );
+  public void addProducedFor(final String producedFor);
 
-    @OslcName("isPartOf")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
-    @OslcReadOnly(false)
-    public Link getIsPartOf();
+  public void addTargets(final Link targets);
 
-    @OslcName("producedFor")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Set<String> getProducedFor();
+  @OslcName("isPartOf")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+  @OslcReadOnly(false)
+  public Link getIsPartOf();
 
-    @OslcName("targets")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "targets")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getTargets();
+  @OslcName("producedFor")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.String)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<String> getProducedFor();
 
+  @OslcName("targets")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "targets")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getTargets();
 
-    public void setIsPartOf(final Link isPartOf );
-    public void setProducedFor(final Set<String> producedFor );
-    public void setTargets(final Set<Link> targets );
+  public void setIsPartOf(final Link isPartOf);
+
+  public void setProducedFor(final Set<String> producedFor);
+
+  public void setTargets(final Set<Link> targets);
 }
-

@@ -74,217 +74,202 @@ import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASUREMENT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASUREMENT_LOCALNAME)
-@OslcResourceShape(title = "Measurement Shape", description = "A measurement measures some aspect of an artifact at some point in time.", describes = Oslc_promcodeDomainConstants.MEASUREMENT_TYPE)
-public class Measurement
-    extends AbstractResource
-    implements IMeasurement
-{
-    // Start of user code attributeAnnotation:date
+@OslcResourceShape(
+    title = "Measurement Shape",
+    description = "A measurement measures some aspect of an artifact at some point in time.",
+    describes = Oslc_promcodeDomainConstants.MEASUREMENT_TYPE)
+public class Measurement extends AbstractResource implements IMeasurement {
+  // Start of user code attributeAnnotation:date
+  // End of user code
+  private Date date;
+  // Start of user code attributeAnnotation:description
+  // End of user code
+  private String description;
+  // Start of user code attributeAnnotation:identifier
+  // End of user code
+  private String identifier;
+  // Start of user code attributeAnnotation:measures
+  // End of user code
+  private Link measures;
+  // Start of user code attributeAnnotation:observes
+  // End of user code
+  private Set<Measure> observes = new HashSet<Measure>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Measurement() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Date date;
-    // Start of user code attributeAnnotation:description
+  }
+
+  public Measurement(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
-    // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:measures
-    // End of user code
-    private Link measures;
-    // Start of user code attributeAnnotation:observes
-    // End of user code
-    private Set<Measure> observes = new HashSet<Measure>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Measurement()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Measurement(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.MEASUREMENT_PATH,
         Measurement.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Measurement Resource} - update Measurement.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addObserves(final Measure observes)
-    {
-        this.observes.add(observes);
-    }
-    
-    
-    // Start of user code getterAnnotation:date
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("date")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getDate()
-    {
-        // Start of user code getterInit:date
-        // End of user code
-        return date;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Measurement Resource} - update Measurement.toString() to present resource"
+              + " as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:description
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
 
-    // Start of user code getterAnnotation:identifier
+    return result;
+  }
+
+  public void addObserves(final Measure observes) {
+    this.observes.add(observes);
+  }
+
+  // Start of user code getterAnnotation:date
+  // End of user code
+  @OslcName("date")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "date")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getDate() {
+    // Start of user code getterInit:date
     // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
+    return date;
+  }
 
-    // Start of user code getterAnnotation:measures
+  // Start of user code getterAnnotation:description
+  // End of user code
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription() {
+    // Start of user code getterInit:description
     // End of user code
-    @OslcName("measures")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "measures")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
-    @OslcReadOnly(false)
-    public Link getMeasures()
-    {
-        // Start of user code getterInit:measures
-        // End of user code
-        return measures;
-    }
+    return description;
+  }
 
-    // Start of user code getterAnnotation:observes
+  // Start of user code getterAnnotation:identifier
+  // End of user code
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier() {
+    // Start of user code getterInit:identifier
     // End of user code
-    @OslcName("observes")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "observes")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Inline)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Measure> getObserves()
-    {
-        // Start of user code getterInit:observes
-        // End of user code
-        return observes;
-    }
+    return identifier;
+  }
 
-    // Start of user code setterAnnotation:date
+  // Start of user code getterAnnotation:measures
+  // End of user code
+  @OslcName("measures")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "measures")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+  @OslcReadOnly(false)
+  public Link getMeasures() {
+    // Start of user code getterInit:measures
     // End of user code
-    public void setDate(final Date date )
-    {
-        // Start of user code setterInit:date
-        // End of user code
-        this.date = date;
-        // Start of user code setterFinalize:date
-        // End of user code
-    }
+    return measures;
+  }
 
-    // Start of user code setterAnnotation:description
+  // Start of user code getterAnnotation:observes
+  // End of user code
+  @OslcName("observes")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "observes")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Inline)
+  @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
+  @OslcReadOnly(false)
+  public Set<Measure> getObserves() {
+    // Start of user code getterInit:observes
     // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
+    return observes;
+  }
 
-    // Start of user code setterAnnotation:identifier
+  // Start of user code setterAnnotation:date
+  // End of user code
+  public void setDate(final Date date) {
+    // Start of user code setterInit:date
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:measures
+    this.date = date;
+    // Start of user code setterFinalize:date
     // End of user code
-    public void setMeasures(final Link measures )
-    {
-        // Start of user code setterInit:measures
-        // End of user code
-        this.measures = measures;
-        // Start of user code setterFinalize:measures
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:observes
+  // Start of user code setterAnnotation:description
+  // End of user code
+  public void setDescription(final String description) {
+    // Start of user code setterInit:description
     // End of user code
-    public void setObserves(final Set<Measure> observes )
-    {
-        // Start of user code setterInit:observes
-        // End of user code
-        this.observes.clear();
-        if (observes != null)
-        {
-            this.observes.addAll(observes);
-        }
-        // Start of user code setterFinalize:observes
-        // End of user code
-    }
+    this.description = description;
+    // Start of user code setterFinalize:description
+    // End of user code
+  }
 
+  // Start of user code setterAnnotation:identifier
+  // End of user code
+  public void setIdentifier(final String identifier) {
+    // Start of user code setterInit:identifier
+    // End of user code
+    this.identifier = identifier;
+    // Start of user code setterFinalize:identifier
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:measures
+  // End of user code
+  public void setMeasures(final Link measures) {
+    // Start of user code setterInit:measures
+    // End of user code
+    this.measures = measures;
+    // Start of user code setterFinalize:measures
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:observes
+  // End of user code
+  public void setObserves(final Set<Measure> observes) {
+    // Start of user code setterInit:observes
+    // End of user code
+    this.observes.clear();
+    if (observes != null) {
+      this.observes.addAll(observes);
+    }
+    // Start of user code setterFinalize:observes
+    // End of user code
+  }
 }

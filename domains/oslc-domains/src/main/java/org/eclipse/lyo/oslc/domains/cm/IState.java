@@ -60,10 +60,4 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 @OslcNamespace(Oslc_cmDomainConstants.STATE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.STATE_LOCALNAME)
 @OslcResourceShape(title = "State Shape", describes = Oslc_cmDomainConstants.STATE_TYPE)
-public interface IState
-{
-
-
-
-}
-
+public interface IState {}

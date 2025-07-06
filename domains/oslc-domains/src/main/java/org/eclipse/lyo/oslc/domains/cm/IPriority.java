@@ -60,10 +60,4 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 @OslcNamespace(Oslc_cmDomainConstants.PRIORITY_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.PRIORITY_LOCALNAME)
 @OslcResourceShape(title = "Priority Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
-public interface IPriority
-{
-
-
-
-}
-
+public interface IPriority {}

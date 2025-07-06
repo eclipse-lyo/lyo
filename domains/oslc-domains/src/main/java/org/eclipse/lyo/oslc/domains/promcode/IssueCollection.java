@@ -77,132 +77,126 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.ISSUECOLLECTION_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ISSUECOLLECTION_LOCALNAME)
-@OslcResourceShape(title = "IssueCollection Shape", description = "An IssueCollection is a resource which is a subclass of ManagedItemCollection. An IssueCollection only collects Issues. All of Issues raised in a project should be collected by an IssueCollection.", describes = Oslc_promcodeDomainConstants.ISSUECOLLECTION_TYPE)
-public class IssueCollection
-    extends ManagedItemCollection
-    implements IIssueCollection
-{
-    // Start of user code attributeAnnotation:oslc_promcodeBelongsTo
+@OslcResourceShape(
+    title = "IssueCollection Shape",
+    description =
+        "An IssueCollection is a resource which is a subclass of ManagedItemCollection. An"
+            + " IssueCollection only collects Issues. All of Issues raised in a project should be"
+            + " collected by an IssueCollection.",
+    describes = Oslc_promcodeDomainConstants.ISSUECOLLECTION_TYPE)
+public class IssueCollection extends ManagedItemCollection implements IIssueCollection {
+  // Start of user code attributeAnnotation:oslc_promcodeBelongsTo
+  // End of user code
+  private Link oslc_promcodeBelongsTo;
+  // Start of user code attributeAnnotation:oslc_promcodeCollects
+  // End of user code
+  private Set<Link> oslc_promcodeCollects = new HashSet<Link>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public IssueCollection() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Link oslc_promcodeBelongsTo;
-    // Start of user code attributeAnnotation:oslc_promcodeCollects
+  }
+
+  public IssueCollection(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Set<Link> oslc_promcodeCollects = new HashSet<Link>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public IssueCollection()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public IssueCollection(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.ISSUECOLLECTION_PATH,
         IssueCollection.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local IssueCollection Resource} - update IssueCollection.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addOslc_promcodeCollects(final Link collects)
-    {
-        this.oslc_promcodeCollects.add(collects);
-    }
-    
-    
-    // Start of user code getterAnnotation:oslc_promcodeBelongsTo
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("belongsTo")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
-    @OslcReadOnly(false)
-    public Link getOslc_promcodeBelongsTo()
-    {
-        // Start of user code getterInit:oslc_promcodeBelongsTo
-        // End of user code
-        return oslc_promcodeBelongsTo;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local IssueCollection Resource} - update IssueCollection.toString() to present"
+              + " resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:oslc_promcodeCollects
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("collects")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ISSUE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getOslc_promcodeCollects()
-    {
-        // Start of user code getterInit:oslc_promcodeCollects
-        // End of user code
-        return oslc_promcodeCollects;
-    }
 
-    // Start of user code setterAnnotation:oslc_promcodeBelongsTo
+    return result;
+  }
+
+  public void addOslc_promcodeCollects(final Link collects) {
+    this.oslc_promcodeCollects.add(collects);
+  }
+
+  // Start of user code getterAnnotation:oslc_promcodeBelongsTo
+  // End of user code
+  @OslcName("belongsTo")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
+  @OslcReadOnly(false)
+  public Link getOslc_promcodeBelongsTo() {
+    // Start of user code getterInit:oslc_promcodeBelongsTo
     // End of user code
-    public void setOslc_promcodeBelongsTo(final Link belongsTo )
-    {
-        // Start of user code setterInit:oslc_promcodeBelongsTo
-        // End of user code
-        this.oslc_promcodeBelongsTo = belongsTo;
-        // Start of user code setterFinalize:oslc_promcodeBelongsTo
-        // End of user code
-    }
+    return oslc_promcodeBelongsTo;
+  }
 
-    // Start of user code setterAnnotation:oslc_promcodeCollects
+  // Start of user code getterAnnotation:oslc_promcodeCollects
+  // End of user code
+  @OslcName("collects")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.ISSUE_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getOslc_promcodeCollects() {
+    // Start of user code getterInit:oslc_promcodeCollects
     // End of user code
-    public void setOslc_promcodeCollects(final Set<Link> collects )
-    {
-        // Start of user code setterInit:oslc_promcodeCollects
-        // End of user code
-        this.oslc_promcodeCollects.clear();
-        if (collects != null)
-        {
-            this.oslc_promcodeCollects.addAll(collects);
-        }
-        // Start of user code setterFinalize:oslc_promcodeCollects
-        // End of user code
-    }
+    return oslc_promcodeCollects;
+  }
 
+  // Start of user code setterAnnotation:oslc_promcodeBelongsTo
+  // End of user code
+  public void setOslc_promcodeBelongsTo(final Link belongsTo) {
+    // Start of user code setterInit:oslc_promcodeBelongsTo
+    // End of user code
+    this.oslc_promcodeBelongsTo = belongsTo;
+    // Start of user code setterFinalize:oslc_promcodeBelongsTo
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:oslc_promcodeCollects
+  // End of user code
+  public void setOslc_promcodeCollects(final Set<Link> collects) {
+    // Start of user code setterInit:oslc_promcodeCollects
+    // End of user code
+    this.oslc_promcodeCollects.clear();
+    if (collects != null) {
+      this.oslc_promcodeCollects.addAll(collects);
+    }
+    // Start of user code setterFinalize:oslc_promcodeCollects
+    // End of user code
+  }
 }

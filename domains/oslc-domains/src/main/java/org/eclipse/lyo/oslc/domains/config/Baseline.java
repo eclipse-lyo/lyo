@@ -81,231 +81,222 @@ import org.eclipse.lyo.oslc.domains.config.Selections;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.BASELINE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.BASELINE_LOCALNAME)
-@OslcResourceShape(title = "The shape of a baseline. Properties of a baseline defined in this specification must be read-only unless stated otherwise", description = "", describes = Oslc_configDomainConstants.BASELINE_TYPE)
-public class Baseline
-    extends Configuration
-    implements IBaseline
-{
-    // Start of user code attributeAnnotation:baselineOfStream
+@OslcResourceShape(
+    title =
+        "The shape of a baseline. Properties of a baseline defined in this specification must be"
+            + " read-only unless stated otherwise",
+    description = "",
+    describes = Oslc_configDomainConstants.BASELINE_TYPE)
+public class Baseline extends Configuration implements IBaseline {
+  // Start of user code attributeAnnotation:baselineOfStream
+  // End of user code
+  private Link baselineOfStream;
+  // Start of user code attributeAnnotation:committed
+  // End of user code
+  private Date committed;
+  // Start of user code attributeAnnotation:committer
+  // End of user code
+  private Set<Link> committer = new HashSet<Link>();
+  // Start of user code attributeAnnotation:previousBaseline
+  // End of user code
+  private Link previousBaseline;
+  // Start of user code attributeAnnotation:wasDerivedFrom
+  // End of user code
+  private Set<Link> wasDerivedFrom = new HashSet<Link>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Baseline() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Link baselineOfStream;
-    // Start of user code attributeAnnotation:committed
+  }
+
+  public Baseline(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Date committed;
-    // Start of user code attributeAnnotation:committer
-    // End of user code
-    private Set<Link> committer = new HashSet<Link>();
-    // Start of user code attributeAnnotation:previousBaseline
-    // End of user code
-    private Link previousBaseline;
-    // Start of user code attributeAnnotation:wasDerivedFrom
-    // End of user code
-    private Set<Link> wasDerivedFrom = new HashSet<Link>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Baseline()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Baseline(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.BASELINE_PATH,
         Baseline.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Baseline Resource} - update Baseline.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addCommitter(final Link committer)
-    {
-        this.committer.add(committer);
-    }
-    
-    public void addWasDerivedFrom(final Link wasDerivedFrom)
-    {
-        this.wasDerivedFrom.add(wasDerivedFrom);
-    }
-    
-    
-    // Start of user code getterAnnotation:baselineOfStream
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("baselineOfStream")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getBaselineOfStream()
-    {
-        // Start of user code getterInit:baselineOfStream
-        // End of user code
-        return baselineOfStream;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Baseline Resource} - update Baseline.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:committed
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("committed")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
-    @OslcDescription("Date and time this version resource was checked in. Absent for mutable (checked out) versions.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCommitted()
-    {
-        // Start of user code getterInit:committed
-        // End of user code
-        return committed;
-    }
 
-    // Start of user code getterAnnotation:committer
+    return result;
+  }
+
+  public void addCommitter(final Link committer) {
+    this.committer.add(committer);
+  }
+
+  public void addWasDerivedFrom(final Link wasDerivedFrom) {
+    this.wasDerivedFrom.add(wasDerivedFrom);
+  }
+
+  // Start of user code getterAnnotation:baselineOfStream
+  // End of user code
+  @OslcName("baselineOfStream")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselineOfStream")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getBaselineOfStream() {
+    // Start of user code getterInit:baselineOfStream
     // End of user code
-    @OslcName("committer")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
-    @OslcDescription("The entity that checked in this version.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
-    @OslcReadOnly(true)
-    public Set<Link> getCommitter()
-    {
-        // Start of user code getterInit:committer
-        // End of user code
-        return committer;
-    }
+    return baselineOfStream;
+  }
 
-    // Start of user code getterAnnotation:previousBaseline
+  // Start of user code getterAnnotation:committed
+  // End of user code
+  @OslcName("committed")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committed")
+  @OslcDescription(
+      "Date and time this version resource was checked in. Absent for mutable (checked out)"
+          + " versions.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getCommitted() {
+    // Start of user code getterInit:committed
     // End of user code
-    @OslcName("previousBaseline")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getPreviousBaseline()
-    {
-        // Start of user code getterInit:previousBaseline
-        // End of user code
-        return previousBaseline;
-    }
+    return committed;
+  }
 
-    // Start of user code getterAnnotation:wasDerivedFrom
+  // Start of user code getterAnnotation:committer
+  // End of user code
+  @OslcName("committer")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "committer")
+  @OslcDescription("The entity that checked in this version.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE, FoafDomainConstants.AGENT_TYPE})
+  @OslcReadOnly(true)
+  public Set<Link> getCommitter() {
+    // Start of user code getterInit:committer
     // End of user code
-    @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
-    @OslcDescription("")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom()
-    {
-        // Start of user code getterInit:wasDerivedFrom
-        // End of user code
-        return wasDerivedFrom;
-    }
+    return committer;
+  }
 
-    // Start of user code setterAnnotation:baselineOfStream
+  // Start of user code getterAnnotation:previousBaseline
+  // End of user code
+  @OslcName("previousBaseline")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getPreviousBaseline() {
+    // Start of user code getterInit:previousBaseline
     // End of user code
-    public void setBaselineOfStream(final Link baselineOfStream )
-    {
-        // Start of user code setterInit:baselineOfStream
-        // End of user code
-        this.baselineOfStream = baselineOfStream;
-        // Start of user code setterFinalize:baselineOfStream
-        // End of user code
-    }
+    return previousBaseline;
+  }
 
-    // Start of user code setterAnnotation:committed
+  // Start of user code getterAnnotation:wasDerivedFrom
+  // End of user code
+  @OslcName("wasDerivedFrom")
+  @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
+  @OslcDescription("")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getWasDerivedFrom() {
+    // Start of user code getterInit:wasDerivedFrom
     // End of user code
-    public void setCommitted(final Date committed )
-    {
-        // Start of user code setterInit:committed
-        // End of user code
-        this.committed = committed;
-        // Start of user code setterFinalize:committed
-        // End of user code
-    }
+    return wasDerivedFrom;
+  }
 
-    // Start of user code setterAnnotation:committer
+  // Start of user code setterAnnotation:baselineOfStream
+  // End of user code
+  public void setBaselineOfStream(final Link baselineOfStream) {
+    // Start of user code setterInit:baselineOfStream
     // End of user code
-    public void setCommitter(final Set<Link> committer )
-    {
-        // Start of user code setterInit:committer
-        // End of user code
-        this.committer.clear();
-        if (committer != null)
-        {
-            this.committer.addAll(committer);
-        }
-        // Start of user code setterFinalize:committer
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:previousBaseline
+    this.baselineOfStream = baselineOfStream;
+    // Start of user code setterFinalize:baselineOfStream
     // End of user code
-    public void setPreviousBaseline(final Link previousBaseline )
-    {
-        // Start of user code setterInit:previousBaseline
-        // End of user code
-        this.previousBaseline = previousBaseline;
-        // Start of user code setterFinalize:previousBaseline
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:wasDerivedFrom
+  // Start of user code setterAnnotation:committed
+  // End of user code
+  public void setCommitted(final Date committed) {
+    // Start of user code setterInit:committed
     // End of user code
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom )
-    {
-        // Start of user code setterInit:wasDerivedFrom
-        // End of user code
-        this.wasDerivedFrom.clear();
-        if (wasDerivedFrom != null)
-        {
-            this.wasDerivedFrom.addAll(wasDerivedFrom);
-        }
-        // Start of user code setterFinalize:wasDerivedFrom
-        // End of user code
-    }
+    this.committed = committed;
+    // Start of user code setterFinalize:committed
+    // End of user code
+  }
 
+  // Start of user code setterAnnotation:committer
+  // End of user code
+  public void setCommitter(final Set<Link> committer) {
+    // Start of user code setterInit:committer
+    // End of user code
+    this.committer.clear();
+    if (committer != null) {
+      this.committer.addAll(committer);
+    }
+    // Start of user code setterFinalize:committer
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:previousBaseline
+  // End of user code
+  public void setPreviousBaseline(final Link previousBaseline) {
+    // Start of user code setterInit:previousBaseline
+    // End of user code
+    this.previousBaseline = previousBaseline;
+    // Start of user code setterFinalize:previousBaseline
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:wasDerivedFrom
+  // End of user code
+  public void setWasDerivedFrom(final Set<Link> wasDerivedFrom) {
+    // Start of user code setterInit:wasDerivedFrom
+    // End of user code
+    this.wasDerivedFrom.clear();
+    if (wasDerivedFrom != null) {
+      this.wasDerivedFrom.addAll(wasDerivedFrom);
+    }
+    // Start of user code setterFinalize:wasDerivedFrom
+    // End of user code
+  }
 }

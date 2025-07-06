@@ -76,267 +76,256 @@ import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_autoDomainConstants.PARAMETERINSTANCE_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.PARAMETERINSTANCE_LOCALNAME)
-@OslcResourceShape(title = "ParameterInstance Shape", describes = Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE)
-public class ParameterInstance
-    extends AbstractResource
-    implements IParameterInstance
-{
-    // Start of user code attributeAnnotation:name
+@OslcResourceShape(
+    title = "ParameterInstance Shape",
+    describes = Oslc_autoDomainConstants.PARAMETERINSTANCE_TYPE)
+public class ParameterInstance extends AbstractResource implements IParameterInstance {
+  // Start of user code attributeAnnotation:name
+  // End of user code
+  private String name;
+  // Start of user code attributeAnnotation:value
+  // End of user code
+  private String value;
+  // Start of user code attributeAnnotation:description
+  // End of user code
+  private String description;
+  // Start of user code attributeAnnotation:type
+  // End of user code
+  private Set<Link> type = new HashSet<Link>();
+  // Start of user code attributeAnnotation:instanceShape
+  // End of user code
+  private Set<Link> instanceShape = new HashSet<Link>();
+  // Start of user code attributeAnnotation:serviceProvider
+  // End of user code
+  private Set<Link> serviceProvider = new HashSet<Link>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public ParameterInstance() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private String name;
-    // Start of user code attributeAnnotation:value
+  }
+
+  public ParameterInstance(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private String value;
-    // Start of user code attributeAnnotation:description
-    // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:type
-    // End of user code
-    private Set<Link> type = new HashSet<Link>();
-    // Start of user code attributeAnnotation:instanceShape
-    // End of user code
-    private Set<Link> instanceShape = new HashSet<Link>();
-    // Start of user code attributeAnnotation:serviceProvider
-    // End of user code
-    private Set<Link> serviceProvider = new HashSet<Link>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public ParameterInstance()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public ParameterInstance(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_autoDomainConstants.PARAMETERINSTANCE_PATH,
         ParameterInstance.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local ParameterInstance Resource} - update ParameterInstance.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addType(final Link type)
-    {
-        this.type.add(type);
-    }
-    
-    public void addInstanceShape(final Link instanceShape)
-    {
-        this.instanceShape.add(instanceShape);
-    }
-    
-    public void addServiceProvider(final Link serviceProvider)
-    {
-        this.serviceProvider.add(serviceProvider);
-    }
-    
-    
-    // Start of user code getterAnnotation:name
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
-    @OslcDescription("The full name of a person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getName()
-    {
-        // Start of user code getterInit:name
-        // End of user code
-        return name;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local ParameterInstance Resource} - update ParameterInstance.toString() to"
+              + " present resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:value
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("value")
-    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "value")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getValue()
-    {
-        // Start of user code getterInit:value
-        // End of user code
-        return value;
-    }
 
-    // Start of user code getterAnnotation:description
+    return result;
+  }
+
+  public void addType(final Link type) {
+    this.type.add(type);
+  }
+
+  public void addInstanceShape(final Link instanceShape) {
+    this.instanceShape.add(instanceShape);
+  }
+
+  public void addServiceProvider(final Link serviceProvider) {
+    this.serviceProvider.add(serviceProvider);
+  }
+
+  // Start of user code getterAnnotation:name
+  // End of user code
+  @OslcName("name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcDescription("The full name of a person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getName() {
+    // Start of user code getterInit:name
     // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
-    }
+    return name;
+  }
 
-    // Start of user code getterAnnotation:type
+  // Start of user code getterAnnotation:value
+  // End of user code
+  @OslcName("value")
+  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "value")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getValue() {
+    // Start of user code getterInit:value
     // End of user code
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType()
-    {
-        // Start of user code getterInit:type
-        // End of user code
-        return type;
-    }
+    return value;
+  }
 
-    // Start of user code getterAnnotation:instanceShape
+  // Start of user code getterAnnotation:description
+  // End of user code
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcDescription(
+      "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
+          + " only content that is valid and suitable inside an XHTML <div> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription() {
+    // Start of user code getterInit:description
     // End of user code
-    @OslcName("instanceShape")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getInstanceShape()
-    {
-        // Start of user code getterInit:instanceShape
-        // End of user code
-        return instanceShape;
-    }
+    return description;
+  }
 
-    // Start of user code getterAnnotation:serviceProvider
+  // Start of user code getterAnnotation:type
+  // End of user code
+  @OslcName("type")
+  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
+  @OslcDescription("The resource type URIs")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Set<Link> getType() {
+    // Start of user code getterInit:type
     // End of user code
-    @OslcName("serviceProvider")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getServiceProvider()
-    {
-        // Start of user code getterInit:serviceProvider
-        // End of user code
-        return serviceProvider;
-    }
+    return type;
+  }
 
-    // Start of user code setterAnnotation:name
+  // Start of user code getterAnnotation:instanceShape
+  // End of user code
+  @OslcName("instanceShape")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcDescription(
+      "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
+          + " allowed values and labels. This shape information is useful in displaying the subject"
+          + " resource as well as guiding clients in performing modifications. Instance shapes may"
+          + " be specific to the authenticated user associated with the request that retrieved the"
+          + " resource, the current state of the resource and other factors and thus should not be"
+          + " cached.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getInstanceShape() {
+    // Start of user code getterInit:instanceShape
     // End of user code
-    public void setName(final String name )
-    {
-        // Start of user code setterInit:name
-        // End of user code
-        this.name = name;
-        // Start of user code setterFinalize:name
-        // End of user code
-    }
+    return instanceShape;
+  }
 
-    // Start of user code setterAnnotation:value
+  // Start of user code getterAnnotation:serviceProvider
+  // End of user code
+  @OslcName("serviceProvider")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcDescription(
+      "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
+          + " is available from a service provider that implements multiple domain specifications,"
+          + " which could result in multiple values for this property.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getServiceProvider() {
+    // Start of user code getterInit:serviceProvider
     // End of user code
-    public void setValue(final String value )
-    {
-        // Start of user code setterInit:value
-        // End of user code
-        this.value = value;
-        // Start of user code setterFinalize:value
-        // End of user code
-    }
+    return serviceProvider;
+  }
 
-    // Start of user code setterAnnotation:description
+  // Start of user code setterAnnotation:name
+  // End of user code
+  public void setName(final String name) {
+    // Start of user code setterInit:name
     // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:type
+    this.name = name;
+    // Start of user code setterFinalize:name
     // End of user code
-    public void setType(final Set<Link> type )
-    {
-        // Start of user code setterInit:type
-        // End of user code
-        this.type.clear();
-        if (type != null)
-        {
-            this.type.addAll(type);
-        }
-        // Start of user code setterFinalize:type
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:instanceShape
+  // Start of user code setterAnnotation:value
+  // End of user code
+  public void setValue(final String value) {
+    // Start of user code setterInit:value
     // End of user code
-    public void setInstanceShape(final Set<Link> instanceShape )
-    {
-        // Start of user code setterInit:instanceShape
-        // End of user code
-        this.instanceShape.clear();
-        if (instanceShape != null)
-        {
-            this.instanceShape.addAll(instanceShape);
-        }
-        // Start of user code setterFinalize:instanceShape
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:serviceProvider
+    this.value = value;
+    // Start of user code setterFinalize:value
     // End of user code
-    public void setServiceProvider(final Set<Link> serviceProvider )
-    {
-        // Start of user code setterInit:serviceProvider
-        // End of user code
-        this.serviceProvider.clear();
-        if (serviceProvider != null)
-        {
-            this.serviceProvider.addAll(serviceProvider);
-        }
-        // Start of user code setterFinalize:serviceProvider
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:description
+  // End of user code
+  public void setDescription(final String description) {
+    // Start of user code setterInit:description
+    // End of user code
+    this.description = description;
+    // Start of user code setterFinalize:description
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:type
+  // End of user code
+  public void setType(final Set<Link> type) {
+    // Start of user code setterInit:type
+    // End of user code
+    this.type.clear();
+    if (type != null) {
+      this.type.addAll(type);
+    }
+    // Start of user code setterFinalize:type
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:instanceShape
+  // End of user code
+  public void setInstanceShape(final Set<Link> instanceShape) {
+    // Start of user code setterInit:instanceShape
+    // End of user code
+    this.instanceShape.clear();
+    if (instanceShape != null) {
+      this.instanceShape.addAll(instanceShape);
+    }
+    // Start of user code setterFinalize:instanceShape
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:serviceProvider
+  // End of user code
+  public void setServiceProvider(final Set<Link> serviceProvider) {
+    // Start of user code setterInit:serviceProvider
+    // End of user code
+    this.serviceProvider.clear();
+    if (serviceProvider != null) {
+      this.serviceProvider.addAll(serviceProvider);
+    }
+    // Start of user code setterFinalize:serviceProvider
+    // End of user code
+  }
 }

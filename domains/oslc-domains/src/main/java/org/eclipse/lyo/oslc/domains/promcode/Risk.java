@@ -78,298 +78,279 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 @OslcNamespace(Oslc_promcodeDomainConstants.RISK_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISK_LOCALNAME)
 @OslcResourceShape(title = "Risk Shape", describes = Oslc_promcodeDomainConstants.RISK_TYPE)
-public class Risk
-    extends AbstractResource
-    implements IRisk
-{
-    // Start of user code attributeAnnotation:description
+public class Risk extends AbstractResource implements IRisk {
+  // Start of user code attributeAnnotation:description
+  // End of user code
+  private String description;
+  // Start of user code attributeAnnotation:identifier
+  // End of user code
+  private String identifier;
+  // Start of user code attributeAnnotation:source
+  // End of user code
+  private String source;
+  // Start of user code attributeAnnotation:title
+  // End of user code
+  private String title;
+  // Start of user code attributeAnnotation:identifiedBy
+  // End of user code
+  private Set<Link> identifiedBy = new HashSet<Link>();
+  // Start of user code attributeAnnotation:identifiedDate
+  // End of user code
+  private Date identifiedDate;
+  // Start of user code attributeAnnotation:sequenceNumber
+  // End of user code
+  private Integer sequenceNumber;
+  // Start of user code attributeAnnotation:stateOfRisk
+  // End of user code
+  private Link stateOfRisk;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Risk() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
+  }
+
+  public Risk(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
-    // Start of user code attributeAnnotation:identifiedBy
-    // End of user code
-    private Set<Link> identifiedBy = new HashSet<Link>();
-    // Start of user code attributeAnnotation:identifiedDate
-    // End of user code
-    private Date identifiedDate;
-    // Start of user code attributeAnnotation:sequenceNumber
-    // End of user code
-    private Integer sequenceNumber;
-    // Start of user code attributeAnnotation:stateOfRisk
-    // End of user code
-    private Link stateOfRisk;
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Risk()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Risk(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.RISK_PATH,
         Risk.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Risk Resource} - update Risk.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addIdentifiedBy(final Link identifiedBy)
-    {
-        this.identifiedBy.add(identifiedBy);
-    }
-    
-    
-    // Start of user code getterAnnotation:description
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Risk Resource} - update Risk.toString() to present resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:identifier
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
 
-    // Start of user code getterAnnotation:source
+    return result;
+  }
+
+  public void addIdentifiedBy(final Link identifiedBy) {
+    this.identifiedBy.add(identifiedBy);
+  }
+
+  // Start of user code getterAnnotation:description
+  // End of user code
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription() {
+    // Start of user code getterInit:description
     // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
+    return description;
+  }
 
-    // Start of user code getterAnnotation:title
+  // Start of user code getterAnnotation:identifier
+  // End of user code
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier() {
+    // Start of user code getterInit:identifier
     // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
+    return identifier;
+  }
 
-    // Start of user code getterAnnotation:identifiedBy
+  // Start of user code getterAnnotation:source
+  // End of user code
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource() {
+    // Start of user code getterInit:source
     // End of user code
-    @OslcName("identifiedBy")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedBy")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ISSUE_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getIdentifiedBy()
-    {
-        // Start of user code getterInit:identifiedBy
-        // End of user code
-        return identifiedBy;
-    }
+    return source;
+  }
 
-    // Start of user code getterAnnotation:identifiedDate
+  // Start of user code getterAnnotation:title
+  // End of user code
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle() {
+    // Start of user code getterInit:title
     // End of user code
-    @OslcName("identifiedDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getIdentifiedDate()
-    {
-        // Start of user code getterInit:identifiedDate
-        // End of user code
-        return identifiedDate;
-    }
+    return title;
+  }
 
-    // Start of user code getterAnnotation:sequenceNumber
+  // Start of user code getterAnnotation:identifiedBy
+  // End of user code
+  @OslcName("identifiedBy")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedBy")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.RISK_TYPE,
+    Oslc_promcodeDomainConstants.ISSUE_TYPE,
+    Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<Link> getIdentifiedBy() {
+    // Start of user code getterInit:identifiedBy
     // End of user code
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber()
-    {
-        // Start of user code getterInit:sequenceNumber
-        // End of user code
-        return sequenceNumber;
-    }
+    return identifiedBy;
+  }
 
-    // Start of user code getterAnnotation:stateOfRisk
+  // Start of user code getterAnnotation:identifiedDate
+  // End of user code
+  @OslcName("identifiedDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getIdentifiedDate() {
+    // Start of user code getterInit:identifiedDate
     // End of user code
-    @OslcName("stateOfRisk")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfRisk")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getStateOfRisk()
-    {
-        // Start of user code getterInit:stateOfRisk
-        // End of user code
-        return stateOfRisk;
-    }
+    return identifiedDate;
+  }
 
-    // Start of user code setterAnnotation:description
+  // Start of user code getterAnnotation:sequenceNumber
+  // End of user code
+  @OslcName("sequenceNumber")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Integer)
+  @OslcReadOnly(false)
+  public Integer getSequenceNumber() {
+    // Start of user code getterInit:sequenceNumber
     // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
+    return sequenceNumber;
+  }
 
-    // Start of user code setterAnnotation:identifier
+  // Start of user code getterAnnotation:stateOfRisk
+  // End of user code
+  @OslcName("stateOfRisk")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfRisk")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getStateOfRisk() {
+    // Start of user code getterInit:stateOfRisk
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
+    return stateOfRisk;
+  }
 
-    // Start of user code setterAnnotation:source
+  // Start of user code setterAnnotation:description
+  // End of user code
+  public void setDescription(final String description) {
+    // Start of user code setterInit:description
     // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
+    this.description = description;
+    // Start of user code setterFinalize:description
     // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:identifiedBy
+  // Start of user code setterAnnotation:identifier
+  // End of user code
+  public void setIdentifier(final String identifier) {
+    // Start of user code setterInit:identifier
     // End of user code
-    public void setIdentifiedBy(final Set<Link> identifiedBy )
-    {
-        // Start of user code setterInit:identifiedBy
-        // End of user code
-        this.identifiedBy.clear();
-        if (identifiedBy != null)
-        {
-            this.identifiedBy.addAll(identifiedBy);
-        }
-        // Start of user code setterFinalize:identifiedBy
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:identifiedDate
+    this.identifier = identifier;
+    // Start of user code setterFinalize:identifier
     // End of user code
-    public void setIdentifiedDate(final Date identifiedDate )
-    {
-        // Start of user code setterInit:identifiedDate
-        // End of user code
-        this.identifiedDate = identifiedDate;
-        // Start of user code setterFinalize:identifiedDate
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:sequenceNumber
+  // Start of user code setterAnnotation:source
+  // End of user code
+  public void setSource(final String source) {
+    // Start of user code setterInit:source
     // End of user code
-    public void setSequenceNumber(final Integer sequenceNumber )
-    {
-        // Start of user code setterInit:sequenceNumber
-        // End of user code
-        this.sequenceNumber = sequenceNumber;
-        // Start of user code setterFinalize:sequenceNumber
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:stateOfRisk
+    this.source = source;
+    // Start of user code setterFinalize:source
     // End of user code
-    public void setStateOfRisk(final Link stateOfRisk )
-    {
-        // Start of user code setterInit:stateOfRisk
-        // End of user code
-        this.stateOfRisk = stateOfRisk;
-        // Start of user code setterFinalize:stateOfRisk
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:title
+  // End of user code
+  public void setTitle(final String title) {
+    // Start of user code setterInit:title
+    // End of user code
+    this.title = title;
+    // Start of user code setterFinalize:title
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:identifiedBy
+  // End of user code
+  public void setIdentifiedBy(final Set<Link> identifiedBy) {
+    // Start of user code setterInit:identifiedBy
+    // End of user code
+    this.identifiedBy.clear();
+    if (identifiedBy != null) {
+      this.identifiedBy.addAll(identifiedBy);
+    }
+    // Start of user code setterFinalize:identifiedBy
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:identifiedDate
+  // End of user code
+  public void setIdentifiedDate(final Date identifiedDate) {
+    // Start of user code setterInit:identifiedDate
+    // End of user code
+    this.identifiedDate = identifiedDate;
+    // Start of user code setterFinalize:identifiedDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:sequenceNumber
+  // End of user code
+  public void setSequenceNumber(final Integer sequenceNumber) {
+    // Start of user code setterInit:sequenceNumber
+    // End of user code
+    this.sequenceNumber = sequenceNumber;
+    // Start of user code setterFinalize:sequenceNumber
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:stateOfRisk
+  // End of user code
+  public void setStateOfRisk(final Link stateOfRisk) {
+    // Start of user code setterInit:stateOfRisk
+    // End of user code
+    this.stateOfRisk = stateOfRisk;
+    // Start of user code setterFinalize:stateOfRisk
+    // End of user code
+  }
 }

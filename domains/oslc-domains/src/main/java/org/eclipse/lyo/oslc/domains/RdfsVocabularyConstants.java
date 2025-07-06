@@ -23,14 +23,13 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 // End of user code
 // spotless:on
 
-public interface RdfsVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public interface RdfsVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    public static String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
-    public static String RDFS_NAMSPACE_PREFIX = "rdfs";
+  public static String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
+  public static String RDFS_NAMSPACE_PREFIX = "rdfs";
 
-    public static String RDFSCLASS = "RdfsClass";
-    public static String TYPE_RDFSCLASS = RDFS_NAMSPACE + RDFSCLASS;
+  public static String RDFSCLASS = "RdfsClass";
+  public static String TYPE_RDFSCLASS = RDFS_NAMSPACE + RDFSCLASS;
 }

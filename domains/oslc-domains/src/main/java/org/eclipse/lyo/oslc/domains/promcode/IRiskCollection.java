@@ -67,30 +67,31 @@ import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 
 @OslcNamespace(Oslc_promcodeDomainConstants.RISKCOLLECTION_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISKCOLLECTION_LOCALNAME)
-@OslcResourceShape(title = "RiskCollection Shape", description = "", describes = Oslc_promcodeDomainConstants.RISKCOLLECTION_TYPE)
-public interface IRiskCollection
-{
+@OslcResourceShape(
+    title = "RiskCollection Shape",
+    description = "",
+    describes = Oslc_promcodeDomainConstants.RISKCOLLECTION_TYPE)
+public interface IRiskCollection {
 
-    public void addOslc_promcodeCollects(final Link collects );
+  public void addOslc_promcodeCollects(final Link collects);
 
-    @OslcName("belongsTo")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
-    @OslcReadOnly(false)
-    public Link getOslc_promcodeBelongsTo();
+  @OslcName("belongsTo")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
+  @OslcReadOnly(false)
+  public Link getOslc_promcodeBelongsTo();
 
-    @OslcName("collects")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getOslc_promcodeCollects();
+  @OslcName("collects")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getOslc_promcodeCollects();
 
+  public void setOslc_promcodeBelongsTo(final Link belongsTo);
 
-    public void setOslc_promcodeBelongsTo(final Link belongsTo );
-    public void setOslc_promcodeCollects(final Set<Link> collects );
+  public void setOslc_promcodeCollects(final Set<Link> collects);
 }
-

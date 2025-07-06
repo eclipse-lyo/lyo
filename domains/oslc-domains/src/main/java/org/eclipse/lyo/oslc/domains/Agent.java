@@ -72,93 +72,85 @@ import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 @OslcNamespace(FoafDomainConstants.AGENT_NAMESPACE)
 @OslcName(FoafDomainConstants.AGENT_LOCALNAME)
 @OslcResourceShape(title = "Agent Shape", describes = FoafDomainConstants.AGENT_TYPE)
-public class Agent
-    extends AbstractResource
-    implements IAgent
-{
-    // Start of user code attributeAnnotation:name
+public class Agent extends AbstractResource implements IAgent {
+  // Start of user code attributeAnnotation:name
+  // End of user code
+  private String name;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Agent() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private String name;
-    
-    // Start of user code classAttributes
+  }
+
+  public Agent(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Agent()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Agent(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         FoafDomainConstants.AGENT_PATH,
         Agent.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Agent Resource} - update Agent.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:name
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
-    @OslcDescription("The full name of a person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getName()
-    {
-        // Start of user code getterInit:name
-        // End of user code
-        return name;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Agent Resource} - update Agent.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code setterAnnotation:name
+    // Start of user code toString_finalize
     // End of user code
-    public void setName(final String name )
-    {
-        // Start of user code setterInit:name
-        // End of user code
-        this.name = name;
-        // Start of user code setterFinalize:name
-        // End of user code
-    }
 
+    return result;
+  }
+
+  // Start of user code getterAnnotation:name
+  // End of user code
+  @OslcName("name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcDescription("The full name of a person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getName() {
+    // Start of user code getterInit:name
+    // End of user code
+    return name;
+  }
+
+  // Start of user code setterAnnotation:name
+  // End of user code
+  public void setName(final String name) {
+    // Start of user code setterInit:name
+    // End of user code
+    this.name = name;
+    // Start of user code setterFinalize:name
+    // End of user code
+  }
 }

@@ -69,49 +69,59 @@ import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 
 @OslcNamespace(Oslc_promcodeDomainConstants.REPORT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.REPORT_LOCALNAME)
-@OslcResourceShape(title = "Report Shape", description = "A Report is a resource which is a subclass of ManagedItemCollection to describe a report. A Report is associated to corresponding Plan.", describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
-public interface IReport
-{
+@OslcResourceShape(
+    title = "Report Shape",
+    description =
+        "A Report is a resource which is a subclass of ManagedItemCollection to describe a report."
+            + " A Report is associated to corresponding Plan.",
+    describes = Oslc_promcodeDomainConstants.REPORT_TYPE)
+public interface IReport {
 
-    public void addOslc_promcodeCollects(final Link collects );
-    public void addIncludes(final Link includes );
+  public void addOslc_promcodeCollects(final Link collects);
 
-    @OslcName("belongsTo")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
-    @OslcReadOnly(false)
-    public Link getOslc_promcodeBelongsTo();
+  public void addIncludes(final Link includes);
 
-    @OslcName("collects")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getOslc_promcodeCollects();
+  @OslcName("belongsTo")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
+  @OslcReadOnly(false)
+  public Link getOslc_promcodeBelongsTo();
 
-    @OslcName("correspondsTo")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "correspondsTo")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.PLAN_TYPE})
-    @OslcReadOnly(false)
-    public Link getCorrespondsTo();
+  @OslcName("collects")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<Link> getOslc_promcodeCollects();
 
-    @OslcName("includes")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "includes")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASUREMENT_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getIncludes();
+  @OslcName("correspondsTo")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "correspondsTo")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.PLAN_TYPE})
+  @OslcReadOnly(false)
+  public Link getCorrespondsTo();
 
+  @OslcName("includes")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "includes")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.MEASUREMENT_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getIncludes();
 
-    public void setOslc_promcodeBelongsTo(final Link belongsTo );
-    public void setOslc_promcodeCollects(final Set<Link> collects );
-    public void setCorrespondsTo(final Link correspondsTo );
-    public void setIncludes(final Set<Link> includes );
+  public void setOslc_promcodeBelongsTo(final Link belongsTo);
+
+  public void setOslc_promcodeCollects(final Set<Link> collects);
+
+  public void setCorrespondsTo(final Link correspondsTo);
+
+  public void setIncludes(final Set<Link> includes);
 }
-

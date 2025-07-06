@@ -74,170 +74,160 @@ import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.ARTIFACT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ARTIFACT_LOCALNAME)
-@OslcResourceShape(title = "Artifact Shape", description = "Shape resource of an Artifact resource.", describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
-public class Artifact
-    extends ManagedItem
-    implements IArtifact
-{
-    // Start of user code attributeAnnotation:isPartOf
+@OslcResourceShape(
+    title = "Artifact Shape",
+    description = "Shape resource of an Artifact resource.",
+    describes = Oslc_promcodeDomainConstants.ARTIFACT_TYPE)
+public class Artifact extends ManagedItem implements IArtifact {
+  // Start of user code attributeAnnotation:isPartOf
+  // End of user code
+  private Link isPartOf;
+  // Start of user code attributeAnnotation:producedFor
+  // End of user code
+  private Set<String> producedFor = new HashSet<String>();
+  // Start of user code attributeAnnotation:targets
+  // End of user code
+  private Set<Link> targets = new HashSet<Link>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Artifact() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Link isPartOf;
-    // Start of user code attributeAnnotation:producedFor
+  }
+
+  public Artifact(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Set<String> producedFor = new HashSet<String>();
-    // Start of user code attributeAnnotation:targets
-    // End of user code
-    private Set<Link> targets = new HashSet<Link>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Artifact()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Artifact(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.ARTIFACT_PATH,
         Artifact.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Artifact Resource} - update Artifact.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addProducedFor(final String producedFor)
-    {
-        this.producedFor.add(producedFor);
-    }
-    
-    public void addTargets(final Link targets)
-    {
-        this.targets.add(targets);
-    }
-    
-    
-    // Start of user code getterAnnotation:isPartOf
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("isPartOf")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
-    @OslcReadOnly(false)
-    public Link getIsPartOf()
-    {
-        // Start of user code getterInit:isPartOf
-        // End of user code
-        return isPartOf;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Artifact Resource} - update Artifact.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:producedFor
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("producedFor")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcRange({Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Set<String> getProducedFor()
-    {
-        // Start of user code getterInit:producedFor
-        // End of user code
-        return producedFor;
-    }
 
-    // Start of user code getterAnnotation:targets
+    return result;
+  }
+
+  public void addProducedFor(final String producedFor) {
+    this.producedFor.add(producedFor);
+  }
+
+  public void addTargets(final Link targets) {
+    this.targets.add(targets);
+  }
+
+  // Start of user code getterAnnotation:isPartOf
+  // End of user code
+  @OslcName("isPartOf")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "isPartOf")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+  @OslcReadOnly(false)
+  public Link getIsPartOf() {
+    // Start of user code getterInit:isPartOf
     // End of user code
-    @OslcName("targets")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "targets")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getTargets()
-    {
-        // Start of user code getterInit:targets
-        // End of user code
-        return targets;
-    }
+    return isPartOf;
+  }
 
-    // Start of user code setterAnnotation:isPartOf
+  // Start of user code getterAnnotation:producedFor
+  // End of user code
+  @OslcName("producedFor")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "producedFor")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.String)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<String> getProducedFor() {
+    // Start of user code getterInit:producedFor
     // End of user code
-    public void setIsPartOf(final Link isPartOf )
-    {
-        // Start of user code setterInit:isPartOf
-        // End of user code
-        this.isPartOf = isPartOf;
-        // Start of user code setterFinalize:isPartOf
-        // End of user code
-    }
+    return producedFor;
+  }
 
-    // Start of user code setterAnnotation:producedFor
+  // Start of user code getterAnnotation:targets
+  // End of user code
+  @OslcName("targets")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "targets")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getTargets() {
+    // Start of user code getterInit:targets
     // End of user code
-    public void setProducedFor(final Set<String> producedFor )
-    {
-        // Start of user code setterInit:producedFor
-        // End of user code
-        this.producedFor.clear();
-        if (producedFor != null)
-        {
-            this.producedFor.addAll(producedFor);
-        }
-        // Start of user code setterFinalize:producedFor
-        // End of user code
-    }
+    return targets;
+  }
 
-    // Start of user code setterAnnotation:targets
+  // Start of user code setterAnnotation:isPartOf
+  // End of user code
+  public void setIsPartOf(final Link isPartOf) {
+    // Start of user code setterInit:isPartOf
     // End of user code
-    public void setTargets(final Set<Link> targets )
-    {
-        // Start of user code setterInit:targets
-        // End of user code
-        this.targets.clear();
-        if (targets != null)
-        {
-            this.targets.addAll(targets);
-        }
-        // Start of user code setterFinalize:targets
-        // End of user code
-    }
+    this.isPartOf = isPartOf;
+    // Start of user code setterFinalize:isPartOf
+    // End of user code
+  }
 
+  // Start of user code setterAnnotation:producedFor
+  // End of user code
+  public void setProducedFor(final Set<String> producedFor) {
+    // Start of user code setterInit:producedFor
+    // End of user code
+    this.producedFor.clear();
+    if (producedFor != null) {
+      this.producedFor.addAll(producedFor);
+    }
+    // Start of user code setterFinalize:producedFor
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:targets
+  // End of user code
+  public void setTargets(final Set<Link> targets) {
+    // Start of user code setterInit:targets
+    // End of user code
+    this.targets.clear();
+    if (targets != null) {
+      this.targets.addAll(targets);
+    }
+    // Start of user code setterFinalize:targets
+    // End of user code
+  }
 }

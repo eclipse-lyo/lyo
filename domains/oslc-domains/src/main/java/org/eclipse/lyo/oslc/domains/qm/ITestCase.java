@@ -75,167 +75,219 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 @OslcNamespace(Oslc_qmDomainConstants.TESTCASE_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTCASE_LOCALNAME)
 @OslcResourceShape(title = "TestCase Shape", describes = Oslc_qmDomainConstants.TESTCASE_TYPE)
-public interface ITestCase
-{
+public interface ITestCase {
 
-    public void addContributor(final Link contributor );
-    public void addCreator(final Link creator );
-    public void addInstanceShape(final Link instanceShape );
-    public void addServiceProvider(final Link serviceProvider );
-    public void addSubject(final String subject );
-    public void addType(final Link type );
-    public void addRelatedChangeRequest(final Link relatedChangeRequest );
-    public void addTestsChangeRequest(final Link testsChangeRequest );
-    public void addUsesTestScript(final Link usesTestScript );
-    public void addValidatesRequirement(final Link validatesRequirement );
+  public void addContributor(final Link contributor);
 
-    @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getContributor();
+  public void addCreator(final Link creator);
 
-    @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
-    @OslcDescription("Timestamp of resource creation")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCreated();
+  public void addInstanceShape(final Link instanceShape);
 
-    @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getCreator();
+  public void addServiceProvider(final Link serviceProvider);
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  public void addSubject(final String subject);
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  public void addType(final Link type);
 
-    @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
-    @OslcDescription("Timestamp of latest resource modification")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getModified();
+  public void addRelatedChangeRequest(final Link relatedChangeRequest);
 
-    @OslcName("instanceShape")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getInstanceShape();
+  public void addTestsChangeRequest(final Link testsChangeRequest);
 
-    @OslcName("serviceProvider")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getServiceProvider();
+  public void addUsesTestScript(final Link usesTestScript);
 
-    @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
-    @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    @OslcTitle("")
-    public Set<String> getSubject();
+  public void addValidatesRequirement(final Link validatesRequirement);
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcDescription(
+      "Contributor or contributors to the resource. It is likely that the target resource will be a"
+          + " foaf:Person but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getContributor();
 
-    @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
-    @OslcDescription("The resource type URIs")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Set<Link> getType();
+  @OslcName("created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcDescription("Timestamp of resource creation")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getCreated();
 
-    @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
-    @OslcDescription("A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getRelatedChangeRequest();
+  @OslcName("creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcDescription(
+      "Creator or creators of the resource. It is likely that the target resource will be a"
+          + " foaf:Person but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getCreator();
 
-    @OslcName("testsChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
-    @OslcDescription("Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getTestsChangeRequest();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcDescription(
+      "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
+          + " only content that is valid and suitable inside an XHTML <div> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("usesTestScript")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
-    @OslcDescription("Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.")
-    @OslcOccurs(Occurs.OneOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_qmDomainConstants.TESTSCRIPT_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getUsesTestScript();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcDescription(
+      "A unique identifier for a resource. Typically read-only and assigned by the service provider"
+          + " when a resource is created. Not typically intended for end-user display.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("validatesRequirement")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
-    @OslcDescription("Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getValidatesRequirement();
+  @OslcName("modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcDescription("Timestamp of latest resource modification")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getModified();
 
+  @OslcName("instanceShape")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcDescription(
+      "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
+          + " allowed values and labels. This shape information is useful in displaying the subject"
+          + " resource as well as guiding clients in performing modifications. Instance shapes may"
+          + " be specific to the authenticated user associated with the request that retrieved the"
+          + " resource, the current state of the resource and other factors and thus should not be"
+          + " cached.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getInstanceShape();
 
-    public void setContributor(final Set<Link> contributor );
-    public void setCreated(final Date created );
-    public void setCreator(final Set<Link> creator );
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setModified(final Date modified );
-    public void setInstanceShape(final Set<Link> instanceShape );
-    public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setSubject(final Set<String> subject );
-    public void setTitle(final String title );
-    public void setType(final Set<Link> type );
-    public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest );
-    public void setTestsChangeRequest(final Set<Link> testsChangeRequest );
-    public void setUsesTestScript(final Set<Link> usesTestScript );
-    public void setValidatesRequirement(final Set<Link> validatesRequirement );
+  @OslcName("serviceProvider")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcDescription(
+      "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
+          + " is available from a service provider that implements multiple domain specifications,"
+          + " which could result in multiple values for this property.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getServiceProvider();
+
+  @OslcName("subject")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
+  @OslcDescription(
+      "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an"
+          + " additional tag for the resource.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  @OslcTitle("")
+  public Set<String> getSubject();
+
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcDescription(
+      "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
+          + " that is valid inside an XHTML <span> element.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
+
+  @OslcName("type")
+  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
+  @OslcDescription("The resource type URIs")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Set<Link> getType();
+
+  @OslcName("relatedChangeRequest")
+  @OslcPropertyDefinition(
+      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+  @OslcDescription(
+      "A related change request. It is likely that the target resource will be an"
+          + " oslc_cm:ChangeRequest but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedChangeRequest();
+
+  @OslcName("testsChangeRequest")
+  @OslcPropertyDefinition(
+      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "testsChangeRequest")
+  @OslcDescription(
+      "Change Request tested by the Test Case. It is likely that the target resource will be an"
+          + " oslc_cm:ChangeRequest but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getTestsChangeRequest();
+
+  @OslcName("usesTestScript")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "usesTestScript")
+  @OslcDescription(
+      "Test Script used by the Test Case. It is likely that the target resource will be an"
+          + " oslc_qm:TestScript but that is not necessarily the case.")
+  @OslcOccurs(Occurs.OneOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_qmDomainConstants.TESTSCRIPT_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getUsesTestScript();
+
+  @OslcName("validatesRequirement")
+  @OslcPropertyDefinition(
+      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "validatesRequirement")
+  @OslcDescription(
+      "Requirement that is validated by the Test Case. It is likely that the target resource will"
+          + " be an oslc_rm:Requirement but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_rmDomainConstants.REQUIREMENT_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getValidatesRequirement();
+
+  public void setContributor(final Set<Link> contributor);
+
+  public void setCreated(final Date created);
+
+  public void setCreator(final Set<Link> creator);
+
+  public void setDescription(final String description);
+
+  public void setIdentifier(final String identifier);
+
+  public void setModified(final Date modified);
+
+  public void setInstanceShape(final Set<Link> instanceShape);
+
+  public void setServiceProvider(final Set<Link> serviceProvider);
+
+  public void setSubject(final Set<String> subject);
+
+  public void setTitle(final String title);
+
+  public void setType(final Set<Link> type);
+
+  public void setRelatedChangeRequest(final Set<Link> relatedChangeRequest);
+
+  public void setTestsChangeRequest(final Set<Link> testsChangeRequest);
+
+  public void setUsesTestScript(final Set<Link> usesTestScript);
+
+  public void setValidatesRequirement(final Set<Link> validatesRequirement);
 }
-

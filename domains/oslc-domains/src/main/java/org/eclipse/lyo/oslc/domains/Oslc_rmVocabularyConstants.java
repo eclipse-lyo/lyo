@@ -23,16 +23,17 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 // End of user code
 // spotless:on
 
-public interface Oslc_rmVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public interface Oslc_rmVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    public static String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE = "http://open-services.net/ns/rm#";
-    public static String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE_PREFIX = "oslc_rm";
+  public static String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE =
+      "http://open-services.net/ns/rm#";
+  public static String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE_PREFIX = "oslc_rm";
 
-    public static String REQUIREMENT = "Requirement";
-    public static String TYPE_REQUIREMENT = REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + REQUIREMENT;
-    public static String REQUIREMENTCOLLECTION = "RequirementCollection";
-    public static String TYPE_REQUIREMENTCOLLECTION = REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + REQUIREMENTCOLLECTION;
+  public static String REQUIREMENT = "Requirement";
+  public static String TYPE_REQUIREMENT = REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + REQUIREMENT;
+  public static String REQUIREMENTCOLLECTION = "RequirementCollection";
+  public static String TYPE_REQUIREMENTCOLLECTION =
+      REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + REQUIREMENTCOLLECTION;
 }

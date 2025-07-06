@@ -60,11 +60,7 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 
 @OslcNamespace(Oslc_configDomainConstants.CONCEPTRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONCEPTRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "ConceptResource Shape", describes = Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE)
-public interface IConceptResource
-{
-
-
-
-}
-
+@OslcResourceShape(
+    title = "ConceptResource Shape",
+    describes = Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE)
+public interface IConceptResource {}

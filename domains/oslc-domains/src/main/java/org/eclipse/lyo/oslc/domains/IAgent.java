@@ -62,19 +62,15 @@ import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 @OslcNamespace(FoafDomainConstants.AGENT_NAMESPACE)
 @OslcName(FoafDomainConstants.AGENT_LOCALNAME)
 @OslcResourceShape(title = "Agent Shape", describes = FoafDomainConstants.AGENT_TYPE)
-public interface IAgent
-{
+public interface IAgent {
 
+  @OslcName("name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcDescription("The full name of a person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getName();
 
-    @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
-    @OslcDescription("The full name of a person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getName();
-
-
-    public void setName(final String name );
+  public void setName(final String name);
 }
-

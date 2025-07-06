@@ -82,200 +82,184 @@ import org.eclipse.lyo.oslc.domains.config.Selections;
 @OslcNamespace(Oslc_configDomainConstants.STREAM_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.STREAM_LOCALNAME)
 @OslcResourceShape(title = "Stream Shape", describes = Oslc_configDomainConstants.STREAM_TYPE)
-public class Stream
-    extends Configuration
-    implements IStream
-{
-    // Start of user code attributeAnnotation:accepts
+public class Stream extends Configuration implements IStream {
+  // Start of user code attributeAnnotation:accepts
+  // End of user code
+  private Set<Link> accepts = new HashSet<Link>();
+  // Start of user code attributeAnnotation:baselines
+  // End of user code
+  private Link baselines;
+  // Start of user code attributeAnnotation:previousBaseline
+  // End of user code
+  private Link previousBaseline;
+  // Start of user code attributeAnnotation:wasDerivedFrom
+  // End of user code
+  private Set<Link> wasDerivedFrom = new HashSet<Link>();
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Stream() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Set<Link> accepts = new HashSet<Link>();
-    // Start of user code attributeAnnotation:baselines
+  }
+
+  public Stream(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Link baselines;
-    // Start of user code attributeAnnotation:previousBaseline
-    // End of user code
-    private Link previousBaseline;
-    // Start of user code attributeAnnotation:wasDerivedFrom
-    // End of user code
-    private Set<Link> wasDerivedFrom = new HashSet<Link>();
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Stream()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Stream(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.STREAM_PATH,
         Stream.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Stream Resource} - update Stream.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addAccepts(final Link accepts)
-    {
-        this.accepts.add(accepts);
-    }
-    
-    public void addWasDerivedFrom(final Link wasDerivedFrom)
-    {
-        this.wasDerivedFrom.add(wasDerivedFrom);
-    }
-    
-    
-    // Start of user code getterAnnotation:accepts
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("accepts")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getAccepts()
-    {
-        // Start of user code getterInit:accepts
-        // End of user code
-        return accepts;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Stream Resource} - update Stream.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:baselines
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("baselines")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselines")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getBaselines()
-    {
-        // Start of user code getterInit:baselines
-        // End of user code
-        return baselines;
-    }
 
-    // Start of user code getterAnnotation:previousBaseline
+    return result;
+  }
+
+  public void addAccepts(final Link accepts) {
+    this.accepts.add(accepts);
+  }
+
+  public void addWasDerivedFrom(final Link wasDerivedFrom) {
+    this.wasDerivedFrom.add(wasDerivedFrom);
+  }
+
+  // Start of user code getterAnnotation:accepts
+  // End of user code
+  @OslcName("accepts")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getAccepts() {
+    // Start of user code getterInit:accepts
     // End of user code
-    @OslcName("previousBaseline")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
-    @OslcReadOnly(false)
-    public Link getPreviousBaseline()
-    {
-        // Start of user code getterInit:previousBaseline
-        // End of user code
-        return previousBaseline;
-    }
+    return accepts;
+  }
 
-    // Start of user code getterAnnotation:wasDerivedFrom
+  // Start of user code getterAnnotation:baselines
+  // End of user code
+  @OslcName("baselines")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "baselines")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getBaselines() {
+    // Start of user code getterInit:baselines
     // End of user code
-    @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
-    @OslcDescription("")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getWasDerivedFrom()
-    {
-        // Start of user code getterInit:wasDerivedFrom
-        // End of user code
-        return wasDerivedFrom;
-    }
+    return baselines;
+  }
 
-    // Start of user code setterAnnotation:accepts
+  // Start of user code getterAnnotation:previousBaseline
+  // End of user code
+  @OslcName("previousBaseline")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "previousBaseline")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.BASELINE_TYPE})
+  @OslcReadOnly(false)
+  public Link getPreviousBaseline() {
+    // Start of user code getterInit:previousBaseline
     // End of user code
-    public void setAccepts(final Set<Link> accepts )
-    {
-        // Start of user code setterInit:accepts
-        // End of user code
-        this.accepts.clear();
-        if (accepts != null)
-        {
-            this.accepts.addAll(accepts);
-        }
-        // Start of user code setterFinalize:accepts
-        // End of user code
-    }
+    return previousBaseline;
+  }
 
-    // Start of user code setterAnnotation:baselines
+  // Start of user code getterAnnotation:wasDerivedFrom
+  // End of user code
+  @OslcName("wasDerivedFrom")
+  @OslcPropertyDefinition(ProvVocabularyConstants.PROVENANCE_NAMSPACE + "wasDerivedFrom")
+  @OslcDescription("")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getWasDerivedFrom() {
+    // Start of user code getterInit:wasDerivedFrom
     // End of user code
-    public void setBaselines(final Link baselines )
-    {
-        // Start of user code setterInit:baselines
-        // End of user code
-        this.baselines = baselines;
-        // Start of user code setterFinalize:baselines
-        // End of user code
-    }
+    return wasDerivedFrom;
+  }
 
-    // Start of user code setterAnnotation:previousBaseline
+  // Start of user code setterAnnotation:accepts
+  // End of user code
+  public void setAccepts(final Set<Link> accepts) {
+    // Start of user code setterInit:accepts
     // End of user code
-    public void setPreviousBaseline(final Link previousBaseline )
-    {
-        // Start of user code setterInit:previousBaseline
-        // End of user code
-        this.previousBaseline = previousBaseline;
-        // Start of user code setterFinalize:previousBaseline
-        // End of user code
+    this.accepts.clear();
+    if (accepts != null) {
+      this.accepts.addAll(accepts);
     }
-
-    // Start of user code setterAnnotation:wasDerivedFrom
+    // Start of user code setterFinalize:accepts
     // End of user code
-    public void setWasDerivedFrom(final Set<Link> wasDerivedFrom )
-    {
-        // Start of user code setterInit:wasDerivedFrom
-        // End of user code
-        this.wasDerivedFrom.clear();
-        if (wasDerivedFrom != null)
-        {
-            this.wasDerivedFrom.addAll(wasDerivedFrom);
-        }
-        // Start of user code setterFinalize:wasDerivedFrom
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:baselines
+  // End of user code
+  public void setBaselines(final Link baselines) {
+    // Start of user code setterInit:baselines
+    // End of user code
+    this.baselines = baselines;
+    // Start of user code setterFinalize:baselines
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:previousBaseline
+  // End of user code
+  public void setPreviousBaseline(final Link previousBaseline) {
+    // Start of user code setterInit:previousBaseline
+    // End of user code
+    this.previousBaseline = previousBaseline;
+    // Start of user code setterFinalize:previousBaseline
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:wasDerivedFrom
+  // End of user code
+  public void setWasDerivedFrom(final Set<Link> wasDerivedFrom) {
+    // Start of user code setterInit:wasDerivedFrom
+    // End of user code
+    this.wasDerivedFrom.clear();
+    if (wasDerivedFrom != null) {
+      this.wasDerivedFrom.addAll(wasDerivedFrom);
+    }
+    // Start of user code setterFinalize:wasDerivedFrom
+    // End of user code
+  }
 }
