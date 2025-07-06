@@ -67,8 +67,10 @@ import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.auto.AutomationPlan;
 import org.eclipse.lyo.oslc.domains.auto.ParameterInstance;
 import org.eclipse.lyo.oslc.domains.Person;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -84,13 +86,13 @@ public class AutomationRequest
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -102,29 +104,29 @@ public class AutomationRequest
     private Date modified;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:state
     // End of user code
-    private Set<Link> state = new HashSet<>();
+    private Set<Link> state = new HashSet<Link>();
     // Start of user code attributeAnnotation:desiredState
     // End of user code
     private Link desiredState;
     // Start of user code attributeAnnotation:inputParameter
     // End of user code
-    private Set<Link> inputParameter = new HashSet<>();
+    private Set<Link> inputParameter = new HashSet<Link>();
     // Start of user code attributeAnnotation:executesAutomationPlan
     // End of user code
     private Link executesAutomationPlan;
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -132,38 +134,38 @@ public class AutomationRequest
     public AutomationRequest()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public AutomationRequest(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_autoDomainConstants.AUTOMATIONREQUEST_PATH,
         AutomationRequest.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local AutomationRequest Resource} - update AutomationRequest.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -172,49 +174,49 @@ public class AutomationRequest
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addState(final Link state)
     {
         this.state.add(state);
     }
-
+    
     public void addInputParameter(final Link inputParameter)
     {
         this.inputParameter.add(inputParameter);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

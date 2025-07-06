@@ -53,8 +53,10 @@ import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.CONCEPTRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONCEPTRESOURCE_LOCALNAME)

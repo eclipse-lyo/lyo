@@ -61,8 +61,10 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.ConceptResource;
 import org.eclipse.lyo.oslc.domains.config.VersionResource;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

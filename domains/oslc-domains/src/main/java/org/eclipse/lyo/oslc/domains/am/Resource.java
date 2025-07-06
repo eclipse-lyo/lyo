@@ -63,8 +63,10 @@ import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -80,13 +82,13 @@ public class Resource
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -104,35 +106,35 @@ public class Resource
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<String> type = new HashSet<>();
+    private Set<String> type = new HashSet<String>();
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:shortTitle
     // End of user code
     private String shortTitle;
     // Start of user code attributeAnnotation:external
     // End of user code
-    private Set<Link> external = new HashSet<>();
+    private Set<Link> external = new HashSet<Link>();
     // Start of user code attributeAnnotation:trace
     // End of user code
-    private Set<Link> trace = new HashSet<>();
+    private Set<Link> trace = new HashSet<Link>();
     // Start of user code attributeAnnotation:refine
     // End of user code
-    private Set<Link> refine = new HashSet<>();
+    private Set<Link> refine = new HashSet<Link>();
     // Start of user code attributeAnnotation:derives
     // End of user code
-    private Set<Link> derives = new HashSet<>();
+    private Set<Link> derives = new HashSet<Link>();
     // Start of user code attributeAnnotation:elaborates
     // End of user code
-    private Set<Link> elaborates = new HashSet<>();
+    private Set<Link> elaborates = new HashSet<Link>();
     // Start of user code attributeAnnotation:satisfy
     // End of user code
-    private Set<Link> satisfy = new HashSet<>();
-
+    private Set<Link> satisfy = new HashSet<Link>();
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -140,38 +142,38 @@ public class Resource
     public Resource()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public Resource(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_amDomainConstants.RESOURCE_PATH,
         Resource.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local Resource Resource} - update Resource.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -180,69 +182,69 @@ public class Resource
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addType(final String type)
     {
         this.type.add(type);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addExternal(final Link external)
     {
         this.external.add(external);
     }
-
+    
     public void addTrace(final Link trace)
     {
         this.trace.add(trace);
     }
-
+    
     public void addRefine(final Link refine)
     {
         this.refine.add(refine);
     }
-
+    
     public void addDerives(final Link derives)
     {
         this.derives.add(derives);
     }
-
+    
     public void addElaborates(final Link elaborates)
     {
         this.elaborates.add(elaborates);
     }
-
+    
     public void addSatisfy(final Link satisfy)
     {
         this.satisfy.add(satisfy);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

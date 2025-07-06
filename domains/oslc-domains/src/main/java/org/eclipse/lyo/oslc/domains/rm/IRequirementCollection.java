@@ -59,9 +59,11 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
+// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_NAMESPACE)
 @OslcName(Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME)

@@ -59,8 +59,10 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_amDomainConstants.LINKTYPE_NAMESPACE)
 @OslcName(Oslc_amDomainConstants.LINKTYPE_LOCALNAME)

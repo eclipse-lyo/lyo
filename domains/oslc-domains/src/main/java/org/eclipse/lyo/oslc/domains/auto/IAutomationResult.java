@@ -63,8 +63,10 @@ import org.eclipse.lyo.oslc.domains.auto.IAutomationPlan;
 import org.eclipse.lyo.oslc.domains.auto.IAutomationRequest;
 import org.eclipse.lyo.oslc.domains.auto.IParameterInstance;
 import org.eclipse.lyo.oslc.domains.IPerson;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONRESULT_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONRESULT_LOCALNAME)

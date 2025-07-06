@@ -62,8 +62,10 @@ import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.config.IConfiguration;
 import org.eclipse.lyo.oslc.domains.IPerson;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.COMPONENT_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.COMPONENT_LOCALNAME)

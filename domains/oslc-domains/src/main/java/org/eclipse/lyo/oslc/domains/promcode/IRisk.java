@@ -60,8 +60,10 @@ import org.eclipse.lyo.oslc.domains.promcode.IIssue;
 import org.eclipse.lyo.oslc.domains.promcode.IRisk;
 import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.RISK_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISK_LOCALNAME)

@@ -22,8 +22,10 @@ import org.eclipse.lyo.oslc.domains.Oslc_configVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.ProvVocabularyConstants;
 
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 public interface Oslc_configDomainConstants
 {

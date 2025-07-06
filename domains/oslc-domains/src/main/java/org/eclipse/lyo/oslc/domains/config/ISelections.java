@@ -56,8 +56,10 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.IConceptResource;
 import org.eclipse.lyo.oslc.domains.config.IVersionResource;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.SELECTIONS_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.SELECTIONS_LOCALNAME)

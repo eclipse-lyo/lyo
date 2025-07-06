@@ -64,8 +64,10 @@ import org.eclipse.lyo.oslc.domains.config.IComponent;
 import org.eclipse.lyo.oslc.domains.config.IConceptResource;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.config.IVersionResource;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.VERSIONRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.VERSIONRESOURCE_LOCALNAME)

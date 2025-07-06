@@ -57,8 +57,10 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

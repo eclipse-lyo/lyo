@@ -60,8 +60,10 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

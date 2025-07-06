@@ -71,9 +71,11 @@ import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -89,13 +91,13 @@ public class TestCase
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -107,32 +109,32 @@ public class TestCase
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:relatedChangeRequest
     // End of user code
-    private Set<Link> relatedChangeRequest = new HashSet<>();
+    private Set<Link> relatedChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:testsChangeRequest
     // End of user code
-    private Set<Link> testsChangeRequest = new HashSet<>();
+    private Set<Link> testsChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:usesTestScript
     // End of user code
-    private Set<Link> usesTestScript = new HashSet<>();
+    private Set<Link> usesTestScript = new HashSet<Link>();
     // Start of user code attributeAnnotation:validatesRequirement
     // End of user code
-    private Set<Link> validatesRequirement = new HashSet<>();
-
+    private Set<Link> validatesRequirement = new HashSet<Link>();
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -140,38 +142,38 @@ public class TestCase
     public TestCase()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public TestCase(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTCASE_PATH,
         TestCase.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local TestCase Resource} - update TestCase.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -180,65 +182,65 @@ public class TestCase
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         result = String.format("%s (TestCase; id=%s)", this.getTitle(), this.getIdentifier());
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addRelatedChangeRequest(final Link relatedChangeRequest)
     {
         this.relatedChangeRequest.add(relatedChangeRequest);
     }
-
+    
     public void addTestsChangeRequest(final Link testsChangeRequest)
     {
         this.testsChangeRequest.add(testsChangeRequest);
     }
-
+    
     public void addUsesTestScript(final Link usesTestScript)
     {
         this.usesTestScript.add(usesTestScript);
     }
-
+    
     public void addValidatesRequirement(final Link validatesRequirement)
     {
         this.validatesRequirement.add(validatesRequirement);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

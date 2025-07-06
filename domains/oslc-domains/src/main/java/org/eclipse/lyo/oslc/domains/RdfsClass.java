@@ -60,8 +60,10 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsClass;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

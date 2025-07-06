@@ -69,8 +69,10 @@ import org.eclipse.lyo.oslc.domains.config.Component;
 import org.eclipse.lyo.oslc.domains.config.ConceptResource;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.config.VersionResource;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -86,13 +88,13 @@ public class VersionResource
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -107,7 +109,7 @@ public class VersionResource
     private Date modified;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
@@ -116,7 +118,7 @@ public class VersionResource
     private Date committed;
     // Start of user code attributeAnnotation:committer
     // End of user code
-    private Set<Link> committer = new HashSet<>();
+    private Set<Link> committer = new HashSet<Link>();
     // Start of user code attributeAnnotation:component
     // End of user code
     private Link component;
@@ -128,13 +130,13 @@ public class VersionResource
     private Boolean archived;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:modifiedBy
     // End of user code
-    private Set<Link> modifiedBy = new HashSet<>();
+    private Set<Link> modifiedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:shortId
     // End of user code
     private String shortId;
@@ -143,11 +145,11 @@ public class VersionResource
     private String shortTitle;
     // Start of user code attributeAnnotation:wasDerivedFrom
     // End of user code
-    private Set<Link> wasDerivedFrom = new HashSet<>();
+    private Set<Link> wasDerivedFrom = new HashSet<Link>();
     // Start of user code attributeAnnotation:wasRevisionOf
     // End of user code
-    private Set<Link> wasRevisionOf = new HashSet<>();
-
+    private Set<Link> wasRevisionOf = new HashSet<Link>();
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -155,38 +157,38 @@ public class VersionResource
     public VersionResource()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public VersionResource(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.VERSIONRESOURCE_PATH,
         VersionResource.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local VersionResource Resource} - update VersionResource.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -195,59 +197,59 @@ public class VersionResource
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-
+    
     public void addCommitter(final Link committer)
     {
         this.committer.add(committer);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addModifiedBy(final Link modifiedBy)
     {
         this.modifiedBy.add(modifiedBy);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addWasDerivedFrom(final Link wasDerivedFrom)
     {
         this.wasDerivedFrom.add(wasDerivedFrom);
     }
-
+    
     public void addWasRevisionOf(final Link wasRevisionOf)
     {
         this.wasRevisionOf.add(wasRevisionOf);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

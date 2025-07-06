@@ -71,8 +71,10 @@ import org.eclipse.lyo.oslc.domains.config.Component;
 import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.config.Selections;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -88,13 +90,13 @@ public class Configuration
 {
     // Start of user code attributeAnnotation:contributor
     // End of user code
-    private Set<Link> contributor = new HashSet<>();
+    private Set<Link> contributor = new HashSet<Link>();
     // Start of user code attributeAnnotation:created
     // End of user code
     private Date created;
     // Start of user code attributeAnnotation:creator
     // End of user code
-    private Set<Link> creator = new HashSet<>();
+    private Set<Link> creator = new HashSet<Link>();
     // Start of user code attributeAnnotation:description
     // End of user code
     private String description;
@@ -106,13 +108,13 @@ public class Configuration
     private Date modified;
     // Start of user code attributeAnnotation:subject
     // End of user code
-    private Set<String> subject = new HashSet<>();
+    private Set<String> subject = new HashSet<String>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:acceptedBy
     // End of user code
-    private Set<Link> acceptedBy = new HashSet<>();
+    private Set<Link> acceptedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:branch
     // End of user code
     private Link branch;
@@ -124,29 +126,29 @@ public class Configuration
     private Link contribution;
     // Start of user code attributeAnnotation:selections
     // End of user code
-    private Set<Link> selections = new HashSet<>();
+    private Set<Link> selections = new HashSet<Link>();
     // Start of user code attributeAnnotation:archived
     // End of user code
     private Boolean archived;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:modifiedBy
     // End of user code
-    private Set<Link> modifiedBy = new HashSet<>();
+    private Set<Link> modifiedBy = new HashSet<Link>();
     // Start of user code attributeAnnotation:release
     // End of user code
-    private Set<Link> release = new HashSet<>();
+    private Set<Link> release = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:shortId
     // End of user code
     private String shortId;
     // Start of user code attributeAnnotation:shortTitle
     // End of user code
     private String shortTitle;
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -154,38 +156,38 @@ public class Configuration
     public Configuration()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public Configuration(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.CONFIGURATION_PATH,
         Configuration.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local Configuration Resource} - update Configuration.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -194,59 +196,59 @@ public class Configuration
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addContributor(final Link contributor)
     {
         this.contributor.add(contributor);
     }
-
+    
     public void addCreator(final Link creator)
     {
         this.creator.add(creator);
     }
-
+    
     public void addSubject(final String subject)
     {
         this.subject.add(subject);
     }
-
+    
     public void addAcceptedBy(final Link acceptedBy)
     {
         this.acceptedBy.add(acceptedBy);
     }
-
+    
     public void addSelections(final Link selections)
     {
         this.selections.add(selections);
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addModifiedBy(final Link modifiedBy)
     {
         this.modifiedBy.add(modifiedBy);
     }
-
+    
     public void addRelease(final Link release)
     {
         this.release.add(release);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:contributor
     // End of user code
     @OslcName("contributor")

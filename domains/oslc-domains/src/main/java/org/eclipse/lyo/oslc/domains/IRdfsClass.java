@@ -55,8 +55,10 @@ import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IRdfsClass;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)

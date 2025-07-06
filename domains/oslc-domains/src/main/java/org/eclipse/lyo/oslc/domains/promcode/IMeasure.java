@@ -55,8 +55,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASURE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASURE_LOCALNAME)

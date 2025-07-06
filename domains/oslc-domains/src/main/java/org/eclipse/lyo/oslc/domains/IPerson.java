@@ -54,8 +54,10 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(FoafDomainConstants.PERSON_NAMESPACE)
 @OslcName(FoafDomainConstants.PERSON_LOCALNAME)

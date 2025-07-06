@@ -65,8 +65,10 @@ import org.eclipse.lyo.oslc.domains.promcode.Issue;
 import org.eclipse.lyo.oslc.domains.promcode.Risk;
 import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

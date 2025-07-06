@@ -60,8 +60,10 @@ import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_autoDomainConstants.AUTOMATIONPLAN_NAMESPACE)
 @OslcName(Oslc_autoDomainConstants.AUTOMATIONPLAN_LOCALNAME)

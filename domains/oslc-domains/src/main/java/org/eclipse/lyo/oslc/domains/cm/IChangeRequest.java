@@ -69,9 +69,11 @@ import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IState;
+// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME)

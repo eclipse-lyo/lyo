@@ -62,8 +62,10 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Artifact;
 import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code

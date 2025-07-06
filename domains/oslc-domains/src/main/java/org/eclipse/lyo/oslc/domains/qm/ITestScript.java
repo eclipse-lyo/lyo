@@ -65,9 +65,11 @@ import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_qmDomainConstants.TESTSCRIPT_NAMESPACE)
 @OslcName(Oslc_qmDomainConstants.TESTSCRIPT_LOCALNAME)

@@ -66,8 +66,10 @@ import org.eclipse.lyo.oslc.domains.config.IComponent;
 import org.eclipse.lyo.oslc.domains.config.IContribution;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.config.ISelections;
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.CONFIGURATION_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONFIGURATION_LOCALNAME)

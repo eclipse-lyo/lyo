@@ -70,9 +70,11 @@ import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+// spotless:off
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -97,22 +99,22 @@ public class TestResult
     private Date modified;
     // Start of user code attributeAnnotation:instanceShape
     // End of user code
-    private Set<Link> instanceShape = new HashSet<>();
+    private Set<Link> instanceShape = new HashSet<Link>();
     // Start of user code attributeAnnotation:title
     // End of user code
     private String title;
     // Start of user code attributeAnnotation:type
     // End of user code
-    private Set<Link> type = new HashSet<>();
+    private Set<Link> type = new HashSet<Link>();
     // Start of user code attributeAnnotation:serviceProvider
     // End of user code
-    private Set<Link> serviceProvider = new HashSet<>();
+    private Set<Link> serviceProvider = new HashSet<Link>();
     // Start of user code attributeAnnotation:status
     // End of user code
     private String status;
     // Start of user code attributeAnnotation:affectedByChangeRequest
     // End of user code
-    private Set<Link> affectedByChangeRequest = new HashSet<>();
+    private Set<Link> affectedByChangeRequest = new HashSet<Link>();
     // Start of user code attributeAnnotation:executesTestScript
     // End of user code
     private Link executesTestScript;
@@ -125,7 +127,7 @@ public class TestResult
     // Start of user code attributeAnnotation:reportsOnTestPlan
     // End of user code
     private Link reportsOnTestPlan;
-
+    
     // Start of user code classAttributes
     // End of user code
     // Start of user code classMethods
@@ -133,38 +135,38 @@ public class TestResult
     public TestResult()
     {
         super();
-
+    
         // Start of user code constructor1
         // End of user code
     }
-
+    
     public TestResult(final URI about)
     {
         super(about);
-
+    
         // Start of user code constructor2
         // End of user code
     }
-
+    
     public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
         return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_qmDomainConstants.TESTRESULT_PATH,
         TestResult.class);
     }
-
-
+    
+    
     public String toString()
     {
         return toString(false);
     }
-
+    
     public String toString(boolean asLocalResource)
     {
         String result = "";
         // Start of user code toString_init
         // End of user code
-
+    
         if (asLocalResource) {
             result = result + "{a Local TestResult Resource} - update TestResult.toString() to present resource as desired.";
             // Start of user code toString_bodyForLocalResource
@@ -173,34 +175,34 @@ public class TestResult
         else {
             result = String.valueOf(getAbout());
         }
-
+    
         // Start of user code toString_finalize
         // End of user code
-
+    
         return result;
     }
-
+    
     public void addInstanceShape(final Link instanceShape)
     {
         this.instanceShape.add(instanceShape);
     }
-
+    
     public void addType(final Link type)
     {
         this.type.add(type);
     }
-
+    
     public void addServiceProvider(final Link serviceProvider)
     {
         this.serviceProvider.add(serviceProvider);
     }
-
+    
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest)
     {
         this.affectedByChangeRequest.add(affectedByChangeRequest);
     }
-
-
+    
+    
     // Start of user code getterAnnotation:created
     // End of user code
     @OslcName("created")

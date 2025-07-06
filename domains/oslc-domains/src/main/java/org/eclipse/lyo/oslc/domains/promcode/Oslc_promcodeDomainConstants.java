@@ -20,8 +20,10 @@ package org.eclipse.lyo.oslc.domains.promcode;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 public interface Oslc_promcodeDomainConstants
 {

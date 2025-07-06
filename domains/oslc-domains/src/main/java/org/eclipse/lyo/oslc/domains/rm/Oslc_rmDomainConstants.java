@@ -19,8 +19,10 @@ package org.eclipse.lyo.oslc.domains.rm;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 public interface Oslc_rmDomainConstants
 {
