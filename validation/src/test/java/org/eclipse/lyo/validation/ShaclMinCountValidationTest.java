@@ -14,12 +14,12 @@
 
 package org.eclipse.lyo.validation;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclMinCountValidationTest.
@@ -48,15 +48,16 @@ public class ShaclMinCountValidationTest {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
             aResource.setAStringProperty("Between");
             aResource.addASetOfDates(new Date());
-            //not setting anotherIntegerProperty
+            // not setting anotherIntegerProperty
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "MinCount violation. Expected 1, obtained: 0");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource),
+                    "MinCount violation. Expected 1, obtained: 0");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -75,9 +76,7 @@ public class ShaclMinCountValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
-
 }

@@ -15,71 +15,67 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.eclipse.lyo.shacl.ValidationReport;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Class OslcAnnotationsBasedValidationTest.
+ * Tests for OSLC annotation-based validation.
  *
- *
- * @author Yash Khatri 
- * 
+ * @author Yash Khatri
+ * @since 2.3.0
  */
-
+@DisplayName("OSLC Annotations Based Validation Tests")
 public class OslcAnnotationsBasedValidationTest {
 
-    /** The a resource. */
-    AnOslcResource anOslcResource;
+    private AnOslcResource anOslcResource;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        anOslcResource =
+                new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
+        anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
+        anOslcResource.setAnIntegerProperty(new BigInteger("12"));
+        anOslcResource.setIntegerProperty3(new BigInteger("12"));
+        anOslcResource.setAStringProperty("Cat");
+        anOslcResource.addASetOfDates(new Date());
+    }
 
     /**
-     * OslcBased negative test.
-     *
-     * This test will fail because the pattern for StringProperty does not satisfy.
-     * It should start with "B" to be valid. But Here in this example, it starts
-     * with "C".
+     * Tests that validation fails when required properties are missing.
+     * This test fails because a required property (integerProperty2) is not set,
+     * violating the MinCount constraint.
      */
     @Test
+    @DisplayName("Should fail validation when required properties are missing")
     public void OslcBasedNegativetest() {
 
         try {
-            anOslcResource = new AnOslcResource(new URI("http://www.sampledomain.org/sam#AnOslcResource"));
-            anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
-            anOslcResource.setAnIntegerProperty(new BigInteger("12"));
-            anOslcResource.setIntegerProperty3(new BigInteger("12"));
-            anOslcResource.setAStringProperty("Cat");
-            anOslcResource.addASetOfDates(new Date());
-
             ValidationReport vr = TestHelper.performTest(anOslcResource);
             TestHelper.assertNegative(vr, "MinCount violation. Expected 1, obtained: 0");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
     }
 
     /**
-     * OslcBased positive test.
-     *
+     * Tests that validation passes when all required properties are present.
      */
     @Test
+    @DisplayName("Should pass validation when all required properties are present")
     public void OslcBasedPositivetest() {
 
         try {
-            anOslcResource = new AnOslcResource(new URI("http://www.sampledomain.org/sam#anOslcResource"));
-            anOslcResource.setAnotherIntegerProperty(new BigInteger("12"));
-            anOslcResource.setAnIntegerProperty(new BigInteger("12"));
-            anOslcResource.setIntegerProperty3(new BigInteger("12"));
-            anOslcResource.setAStringProperty("Cat");
-            anOslcResource.addASetOfDates(new Date());
             anOslcResource.setIntegerProperty2(new BigInteger("12"));
 
             ValidationReport vr = TestHelper.performTest(anOslcResource);
@@ -87,8 +83,7 @@ public class OslcAnnotationsBasedValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
     }
-
 }
