@@ -24,11 +24,6 @@ import org.junit.platform.suite.api.Suite;
  * A test suite for TRS Client functionality that tests the migration from RDF4J to Lyo Store.
  */
 @Suite
-@SelectClasses({
-    SparqlBatchingHandlerTest.class,
-    TrsConfigurationTest.class
-})
+@SelectClasses({SparqlBatchingHandlerTest.class, TrsConfigurationTest.class})
 @DisplayName("TRS Client Migration Test Suite")
-public class TrsClientMigrationTestSuite {
-
-}
+public class TrsClientMigrationTestSuite {}

@@ -36,25 +36,24 @@ import org.eclipse.lyo.core.util.StringUtils;
  * @since 4.0.0
  */
 public class TrsConfigurationLoader {
-    public static TrsProviderConfiguration from(File f) throws IOException {
-        if (f == null) {
-            throw new IllegalArgumentException("File is null");
-        }
-
-        try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
-            Properties p = new Properties();
-            p.load(input);
-
-            String trsUriParam = p.getProperty("trs_uri");
-            if (StringUtils.isNullOrEmpty(trsUriParam)) {
-                throw new IllegalStateException(
-                        "The 'trs_uri' field is missing in file " + f.getName());
-            }
-
-            String user = p.getProperty("baseAuth_user");
-            String pass = p.getProperty("baseAuth_pwd");
-
-            return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
-        }
+  public static TrsProviderConfiguration from(File f) throws IOException {
+    if (f == null) {
+      throw new IllegalArgumentException("File is null");
     }
+
+    try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
+      Properties p = new Properties();
+      p.load(input);
+
+      String trsUriParam = p.getProperty("trs_uri");
+      if (StringUtils.isNullOrEmpty(trsUriParam)) {
+        throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
+      }
+
+      String user = p.getProperty("baseAuth_user");
+      String pass = p.getProperty("baseAuth_pwd");
+
+      return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
+    }
+  }
 }
