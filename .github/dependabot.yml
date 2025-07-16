@@ -14,8 +14,6 @@ updates:
       shaclex:
         patterns:
           - "es.weso*"
-          - "org.scala-lang*"
-          - "co.fs2*"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
     open-pull-requests-limit: 30
