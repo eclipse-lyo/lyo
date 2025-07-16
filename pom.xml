@@ -200,7 +200,7 @@
         </plugins>
       </build>
     </profile>
-bil    <profile>
+    <profile>
       <id>spotless</id>
       <activation>
         <activeByDefault>true</activeByDefault>
