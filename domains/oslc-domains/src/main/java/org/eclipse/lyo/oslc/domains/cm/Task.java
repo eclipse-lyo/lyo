@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -77,64 +79,57 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 @OslcNamespace(Oslc_cmDomainConstants.TASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.TASK_LOCALNAME)
 @OslcResourceShape(title = "Task Shape", describes = Oslc_cmDomainConstants.TASK_TYPE)
-public class Task
-    extends ChangeRequest
-    implements ITask
-{
-    
-    // Start of user code classAttributes
+public class Task extends ChangeRequest implements ITask {
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Task() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    // Start of user code classMethods
+  }
+
+  public Task(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    public Task()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Task(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_cmDomainConstants.TASK_PATH,
         Task.class);
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
+    // End of user code
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Task Resource} - update Task.toString() to present resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Task Resource} - update Task.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
+
+    // Start of user code toString_finalize
+    // End of user code
+
+    return result;
+  }
 }
