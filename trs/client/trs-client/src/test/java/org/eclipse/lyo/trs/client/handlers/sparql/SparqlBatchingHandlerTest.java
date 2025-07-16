@@ -26,6 +26,7 @@ import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.Modification;
 import org.eclipse.lyo.store.Store;
+import org.eclipse.lyo.store.StoreAccessException;
 import org.eclipse.lyo.store.StoreFactory;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
@@ -49,7 +50,7 @@ public class SparqlBatchingHandlerTest {
 
   @Test
   @DisplayName("Test SparqlBatchingHandler uses Lyo Store for finishCycle")
-  public void testFinishCycleUsesLyoStore() {
+  public void testFinishCycleUsesLyoStore() throws StoreAccessException {
     // Create mock Store
     Store mockStore = mock(Store.class);
 
@@ -80,7 +81,7 @@ public class SparqlBatchingHandlerTest {
 
   @Test
   @DisplayName("Test handleBaseMember creates proper queries")
-  public void testHandleBaseMember() {
+  public void testHandleBaseMember() throws StoreAccessException {
     BaseMember baseMember = createTestBaseMember();
 
     // This should add queries to the internal list
@@ -104,7 +105,7 @@ public class SparqlBatchingHandlerTest {
 
   @Test
   @DisplayName("Test handleChangeEvent with Creation")
-  public void testHandleChangeEventCreation() throws URISyntaxException {
+  public void testHandleChangeEventCreation() throws URISyntaxException, StoreAccessException {
     Creation creation = new Creation();
     creation.setChanged(new URI("http://example.org/resource/1"));
     creation.setOrder(1);
@@ -135,7 +136,7 @@ public class SparqlBatchingHandlerTest {
 
   @Test
   @DisplayName("Test handleChangeEvent with Deletion")
-  public void testHandleChangeEventDeletion() throws URISyntaxException {
+  public void testHandleChangeEventDeletion() throws URISyntaxException, StoreAccessException {
     Deletion deletion = new Deletion();
     deletion.setChanged(new URI("http://example.org/resource/1"));
     deletion.setOrder(2);
@@ -160,7 +161,7 @@ public class SparqlBatchingHandlerTest {
 
   @Test
   @DisplayName("Test handleChangeEvent with Modification")
-  public void testHandleChangeEventModification() throws URISyntaxException {
+  public void testHandleChangeEventModification() throws URISyntaxException, StoreAccessException {
     Modification modification = new Modification();
     modification.setChanged(new URI("http://example.org/resource/1"));
     modification.setOrder(3);
