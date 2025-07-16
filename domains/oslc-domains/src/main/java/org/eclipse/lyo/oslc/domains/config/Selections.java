@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ import org.eclipse.lyo.oslc.domains.config.ConceptResource;
 import org.eclipse.lyo.oslc.domains.config.VersionResource;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -71,94 +73,91 @@ import org.eclipse.lyo.oslc.domains.config.VersionResource;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.SELECTIONS_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.SELECTIONS_LOCALNAME)
-@OslcResourceShape(title = "Selections Shape", describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
-public class Selections
-    extends AbstractResource
-    implements ISelections
-{
-    // Start of user code attributeAnnotation:selects
+@OslcResourceShape(
+    title = "Selections Shape",
+    describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
+public class Selections extends AbstractResource implements ISelections {
+  // Start of user code attributeAnnotation:selects
+  // End of user code
+  private Link selects;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Selections() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Link selects;
-    
-    // Start of user code classAttributes
+  }
+
+  public Selections(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Selections()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Selections(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.SELECTIONS_PATH,
         Selections.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Selections Resource} - update Selections.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:selects
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("selects")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.VERSIONRESOURCE_TYPE, Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE})
-    @OslcReadOnly(false)
-    public Link getSelects()
-    {
-        // Start of user code getterInit:selects
-        // End of user code
-        return selects;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Selections Resource} - update Selections.toString() to present resource"
+              + " as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code setterAnnotation:selects
+    // Start of user code toString_finalize
     // End of user code
-    public void setSelects(final Link selects )
-    {
-        // Start of user code setterInit:selects
-        // End of user code
-        this.selects = selects;
-        // Start of user code setterFinalize:selects
-        // End of user code
-    }
 
+    return result;
+  }
+
+  // Start of user code getterAnnotation:selects
+  // End of user code
+  @OslcName("selects")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_configDomainConstants.VERSIONRESOURCE_TYPE,
+    Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE
+  })
+  @OslcReadOnly(false)
+  public Link getSelects() {
+    // Start of user code getterInit:selects
+    // End of user code
+    return selects;
+  }
+
+  // Start of user code setterAnnotation:selects
+  // End of user code
+  public void setSelects(final Link selects) {
+    // Start of user code setterInit:selects
+    // End of user code
+    this.selects = selects;
+    // Start of user code setterFinalize:selects
+    // End of user code
+  }
 }

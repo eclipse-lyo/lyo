@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,14 +64,9 @@ import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_cmDomainConstants.ENHANCEMENT_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME)
 @OslcResourceShape(title = "Enhancement Shape", describes = Oslc_cmDomainConstants.ENHANCEMENT_TYPE)
-public interface IEnhancement
-{
-
-
-
-}
-
+public interface IEnhancement {}
