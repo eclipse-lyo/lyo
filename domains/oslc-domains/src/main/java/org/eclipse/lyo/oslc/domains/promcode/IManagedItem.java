@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -57,54 +58,61 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.MANAGEDITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MANAGEDITEM_LOCALNAME)
-@OslcResourceShape(title = "ManagedItem Shape", description = "A managed item is a scope item, work item, artifact, issue, or some other entity that is part of a project. Managed item resources use dcterms:type to specify concrete subclasses. This practice is deprecated in OSLC Core 3.0.", describes = Oslc_promcodeDomainConstants.MANAGEDITEM_TYPE)
-public interface IManagedItem
-{
+@OslcResourceShape(
+    title = "ManagedItem Shape",
+    description =
+        "A managed item is a scope item, work item, artifact, issue, or some other entity that is"
+            + " part of a project. Managed item resources use dcterms:type to specify concrete"
+            + " subclasses. This practice is deprecated in OSLC Core 3.0.",
+    describes = Oslc_promcodeDomainConstants.MANAGEDITEM_TYPE)
+public interface IManagedItem {
 
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource();
 
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("sequenceNumber")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Integer)
+  @OslcReadOnly(false)
+  public Integer getSequenceNumber();
 
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
+  public void setDescription(final String description);
 
+  public void setIdentifier(final String identifier);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setSequenceNumber(final Integer sequenceNumber );
+  public void setSource(final String source);
+
+  public void setTitle(final String title);
+
+  public void setSequenceNumber(final Integer sequenceNumber);
 }
-

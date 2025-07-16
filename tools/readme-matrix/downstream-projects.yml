@@ -72,7 +72,7 @@ projects:
     activity_badge: "https://img.shields.io/github/last-commit/oslc-op/sysml-oslc-server"
   - slug: "OSLC/promcode-lyo-server"
     link: "https://github.com/OSLC/promcode-lyo-server"
-    version: "5.1.1"
+    version: "7.0.0--S"
     ci_badge: "https://github.com/OSLC/promcode-lyo-server/actions/workflows/maven.yml/badge.svg"
     pr_badge: "https://img.shields.io/github/issues-pr/OSLC/promcode-lyo-server?label=PR"
     pr_link: "https://github.com/OSLC/promcode-lyo-server/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"

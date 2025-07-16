@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -75,299 +77,287 @@ import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.ISSUE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ISSUE_LOCALNAME)
-@OslcResourceShape(title = "Issue Shape", description = "An issue is a situation that must be resolved in order to meet the objectives of a project. Failure to resolve the situation may result in negative consequences for the project, such as a schedule delay.", describes = Oslc_promcodeDomainConstants.ISSUE_TYPE)
-public class Issue
-    extends AbstractResource
-    implements IIssue
-{
-    // Start of user code attributeAnnotation:description
+@OslcResourceShape(
+    title = "Issue Shape",
+    description =
+        "An issue is a situation that must be resolved in order to meet the objectives of a"
+            + " project. Failure to resolve the situation may result in negative consequences for"
+            + " the project, such as a schedule delay.",
+    describes = Oslc_promcodeDomainConstants.ISSUE_TYPE)
+public class Issue extends AbstractResource implements IIssue {
+  // Start of user code attributeAnnotation:description
+  // End of user code
+  private String description;
+  // Start of user code attributeAnnotation:identifier
+  // End of user code
+  private String identifier;
+  // Start of user code attributeAnnotation:source
+  // End of user code
+  private String source;
+  // Start of user code attributeAnnotation:title
+  // End of user code
+  private String title;
+  // Start of user code attributeAnnotation:raisedDate
+  // End of user code
+  private Date raisedDate;
+  // Start of user code attributeAnnotation:raisedBy
+  // End of user code
+  private Set<Link> raisedBy = new HashSet<Link>();
+  // Start of user code attributeAnnotation:sequenceNumber
+  // End of user code
+  private Integer sequenceNumber;
+  // Start of user code attributeAnnotation:stateOfIssue
+  // End of user code
+  private Link stateOfIssue;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Issue() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
+  }
+
+  public Issue(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
-    // Start of user code attributeAnnotation:raisedDate
-    // End of user code
-    private Date raisedDate;
-    // Start of user code attributeAnnotation:raisedBy
-    // End of user code
-    private Set<Link> raisedBy = new HashSet<Link>();
-    // Start of user code attributeAnnotation:sequenceNumber
-    // End of user code
-    private Integer sequenceNumber;
-    // Start of user code attributeAnnotation:stateOfIssue
-    // End of user code
-    private Link stateOfIssue;
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Issue()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Issue(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.ISSUE_PATH,
         Issue.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Issue Resource} - update Issue.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    public void addRaisedBy(final Link raisedBy)
-    {
-        this.raisedBy.add(raisedBy);
-    }
-    
-    
-    // Start of user code getterAnnotation:description
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Issue Resource} - update Issue.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:identifier
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
 
-    // Start of user code getterAnnotation:source
+    return result;
+  }
+
+  public void addRaisedBy(final Link raisedBy) {
+    this.raisedBy.add(raisedBy);
+  }
+
+  // Start of user code getterAnnotation:description
+  // End of user code
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription() {
+    // Start of user code getterInit:description
     // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
+    return description;
+  }
 
-    // Start of user code getterAnnotation:title
+  // Start of user code getterAnnotation:identifier
+  // End of user code
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier() {
+    // Start of user code getterInit:identifier
     // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
+    return identifier;
+  }
 
-    // Start of user code getterAnnotation:raisedDate
+  // Start of user code getterAnnotation:source
+  // End of user code
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource() {
+    // Start of user code getterInit:source
     // End of user code
-    @OslcName("raisedDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getRaisedDate()
-    {
-        // Start of user code getterInit:raisedDate
-        // End of user code
-        return raisedDate;
-    }
+    return source;
+  }
 
-    // Start of user code getterAnnotation:raisedBy
+  // Start of user code getterAnnotation:title
+  // End of user code
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle() {
+    // Start of user code getterInit:title
     // End of user code
-    @OslcName("raisedBy")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedBy")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE, Oslc_promcodeDomainConstants.ISSUE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getRaisedBy()
-    {
-        // Start of user code getterInit:raisedBy
-        // End of user code
-        return raisedBy;
-    }
+    return title;
+  }
 
-    // Start of user code getterAnnotation:sequenceNumber
+  // Start of user code getterAnnotation:raisedDate
+  // End of user code
+  @OslcName("raisedDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getRaisedDate() {
+    // Start of user code getterInit:raisedDate
     // End of user code
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber()
-    {
-        // Start of user code getterInit:sequenceNumber
-        // End of user code
-        return sequenceNumber;
-    }
+    return raisedDate;
+  }
 
-    // Start of user code getterAnnotation:stateOfIssue
+  // Start of user code getterAnnotation:raisedBy
+  // End of user code
+  @OslcName("raisedBy")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedBy")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.RISK_TYPE,
+    Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE,
+    Oslc_promcodeDomainConstants.ISSUE_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<Link> getRaisedBy() {
+    // Start of user code getterInit:raisedBy
     // End of user code
-    @OslcName("stateOfIssue")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfIssue")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getStateOfIssue()
-    {
-        // Start of user code getterInit:stateOfIssue
-        // End of user code
-        return stateOfIssue;
-    }
+    return raisedBy;
+  }
 
-    // Start of user code setterAnnotation:description
+  // Start of user code getterAnnotation:sequenceNumber
+  // End of user code
+  @OslcName("sequenceNumber")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Integer)
+  @OslcReadOnly(false)
+  public Integer getSequenceNumber() {
+    // Start of user code getterInit:sequenceNumber
     // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
+    return sequenceNumber;
+  }
 
-    // Start of user code setterAnnotation:identifier
+  // Start of user code getterAnnotation:stateOfIssue
+  // End of user code
+  @OslcName("stateOfIssue")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfIssue")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getStateOfIssue() {
+    // Start of user code getterInit:stateOfIssue
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
+    return stateOfIssue;
+  }
 
-    // Start of user code setterAnnotation:source
+  // Start of user code setterAnnotation:description
+  // End of user code
+  public void setDescription(final String description) {
+    // Start of user code setterInit:description
     // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
+    this.description = description;
+    // Start of user code setterFinalize:description
     // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:raisedDate
+  // Start of user code setterAnnotation:identifier
+  // End of user code
+  public void setIdentifier(final String identifier) {
+    // Start of user code setterInit:identifier
     // End of user code
-    public void setRaisedDate(final Date raisedDate )
-    {
-        // Start of user code setterInit:raisedDate
-        // End of user code
-        this.raisedDate = raisedDate;
-        // Start of user code setterFinalize:raisedDate
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:raisedBy
+    this.identifier = identifier;
+    // Start of user code setterFinalize:identifier
     // End of user code
-    public void setRaisedBy(final Set<Link> raisedBy )
-    {
-        // Start of user code setterInit:raisedBy
-        // End of user code
-        this.raisedBy.clear();
-        if (raisedBy != null)
-        {
-            this.raisedBy.addAll(raisedBy);
-        }
-        // Start of user code setterFinalize:raisedBy
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:sequenceNumber
+  // Start of user code setterAnnotation:source
+  // End of user code
+  public void setSource(final String source) {
+    // Start of user code setterInit:source
     // End of user code
-    public void setSequenceNumber(final Integer sequenceNumber )
-    {
-        // Start of user code setterInit:sequenceNumber
-        // End of user code
-        this.sequenceNumber = sequenceNumber;
-        // Start of user code setterFinalize:sequenceNumber
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:stateOfIssue
+    this.source = source;
+    // Start of user code setterFinalize:source
     // End of user code
-    public void setStateOfIssue(final Link stateOfIssue )
-    {
-        // Start of user code setterInit:stateOfIssue
-        // End of user code
-        this.stateOfIssue = stateOfIssue;
-        // Start of user code setterFinalize:stateOfIssue
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:title
+  // End of user code
+  public void setTitle(final String title) {
+    // Start of user code setterInit:title
+    // End of user code
+    this.title = title;
+    // Start of user code setterFinalize:title
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:raisedDate
+  // End of user code
+  public void setRaisedDate(final Date raisedDate) {
+    // Start of user code setterInit:raisedDate
+    // End of user code
+    this.raisedDate = raisedDate;
+    // Start of user code setterFinalize:raisedDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:raisedBy
+  // End of user code
+  public void setRaisedBy(final Set<Link> raisedBy) {
+    // Start of user code setterInit:raisedBy
+    // End of user code
+    this.raisedBy.clear();
+    if (raisedBy != null) {
+      this.raisedBy.addAll(raisedBy);
+    }
+    // Start of user code setterFinalize:raisedBy
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:sequenceNumber
+  // End of user code
+  public void setSequenceNumber(final Integer sequenceNumber) {
+    // Start of user code setterInit:sequenceNumber
+    // End of user code
+    this.sequenceNumber = sequenceNumber;
+    // Start of user code setterFinalize:sequenceNumber
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:stateOfIssue
+  // End of user code
+  public void setStateOfIssue(final Link stateOfIssue) {
+    // Start of user code setterInit:stateOfIssue
+    // End of user code
+    this.stateOfIssue = stateOfIssue;
+    // Start of user code setterFinalize:stateOfIssue
+    // End of user code
+  }
 }

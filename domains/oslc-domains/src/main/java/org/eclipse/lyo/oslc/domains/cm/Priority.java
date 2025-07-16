@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -68,64 +70,58 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 @OslcNamespace(Oslc_cmDomainConstants.PRIORITY_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.PRIORITY_LOCALNAME)
 @OslcResourceShape(title = "Priority Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
-public class Priority
-    extends AbstractResource
-    implements IPriority
-{
-    
-    // Start of user code classAttributes
+public class Priority extends AbstractResource implements IPriority {
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Priority() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    // Start of user code classMethods
+  }
+
+  public Priority(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    public Priority()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Priority(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_cmDomainConstants.PRIORITY_PATH,
         Priority.class);
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
+    // End of user code
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Priority Resource} - update Priority.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Priority Resource} - update Priority.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
+
+    // Start of user code toString_finalize
+    // End of user code
+
+    return result;
+  }
 }

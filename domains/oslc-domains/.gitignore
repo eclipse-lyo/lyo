@@ -1,0 +1,3 @@
+# due to a duplicate declaration in core/lyo-core-model/src/main/java/org/eclipse/lyo/oslc4j/core/model/package-info.java
+# DO NOT COMMIT TO GIT
+src/main/java/org/eclipse/lyo/oslc4j/core/model/package-info.java

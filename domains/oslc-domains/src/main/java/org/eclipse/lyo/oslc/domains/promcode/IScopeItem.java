@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -57,39 +58,43 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.SCOPEITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.SCOPEITEM_LOCALNAME)
-@OslcResourceShape(title = "ScopeItem Shape", description = "A ScopeItem defines the work to be included in or excluded from a project. It defines the boundaries of the project", describes = Oslc_promcodeDomainConstants.SCOPEITEM_TYPE)
-public interface IScopeItem
-{
+@OslcResourceShape(
+    title = "ScopeItem Shape",
+    description =
+        "A ScopeItem defines the work to be included in or excluded from a project. It defines the"
+            + " boundaries of the project",
+    describes = Oslc_promcodeDomainConstants.SCOPEITEM_TYPE)
+public interface IScopeItem {
 
+  @OslcName("actualSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Float)
+  @OslcReadOnly(false)
+  public Float getActualSize();
 
-    @OslcName("actualSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Float)
-    @OslcReadOnly(false)
-    public Float getActualSize();
+  @OslcName("isPartOf")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "isPartOf")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+  @OslcReadOnly(false)
+  public Link getIsPartOf();
 
-    @OslcName("isPartOf")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "isPartOf")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Link getIsPartOf();
+  @OslcName("plannedSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Float)
+  @OslcReadOnly(false)
+  public Float getPlannedSize();
 
-    @OslcName("plannedSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Float)
-    @OslcReadOnly(false)
-    public Float getPlannedSize();
+  public void setActualSize(final Float actualSize);
 
+  public void setIsPartOf(final Link isPartOf);
 
-    public void setActualSize(final Float actualSize );
-    public void setIsPartOf(final Link isPartOf );
-    public void setPlannedSize(final Float plannedSize );
+  public void setPlannedSize(final Float plannedSize);
 }
-

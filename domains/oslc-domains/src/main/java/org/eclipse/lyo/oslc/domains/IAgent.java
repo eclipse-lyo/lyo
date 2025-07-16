@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -56,23 +57,20 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(FoafDomainConstants.AGENT_NAMESPACE)
 @OslcName(FoafDomainConstants.AGENT_LOCALNAME)
 @OslcResourceShape(title = "Agent Shape", describes = FoafDomainConstants.AGENT_TYPE)
-public interface IAgent
-{
+public interface IAgent {
 
+  @OslcName("name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcDescription("The full name of a person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getName();
 
-    @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
-    @OslcDescription("The full name of a person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getName();
-
-
-    public void setName(final String name );
+  public void setName(final String name);
 }
-

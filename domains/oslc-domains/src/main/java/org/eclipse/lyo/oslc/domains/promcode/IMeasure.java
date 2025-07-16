@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -57,62 +58,67 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASURE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASURE_LOCALNAME)
-@OslcResourceShape(title = "Measure Shape", description = "A measure is an observation of some measurable aspect of an artifact.", describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
-public interface IMeasure
-{
+@OslcResourceShape(
+    title = "Measure Shape",
+    description = "A measure is an observation of some measurable aspect of an artifact.",
+    describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
+public interface IMeasure {
 
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("metricOfMeasure")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfMeasure")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getMetricOfMeasure();
 
-    @OslcName("metricOfMeasure")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfMeasure")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getMetricOfMeasure();
+  @OslcName("unitOfMeasure")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfMeasure")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getUnitOfMeasure();
 
-    @OslcName("unitOfMeasure")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfMeasure")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getUnitOfMeasure();
+  @OslcName("valueOfMeasure")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Float)
+  @OslcReadOnly(false)
+  public Float getValueOfMeasure();
 
-    @OslcName("valueOfMeasure")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Float)
-    @OslcReadOnly(false)
-    public Float getValueOfMeasure();
+  public void setDescription(final String description);
 
+  public void setIdentifier(final String identifier);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setTitle(final String title );
-    public void setMetricOfMeasure(final Link metricOfMeasure );
-    public void setUnitOfMeasure(final Link unitOfMeasure );
-    public void setValueOfMeasure(final Float valueOfMeasure );
+  public void setTitle(final String title);
+
+  public void setMetricOfMeasure(final Link metricOfMeasure);
+
+  public void setUnitOfMeasure(final Link unitOfMeasure);
+
+  public void setValueOfMeasure(final Float valueOfMeasure);
 }
-

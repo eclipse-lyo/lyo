@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -70,150 +72,143 @@ import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.SCOPEITEM_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.SCOPEITEM_LOCALNAME)
-@OslcResourceShape(title = "ScopeItem Shape", description = "A ScopeItem defines the work to be included in or excluded from a project. It defines the boundaries of the project", describes = Oslc_promcodeDomainConstants.SCOPEITEM_TYPE)
-public class ScopeItem
-    extends ManagedItem
-    implements IScopeItem
-{
-    // Start of user code attributeAnnotation:actualSize
+@OslcResourceShape(
+    title = "ScopeItem Shape",
+    description =
+        "A ScopeItem defines the work to be included in or excluded from a project. It defines the"
+            + " boundaries of the project",
+    describes = Oslc_promcodeDomainConstants.SCOPEITEM_TYPE)
+public class ScopeItem extends ManagedItem implements IScopeItem {
+  // Start of user code attributeAnnotation:actualSize
+  // End of user code
+  private Float actualSize;
+  // Start of user code attributeAnnotation:isPartOf
+  // End of user code
+  private Link isPartOf;
+  // Start of user code attributeAnnotation:plannedSize
+  // End of user code
+  private Float plannedSize;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public ScopeItem() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Float actualSize;
-    // Start of user code attributeAnnotation:isPartOf
+  }
+
+  public ScopeItem(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Link isPartOf;
-    // Start of user code attributeAnnotation:plannedSize
-    // End of user code
-    private Float plannedSize;
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public ScopeItem()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public ScopeItem(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.SCOPEITEM_PATH,
         ScopeItem.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local ScopeItem Resource} - update ScopeItem.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:actualSize
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("actualSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Float)
-    @OslcReadOnly(false)
-    public Float getActualSize()
-    {
-        // Start of user code getterInit:actualSize
-        // End of user code
-        return actualSize;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local ScopeItem Resource} - update ScopeItem.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:isPartOf
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("isPartOf")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "isPartOf")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Link getIsPartOf()
-    {
-        // Start of user code getterInit:isPartOf
-        // End of user code
-        return isPartOf;
-    }
 
-    // Start of user code getterAnnotation:plannedSize
+    return result;
+  }
+
+  // Start of user code getterAnnotation:actualSize
+  // End of user code
+  @OslcName("actualSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Float)
+  @OslcReadOnly(false)
+  public Float getActualSize() {
+    // Start of user code getterInit:actualSize
     // End of user code
-    @OslcName("plannedSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Float)
-    @OslcReadOnly(false)
-    public Float getPlannedSize()
-    {
-        // Start of user code getterInit:plannedSize
-        // End of user code
-        return plannedSize;
-    }
+    return actualSize;
+  }
 
-    // Start of user code setterAnnotation:actualSize
+  // Start of user code getterAnnotation:isPartOf
+  // End of user code
+  @OslcName("isPartOf")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "isPartOf")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
+  @OslcReadOnly(false)
+  public Link getIsPartOf() {
+    // Start of user code getterInit:isPartOf
     // End of user code
-    public void setActualSize(final Float actualSize )
-    {
-        // Start of user code setterInit:actualSize
-        // End of user code
-        this.actualSize = actualSize;
-        // Start of user code setterFinalize:actualSize
-        // End of user code
-    }
+    return isPartOf;
+  }
 
-    // Start of user code setterAnnotation:isPartOf
+  // Start of user code getterAnnotation:plannedSize
+  // End of user code
+  @OslcName("plannedSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Float)
+  @OslcReadOnly(false)
+  public Float getPlannedSize() {
+    // Start of user code getterInit:plannedSize
     // End of user code
-    public void setIsPartOf(final Link isPartOf )
-    {
-        // Start of user code setterInit:isPartOf
-        // End of user code
-        this.isPartOf = isPartOf;
-        // Start of user code setterFinalize:isPartOf
-        // End of user code
-    }
+    return plannedSize;
+  }
 
-    // Start of user code setterAnnotation:plannedSize
+  // Start of user code setterAnnotation:actualSize
+  // End of user code
+  public void setActualSize(final Float actualSize) {
+    // Start of user code setterInit:actualSize
     // End of user code
-    public void setPlannedSize(final Float plannedSize )
-    {
-        // Start of user code setterInit:plannedSize
-        // End of user code
-        this.plannedSize = plannedSize;
-        // Start of user code setterFinalize:plannedSize
-        // End of user code
-    }
+    this.actualSize = actualSize;
+    // Start of user code setterFinalize:actualSize
+    // End of user code
+  }
 
+  // Start of user code setterAnnotation:isPartOf
+  // End of user code
+  public void setIsPartOf(final Link isPartOf) {
+    // Start of user code setterInit:isPartOf
+    // End of user code
+    this.isPartOf = isPartOf;
+    // Start of user code setterFinalize:isPartOf
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:plannedSize
+  // End of user code
+  public void setPlannedSize(final Float plannedSize) {
+    // Start of user code setterInit:plannedSize
+    // End of user code
+    this.plannedSize = plannedSize;
+    // Start of user code setterFinalize:plannedSize
+    // End of user code
+  }
 }

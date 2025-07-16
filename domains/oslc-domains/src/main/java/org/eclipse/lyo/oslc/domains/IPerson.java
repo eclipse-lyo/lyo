@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -56,41 +57,40 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(FoafDomainConstants.PERSON_NAMESPACE)
 @OslcName(FoafDomainConstants.PERSON_LOCALNAME)
 @OslcResourceShape(title = "Person Shape", describes = FoafDomainConstants.PERSON_TYPE)
-public interface IPerson
-{
+public interface IPerson {
 
+  @OslcName("familyName")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "familyName")
+  @OslcDescription("Family name of person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getFamilyName();
 
-    @OslcName("familyName")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "familyName")
-    @OslcDescription("Family name of person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getFamilyName();
+  @OslcName("givenName")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "givenName")
+  @OslcDescription("Given name of person expressed as simple text string. ")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getGivenName();
 
-    @OslcName("givenName")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "givenName")
-    @OslcDescription("Given name of person expressed as simple text string. ")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getGivenName();
+  @OslcName("name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcDescription("The full name of a person expressed as simple text string.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getName();
 
-    @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
-    @OslcDescription("The full name of a person expressed as simple text string.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getName();
+  public void setFamilyName(final String familyName);
 
+  public void setGivenName(final String givenName);
 
-    public void setFamilyName(final String familyName );
-    public void setGivenName(final String givenName );
-    public void setName(final String name );
+  public void setName(final String name);
 }
-

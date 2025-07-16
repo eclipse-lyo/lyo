@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -77,64 +79,58 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 @OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
 @OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
-public class ReviewTask
-    extends Task
-    implements IReviewTask
-{
-    
-    // Start of user code classAttributes
+public class ReviewTask extends Task implements IReviewTask {
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public ReviewTask() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    // Start of user code classMethods
+  }
+
+  public ReviewTask(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    public ReviewTask()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public ReviewTask(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_cmDomainConstants.REVIEWTASK_PATH,
         ReviewTask.class);
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
+    // End of user code
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local ReviewTask Resource} - update ReviewTask.toString() to present resource"
+              + " as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local ReviewTask Resource} - update ReviewTask.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
+
+    // Start of user code toString_finalize
+    // End of user code
+
+    return result;
+  }
 }

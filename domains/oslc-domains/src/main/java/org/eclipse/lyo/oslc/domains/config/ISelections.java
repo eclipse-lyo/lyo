@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -58,23 +59,25 @@ import org.eclipse.lyo.oslc.domains.config.IConceptResource;
 import org.eclipse.lyo.oslc.domains.config.IVersionResource;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.SELECTIONS_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.SELECTIONS_LOCALNAME)
-@OslcResourceShape(title = "Selections Shape", describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
-public interface ISelections
-{
+@OslcResourceShape(
+    title = "Selections Shape",
+    describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
+public interface ISelections {
 
+  @OslcName("selects")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_configDomainConstants.VERSIONRESOURCE_TYPE,
+    Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE
+  })
+  @OslcReadOnly(false)
+  public Link getSelects();
 
-    @OslcName("selects")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.VERSIONRESOURCE_TYPE, Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE})
-    @OslcReadOnly(false)
-    public Link getSelects();
-
-
-    public void setSelects(final Link selects );
+  public void setSelects(final Link selects);
 }
-

@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -55,14 +56,11 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.CONCEPTRESOURCE_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONCEPTRESOURCE_LOCALNAME)
-@OslcResourceShape(title = "ConceptResource Shape", describes = Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE)
-public interface IConceptResource
-{
-
-
-
-}
-
+@OslcResourceShape(
+    title = "ConceptResource Shape",
+    describes = Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE)
+public interface IConceptResource {}

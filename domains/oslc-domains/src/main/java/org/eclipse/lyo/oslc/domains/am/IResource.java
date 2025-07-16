@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.am;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -60,188 +61,235 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IPerson;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_amDomainConstants.RESOURCE_NAMESPACE)
 @OslcName(Oslc_amDomainConstants.RESOURCE_LOCALNAME)
 @OslcResourceShape(title = "Resource Shape", describes = Oslc_amDomainConstants.RESOURCE_TYPE)
-public interface IResource
-{
+public interface IResource {
 
-    public void addContributor(final Link contributor );
-    public void addCreator(final Link creator );
-    public void addType(final String type );
-    public void addInstanceShape(final Link instanceShape );
-    public void addServiceProvider(final Link serviceProvider );
-    public void addExternal(final Link external );
-    public void addTrace(final Link trace );
-    public void addRefine(final Link refine );
-    public void addDerives(final Link derives );
-    public void addElaborates(final Link elaborates );
-    public void addSatisfy(final Link satisfy );
+  public void addContributor(final Link contributor);
 
-    @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
-    @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getContributor();
+  public void addCreator(final Link creator);
 
-    @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
-    @OslcDescription("Timestamp of resource creation")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getCreated();
+  public void addType(final String type);
 
-    @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
-    @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({FoafDomainConstants.PERSON_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getCreator();
+  public void addInstanceShape(final Link instanceShape);
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  public void addServiceProvider(final Link serviceProvider);
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  public void addExternal(final Link external);
 
-    @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
-    @OslcDescription("Timestamp of latest resource modification")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getModified();
+  public void addTrace(final Link trace);
 
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcReadOnly(false)
-    public URI getSource();
+  public void addRefine(final Link refine);
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  public void addDerives(final Link derives);
 
-    @OslcName("type")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "type")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public Set<String> getType();
+  public void addElaborates(final Link elaborates);
 
-    @OslcName("instanceShape")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
-    @OslcDescription("The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getInstanceShape();
+  public void addSatisfy(final Link satisfy);
 
-    @OslcName("serviceProvider")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
-    @OslcDescription("A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property.")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Reference)
-    @OslcReadOnly(false)
-    public Set<Link> getServiceProvider();
+  @OslcName("contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcDescription(
+      "Contributor or contributors to the resource. It is likely that the target resource will be a"
+          + " foaf:Person but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getContributor();
 
-    @OslcName("shortTitle")
-    @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
-    @OslcDescription("Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getShortTitle();
+  @OslcName("created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcDescription("Timestamp of resource creation")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getCreated();
 
-    @OslcName("external")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "external")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("external")
-    public Set<Link> getExternal();
+  @OslcName("creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcDescription(
+      "Creator or creators of the resource. It is likely that the target resource will be a"
+          + " foaf:Person but that is not necessarily the case.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({FoafDomainConstants.PERSON_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getCreator();
 
-    @OslcName("trace")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "trace")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("trace")
-    public Set<Link> getTrace();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcDescription(
+      "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
+          + " only content that is valid and suitable inside an XHTML <div> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("refine")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "refine")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("refine")
-    public Set<Link> getRefine();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcDescription(
+      "A unique identifier for a resource. Typically read-only and assigned by the service provider"
+          + " when a resource is created. Not typically intended for end-user display.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("derives")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "derives")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("derives")
-    public Set<Link> getDerives();
+  @OslcName("modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcDescription("Timestamp of latest resource modification")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getModified();
 
-    @OslcName("elaborates")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "elaborates")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("elaborates")
-    public Set<Link> getElaborates();
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcReadOnly(false)
+  public URI getSource();
 
-    @OslcName("satisfy")
-    @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "satisfy")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    @OslcTitle("satisfy")
-    public Set<Link> getSatisfy();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcDescription(
+      "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
+          + " that is valid inside an XHTML <span> element.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
+  @OslcName("type")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "type")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public Set<String> getType();
 
-    public void setContributor(final Set<Link> contributor );
-    public void setCreated(final Date created );
-    public void setCreator(final Set<Link> creator );
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setModified(final Date modified );
-    public void setSource(final URI source );
-    public void setTitle(final String title );
-    public void setType(final Set<String> type );
-    public void setInstanceShape(final Set<Link> instanceShape );
-    public void setServiceProvider(final Set<Link> serviceProvider );
-    public void setShortTitle(final String shortTitle );
-    public void setExternal(final Set<Link> external );
-    public void setTrace(final Set<Link> trace );
-    public void setRefine(final Set<Link> refine );
-    public void setDerives(final Set<Link> derives );
-    public void setElaborates(final Set<Link> elaborates );
-    public void setSatisfy(final Set<Link> satisfy );
+  @OslcName("instanceShape")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcDescription(
+      "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
+          + " allowed values and labels. This shape information is useful in displaying the subject"
+          + " resource as well as guiding clients in performing modifications. Instance shapes may"
+          + " be specific to the authenticated user associated with the request that retrieved the"
+          + " resource, the current state of the resource and other factors and thus should not be"
+          + " cached.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getInstanceShape();
+
+  @OslcName("serviceProvider")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcDescription(
+      "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
+          + " is available from a service provider that implements multiple domain specifications,"
+          + " which could result in multiple values for this property.")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Reference)
+  @OslcReadOnly(false)
+  public Set<Link> getServiceProvider();
+
+  @OslcName("shortTitle")
+  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+  @OslcDescription(
+      "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
+          + " SHOULD include only content that is valid inside an XHTML <span> element.")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getShortTitle();
+
+  @OslcName("external")
+  @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "external")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("external")
+  public Set<Link> getExternal();
+
+  @OslcName("trace")
+  @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "trace")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("trace")
+  public Set<Link> getTrace();
+
+  @OslcName("refine")
+  @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "refine")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("refine")
+  public Set<Link> getRefine();
+
+  @OslcName("derives")
+  @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "derives")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("derives")
+  public Set<Link> getDerives();
+
+  @OslcName("elaborates")
+  @OslcPropertyDefinition(
+      Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "elaborates")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("elaborates")
+  public Set<Link> getElaborates();
+
+  @OslcName("satisfy")
+  @OslcPropertyDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE + "satisfy")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  @OslcTitle("satisfy")
+  public Set<Link> getSatisfy();
+
+  public void setContributor(final Set<Link> contributor);
+
+  public void setCreated(final Date created);
+
+  public void setCreator(final Set<Link> creator);
+
+  public void setDescription(final String description);
+
+  public void setIdentifier(final String identifier);
+
+  public void setModified(final Date modified);
+
+  public void setSource(final URI source);
+
+  public void setTitle(final String title);
+
+  public void setType(final Set<String> type);
+
+  public void setInstanceShape(final Set<Link> instanceShape);
+
+  public void setServiceProvider(final Set<Link> serviceProvider);
+
+  public void setShortTitle(final String shortTitle);
+
+  public void setExternal(final Set<Link> external);
+
+  public void setTrace(final Set<Link> trace);
+
+  public void setRefine(final Set<Link> refine);
+
+  public void setDerives(final Set<Link> derives);
+
+  public void setElaborates(final Set<Link> elaborates);
+
+  public void setSatisfy(final Set<Link> satisfy);
 }
-

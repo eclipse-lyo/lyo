@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -54,14 +55,9 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_cmDomainConstants.PRIORITY_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.PRIORITY_LOCALNAME)
 @OslcResourceShape(title = "Priority Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
-public interface IPriority
-{
-
-
-
-}
-
+public interface IPriority {}
