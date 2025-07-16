@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,14 +64,11 @@ import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
-@OslcResourceShape(title = "ChangeNotice Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
-public interface IChangeNotice
-{
-
-
-
-}
-
+@OslcResourceShape(
+    title = "ChangeNotice Shape",
+    describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+public interface IChangeNotice {}

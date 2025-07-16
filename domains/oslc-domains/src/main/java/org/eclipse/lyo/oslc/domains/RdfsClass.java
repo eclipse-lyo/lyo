@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsClass;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -71,94 +73,86 @@ import org.eclipse.lyo.oslc.domains.RdfsClass;
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)
 @OslcResourceShape(title = "Class Shape", describes = RdfsDomainConstants.CLASS_TYPE)
-public class RdfsClass
-    extends AbstractResource
-    implements IRdfsClass
-{
-    // Start of user code attributeAnnotation:subClassOf
+public class RdfsClass extends AbstractResource implements IRdfsClass {
+  // Start of user code attributeAnnotation:subClassOf
+  // End of user code
+  private Link subClassOf;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public RdfsClass() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Link subClassOf;
-    
-    // Start of user code classAttributes
+  }
+
+  public RdfsClass(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public RdfsClass()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public RdfsClass(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         RdfsDomainConstants.CLASS_PATH,
         RdfsClass.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Class Resource} - update Class.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:subClassOf
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("subClassOf")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "subClassOf")
-    @OslcDescription("used to state that all the instances of one class are instances of another")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Link getSubClassOf()
-    {
-        // Start of user code getterInit:subClassOf
-        // End of user code
-        return subClassOf;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Class Resource} - update Class.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code setterAnnotation:subClassOf
+    // Start of user code toString_finalize
     // End of user code
-    public void setSubClassOf(final Link subClassOf )
-    {
-        // Start of user code setterInit:subClassOf
-        // End of user code
-        this.subClassOf = subClassOf;
-        // Start of user code setterFinalize:subClassOf
-        // End of user code
-    }
 
+    return result;
+  }
+
+  // Start of user code getterAnnotation:subClassOf
+  // End of user code
+  @OslcName("subClassOf")
+  @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "subClassOf")
+  @OslcDescription("used to state that all the instances of one class are instances of another")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Link getSubClassOf() {
+    // Start of user code getterInit:subClassOf
+    // End of user code
+    return subClassOf;
+  }
+
+  // Start of user code setterAnnotation:subClassOf
+  // End of user code
+  public void setSubClassOf(final Link subClassOf) {
+    // Start of user code setterInit:subClassOf
+    // End of user code
+    this.subClassOf = subClassOf;
+    // Start of user code setterFinalize:subClassOf
+    // End of user code
+  }
 }
