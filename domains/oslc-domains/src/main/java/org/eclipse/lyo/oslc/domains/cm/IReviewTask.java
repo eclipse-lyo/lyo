@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,14 +64,9 @@ import org.eclipse.lyo.oslc.domains.rm.IRequirement;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
 @OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
-public interface IReviewTask
-{
-
-
-
-}
-
+public interface IReviewTask {}

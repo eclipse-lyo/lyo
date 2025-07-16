@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains.cm;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -76,65 +78,61 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 // End of user code
 @OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
-@OslcResourceShape(title = "ChangeNotice Shape", describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
-public class ChangeNotice
-    extends ChangeRequest
-    implements IChangeNotice
-{
-    
-    // Start of user code classAttributes
+@OslcResourceShape(
+    title = "ChangeNotice Shape",
+    describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+public class ChangeNotice extends ChangeRequest implements IChangeNotice {
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public ChangeNotice() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    // Start of user code classMethods
+  }
+
+  public ChangeNotice(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    public ChangeNotice()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public ChangeNotice(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_cmDomainConstants.CHANGENOTICE_PATH,
         ChangeNotice.class);
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
+    // End of user code
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local ChangeNotice Resource} - update ChangeNotice.toString() to present"
+              + " resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local ChangeNotice Resource} - update ChangeNotice.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
+
+    // Start of user code toString_finalize
+    // End of user code
+
+    return result;
+  }
 }

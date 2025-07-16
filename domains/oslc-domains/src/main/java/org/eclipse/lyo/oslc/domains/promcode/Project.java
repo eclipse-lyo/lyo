@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.promcode;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -70,345 +72,322 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.PROJECT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.PROJECT_LOCALNAME)
-@OslcResourceShape(title = "Project Shape", description = "A project is software development work to achieve some business goal.", describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
-public class Project
-    extends AbstractResource
-    implements IProject
-{
-    // Start of user code attributeAnnotation:description
+@OslcResourceShape(
+    title = "Project Shape",
+    description = "A project is software development work to achieve some business goal.",
+    describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
+public class Project extends AbstractResource implements IProject {
+  // Start of user code attributeAnnotation:description
+  // End of user code
+  private String description;
+  // Start of user code attributeAnnotation:identifier
+  // End of user code
+  private String identifier;
+  // Start of user code attributeAnnotation:source
+  // End of user code
+  private String source;
+  // Start of user code attributeAnnotation:title
+  // End of user code
+  private String title;
+  // Start of user code attributeAnnotation:actualEndDate
+  // End of user code
+  private Date actualEndDate;
+  // Start of user code attributeAnnotation:actualStartDate
+  // End of user code
+  private Date actualStartDate;
+  // Start of user code attributeAnnotation:metricOfScopeItemSize
+  // End of user code
+  private Link metricOfScopeItemSize;
+  // Start of user code attributeAnnotation:plannedEndDate
+  // End of user code
+  private Date plannedEndDate;
+  // Start of user code attributeAnnotation:plannedStartDate
+  // End of user code
+  private Date plannedStartDate;
+  // Start of user code attributeAnnotation:unitOfScopeItemSize
+  // End of user code
+  private Link unitOfScopeItemSize;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Project() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private String description;
-    // Start of user code attributeAnnotation:identifier
+  }
+
+  public Project(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private String identifier;
-    // Start of user code attributeAnnotation:source
-    // End of user code
-    private String source;
-    // Start of user code attributeAnnotation:title
-    // End of user code
-    private String title;
-    // Start of user code attributeAnnotation:actualEndDate
-    // End of user code
-    private Date actualEndDate;
-    // Start of user code attributeAnnotation:actualStartDate
-    // End of user code
-    private Date actualStartDate;
-    // Start of user code attributeAnnotation:metricOfScopeItemSize
-    // End of user code
-    private Link metricOfScopeItemSize;
-    // Start of user code attributeAnnotation:plannedEndDate
-    // End of user code
-    private Date plannedEndDate;
-    // Start of user code attributeAnnotation:plannedStartDate
-    // End of user code
-    private Date plannedStartDate;
-    // Start of user code attributeAnnotation:unitOfScopeItemSize
-    // End of user code
-    private Link unitOfScopeItemSize;
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Project()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Project(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.PROJECT_PATH,
         Project.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Project Resource} - update Project.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:description
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription()
-    {
-        // Start of user code getterInit:description
-        // End of user code
-        return description;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Project Resource} - update Project.toString() to present resource as"
+              + " desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:identifier
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier()
-    {
-        // Start of user code getterInit:identifier
-        // End of user code
-        return identifier;
-    }
 
-    // Start of user code getterAnnotation:source
+    return result;
+  }
+
+  // Start of user code getterAnnotation:description
+  // End of user code
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription() {
+    // Start of user code getterInit:description
     // End of user code
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource()
-    {
-        // Start of user code getterInit:source
-        // End of user code
-        return source;
-    }
+    return description;
+  }
 
-    // Start of user code getterAnnotation:title
+  // Start of user code getterAnnotation:identifier
+  // End of user code
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier() {
+    // Start of user code getterInit:identifier
     // End of user code
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle()
-    {
-        // Start of user code getterInit:title
-        // End of user code
-        return title;
-    }
+    return identifier;
+  }
 
-    // Start of user code getterAnnotation:actualEndDate
+  // Start of user code getterAnnotation:source
+  // End of user code
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource() {
+    // Start of user code getterInit:source
     // End of user code
-    @OslcName("actualEndDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getActualEndDate()
-    {
-        // Start of user code getterInit:actualEndDate
-        // End of user code
-        return actualEndDate;
-    }
+    return source;
+  }
 
-    // Start of user code getterAnnotation:actualStartDate
+  // Start of user code getterAnnotation:title
+  // End of user code
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle() {
+    // Start of user code getterInit:title
     // End of user code
-    @OslcName("actualStartDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualStartDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getActualStartDate()
-    {
-        // Start of user code getterInit:actualStartDate
-        // End of user code
-        return actualStartDate;
-    }
+    return title;
+  }
 
-    // Start of user code getterAnnotation:metricOfScopeItemSize
+  // Start of user code getterAnnotation:actualEndDate
+  // End of user code
+  @OslcName("actualEndDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getActualEndDate() {
+    // Start of user code getterInit:actualEndDate
     // End of user code
-    @OslcName("metricOfScopeItemSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getMetricOfScopeItemSize()
-    {
-        // Start of user code getterInit:metricOfScopeItemSize
-        // End of user code
-        return metricOfScopeItemSize;
-    }
+    return actualEndDate;
+  }
 
-    // Start of user code getterAnnotation:plannedEndDate
+  // Start of user code getterAnnotation:actualStartDate
+  // End of user code
+  @OslcName("actualStartDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualStartDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getActualStartDate() {
+    // Start of user code getterInit:actualStartDate
     // End of user code
-    @OslcName("plannedEndDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedEndDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getPlannedEndDate()
-    {
-        // Start of user code getterInit:plannedEndDate
-        // End of user code
-        return plannedEndDate;
-    }
+    return actualStartDate;
+  }
 
-    // Start of user code getterAnnotation:plannedStartDate
+  // Start of user code getterAnnotation:metricOfScopeItemSize
+  // End of user code
+  @OslcName("metricOfScopeItemSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getMetricOfScopeItemSize() {
+    // Start of user code getterInit:metricOfScopeItemSize
     // End of user code
-    @OslcName("plannedStartDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedStartDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getPlannedStartDate()
-    {
-        // Start of user code getterInit:plannedStartDate
-        // End of user code
-        return plannedStartDate;
-    }
+    return metricOfScopeItemSize;
+  }
 
-    // Start of user code getterAnnotation:unitOfScopeItemSize
+  // Start of user code getterAnnotation:plannedEndDate
+  // End of user code
+  @OslcName("plannedEndDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedEndDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getPlannedEndDate() {
+    // Start of user code getterInit:plannedEndDate
     // End of user code
-    @OslcName("unitOfScopeItemSize")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfScopeItemSize")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getUnitOfScopeItemSize()
-    {
-        // Start of user code getterInit:unitOfScopeItemSize
-        // End of user code
-        return unitOfScopeItemSize;
-    }
+    return plannedEndDate;
+  }
 
-    // Start of user code setterAnnotation:description
+  // Start of user code getterAnnotation:plannedStartDate
+  // End of user code
+  @OslcName("plannedStartDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedStartDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getPlannedStartDate() {
+    // Start of user code getterInit:plannedStartDate
     // End of user code
-    public void setDescription(final String description )
-    {
-        // Start of user code setterInit:description
-        // End of user code
-        this.description = description;
-        // Start of user code setterFinalize:description
-        // End of user code
-    }
+    return plannedStartDate;
+  }
 
-    // Start of user code setterAnnotation:identifier
+  // Start of user code getterAnnotation:unitOfScopeItemSize
+  // End of user code
+  @OslcName("unitOfScopeItemSize")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfScopeItemSize")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getUnitOfScopeItemSize() {
+    // Start of user code getterInit:unitOfScopeItemSize
     // End of user code
-    public void setIdentifier(final String identifier )
-    {
-        // Start of user code setterInit:identifier
-        // End of user code
-        this.identifier = identifier;
-        // Start of user code setterFinalize:identifier
-        // End of user code
-    }
+    return unitOfScopeItemSize;
+  }
 
-    // Start of user code setterAnnotation:source
+  // Start of user code setterAnnotation:description
+  // End of user code
+  public void setDescription(final String description) {
+    // Start of user code setterInit:description
     // End of user code
-    public void setSource(final String source )
-    {
-        // Start of user code setterInit:source
-        // End of user code
-        this.source = source;
-        // Start of user code setterFinalize:source
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:title
+    this.description = description;
+    // Start of user code setterFinalize:description
     // End of user code
-    public void setTitle(final String title )
-    {
-        // Start of user code setterInit:title
-        // End of user code
-        this.title = title;
-        // Start of user code setterFinalize:title
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:actualEndDate
+  // Start of user code setterAnnotation:identifier
+  // End of user code
+  public void setIdentifier(final String identifier) {
+    // Start of user code setterInit:identifier
     // End of user code
-    public void setActualEndDate(final Date actualEndDate )
-    {
-        // Start of user code setterInit:actualEndDate
-        // End of user code
-        this.actualEndDate = actualEndDate;
-        // Start of user code setterFinalize:actualEndDate
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:actualStartDate
+    this.identifier = identifier;
+    // Start of user code setterFinalize:identifier
     // End of user code
-    public void setActualStartDate(final Date actualStartDate )
-    {
-        // Start of user code setterInit:actualStartDate
-        // End of user code
-        this.actualStartDate = actualStartDate;
-        // Start of user code setterFinalize:actualStartDate
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:metricOfScopeItemSize
+  // Start of user code setterAnnotation:source
+  // End of user code
+  public void setSource(final String source) {
+    // Start of user code setterInit:source
     // End of user code
-    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize )
-    {
-        // Start of user code setterInit:metricOfScopeItemSize
-        // End of user code
-        this.metricOfScopeItemSize = metricOfScopeItemSize;
-        // Start of user code setterFinalize:metricOfScopeItemSize
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:plannedEndDate
+    this.source = source;
+    // Start of user code setterFinalize:source
     // End of user code
-    public void setPlannedEndDate(final Date plannedEndDate )
-    {
-        // Start of user code setterInit:plannedEndDate
-        // End of user code
-        this.plannedEndDate = plannedEndDate;
-        // Start of user code setterFinalize:plannedEndDate
-        // End of user code
-    }
+  }
 
-    // Start of user code setterAnnotation:plannedStartDate
+  // Start of user code setterAnnotation:title
+  // End of user code
+  public void setTitle(final String title) {
+    // Start of user code setterInit:title
     // End of user code
-    public void setPlannedStartDate(final Date plannedStartDate )
-    {
-        // Start of user code setterInit:plannedStartDate
-        // End of user code
-        this.plannedStartDate = plannedStartDate;
-        // Start of user code setterFinalize:plannedStartDate
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:unitOfScopeItemSize
+    this.title = title;
+    // Start of user code setterFinalize:title
     // End of user code
-    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize )
-    {
-        // Start of user code setterInit:unitOfScopeItemSize
-        // End of user code
-        this.unitOfScopeItemSize = unitOfScopeItemSize;
-        // Start of user code setterFinalize:unitOfScopeItemSize
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:actualEndDate
+  // End of user code
+  public void setActualEndDate(final Date actualEndDate) {
+    // Start of user code setterInit:actualEndDate
+    // End of user code
+    this.actualEndDate = actualEndDate;
+    // Start of user code setterFinalize:actualEndDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:actualStartDate
+  // End of user code
+  public void setActualStartDate(final Date actualStartDate) {
+    // Start of user code setterInit:actualStartDate
+    // End of user code
+    this.actualStartDate = actualStartDate;
+    // Start of user code setterFinalize:actualStartDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:metricOfScopeItemSize
+  // End of user code
+  public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize) {
+    // Start of user code setterInit:metricOfScopeItemSize
+    // End of user code
+    this.metricOfScopeItemSize = metricOfScopeItemSize;
+    // Start of user code setterFinalize:metricOfScopeItemSize
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:plannedEndDate
+  // End of user code
+  public void setPlannedEndDate(final Date plannedEndDate) {
+    // Start of user code setterInit:plannedEndDate
+    // End of user code
+    this.plannedEndDate = plannedEndDate;
+    // Start of user code setterFinalize:plannedEndDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:plannedStartDate
+  // End of user code
+  public void setPlannedStartDate(final Date plannedStartDate) {
+    // Start of user code setterInit:plannedStartDate
+    // End of user code
+    this.plannedStartDate = plannedStartDate;
+    // Start of user code setterFinalize:plannedStartDate
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:unitOfScopeItemSize
+  // End of user code
+  public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize) {
+    // Start of user code setterInit:unitOfScopeItemSize
+    // End of user code
+    this.unitOfScopeItemSize = unitOfScopeItemSize;
+    // Start of user code setterFinalize:unitOfScopeItemSize
+    // End of user code
+  }
 }
