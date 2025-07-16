@@ -81,12 +81,12 @@
 
   <modules>
     <module>bom/lyo-bom</module>
-    
+
     <module>core/oslc4j-core-build</module>
-  
+
     <module>domains/oslc-domains</module>
     <module>client</module>
-  
+
     <module>server</module>
 
     <module>trs/server</module>
@@ -196,6 +196,31 @@
               <autoPublish>true</autoPublish>
               <waitUntil>published</waitUntil>
             </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+bil    <profile>
+      <id>spotless</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.diffplug.spotless</groupId>
+            <artifactId>spotless-maven-plugin</artifactId>
+            <version>2.44.5</version>
+            <executions>
+              <execution>
+                <id>auto-style</id>
+                <goals>
+                  <goal>apply</goal>
+                </goals>
+                <!-- Using validate phase, so this happens before enforce-style -->
+                <phase>validate</phase>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
@@ -679,16 +704,6 @@
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
         <version>2.44.5</version>
-        <executions>
-          <execution>
-            <id>auto-style</id>
-            <goals>
-              <goal>apply</goal>
-            </goals>
-            <!-- Using validate phase, so this happens before enforce-style -->
-            <phase>validate</phase>
-          </execution>
-        </executions>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
           <ratchetFrom>origin/master</ratchetFrom>
