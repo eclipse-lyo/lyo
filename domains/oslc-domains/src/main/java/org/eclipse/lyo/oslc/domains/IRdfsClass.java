@@ -16,6 +16,7 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -57,24 +58,21 @@ import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IRdfsClass;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)
 @OslcResourceShape(title = "Class Shape", describes = RdfsDomainConstants.CLASS_TYPE)
-public interface IRdfsClass
-{
+public interface IRdfsClass {
 
+  @OslcName("subClassOf")
+  @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "subClassOf")
+  @OslcDescription("used to state that all the instances of one class are instances of another")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Link getSubClassOf();
 
-    @OslcName("subClassOf")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "subClassOf")
-    @OslcDescription("used to state that all the instances of one class are instances of another")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Link getSubClassOf();
-
-
-    public void setSubClassOf(final Link subClassOf );
+  public void setSubClassOf(final Link subClassOf);
 }
-

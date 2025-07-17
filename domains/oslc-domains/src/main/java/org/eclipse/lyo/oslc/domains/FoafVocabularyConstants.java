@@ -16,21 +16,22 @@
 
 package org.eclipse.lyo.oslc.domains;
 
+// spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
-public interface FoafVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public interface FoafVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    public static String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/";
-    public static String FOAF_NAMSPACE_PREFIX = "foaf";
+  public static String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/";
+  public static String FOAF_NAMSPACE_PREFIX = "foaf";
 
-    public static String AGENT = "Agent";
-    public static String TYPE_AGENT = FOAF_NAMSPACE + AGENT;
-    public static String PERSON = "Person";
-    public static String TYPE_PERSON = FOAF_NAMSPACE + PERSON;
+  public static String AGENT = "Agent";
+  public static String TYPE_AGENT = FOAF_NAMSPACE + AGENT;
+  public static String PERSON = "Person";
+  public static String TYPE_PERSON = FOAF_NAMSPACE + PERSON;
 }

@@ -39,6 +39,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
+          # Needed for spotless to do the ratchet
+          fetch-depth: 0
           show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v4

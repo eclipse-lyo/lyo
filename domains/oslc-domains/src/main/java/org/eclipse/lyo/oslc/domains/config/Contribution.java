@@ -17,6 +17,7 @@
 
 package org.eclipse.lyo.oslc.domains.config;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.config.Configuration;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code preClassCode
 // End of user code
@@ -72,180 +74,171 @@ import org.eclipse.lyo.oslc.domains.config.Configuration;
 // End of user code
 @OslcNamespace(Oslc_configDomainConstants.CONTRIBUTION_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONTRIBUTION_LOCALNAME)
-@OslcResourceShape(title = "Contribution Shape", describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
-public class Contribution
-    extends AbstractResource
-    implements IContribution
-{
-    // Start of user code attributeAnnotation:modified
+@OslcResourceShape(
+    title = "Contribution Shape",
+    describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
+public class Contribution extends AbstractResource implements IContribution {
+  // Start of user code attributeAnnotation:modified
+  // End of user code
+  private Date modified;
+  // Start of user code attributeAnnotation:configuration
+  // End of user code
+  private Link configuration;
+  // Start of user code attributeAnnotation:contributionOrder
+  // End of user code
+  private String contributionOrder;
+  // Start of user code attributeAnnotation:overrides
+  // End of user code
+  private Link overrides;
+
+  // Start of user code classAttributes
+  // End of user code
+  // Start of user code classMethods
+  // End of user code
+  public Contribution() {
+    super();
+
+    // Start of user code constructor1
     // End of user code
-    private Date modified;
-    // Start of user code attributeAnnotation:configuration
+  }
+
+  public Contribution(final URI about) {
+    super(about);
+
+    // Start of user code constructor2
     // End of user code
-    private Link configuration;
-    // Start of user code attributeAnnotation:contributionOrder
-    // End of user code
-    private String contributionOrder;
-    // Start of user code attributeAnnotation:overrides
-    // End of user code
-    private Link overrides;
-    
-    // Start of user code classAttributes
-    // End of user code
-    // Start of user code classMethods
-    // End of user code
-    public Contribution()
-    {
-        super();
-    
-        // Start of user code constructor1
-        // End of user code
-    }
-    
-    public Contribution(final URI about)
-    {
-        super(about);
-    
-        // Start of user code constructor2
-        // End of user code
-    }
-    
-    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
-        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
+  }
+
+  public static ResourceShape createResourceShape()
+      throws OslcCoreApplicationException, URISyntaxException {
+    return ResourceShapeFactory.createResourceShape(
+        OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_configDomainConstants.CONTRIBUTION_PATH,
         Contribution.class);
-    }
-    
-    
-    public String toString()
-    {
-        return toString(false);
-    }
-    
-    public String toString(boolean asLocalResource)
-    {
-        String result = "";
-        // Start of user code toString_init
-        // End of user code
-    
-        if (asLocalResource) {
-            result = result + "{a Local Contribution Resource} - update Contribution.toString() to present resource as desired.";
-            // Start of user code toString_bodyForLocalResource
-            // End of user code
-        }
-        else {
-            result = String.valueOf(getAbout());
-        }
-    
-        // Start of user code toString_finalize
-        // End of user code
-    
-        return result;
-    }
-    
-    
-    // Start of user code getterAnnotation:modified
+  }
+
+  public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean asLocalResource) {
+    String result = "";
+    // Start of user code toString_init
     // End of user code
-    @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
-    @OslcDescription("Timestamp of latest resource modification")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getModified()
-    {
-        // Start of user code getterInit:modified
-        // End of user code
-        return modified;
+
+    if (asLocalResource) {
+      result =
+          result
+              + "{a Local Contribution Resource} - update Contribution.toString() to present"
+              + " resource as desired.";
+      // Start of user code toString_bodyForLocalResource
+      // End of user code
+    } else {
+      result = String.valueOf(getAbout());
     }
 
-    // Start of user code getterAnnotation:configuration
+    // Start of user code toString_finalize
     // End of user code
-    @OslcName("configuration")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getConfiguration()
-    {
-        // Start of user code getterInit:configuration
-        // End of user code
-        return configuration;
-    }
 
-    // Start of user code getterAnnotation:contributionOrder
+    return result;
+  }
+
+  // Start of user code getterAnnotation:modified
+  // End of user code
+  @OslcName("modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcDescription("Timestamp of latest resource modification")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getModified() {
+    // Start of user code getterInit:modified
     // End of user code
-    @OslcName("contributionOrder")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getContributionOrder()
-    {
-        // Start of user code getterInit:contributionOrder
-        // End of user code
-        return contributionOrder;
-    }
+    return modified;
+  }
 
-    // Start of user code getterAnnotation:overrides
+  // Start of user code getterAnnotation:configuration
+  // End of user code
+  @OslcName("configuration")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getConfiguration() {
+    // Start of user code getterInit:configuration
     // End of user code
-    @OslcName("overrides")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getOverrides()
-    {
-        // Start of user code getterInit:overrides
-        // End of user code
-        return overrides;
-    }
+    return configuration;
+  }
 
-    // Start of user code setterAnnotation:modified
+  // Start of user code getterAnnotation:contributionOrder
+  // End of user code
+  @OslcName("contributionOrder")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getContributionOrder() {
+    // Start of user code getterInit:contributionOrder
     // End of user code
-    public void setModified(final Date modified )
-    {
-        // Start of user code setterInit:modified
-        // End of user code
-        this.modified = modified;
-        // Start of user code setterFinalize:modified
-        // End of user code
-    }
+    return contributionOrder;
+  }
 
-    // Start of user code setterAnnotation:configuration
+  // Start of user code getterAnnotation:overrides
+  // End of user code
+  @OslcName("overrides")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getOverrides() {
+    // Start of user code getterInit:overrides
     // End of user code
-    public void setConfiguration(final Link configuration )
-    {
-        // Start of user code setterInit:configuration
-        // End of user code
-        this.configuration = configuration;
-        // Start of user code setterFinalize:configuration
-        // End of user code
-    }
+    return overrides;
+  }
 
-    // Start of user code setterAnnotation:contributionOrder
+  // Start of user code setterAnnotation:modified
+  // End of user code
+  public void setModified(final Date modified) {
+    // Start of user code setterInit:modified
     // End of user code
-    public void setContributionOrder(final String contributionOrder )
-    {
-        // Start of user code setterInit:contributionOrder
-        // End of user code
-        this.contributionOrder = contributionOrder;
-        // Start of user code setterFinalize:contributionOrder
-        // End of user code
-    }
-
-    // Start of user code setterAnnotation:overrides
+    this.modified = modified;
+    // Start of user code setterFinalize:modified
     // End of user code
-    public void setOverrides(final Link overrides )
-    {
-        // Start of user code setterInit:overrides
-        // End of user code
-        this.overrides = overrides;
-        // Start of user code setterFinalize:overrides
-        // End of user code
-    }
+  }
 
+  // Start of user code setterAnnotation:configuration
+  // End of user code
+  public void setConfiguration(final Link configuration) {
+    // Start of user code setterInit:configuration
+    // End of user code
+    this.configuration = configuration;
+    // Start of user code setterFinalize:configuration
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:contributionOrder
+  // End of user code
+  public void setContributionOrder(final String contributionOrder) {
+    // Start of user code setterInit:contributionOrder
+    // End of user code
+    this.contributionOrder = contributionOrder;
+    // Start of user code setterFinalize:contributionOrder
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:overrides
+  // End of user code
+  public void setOverrides(final Link overrides) {
+    // Start of user code setterInit:overrides
+    // End of user code
+    this.overrides = overrides;
+    // Start of user code setterFinalize:overrides
+    // End of user code
+  }
 }
