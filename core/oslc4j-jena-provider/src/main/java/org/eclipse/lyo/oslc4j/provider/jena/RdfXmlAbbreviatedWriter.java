@@ -243,7 +243,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 	 * @see org.apache.jena.rdf.model.RDFWriterI#write(org.apache.jena.rdf.model.Model, java.io.Writer, java.lang.String)
 	 */
 	public void write(Model model, Writer writer, String base) {
-
+/*
 		//Note: The base parameter is not required.
 
 		//Serialize the RDF model:
@@ -420,6 +420,8 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 		xmlWriter.rootEndTag(RDF.getURI(), RDF_ELEMENT_RDF, true);
 
 		xmlWriter.end();
+
+ */
 	}
 
 	/**
@@ -482,7 +484,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 	}
 
 	private void serializeStatement(Statement statement, XMLWriter xmlWriter, List<Resource> serializedResources, Set<Statement> visitedStatements, String rootResourceTypeURI) {
-
+/*
 		visitedStatements.add(statement);
 		Model model = statement.getModel();
 		Property predicate = statement.getPredicate();
@@ -617,7 +619,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 
 				xmlWriter.endTag(predicate.getNameSpace(), predicate.getLocalName(), false);
 			}
-		}
+		}*/
 	}
 
 	private String getShortId(AnonId resourceId) {
