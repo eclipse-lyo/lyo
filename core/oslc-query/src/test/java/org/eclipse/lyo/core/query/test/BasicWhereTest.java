@@ -84,7 +84,7 @@ public class BasicWhereTest {
 
         SimpleTerm simpleTerm = children.get(0);
         PName prop = simpleTerm.property();
-        assertEquals(prop.namespace + prop.local, "http://qm.example.com/nstestCase");
+        assertEquals(prop.namespace + prop.local, "http://qm.example.com/ns#testCase");
         assertTrue(simpleTerm instanceof ComparisonTerm);
 
         ComparisonTerm comparison = (ComparisonTerm) simpleTerm;
