@@ -34,7 +34,7 @@ import org.junit.Test;
  */
 public class BasicWhereTest {
     static final String PREFIXES =
-            "qm=<http://qm.example.com/ns>,"
+            "qm=<http://qm.example.com/ns#>,"
                     + "olsc=<http://open-services.net/ns/core#>,"
                     + "xs=<http://www.w3.org/2001/XMLSchema>";
 
@@ -114,7 +114,7 @@ public class BasicWhereTest {
         ComparisonTerm comparison = parseWhereCondition("qm:answer<42", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsanswer", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#answer", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_THAN, comparison.operator());
 
         Value v = comparison.operand();
@@ -132,7 +132,7 @@ public class BasicWhereTest {
         ComparisonTerm comparison = parseWhereCondition("qm:answer<=42", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsanswer", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#answer", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_EQUALS, comparison.operator());
 
         Value v = comparison.operand();
@@ -151,7 +151,7 @@ public class BasicWhereTest {
                 parseWhereCondition("qm:question<=\"The ultimate...\"", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsquestion", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#question", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_EQUALS, comparison.operator());
 
         Value v = comparison.operand();
@@ -170,7 +170,7 @@ public class BasicWhereTest {
                 parseWhereCondition("qm:question<=<urn:qm:ultimate>", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsquestion", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#question", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_EQUALS, comparison.operator());
 
         Value v = comparison.operand();
@@ -185,7 +185,7 @@ public class BasicWhereTest {
         ComparisonTerm comparison = parseWhereCondition("qm:age<-5", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsage", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#age", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_THAN, comparison.operator());
 
         Value v = comparison.operand();
@@ -203,7 +203,7 @@ public class BasicWhereTest {
         ComparisonTerm comparison = parseWhereCondition("qm:name<=\"\"", prefixMap);
 
         PName prop = comparison.property();
-        assertEquals("http://qm.example.com/nsname", prop.namespace + prop.local);
+        assertEquals("http://qm.example.com/ns#name", prop.namespace + prop.local);
         assertEquals(ComparisonTerm.Operator.LESS_EQUALS, comparison.operator());
 
         Value v = comparison.operand();
