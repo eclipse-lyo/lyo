@@ -14,12 +14,12 @@
 
 package org.eclipse.lyo.validation;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclMinInclusiveValidationTest.
@@ -51,13 +51,13 @@ public class ShaclMinInclusiveValidationTest {
             aResource.setIntegerProperty3(new BigInteger("4"));
             aResource.addASetOfDates(new Date());
 
-            TestHelper.assertNegative(TestHelper.performTest(aResource), "minInclusive violation. Expected 4 >= 5");
+            TestHelper.assertNegative(
+                    TestHelper.performTest(aResource), "minInclusive violation. Expected 4 >= 5");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
 
     /**
@@ -77,9 +77,7 @@ public class ShaclMinInclusiveValidationTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("Exception should not be thrown");
+            fail("Exception should not be thrown");
         }
-
     }
-
 }
