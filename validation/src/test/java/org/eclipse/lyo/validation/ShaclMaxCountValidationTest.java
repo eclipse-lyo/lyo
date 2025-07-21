@@ -15,16 +15,15 @@
 /**
  * @since 2.3.0
  */
-
 package org.eclipse.lyo.validation;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Date;
-
 import org.eclipse.lyo.shacl.ValidationReport;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ShaclMaxCountValidationTest.
@@ -46,7 +45,7 @@ public class ShaclMaxCountValidationTest {
 
         try {
             aResource = new AResource(new URI("http://www.sampledomain.org/sam#AResource"));
-            //Invalid. Cardinality should be 0.
+            // Invalid. Cardinality should be 0.
             aResource.setAnIntegerProperty(new BigInteger("1"));
             aResource.setAnotherIntegerProperty(new BigInteger("12"));
             aResource.setAStringProperty("Between");
@@ -56,7 +55,7 @@ public class ShaclMaxCountValidationTest {
             TestHelper.assertNegative(vr, "MaxCount violation. Expected 0, obtained: 1");
 
         } catch (Exception e) {
-            Assert.fail("Exception should be thrown.");
+            fail("Exception should be thrown.");
             e.printStackTrace();
         }
     }
@@ -77,10 +76,8 @@ public class ShaclMaxCountValidationTest {
             TestHelper.assertPositive(vr);
 
         } catch (Exception e) {
-            Assert.fail("Exception should be thrown.");
+            fail("Exception should be thrown.");
             e.printStackTrace();
         }
-
     }
-
 }
