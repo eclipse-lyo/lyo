@@ -49,12 +49,12 @@
                 <version>${v.lyo}</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.lyo.core</groupId>
+                <groupId>org.eclipse.lyo.oslc4j.core</groupId>
                 <artifactId>lyo-core-model</artifactId>
                 <version>${v.lyo}</version>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.lyo.core</groupId>
+                <groupId>org.eclipse.lyo.oslc4j.core</groupId>
                 <artifactId>lyo-core-settings</artifactId>
                 <version>${v.lyo}</version>
             </dependency>
