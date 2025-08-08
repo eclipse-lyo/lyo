@@ -53,8 +53,8 @@
         <groupId>org.eclipse.lyo.server</groupId>
         <artifactId>net.oauth.core-oauth-jakarta</artifactId>
         <version>${v.lyo}</version>
-		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
-		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary.
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file,
 		  causing warnings that classes are scanned from multiple locations -->
 	      <exclusions>
 	        <exclusion>
@@ -67,8 +67,8 @@
         <groupId>org.eclipse.lyo.server</groupId>
         <artifactId>net.oauth.core-oauth-consumer-jakarta</artifactId>
         <version>${v.lyo}</version>
-		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
-		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary.
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file,
 		  causing warnings that classes are scanned from multiple locations -->
 	      <exclusions>
 	        <exclusion>
@@ -81,8 +81,8 @@
         <groupId>org.eclipse.lyo.server</groupId>
         <artifactId>net.oauth.core-oauth-httpclient4-jakarta</artifactId>
         <version>${v.lyo}</version>
-		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary. 
-		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file, 
+		  <!-- Now that we have the Jakarta binary, exclude the non-jakarta binary.
+		  Otherwise, both the Jakarta & non-Jakarta jar files appear in the war file,
 		  causing warnings that classes are scanned from multiple locations -->
 	      <exclusions>
 	        <exclusion>
@@ -109,6 +109,11 @@
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
 
     <!--TEST-->
