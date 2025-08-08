@@ -440,13 +440,6 @@
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
       </dependency>
-      <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
-      <!-- TODO: Tomcat 8.5.x will reach End-of-life (EOL) on 31 March 2024. -->
-      <dependency>
-        <groupId>org.apache.tomcat.embed</groupId>
-        <artifactId>tomcat-embed-core</artifactId>
-        <version>8.5.100</version>
-      </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
