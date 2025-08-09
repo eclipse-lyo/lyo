@@ -37,10 +37,16 @@ def generate_md_table(config):
       project_link = f"[{p['slug']}]({p['link']})"
       badge_color = label_types[lyo_versions[p['version']]]['color']
       version_badge = f"![](https://img.shields.io/badge/Lyo-{p['version']}-{badge_color})"
-      ci_badge = f"![]({p['ci_badge']})" if 'ci_badge' in p else "N/A"
-      pr_badge = f"[![]({p['pr_badge']})]({p['pr_link']})" if 'pr_badge' in p else "N/A"
-      issues_badge = f"[![]({p['issues_badge']})]({p['issues_link']})" if 'issues_badge' in p else "N/A"
-      activity_badge = f"![]({p['activity_badge']})" if 'activity_badge' in p else "N/A"
+      if p.get('archived'):
+        activity_badge = "![](https://img.shields.io/badge/status-archived-lightgray)"
+        ci_badge = "-"
+        pr_badge = "-"
+        issues_badge = "-"
+      else:
+        activity_badge = f"![]({p['activity_badge']})" if 'activity_badge' in p else "N/A"
+        ci_badge = f"![]({p['ci_badge']})" if 'ci_badge' in p else "N/A"
+        pr_badge = f"[![]({p['pr_badge']})]({p['pr_link']})" if 'pr_badge' in p else "N/A"
+        issues_badge = f"[![]({p['issues_badge']})]({p['issues_link']})" if 'issues_badge' in p else "N/A"
       # print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {issues_badge} | {activity_badge} |")
       print(f"| {project_link} | {version_badge} | {ci_badge} | {pr_badge} | {activity_badge} |")
 
