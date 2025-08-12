@@ -36,6 +36,27 @@ jobs:
           - jdk: '25-ea'
             distribution: zulu
             experimental: true
+          - jdk: '25-ea'
+            distribution: temurin
+            experimental: true
+          - jdk: '25-ea'
+            distribution: liberica
+            experimental: true
+          - jdk: '25-ea'
+            distribution: microsoft
+            experimental: true
+          - jdk: '25-ea'
+            distribution: corretto
+            experimental: true
+          - jdk: '25-ea'
+            distribution: semeru
+            experimental: true
+          - jdk: '25-ea'
+            distribution: oracle
+            experimental: true
+          - jdk: '25-ea'
+            distribution: jetbrains
+            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
