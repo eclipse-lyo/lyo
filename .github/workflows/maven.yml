@@ -33,16 +33,18 @@ jobs:
           - jdk: '24'
             distribution: zulu
             experimental: false
-          - jdk: '25-ea'
-            distribution: zulu
-            experimental: true
-          - jdk: '25-ea'
-            distribution: temurin
-            experimental: true
-          - jdk: '25-ea'
+          # not compatible with dokka due to reporting 25-beta as a version
+          # - jdk: '25-ea'
+          #   distribution: zulu
+          #   experimental: true
+          # not compatible with dokka due to reporting 25-beta as a version
+          # - jdk: '25-ea'
+          #   distribution: temurin
+          #   experimental: true
+          - jdk: '24'
             distribution: liberica
             experimental: true
-          - jdk: '24'
+          - jdk: '21'
             distribution: microsoft
             experimental: true
           - jdk: '24'
@@ -51,21 +53,22 @@ jobs:
           - jdk: '24'
             distribution: semeru
             experimental: true
-          - jdk: '21'
+          - jdk: '24'
             distribution: oracle
             experimental: true
-          - jdk: '24'
+          - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '24'
             distribution: jetbrains
             experimental: true
           - jdk: '25-ea'
             distribution: graalvm
             experimental: true
-          - jdk: '25-ea'
-            distribution: sapmachine
-            experimental: true
+          # not compatible with dokka due to reporting 25-ea as a version
+          # - jdk: '25-ea'
+          #   distribution: sapmachine
+          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
