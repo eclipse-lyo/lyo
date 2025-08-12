@@ -59,7 +59,7 @@ jobs:
           - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
-          - jdk: 'jbr-release-21'
+          - jdk: '21'
             distribution: jetbrains
             experimental: true
           - jdk: '25-ea'
