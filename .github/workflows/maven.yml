@@ -55,7 +55,16 @@ jobs:
             distribution: oracle
             experimental: true
           - jdk: '25-ea'
+            distribution: oracle-openjdk
+            experimental: true
+          - jdk: '25-ea'
             distribution: jetbrains
+            experimental: true
+          - jdk: '25-ea'
+            distribution: graalvm
+            experimental: true
+          - jdk: '25-ea'
+            distribution: sapmachine
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
@@ -71,6 +80,19 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
+      - name: Set up JDK ${{ matrix.jdk }}
+        if: matrix.distribution != 'oracle-openjdk'
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.jdk }}
+      - name: 'Set up latest JDK ${{ matrix.jdk }} from jdk.java.net (oracle-openjdk)'
+        if: matrix.distribution == 'oracle-openjdk'
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: EA
+          version: stable
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
