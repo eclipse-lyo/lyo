@@ -13,6 +13,15 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.ext.Providers;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -22,10 +31,8 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFReaderI;
 import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -43,411 +50,372 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
-import jakarta.ws.rs.ext.Providers;
-
 /**
  * @author Russell Boykin, Alberto Giammaria, Chris Peters, Gianluca Bernardini, Andrew Berezovskyi
  */
-public abstract class AbstractOslcRdfXmlProvider
-{
-	private static final Logger log = LoggerFactory.getLogger(AbstractOslcRdfXmlProvider.class.getName
-			());
+public abstract class AbstractOslcRdfXmlProvider {
+  private static final Logger log =
+      LoggerFactory.getLogger(AbstractOslcRdfXmlProvider.class.getName());
 
-	/**
-	 * System property {@value} : When "true", always abbreviate RDF/XML, even
-	 * when asked for application/rdf+xml. Otherwise, abbreviated RDF/XML is
-	 * only returned when application/xml is requested. Does not affect
-	 * text/turtle responses.
-	 *
-	 * @see RdfXmlAbbreviatedWriter
-	 */
-	@Deprecated
-	public static final String OSLC4J_ALWAYS_XML_ABBREV		  = "org.eclipse.lyo.oslc4j.alwaysXMLAbbrev";
+  /**
+   * System property {@value} : When "true", always abbreviate RDF/XML, even
+   * when asked for application/rdf+xml. Otherwise, abbreviated RDF/XML is
+   * only returned when application/xml is requested. Does not affect
+   * text/turtle responses.
+   *
+   * @see RdfXmlAbbreviatedWriter
+   */
+  @Deprecated
+  public static final String OSLC4J_ALWAYS_XML_ABBREV = "org.eclipse.lyo.oslc4j.alwaysXMLAbbrev";
 
-	/**
-	 * System property {@value} : When "true" (default), fail on when reading a
-	 * property value that is not a legal instance of a datatype. When "false",
-	 * skip over invalid values in extended properties.
-	 */
-	@Deprecated
-	public static final String OSLC4J_STRICT_DATATYPES		 = JenaModelHelper.OSLC4J_STRICT_DATATYPES;
+  /**
+   * System property {@value} : When "true" (default), fail on when reading a
+   * property value that is not a legal instance of a datatype. When "false",
+   * skip over invalid values in extended properties.
+   */
+  @Deprecated
+  public static final String OSLC4J_STRICT_DATATYPES = JenaModelHelper.OSLC4J_STRICT_DATATYPES;
 
-	private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
-	private static final Class<Error> CLASS_OSLC_ERROR		  = Error.class;
-	private static final ErrorHandler ERROR_HANDLER			  = new ErrorHandler();
+  private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
+  private static final Class<Error> CLASS_OSLC_ERROR = Error.class;
+  private static final ErrorHandler ERROR_HANDLER = new ErrorHandler();
 
-	private @Context HttpHeaders		  httpHeaders;		  // Available only on the server
-	protected @Context HttpServletRequest httpServletRequest; // Available only on the server
-	private @Context Providers			  providers;		  // Available on both client and server
-    private List<Map.Entry<MediaType, String>> mediaPairs;
+  private @Context HttpHeaders httpHeaders; // Available only on the server
+  protected @Context HttpServletRequest httpServletRequest; // Available only on the server
+  private @Context Providers providers; // Available on both client and server
+  private List<Map.Entry<MediaType, String>> mediaPairs;
 
-    protected AbstractOslcRdfXmlProvider()
-	{
-		super();
-	}
+  protected AbstractOslcRdfXmlProvider() {
+    super();
+  }
 
-	protected void writeTo(final Object[]						objects,
-						   final MediaType						baseMediaType,
-						   final MultivaluedMap<String, Object> map,
-						   final OutputStream					outputStream,
-						   final Map<String, Object>			properties,
-						   final String							descriptionURI,
-						   final String							responseInfoURI,
-						   final ResponseInfo<?>				responseInfo)
-				throws WebApplicationException
-	{
-		String serializationLanguage = getSerializationLanguage(baseMediaType);
+  protected void writeTo(
+      final Object[] objects,
+      final MediaType baseMediaType,
+      final MultivaluedMap<String, Object> map,
+      final OutputStream outputStream,
+      final Map<String, Object> properties,
+      final String descriptionURI,
+      final String responseInfoURI,
+      final ResponseInfo<?> responseInfo)
+      throws WebApplicationException {
+    String serializationLanguage = getSerializationLanguage(baseMediaType);
 
-		// This is a special case to handle RDNG GET on a ServiceProvider resource.
-		// RDNG can only consume RDF/XML-ABBREV although its sometimes sends Accept=application/rdf+xml.
-		// The org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders system property is used
-		// to turn off this special case
-		if ((objects != null && objects[0] != null) &&
-			( objects[0] instanceof ServiceProviderCatalog || objects[0] instanceof ServiceProvider ) &&
-			serializationLanguage.equals(FileUtils.langXML) &&
-			"true".equals(System.getProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders"))) {
-			serializationLanguage = FileUtils.langXMLAbbrev;
-			log.info("Using RDF/XML-ABBREV for ServiceProvider resources");
-		}
-
-		writeObjectsTo(objects,
-					   outputStream,
-					   properties,
-					   descriptionURI,
-					   responseInfoURI,
-					   responseInfo,
-					   serializationLanguage
-		);
-	}
-
-	private void writeObjectsTo(final Object[] objects, final OutputStream outputStream,
-			final Map<String, Object> properties, final String descriptionURI,
-			final String responseInfoURI, final ResponseInfo<?> responseInfo,
-			final String serializationLanguage) {
-		try
-		{
-            Instant start = Instant.now();
-
-			final Model model = JenaModelHelper.createJenaModel(descriptionURI,
-																responseInfoURI,
-																responseInfo,
-																objects,
-																properties);
-			RDFWriterI writer = getRdfWriter(serializationLanguage, model);
-
-			if (serializationLanguage.equals(FileUtils.langXML) || serializationLanguage.equals(FileUtils.langXMLAbbrev))
-			{
-				// XML (and Jena) default to UTF-8, but many libs default to ASCII, so need
-				// to set this explicitly
-				writer.setProperty("showXmlDeclaration",
-								   "false");
-				String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-				outputStream.write(xmlDeclaration.getBytes());
-			}
-			writer.write(model,
-						 outputStream,
-						 null);
-            Instant finish = Instant.now();
-            log.trace("writeObjectsTo - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
-		}
-		catch (final Exception exception)
-		{
-			log.warn(MessageExtractor.getMessage("ErrorSerializingResource"));
-			throw new IllegalStateException(exception);
-		}
-	}
-
-	private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
-		RDFWriterI writer;
-		if	(serializationLanguage.equals(FileUtils.langXMLAbbrev))
-        {
-            writer = new RdfXmlAbbreviatedWriter();
-        }
-        else
-        {
-            writer = model.getWriter(serializationLanguage);
-        }
-		writer.setProperty("showXmlDeclaration",
-                           "false");
-		writer.setErrorHandler(ERROR_HANDLER);
-		return writer;
-	}
-
-	protected void writeTo(final boolean						queryResult,
-						   final Object[]						objects,
-						   final MediaType						baseMediaType,
-						   final MultivaluedMap<String, Object> map,
-						   final OutputStream					outputStream)
-			  throws WebApplicationException
-	{
-		boolean isClientSide = false;
-
-		try {
-			httpServletRequest.getMethod();
-		} catch (RuntimeException e) {
-			isClientSide = true;
-		}
-
-		String descriptionURI  = null;
-		// TODO Andrew@2019-04-18: stop using responseInfoURI nullity to detect Query results
-		String responseInfoURI = null;
-
-		if (queryResult && ! isClientSide)
-		{
-			log.trace("Marshalling response objects as OSLC Query result (server-side only)");
-
-			final String method = httpServletRequest.getMethod();
-			if ("GET".equals(method))
-			{
-				descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
-				responseInfoURI = descriptionURI;
-
-				final String queryString = httpServletRequest.getQueryString();
-				if ((queryString != null) &&
-					(ProviderHelper.isOslcQuery(queryString)))
-				{
-					responseInfoURI += "?" + queryString;
-				}
-			}
-
-		}
-
-		final String serializationLanguage = getSerializationLanguage(baseMediaType);
-
-		@SuppressWarnings("unchecked")
-		final Map<String, Object> properties = isClientSide ?
-			null :
-			(Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
-		final String nextPageURI = isClientSide ?
-			null :
-			(String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
-		final Integer totalCount = isClientSide ?
-			null :
-			(Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
-
-		ResponseInfo<?> responseInfo = new ResponseInfoArray<>(null, properties, totalCount,
-				nextPageURI);
-
-		writeObjectsTo(
-				objects,
-				outputStream,
-				properties,
-				descriptionURI,
-				responseInfoURI,
-				responseInfo,
-				serializationLanguage
-		);
-	}
-
-	/**
-	 * Determine whether to serialize in xml or abreviated xml based upon mediatype.
-	 * <p>
-	 * application/rdf+xml yields xml
-	 * <p>
-	 * applicaton/xml yields abbreviated xml
-	 */
-	private String getSerializationLanguage(final MediaType baseMediaType) {
-		if(baseMediaType == null) {
-			throw new IllegalArgumentException("Base media type can't be null");
-		}
-
-        if (mediaPairs == null) {
-            buildMediaPairs();
-        }
-
-		for (Map.Entry<MediaType, String> mediaPair : mediaPairs) {
-			if (baseMediaType.isCompatible(mediaPair.getKey())) {
-				log.trace("Using '{}' writer for '{}' Accept media type",
-						  mediaPair.getValue(),
-						  mediaPair.getKey());
-				return mediaPair.getValue();
-			}
-		}
-
-		throw new IllegalArgumentException("Base media type can't be matched to any writer");
-	}
-
-    private void buildMediaPairs() {
-        mediaPairs = new ArrayList<>();
-        mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_TURTLE_TYPE,
-            RDFLanguages.strLangTurtle));
-        mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_JSON_LD_TYPE,
-            RDFLanguages.strLangJSONLD));
-        if (OSLC4JUtils.alwaysAbbrevXML()) {
-            // application/rdf+xml will be forcefully abbreviated
-            mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                FileUtils.langXMLAbbrev));
-        } else {
-            mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_RDF_XML_TYPE,
-                RDFLanguages.strLangRDFXML));
-
-        }
-        // application/xml will be abbreviated for compat reasons
-        mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_XML_TYPE,
-            FileUtils.langXMLAbbrev));
-
-        mediaPairs.add(new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_XML_TYPE,
-            RDFLanguages.strLangRDFXML));
+    // This is a special case to handle RDNG GET on a ServiceProvider resource.
+    // RDNG can only consume RDF/XML-ABBREV although its sometimes sends Accept=application/rdf+xml.
+    // The org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders system property is used
+    // to turn off this special case
+    if ((objects != null && objects[0] != null)
+        && (objects[0] instanceof ServiceProviderCatalog || objects[0] instanceof ServiceProvider)
+        && serializationLanguage.equals(FileUtils.langXML)
+        && "true"
+            .equals(System.getProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders"))) {
+      serializationLanguage = FileUtils.langXMLAbbrev;
+      log.info("Using RDF/XML-ABBREV for ServiceProvider resources");
     }
 
-    protected Object[] readFrom(final Class<?>						 type,
-								final MediaType						 mediaType,
-								final MultivaluedMap<String, String> map,
-								final InputStream					 inputStream)
-			  throws WebApplicationException
-	{
-		final Model model = ModelFactory.createDefaultModel();
+    writeObjectsTo(
+        objects,
+        outputStream,
+        properties,
+        descriptionURI,
+        responseInfoURI,
+        responseInfo,
+        serializationLanguage);
+  }
 
-//		RDFReaderI reader = getRdfReader(mediaType, model);
+  private void writeObjectsTo(
+      final Object[] objects,
+      final OutputStream outputStream,
+      final Map<String, Object> properties,
+      final String descriptionURI,
+      final String responseInfoURI,
+      final ResponseInfo<?> responseInfo,
+      final String serializationLanguage) {
+    try {
+      Instant start = Instant.now();
 
-		try
-		{
-			// Pass the empty string as the base URI. This allows Jena to
-			// resolve relative URIs commonly used to in reified statements
-			// for OSLC link labels. See this section of the CM specification
-			// for an example:
-			// http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
-            var lang = getSerializationLanguage(mediaType);
-            Lang jenaLang = RDFLanguages.contentTypeToLang(lang);
-            RDFDataMgr.read(model, inputStream, jenaLang);
-//			reader.read(model, inputStream, "");
+      final Model model =
+          JenaModelHelper.createJenaModel(
+              descriptionURI, responseInfoURI, responseInfo, objects, properties);
+      RDFWriterI writer = getRdfWriter(serializationLanguage, model);
 
-			return JenaModelHelper.unmarshal(model, type);
-		}
-		catch (final Exception exception)
-		{
-			throw new WebApplicationException(exception,
-											  buildBadRequestResponse(exception,
-																	  mediaType,
-																	  map));
-		}
-	}
+      if (serializationLanguage.equals(FileUtils.langXML)
+          || serializationLanguage.equals(FileUtils.langXMLAbbrev)) {
+        // XML (and Jena) default to UTF-8, but many libs default to ASCII, so need
+        // to set this explicitly
+        writer.setProperty("showXmlDeclaration", "false");
+        String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        outputStream.write(xmlDeclaration.getBytes());
+      }
+      writer.write(model, outputStream, null);
+      Instant finish = Instant.now();
+      log.trace(
+          "writeObjectsTo - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
+    } catch (final Exception exception) {
+      log.warn(MessageExtractor.getMessage("ErrorSerializingResource"));
+      throw new IllegalStateException(exception);
+    }
+  }
 
-//	private RDFReaderI getRdfReader(final MediaType mediaType, final Model model) {
-//		RDFReaderI reader;
-//		final String language = getSerializationLanguage(mediaType);
-//		if (language.equals(FileUtils.langXMLAbbrev))
-//		{
-//			reader = model.getReader(); // Default reader handles both xml and abbreviated xml
-//		} else {
-//			reader=model.getReader(language);
-//		}
-//		reader.setErrorHandler(ERROR_HANDLER);
-//		return reader;
-//	}
+  private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
+    RDFWriterI writer;
+    if (serializationLanguage.equals(FileUtils.langXMLAbbrev)) {
+      writer = new RdfXmlAbbreviatedWriter();
+    } else {
+      writer = model.getWriter(serializationLanguage);
+    }
+    writer.setProperty("showXmlDeclaration", "false");
+    writer.setErrorHandler(ERROR_HANDLER);
+    return writer;
+  }
 
-	protected Response buildBadRequestResponse(final Exception				   exception,
-											   final MediaType				   initialErrorMediaType,
-											   final MultivaluedMap<String, ?> map)
-	{
-		final MediaType determinedErrorMediaType = determineErrorMediaType(initialErrorMediaType,
-																		   map);
+  protected void writeTo(
+      final boolean queryResult,
+      final Object[] objects,
+      final MediaType baseMediaType,
+      final MultivaluedMap<String, Object> map,
+      final OutputStream outputStream)
+      throws WebApplicationException {
+    boolean isClientSide = false;
 
-		final Error error = new Error();
+    try {
+      httpServletRequest.getMethod();
+    } catch (RuntimeException e) {
+      isClientSide = true;
+    }
 
-		error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
-		error.setMessage(exception.getMessage());
+    String descriptionURI = null;
+    // TODO Andrew@2019-04-18: stop using responseInfoURI nullity to detect Query results
+    String responseInfoURI = null;
 
-		final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
-		return responseBuilder.type(determinedErrorMediaType).entity(error).build();
-	}
+    if (queryResult && !isClientSide) {
+      log.trace("Marshalling response objects as OSLC Query result (server-side only)");
 
-	/**
-	 * We handle the case where a client requests an accept type different than their content type.
-	 * This will work correctly in the successful case.	 But, in the error case where our
-	 * MessageBodyReader/MessageBodyWriter fails internally, we respect the client's requested accept type.
-	 */
-	private MediaType determineErrorMediaType(final MediaType				  initialErrorMediaType,
-											  final MultivaluedMap<String, ?> map)
-	{
-		try
-		{
-			// HttpHeaders will not be available on the client side and will throw a NullPointerException
-			final List<MediaType> acceptableMediaTypes = httpHeaders.getAcceptableMediaTypes();
+      final String method = httpServletRequest.getMethod();
+      if ("GET".equals(method)) {
+        descriptionURI = OSLC4JUtils.resolveURI(httpServletRequest, true);
+        responseInfoURI = descriptionURI;
 
-			// Since we got here, we know we are executing on the server
+        final String queryString = httpServletRequest.getQueryString();
+        if ((queryString != null) && (ProviderHelper.isOslcQuery(queryString))) {
+          responseInfoURI += "?" + queryString;
+        }
+      }
+    }
 
-			if (acceptableMediaTypes != null)
-			{
-				for (final MediaType acceptableMediaType : acceptableMediaTypes)
-				{
-					// If a concrete media type with a MessageBodyWriter
-					if (isAcceptableMediaType(acceptableMediaType))
-					{
-						return acceptableMediaType;
-					}
-				}
-			}
-		}
-		catch (final NullPointerException exception)
-		{
-			// Ignore NullPointerException since this means the context has not been set since we are on the client
+    final String serializationLanguage = getSerializationLanguage(baseMediaType);
 
-			// See if the MultivaluedMap for headers is available
-			if (map != null)
-			{
-				final Object acceptObject = map.getFirst("Accept");
+    @SuppressWarnings("unchecked")
+    final Map<String, Object> properties =
+        isClientSide
+            ? null
+            : (Map<String, Object>)
+                httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
+    final String nextPageURI =
+        isClientSide
+            ? null
+            : (String) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+    final Integer totalCount =
+        isClientSide
+            ? null
+            : (Integer) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
 
-				if (acceptObject instanceof String)
-				{
-					final String[] accepts = acceptObject.toString().split(",");
+    ResponseInfo<?> responseInfo =
+        new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
 
-					double	  winningQ		   = 0.0D;
-					MediaType winningMediaType = null;
+    writeObjectsTo(
+        objects,
+        outputStream,
+        properties,
+        descriptionURI,
+        responseInfoURI,
+        responseInfo,
+        serializationLanguage);
+  }
 
-					for (final String accept : accepts)
-					{
-						final MediaType acceptMediaType = MediaType.valueOf(accept);
+  /**
+   * Determine whether to serialize in xml or abreviated xml based upon mediatype.
+   * <p>
+   * application/rdf+xml yields xml
+   * <p>
+   * applicaton/xml yields abbreviated xml
+   */
+  private String getSerializationLanguage(final MediaType baseMediaType) {
+    if (baseMediaType == null) {
+      throw new IllegalArgumentException("Base media type can't be null");
+    }
 
-						// If a concrete media type with a MessageBodyWriter
-						if (isAcceptableMediaType(acceptMediaType))
-						{
-							final String stringQ = acceptMediaType.getParameters().get("q");
+    if (mediaPairs == null) {
+      buildMediaPairs();
+    }
 
-							final double q = stringQ == null ? 1.0D : Double.parseDouble(stringQ);
+    for (Map.Entry<MediaType, String> mediaPair : mediaPairs) {
+      if (baseMediaType.isCompatible(mediaPair.getKey())) {
+        log.trace(
+            "Using '{}' writer for '{}' Accept media type",
+            mediaPair.getValue(),
+            mediaPair.getKey());
+        return mediaPair.getValue();
+      }
+    }
 
-							// Make sure and exclude blackballed media type
-							if (Double.compare(q, 0.0D) > 0)
-							{
-								if ((winningMediaType == null) ||
-									(Double.compare(q, winningQ) > 0))
-								{
-									winningMediaType = acceptMediaType;
-									winningQ		 = q;
-								}
-							}
-						}
-					}
+    throw new IllegalArgumentException("Base media type can't be matched to any writer");
+  }
 
-					if (winningMediaType != null)
-					{
-						return winningMediaType;
-					}
-				}
-			}
-		}
+  private void buildMediaPairs() {
+    mediaPairs = new ArrayList<>();
+    mediaPairs.add(
+        new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_TURTLE_TYPE, RDFLanguages.strLangTurtle));
+    mediaPairs.add(
+        new AbstractMap.SimpleEntry<>(
+            OslcMediaType.APPLICATION_JSON_LD_TYPE, RDFLanguages.strLangJSONLD));
+    if (OSLC4JUtils.alwaysAbbrevXML()) {
+      // application/rdf+xml will be forcefully abbreviated
+      mediaPairs.add(
+          new AbstractMap.SimpleEntry<>(
+              OslcMediaType.APPLICATION_RDF_XML_TYPE, FileUtils.langXMLAbbrev));
+    } else {
+      mediaPairs.add(
+          new AbstractMap.SimpleEntry<>(
+              OslcMediaType.APPLICATION_RDF_XML_TYPE, RDFLanguages.strLangRDFXML));
+    }
+    // application/xml will be abbreviated for compat reasons
+    mediaPairs.add(
+        new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_XML_TYPE, FileUtils.langXMLAbbrev));
 
-		return initialErrorMediaType;
-	}
+    mediaPairs.add(
+        new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_XML_TYPE, RDFLanguages.strLangRDFXML));
+  }
 
-	/**
-	 * Only allow media types that are not wildcards and have a related MessageBodyWriter for OSLC Error.
-	 */
-	private boolean isAcceptableMediaType(final MediaType mediaType)
-	{
-		return (!mediaType.isWildcardType()) &&
-			   (!mediaType.isWildcardSubtype()) &&
-			   (providers.getMessageBodyWriter(CLASS_OSLC_ERROR,
-											   CLASS_OSLC_ERROR,
-											   ANNOTATIONS_EMPTY_ARRAY,
-											   mediaType) != null);
-	}
+  protected Object[] readFrom(
+      final Class<?> type,
+      final MediaType mediaType,
+      final MultivaluedMap<String, String> map,
+      final InputStream inputStream)
+      throws WebApplicationException {
+    final Model model = ModelFactory.createDefaultModel();
+
+    //		RDFReaderI reader = getRdfReader(mediaType, model);
+
+    try {
+      // Pass the empty string as the base URI. This allows Jena to
+      // resolve relative URIs commonly used to in reified statements
+      // for OSLC link labels. See this section of the CM specification
+      // for an example:
+      // http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+      var lang = getSerializationLanguage(mediaType);
+      Lang jenaLang = RDFLanguages.contentTypeToLang(lang);
+      RDFDataMgr.read(model, inputStream, jenaLang);
+      //			reader.read(model, inputStream, "");
+
+      return JenaModelHelper.unmarshal(model, type);
+    } catch (final Exception exception) {
+      throw new WebApplicationException(
+          exception, buildBadRequestResponse(exception, mediaType, map));
+    }
+  }
+
+  //	private RDFReaderI getRdfReader(final MediaType mediaType, final Model model) {
+  //		RDFReaderI reader;
+  //		final String language = getSerializationLanguage(mediaType);
+  //		if (language.equals(FileUtils.langXMLAbbrev))
+  //		{
+  //			reader = model.getReader(); // Default reader handles both xml and abbreviated xml
+  //		} else {
+  //			reader=model.getReader(language);
+  //		}
+  //		reader.setErrorHandler(ERROR_HANDLER);
+  //		return reader;
+  //	}
+
+  protected Response buildBadRequestResponse(
+      final Exception exception,
+      final MediaType initialErrorMediaType,
+      final MultivaluedMap<String, ?> map) {
+    final MediaType determinedErrorMediaType = determineErrorMediaType(initialErrorMediaType, map);
+
+    final Error error = new Error();
+
+    error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
+    error.setMessage(exception.getMessage());
+
+    final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
+    return responseBuilder.type(determinedErrorMediaType).entity(error).build();
+  }
+
+  /**
+   * We handle the case where a client requests an accept type different than their content type.
+   * This will work correctly in the successful case.	 But, in the error case where our
+   * MessageBodyReader/MessageBodyWriter fails internally, we respect the client's requested accept type.
+   */
+  private MediaType determineErrorMediaType(
+      final MediaType initialErrorMediaType, final MultivaluedMap<String, ?> map) {
+    try {
+      // HttpHeaders will not be available on the client side and will throw a NullPointerException
+      final List<MediaType> acceptableMediaTypes = httpHeaders.getAcceptableMediaTypes();
+
+      // Since we got here, we know we are executing on the server
+
+      if (acceptableMediaTypes != null) {
+        for (final MediaType acceptableMediaType : acceptableMediaTypes) {
+          // If a concrete media type with a MessageBodyWriter
+          if (isAcceptableMediaType(acceptableMediaType)) {
+            return acceptableMediaType;
+          }
+        }
+      }
+    } catch (final NullPointerException exception) {
+      // Ignore NullPointerException since this means the context has not been set since we are on
+      // the client
+
+      // See if the MultivaluedMap for headers is available
+      if (map != null) {
+        final Object acceptObject = map.getFirst("Accept");
+
+        if (acceptObject instanceof String) {
+          final String[] accepts = acceptObject.toString().split(",");
+
+          double winningQ = 0.0D;
+          MediaType winningMediaType = null;
+
+          for (final String accept : accepts) {
+            final MediaType acceptMediaType = MediaType.valueOf(accept);
+
+            // If a concrete media type with a MessageBodyWriter
+            if (isAcceptableMediaType(acceptMediaType)) {
+              final String stringQ = acceptMediaType.getParameters().get("q");
+
+              final double q = stringQ == null ? 1.0D : Double.parseDouble(stringQ);
+
+              // Make sure and exclude blackballed media type
+              if (Double.compare(q, 0.0D) > 0) {
+                if ((winningMediaType == null) || (Double.compare(q, winningQ) > 0)) {
+                  winningMediaType = acceptMediaType;
+                  winningQ = q;
+                }
+              }
+            }
+          }
+
+          if (winningMediaType != null) {
+            return winningMediaType;
+          }
+        }
+      }
+    }
+
+    return initialErrorMediaType;
+  }
+
+  /**
+   * Only allow media types that are not wildcards and have a related MessageBodyWriter for OSLC Error.
+   */
+  private boolean isAcceptableMediaType(final MediaType mediaType) {
+    return (!mediaType.isWildcardType())
+        && (!mediaType.isWildcardSubtype())
+        && (providers.getMessageBodyWriter(
+                CLASS_OSLC_ERROR, CLASS_OSLC_ERROR, ANNOTATIONS_EMPTY_ARRAY, mediaType)
+            != null);
+  }
 }
