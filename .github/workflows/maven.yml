@@ -42,19 +42,19 @@ jobs:
           - jdk: '25-ea'
             distribution: liberica
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '24'
             distribution: microsoft
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '24'
             distribution: corretto
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '24'
             distribution: semeru
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '21'
             distribution: oracle
             experimental: true
-          - jdk: '25-ea'
+          - jdk: '24'
             distribution: oracle-openjdk
             experimental: true
           - jdk: '25-ea'
@@ -75,11 +75,6 @@ jobs:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
           show-progress: false
-      - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: ${{ matrix.distribution }}
-          java-version: ${{ matrix.jdk }}
       - name: Set up JDK ${{ matrix.jdk }}
         if: matrix.distribution != 'oracle-openjdk'
         uses: actions/setup-java@v4
