@@ -20,18 +20,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17']
+        # jdk: ['17']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
         # 'liberica' is a preferred Spring SDK
-        distribution: ['temurin']
-        experimental: [false]
+        # distribution: ['temurin']
+        # experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
+          - jdk: '17'
+            distribution: temurin
+            experimental: false
           - jdk: '21'
-            distribution: zulu
+            distribution: liberica
             experimental: false
           - jdk: '24'
-            distribution: zulu
+            distribution: oracle
             experimental: false
           # not compatible with dokka due to reporting 25-beta as a version
           # - jdk: '25-ea'
@@ -41,27 +44,21 @@ jobs:
           # - jdk: '25-ea'
           #   distribution: temurin
           #   experimental: true
-          - jdk: '24'
-            distribution: liberica
-            experimental: true
-          - jdk: '21'
-            distribution: microsoft
-            experimental: true
-          - jdk: '24'
-            distribution: corretto
-            experimental: true
+          # - jdk: '21'
+          #   distribution: microsoft
+          #   experimental: true
+          # - jdk: '24'
+          #   distribution: corretto
+          #   experimental: true
           - jdk: '21'
             distribution: semeru
-            experimental: true
-          - jdk: '24'
-            distribution: oracle
             experimental: true
           - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
-          - jdk: '21'
-            distribution: jetbrains
-            experimental: true
+          # - jdk: '21'
+          #   distribution: jetbrains
+          #   experimental: true
           - jdk: '25-ea'
             distribution: graalvm
             experimental: true
@@ -99,4 +96,8 @@ jobs:
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
         run: |
-          mvn -B verify --file pom.xml
+          EXTRA_FLAGS=""
+          if [ "${{ matrix.experimental }}" = "true" ]; then
+            EXTRA_FLAGS="-X"
+          fi
+            mvn -B $EXTRA_FLAGS verify --file pom.xml
