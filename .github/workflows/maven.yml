@@ -50,7 +50,7 @@ jobs:
           - jdk: '24'
             distribution: corretto
             experimental: true
-          - jdk: '24'
+          - jdk: '21'
             distribution: semeru
             experimental: true
           - jdk: '24'
@@ -59,7 +59,7 @@ jobs:
           - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
-          - jdk: '24'
+          - jdk: 'jbr-release-21'
             distribution: jetbrains
             experimental: true
           - jdk: '25-ea'
