@@ -18,7 +18,7 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.2.0</v.kotlin>
+    <v.kotlin>2.2.10</v.kotlin>
     <v.dokka>2.0.0</v.dokka>
 
     <v.jersey>3.1.10</v.jersey>
@@ -416,7 +416,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.27.3</version>
+        <version>3.27.4</version>
       </dependency>
 
 
@@ -439,13 +439,6 @@
         <groupId>net.oauth.core</groupId>
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
-      </dependency>
-      <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
-      <!-- TODO: Tomcat 8.5.x will reach End-of-life (EOL) on 31 March 2024. -->
-      <dependency>
-        <groupId>org.apache.tomcat.embed</groupId>
-        <artifactId>tomcat-embed-core</artifactId>
-        <version>8.5.100</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
