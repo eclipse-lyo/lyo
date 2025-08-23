@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -56,9 +56,6 @@ jobs:
           - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
-          # - jdk: '21'
-          #   distribution: jetbrains
-          #   experimental: true
           - jdk: '25-ea'
             distribution: graalvm
             experimental: true
@@ -87,8 +84,8 @@ jobs:
         with:
           website: jdk.java.net
           release: EA
-          version: stable
-          # version: latest
+          # version: stable
+          version: latest
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
