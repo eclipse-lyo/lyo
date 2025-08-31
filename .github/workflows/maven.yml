@@ -37,9 +37,9 @@ jobs:
             distribution: oracle
             experimental: false
           # not compatible with dokka due to reporting 25-beta as a version
-          # - jdk: '25-ea'
-          #   distribution: zulu
-          #   experimental: true
+          - jdk: '25-ea'
+            distribution: zulu
+            experimental: true
           # not compatible with dokka due to reporting 25-beta as a version
           # - jdk: '25-ea'
           #   distribution: temurin
@@ -50,6 +50,7 @@ jobs:
           # - jdk: '24'
           #   distribution: corretto
           #   experimental: true
+          # -X on semeru slows down more than 10x
           - jdk: '21'
             distribution: semeru
             experimental: false
@@ -84,8 +85,8 @@ jobs:
         with:
           website: jdk.java.net
           release: EA
-          # version: stable
-          version: latest
+          version: stable
+          # version: latest
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
