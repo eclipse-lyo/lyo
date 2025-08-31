@@ -52,7 +52,7 @@ jobs:
           #   experimental: true
           - jdk: '21'
             distribution: semeru
-            experimental: true
+            experimental: false
           - jdk: '25-ea'
             distribution: oracle-openjdk
             experimental: true
