@@ -18,7 +18,7 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.2.10</v.kotlin>
+    <v.kotlin>2.2.20</v.kotlin>
     <v.dokka>2.1.0-Beta</v.dokka>
 
     <v.jersey>3.1.10</v.jersey>
@@ -513,7 +513,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.5.4</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
