@@ -28,17 +28,17 @@ jobs:
         # jena 3.x has some locking problems under JDK 16/17
         include:
           - jdk: '17'
-            distribution: temurin
+            distribution: zulu
             experimental: false
           - jdk: '21'
-            distribution: liberica
+            distribution: temurin
             experimental: false
-          - jdk: '24'
-            distribution: oracle
-            experimental: false
+          # - jdk: '24'
+          #   distribution: oracle
+          #   experimental: false
           # not compatible with dokka due to reporting 25-beta as a version
-          - jdk: '25-ea'
-            distribution: zulu
+          - jdk: '25'
+            distribution: liberica
             experimental: true
           # not compatible with dokka due to reporting 25-beta as a version
           # - jdk: '25-ea'
@@ -54,10 +54,10 @@ jobs:
           - jdk: '21'
             distribution: semeru
             experimental: false
-          - jdk: '25-ea'
-            distribution: oracle-openjdk
-            experimental: true
-          - jdk: '25-ea'
+          # - jdk: '25'
+          #   distribution: oracle-openjdk
+          #   experimental: true
+          - jdk: '25'
             distribution: graalvm
             experimental: true
           # not compatible with dokka due to reporting 25-ea as a version
