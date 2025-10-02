@@ -12,7 +12,7 @@ This release does not contain new features.
 
 ### Changed
 
-This release does not contain other significant changes.
+- Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
 
 ### Deprecated
 
