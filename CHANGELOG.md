@@ -12,11 +12,11 @@ This release does not contain new features.
 
 ### Changed
 
-- Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
+- InputStream is now the preferred interface for initializing OslcQueryResult
 
 ### Deprecated
 
-This release does not introduce deprecations.
+- Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
 
 ### Removed
 

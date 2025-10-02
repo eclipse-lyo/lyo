@@ -120,7 +120,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
   private OslcQueryResult(OslcQueryResult prev) {
     this.query = new OslcQuery(prev);
     this.response = this.query.getResponse();
-    this.inputStream = this.query.getResponse().readEntity(InputStream.class);
+    this.inputStream = this.response.readEntity(InputStream.class);
     this.membersResource = prev.membersResource;
     this.memberProperty = prev.memberProperty;
 
@@ -322,7 +322,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
   /**
    * @deprecated
-   * Get the raw Wink client response to a query - if such a response was provided when creating this instance.
+   * Get the raw Jakarta REST reponse to a query - if such a response was provided when creating this instance.
    * <p>
    * NOTE:  Using this method and consuming the response will make other methods
    * which examine the response unavailable (Examples:  getMemberUrls(), next() and hasNext()).
