@@ -22,6 +22,8 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.ext.Providers;
+
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -304,9 +306,21 @@ public abstract class AbstractOslcRdfXmlProvider {
       // for OSLC link labels. See this section of the CM specification
       // for an example:
       // http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
-      var lang = getSerializationLanguage(mediaType);
-      Lang jenaLang = RDFLanguages.contentTypeToLang(lang);
-      RDFDataMgr.read(model, inputStream, jenaLang);
+      
+        // TODO: cleanup
+        byte[] data = inputStream.readAllBytes();
+
+        // Convert to String and print
+        String content = new String(data, "UTF-8");
+        System.out.println(content);
+
+        // Create a new InputStream for further consumption
+        InputStream clonedStream = new ByteArrayInputStream(data);
+        // -----------------------
+        
+        var jenaSafeType = mapMimeToSafeJena(mediaType);
+      Lang jenaLang = RDFLanguages.contentTypeToLang(jenaSafeType);
+      RDFDataMgr.read(model, clonedStream, jenaLang);
       //			reader.read(model, inputStream, "");
 
       return JenaModelHelper.unmarshal(model, type);
@@ -316,7 +330,18 @@ public abstract class AbstractOslcRdfXmlProvider {
     }
   }
 
-  //	private RDFReaderI getRdfReader(final MediaType mediaType, final Model model) {
+  private String mapMimeToSafeJena(MediaType mediaType) {
+      if (mediaType == null) {
+          throw new IllegalArgumentException("MIME type must be provided");
+      }
+      var mimeString = mediaType.toString().toLowerCase();
+      if (mimeString.equals("application/xml")) {
+          return "application/rdf+xml";
+      }
+    return mimeString;
+}
+
+//	private RDFReaderI getRdfReader(final MediaType mediaType, final Model model) {
   //		RDFReaderI reader;
   //		final String language = getSerializationLanguage(mediaType);
   //		if (language.equals(FileUtils.langXMLAbbrev))
