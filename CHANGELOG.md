@@ -13,6 +13,7 @@ This release does not contain new features.
 ### Changed
 
 - InputStream is now the preferred interface for initializing OslcQueryResult
+- RootServicesHelper can be initialized using an InputStream
 
 ### Deprecated
 
