@@ -14,14 +14,13 @@
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import org.apache.jena.rdf.model.Model;
-// import org.apache.jena.rdf.model.ReifiedStatement;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -60,7 +59,12 @@ public class ReifiedLinksTest {
   public void testLabelIsPreserved() {
     ResourceWithReifiedLinks resourceOriginal = buildResource();
 
-    ResourceWithReifiedLinks resourceExtracted = extract(model(resourceOriginal));
+    Model model = model(resourceOriginal);
+    ResourceWithReifiedLinks resourceExtracted = extract(model);
+
+    //        StringWriter writer = new StringWriter();
+    //        RDFDataMgr.write(writer, model, RDFFormat.TURTLE);
+    //        String turtleString = writer.toString();
 
     assertEquals(
         resourceOriginal.getLinkWithLabel().getLabel(),
@@ -133,7 +137,9 @@ public class ReifiedLinksTest {
       final URI about = new URI("http://example.com/someResource");
       aResource = new ResourceWithReifiedLinks(about);
       aResource.setTitle("Some Title");
+
       aResource.setLinkWithNoLabel(new Link(new URI(uriOfLinkWithNoLabel)));
+
       Link l = new Link(new URI(uriOfLinkWithLabel));
       l.setLabel("some label for a link to reify");
       aResource.setLinkWithLabel(l);
