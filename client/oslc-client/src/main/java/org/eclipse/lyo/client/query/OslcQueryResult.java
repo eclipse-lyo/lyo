@@ -27,6 +27,8 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Selector;
+import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDFS;
@@ -64,10 +66,9 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
    *
    * @see OslcQueryResult#SELECT_ANY_MEMBER
    */
-  // FIXME: totally broken
-  private final class AnyMemberSelector {
+  private final class AnyMemberSelector extends SimpleSelector {
     private AnyMemberSelector(Resource subject) {
-      //            super(subject, null, (RDFNode) null);
+      super(subject, null, (RDFNode) null);
     }
 
     public boolean selects(Statement s) {
@@ -84,6 +85,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
   private final Response response;
 
+  private final InputStream inputStream;
+
   private final int pageNumber;
 
   private Property memberProperty = DEFAULT_MEMBER_PROPERTY;
@@ -96,16 +99,28 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
   private boolean rdfInitialized = false;
 
+  /**
+   * @deprecated Use {@link #OslcQueryResult(OslcQuery, InputStream)} instead.
+   */
+  @Deprecated
   public OslcQueryResult(OslcQuery query, Response response) {
     this.query = query;
     this.response = response;
+    this.inputStream = response.readEntity(InputStream.class);
+    this.pageNumber = 1;
+  }
 
+  public OslcQueryResult(OslcQuery query, InputStream inputStream) {
+    this.query = query;
+    this.response = null;
+    this.inputStream = inputStream;
     this.pageNumber = 1;
   }
 
   private OslcQueryResult(OslcQueryResult prev) {
     this.query = new OslcQuery(prev);
     this.response = this.query.getResponse();
+    this.inputStream = this.response.readEntity(InputStream.class);
     this.membersResource = prev.membersResource;
     this.memberProperty = prev.memberProperty;
 
@@ -116,7 +131,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     if (!rdfInitialized) {
       rdfInitialized = true;
       rdfModel = ModelFactory.createDefaultModel();
-      rdfModel.read(response.readEntity(InputStream.class), query.getCapabilityUrl());
+      rdfModel.read(inputStream, query.getCapabilityUrl());
 
       // Find a resource with rdf:type of oslc:ResourceInfo
       Property rdfType = rdfModel.createProperty(OslcConstants.RDF_NAMESPACE, "type");
@@ -245,9 +260,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     initializeRdf();
     if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
       Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
-      //            Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
-      //            StmtIterator iter = rdfModel.listStatements(select);
-      StmtIterator iter = rdfModel.listStatements(infoResource, predicate, (RDFNode) null);
+      Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
+      StmtIterator iter = rdfModel.listStatements(select);
       if (iter.hasNext()) {
         Statement nextPage = iter.next();
         nextPageUrl = nextPage.getResource().getURI();
@@ -307,7 +321,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
   }
 
   /**
-   * Get the raw Wink client response to a query.
+   * @deprecated
+   * Get the raw Jakarta REST reponse to a query - if such a response was provided when creating this instance.
    * <p>
    * NOTE:  Using this method and consuming the response will make other methods
    * which examine the response unavailable (Examples:  getMemberUrls(), next() and hasNext()).
@@ -315,6 +330,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
    *
    * @return
    */
+  @Deprecated
   public Response getRawResponse() {
     return response;
   }

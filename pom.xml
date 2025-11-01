@@ -18,14 +18,14 @@
 
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.2.0</v.kotlin>
-    <v.dokka>2.0.0</v.dokka>
+    <v.kotlin>2.2.21</v.kotlin>
+    <v.dokka>2.1.0</v.dokka>
 
     <v.jersey>3.1.10</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
     <v.jena>5.5.0</v.jena>
-    <v.jackson>2.19.2</v.jackson>
+    <v.jackson>2.20.0</v.jackson>
     <v.httpclient>4.5.14</v.httpclient>
     <v.slf4j>2.0.17</v.slf4j>
   </properties>
@@ -189,7 +189,7 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.8.0</version>
+            <version>0.9.0</version>
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
@@ -389,7 +389,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.18.0</version>
+        <version>3.19.0</version>
       </dependency>
 
 
@@ -397,7 +397,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.18.0</version>
+        <version>5.20.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -416,7 +416,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.27.3</version>
+        <version>3.27.6</version>
       </dependency>
 
 
@@ -439,13 +439,6 @@
         <groupId>net.oauth.core</groupId>
         <artifactId>oauth-consumer</artifactId>
         <version>20100527</version>
-      </dependency>
-      <!-- https://app.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-1080637 -->
-      <!-- TODO: Tomcat 8.5.x will reach End-of-life (EOL) on 31 March 2024. -->
-      <dependency>
-        <groupId>org.apache.tomcat.embed</groupId>
-        <artifactId>tomcat-embed-core</artifactId>
-        <version>8.5.100</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
@@ -473,7 +466,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.0</version>
+          <version>3.14.1</version>
           <configuration>
             <compilerArgument>
               -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
@@ -496,7 +489,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
+          <version>3.12.0</version>
           <configuration>
             <!--            <doclint>none</doclint>-->
             <doclint>all,-accessibility,-html,-missing</doclint>
@@ -520,7 +513,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.5.4</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
@@ -545,7 +538,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.6.2</version>
           <executions>
             <execution>
               <id>enforce-maven</id>
@@ -617,7 +610,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -646,7 +639,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.18.0</version>
+        <version>2.19.1</version>
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>

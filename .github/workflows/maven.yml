@@ -16,37 +16,77 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17']
+        # jdk: ['17']
         # temurin is Eclipse/AdoptOpenJDK/Adoptium
         # 'liberica' is a preferred Spring SDK
-        distribution: ['temurin']
-        experimental: [false]
+        # distribution: ['temurin']
+        # experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
+          - jdk: '17'
+            distribution: zulu
+            experimental: false
           - jdk: '21'
-            distribution: zulu
+            distribution: temurin
             experimental: false
-          - jdk: '24'
-            distribution: zulu
+          # - jdk: '24'
+          #   distribution: oracle
+          #   experimental: false
+          # not compatible with dokka due to reporting 25-beta as a version
+          - jdk: '25'
+            distribution: liberica
+            experimental: true
+          # not compatible with dokka due to reporting 25-beta as a version
+          # - jdk: '25-ea'
+          #   distribution: temurin
+          #   experimental: true
+          # - jdk: '21'
+          #   distribution: microsoft
+          #   experimental: true
+          # - jdk: '24'
+          #   distribution: corretto
+          #   experimental: true
+          # -X on semeru slows down more than 10x
+          - jdk: '21'
+            distribution: semeru
             experimental: false
+          # - jdk: '25'
+          #   distribution: oracle-openjdk
+          #   experimental: true
+          - jdk: '25'
+            distribution: graalvm
+            experimental: true
+          # not compatible with dokka due to reporting 25-ea as a version
+          # - jdk: '25-ea'
+          #   distribution: sapmachine
+          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
           show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
+        if: matrix.distribution != 'oracle-openjdk'
+        uses: actions/setup-java@v5
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
+      - name: 'Set up latest JDK ${{ matrix.jdk }} from jdk.java.net (oracle-openjdk)'
+        if: matrix.distribution == 'oracle-openjdk'
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: EA
+          version: stable
+          # version: latest
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -55,4 +95,8 @@ jobs:
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
         run: |
-          mvn -B verify --file pom.xml
+          EXTRA_FLAGS=""
+          if [ "${{ matrix.experimental }}" = "true" ]; then
+            EXTRA_FLAGS="-X"
+          fi
+            mvn -B $EXTRA_FLAGS verify --file pom.xml
