@@ -110,10 +110,14 @@ jobs:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
           show-progress: false
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 25
       - name: Pre-build net.oauth.core
         run: |
           mvn -B install --file server/pom.xml
-          fi
       - name: Run Spotless (Maven plugin)
         run: |
           mvn -B spotless:apply -P!enforcer --file pom.xml
@@ -130,3 +134,9 @@ jobs:
           else
             echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
           fi
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-lint-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-lint-
