@@ -112,14 +112,6 @@ jobs:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
           show-progress: false
-      - name: Run OpenRewrite
-        run: |
-          mvn rewrite:run --file pom.xml
-          if [ -z "$(git status --porcelain)" ]; then 
-            echo "rewrite PASS"
-          else 
-            echo "rewrite FAIL; run `mvn rewrite:run` locally" >&2
-          fi
       - name: Run spotless
         run: |
           mvn spotless:apply --file pom.xml
@@ -127,4 +119,12 @@ jobs:
             echo "Spotless PASS"
           else 
             echo "Spotless FAIL; run `mvn spotless:apply` locally" >&2
+          fi
+      - name: Run OpenRewrite
+        run: |
+          mvn org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply --file pom.xml
+          if [ -z "$(git status --porcelain)" ]; then 
+            echo "rewrite PASS"
+          else 
+            echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
           fi
