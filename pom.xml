@@ -225,6 +225,29 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>enforcer</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.6.2</version>
+            <executions>
+              <execution>
+                <id>enforce-maven</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <pluginRepositories>
@@ -542,9 +565,6 @@
           <executions>
             <execution>
               <id>enforce-maven</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
               <configuration>
                 <rules>
                   <requireMavenVersion>
@@ -565,7 +585,7 @@
                       <exclude>org.apache.logging.log4j:log4j-core</exclude>
                     </excludes>
                   </bannedDependencies>
-                  <banDuplicatePomDependencyVersions/>
+                  <banDuplicatePomDependencyVersions />
                   <requireUpperBoundDeps>
                     <excludes>
                       <!--jersey and jena via commons-compress-->
@@ -709,8 +729,8 @@
                 <include>.gitignore</include>
               </includes>
               <!-- define the steps to apply to those files -->
-              <trimTrailingWhitespace/>
-              <endWithNewline/>
+              <trimTrailingWhitespace />
+              <endWithNewline />
               <indent>
                 <tabs>true</tabs>
                 <spacesPerTab>4</spacesPerTab>

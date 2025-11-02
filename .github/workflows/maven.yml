@@ -112,7 +112,7 @@ jobs:
           show-progress: false
       - name: Run Spotless (Maven plugin)
         run: |
-          mvn -B spotless:apply --file pom.xml
+          mvn -B spotless:apply -P '-enforcer' --file pom.xml
           if [ -z "$(git status --porcelain)" ]; then
             echo "Spotless PASS"
           else
@@ -120,7 +120,7 @@ jobs:
           fi
       - name: Run OpenRewrite (Maven plugin)
         run: |
-          mvn -B org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply --file pom.xml
+          mvn -B org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -P '-enforcer' --file pom.xml
           if [ -z "$(git status --porcelain)" ]; then
             echo "rewrite PASS"
           else
