@@ -103,8 +103,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -112,19 +110,31 @@ jobs:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
           show-progress: false
-      - name: Run spotless
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 25
+      - name: Run Spotless (Maven plugin)
         run: |
-          mvn -B spotless:apply --file pom.xml
-          if [ -z "$(git status --porcelain)" ]; then 
+          mvn -B spotless:apply -P!enforcer --file pom.xml
+          if [ -z "$(git status --porcelain)" ]; then
             echo "Spotless PASS"
-          else 
-            echo "Spotless FAIL; run `mvn spotless:apply` locally" >&2
+          else
+            echo "Spotless FAIL; run `mvn validate -Pspotless` locally" >&2
           fi
-      - name: Run OpenRewrite
+      - name: Run OpenRewrite (Maven plugin)
+        # package is needed due to ANTLR and net.oauth.core processing steps
         run: |
-          mvn -B org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply --file pom.xml
-          if [ -z "$(git status --porcelain)" ]; then 
+          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' --file pom.xml
+          if [ -z "$(git status --porcelain)" ]; then
             echo "rewrite PASS"
-          else 
+          else
             echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
           fi
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-lint-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-lint-
