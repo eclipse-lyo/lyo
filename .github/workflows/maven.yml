@@ -100,3 +100,29 @@ jobs:
             EXTRA_FLAGS="-X"
           fi
             mvn -B $EXTRA_FLAGS verify --file pom.xml
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          # Needed for spotless to do the ratchet
+          fetch-depth: 0
+          show-progress: false
+      - name: Run Spotless (Maven plugin)
+        run: |
+          mvn -B spotless:apply --file pom.xml
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Spotless PASS"
+          else
+            echo "Spotless FAIL; run `mvn validate -Pspotless` locally" >&2
+          fi
+      - name: Run OpenRewrite (Maven plugin)
+        run: |
+          mvn -B org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply --file pom.xml
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "rewrite PASS"
+          else
+            echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
+          fi
