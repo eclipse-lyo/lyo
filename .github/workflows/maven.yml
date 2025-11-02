@@ -115,9 +115,6 @@ jobs:
         with:
           distribution: zulu
           java-version: 25
-      - name: Pre-build net.oauth.core
-        run: |
-          mvn -B install --file server/pom.xml
       - name: Run Spotless (Maven plugin)
         run: |
           mvn -B spotless:apply -P!enforcer --file pom.xml
@@ -127,8 +124,9 @@ jobs:
             echo "Spotless FAIL; run `mvn validate -Pspotless` locally" >&2
           fi
       - name: Run OpenRewrite (Maven plugin)
+        # package is needed due to ANTLR and net.oauth.core processing steps
         run: |
-          mvn -B org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -P!enforcer --file pom.xml
+          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' --file pom.xml
           if [ -z "$(git status --porcelain)" ]; then
             echo "rewrite PASS"
           else
