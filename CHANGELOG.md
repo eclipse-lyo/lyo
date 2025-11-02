@@ -13,10 +13,12 @@ This release does not contain new features.
 ### Changed
 
 - TRS Client uses Lyo Store instead of using Eclipse RDF4J directly.
+- InputStream is now the preferred interface for initializing OslcQueryResult
+- RootServicesHelper can be initialized using an InputStream
 
 ### Deprecated
 
-This release does not introduce deprecations.
+- Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
 
 ### Removed
 
