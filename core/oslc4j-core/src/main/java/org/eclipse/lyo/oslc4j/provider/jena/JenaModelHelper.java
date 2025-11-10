@@ -2112,11 +2112,13 @@ public final class JenaModelHelper
                         name));
             }
 
-            buildResource(value,
-                    objectClass,
-                    model,
-                    nestedResource,
-                    nestedProperties);
+            if (!resource.getURI().equalsIgnoreCase(nestedResource.getURI())) {
+                buildResource(value,
+                        objectClass,
+                        model,
+                        nestedResource,
+                        nestedProperties);
+            }
 
             nestedNode = nestedResource;
         }
