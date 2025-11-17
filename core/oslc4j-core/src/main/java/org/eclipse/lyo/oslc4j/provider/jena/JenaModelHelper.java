@@ -2112,7 +2112,8 @@ public final class JenaModelHelper
                         name));
             }
 
-            if (!resource.getURI().equalsIgnoreCase(nestedResource.getURI())) {
+            // ignore nested resource, which points to same resource, otherwise infinite loop
+            if (resource.getURI() == null || (resource.getURI() != null && !resource.getURI().equalsIgnoreCase(nestedResource.getURI()))) {
                 buildResource(value,
                         objectClass,
                         model,
