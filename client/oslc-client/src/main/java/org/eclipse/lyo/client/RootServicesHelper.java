@@ -82,7 +82,6 @@ public class RootServicesHelper {
       throws RootServicesException {
     this.baseUrl = url;
     this.rootServicesUrl = UriBuilder.fromUri(this.baseUrl).path("rootservices").build().toString();
-    logger.debug(String.format("Fetching rootservices document at URL <%s>", this.rootServicesUrl));
     this.catalogDomain = catalogDomain;
     logger.debug(String.format("Using catalog domain <%s>", this.catalogDomain));
 
@@ -141,6 +140,10 @@ public class RootServicesHelper {
     this(url, catalogDomain, getInputStreamFromClient(url, client));
   }
 
+  private static String getRootServicesUrl(String url) {
+    return UriBuilder.fromUri(url).path("rootservices").build().toString();
+  }
+
   /**
    * Get the OSLC Catalog URL
    *
@@ -150,8 +153,18 @@ public class RootServicesHelper {
     return catalogUrl;
   }
 
-  private static InputStream getInputStreamFromClient(String rootServicesUrl, OslcClient client) throws RootServicesException {
+  private static InputStream getInputStreamFromClient(String inputUrl, OslcClient client)
+      throws RootServicesException {
+    var rootServicesUrl = getRootServicesUrl(inputUrl);
+    logger.debug(String.format("Fetching rootservices document at URL <%s>", rootServicesUrl));
+
     Response response = client.getResource(rootServicesUrl, OSLCConstants.CT_RDF);
+    if (!response.getStatusInfo().getFamily().equals(Response.Status.Family.SUCCESSFUL)) {
+      throw new RootServicesException(
+          rootServicesUrl,
+          new IllegalStateException(
+              "Server returned an error: " + response.getStatusInfo().getStatusCode()));
+    }
     return response.readEntity(InputStream.class);
   }
 
