@@ -86,7 +86,8 @@ public class JenaModelHelperTest {
         assertEquals(Dog.class, pet.getClass());
     }
 
-    @Test(expected = DatatypeFormatException.class)
+    // Removed expected = DatatypeFormatException.class as the input data is now valid (reverted to original)
+    @Test
     public void testExtendedEscape() throws IOException, LyoModelException {
         final Model model = RDFHelper.loadResourceModel("escape.ttl");
         final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
@@ -98,7 +99,8 @@ public class JenaModelHelperTest {
         assertEquals(3, resource.getExtendedProperties().size());
     }
 
-    @Test(expected = DatatypeFormatException.class)
+    // Removed expected = DatatypeFormatException.class as the input data is now valid (reverted to original)
+    @Test
     public void testExtendedEscapeXML() throws IOException, LyoModelException {
         final Model model = RDFHelper.loadResourceModel("escape.xml");
         final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
@@ -108,6 +110,18 @@ public class JenaModelHelperTest {
     public void testExtendedEscapeXMLValid() throws IOException, LyoModelException {
         final Model model = RDFHelper.loadResourceModel("escape-valid.xml");
         final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
-//        assertEquals(56, resource.getExtendedProperties().size());
+        assertEquals(2, resource.getExtendedProperties().size());
+    }
+
+    @Test(expected = DatatypeFormatException.class)
+    public void testExtendedEscapeMalformed() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape-malformed.ttl");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
+    }
+
+    @Test(expected = DatatypeFormatException.class)
+    public void testExtendedEscapeXMLMalformed() throws IOException, LyoModelException {
+        final Model model = RDFHelper.loadResourceModel("escape-malformed.xml");
+        final ServiceProvider resource = JenaModelHelper.unmarshal(model.getResource("http://example.com/test"), ServiceProvider.class);
     }
 }
