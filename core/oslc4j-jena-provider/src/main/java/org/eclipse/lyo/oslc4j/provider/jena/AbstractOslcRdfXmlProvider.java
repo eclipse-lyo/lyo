@@ -319,7 +319,10 @@ public abstract class AbstractOslcRdfXmlProvider {
 
       var jenaSafeType = mapMimeToSafeJena(mediaType);
       Lang jenaLang = RDFLanguages.contentTypeToLang(jenaSafeType);
-      RDFDataMgr.read(model, clonedStream, jenaLang);
+      if (jenaLang == null) {
+        jenaLang = Lang.RDFXML;
+      }
+      RDFDataMgr.read(model, clonedStream, "", jenaLang);
       //			reader.read(model, inputStream, "");
 
       return JenaModelHelper.unmarshal(model, type);
@@ -333,7 +336,7 @@ public abstract class AbstractOslcRdfXmlProvider {
     if (mediaType == null) {
       throw new IllegalArgumentException("MIME type must be provided");
     }
-    var mimeString = mediaType.toString().toLowerCase();
+    var mimeString = (mediaType.getType() + "/" + mediaType.getSubtype()).toLowerCase();
     if (mimeString.equals("application/xml")) {
       return "application/rdf+xml";
     }

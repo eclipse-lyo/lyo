@@ -52,7 +52,7 @@ public class JenaModelHelperTest {
             OslcCoreApplicationException, IllegalAccessException, IOException {
         final Model expectedModel = RDFHelper.loadResourceModel("container-element.ttl");
         final Container container = new Container();
-        container.setAbout(URI.create("urn:containerA"));
+        container.setAbout(URI.create("urn:test:containerA"));
         final List<Element> children = List.of(element("A"), element("B"));
         container.setChildrenL(children);
         container.setChildrenB(children);
@@ -65,7 +65,7 @@ public class JenaModelHelperTest {
 
     private Element element(final String name) {
         final Element element = new Element();
-        element.setAbout(URI.create(String.format("urn:%s", name)));
+        element.setAbout(URI.create(String.format("urn:test:%s", name)));
         element.setName(name);
         return element;
     }
@@ -82,7 +82,7 @@ public class JenaModelHelperTest {
     @Test
     public void testAbstractTypesForMainClass() throws IOException, LyoModelException {
         final Model model = RDFHelper.loadResourceModel("abstract-types.ttl");
-        final Pet pet = JenaModelHelper.unmarshal(model.getResource("urn:rex"), Pet.class);
+        final Pet pet = JenaModelHelper.unmarshal(model.getResource("urn:test:rex"), Pet.class);
         assertEquals(Dog.class, pet.getClass());
     }
 

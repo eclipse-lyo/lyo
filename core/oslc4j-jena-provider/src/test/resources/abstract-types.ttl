@@ -20,9 +20,9 @@
 @prefix oslc:  <http://open-services.net/ns/core#> .
 @prefix local:  <http://locahost:7001/vocabulary/> .
 
-<urn:me>  a  local:Person ;
+<urn:test:me>  a  local:Person ;
         local:name  "John Doe" ;
-        local:pet <urn:rex> .
+        local:pet <urn:test:rex> .
 
-<urn:rex>  a    local:Dog ;
+<urn:test:rex>  a    local:Dog ;
         local:name  "Rex" .

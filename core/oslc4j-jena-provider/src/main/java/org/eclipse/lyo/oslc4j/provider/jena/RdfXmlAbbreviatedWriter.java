@@ -375,9 +375,10 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 
     for (Resource rootResource : rootResources) {
 
-      //            if(!rootResource.canAs(ReifiedStatement.class) &&
-      // (!serializedResources.contains(rootResource))){
-      if ((!serializedResources.contains(rootResource))) {
+      boolean isReifiedStatement = rootResource.hasProperty(RDF.type, RDF.Statement) ||
+              (rootResource.hasProperty(RDF.subject) && rootResource.hasProperty(RDF.predicate) && rootResource.hasProperty(RDF.object));
+
+      if (!isReifiedStatement && (!serializedResources.contains(rootResource))) {
 
         serializedResources.add(rootResource);
         String rootResourceNameSpace = RDF.getURI();
@@ -413,32 +414,38 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
     }
 
     // Iterate and serialize all the reified statements in the model:
-    var reifiedStatementsIterator = model.listStatements(null, RDF.type, RDF.Statement);
-    // RSIterator reifiedStatementsIterator = model.listReifiedStatements();
+    // We look for resources that have rdf:subject, rdf:predicate, and rdf:object.
+    StmtIterator potentialReified = model.listStatements(null, RDF.subject, (RDFNode)null);
+    Set<Resource> processedReified = new HashSet<>();
 
-    while (reifiedStatementsIterator.hasNext()) {
+    while(potentialReified.hasNext()) {
+      Resource r = potentialReified.next().getSubject();
+      if (!processedReified.contains(r) &&
+              r.hasProperty(RDF.predicate) &&
+              r.hasProperty(RDF.object)) {
 
-      Statement reifiedStatement = reifiedStatementsIterator.next();
+        processedReified.add(r);
 
-      xmlWriter.startTag(RDF.getURI(), RDF_ELEMENT_DESCRIPTION, true);
+        xmlWriter.startTag(RDF.getURI(), RDF_ELEMENT_DESCRIPTION, true);
 
-      if (reifiedStatement.getSubject().isAnon()) {
-        xmlWriter.attribute(
-            RDF.getURI(),
-            RDF_ATTRIBUTE_ABOUT,
-            ('#' + getShortId(reifiedStatement.getSubject().getId())));
-      } else {
-        xmlWriter.attribute(
-            RDF.getURI(),
-            RDF_ATTRIBUTE_ABOUT,
-            (Util.substituteEntitiesInElementContent(reifiedStatement.getSubject().getURI())));
+        if (r.isAnon()) {
+          xmlWriter.attribute(
+                  RDF.getURI(),
+                  RDF_ATTRIBUTE_ABOUT,
+                  ('#' + getShortId(r.getId())));
+        } else {
+          xmlWriter.attribute(
+                  RDF.getURI(),
+                  RDF_ATTRIBUTE_ABOUT,
+                  (Util.substituteEntitiesInElementContent(r.getURI())));
+        }
+
+        xmlWriter.closeStartTag(true);
+
+        serializeStatements(r, xmlWriter, serializedResources, null);
+
+        xmlWriter.endTag(RDF.getURI(), RDF_ELEMENT_DESCRIPTION, true);
       }
-
-      xmlWriter.closeStartTag(true);
-
-      serializeStatements(reifiedStatement, xmlWriter, serializedResources, null);
-
-      xmlWriter.endTag(RDF.getURI(), RDF_ELEMENT_DESCRIPTION, true);
     }
 
     xmlWriter.rootEndTag(RDF.getURI(), RDF_ELEMENT_RDF, true);
@@ -492,14 +499,6 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
     return isChild;
   }
 
-  private void serializeStatements(
-      Statement statement,
-      XMLWriter xmlWriter,
-      List<Resource> serializedResources,
-      String rootResourceTypeURI) {
-    serializeStatements(
-        statement.getResource(), xmlWriter, serializedResources, rootResourceTypeURI);
-  }
 
   private void serializeStatements(
       Resource resource,
@@ -552,29 +551,34 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
         }
 
         xmlWriter.startTag(predicate.getNameSpace(), predicate.getLocalName(), true);
-        //
-        //                if (statement.isReified()) {
-        //
-        //                    RSIterator reifiedStatementsIterator =
-        // model.listReifiedStatements(statement);
-        //
-        //                    String reifiedStatementShortId =
-        // getShortId(reifiedStatementsIterator.next().getId());
-        //
-        //                    while (reifiedStatementsIterator.hasNext()) {
-        //
-        //                        AnonId reifiedStatementId =
-        // reifiedStatementsIterator.next().getId();
-        //
-        //                        if(!resourceIdToShortIdMap.containsKey(reifiedStatementId)){
-        //                            resourceIdToShortIdMap.put(reifiedStatementId,
-        // reifiedStatementShortId);
-        //                        }
-        //                    }
-        //
-        //                    xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_ID,
-        // reifiedStatementShortId);
-        //                }
+
+        // Check for reification
+        List<Resource> reifiedNodes = new ArrayList<>();
+        StmtIterator sit = model.listStatements(null, RDF.subject, statement.getSubject());
+        while(sit.hasNext()) {
+            Resource r = sit.next().getSubject();
+            if (r.hasProperty(RDF.predicate, statement.getPredicate()) &&
+                r.hasProperty(RDF.object, statement.getObject())) {
+                reifiedNodes.add(r);
+            }
+        }
+
+        if (!reifiedNodes.isEmpty()) {
+            Resource firstNode = reifiedNodes.get(0);
+            if (firstNode.isAnon()) {
+                String reifiedStatementShortId = getShortId(firstNode.getId());
+
+                for (Resource nextNode : reifiedNodes) {
+                    if (nextNode.isAnon()) {
+                        AnonId reifiedStatementId = nextNode.getId();
+                        if(!resourceIdToShortIdMap.containsKey(reifiedStatementId)){
+                            resourceIdToShortIdMap.put(reifiedStatementId, reifiedStatementShortId);
+                        }
+                    }
+                }
+                xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_ID, reifiedStatementShortId);
+            }
+        }
 
         if ((predicate.isAnon()) && (predicate.getProperty(RDF.type) == null)) {
           xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_PARSE_TYPE, RDF_CONSTANT_RESOURCE);
@@ -661,7 +665,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
 
         String content = literal.getLexicalForm();
 
-        if (false) {
+        if (RDF.dtXMLLiteral.getURI().equals(literal.getDatatypeURI())) {
           xmlWriter.attribute(RDF.getURI(), RDF_ATTRIBUTE_PARSE_TYPE, RDF_CONSTANT_LITERAL);
           xmlWriter.closeStartTag(false);
           xmlWriter.literal(content);
