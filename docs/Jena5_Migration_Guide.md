@@ -164,3 +164,34 @@ while (reifiedTriplesIter.hasNext()) {
     // ... populate object from reifiedStatement ...
 }
 ```
+
+## 7. Troubleshooting
+
+### ExceptionInInitializerError / NullPointerException in RDF class
+If you encounter `ExceptionInInitializerError` or `NullPointerException` related to `RDF` class initialization (e.g., `RDF.Alt` is null), it might be due to circular initialization dependencies when using TDB1 or other Jena components.
+**Fix:** Explicitly initialize Jena system before accessing `RDF` constants in your test classes or static blocks.
+
+```java
+static {
+    JenaSystem.init();
+}
+```
+
+## 8. Additional Jena 5 Changes
+
+### Deprecation Removal
+Jena 5 removed many deprecated functions, methods, and classes, including those deprecated in Jena 4.10.0.
+
+### QueryExecutionFactory
+`QueryExecutionFactory` is simplified.
+- Local execution: `QueryExecution.create()...`
+- Remote execution: `QueryExecution.service(URL)...`
+
+### QueryExecution Variable Substitution
+"Substitution" is now preferred over "initial bindings".
+
+### TDB1 Package Rename
+`org.apache.jena.tdb` -> `org.apache.jena.tdb1`
+
+### Fuseki
+Fuseki now uses Jakarta namespace for servlets and Eclipse Jetty 12. Requires Tomcat 10+.

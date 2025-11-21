@@ -92,7 +92,8 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <module>validation</module>
+    <!-- FIXME: SHACLEX has not been migrated to Jena 5 yet -->
+    <!-- <module>validation</module> -->
   </modules>
 
   <profiles>

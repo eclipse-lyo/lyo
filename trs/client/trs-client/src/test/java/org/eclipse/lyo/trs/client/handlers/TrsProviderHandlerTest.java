@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
@@ -36,8 +37,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class TrsProviderHandlerTest {
+
+    static {
+        JenaSystem.init();
+    }
 
     private static final String uriPrefix = "https://host";
     private static final String ceUriPrefix = uriPrefix + "/changeEvents";
