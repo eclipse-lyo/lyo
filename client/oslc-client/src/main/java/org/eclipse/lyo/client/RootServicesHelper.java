@@ -81,7 +81,7 @@ public class RootServicesHelper {
   public RootServicesHelper(String url, String catalogDomain, InputStream inputStream)
       throws RootServicesException {
     this.baseUrl = url;
-    this.rootServicesUrl = UriBuilder.fromUri(this.baseUrl).path("rootservices").build().toString();
+    this.rootServicesUrl = getRootServicesUrl(url);
     this.catalogDomain = catalogDomain;
     logger.debug(String.format("Using catalog domain <%s>", this.catalogDomain));
 
