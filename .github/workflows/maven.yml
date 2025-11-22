@@ -68,7 +68,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
@@ -105,7 +105,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
