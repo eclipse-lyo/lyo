@@ -162,6 +162,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
    * @return The old property value, otherwise <code>null</code>.
    * @see org.apache.jena.rdf.model.RDFWriterI#setProperty(java.lang.String, java.lang.Object)
    */
+  @Override
   public Object setProperty(String propName, Object propValue) {
 
     String oldPropertyValue = null;
@@ -219,6 +220,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
   /* (non-Javadoc)
    * @see org.apache.jena.rdf.model.RDFWriterI#setErrorHandler(org.apache.jena.rdf.model.RDFErrorHandler)
    */
+  @Override
   public RDFErrorHandler setErrorHandler(RDFErrorHandler errorHandler) {
 
     RDFErrorHandler oldErrorHandler = this.errorHandler;
@@ -238,6 +240,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
   /* (non-Javadoc)
    * @see org.apache.jena.rdf.model.RDFWriterI#write(org.apache.jena.rdf.model.Model, java.io.Writer, java.lang.String)
    */
+  @Override
   public void write(Model model, Writer writer, String base) {
 
     // Note: The base parameter is not required.
@@ -719,7 +722,7 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
    * @version 1.0
    * @since   1.0
    */
-  private class XMLWriter {
+  private static class XMLWriter {
 
     private final PrintWriter printWriter;
     private final Map<String, String> namespaceMap;

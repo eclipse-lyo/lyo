@@ -1848,7 +1848,7 @@ public final class JenaModelHelper {
               + "(class: "
               + subjectClassName
               + ", method: "
-              + method.getName()
+              + (method != null ? method.getName() : "null")
               + ")");
     }
 
