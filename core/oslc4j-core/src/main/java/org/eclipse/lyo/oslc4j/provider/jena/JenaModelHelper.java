@@ -1820,14 +1820,12 @@ public final class JenaModelHelper {
         nestedResource = model.createResource(model.createProperty(namespace, name));
       }
 
-        // ignore nested resource, which points to same resource, otherwise infinite loop
-        if (resource.getURI() == null || (resource.getURI() != null && !resource.getURI().equalsIgnoreCase(nestedResource.getURI()))) {
-            buildResource(value,
-                    objectClass,
-                    model,
-                    nestedResource,
-                    nestedProperties);
-        }
+      // ignore nested resource, which points to same resource, otherwise infinite loop
+      if (resource.getURI() == null
+          || (resource.getURI() != null
+              && !resource.getURI().equalsIgnoreCase(nestedResource.getURI()))) {
+        buildResource(value, objectClass, model, nestedResource, nestedProperties);
+      }
 
       nestedNode = nestedResource;
     } else if (logger.isWarnEnabled()) {

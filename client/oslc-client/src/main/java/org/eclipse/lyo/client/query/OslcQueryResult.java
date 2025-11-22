@@ -65,7 +65,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
    *
    * @see OslcQueryResult#SELECT_ANY_MEMBER
    */
-  // private final class AnyMemberSelector extends SimpleSelector { ... } removed for Jena 5 migration
+  // private final class AnyMemberSelector extends SimpleSelector { ... } removed for Jena 5
+  // migration
 
   private final OslcQuery query;
 
@@ -322,14 +323,17 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
   private ExtendedIterator<Statement> getMemberStatements() {
     if ("true".equalsIgnoreCase(System.getProperty(SELECT_ANY_MEMBER))) {
-      return rdfModel.listStatements(membersResource, null, (RDFNode) null)
-          .filterKeep(s -> {
-            String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
-            if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
-              return false;
-            }
-            return s.getObject().isResource();
-          });
+      return rdfModel
+          .listStatements(membersResource, null, (RDFNode) null)
+          .filterKeep(
+              s -> {
+                String fqPredicateName =
+                    s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
+                if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
+                  return false;
+                }
+                return s.getObject().isResource();
+              });
     }
 
     return rdfModel.listStatements(membersResource, memberProperty, (RDFNode) null);
