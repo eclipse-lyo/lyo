@@ -13,6 +13,7 @@ This release does not contain new features.
 
 ### Changed
 
+- 🧨 Migrated to Jena 5. JSON-LD 1.1 is used instead of JSON-LD 1.0.
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
 
@@ -22,6 +23,7 @@ This release does not contain new features.
 
 ### Removed
 
+- 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
 
 ### Fixed

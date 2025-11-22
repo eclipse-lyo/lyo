@@ -39,7 +39,7 @@ jobs:
           # not compatible with dokka due to reporting 25-beta as a version
           - jdk: '25'
             distribution: liberica
-            experimental: true
+            experimental: false
           # not compatible with dokka due to reporting 25-beta as a version
           # - jdk: '25-ea'
           #   distribution: temurin
@@ -59,7 +59,7 @@ jobs:
           #   experimental: true
           - jdk: '25'
             distribution: graalvm
-            experimental: true
+            experimental: false
           # not compatible with dokka due to reporting 25-ea as a version
           # - jdk: '25-ea'
           #   distribution: sapmachine

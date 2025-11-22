@@ -24,9 +24,11 @@
     <v.jersey>3.1.10</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>4.10.0</v.jena>
+    <v.jena>5.5.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
+    <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
+    <v.httpcore>4.4.16</v.httpcore>
     <v.slf4j>2.0.17</v.slf4j>
   </properties>
 
@@ -92,7 +94,8 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <module>validation</module>
+    <!-- FIXME: SHACLEX has not been migrated to Jena 5 yet -->
+    <!-- <module>validation</module> -->
   </modules>
 
   <profiles>
