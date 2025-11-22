@@ -27,9 +27,6 @@ jobs:
         # experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
-          - jdk: '17'
-            distribution: zulu
-            experimental: false
           - jdk: '21'
             distribution: temurin
             experimental: false
