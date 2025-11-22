@@ -26,7 +26,9 @@
 
     <v.jena>5.5.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
+    <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
+    <v.httpcore>4.4.16</v.httpcore>
     <v.slf4j>2.0.17</v.slf4j>
   </properties>
 
