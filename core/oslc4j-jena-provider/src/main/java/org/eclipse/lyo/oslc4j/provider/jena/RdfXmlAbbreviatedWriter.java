@@ -233,19 +233,18 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
   /* (non-Javadoc)
    * @see org.apache.jena.rdf.model.RDFWriterI#write(org.apache.jena.rdf.model.Model, java.io.OutputStream, java.lang.String)
    */
+  @Override
   public void write(Model model, OutputStream out, String base) {
-   @Override
-   public void write(Model model, OutputStream out, String base) {
-     write(model, FileUtils.asUTF8(out), base);
-   }
+    write(model, FileUtils.asUTF8(out), base);
+  }
 
-   /* (non-Javadoc)
-    * @see org.apache.jena.rdf.model.RDFWriterI#write(org.apache.jena.rdf.model.Model, java.io.Writer, java.lang.String)
-    */
-   @Override
-   public void write(Model model, Writer writer, String base) {
+  /* (non-Javadoc)
+   * @see org.apache.jena.rdf.model.RDFWriterI#write(org.apache.jena.rdf.model.Model, java.io.Writer, java.lang.String)
+   */
+  @Override
+  public void write(Model model, Writer writer, String base) {
 
-     // Note: The base parameter is not required.
+    // Note: The base parameter is not required.
 
     // Serialize the RDF model:
     XMLWriter xmlWriter = new XMLWriter(writer, model, indent, tab);

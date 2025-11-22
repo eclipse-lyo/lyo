@@ -87,7 +87,11 @@ public class SparqlUtilTest {
       try (InputStream in =
           new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()))) {
         TDBLoader.load(
-            TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()), in, Lang.NTRIPLES, true, true);
+            TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()),
+            in,
+            Lang.NTRIPLES,
+            true,
+            true);
       }
     } catch (Throwable t) {
       t.printStackTrace();
