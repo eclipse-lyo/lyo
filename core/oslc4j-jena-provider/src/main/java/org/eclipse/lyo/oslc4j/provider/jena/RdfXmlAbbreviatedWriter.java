@@ -351,9 +351,11 @@ public class RdfXmlAbbreviatedWriter implements RDFWriterI {
           boolean rootCandidateIsObject =
               model.listStatements(rootTest, null, rootCandidate).hasNext();
           if (rootCandidateIsObject) {
-            // FIXME: check if this check needs to go away
             boolean objectIsReification =
-                false; // model.listStatements(rootTest, RDF.type, RDF.Statement).hasNext();
+                rootTest.hasProperty(RDF.type, RDF.Statement)
+                    || (rootTest.hasProperty(RDF.subject)
+                        && rootTest.hasProperty(RDF.predicate)
+                        && rootTest.hasProperty(RDF.object));
             if (!objectIsReification) {
               // checks if there is a self cyclic reference for the resource.
               boolean isCyclic = isChild(model, new HashSet<>(), rootCandidate, rootCandidate);

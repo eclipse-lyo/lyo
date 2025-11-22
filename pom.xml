@@ -12,9 +12,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
 
     <v.lyo>${project.version}</v.lyo>
 
@@ -24,7 +22,7 @@
     <v.jersey>3.1.11</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>5.5.0</v.jena>
+    <v.jena>5.6.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
     <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
