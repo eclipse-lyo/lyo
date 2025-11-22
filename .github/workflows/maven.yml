@@ -68,7 +68,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
@@ -105,7 +105,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
@@ -115,6 +115,12 @@ jobs:
         with:
           distribution: zulu
           java-version: 25
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-lint-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-lint-
       - name: Run Spotless (Maven plugin)
         run: |
           mvn -B spotless:apply -P!enforcer --file pom.xml
@@ -132,9 +138,3 @@ jobs:
           else
             echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
           fi
-      - uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-lint-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-lint-

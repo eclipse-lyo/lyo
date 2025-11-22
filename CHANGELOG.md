@@ -5,6 +5,7 @@
 ### Security
 
 - 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
+- Apache Commons Lang 1 dependency was removed in favour of Apache Commons Lang 3. **Addresses [CVE-2025-48924](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48924)**
 
 ### Added
 
