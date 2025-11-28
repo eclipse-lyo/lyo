@@ -27,10 +27,9 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Selector;
-import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDFS;
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
@@ -66,20 +65,8 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
    *
    * @see OslcQueryResult#SELECT_ANY_MEMBER
    */
-  private final class AnyMemberSelector extends SimpleSelector {
-    private AnyMemberSelector(Resource subject) {
-      super(subject, null, (RDFNode) null);
-    }
-
-    public boolean selects(Statement s) {
-      String fqPredicateName = s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
-      if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
-        return false;
-      }
-
-      return s.getObject().isResource();
-    }
-  }
+  // private final class AnyMemberSelector extends SimpleSelector { ... } removed for Jena 5
+  // migration
 
   private final OslcQuery query;
 
@@ -260,8 +247,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     initializeRdf();
     if ((nextPageUrl == null || nextPageUrl.isEmpty()) && infoResource != null) {
       Property predicate = rdfModel.getProperty(OslcConstants.OSLC_CORE_NAMESPACE, "nextPage");
-      Selector select = new SimpleSelector(infoResource, predicate, (RDFNode) null);
-      StmtIterator iter = rdfModel.listStatements(select);
+      StmtIterator iter = rdfModel.listStatements(infoResource, predicate, (RDFNode) null);
       if (iter.hasNext()) {
         Statement nextPage = iter.next();
         nextPageUrl = nextPage.getResource().getURI();
@@ -335,12 +321,22 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
     return response;
   }
 
-  private Selector getMemberSelector() {
+  private ExtendedIterator<Statement> getMemberStatements() {
     if ("true".equalsIgnoreCase(System.getProperty(SELECT_ANY_MEMBER))) {
-      return new AnyMemberSelector(membersResource);
+      return rdfModel
+          .listStatements(membersResource, null, (RDFNode) null)
+          .filterKeep(
+              s -> {
+                String fqPredicateName =
+                    s.getPredicate().getNameSpace() + s.getPredicate().getLocalName();
+                if (OSLCConstants.RDF_TYPE_PROP.equals(fqPredicateName)) {
+                  return false;
+                }
+                return s.getObject().isResource();
+              });
     }
 
-    return new SimpleSelector(membersResource, memberProperty, (RDFNode) null);
+    return rdfModel.listStatements(membersResource, memberProperty, (RDFNode) null);
   }
 
   /**
@@ -355,8 +351,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
   public String[] getMembersUrls() {
     initializeRdf();
     ArrayList<String> membersUrls = new ArrayList<>();
-    Selector select = getMemberSelector();
-    StmtIterator iter = rdfModel.listStatements(select);
+    ExtendedIterator<Statement> iter = getMemberStatements();
     while (iter.hasNext()) {
       Statement member = iter.next();
       membersUrls.add(member.getResource().getURI());
@@ -372,8 +367,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
   public <T> Iterable<T> getMembers(final Class<T> clazz) {
     initializeRdf();
 
-    Selector select = getMemberSelector();
-    final StmtIterator iter = rdfModel.listStatements(select);
+    final ExtendedIterator<Statement> iter = getMemberStatements();
     Iterable<T> result =
         () ->
             new Iterator<>() {
@@ -414,8 +408,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
   public Iterable<Resource> getMembers() {
     initializeRdf();
 
-    Selector select = getMemberSelector();
-    final StmtIterator iter = rdfModel.listStatements(select);
+    final ExtendedIterator<Statement> iter = getMemberStatements();
     Iterable<Resource> result =
         () ->
             new Iterator<>() {
@@ -423,7 +416,6 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
                 return iter.hasNext();
               }
 
-              @SuppressWarnings("unchecked")
               public Resource next() {
                 Statement member = iter.next();
 

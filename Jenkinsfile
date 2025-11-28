@@ -6,7 +6,7 @@ pipeline {
   }
   tools {
     maven 'apache-maven-latest'
-    jdk 'temurin-jdk17-latest'
+    jdk 'temurin-jdk21-latest'
   }
   triggers {
     pollSCM('H/10 * * * *')

@@ -15,7 +15,6 @@ package org.eclipse.lyo.store.internals.query;
  */
 
 import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -32,59 +31,58 @@ import org.slf4j.LoggerFactory;
  * @since 0.14.0
  */
 public class SparqlQueryExecutorImpl implements JenaQueryExecutor {
-    private final Logger log = LoggerFactory.getLogger(SparqlQueryExecutorImpl.class);
+  private final Logger log = LoggerFactory.getLogger(SparqlQueryExecutorImpl.class);
 
-    private final String queryEndpoint;
-    private final String updateEndpoint;
+  private final String queryEndpoint;
+  private final String updateEndpoint;
 
-    public SparqlQueryExecutorImpl(final String sparqlEndpoint, final String updateEndpoint) {
-        this.queryEndpoint = sparqlEndpoint;
-        this.updateEndpoint = updateEndpoint;
-    }
+  public SparqlQueryExecutorImpl(final String sparqlEndpoint, final String updateEndpoint) {
+    this.queryEndpoint = sparqlEndpoint;
+    this.updateEndpoint = updateEndpoint;
+  }
 
-    @Override
-    public QueryExecution prepareSparqlQuery(final String query) {
-        return QueryExecutionFactory.sparqlService(queryEndpoint, query);
-    }
+  @Override
+  public QueryExecution prepareSparqlQuery(final String query) {
+    return QueryExecution.service(queryEndpoint, query);
+  }
 
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
+    return UpdateExecutionFactory.createRemote(updateRequest, updateEndpoint);
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
-        return UpdateExecutionFactory.createRemote(updateRequest, updateEndpoint);
-    }
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final Update update) {
+    return prepareSparqlUpdate(new UpdateRequest(update));
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final Update update) {
-        return prepareSparqlUpdate(new UpdateRequest(update));
-    }
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final String query) {
+    return prepareSparqlUpdate(UpdateFactory.create(query));
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final String query) {
-        return prepareSparqlUpdate(UpdateFactory.create(query));
-    }
+  @Override
+  public void release() {
+    log.trace("NOP, there is nothing to release");
+  }
 
-    @Override
-    public void release() {
-        log.trace("NOP, there is nothing to release");
-    }
+  @Override
+  public void beginWrite() {
+    return;
+  }
 
-    @Override
-    public void beginWrite() {
-        return;
-    }
+  @Override
+  public void beginRead() {
+    return;
+  }
 
-    @Override
-    public void beginRead() {
-        return;
-    }
+  @Override
+  public void commit() {
+    return;
+  }
 
-    @Override
-    public void commit() {
-        return;
-    }
-
-    @Override
-    public void end() {
-        return;
-    }
+  @Override
+  public void end() {
+    return;
+  }
 }
