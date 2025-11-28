@@ -37,6 +37,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.util.FileUtils;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
@@ -174,7 +175,7 @@ public abstract class AbstractOslcRdfXmlProvider {
             case RDFLanguages.strLangNTriples:
                 return RDFFormat.NTRIPLES_UTF8;
             case RDFLanguages.strLangJSONLD:
-                return RDFFormat.JSONLD10_COMPACT_PRETTY;
+                return RDFFormat.JSONLD;
             default:
                 throw new IllegalArgumentException();
         }
