@@ -34,7 +34,7 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         # Needed for spotless to do the ratchet
         fetch-depth: 0
@@ -60,7 +60,7 @@ jobs:
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
+        java-version: '21'
     - name: Autobuild
       uses: github/codeql-action/autobuild@v4
 

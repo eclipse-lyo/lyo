@@ -1,0 +1,11 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms:      <http://purl.org/dc/terms/> .
+@prefix oslc:    <http://open-services.net/ns/core#> .
+
+
+<http://example.com/test>
+      dcterms:title "<span style=\"background-color:rgb(255, 255, 255)\">][$%§{​​​&quot;}​​​?\\#&#94;°1</span>";
+      dcterms:description "<span style=\"background-color:rgb(255, 255, 255)\">][$%§{​​​&quot;}​​​?\\#&#94;°1</span>"^^rdf:XMLLiteral ;
+      dcterms:nonExistent "<span style=\"background-color:rgb(255, 255, 255)\">][$%§{​​​&quot;}​​​?\\#&#94;°1</span>" ;
+      dcterms:nonExistent2 "<open>"^^rdf:XMLLiteral ;
+      rdf:type oslc:ServiceProvider .

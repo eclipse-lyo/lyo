@@ -5,6 +5,7 @@
 ### Security
 
 - 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
+- Apache Commons Lang 1 dependency was removed in favour of Apache Commons Lang 3. **Addresses [CVE-2025-48924](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48924)**
 
 ### Added
 
@@ -12,6 +13,7 @@ This release does not contain new features.
 
 ### Changed
 
+- 🧨 Migrated to Jena 5. JDK 21 is the baseline requirement. JSON-LD 1.1 is used instead of JSON-LD 1.0.
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
 
@@ -21,10 +23,13 @@ This release does not contain new features.
 
 ### Removed
 
+- 🧨 Support for JDK 17 was removed. JDK 21 is the new baseline.
+- 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
 
 ### Fixed
 
+- Prevent stack overflow in JenaModelHelper when resource graph contains loops (#827, thanks to Benjamin Röhl and PTC for the contribution!)
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 

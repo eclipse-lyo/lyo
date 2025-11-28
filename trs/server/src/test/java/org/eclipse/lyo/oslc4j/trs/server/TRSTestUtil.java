@@ -1,6 +1,6 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.Creation;
 import org.eclipse.lyo.core.trs.Deletion;
@@ -33,7 +33,7 @@ public class TRSTestUtil {
         String hdType = hd.getType();
         Date timeStamp = hd.getTimestamp();
         URI changed = hd.getUri();
-        int changeOrderInt = RandomUtils.nextInt();
+        int changeOrderInt = RandomUtils.secure().randomInt();
         String changeOrder = String.valueOf(changeOrderInt);
 
         String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"

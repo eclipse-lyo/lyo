@@ -27,9 +27,6 @@ jobs:
         # experimental: [false]
         # jena 3.x has some locking problems under JDK 16/17
         include:
-          - jdk: '17'
-            distribution: zulu
-            experimental: false
           - jdk: '21'
             distribution: temurin
             experimental: false
@@ -39,7 +36,7 @@ jobs:
           # not compatible with dokka due to reporting 25-beta as a version
           - jdk: '25'
             distribution: liberica
-            experimental: true
+            experimental: false
           # not compatible with dokka due to reporting 25-beta as a version
           # - jdk: '25-ea'
           #   distribution: temurin
@@ -59,7 +56,7 @@ jobs:
           #   experimental: true
           - jdk: '25'
             distribution: graalvm
-            experimental: true
+            experimental: false
           # not compatible with dokka due to reporting 25-ea as a version
           # - jdk: '25-ea'
           #   distribution: sapmachine
@@ -68,7 +65,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
@@ -105,7 +102,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
