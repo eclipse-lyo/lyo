@@ -26,7 +26,7 @@ public class LyoConfigUtil {
    * @return value, if found, from ENV, JVM, or Servlet Context (in this order)
    */
   public static String getOslcConfigProperty(
-      String key, String defaultValue, final ServletContext servletContext, Class klass) {
+      String key, String defaultValue, final ServletContext servletContext, Class<?> klass) {
     String value =
         getParamFromEnvironment(generateEnvKey(key))
             .orElseGet(
@@ -53,7 +53,7 @@ public class LyoConfigUtil {
    * @return value, if found, from ENV or JVM (in this order)
    */
   public static String getOslcConfigPropertyNoContext(
-      String key, String defaultValue, Class klass) {
+      String key, String defaultValue, Class<?> klass) {
     String value =
         getParamFromEnvironment(generateEnvKey(key))
             .orElseGet(
@@ -64,7 +64,7 @@ public class LyoConfigUtil {
   /**
    * property name 'scheme' would become "org.eclipse.lyo.oslc4j.core.servlet.scheme"
    */
-  public static String generatePackageBaseKey(Class klass, String key) {
+  public static String generatePackageBaseKey(Class<?> klass, String key) {
     return klass.getPackage().getName() + '.' + key;
   }
 
