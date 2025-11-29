@@ -96,10 +96,34 @@ jobs:
           if [ "${{ matrix.experimental }}" = "true" ]; then
             EXTRA_FLAGS="-X"
           fi
-            mvn -B $EXTRA_FLAGS verify --file pom.xml
+            mvn -B $EXTRA_FLAGS verify --file pom.xml -P'!spotbugs'
+  spotbugs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: build
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+        with:
+          show-progress: false
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-spotbugs-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-spotbugs-
+      - name: Run SpotBugs
+        run: |
+          mvn -B verify -DskipTests -P'!enforcer' --file pom.xml
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs: spotbugs
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -120,7 +144,7 @@ jobs:
             ${{ runner.os }}-lint-
       - name: Run Spotless (Maven plugin)
         run: |
-          mvn -B spotless:apply -P!enforcer --file pom.xml
+          mvn -B spotless:apply -P'!enforcer' -P'!spotbugs' --file pom.xml
           if [ -z "$(git status --porcelain)" ]; then
             echo "Spotless PASS"
           else
@@ -129,7 +153,7 @@ jobs:
       - name: Run OpenRewrite (Maven plugin)
         # package is needed due to ANTLR and net.oauth.core processing steps
         run: |
-          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' --file pom.xml
+          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' -P'!spotbugs' --file pom.xml
           if [ -z "$(git status --porcelain)" ]; then
             echo "rewrite PASS"
           else
