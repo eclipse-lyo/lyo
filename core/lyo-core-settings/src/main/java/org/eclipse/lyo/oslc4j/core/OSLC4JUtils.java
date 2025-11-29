@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -779,7 +780,7 @@ public class OSLC4JUtils {
             // and this solution is not correct for OpenJDK < 13 due to a bug: https://bugs.openjdk.java.net/browse/JDK-8206132
 //            factory.setExpandEntityReferences(false);
             DocumentBuilder db = factory.newDocumentBuilder();
-            InputStream targetStream = new ByteArrayInputStream(xmlLiteral.getBytes());
+            InputStream targetStream = new ByteArrayInputStream(xmlLiteral.getBytes(StandardCharsets.UTF_8));
             db.parse(targetStream);
             return true;
         } catch (ParserConfigurationException e) {

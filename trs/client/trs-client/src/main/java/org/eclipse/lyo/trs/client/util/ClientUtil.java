@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.apache.jena.rdf.model.Model;
@@ -195,7 +196,7 @@ class ClientUtil {
         final Model rdFModel = ModelFactory.createDefaultModel();
 
         try {
-            try (InputStream is = new ByteArrayInputStream(responseAsString.getBytes())) {
+            try (InputStream is = new ByteArrayInputStream(responseAsString.getBytes(StandardCharsets.UTF_8))) {
                 rdFModel.read(is, null);
             }
         } catch (IOException e) {
