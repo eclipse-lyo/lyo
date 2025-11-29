@@ -37,7 +37,7 @@ public class TRSTestUtil {
         String changeOrder = String.valueOf(changeOrderInt);
 
         String changedUriString = "urn:urn-3:" + "cm1.example.com" + ":"
-                + TRSUtil.XSD_DATETIME_FORMAT.format(hd.getTimestamp()) + ":" +
+                + TRSUtil.getXsdDateTimeFormat().format(hd.getTimestamp()) + ":" +
                 changeOrder;
 
         URI changedUri = URI.create(changedUriString);

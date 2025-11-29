@@ -679,6 +679,7 @@
             <threshold>High</threshold>
             <xmlOutput>true</xmlOutput>
             <failOnError>true</failOnError>
+            <excludeFilterFile>${maven.multiModuleProjectDirectory}/spotbugs-exclude.xml</excludeFilterFile>
           </configuration>
         </plugin>
       </plugins>
