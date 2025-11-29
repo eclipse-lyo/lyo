@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.AbstractMap;
@@ -147,7 +148,7 @@ public abstract class AbstractOslcRdfXmlProvider {
         // to set this explicitly
         writer.setProperty("showXmlDeclaration", "false");
         String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        outputStream.write(xmlDeclaration.getBytes());
+        outputStream.write(xmlDeclaration.getBytes(StandardCharsets.UTF_8));
       }
       writer.write(model, outputStream, null);
       Instant finish = Instant.now();
