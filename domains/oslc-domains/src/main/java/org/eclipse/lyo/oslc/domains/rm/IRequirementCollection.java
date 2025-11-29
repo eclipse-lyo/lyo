@@ -112,8 +112,8 @@ public interface IRequirementCollection {
 
   public void addUses(final Link uses);
 
-  @OslcName("title")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+    @OslcName("title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
   @OslcDescription(
       "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
           + " that is valid inside an XHTML <span> element.")
@@ -122,8 +122,8 @@ public interface IRequirementCollection {
   @OslcReadOnly(false)
   public String getTitle();
 
-  @OslcName("description")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+    @OslcName("description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
   @OslcDescription(
       "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
           + " only content that is valid and suitable inside an XHTML <div> element.")
@@ -132,8 +132,8 @@ public interface IRequirementCollection {
   @OslcReadOnly(false)
   public String getDescription();
 
-  @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+    @OslcName("identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
   @OslcDescription(
       "A unique identifier for a resource. Typically read-only and assigned by the service provider"
           + " when a resource is created. Not typically intended for end-user display.")
@@ -152,8 +152,8 @@ public interface IRequirementCollection {
   @OslcReadOnly(false)
   public String getShortTitle();
 
-  @OslcName("subject")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
+    @OslcName("subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
   @OslcDescription(
       "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an"
           + " additional tag for the resource.")
@@ -163,8 +163,8 @@ public interface IRequirementCollection {
   @OslcTitle("")
   public Set<String> getSubject();
 
-  @OslcName("creator")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+    @OslcName("creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
   @OslcDescription(
       "Creator or creators of the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -174,8 +174,8 @@ public interface IRequirementCollection {
   @OslcReadOnly(false)
   public Set<Link> getCreator();
 
-  @OslcName("contributor")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+    @OslcName("contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
   @OslcDescription(
       "Contributor or contributors to the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -185,16 +185,16 @@ public interface IRequirementCollection {
   @OslcReadOnly(false)
   public Set<Link> getContributor();
 
-  @OslcName("created")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+    @OslcName("created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
   @OslcDescription("Timestamp of resource creation")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
   @OslcReadOnly(false)
   public Date getCreated();
 
-  @OslcName("modified")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+    @OslcName("modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
   @OslcDescription("Timestamp of latest resource modification")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)

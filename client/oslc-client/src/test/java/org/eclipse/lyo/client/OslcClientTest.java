@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.xml.namespace.QName;
+import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class OslcClientTest {
         assertTimeout(ofSeconds(10), () -> {
             final OslcClient client = new OslcClient();
             final ServiceProvider request = new ServiceProvider();
-            request.getExtendedProperties().put(new QName("http://example.com/ns#", "test"),
-                "test");
+            // Use new QName helper for a well-known property instead of ad-hoc construction
+            request.getExtendedProperties().put(DctermsVocabularyConstants.QNames.identifier(), "test-id-123");
             Response response = client.createResource("http://open-services.net/" +
                 ".well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
                 request, OSLCConstants.CT_RDF);
@@ -169,5 +170,18 @@ public class OslcClientTest {
         assertNull(headers.get(OSLCConstants.CONFIGURATION_CONTEXT_HEADER));
         assertEquals("ifmatch", headers.get(HttpHeaders.IF_MATCH));
         assertEquals("2.0", headers.get(OSLCConstants.OSLC_CORE_VERSION));
+    }
+
+    @Test
+    public void testDctermsQNameHelpers() {
+        QName titleQ = DctermsVocabularyConstants.QNames.title();
+        assertEquals(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE, titleQ.getNamespaceURI());
+        assertEquals("title", titleQ.getLocalPart());
+        // Ensure caching returns same instance
+        assertSame(titleQ, DctermsVocabularyConstants.QNames.title());
+        // Verify identifier constant matches QName parts
+        QName idQ = DctermsVocabularyConstants.QNames.identifier();
+        assertEquals(DctermsVocabularyConstants.IDENTIFIER_PROP,
+            idQ.getNamespaceURI() + idQ.getLocalPart());
     }
 }
