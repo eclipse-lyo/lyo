@@ -144,4 +144,41 @@ public class UnparseableLiteralTest {
 		assertEquals("Month should be August (7 in 0-indexed)", 7, cal.get(Calendar.MONTH));
 		assertEquals("Day should be 10", 10, cal.get(Calendar.DAY_OF_MONTH));
 	}
+
+	/**
+	 * Test that a full xsd:dateTime value (with time component) is still correctly
+	 * parsed as a Date object. This ensures the date-only fallback fix does not
+	 * affect normal dateTime processing.
+	 */
+	@Test
+	public void testFullDateTimeValueStillParsesCorrectly() throws Exception {
+		final Model m = ModelFactory.createDefaultModel();
+		final Resource r = m.createResource("http://example.com/test/2",
+				m.createResource(TestResource.TEST_RESOURCE_TYPE));
+		// Add a full dateTime value with time component
+		r.addProperty(
+				m.createProperty(DCTerms.NS, "created"),
+				m.createTypedLiteral("2020-08-10T14:30:45Z", XSDDatatype.XSDdateTime));
+
+		final TestResource[] resources = JenaModelHelper.unmarshal(m, TestResource.class);
+		assertEquals("Expected one resource", 1, resources.length);
+
+		final TestResource resource = resources[0];
+		final Map<QName, Object> extended = resource.getExtendedProperties();
+		final Object createdValue = extended.get(new QName(DCTerms.NS, "created"));
+
+		assertNotNull("Created property should not be null", createdValue);
+		assertTrue("Expected Date instance for full dateTime value, but got: "
+				+ createdValue.getClass().getName(), createdValue instanceof Date);
+
+		// Verify the datetime is correctly parsed (2020-08-10T14:30:45Z)
+		final Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.setTime((Date) createdValue);
+		assertEquals("Year should be 2020", 2020, cal.get(Calendar.YEAR));
+		assertEquals("Month should be August (7 in 0-indexed)", 7, cal.get(Calendar.MONTH));
+		assertEquals("Day should be 10", 10, cal.get(Calendar.DAY_OF_MONTH));
+		assertEquals("Hour should be 14", 14, cal.get(Calendar.HOUR_OF_DAY));
+		assertEquals("Minute should be 30", 30, cal.get(Calendar.MINUTE));
+		assertEquals("Second should be 45", 45, cal.get(Calendar.SECOND));
+	}
 }
