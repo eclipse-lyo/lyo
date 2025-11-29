@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -287,7 +288,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
         try {
             Cipher cipher = Cipher.getInstance(AES_CIPHER);
             SecretKey secretKey = getSecreteKey(encryptionKey);
-            byte[] plainTextByte = plainText.getBytes();
+            byte[] plainTextByte = plainText.getBytes(StandardCharsets.UTF_8);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] encryptedByte = cipher.doFinal(plainTextByte);
             Encoder encoder = Base64.getEncoder();
@@ -314,7 +315,7 @@ public class FileSystemConsumerStore extends AbstractConsumerStore {
             byte[] encryptedTextByte = decoder.decode(encryptedText);
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             byte[] decryptedByte = cipher.doFinal(encryptedTextByte);
-            decryptedText = new String(decryptedByte);
+            decryptedText = new String(decryptedByte, StandardCharsets.UTF_8);
         } catch (GeneralSecurityException e) {
             log.error("Failed to decrypt Consumer configuration file data: {}", e.getMessage());
             throw new RuntimeException(e);
