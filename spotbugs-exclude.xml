@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Exclude ANTLR-generated parser files -->
+    <Match>
+        <Package name="org.eclipse.lyo.core.query"/>
+        <Class name="~.*Parser"/>
+    </Match>
+    <Match>
+        <Package name="org.eclipse.lyo.core.query"/>
+        <Class name="~.*Lexer"/>
+    </Match>
+</FindBugsFilter>

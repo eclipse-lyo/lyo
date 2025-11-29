@@ -35,6 +35,7 @@ import net.oauth.OAuthException;
 import net.oauth.OAuthMessage;
 import net.oauth.client.OAuthClient;
 import net.oauth.client.httpclient4.HttpClient4;
+import net.oauth.client.httpclient4.HttpClientPool;
 
 public class OslcOAuthClient implements IOslcClient {
 
@@ -117,11 +118,12 @@ public class OslcOAuthClient implements IOslcClient {
     private Optional<String> performOAuthNegotiationInternal(boolean restart, String callbackURL) throws IOException, OAuthException, URISyntaxException {
         //No request token yet, get the request token and throw exception to redirect for authorization.
         if (oauthAccessor.requestToken == null) {
-            OAuthClient client = new OAuthClient(new HttpClient4() {
+            OAuthClient client = new OAuthClient(new HttpClient4(new HttpClientPool() {
+                @Override
                 public HttpClient getHttpClient(URL url) {
                     return underlyingHttpClient.get(oslcClient.getClient());
                 }
-            });
+            }));
             OAuthMessage message = client.getRequestTokenResponse(oauthAccessor, OAuthMessage.GET, null);
 
             String userAuthorizationURL = oauthAccessor.consumer.serviceProvider.userAuthorizationURL +
@@ -134,11 +136,12 @@ public class OslcOAuthClient implements IOslcClient {
         //Exchange request token for access token.
         if (oauthAccessor.accessToken == null) {
             try {
-                OAuthClient client = new OAuthClient(new HttpClient4() {
+                OAuthClient client = new OAuthClient(new HttpClient4(new HttpClientPool() {
+                            @Override
                             public HttpClient getHttpClient(URL url) {
                                 return underlyingHttpClient.get(oslcClient.getClient());
                             }
-                        });
+                        }));
                 OAuthMessage message = client.getAccessToken(oauthAccessor, OAuthMessage.POST, null);
             } catch (OAuthException e) {
                 log.debug("OAuthException caught: " + e.getMessage());
