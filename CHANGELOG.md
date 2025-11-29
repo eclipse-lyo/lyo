@@ -16,6 +16,7 @@ This release does not contain new features.
 - 🧨 Migrated to Jena 5. JDK 21 is the baseline requirement. JSON-LD 1.1 is used instead of JSON-LD 1.0.
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
+- `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.
 
 ### Deprecated
 

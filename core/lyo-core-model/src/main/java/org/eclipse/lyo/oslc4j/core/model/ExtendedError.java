@@ -22,9 +22,18 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
+/**
+ * OSLC Extended Error resource.
+ * 
+ * <p>This class extends {@link AbstractResource} to support extended properties
+ * as required by the OSLC Core specification.
+ * 
+ * @see <a href="http://open-services.net/bin/view/Main/OslcCoreSpecification?sortcol=table;up=#Unknown_properties_and_content">OSLC Core 2.0: Unknown properties and content</a>
+ * @see <a href="https://github.com/oslc-op/oslc-specs/issues/466">OSLC Spec Issue #466</a>
+ */
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Extended Error Resource Shape", describes = OslcConstants.TYPE_EXTENDED_ERROR)
-public class ExtendedError {
+public class ExtendedError extends AbstractResource {
 	private String		  hintHeight;
 	private String		  hintWidth;
 	private URI			  moreInfo;
