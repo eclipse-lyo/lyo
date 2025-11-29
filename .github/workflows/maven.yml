@@ -101,6 +101,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: build
+    permissions:
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -114,9 +116,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-spotbugs-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-spotbugs-
+            ${{ runner.os }}-maven-
       - name: Run SpotBugs
         run: |
           mvn -B verify -DskipTests -P'!enforcer' --file pom.xml
@@ -139,9 +141,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-lint-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-lint-
+            ${{ runner.os }}-maven-
       - name: Run Spotless (Maven plugin)
         run: |
           mvn -B spotless:apply -P'!enforcer' -P'!spotbugs' --file pom.xml
