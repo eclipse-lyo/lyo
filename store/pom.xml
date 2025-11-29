@@ -6,14 +6,14 @@
 
   <groupId>org.eclipse.lyo.store</groupId>
   <artifactId>store-parent</artifactId>
-  <version>7.0.0.Alpha8</version>
+  <version>7.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Lyo :: Store :: _Parent</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>7.0.0.Alpha8</version>
+    <version>7.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
