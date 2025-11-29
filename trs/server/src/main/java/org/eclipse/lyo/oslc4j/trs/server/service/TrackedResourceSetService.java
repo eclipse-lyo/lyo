@@ -114,6 +114,7 @@ public class TrackedResourceSetService {
     @Path(BASE_PATH)
     public Response getBase() {
         final URI newURI = uriBuilder().path(BASE_PATH).path("1").build();
+        log.trace("Redirecting TRS Base request to {}", newURI);
         return Response.seeOther(newURI).build();
     }
 
@@ -168,6 +169,7 @@ public class TrackedResourceSetService {
     @Path(CHANGELOG_PATH)
     public Response getChangeLog() {
         final URI newURI = uriBuilder().path(CHANGELOG_PATH).path("1").build();
+        log.trace("Redirecting TRS Change Log request to {}", newURI);
         return Response.seeOther(newURI).build();
     }
 

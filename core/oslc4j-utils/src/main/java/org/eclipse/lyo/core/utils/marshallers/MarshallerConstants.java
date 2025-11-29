@@ -17,15 +17,15 @@ import jakarta.ws.rs.core.MediaType;
 
 public class MarshallerConstants {
 	//Media Types
-	public static String CT_RDF_XML = "application/rdf+xml";
-	public static String CT_N_TRIPLES = "text/nt";
-	public static String CT_TURTLE = "text/turtle";
-	public static String CT_N3 = "text/n3";
-	public static String CT_OSLC_COMPACT = "application/x-oslc-compact+xml";
+	public static final String CT_RDF_XML = "application/rdf+xml";
+	public static final String CT_N_TRIPLES = "text/nt";
+	public static final String CT_TURTLE = "text/turtle";
+	public static final String CT_N3 = "text/n3";
+	public static final String CT_OSLC_COMPACT = "application/x-oslc-compact+xml";
 	
-	public static MediaType MT_RDF_XML = MediaType.valueOf(CT_RDF_XML);
-	public static MediaType MT_N_TRIPLES = MediaType.valueOf(CT_N_TRIPLES);
-	public static MediaType MT_TURTLE= MediaType.valueOf(CT_TURTLE);
-	public static MediaType MT_N3 = MediaType.valueOf(CT_N3);
-	public static MediaType MT_OSLC_COMPACT = MediaType.valueOf(CT_OSLC_COMPACT);
+	public static final MediaType MT_RDF_XML = MediaType.valueOf(CT_RDF_XML);
+	public static final MediaType MT_N_TRIPLES = MediaType.valueOf(CT_N_TRIPLES);
+	public static final MediaType MT_TURTLE= MediaType.valueOf(CT_TURTLE);
+	public static final MediaType MT_N3 = MediaType.valueOf(CT_N3);
+	public static final MediaType MT_OSLC_COMPACT = MediaType.valueOf(CT_OSLC_COMPACT);
 }
