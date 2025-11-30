@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
-  <domainSpecifications name="Dublin Core" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes[name='dcterms']">
+  <domainSpecifications name="Dublin Core Terms" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes[name='dcterms']">
     <resourceProperties id="_pna4kZUdEeq-KoPaR9_Cfg" name="contributor" description="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg" representation="either">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='contributor']"/>
     </resourceProperties>
@@ -361,7 +361,6 @@
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.am"/>
     </configuration>
   </domainSpecifications>
-  <domainSpecifications name="Matlab Domain" namespaceURI="http://your.organisation.domain/nsp10#" namespacePrefix="//@domainPrefixes[name='nsp10']"/>
   <domainSpecifications name="Configuration Management" namespaceURI="http://open-services.net/ns/config#" namespacePrefix="//@domainPrefixes[name='oslc_config']">
     <resources id="_pnXOMJUdEeq-KoPaR9_Cfg" name="VersionResource" resourceProperties="_YMpv8BfmEe2Qoa8h9kRCOQ _pnXOMZUdEeq-KoPaR9_Cfg _YMpv8RfmEe2Qoa8h9kRCOQ _pnXOMpUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnX1QZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnZDYZUdEeq-KoPaR9_Cfg _pnZDYpUdEeq-KoPaR9_Cfg _pnZqcJUdEeq-KoPaR9_Cfg _pnZqcZUdEeq-KoPaR9_Cfg _fztfYBfPEe2Qoa8h9kRCOQ _pnZqcpUdEeq-KoPaR9_Cfg _YMpv8hfmEe2Qoa8h9kRCOQ _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg _LlvhgBfgEe2Qoa8h9kRCOQ _pnaRhJUdEeq-KoPaR9_Cfg"/>
     <resources id="_pna4kpUdEeq-KoPaR9_Cfg" name="ChangeSet" extends="_jaDA0Re3Ee2Qoa8h9kRCOQ" resourceProperties="_HORQIBfOEe2Qoa8h9kRCOQ _Ncmd0BfSEe2Qoa8h9kRCOQ">
@@ -531,7 +530,6 @@
   <domainPrefixes name="oslc_rm"/>
   <domainPrefixes name="oslc_qm"/>
   <domainPrefixes name="oslc_am"/>
-  <domainPrefixes name="nsp10"/>
   <domainPrefixes name="oslc_config"/>
   <domainPrefixes name="oslc_auto"/>
   <domainPrefixes name="jazz_am"/>
