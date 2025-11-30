@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
-  <domainSpecifications name="Dublin Core Terms" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes[name='dcterms']">
+  <domainSpecifications name="Dublin Core" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes[name='dcterms']">
     <resourceProperties id="_pna4kZUdEeq-KoPaR9_Cfg" name="contributor" description="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg" representation="either">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='contributor']"/>
     </resourceProperties>
