@@ -17,12 +17,15 @@ import jakarta.ws.rs.client.Invocation.Builder;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status.Family;
 import org.apache.http.HttpHeaders;
+import org.eclipse.lyo.oslc.domains.Dcterms;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.xml.namespace.QName;
+
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -47,16 +50,14 @@ public class OslcClientTest {
     public void postInvalidOlscResource() throws IOException, URISyntaxException {
         assertTimeout(ofSeconds(10), () -> {
             final OslcClient client = new OslcClient();
+
             final ServiceProvider request = new ServiceProvider();
-            // Use new QName helper for a well-known property instead of ad-hoc construction
-            request.getExtendedProperties().put(DctermsVocabularyConstants.QNames.identifier(), "test-id-123");
+            request.setExtended(Dcterms.identifier(), "test-id-123");
+
             Response response = client.createResource("http://open-services.net/" +
-                ".well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
+                    ".well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
                 request, OSLCConstants.CT_RDF);
             assertThat(response.getStatusInfo().getFamily() != Family.SUCCESSFUL);
-            // assertThrows(ClientErrorException.class, () -> {
-            //
-            // });
         });
     }
 
@@ -174,14 +175,13 @@ public class OslcClientTest {
 
     @Test
     public void testDctermsQNameHelpers() {
-        QName titleQ = DctermsVocabularyConstants.QNames.title();
+        QName titleQ = Dcterms.title();
         assertEquals(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE, titleQ.getNamespaceURI());
         assertEquals("title", titleQ.getLocalPart());
         // Ensure caching returns same instance
-        assertSame(titleQ, DctermsVocabularyConstants.QNames.title());
+        assertSame(titleQ, Dcterms.title());
         // Verify identifier constant matches QName parts
-        QName idQ = DctermsVocabularyConstants.QNames.identifier();
-        assertEquals(DctermsVocabularyConstants.IDENTIFIER_PROP,
-            idQ.getNamespaceURI() + idQ.getLocalPart());
+        QName idQ = Dcterms.identifier();
+        assertEquals(Dcterms.IDENTIFIER_PROP, idQ.getNamespaceURI() + idQ.getLocalPart());
     }
 }
