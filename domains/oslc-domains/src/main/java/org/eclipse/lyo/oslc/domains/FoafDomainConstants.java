@@ -36,26 +36,35 @@ public interface FoafDomainConstants {
   public static String FOAF_DOMAIN = "http://xmlns.com/foaf/0.1/#";
 
   public static String FOAF_DOMAIN_NAME = "FOAF";
-  public static String FOAF_NAMSPACE =
-      "http://xmlns.com/foaf/0.1/#"; // Vocabulary namespace for the resources and resource
-  // properties, when no explicit vocabulary (describes, or
-  // propertyDefinition) is defined
-  public static String FOAF_NAMSPACE_PREFIX =
-      "foaf"; // Vocabulary prefix for the resources and resource properties, when no explicit
-  // vocabulary (describes, or propertyDefinition) is defined
 
-  public static String AGENT_PATH = "agent"; // the relative path of the resource shape URL.
-  public static String AGENT_NAMESPACE =
-      FoafVocabularyConstants.FOAF_NAMSPACE; // namespace of the rdfs:class the resource describes
-  public static String AGENT_LOCALNAME =
-      FoafVocabularyConstants.AGENT_CLASS; // localName of the rdfs:class the resource describes
-  public static String AGENT_TYPE =
-      AGENT_NAMESPACE + AGENT_LOCALNAME; // fullname of the rdfs:class the resource describes
-  public static String PERSON_PATH = "person"; // the relative path of the resource shape URL.
-  public static String PERSON_NAMESPACE =
-      FoafVocabularyConstants.FOAF_NAMSPACE; // namespace of the rdfs:class the resource describes
-  public static String PERSON_LOCALNAME =
-      FoafVocabularyConstants.PERSON_CLASS; // localName of the rdfs:class the resource describes
-  public static String PERSON_TYPE =
-      PERSON_NAMESPACE + PERSON_LOCALNAME; // fullname of the rdfs:class the resource describes
+  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/#";
+
+  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String FOAF_NAMSPACE_PREFIX = "foaf";
+
+  // the relative path of the resource shape URL.
+  public static String AGENT_PATH = "agent";
+
+  // namespace of the rdfs:class the resource describes
+  public static String AGENT_NAMESPACE = FoafVocabularyConstants.FOAF_NAMSPACE;
+
+  // localName of the rdfs:class the resource describes
+  public static String AGENT_LOCALNAME = FoafVocabularyConstants.AGENT_CLASS;
+
+  // fullname of the rdfs:class the resource describes
+  public static String AGENT_TYPE = AGENT_NAMESPACE + AGENT_LOCALNAME;
+  // the relative path of the resource shape URL.
+  public static String PERSON_PATH = "person";
+
+  // namespace of the rdfs:class the resource describes
+  public static String PERSON_NAMESPACE = FoafVocabularyConstants.FOAF_NAMSPACE;
+
+  // localName of the rdfs:class the resource describes
+  public static String PERSON_LOCALNAME = FoafVocabularyConstants.PERSON_CLASS;
+
+  // fullname of the rdfs:class the resource describes
+  public static String PERSON_TYPE = PERSON_NAMESPACE + PERSON_LOCALNAME;
 }

@@ -36,12 +36,12 @@ public interface RdfDomainConstants {
   public static String RDF_DOMAIN = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
   public static String RDF_DOMAIN_NAME = "RDF";
-  public static String RDF_NAMSPACE =
-      "http://www.w3.org/1999/02/22-rdf-syntax-ns#"; // Vocabulary namespace for the resources and
-  // resource properties, when no explicit
-  // vocabulary (describes, or
-  // propertyDefinition) is defined
-  public static String RDF_NAMSPACE_PREFIX =
-      "rdf"; // Vocabulary prefix for the resources and resource properties, when no explicit
-  // vocabulary (describes, or propertyDefinition) is defined
+
+  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String RDF_NAMSPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+
+  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String RDF_NAMSPACE_PREFIX = "rdf";
 }

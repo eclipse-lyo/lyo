@@ -36,19 +36,24 @@ public interface RdfsDomainConstants {
   public static String RDFS_DOMAIN = "http://www.w3.org/2000/01/rdf-schema#";
 
   public static String RDFS_DOMAIN_NAME = "RDFS";
-  public static String RDFS_NAMSPACE =
-      "http://www.w3.org/2000/01/rdf-schema#"; // Vocabulary namespace for the resources and
-  // resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String RDFS_NAMSPACE_PREFIX =
-      "rdfs"; // Vocabulary prefix for the resources and resource properties, when no explicit
-  // vocabulary (describes, or propertyDefinition) is defined
 
-  public static String CLASS_PATH = "class"; // the relative path of the resource shape URL.
-  public static String CLASS_NAMESPACE =
-      RdfsVocabularyConstants.RDFS_NAMSPACE; // namespace of the rdfs:class the resource describes
-  public static String CLASS_LOCALNAME =
-      RdfsVocabularyConstants.RDFSCLASS_CLASS; // localName of the rdfs:class the resource describes
-  public static String CLASS_TYPE =
-      CLASS_NAMESPACE + CLASS_LOCALNAME; // fullname of the rdfs:class the resource describes
+  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
+
+  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String RDFS_NAMSPACE_PREFIX = "rdfs";
+
+  // the relative path of the resource shape URL.
+  public static String CLASS_PATH = "class";
+
+  // namespace of the rdfs:class the resource describes
+  public static String CLASS_NAMESPACE = RdfsVocabularyConstants.RDFS_NAMSPACE;
+
+  // localName of the rdfs:class the resource describes
+  public static String CLASS_LOCALNAME = RdfsVocabularyConstants.RDFSCLASS_CLASS;
+
+  // fullname of the rdfs:class the resource describes
+  public static String CLASS_TYPE = CLASS_NAMESPACE + CLASS_LOCALNAME;
 }

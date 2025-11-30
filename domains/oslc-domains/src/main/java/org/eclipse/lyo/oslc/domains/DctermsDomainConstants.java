@@ -36,11 +36,12 @@ public interface DctermsDomainConstants {
   public static String DUBLIN_CORE_TERMS_DOMAIN = "http://purl.org/dc/terms/";
 
   public static String DUBLIN_CORE_TERMS_DOMAIN_NAME = "Dublin Core Terms";
-  public static String DUBLIN_CORE_TERMS_NAMSPACE =
-      "http://purl.org/dc/terms/"; // Vocabulary namespace for the resources and resource
-  // properties, when no explicit vocabulary (describes, or
-  // propertyDefinition) is defined
-  public static String DUBLIN_CORE_TERMS_NAMSPACE_PREFIX =
-      "dcterms"; // Vocabulary prefix for the resources and resource properties, when no explicit
-  // vocabulary (describes, or propertyDefinition) is defined
+
+  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String DUBLIN_CORE_TERMS_NAMSPACE = "http://purl.org/dc/terms/";
+
+  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String DUBLIN_CORE_TERMS_NAMSPACE_PREFIX = "dcterms";
 }
