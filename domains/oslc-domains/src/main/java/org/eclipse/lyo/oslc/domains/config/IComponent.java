@@ -59,7 +59,7 @@ import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OslcVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.config.IConfiguration;
 import org.eclipse.lyo.oslc.domains.IPerson;
@@ -188,7 +188,7 @@ public interface IComponent {
   public Set<Link> getInstanceShape();
 
   @OslcName("modifiedBy")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
+  @OslcPropertyDefinition(OslcVocabularyConstants.OSLC_CORE_NAMSPACE + "modifiedBy")
   @OslcDescription(
       "The entity that most recently modified the subject resource. The link target is usually a"
           + " foaf:Person or foaf:Agent, but could be any type.")
