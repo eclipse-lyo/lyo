@@ -49,7 +49,7 @@ public class ShaclMaxExclusiveValidationTest {
             aResource.addASetOfDates(new Date());
 
             TestHelper.assertNegative(
-                    TestHelper.performTest(aResource), "maxExclusive violation. Expected 16 < 15");
+                    TestHelper.performTest(aResource), "Data value 16 is not less than 15");
 
         } catch (Exception e) {
             e.printStackTrace();
