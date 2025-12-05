@@ -23,6 +23,7 @@ import static org.eclipse.lyo.core.trs.TRSConstants.TRS_TYPE_CHANGE_LOG;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
@@ -42,29 +43,29 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  *
  * {@code
  * <http://cm1.example.com/trackedResourceSet>
- * 	 a trs:TrackedResourceSet ;
- * 	 trs:base <http://cm1.example.com/baseResources> ;
- * 	 trs:changeLog [
- * 	   a trs:ChangeLog ;
- * 	   trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:33.000Z:103> ;
- * 	   trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:32.000Z:102> ;
- * 	   trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> .
- * 	 ] .
+ *   a trs:TrackedResourceSet ;
+ *   trs:base <http://cm1.example.com/baseResources> ;
+ *   trs:changeLog [
+ *     a trs:ChangeLog ;
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:33.000Z:103> ;
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:32.000Z:102> ;
+ *     trs:change <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101> .
+ *   ] .
  *
  * <urn:urn-3:cm1.example.com:2010-10-27T17:39:33.000Z:103>
- * 	 a trs:Creation ;
- * 	 trs:changed <http://cm1.example.com/bugs/23> ;
- * 	 trs:order "103"^^xsd:integer .
+ *   a trs:Creation ;
+ *   trs:changed <http://cm1.example.com/bugs/23> ;
+ *   trs:order "103"^^xsd:integer .
  *
  * <urn:urn-3:cm1.example.com:2010-10-27T17:39:32.000Z:102>
- * 	 a trs:Modification ;
- * 	 trs:changed <http://cm1.example.com/bugs/22> ;
- * 	 trs:order "102"^^xsd:integer .
+ *   a trs:Modification ;
+ *   trs:changed <http://cm1.example.com/bugs/22> ;
+ *   trs:order "102"^^xsd:integer .
  *
  * <urn:urn-3:cm1.example.com:2010-10-27T17:39:31.000Z:101>
- * 	 a trs:Deletion ;
- * 	 trs:changed <http://cm1.example.com/bugs/21> ;
- * 	 trs:order "101"^^xsd:integer .
+ *   a trs:Deletion ;
+ *   trs:changed <http://cm1.example.com/bugs/21> ;
+ *   trs:order "101"^^xsd:integer .
  * }
  * </pre>
  *
@@ -121,9 +122,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
  * Resource that is not a member of the Resource Set.
  */
 @OslcNamespace(TRS_NAMESPACE)
-@OslcResourceShape(title = "Change Log	Shape", describes = TRS_TYPE_CHANGE_LOG)
+@OslcResourceShape(title = "Change Log Shape", describes = TRS_TYPE_CHANGE_LOG)
 public class ChangeLog extends AbstractChangeLog {
-    private List<ChangeEvent> change = new ArrayList<>();
+    private final List<ChangeEvent> change = new CopyOnWriteArrayList<>(); // thread-safe
     private URI previous;
 
     /**
@@ -144,7 +145,8 @@ public class ChangeLog extends AbstractChangeLog {
         if (change == null) {
             throw new IllegalArgumentException("Change Event list must not be null");
         }
-        this.change = change;
+        this.change.clear();
+        this.change.addAll(change);
     }
 
     /**
