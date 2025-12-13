@@ -17,6 +17,7 @@ This release does not contain new features.
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
 - `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.
+- InMemPagedTRS handles concurrency.
 
 ### Deprecated
 
