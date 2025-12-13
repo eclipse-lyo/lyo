@@ -122,8 +122,8 @@ public class ValidationResult
     
     // Start of user code getterAnnotation:message
     // End of user code
-    @OslcName("message")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "message")
+    @OslcName("resultMessage")
+    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultMessage")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)

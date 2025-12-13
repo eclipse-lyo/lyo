@@ -45,11 +45,15 @@ public class TestHelper {
     public static void assertNegative(ValidationReport vr, String errorMessage) {
         assertFalse(vr.isConforms());
         for (ValidationResult result : vr.getResult()) {
-            if (result.getMessage().startsWith(errorMessage)) {
+            if (result.getMessage() != null && result.getMessage().startsWith(errorMessage)) {
                 return;
             }
         }
-        fail("Validation Error should exist.");
+        StringBuilder sb = new StringBuilder();
+        for (ValidationResult result : vr.getResult()) {
+            sb.append(result.getMessage()).append("\n");
+        }
+        fail("Validation Error should exist. Expected start with: '" + errorMessage + "'. Actual messages:\n" + sb.toString());
     }
 
     public static void assertPositive(ValidationReport vr) {

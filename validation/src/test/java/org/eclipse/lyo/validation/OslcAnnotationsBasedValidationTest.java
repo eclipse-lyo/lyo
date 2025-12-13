@@ -60,7 +60,7 @@ public class OslcAnnotationsBasedValidationTest {
 
         try {
             ValidationReport vr = TestHelper.performTest(anOslcResource);
-            TestHelper.assertNegative(vr, "MinCount violation. Expected 1, obtained: 0");
+            TestHelper.assertNegative(vr, "minCount[1]: Invalid cardinality: expected min 1: Got count = 0");
 
         } catch (Exception e) {
             e.printStackTrace();

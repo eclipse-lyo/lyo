@@ -53,7 +53,7 @@ public class ShaclMaxLengthValidationTest {
 
             TestHelper.assertNegative(
                     TestHelper.performTest(aResource),
-                    "maxLength violation. Expected length(\"Between two and four\") <= 10");
+                    "MaxLengthConstraint[10]: String too long: Between two and four");
 
         } catch (Exception e) {
             e.printStackTrace();

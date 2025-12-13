@@ -49,7 +49,6 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.shacl.ShaclShapeFactory;
 import org.eclipse.lyo.shacl.Shape;
 import org.eclipse.lyo.shacl.ValidationReport;
-import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 
 @OslcNamespace(SampleAdaptorConstants.SAMPLEDOMAIN_NAMSPACE)
 @OslcName(SampleAdaptorConstants.ANOSLCRESOURCE)
@@ -82,7 +81,7 @@ public class AnOslcResource extends AbstractResource {
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException, InstantiationException, SecurityException, NoSuchMethodException {
-        return new ShaclExValidatorImpl().validate(this);
+        return ValidatorFactory.createShaclExValidator().validate(this);
     }
 
     @OslcName("anIntegerProperty")
