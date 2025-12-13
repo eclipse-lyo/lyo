@@ -181,6 +181,7 @@ public class JEEFormAuthenticator implements ClientRequestFilter, ClientResponse
     private int followRedirects(int statusCode, String location) {
         followingRedirects = true;
         while (location != null && statusCode >= 301 && statusCode <= 399) {
+            log.trace("Following redirect to {}", location);
             Response lastRedirectResponse = authClient.target(location).request().get();
             statusCode = lastRedirectResponse.getStatus();
             location = lastRedirectResponse.getHeaderString("Location");
