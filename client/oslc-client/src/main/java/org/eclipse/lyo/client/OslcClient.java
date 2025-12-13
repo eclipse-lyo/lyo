@@ -294,7 +294,9 @@ public class OslcClient implements IOslcClient {
                 response = invocationBuilder.method(method, Entity.entity(artifact, mediaType));
             }
             if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Status.Family.REDIRECTION) {
-                url = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
+                String newUrl = response.getStringHeaders().getFirst(HttpHeaders.LOCATION);
+                LOGGER.trace("Following redirect from {} to {}", url, newUrl);
+                url = newUrl;
                 response.readEntity(String.class);
                 redirect = true;
             } else {

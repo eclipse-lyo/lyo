@@ -55,17 +55,24 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
  * @since 2.3.0
  */
 public class TRSUtil {
-    public static final SimpleDateFormat XSD_DATETIME_FORMAT;
     public final static URI NIL_URI = URI.create(TRSConstants.RDF_NIL);
-    public static QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
+    public static final QName dateModifiedQname = new QName(OslcConstants.DCTERMS_NAMESPACE, "modified");
+
+    /** Thread-safe pattern for XSD datetime format. */
+    private static final String XSD_DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+    /**
+     * Get a new thread-safe DateFormat instance for XSD datetime.
+     * @return a new SimpleDateFormat instance
+     */
+    public static SimpleDateFormat getXsdDateTimeFormat() {
+        SimpleDateFormat format = new SimpleDateFormat(XSD_DATETIME_PATTERN);
+        format.setTimeZone(TimeZone.getDefault());
+        return format;
+    }
 
 //    static Comparator<ChangeEvent> changeEventComparator = Comparator.comparing(
 //            ChangeEvent::getOrder, BigInteger::compareTo).reversed();
-
-    static {
-        XSD_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        XSD_DATETIME_FORMAT.setTimeZone(TimeZone.getDefault());
-    }
 
     /**
      * Return the list of resources from the rdf model with the given rdf type
@@ -207,7 +214,6 @@ public class TRSUtil {
     public static String linkHeaderValue(Base base) {
         Page nextPage = base.getNextPage();
         URI pageOf = nextPage.getPageOf().getAbout();
-        StringBuilder sb = new StringBuilder();
         final String newline = "\n";
         String headerValue = urize(pageOf.toString()) + "; rel=\"first\"," + newline + urize(
                 nextPage.getNextPage().toString()) + "; rel=\"next\"," + newline + "<http://www"
