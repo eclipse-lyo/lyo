@@ -14,12 +14,12 @@
 package org.eclipse.lyo.oslc4j.trs.server;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.lyo.core.trs.Base;
@@ -76,14 +76,14 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
     private final String changeLogRelativePath;
 
     /**
-     * List of base resources
+     * Map of base resources by URI
      */
-    private final List<Base> baseResources = new ArrayList<>();
+    private final Map<URI, Base> baseResources = new ConcurrentHashMap<>();
 
     /**
-     * List of Change Logs
+     * Map of Change Logs by URI
      */
-    private final List<ChangeLog> changelogResources = new ArrayList<>();
+    private final Map<URI, ChangeLog> changelogResources = new ConcurrentHashMap<>();
 
     /**
      * @param basePageLimit      Max items per Base page
@@ -121,16 +121,28 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
 
     @Override
     public Base getBaseResource(final Integer pageId) {
-        int listIdx = pageIdToListIdx(pageId);
-        if (listIdx  < 0 || listIdx >= baseResources.size()) {
-            throw new IllegalArgumentException("There is no such Base page");
-        }
-        return baseResources.get(listIdx);
+        URI uri = basePageUriForPage(pageId);
+        return getBaseResource(uri);
     }
 
-    private int pageIdToListIdx(final Integer pageId) {
-        return pageId - 1;
+    @Override
+    public Base getBaseResource(final URI uri) {
+        return baseResources.get(uri);
     }
+
+    @Override
+    public Base getBaseFirst() {
+        return baseResources.values().iterator().next();
+    }
+
+    @Override
+    public Base getNext (Base base) {
+        if (TRSConstants.RDF_NIL.equals(base.getNextPage().getNextPage().toString())) {
+            return null;
+        }
+        return getBaseResource(base.getNextPage().getNextPage());
+    }
+
 
     @Override
     public int basePageCount() {
@@ -139,16 +151,27 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
 
     @Override
     public ChangeLog getChangeLog(final Integer pageId) {
-        int listIdx = pageIdToListIdx(pageId);
-        if (listIdx < 0 || listIdx >= changelogResources.size()) {
-            throw new IllegalArgumentException("There is no such ChangeLog page");
-        }
-        return changelogResources.get(listIdx);
+        URI uri = changelogUriForPage(pageId);
+        return getChangeLog(uri);
+    }
+    
+    @Override
+    public ChangeLog getChangeLog(final URI uri) {
+        return changelogResources.get(uri);
     }
 
     @Override
     public ChangeLog getChangeLogLast() {
-        return getChangeLog(changelogPageCount());
+        return getLastChangelogPage();
+    }
+
+    @Override
+    public ChangeLog getPrevious(ChangeLog changeLog) {
+        if (changeLog.getPrevious() == null) {
+            return null;
+        }
+        
+        return getChangeLog(changeLog.getPrevious());
     }
 
     @Override
@@ -177,7 +200,7 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
         onHistoryData(instance);
     }
 
-    public void onHistoryData(final HistoryData event) {
+    public synchronized void onHistoryData(final HistoryData event) {
         final ChangeLog changeLog = findOrCreateChangelogPage();
         final ChangeEvent changeEvent = createChangeEvent(event);
         changeLog.getChange().add(changeEvent);
@@ -212,7 +235,7 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
         return createChangeEvent((int) order, event.getUri(), ceUri, event.getType());
     }
 
-    private void initBase(final Collection<URI> baseResourceUris) {
+    private synchronized void initBase(final Collection<URI> baseResourceUris) {
         Base base = this.findOrCreateBase();
         int remainingResources = calcRemainingResources(base);
         for (final URI resourceUris : baseResourceUris) {
@@ -225,21 +248,21 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
         }
     }
 
-    private Base findOrCreateBase() {
-        final Base page;
+    private synchronized Base findOrCreateBase() {
+        final Base base;
         if (this.baseResources.isEmpty()) {
-            page = createBase();
+            base = createBase();
         } else {
             final Base lastBase = getLastBaseResource();
             if (isBaseFull(lastBase)) {
-                page = createBase();
-                lastBase.getNextPage().setNextPage(page.getNextPage().getAbout());
+                base = createBase();
+                lastBase.getNextPage().setNextPage(base.getNextPage().getAbout());
             } else {
-                page = lastBase;
+                base = lastBase;
             }
         }
         // using single-return style to benefit from the 'final' check
-        return page;
+        return base;
     }
 
     /**
@@ -247,13 +270,13 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
      *
      * @return the created base page object
      */
-    private Base createBase() {
+    private synchronized Base createBase() {
         final Base base = new Base();
         base.setAbout(this.createBaseUri());
-        base.setNextPage(createBasePage(base, nextBasePageId()));
+        base.setNextPage(createBasePage(base));
         base.setCutoffEvent(URI.create(TRSConstants.RDF_NIL));
         log.debug("Adding a new Base resource");
-        baseResources.add(base);
+        baseResources.put(base.getNextPage().getAbout(), base);
         return base;
     }
 
@@ -265,9 +288,9 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
      *
      * @return the page of the base
      */
-    private Page createBasePage(final Base base, final int pageId) {
+    private Page createBasePage(final Base base) {
         final Page basePage = new Page();
-        basePage.setAbout(this.createBasePageUri(pageId));
+        basePage.setAbout(this.nextBasePageUri());
         basePage.setNextPage(URI.create(TRSConstants.RDF_NIL));
         basePage.setPageOf(base);
         return basePage;
@@ -275,29 +298,41 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
 
     //the last page of the changeLog's URI is set to null, since it needs to be a local resource in the trackedResourceSet.
     //All other pages will have a URI
-    private ChangeLog findOrCreateChangelogPage() {
+    private synchronized ChangeLog findOrCreateChangelogPage() {
         final ChangeLog page;
         if (this.changelogResources.isEmpty()) {
-            page = createChangelogPage(TRSUtil.NIL_URI, null);
+            page = createChangelogPage(null);
         } else {
             final ChangeLog lastPage = getLastChangelogPage();
             if (isChangelogPageFull(lastPage)) {
-                lastPage.setAbout(createChangelogUri());
-                page = createChangelogPage(lastPage.getAbout(), null);
+                // last page gets its proper URI
+                URI newAbout = nextChangelogUri();
+
+                // remove old entry with NIL_URI key and reinsert with newAbout as key
+                changelogResources.remove(lastPage.getAbout() != null ? lastPage.getAbout() : TRSUtil.NIL_URI);
+                lastPage.setAbout(newAbout);
+                changelogResources.put(newAbout, lastPage);
+
+                // create new last page with null about
+                page = createChangelogPage(lastPage.getAbout());
             } else {
                 page = lastPage;
             }
         }
-        // using single-return style to benefit from the 'final' check
         return page;
     }
 
-    private ChangeLog createChangelogPage(final URI previous, final URI current) {
+    private synchronized ChangeLog createChangelogPage(final URI previous) {
         final ChangeLog changelog = new ChangeLog();
-        changelog.setAbout(current);
+        changelog.setAbout(null);
         changelog.setPrevious(previous);
 
-        changelogResources.add(changelog);
+        URI mapKey = TRSUtil.NIL_URI;
+        if (changelogResources.get(mapKey) != null) {
+            throw new IllegalStateException("A new changeLog page is being created, without first converting the last changelog into a non-local resource");
+        }
+        changelogResources.put(mapKey, changelog);
+
         return changelog;
     }
 
@@ -318,40 +353,54 @@ public class InmemPagedTrs implements PagedTrs, TrsEventHandler {
     }
 
     private ChangeLog getLastChangelogPage() {
-        return this.changelogResources.get(this.changelogResources.size() - 1);
-    }
-
-    private int nextBasePageId() {
-        return basePageIdFor(this.baseResources.size());
-    }
-
-    private int basePageIdFor(final int listIdx) {
-        return listIdx + 1;
+        return this.changelogResources.get(TRSUtil.NIL_URI);
     }
 
     private Base getLastBaseResource() {
-        return this.baseResources.get(this.baseResources.size() - 1);
+        return this.baseResources.get(lastBasePageUri());
     }
 
     private URI createBaseUri() {
-        final URI uri = getUriBuilder().path(this.baseRelativePath).build();
-        return uri;
+        return getUriBuilder().path(this.baseRelativePath).build();
     }
 
-    private URI createBasePageUri(final int pageId) {
-        final URI uri = getUriBuilder().path(this.baseRelativePath).path(String.valueOf(pageId)).build();
-        return uri;
+    private URI lastBasePageUri() {
+        int pageId = this.baseResources.size();
+        return basePageUriForPage(pageId);
     }
 
-    private URI createChangelogUri() {
-        final int nextPageId = this.changelogResources.size();
-        final URI uri = getUriBuilder().path(this.changeLogRelativePath).path(String.valueOf(nextPageId)).build();
-        return uri;
+    private URI nextBasePageUri() {
+    	int pageId = this.baseResources.size() + 1;
+        return basePageUriForPage(pageId);
+    }
+
+    private URI basePageUriForPage(int pageId) {
+        if (pageId < 1) {
+            throw new IllegalArgumentException("Page id must be >= 1");
+        }
+        return getUriBuilder()
+        		.path(this.baseRelativePath)
+        		.path(String.valueOf(pageId))
+        		.build();
+    }
+    
+    private URI nextChangelogUri() {
+    	//There is always an entry with the "nil" changeLog page.
+    	return changelogUriForPage(this.changelogResources.size());
+    }
+
+    private URI changelogUriForPage(int pageId) {
+        if (pageId < 1) {
+            throw new IllegalArgumentException("Page id must be >= 1");
+        }
+        return getUriBuilder()
+                .path(this.changeLogRelativePath)
+                .path(String.valueOf(pageId))
+                .build();
     }
 
     private long nextCutoff() {
-        final long next = trsOrderId.incrementAndGet();
-        return next;
+        return trsOrderId.incrementAndGet();
     }
 
     private UriBuilder getUriBuilder() {
