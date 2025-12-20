@@ -63,7 +63,7 @@ public class InmemPagedTrsTest {
 
         assertThat(pagedTrs.changelogPageCount()).isEqualTo(1);
 
-        assertThat(pagedTrs.getChangeLog(1).getChange()).hasSize(3);
+        assertThat(pagedTrs.getChangeLog(TRSUtil.NIL_URI).getChange()).hasSize(3);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class InmemPagedTrsTest {
         assertThat(pagedTrs.changelogPageCount()).isEqualTo(2);
 
         assertThat(pagedTrs.getChangeLog(1).getChange()).hasSize(5);
-        assertThat(pagedTrs.getChangeLog(2).getChange()).hasSize(2);
+        assertThat(pagedTrs.getChangeLog(TRSUtil.NIL_URI).getChange()).hasSize(2);
     }
 
     @Test
@@ -103,7 +103,7 @@ public class InmemPagedTrsTest {
                 .stream()
                 .map(e -> e.getOrder())
                 .collect(Collectors.toSet())).hasSize(5);
-        assertThat(pagedTrs.getChangeLog(2)
+        assertThat(pagedTrs.getChangeLog(TRSUtil.NIL_URI)
                 .getChange()
                 .stream()
                 .map(e -> e.getOrder())
@@ -128,7 +128,7 @@ public class InmemPagedTrsTest {
                 .stream()
                 .map(ChangeEvent::getOrder)
                 .max(BigInteger::compareTo);
-        assertThat(pagedTrs.getChangeLog(2)
+        assertThat(pagedTrs.getChangeLog(TRSUtil.NIL_URI)
                 .getChange()
                 .stream()
                 .filter(e -> e.getOrder().compareTo(firstPageOrderMax.get()) > 0)
@@ -148,7 +148,7 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        assertThat(pagedTrs.getChangeLog(2).getPrevious()).isEqualTo(pagedTrs.getChangeLog(1).getAbout());
+        assertThat(pagedTrs.getChangeLog(TRSUtil.NIL_URI).getPrevious()).isEqualTo(pagedTrs.getChangeLog(1).getAbout());
     }
 
     @Test
@@ -164,7 +164,7 @@ public class InmemPagedTrsTest {
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
         pagedTrs.onHistoryData(TRSTestUtil.createHistory());
 
-        assertThat(pagedTrs.getChangeLog(1).getPrevious()).isEqualTo(TRSUtil.NIL_URI);
+        assertThat(pagedTrs.getChangeLog(1).getPrevious()).isEqualTo(null);
     }
 
     private InmemPagedTrs buildPagedTrs() {
