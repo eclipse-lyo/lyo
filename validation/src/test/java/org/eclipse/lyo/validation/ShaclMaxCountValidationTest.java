@@ -52,7 +52,7 @@ public class ShaclMaxCountValidationTest {
             aResource.addASetOfDates(new Date());
 
             ValidationReport vr = TestHelper.performTest(aResource);
-            TestHelper.assertNegative(vr, "MaxCount violation. Expected 0, obtained: 1");
+            TestHelper.assertNegative(vr, "maxCount[0]: Invalid cardinality: expected max 0: Got count = 1");
 
         } catch (Exception e) {
             fail("Exception should be thrown.");
