@@ -25,9 +25,19 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
+/**
+ * OSLC Error resource.
+ * 
+ * <p>This class extends {@link AbstractResource} to support extended properties
+ * as required by the OSLC Core specification. This allows adding properties like
+ * {@code dcterms:description} or {@code dcterms:identifier} to error responses.
+ * 
+ * @see <a href="http://open-services.net/bin/view/Main/OslcCoreSpecification?sortcol=table;up=#Unknown_properties_and_content">OSLC Core 2.0: Unknown properties and content</a>
+ * @see <a href="https://github.com/oslc-op/oslc-specs/issues/466">OSLC Spec Issue #466</a>
+ */
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Error Resource Shape", describes = OslcConstants.TYPE_ERROR)
-public class Error {
+public class Error extends AbstractResource {
 	private ExtendedError extendedError;
 	private String		  message;
 	private String		  statusCode;
