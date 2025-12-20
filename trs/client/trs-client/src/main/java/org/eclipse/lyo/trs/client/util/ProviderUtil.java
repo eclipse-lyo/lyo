@@ -85,7 +85,7 @@ public class ProviderUtil {
 
         // sort the events, needed for the cut-off later
         firstChangelogEvents.sort(Comparator.comparing(ChangeEvent::getOrder));
-        firstChangeLog.setChange(firstChangelogEvents);
+        firstChangeLog.setChange(new ArrayList<>(firstChangelogEvents));
 
         // TODO Andrew@2018-02-28: just delete this line, getter after setter is some superstition
 //        firstChangelogEvents = firstChangeLog.getChange();
@@ -100,8 +100,8 @@ public class ProviderUtil {
             }
         }
 
-        firstChangelogEvents = firstChangelogEvents.subList(indexOfSync + 1,
-                firstChangelogEvents.size());
+        firstChangelogEvents = new ArrayList<>(firstChangelogEvents.subList(indexOfSync + 1,
+                firstChangelogEvents.size()));
         firstChangeLog.setChange(firstChangelogEvents);
 
         List<ChangeEvent> changesToProcess = new ArrayList<>();
