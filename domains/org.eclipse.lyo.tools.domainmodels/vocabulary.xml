@@ -46,7 +46,7 @@
     <properties name="relatedTestScript" label="relatedTestScript" comment="Related test script resource. It is likely that the&#13;&#10;target resource will be an oslc_qm:TestScript."/>
     <properties name="severity" label="severity" comment="Used to indicate the severity or potential impact of a defect.&#13;&#10;It is likely that the target resource will be an oslc_cm:Severity."/>
     <properties name="state" label="state" comment="Used to indicate the status of the change request."/>
-    <properties name="status" label="status" comment="Used to indicate the status of the change request based&#13;&#10;on values defined by the service provider. Most often a read-only&#13;&#10;property. It is likely that the target resource will be a string corresponding to an&#13;&#10;oslc_cm:State value."/>
+    <properties name="status" label="status" comment="archaic"/>
     <properties name="testedByTestCase" label="testedByTestCase" comment="Test case by which this change request is tested. It is&#13;&#10;likely that the target resource will be an oslc_qm:TestCase."/>
     <properties name="tracksChangeSet" label="tracksChangeSet" comment="Tracks a change set resource. It is likely that the&#13;&#10;target resource will be an oslc_config:ChangeSet."/>
     <properties name="tracksRequirement" label="tracksRequirement" comment="Tracks the associated Requirement or Requirement&#13;&#10;ChangeSet resources. It is likely that the target resource will be an&#13;&#10;oslc_rm:Requirement."/>

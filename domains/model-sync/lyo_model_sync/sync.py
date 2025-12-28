@@ -1,6 +1,9 @@
 import logging
 from rdflib import Graph, RDF, RDFS, OWL, URIRef, BNode, Namespace
 from rdflib.namespace import SH
+
+# status vocabulary: vs:term_status
+VS = Namespace('http://www.w3.org/2003/06/sw-vocab-status/ns#')
 from lxml import etree
 from pathlib import Path
 
@@ -43,12 +46,20 @@ def extract_vocab_entities(g, namespace_uri):
             lname = local_name(s)
             if any(t in (RDFS.Class, OWL.Class) for t in types):
                 label = first_literal(g, s, RDFS.label)
+                term_status = first_literal(g, s, VS.term_status)
+                # Use vs:term_status only when it equals 'archaic', otherwise fall back to rdfs:comment
                 comment = first_literal(g, s, RDFS.comment)
+                if term_status == 'archaic':
+                    comment = term_status
                 classes[lname] = {'uri': str(s), 'label': label, 'comment': comment}
             # detect property
             if any(t in (RDF.Property, OWL.ObjectProperty, OWL.DatatypeProperty) for t in types):
                 label = first_literal(g, s, RDFS.label)
+                term_status = first_literal(g, s, VS.term_status)
+                # Use vs:term_status only when it equals 'archaic', otherwise fall back to rdfs:comment
                 comment = first_literal(g, s, RDFS.comment)
+                if term_status == 'archaic':
+                    comment = term_status
                 properties[lname] = {'uri': str(s), 'label': label, 'comment': comment}
     # Fallback: look for properties with predicate in the namespace
     for p in set(g.predicates()):

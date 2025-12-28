@@ -35,7 +35,7 @@ Behavior details
 
 1. Parse RDF file using `rdflib`.
    - Load triples and identify terms (classes, properties, labels, comments, ranges, domains, subClassOf, subPropertyOf, etc.) that are in the provided `<namespace-uri>`.
-   - Prefer rdfs:label/rdfs:comment annotations when present; when absent, local names are used.
+   - Prefer rdfs:label for labels. For descriptions, if `vs:term_status` is present and its value is exactly `"archaic"`, use `"archaic"` as the description (overriding `rdfs:comment`); otherwise fall back to `rdfs:comment`. When absent, local names are used.
 
 2. Parse the Lyo Designer model XML using `lxml.etree`.
    - Locate the relevant `<vocabulary>` or `<namespace>` block by matching the `prefix` or the configured model element that contains the namespace URI.
