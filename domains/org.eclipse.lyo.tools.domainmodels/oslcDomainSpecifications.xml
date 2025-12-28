@@ -160,7 +160,7 @@
       <generalConfiguration doNotGenerate="true" filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc4j.core.model"/>
     </configuration>
   </domainSpecifications>
-  <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm#" namespacePrefix="//@domainPrefixes[name='oslc_cm']">
+  <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm/shapes/3.0#" namespacePrefix="//@domainPrefixes[name='oslc_cm_shapes']">
     <resources id="_poJRUJUdEeq-KoPaR9_Cfg" name="ChangeRequest" resourceProperties="_pnaRgZUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _poTpYZUdEeq-KoPaR9_Cfg _poJ4YJUdEeq-KoPaR9_Cfg _poJ4YZUdEeq-KoPaR9_Cfg _poJ4YpUdEeq-KoPaR9_Cfg _poJ4Y5UdEeq-KoPaR9_Cfg _poKfcJUdEeq-KoPaR9_Cfg _poKfcZUdEeq-KoPaR9_Cfg _poKfcpUdEeq-KoPaR9_Cfg _poKfc5UdEeq-KoPaR9_Cfg _poKfdJUdEeq-KoPaR9_Cfg _poKfdZUdEeq-KoPaR9_Cfg _poNiwJUdEeq-KoPaR9_Cfg _poKfeJUdEeq-KoPaR9_Cfg _poLGgJUdEeq-KoPaR9_Cfg _poLGgZUdEeq-KoPaR9_Cfg _poKfd5UdEeq-KoPaR9_Cfg _poOJ0JUdEeq-KoPaR9_Cfg _poOJ0ZUdEeq-KoPaR9_Cfg _poOJ0pUdEeq-KoPaR9_Cfg _poKfdpUdEeq-KoPaR9_Cfg">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     </resources>
@@ -527,7 +527,7 @@
   <domainPrefixes name="rdf"/>
   <domainPrefixes name="rdfs"/>
   <domainPrefixes name="oslc"/>
-  <domainPrefixes name="oslc_cm"/>
+  <domainPrefixes name="oslc_cm_shapes"/>
   <domainPrefixes name="oslc_rm"/>
   <domainPrefixes name="oslc_qm"/>
   <domainPrefixes name="oslc_am"/>
