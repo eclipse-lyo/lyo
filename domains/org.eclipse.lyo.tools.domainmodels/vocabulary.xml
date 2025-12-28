@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<oscl4j_vocabulary:Vocabularies xmlns:xmi="http://www.omg.org/XMI" xmlns:oscl4j_vocabulary="http://org.eclipse.lyo/oslc4j/vocabulary" xmi:version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<oscl4j_vocabulary:Vocabularies xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oscl4j_vocabulary="http://org.eclipse.lyo/oslc4j/vocabulary">
   <vocabularies namespaceURI="http://open-services.net/ns/rm#" label="Requirements Management vocabulary" description="Requirements Management vocabulary as of CS01 (24 August 2018)" source="http://docs.oasis-open.org/oslc-domains/oslc-rm/v2.1/oslc-rm-v2.1-part2-requirements-management-vocab.html" preferredNamespacePrefix="oslc_rm">
     <classes name="Requirement" label="Requirement" comment="Statement of need."/>
     <classes name="RequirementCollection" label="RequirementCollection" comment="Collection of requirements. A collection uses zero or more requirements."/>
@@ -20,36 +20,36 @@
     <properties name="validatedBy" label="validatedBy" comment="Expresses a validation relationship between entities, where the object entity in some way validates the subject entity. For example, a requirement collection may be said to be validated by a test plan."/>
   </vocabularies>
   <vocabularies namespaceURI="http://open-services.net/ns/cm#" label="Change Management vocab" source="http://docs.oasis-open.org/oslc-domains/cm/v3.0/cs02/part2-change-mgt-vocab/cm-v3.0-cs02-part2-change-mgt-vocab.html" preferredNamespacePrefix="oslc_cm">
-    <classes name="ChangeNotice" label="ChangeNotice" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']" comment="Represents an assignment notification of a change request. May be used also to bestow authority onto the assigned user to effect the changes."/>
+    <classes name="ChangeNotice" label="ChangeNotice" comment="Represents an assignment notification of a change request. May be used also to bestow authority onto the assigned user to effect the changes." subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     <classes name="ChangeRequest" label="ChangeRequest" comment="The CM Change Request resource."/>
-    <classes name="Defect" label="Defect" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']" comment="A software or product defect."/>
-    <classes name="Enhancement" label="Enhancement" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']" comment="A request for new functionality."/>
+    <classes name="Defect" label="Defect" comment="A software or product defect." subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <classes name="Enhancement" label="Enhancement" comment="A request for new functionality." subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     <classes name="Priority" label="Priority" comment="Defines the possible oslc_cm:priority property values."/>
-    <classes name="ReviewTask" label="ReviewTask" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Task']" comment="A request to make a change and review the change."/>
+    <classes name="ReviewTask" label="ReviewTask" comment="A request to make a change and review the change." subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Task']"/>
     <classes name="Severity" label="Severity" comment="Defines the possible oslc_cm:severity property values."/>
     <classes name="State" label="State" comment="Defines the possible oslc_cm:state property values."/>
-    <classes name="Task" label="Task" subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']" comment="An executable and trackable activity."/>
-    <properties name="affectedByDefect" label="affectedByDefect" comment="Change request is affected by a reported defect. It is&#13;&#10;likely that the target resource will be an oslc_cm:Defect."/>
-    <properties name="affectsPlanItem" label="affectsPlanItem" comment="Change request affects a plan item. It is likely that&#13;&#10;the target resource will be an oslc_cm:ChangeRequest."/>
-    <properties name="affectsRequirement" label="affectsRequirement" comment="The ChangeRequest affects a Requirement. It is likely&#13;&#10;that the target resource will be an oslc_rm:Requirement."/>
-    <properties name="affectsTestResult" label="affectsTestResult" comment="Associated resource that is affected by this Change&#13;&#10;Request. It is likely that the target resource will be an&#13;&#10;oslc_qm:TestResult."/>
+    <classes name="Task" label="Task" comment="An executable and trackable activity." subClassOf="//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
+    <properties name="affectedByDefect" label="affectedByDefect" comment="Change request is affected by a reported defect. It is&#xD;&#xA;likely that the target resource will be an oslc_cm:Defect."/>
+    <properties name="affectsPlanItem" label="affectsPlanItem" comment="Change request affects a plan item. It is likely that&#xD;&#xA;the target resource will be an oslc_cm:ChangeRequest."/>
+    <properties name="affectsRequirement" label="affectsRequirement" comment="The ChangeRequest affects a Requirement. It is likely&#xD;&#xA;that the target resource will be an oslc_rm:Requirement."/>
+    <properties name="affectsTestResult" label="affectsTestResult" comment="Associated resource that is affected by this Change&#xD;&#xA;Request. It is likely that the target resource will be an&#xD;&#xA;oslc_qm:TestResult."/>
     <properties name="authorizer" label="authorizer" comment="The URI of a resource describing an agent who is responsible authorizing for and/or has authorized effort to be expended to address a set of change requests."/>
-    <properties name="blocksTestExecutionRecord" label="blocksTestExecutionRecord" comment="Associated resource that is blocked by this Change&#13;&#10;Request. It is likely that the target resource will be an&#13;&#10;oslc_qm:TestExecutionRecord."/>
+    <properties name="blocksTestExecutionRecord" label="blocksTestExecutionRecord" comment="Associated resource that is blocked by this Change&#xD;&#xA;Request. It is likely that the target resource will be an&#xD;&#xA;oslc_qm:TestExecutionRecord."/>
     <properties name="closeDate" label="closeDate" comment="The date at which no further activity or work is intended to be conducted."/>
-    <properties name="implementsRequirement" label="implementsRequirement" comment="The ChangeRequest implements the associated Requirement. It is likely that the&#13;&#10;target resource will be an oslc_rm:Requirement."/>
+    <properties name="implementsRequirement" label="implementsRequirement" comment="The ChangeRequest implements the associated Requirement. It is likely that the&#xD;&#xA;target resource will be an oslc_rm:Requirement."/>
     <properties name="parent" label="parent" comment="The related parent change requests of the subject change request."/>
-    <properties name="priority" label="priority" comment="Used to indicate the relative importance of ChangeRequests.&#13;&#10;It is likely that the target resource will be an&#13;&#10;oslc_cm:Priority."/>
-    <properties name="relatedChangeRequest" label="relatedChangeRequest" comment="This relationship is loosely coupled, has no specific&#13;&#10;meaning, and can be used to link related change requests. It is likely&#13;&#10;that the target resource will be an oslc_cm:ChangeRequest."/>
-    <properties name="relatedTestCase" label="relatedTestCase" comment="Related test case resource. It is likely that the&#13;&#10;target resource will be an oslc_qm:TestCase."/>
-    <properties name="relatedTestExecutionRecord" label="relatedTestExecutionRecord" comment="Related to a test execution resource. It is likely&#13;&#10;that the target resource will be an oslc_qm:TestExecutionRecord."/>
-    <properties name="relatedTestPlan" label="relatedTestPlan" comment="Related test plan resource. It is likely that the&#13;&#10;target resource will be an oslc_qm:TestPlan."/>
-    <properties name="relatedTestScript" label="relatedTestScript" comment="Related test script resource. It is likely that the&#13;&#10;target resource will be an oslc_qm:TestScript."/>
-    <properties name="severity" label="severity" comment="Used to indicate the severity or potential impact of a defect.&#13;&#10;It is likely that the target resource will be an oslc_cm:Severity."/>
+    <properties name="priority" label="priority" comment="Used to indicate the relative importance of ChangeRequests.&#xD;&#xA;It is likely that the target resource will be an&#xD;&#xA;oslc_cm:Priority."/>
+    <properties name="relatedChangeRequest" label="relatedChangeRequest" comment="This relationship is loosely coupled, has no specific&#xD;&#xA;meaning, and can be used to link related change requests. It is likely&#xD;&#xA;that the target resource will be an oslc_cm:ChangeRequest."/>
+    <properties name="relatedTestCase" label="relatedTestCase" comment="Related test case resource. It is likely that the&#xD;&#xA;target resource will be an oslc_qm:TestCase."/>
+    <properties name="relatedTestExecutionRecord" label="relatedTestExecutionRecord" comment="Related to a test execution resource. It is likely&#xD;&#xA;that the target resource will be an oslc_qm:TestExecutionRecord."/>
+    <properties name="relatedTestPlan" label="relatedTestPlan" comment="Related test plan resource. It is likely that the&#xD;&#xA;target resource will be an oslc_qm:TestPlan."/>
+    <properties name="relatedTestScript" label="relatedTestScript" comment="Related test script resource. It is likely that the&#xD;&#xA;target resource will be an oslc_qm:TestScript."/>
+    <properties name="severity" label="severity" comment="Used to indicate the severity or potential impact of a defect.&#xD;&#xA;It is likely that the target resource will be an oslc_cm:Severity."/>
     <properties name="state" label="state" comment="Used to indicate the status of the change request."/>
     <properties name="status" label="status" comment="archaic"/>
-    <properties name="testedByTestCase" label="testedByTestCase" comment="Test case by which this change request is tested. It is&#13;&#10;likely that the target resource will be an oslc_qm:TestCase."/>
-    <properties name="tracksChangeSet" label="tracksChangeSet" comment="Tracks a change set resource. It is likely that the&#13;&#10;target resource will be an oslc_config:ChangeSet."/>
-    <properties name="tracksRequirement" label="tracksRequirement" comment="Tracks the associated Requirement or Requirement&#13;&#10;ChangeSet resources. It is likely that the target resource will be an&#13;&#10;oslc_rm:Requirement."/>
+    <properties name="testedByTestCase" label="testedByTestCase" comment="Test case by which this change request is tested. It is&#xD;&#xA;likely that the target resource will be an oslc_qm:TestCase."/>
+    <properties name="tracksChangeSet" label="tracksChangeSet" comment="Tracks a change set resource. It is likely that the&#xD;&#xA;target resource will be an oslc_config:ChangeSet."/>
+    <properties name="tracksRequirement" label="tracksRequirement" comment="Tracks the associated Requirement or Requirement&#xD;&#xA;ChangeSet resources. It is likely that the target resource will be an&#xD;&#xA;oslc_rm:Requirement."/>
     <properties name="approved" label="approved" comment="Whether or not the Change Request has been approved."/>
     <properties name="closed" label="closed" comment="Whether or not the Change Request is completely done, no further fixes or fix verification is needed."/>
     <properties name="fixed" label="fixed" comment="Whether or not the Change Request has been fixed."/>
@@ -127,11 +127,11 @@
   <vocabularies namespaceURI="http://open-services.net/ns/core#" label="OSLC Core" preferredNamespacePrefix="oscl">
     <properties name="modifiedBy" label="modifiedBy" comment="The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property."/>
   </vocabularies>
-  <configuration>
-    <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
-  </configuration>
   <vocabularies namespaceURI="http://open-services.net/ns/am#" preferredNamespacePrefix="oslc_am">
     <classes name="LinkType" label="LinkType" comment="A locally managed resource that describes a link type predicate that might otherwise not be directly resolvable."/>
     <classes name="Resource" label="ArchitectureResource" comment="A generic architecture resource.  A resource of this type is likely to be a model or design artifact."/>
   </vocabularies>
+  <configuration>
+    <generalConfiguration filesBasePath="." javaBasePackageName="org.eclipse.lyo.oslc.domains"/>
+  </configuration>
 </oscl4j_vocabulary:Vocabularies>
