@@ -161,7 +161,7 @@
     </configuration>
   </domainSpecifications>
   <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm/shapes/3.0#" namespacePrefix="//@domainPrefixes[name='oslc_cm_shapes']">
-    <resources id="_poJRUJUdEeq-KoPaR9_Cfg" name="ChangeRequest" resourceProperties="_pnaRgZUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _poTpYZUdEeq-KoPaR9_Cfg _poJ4YJUdEeq-KoPaR9_Cfg _poJ4YZUdEeq-KoPaR9_Cfg _poJ4YpUdEeq-KoPaR9_Cfg _poJ4Y5UdEeq-KoPaR9_Cfg _poKfcJUdEeq-KoPaR9_Cfg _poKfcZUdEeq-KoPaR9_Cfg _poKfcpUdEeq-KoPaR9_Cfg _poKfc5UdEeq-KoPaR9_Cfg _poKfdJUdEeq-KoPaR9_Cfg _poKfdZUdEeq-KoPaR9_Cfg _poNiwJUdEeq-KoPaR9_Cfg _poKfeJUdEeq-KoPaR9_Cfg _poLGgJUdEeq-KoPaR9_Cfg _poLGgZUdEeq-KoPaR9_Cfg _poKfd5UdEeq-KoPaR9_Cfg _poOJ0JUdEeq-KoPaR9_Cfg _poOJ0ZUdEeq-KoPaR9_Cfg _poOJ0pUdEeq-KoPaR9_Cfg _poKfdpUdEeq-KoPaR9_Cfg">
+    <resources id="_poJRUJUdEeq-KoPaR9_Cfg" name="ChangeRequest" resourceProperties="_pnaRgZUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _poTpYZUdEeq-KoPaR9_Cfg _poJ4YJUdEeq-KoPaR9_Cfg _poJ4YZUdEeq-KoPaR9_Cfg _poJ4YpUdEeq-KoPaR9_Cfg _poJ4Y5UdEeq-KoPaR9_Cfg _poKfcJUdEeq-KoPaR9_Cfg _poKfcZUdEeq-KoPaR9_Cfg _poKfcpUdEeq-KoPaR9_Cfg _poKfc5UdEeq-KoPaR9_Cfg _poKfdJUdEeq-KoPaR9_Cfg _poKfdZUdEeq-KoPaR9_Cfg _poNiwJUdEeq-KoPaR9_Cfg _poKfeJUdEeq-KoPaR9_Cfg _poLGgJUdEeq-KoPaR9_Cfg _poLGgZUdEeq-KoPaR9_Cfg _poKfd5UdEeq-KoPaR9_Cfg _poOJ0JUdEeq-KoPaR9_Cfg _poOJ0ZUdEeq-KoPaR9_Cfg _poOJ0pUdEeq-KoPaR9_Cfg _poKfdpUdEeq-KoPaR9_Cfg _rp_7ea039095510 _rp_642c85bf28e7 _rp_fb93097e8e68 _rp_71683801c775 _rp_e2d2bd9cc4ef _rp_119b8b7369b1 _rp_5e5ce6c13af8 _rp_b9380d332417 _rp_7755092c0433 _rp_4a472c3b7fc4 _rp_895b85d03b21 _rp_ff6ed0943a12 _rp_3051a86f152b _rp_99d18a7e70b6 _rp_f15521a72c54 _rp_abe21227a428 _rp_cde1401a1a91 _rp_4f9161a9e33d _rp_9e1bc414799c _rp_ded1b21a06ee _rp_57bf0957a552">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     </resources>
     <resources id="_poLGgpUdEeq-KoPaR9_Cfg" name="Defect" extends="_poJRUJUdEeq-KoPaR9_Cfg">
@@ -182,6 +182,9 @@
     </resources>
     <resources id="_poMUoZUdEeq-KoPaR9_Cfg" name="Enhancement" extends="_poJRUJUdEeq-KoPaR9_Cfg">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Enhancement']"/>
+    </resources>
+    <resources id="_res_5bdd771c4760" name="Severity">
+      <describes href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@classes[name='Severity']"/>
     </resources>
     <resourceProperties id="_poJ4YJUdEeq-KoPaR9_Cfg" name="closeDate" description="The date at which no further activity or work is intended to be conducted." occurs="zeroOrOne" valueType="DateTime">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='closeDate']"/>
@@ -228,6 +231,69 @@
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='state']"/>
     </resourceProperties>
     <resourceProperties id="_poKfdpUdEeq-KoPaR9_Cfg" name="authorizer" occurs="zeroOrMany" valueType="Resource" range="_posq85UdEeq-KoPaR9_Cfg"/>
+    <resourceProperties id="_rp_7ea039095510" name="contributor" occurs="zeroOrMany" valueType="Resource">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='contributor']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_642c85bf28e7" name="created" occurs="zeroOrOne">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='created']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_fb93097e8e68" name="creator" occurs="zeroOrMany" valueType="Resource">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='creator']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_71683801c775" name="description" occurs="zeroOrOne">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='description']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_e2d2bd9cc4ef" name="discussedBy" occurs="zeroOrOne" valueType="Resource" range="_poP_AJUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/core#']/@properties[name='discussedBy']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_119b8b7369b1" name="identifier">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='identifier']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_5e5ce6c13af8" name="serviceProvider" occurs="zeroOrMany" valueType="Resource" range="_poPX8JUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/core#']/@properties[name='serviceProvider']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_b9380d332417" name="instanceShape" occurs="zeroOrMany" valueType="Resource" range="_poPX8ZUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/core#']/@properties[name='instanceShape']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_7755092c0433" name="modified" occurs="zeroOrOne">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='modified']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_4a472c3b7fc4" name="shortTitle" occurs="zeroOrOne">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/core#']/@properties[name='shortTitle']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_895b85d03b21" name="subject" occurs="zeroOrMany">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='subject']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_ff6ed0943a12" name="title">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='title']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_3051a86f152b" name="type" occurs="zeroOrMany" valueType="Resource">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://www.w3.org/1999/02/22-rdf-syntax-ns#']/@properties[name='type']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_99d18a7e70b6" name="testedByTestCase" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='testedByTestCase']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_f15521a72c54" name="affectsTestResult" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='affectsTestResult']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_abe21227a428" name="blocksTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='blocksTestExecutionRecord']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_cde1401a1a91" name="relatedTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='relatedTestExecutionRecord']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_4f9161a9e33d" name="relatedTestCase" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='relatedTestCase']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_9e1bc414799c" name="relatedTestPlan" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='relatedTestPlan']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_ded1b21a06ee" name="relatedTestScript" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='relatedTestScript']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_57bf0957a552" name="severity" occurs="zeroOrMany" valueType="Resource" range="_res_5bdd771c4760">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='severity']"/>
+    </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.cm"/>
     </configuration>

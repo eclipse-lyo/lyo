@@ -45,7 +45,8 @@ Behavior details
    - For each entity (class or property) found in RDF under the namespace:
      - If an element representing the entity exists in the Lyo XML, update its attributes and child elements to match RDF (e.g., label, comment, range, domain, datatype) — this is the "overwrite" behavior.
      - If the element does not exist, insert a new element in the appropriate place.
-   - For existing elements in the XML that are NOT present in the RDF namespace, **do not delete** them; emit a warning message listing the extraneous entities and their XML locations.
+    - When a shape references a class as a range that does not exist as a domain `resources` element, create a placeholder `resources` entry (with a generated `id`) describing that class and set the `resourceProperty`'s `range` attribute to the new `id`.
+    - When a property has `oslc:valueType` set to `Resource` or `LocalResource` but **no `oslc:range` is specified**, **do not** create an `Any` resource. Instead set the Lyo `resourceProperty`'s `valueType` to `Resource` or `LocalResource` accordingly and leave the `range` attribute unset.   - For existing elements in the XML that are NOT present in the RDF namespace, **do not delete** them; emit a warning message listing the extraneous entities and their XML locations.
 
 4. XML editing strategy
    - Preserve unrelated parts of the XML document and only change or add elements necessary for synchronization.

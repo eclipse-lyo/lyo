@@ -14,6 +14,13 @@ uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -
 uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -- sync-vocab --model "domains/org.eclipse.lyo.tools.domainmodels/vocabulary.xml" --prefix oslc_am --rdf "C:\src\oslc\misc\oslc-specs\specs\am\architecture-management-vocab.ttl" --namespace "http://open-services.net/ns/am#"
 ```
 
+and shapes:
+
+```sh
+uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -- sync-shapes --model "domains/org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml" --prefix oslc_cm_shapes --rdf "C:\src\oslc\misc\oslc-specs\specs\cm\change-mgt-shapes.ttl" --namespace "http://open-services.net/ns/cm/shapes/3.0#"
+
+```
+
 ## Intro
 
 ### Vocabulary sync (dry-run)
