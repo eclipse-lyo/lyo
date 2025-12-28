@@ -99,3 +99,7 @@ Recent findings (integration dry-run)
 
 Next: finish README and packaging, and add a short 'Examples' section (completed) and notes about the XMLLiteral warnings. Then we can open PR or iterate on additional shape-specific mapping rules if you want more precise oslc:property attribute mapping. My next step is to finish documentation examples and provide a short usage guide in `README.md` (done) and prepare a small PR with these changes.
 
+## TODO
+
+- separate SHACL shapes from OSLC Shapes
+- do not add the rdf:type property

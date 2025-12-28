@@ -244,6 +244,10 @@ def extract_shape_properties(g, shape):
         vt = next(g.objects(pnode, OSLC.valueType), None)
         if vt is not None:
             prop['valueType'] = str(vt)
+        # read explicit oslc:range on sh:property when present
+        rng = next(g.objects(pnode, OSLC.range), None)
+        if rng is not None:
+            prop['range'] = str(rng)
         # propertyDefinition: allow sh:property nodes to include oslc:propertyDefinition
         pd = next(g.objects(pnode, OSLC.propertyDefinition), None)
         if pd is not None:
@@ -330,8 +334,64 @@ def find_or_create_domain_spec(model_tree, namespace_uri, name=None, prefix=None
     return ds
 
 
+def get_vocab_label_by_namespace(model_path, namespace_uri):
+    """Look up the vocabulary label from vocabulary.xml by namespace URI.
+    Returns the label if found, otherwise returns None."""
+    vocab_path = Path(model_path).parent / 'vocabulary.xml'
+    if not vocab_path.exists():
+        return None
+    try:
+        vocab_tree = etree.parse(str(vocab_path))
+        for vocab in vocab_tree.findall('.//{*}vocabularies'):
+            if vocab.get('namespaceURI') == namespace_uri:
+                label = vocab.get('label')
+                if label:
+                    return label
+    except Exception:
+        pass
+    return None
+
+
+def vocab_item_exists(model_path, namespace_uri, item_type, item_name):
+    """Check if a vocabulary item (class or property) exists in vocabulary.xml.
+    item_type should be 'classes' or 'properties'.
+    Returns True if found, False otherwise."""
+    vocab_path = Path(model_path).parent / 'vocabulary.xml'
+    if not vocab_path.exists():
+        return False
+    try:
+        vocab_tree = etree.parse(str(vocab_path))
+        for vocab in vocab_tree.findall('.//{*}vocabularies'):
+            if vocab.get('namespaceURI') == namespace_uri:
+                for item in vocab.findall(f'.//{{{vocab.nsmap.get(None, "")}}}{item_type}'):
+                    if item.get('name') == item_name:
+                        return True
+                # Also check without namespace
+                for item in vocab.findall(f'.//{item_type}'):
+                    if item.get('name') == item_name:
+                        return True
+    except Exception:
+        pass
+    return False
+
+
+def make_vocab_href(model_path, namespace_uri, item_type, item_name):
+    """Create a vocabulary href using label if available, otherwise namespace URI.
+    item_type should be 'classes' or 'properties'."""
+    from urllib.parse import quote
+    label = get_vocab_label_by_namespace(model_path, namespace_uri)
+    if label:
+        # URL-encode the label for use in href
+        encoded_label = quote(label)
+        return f"vocabulary.xml#//@vocabularies[label='{encoded_label}']/@{item_type}[name='{item_name}']"
+    else:
+        # Fallback to namespace URI
+        return f"vocabulary.xml#//@vocabularies[namespaceURI='{namespace_uri}']/@{item_type}[name='{item_name}']"
+
+
 def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
     g = parse_rdf(rdf_path)
+    missing_vocab_items = []  # Track missing vocabulary items
     shapes = extract_shapes(g, namespace_uri)
 
     model_tree = etree.parse(model_path)
@@ -466,7 +526,7 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                                             new_res.set('id', new_id)
                                             new_res.set('name', local_cls)
                                             desc = etree.Element('describes')
-                                            desc_href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@classes[name='{local_cls}']"
+                                            desc_href = make_vocab_href(model_path, ns, 'classes', local_cls)
                                             desc.set('href', desc_href)
                                             new_res.append(desc)
                                             ds.append(new_res)
@@ -483,7 +543,18 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                         else:
                             ns = pd_uri.rsplit('/', 1)[0] + '/'
                             local = pd_uri.rsplit('/', 1)[1]
-                        href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@properties[name='{local}']"
+                        # Check if vocabulary property exists
+                        if not vocab_item_exists(model_path, ns, 'properties', local):
+                            missing_vocab_items.append({
+                                'type': 'property',
+                                'namespace': ns,
+                                'name': local,
+                                'resource': class_name,
+                                'resourceProperty': pname
+                            })
+                            log.warning(f"Vocabulary property '{local}' not found in namespace '{ns}' - skipping propertyDefinition for {class_name}.{pname}")
+                            continue  # Skip creating propertyDefinition
+                        href = make_vocab_href(model_path, ns, 'properties', local)
                     else:
                         prop_path = p.get('path')
                         if prop_path and ('#' in prop_path or '/' in prop_path):
@@ -494,7 +565,18 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                         else:
                             ns = ''
                         local = pname
-                        href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@properties[name='{local}']"
+                        # Check if vocabulary property exists
+                        if not vocab_item_exists(model_path, ns, 'properties', local):
+                            missing_vocab_items.append({
+                                'type': 'property',
+                                'namespace': ns,
+                                'name': local,
+                                'resource': class_name,
+                                'resourceProperty': pname
+                            })
+                            log.warning(f"Vocabulary property '{local}' not found in namespace '{ns}' - skipping propertyDefinition for {class_name}.{pname}")
+                            continue  # Skip creating propertyDefinition
+                        href = make_vocab_href(model_path, ns, 'properties', local)
                     pd.set('href', href)
                     # append propertyDefinition only if not present
                     if not any(child.tag.endswith('propertyDefinition') for child in rp):
@@ -543,7 +625,7 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                                     new_res.set('id', new_id)
                                     new_res.set('name', local_cls)
                                     desc = etree.Element('describes')
-                                    desc_href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@classes[name='{local_cls}']"
+                                    desc_href = make_vocab_href(model_path, ns, 'classes', local_cls)
                                     desc.set('href', desc_href)
                                     new_res.append(desc)
                                     ds.append(new_res)
@@ -552,8 +634,30 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                 rp_id = rp.get('id')
                 log.info('Updated resourceProperty: %s for %s', pname, class_name)
             else:
-                # If a global resourceProperty with this name exists in the same domain, reuse it; otherwise create a local rp
+                # Determine the vocabulary namespace from propertyDefinition to decide search scope
+                pd_uri = p.get('propertyDefinition')
+                if pd_uri:
+                    if '#' in pd_uri:
+                        prop_vocab_ns = pd_uri.rsplit('#', 1)[0] + '#'
+                    else:
+                        prop_vocab_ns = pd_uri.rsplit('/', 1)[0] + '/'
+                else:
+                    prop_path = p.get('path')
+                    if prop_path and ('#' in prop_path or '/' in prop_path):
+                        if '#' in prop_path:
+                            prop_vocab_ns = prop_path.rsplit('#', 1)[0] + '#'
+                        else:
+                            prop_vocab_ns = prop_path.rsplit('/', 1)[0] + '/'
+                    else:
+                        prop_vocab_ns = namespace_uri  # default to current domain
+                
+                # Search for existing resourceProperty
+                # If propertyDefinition points to a different vocabulary namespace, search across all domains
+                # Otherwise, only search in the same domain
+                search_cross_domain = (prop_vocab_ns != namespace_uri)
+                
                 existing_global = None
+                existing_cross_domain = None
                 for r in model_tree.findall('.//{*}resourceProperties'):
                     if r.get('name') == pname and r.get('id'):
                         parent = r.getparent()
@@ -567,6 +671,12 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                         if in_same_domain:
                             existing_global = r
                             break
+                        elif search_cross_domain and existing_cross_domain is None:
+                            # Remember first cross-domain match (only if property is from external vocab)
+                            existing_cross_domain = r
+                # Prefer same-domain, fall back to cross-domain if allowed
+                if existing_global is None and existing_cross_domain is not None:
+                    existing_global = existing_cross_domain
                 if existing_global is not None:
                     rp = existing_global
                     maybe_set_occurs(rp, p)
@@ -616,7 +726,7 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                                         new_res.set('id', new_id)
                                         new_res.set('name', local_cls)
                                         desc = etree.Element('describes')
-                                        desc_href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@classes[name='{local_cls}']"
+                                        desc_href = make_vocab_href(model_path, ns, 'classes', local_cls)
                                         desc.set('href', desc_href)
                                         new_res.append(desc)
                                         ds.append(new_res)
@@ -627,6 +737,7 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                 # propertyDefinition linking
                 pd = etree.Element('propertyDefinition')
                 pd_uri = p.get('propertyDefinition')
+                should_add_pd = True
                 if pd_uri:
                     if '#' in pd_uri:
                         ns = pd_uri.rsplit('#', 1)[0] + '#'
@@ -634,7 +745,20 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                     else:
                         ns = pd_uri.rsplit('/', 1)[0] + '/'
                         local = pd_uri.rsplit('/', 1)[1]
-                    href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@properties[name='{local}']"
+                    # Check if vocabulary property exists
+                    if not vocab_item_exists(model_path, ns, 'properties', local):
+                        missing_vocab_items.append({
+                            'type': 'property',
+                            'namespace': ns,
+                            'name': local,
+                            'resource': class_name,
+                            'resourceProperty': pname
+                        })
+                        log.warning(f"Vocabulary property '{local}' not found in namespace '{ns}' - skipping propertyDefinition for {class_name}.{pname}")
+                        should_add_pd = False
+                    else:
+                        href = make_vocab_href(model_path, ns, 'properties', local)
+                        pd.set('href', href)
                 else:
                     prop_path = p.get('path')
                     if prop_path and ('#' in prop_path or '/' in prop_path):
@@ -645,10 +769,22 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
                     else:
                         ns = ''
                     local = pname
-                    href = f"vocabulary.xml#//@vocabularies[namespaceURI='{ns}']/@properties[name='{local}']"
-                pd.set('href', href)
+                    # Check if vocabulary property exists
+                    if not vocab_item_exists(model_path, ns, 'properties', local):
+                        missing_vocab_items.append({
+                            'type': 'property',
+                            'namespace': ns,
+                            'name': local,
+                            'resource': class_name,
+                            'resourceProperty': pname
+                        })
+                        log.warning(f"Vocabulary property '{local}' not found in namespace '{ns}' - skipping propertyDefinition for {class_name}.{pname}")
+                        should_add_pd = False
+                    else:
+                        href = make_vocab_href(model_path, ns, 'properties', local)
+                        pd.set('href', href)
                 # append propertyDefinition to rp if not already present
-                if not any(child.tag.endswith('propertyDefinition') for child in rp):
+                if should_add_pd and not any(child.tag.endswith('propertyDefinition') for child in rp):
                     rp.append(pd)
                 # if this resourceProperty was created here, append to domain and mark it; otherwise reuse existing global
                 created_here = 'rid' in locals() and rp.get('id') == locals().get('rid')
@@ -679,6 +815,21 @@ def sync_shapes(model_path, prefix, rdf_path, namespace_uri, dry_run=False):
     for name in existing_rps.keys():
         if name not in all_shape_props:
             log.warning('Extraneous resourceProperty in model (not in RDF shapes): %s', name)
+
+    # Print summary of missing vocabulary items
+    if missing_vocab_items:
+        log.warning('')
+        log.warning('=' * 80)
+        log.warning('SUMMARY: Missing Vocabulary Items')
+        log.warning('=' * 80)
+        log.warning(f'Found {len(missing_vocab_items)} missing vocabulary item(s):')
+        for item in missing_vocab_items:
+            log.warning(f"  - Property '{item['name']}' in namespace '{item['namespace']}'")
+            log.warning(f"    Referenced by: {item['resource']}.{item['resourceProperty']}")
+        log.warning('')
+        log.warning('These vocabulary properties need to be added to vocabulary.xml')
+        log.warning('or the RDF shapes should reference existing vocabulary properties.')
+        log.warning('=' * 80)
 
     if dry_run:
         log.info('Dry run mode; not saving changes to %s', model_path)

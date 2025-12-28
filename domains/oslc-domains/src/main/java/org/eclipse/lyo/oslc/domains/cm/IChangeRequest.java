@@ -52,8 +52,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
@@ -61,6 +61,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.IChangeSet;
@@ -69,17 +70,18 @@ import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+
+import org.eclipse.lyo.oslc.domains.cm.ISeverity;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
-import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 // spotless:on
 
-@OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME)
 @OslcResourceShape(
     title = "ChangeRequest Shape",
-    describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
+    describes = Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE)
 public interface IChangeRequest {
 
   public void addSubject(final String subject);
@@ -112,8 +114,26 @@ public interface IChangeRequest {
 
   public void addAuthorizer(final Link authorizer);
 
+  public void addType(final Link type);
+
+  public void addTestedByTestCase(final Link testedByTestCase);
+
+  public void addAffectsTestResult(final Link affectsTestResult);
+
+  public void addBlocksTestExecutionRecord(final Link blocksTestExecutionRecord);
+
+  public void addRelatedTestExecutionRecord(final Link relatedTestExecutionRecord);
+
+  public void addRelatedTestCase(final Link relatedTestCase);
+
+  public void addRelatedTestPlan(final Link relatedTestPlan);
+
+  public void addRelatedTestScript(final Link relatedTestScript);
+
+  public void addSeverity(final Link severity);
+
   @OslcName("shortTitle")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "shortTitle")
   @OslcDescription(
       "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
           + " SHOULD include only content that is valid inside an XHTML <span> element.")
@@ -202,7 +222,7 @@ public interface IChangeRequest {
   public Date getModified();
 
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -210,11 +230,12 @@ public interface IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.SERVICEPROVIDER_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getServiceProvider();
 
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -225,11 +246,12 @@ public interface IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.RESOURCESHAPE_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getInstanceShape();
 
   @OslcName("discussedBy")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "discussedBy")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "discussedBy")
   @OslcDescription("A series of notes and comments about this resource.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Resource)
@@ -267,7 +289,8 @@ public interface IChangeRequest {
   public Boolean isClosed();
 
   @OslcName("inProgress")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
   @OslcDescription(
       "Whether or not the Change Request in a state indicating that active work is occurring. If"
           + " oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false")
@@ -285,7 +308,8 @@ public interface IChangeRequest {
   public Boolean isFixed();
 
   @OslcName("approved")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
   @OslcDescription("Whether or not the Change Request has been approved.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Boolean)
@@ -342,13 +366,13 @@ public interface IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
-  @OslcRange({Oslc_cmDomainConstants.DEFECT_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.DEFECT_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getAffectedByDefect();
 
   @OslcName("tracksRequirement")
   @OslcPropertyDefinition(
-      Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
   @OslcDescription(
       "Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the"
           + " target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
@@ -386,7 +410,7 @@ public interface IChangeRequest {
 
   @OslcName("tracksChangeSet")
   @OslcPropertyDefinition(
-      Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
   @OslcDescription(
       "Tracks SCM change set resource. It is likely that the target resource will be an"
           + " oslc_scm:ChangeSet but that is not necessarily the case.")
@@ -401,15 +425,16 @@ public interface IChangeRequest {
   @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "parent")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getParent();
 
   @OslcName("priority")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.PRIORITY_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.PRIORITY_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getPriority();
 
@@ -417,17 +442,96 @@ public interface IChangeRequest {
   @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "state")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.STATE_TYPE})
   @OslcReadOnly(false)
   public Link getState();
 
   @OslcName("authorizer")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRange({FoafDomainConstants.AGENT_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getAuthorizer();
+
+  @OslcName("type")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "type")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Set<Link> getType();
+
+  @OslcName("testedByTestCase")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "testedByTestCase")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getTestedByTestCase();
+
+  @OslcName("affectsTestResult")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsTestResult")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getAffectsTestResult();
+
+  @OslcName("blocksTestExecutionRecord")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "blocksTestExecutionRecord")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getBlocksTestExecutionRecord();
+
+  @OslcName("relatedTestExecutionRecord")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestExecutionRecord")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestExecutionRecord();
+
+  @OslcName("relatedTestCase")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestCase")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestCase();
+
+  @OslcName("relatedTestPlan")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestPlan")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestPlan();
+
+  @OslcName("relatedTestScript")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestScript")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestScript();
+
+  @OslcName("severity")
+  @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "severity")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_cm_shapesDomainConstants.SEVERITY_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getSeverity();
 
   public void setShortTitle(final String shortTitle);
 
@@ -490,4 +594,22 @@ public interface IChangeRequest {
   public void setState(final Link state);
 
   public void setAuthorizer(final Set<Link> authorizer);
+
+  public void setType(final Set<Link> type);
+
+  public void setTestedByTestCase(final Set<Link> testedByTestCase);
+
+  public void setAffectsTestResult(final Set<Link> affectsTestResult);
+
+  public void setBlocksTestExecutionRecord(final Set<Link> blocksTestExecutionRecord);
+
+  public void setRelatedTestExecutionRecord(final Set<Link> relatedTestExecutionRecord);
+
+  public void setRelatedTestCase(final Set<Link> relatedTestCase);
+
+  public void setRelatedTestPlan(final Set<Link> relatedTestPlan);
+
+  public void setRelatedTestScript(final Set<Link> relatedTestScript);
+
+  public void setSeverity(final Set<Link> severity);
 }

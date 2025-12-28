@@ -5,6 +5,9 @@ This tool synchronizes RDF vocabularies and OSLC RDF shapes into Lyo Designer do
 ## Core domains sync
 
 ```sh
+# FIXME: correct prefix when possible
+uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -- sync-vocab --model "domains/org.eclipse.lyo.tools.domainmodels/vocabulary.xml" --prefix oscl --rdf "C:\src\oslc\misc\oslc-specs\specs\core\core-vocab.ttl" --namespace "http://open-services.net/ns/core#"
+
 uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -- sync-vocab --model "domains/org.eclipse.lyo.tools.domainmodels/vocabulary.xml" --prefix oslc_cm --rdf "C:\src\oslc\misc\oslc-specs\specs\cm\change-mgt-vocab.ttl" --namespace "http://open-services.net/ns/cm#"
 
 uv run --project domains/model-sync --package lyo-model-sync -m lyo_model_sync -- sync-vocab --model "domains/org.eclipse.lyo.tools.domainmodels/vocabulary.xml" --prefix oslc_rm --rdf "C:\src\oslc\misc\oslc-specs\specs\rm\requirements-management-vocab.ttl" --namespace "http://open-services.net/ns/rm#"

@@ -47,12 +47,22 @@ def test_property_definition_uses_vocab_namespace_uri(tmp_path):
     rdf_file.write_text(rdf)
     xml_file = tmp_path / 'spec2.xml'
     xml_file.write_text(SAMPLE_SPEC_XML)
+    
+    # Create vocabulary.xml with the required property
+    vocab_xml = '''<?xml version="1.0" encoding="UTF-8"?>
+<oscl4j_ai:Specification xmlns:oscl4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
+  <vocabularies namespaceURI="http://example.org/vocab#" label="Test Vocab">
+    <properties name="theProp"/>
+  </vocabularies>
+</oscl4j_ai:Specification>'''
+    vocab_file = tmp_path / 'vocabulary.xml'
+    vocab_file.write_text(vocab_xml)
 
     # sync shapes using shapes prefix 'shv' and shapes namespace; the property is in vocab namespace v
     sync_shapes(str(xml_file), 'shv', str(rdf_file), 'http://example.org/shapes#', dry_run=False)
 
     txt = xml_file.read_text()
-    assert "vocabulary.xml#//@vocabularies[namespaceURI='http://example.org/vocab#']/@properties[name='theProp']" in txt
+    assert "vocabulary.xml#//@vocabularies[label='Test%20Vocab']/@properties[name='theProp']" in txt
 
 
 def test_property_definition_from_oslc_cm_and_dcterms(tmp_path):
@@ -71,12 +81,25 @@ def test_property_definition_from_oslc_cm_and_dcterms(tmp_path):
     rdf_file.write_text(rdf)
     xml_file = tmp_path / 'spec3.xml'
     xml_file.write_text(SAMPLE_SPEC_XML)
+    
+    # Create vocabulary.xml with the required properties
+    vocab_xml = '''<?xml version="1.0" encoding="UTF-8"?>
+<oscl4j_ai:Specification xmlns:oscl4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
+  <vocabularies namespaceURI="http://open-services.net/ns/cm#" label="CM Vocab">
+    <properties name="tracksChangeSet"/>
+  </vocabularies>
+  <vocabularies namespaceURI="http://purl.org/dc/terms/" label="DCTerms">
+    <properties name="title"/>
+  </vocabularies>
+</oscl4j_ai:Specification>'''
+    vocab_file = tmp_path / 'vocabulary.xml'
+    vocab_file.write_text(vocab_xml)
 
     sync_shapes(str(xml_file), 'shv', str(rdf_file), 'http://example.org/shapes#', dry_run=False)
 
     txt = xml_file.read_text()
-    assert "vocabulary.xml#//@vocabularies[namespaceURI='http://open-services.net/ns/cm#']/@properties[name='tracksChangeSet']" in txt
-    assert "vocabulary.xml#//@vocabularies[namespaceURI='http://purl.org/dc/terms/']/@properties[name='title']" in txt
+    assert "vocabulary.xml#//@vocabularies[label='CM%20Vocab']/@properties[name='tracksChangeSet']" in txt
+    assert "vocabulary.xml#//@vocabularies[label='DCTerms']/@properties[name='title']" in txt
 
 
 def test_added_property_gets_id_range_and_attached_to_resource(tmp_path):

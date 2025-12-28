@@ -52,7 +52,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.IChangeSet;
@@ -61,14 +61,16 @@ import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+
+import org.eclipse.lyo.oslc.domains.cm.ISeverity;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 // End of user code
 // spotless:on
 
-@OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.CHANGENOTICE_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME)
 @OslcResourceShape(
     title = "ChangeNotice Shape",
-    describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+    describes = Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE)
 public interface IChangeNotice {}
