@@ -310,6 +310,35 @@ public class JenaModelHelperTest {
     assertTrue(foundL5);
   }
 
+  @Test
+  public void testExtendedProperties_URI_Iterable()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName uriIterableProp = new QName("http://example.com/ns#", "uriIterable");
+    final List<URI> uriList =
+        Arrays.asList(URI.create("http://example.com/u6"), URI.create("http://example.com/u7"));
+
+    // Create an Iterable that is NOT a Collection
+    final Iterable<URI> uriIterableValue = new Iterable<URI>() {
+        @Override
+        public java.util.Iterator<URI> iterator() {
+            return uriList.iterator();
+        }
+    };
+
+    sp.getExtendedProperties().put(uriIterableProp, uriIterableValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object uriIterableRet = props.get(uriIterableProp);
+    assertTrue(uriIterableRet instanceof Collection);
+    Collection<?> uriIterableCol = (Collection<?>) uriIterableRet;
+    assertTrue(uriIterableCol.contains(URI.create("http://example.com/u6")));
+    assertTrue(uriIterableCol.contains(URI.create("http://example.com/u7")));
+  }
+
   private ServiceProvider roundTrip(ServiceProvider sp)
       throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
       InvocationTargetException, OslcCoreApplicationException, LyoModelException {
