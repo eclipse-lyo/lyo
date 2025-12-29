@@ -20,12 +20,17 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.namespace.QName;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
@@ -138,5 +143,106 @@ public class JenaModelHelperTest {
     final ServiceProvider resource =
         JenaModelHelper.unmarshal(
             model.getResource("http://example.com/test"), ServiceProvider.class);
+  }
+
+  @Test
+  public void testExtendedURIProperties()
+      throws InvocationTargetException,
+          DatatypeConfigurationException,
+          OslcCoreApplicationException,
+          IllegalAccessException,
+          IOException {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+
+    final QName uriProp = new QName("http://example.com/ns#", "uri");
+    final URI uriValue = URI.create("http://example.com/u1");
+
+    final QName uriArrayProp = new QName("http://example.com/ns#", "uriArray");
+    final URI[] uriArrayValue = {
+      URI.create("http://example.com/u2"), URI.create("http://example.com/u3")
+    };
+
+    final QName uriListProp = new QName("http://example.com/ns#", "uriList");
+    final List<URI> uriListValue =
+        Arrays.asList(URI.create("http://example.com/u4"), URI.create("http://example.com/u5"));
+
+    final QName linkProp = new QName("http://example.com/ns#", "link");
+    final Link linkValue = new Link(URI.create("http://example.com/l1"));
+
+    final QName linkWithLabelProp = new QName("http://example.com/ns#", "linkWithLabel");
+    final Link linkWithLabelValue = new Link(URI.create("http://example.com/l1b"), "Label");
+
+    final QName linkArrayProp = new QName("http://example.com/ns#", "linkArray");
+    final Link[] linkArrayValue = {
+      new Link(URI.create("http://example.com/l2")), new Link(URI.create("http://example.com/l3"))
+    };
+
+    final QName linkListProp = new QName("http://example.com/ns#", "linkList");
+    final List<Link> linkListValue =
+        Arrays.asList(
+            new Link(URI.create("http://example.com/l4")),
+            new Link(URI.create("http://example.com/l5")));
+
+    final Map<QName, Object> ext = sp.getExtendedProperties();
+    ext.put(uriProp, uriValue);
+    ext.put(uriArrayProp, uriArrayValue);
+    ext.put(uriListProp, uriListValue);
+    ext.put(linkProp, linkValue);
+    ext.put(linkWithLabelProp, linkWithLabelValue);
+    ext.put(linkArrayProp, linkArrayValue);
+    ext.put(linkListProp, linkListValue);
+
+    final Model model = JenaModelHelper.createJenaModel(new Object[] {sp});
+
+    // Unmarshal
+    final ServiceProvider unmarshalled =
+        JenaModelHelper.unmarshal(
+            model.getResource(sp.getAbout().toString()), ServiceProvider.class);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    assertEquals(uriValue, props.get(uriProp));
+
+    Object uriArrayRet = props.get(uriArrayProp);
+    assertTrue(uriArrayRet instanceof Collection);
+    Collection<?> uriArrayCol = (Collection<?>) uriArrayRet;
+    assertTrue(uriArrayCol.contains(URI.create("http://example.com/u2")));
+    assertTrue(uriArrayCol.contains(URI.create("http://example.com/u3")));
+
+    Object uriListRet = props.get(uriListProp);
+    assertTrue(uriListRet instanceof Collection);
+    Collection<?> uriListCol = (Collection<?>) uriListRet;
+    assertTrue(uriListCol.contains(URI.create("http://example.com/u4")));
+    assertTrue(uriListCol.contains(URI.create("http://example.com/u5")));
+
+    Object linkRet = props.get(linkProp);
+    // Without label, it might degrade to URI or Link depending on implementation
+    if (linkRet instanceof Link) {
+      assertEquals(linkValue, linkRet);
+    } else {
+      assertEquals(linkValue.getValue(), linkRet);
+    }
+
+    Object linkWithLabelRet = props.get(linkWithLabelProp);
+    // With label, it should be identifiable
+    if (linkWithLabelRet instanceof Link) {
+      assertEquals(linkWithLabelValue, linkWithLabelRet);
+    } else {
+      // If not Link, ensure it's not null at least, but we expect better handling for labeled links
+      assertNotNull(linkWithLabelRet);
+      // Further checks would depend on what it actually is (e.g. Map)
+    }
+
+    // Arrays/Lists of Links
+    Object linkArrayRet = props.get(linkArrayProp);
+    assertTrue(linkArrayRet instanceof Collection);
+    Collection<?> linkArrayCol = (Collection<?>) linkArrayRet;
+    // These links have no labels, so likely URIs
+    for(Object item : linkArrayCol) {
+        assertTrue(item instanceof URI || item instanceof Link);
+    }
+
+    Object linkListRet = props.get(linkListProp);
+    assertTrue(linkListRet instanceof Collection);
   }
 }

@@ -1347,6 +1347,21 @@ public final class JenaModelHelper {
               visitedResources,
               transformer);
         }
+      } else if (value.getClass().isArray()) {
+        int length = Array.getLength(value);
+        for (int i = 0; i < length; i++) {
+          Object next = Array.get(value, i);
+          handleExtendedValue(
+              resourceClass,
+              next,
+              model,
+              mainResource,
+              property,
+              nestedProperties,
+              onlyNested,
+              visitedResources,
+              transformer);
+        }
       } else {
         handleExtendedValue(
             resourceClass,
@@ -1383,6 +1398,27 @@ public final class JenaModelHelper {
       }
 
       resource.addProperty(property, model.createLiteral(unparseable.getRawValue()));
+    } else if (value instanceof IReifiedResource) {
+      if (onlyNested) {
+        return;
+      }
+      IReifiedResource<?> reified = (IReifiedResource<?>) value;
+      Object actualValue = reified.getValue();
+      if (actualValue instanceof URI) {
+        URI uri = (URI) actualValue;
+        if (OSLC4JUtils.relativeURIsAreDisabled() && !uri.isAbsolute()) {
+          throw new OslcCoreRelativeURIException(objectClass, "handleExtendedValue", uri);
+        }
+        Resource objResource = model.createResource(uri.toString());
+        Statement stmt = model.createStatement(resource, property, objResource);
+        model.add(stmt);
+
+        if (nestedProperties != OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+          addReifiedStatements(model, stmt, reified, nestedProperties);
+        }
+      }
+      // If it's not a URI, we might need more logic, but Link is URI-based.
+      // Other IReifiedResource could be supported here if needed.
     } else if (value instanceof AnyResource) {
       final AbstractResource any = (AbstractResource) value;
 
