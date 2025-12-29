@@ -1334,8 +1334,24 @@ public final class JenaModelHelper {
       final Property property = model.createProperty(propertyName);
       final Object value = extendedProperty.getValue();
 
-      if (value instanceof Collection<?> collection) {
-        for (Object next : collection) {
+      if (value instanceof Iterable<?> iterable) {
+        for (Object next : iterable) {
+          handleExtendedValue(
+              resourceClass,
+              next,
+              model,
+              mainResource,
+              property,
+              nestedProperties,
+              onlyNested,
+              visitedResources,
+              transformer);
+        }
+      } else if (value.getClass().isArray()) {
+        // In Java, arrays are not Iterable
+        int length = Array.getLength(value);
+        for (int i = 0; i < length; i++) {
+          Object next = Array.get(value, i);
           handleExtendedValue(
               resourceClass,
               next,
@@ -1420,7 +1436,8 @@ public final class JenaModelHelper {
       }
 
     } else if (value.getClass().getAnnotation(OslcResourceShape.class) != null
-        || value instanceof URI) {
+        || value instanceof URI
+        || value instanceof IReifiedResource) {
       // TODO:	 Until we handle XMLLiteral for incoming unknown resources, need to assume it is
       // not XMLLiteral
       boolean xmlliteral = false;

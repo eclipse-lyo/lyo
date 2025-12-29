@@ -9,7 +9,7 @@
 
 ### Added
 
-This release does not contain new features.
+- Extended properties on resources now support arrays and any iterables as well as Link objects.
 
 ### Changed
 

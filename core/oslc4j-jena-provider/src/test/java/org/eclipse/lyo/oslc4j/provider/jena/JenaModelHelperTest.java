@@ -20,12 +20,17 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.namespace.QName;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
+import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
@@ -138,5 +143,207 @@ public class JenaModelHelperTest {
     final ServiceProvider resource =
         JenaModelHelper.unmarshal(
             model.getResource("http://example.com/test"), ServiceProvider.class);
+  }
+
+  @Test
+  public void testExtendedProperties_URI_Single()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName uriProp = new QName("http://example.com/ns#", "uri");
+    final URI uriValue = URI.create("http://example.com/u1");
+
+    sp.getExtendedProperties().put(uriProp, uriValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    assertEquals(uriValue, props.get(uriProp));
+  }
+
+  @Test
+  public void testExtendedProperties_URI_Array()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName uriArrayProp = new QName("http://example.com/ns#", "uriArray");
+    final URI[] uriArrayValue = {
+      URI.create("http://example.com/u2"), URI.create("http://example.com/u3")
+    };
+
+    sp.getExtendedProperties().put(uriArrayProp, uriArrayValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object uriArrayRet = props.get(uriArrayProp);
+    assertTrue(uriArrayRet instanceof Collection);
+    Collection<?> uriArrayCol = (Collection<?>) uriArrayRet;
+    assertTrue(uriArrayCol.contains(URI.create("http://example.com/u2")));
+    assertTrue(uriArrayCol.contains(URI.create("http://example.com/u3")));
+  }
+
+  @Test
+  public void testExtendedProperties_URI_List()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName uriListProp = new QName("http://example.com/ns#", "uriList");
+    final List<URI> uriListValue =
+        Arrays.asList(URI.create("http://example.com/u4"), URI.create("http://example.com/u5"));
+
+    sp.getExtendedProperties().put(uriListProp, uriListValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object uriListRet = props.get(uriListProp);
+    assertTrue(uriListRet instanceof Collection);
+    Collection<?> uriListCol = (Collection<?>) uriListRet;
+    assertTrue(uriListCol.contains(URI.create("http://example.com/u4")));
+    assertTrue(uriListCol.contains(URI.create("http://example.com/u5")));
+  }
+
+  @Test
+  public void testExtendedProperties_Link_Single()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName linkProp = new QName("http://example.com/ns#", "link");
+    final Link linkValue = new Link(URI.create("http://example.com/l1"));
+
+    sp.getExtendedProperties().put(linkProp, linkValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object linkRet = props.get(linkProp);
+    // Without label, it might degrade to URI or Link depending on implementation
+    if (linkRet instanceof Link) {
+      assertEquals(linkValue, linkRet);
+    } else {
+      assertEquals(linkValue.getValue(), linkRet);
+    }
+  }
+
+  @Test
+  public void testExtendedProperties_Link_WithLabel()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName linkWithLabelProp = new QName("http://example.com/ns#", "linkWithLabel");
+    final Link linkWithLabelValue = new Link(URI.create("http://example.com/l1b"), "Label");
+
+    sp.getExtendedProperties().put(linkWithLabelProp, linkWithLabelValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object linkWithLabelRet = props.get(linkWithLabelProp);
+    // With label, it should be identifiable
+    if (linkWithLabelRet instanceof Link) {
+      assertEquals(linkWithLabelValue, linkWithLabelRet);
+    } else {
+      assertNotNull(linkWithLabelRet);
+      if (linkWithLabelRet instanceof URI) {
+        assertEquals(linkWithLabelValue.getValue(), linkWithLabelRet);
+      }
+    }
+  }
+
+  @Test
+  public void testExtendedProperties_Link_Array()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName linkArrayProp = new QName("http://example.com/ns#", "linkArray");
+    final Link[] linkArrayValue = {
+      new Link(URI.create("http://example.com/l2")), new Link(URI.create("http://example.com/l3"))
+    };
+
+    sp.getExtendedProperties().put(linkArrayProp, linkArrayValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object linkArrayRet = props.get(linkArrayProp);
+    assertTrue(linkArrayRet instanceof Collection);
+    Collection<?> linkArrayCol = (Collection<?>) linkArrayRet;
+    assertEquals(2, linkArrayCol.size());
+    for(Object item : linkArrayCol) {
+        assertTrue(item instanceof URI || item instanceof Link);
+        // Verify values are present (simplistic check)
+        URI uri = (item instanceof Link) ? ((Link)item).getValue() : (URI)item;
+        assertTrue(uri.toString().contains("example.com/l"));
+    }
+  }
+
+  @Test
+  public void testExtendedProperties_Link_List()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName linkListProp = new QName("http://example.com/ns#", "linkList");
+    final List<Link> linkListValue =
+        Arrays.asList(
+            new Link(URI.create("http://example.com/l4")),
+            new Link(URI.create("http://example.com/l5")));
+
+    sp.getExtendedProperties().put(linkListProp, linkListValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object linkListRet = props.get(linkListProp);
+    assertTrue(linkListRet instanceof Collection);
+    Collection<?> linkListCol = (Collection<?>) linkListRet;
+    assertEquals(2, linkListCol.size());
+    // Verify containment
+    boolean foundL4 = false;
+    boolean foundL5 = false;
+    for(Object item : linkListCol) {
+        URI uri = (item instanceof Link) ? ((Link)item).getValue() : (URI)item;
+        if (uri.toString().equals("http://example.com/l4")) foundL4 = true;
+        if (uri.toString().equals("http://example.com/l5")) foundL5 = true;
+    }
+    assertTrue(foundL4);
+    assertTrue(foundL5);
+  }
+
+  @Test
+  public void testExtendedProperties_URI_Iterable()
+      throws Exception {
+    final ServiceProvider sp = new ServiceProvider();
+    sp.setAbout(URI.create("http://example.com/sp"));
+    final QName uriIterableProp = new QName("http://example.com/ns#", "uriIterable");
+    final List<URI> uriList =
+        Arrays.asList(URI.create("http://example.com/u6"), URI.create("http://example.com/u7"));
+
+    // Create an Iterable that is NOT a Collection
+    final Iterable<URI> uriIterableValue = new Iterable<URI>() {
+        @Override
+        public java.util.Iterator<URI> iterator() {
+            return uriList.iterator();
+        }
+    };
+
+    sp.getExtendedProperties().put(uriIterableProp, uriIterableValue);
+
+    final ServiceProvider unmarshalled = roundTrip(sp);
+    final Map<QName, Object> props = unmarshalled.getExtendedProperties();
+
+    Object uriIterableRet = props.get(uriIterableProp);
+    assertTrue(uriIterableRet instanceof Collection);
+    Collection<?> uriIterableCol = (Collection<?>) uriIterableRet;
+    assertTrue(uriIterableCol.contains(URI.create("http://example.com/u6")));
+    assertTrue(uriIterableCol.contains(URI.create("http://example.com/u7")));
+  }
+
+  private ServiceProvider roundTrip(ServiceProvider sp)
+      throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
+      InvocationTargetException, OslcCoreApplicationException, LyoModelException {
+    final Model model = JenaModelHelper.createJenaModel(new Object[] {sp});
+    return JenaModelHelper.unmarshal(
+            model.getResource(sp.getAbout().toString()), ServiceProvider.class);
   }
 }
