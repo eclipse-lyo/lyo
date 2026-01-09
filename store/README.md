@@ -42,7 +42,7 @@ Three concrete store implementations are provided allowing for in-memory, on-dis
 
 Once initialized, the main interface for operations on OSLC Resources with the backing triplestore is the [Store interface](http://download.eclipse.org/lyo/docs/store/latest/org/eclipse/lyo/store/Store.html).
 
-The interface includes basic Create/Read/Update/Delete methods to manage the persistance of one or more resources under a given namedGraph.
+The interface includes basic Create/Read/Update/Delete methods to manage the persistence of one or more resources under a given namedGraph.
 
 **Add the new resources and overwrite the existing ones**
 

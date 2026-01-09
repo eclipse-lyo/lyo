@@ -33,7 +33,7 @@ import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value;
 
 /**
- * Proxy implmentation of {@link ComparisonTerm} interface
+ * Proxy implementation of {@link ComparisonTerm} interface
  */
 class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
 {

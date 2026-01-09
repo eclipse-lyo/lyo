@@ -308,7 +308,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
 
   /**
    * @deprecated
-   * Get the raw Jakarta REST reponse to a query - if such a response was provided when creating this instance.
+   * Get the raw Jakarta REST response to a query - if such a response was provided when creating this instance.
    * <p>
    * NOTE:  Using this method and consuming the response will make other methods
    * which examine the response unavailable (Examples:  getMemberUrls(), next() and hasNext()).
