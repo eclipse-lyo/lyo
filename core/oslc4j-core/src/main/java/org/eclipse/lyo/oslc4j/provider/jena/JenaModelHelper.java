@@ -446,7 +446,9 @@ public final class JenaModelHelper {
 
     final List<Object> results = new ArrayList<>();
 
-    if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
+    if (Model.class.isAssignableFrom(beanClass)) {
+      return new Model[] {model};
+    } else if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
       ResIterator listSubjects;
 
       // Fix for defect 412755
