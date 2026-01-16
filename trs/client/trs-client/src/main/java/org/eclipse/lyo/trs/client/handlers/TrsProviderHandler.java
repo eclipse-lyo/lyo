@@ -262,21 +262,27 @@ public class TrsProviderHandler implements IProviderHandler {
      */
     private boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
         boolean foundChangeEvent = false;
-        URI previousChangeLog;
-        do {
-            if (currentChangeLog != null) {
-                changeLogs.add(currentChangeLog);
+        if (lastProcessedChangeEventUri == null || RDF.nil.getURI().equals(lastProcessedChangeEventUri.toString())) {
+            foundChangeEvent = true;
+        }
+        
+        while (currentChangeLog != null) {
+            changeLogs.add(currentChangeLog);
+            if (lastProcessedChangeEventUri != null && !RDF.nil.getURI().equals(lastProcessedChangeEventUri.toString())) {
                 if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
                         currentChangeLog)) {
                     foundChangeEvent = true;
                     break;
                 }
-                previousChangeLog = currentChangeLog.getPrevious();
-                currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
-            } else {
+            }
+            
+            URI previousChangeLog = currentChangeLog.getPrevious();
+            if (previousChangeLog == null || RDF.nil.getURI().equals(previousChangeLog.toString())) {
                 break;
             }
-        } while (!RDF.nil.getURI().equals(previousChangeLog.toString()));
+            
+            currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
+        }
         return foundChangeEvent;
     }
 
