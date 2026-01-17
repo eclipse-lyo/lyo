@@ -79,9 +79,10 @@ public class TrsProviderHandler implements IProviderHandler {
             pollAndProcessChanges();
         } catch (Exception e) {
             // FIXME Andrew@2019-07-15: can get stuck in the loop
-            log.warn("Force rebase");
+            log.warn("Force rebase", e);
             lastProcessedChangeEventUri = null;
             handler.rebase();
+            throw new RuntimeException("Failed to update TRS", e);
         }
     }
 
