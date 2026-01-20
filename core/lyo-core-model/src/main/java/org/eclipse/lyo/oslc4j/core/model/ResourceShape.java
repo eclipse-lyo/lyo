@@ -34,6 +34,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Resource Shape Resource Shape", describes = OslcConstants.TYPE_RESOURCE_SHAPE)
+/**
+ * OSLC ResourceShape resource
+ */
 public final class ResourceShape extends AbstractResource {
 	private final SortedSet<URI> describes= new TreeSet<>();
 	private final TreeMap<URI, Property> properties = new TreeMap<>();

@@ -38,6 +38,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Property Resource Shape", describes = OslcConstants.TYPE_PROPERTY)
+/**
+ * OSLC Property attributes
+ *
+ * See http://open-services.net/bin/view/Main/OSLCCoreSpecAppendixA
+ */
 public final class Property extends AbstractResource implements Comparable<Property> {
 	private static final QName PROPERTY_ALLOWED_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
 	private static final QName PROPERTY_DEFAULT_VALUE = new QName(OslcConstants.OSLC_CORE_NAMESPACE, "defaultValue");

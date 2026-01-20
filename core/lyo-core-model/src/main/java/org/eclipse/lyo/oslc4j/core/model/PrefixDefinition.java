@@ -25,6 +25,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Prefix Definition Resource Shape", describes = OslcConstants.TYPE_PREFIX_DEFINITION)
+/**
+ * OSLC PrefixDefinition resource
+ */
 public class PrefixDefinition extends AbstractResource {
 	private String prefix;
 	private URI prefixBase;

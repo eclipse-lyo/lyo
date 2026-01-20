@@ -32,6 +32,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Query Capability Resource Shape", describes = OslcConstants.TYPE_QUERY_CAPABILITY)
+/**
+ * OSLC QueryCapability resource
+ */
 public class QueryCapability extends AbstractResource {
 	private final SortedSet<URI> resourceTypes = new TreeSet<>();
 	private final SortedSet<URI> usages = new TreeSet<>();

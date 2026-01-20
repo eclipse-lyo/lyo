@@ -26,6 +26,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Publisher Resource Shape", describes = OslcConstants.TYPE_PUBLISHER)
+/**
+ * OSLC Publisher resource
+ */
 public class Publisher extends AbstractResource {
 	private URI	   icon;
 	private String identifier;

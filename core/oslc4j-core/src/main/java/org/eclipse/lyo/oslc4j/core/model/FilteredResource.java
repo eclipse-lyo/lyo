@@ -32,9 +32,15 @@ public class FilteredResource<T extends Object> extends AbstractResource
 		this.properties = properties;
 	}
 	
+	/**
+	 * Resource.
+	 */
 	public T
 	resource() { return resource; }
 	
+	/**
+	 * properties
+	 */
 	public Map<String, Object>
 	properties() { return properties; }
 	
