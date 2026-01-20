@@ -43,6 +43,11 @@ public class PrefixDefinition extends AbstractResource {
 		this.prefixBase = prefixBase;
 	}
 
+    /**
+     * Namespace prefix to be used for this namespace
+     *
+     * @return prefix
+     */
 	@OslcDescription("Namespace prefix to be used for this namespace")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "prefix")
@@ -52,6 +57,11 @@ public class PrefixDefinition extends AbstractResource {
 		return prefix;
 	}
 
+    /**
+     * The base URI of the namespace
+     *
+     * @return prefixBase
+     */
 	@OslcDescription("The base URI of the namespace")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "prefixBase")
 	@OslcReadOnly

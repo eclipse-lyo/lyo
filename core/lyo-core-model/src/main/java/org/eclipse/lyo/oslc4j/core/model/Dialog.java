@@ -62,6 +62,11 @@ public class Dialog extends AbstractResource {
 		this.usages.add(usage);
 	}
 
+    /**
+     * The URI of the dialog
+     *
+     * @return dialog
+     */
 	@OslcDescription("The URI of the dialog")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "dialog")
@@ -71,6 +76,11 @@ public class Dialog extends AbstractResource {
 		return dialog;
 	}
 
+    /**
+     * Values MUST be expressed in relative length units as defined in the W3C Cascading Style Sheets Specification (CSS 2.1) Em and ex units are interpreted relative to the default system font (at 100% size)
+     *
+     * @return hintHeight
+     */
 	@OslcDescription("Values MUST be expressed in relative length units as defined in the W3C Cascading Style Sheets Specification (CSS 2.1) Em and ex units are interpreted relative to the default system font (at 100% size)")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "hintHeight")
 	@OslcReadOnly
@@ -79,6 +89,11 @@ public class Dialog extends AbstractResource {
 		return hintHeight;
 	}
 
+    /**
+     * Values MUST be expressed in relative length units as defined in the W3C Cascading Style Sheets Specification (CSS 2.1) Em and ex units are interpreted relative to the default system font (at 100% size)
+     *
+     * @return hintWidth
+     */
 	@OslcDescription("Values MUST be expressed in relative length units as defined in the W3C Cascading Style Sheets Specification (CSS 2.1) Em and ex units are interpreted relative to the default system font (at 100% size)")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "hintWidth")
 	@OslcReadOnly
@@ -87,6 +102,11 @@ public class Dialog extends AbstractResource {
 		return hintWidth;
 	}
 
+    /**
+     * Very short label for use in menu items
+     *
+     * @return label
+     */
 	@OslcDescription("Very short label for use in menu items")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "label")
 	@OslcReadOnly
@@ -95,6 +115,11 @@ public class Dialog extends AbstractResource {
 		return label;
 	}
 
+    /**
+     * The expected resource type URI for the resources that will be returned when using this dialog. These would be the URIs found in the result resource's rdf:type property
+     *
+     * @return resourceTypes
+     */
 	@OslcDescription("The expected resource type URI for the resources that will be returned when using this dialog. These would be the URIs found in the result resource's rdf:type property")
 	@OslcName("resourceType")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "resourceType")
@@ -104,6 +129,11 @@ public class Dialog extends AbstractResource {
 		return resourceTypes.toArray(new URI[resourceTypes.size()]);
 	}
 
+    /**
+     * Title string that could be used for display
+     *
+     * @return title
+     */
 	@OslcDescription("Title string that could be used for display")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
@@ -114,6 +144,11 @@ public class Dialog extends AbstractResource {
 		return title;
 	}
 
+    /**
+     * An identifier URI for the domain specified usage of this dialog. If a service provides multiple selection or creation dialogs, it may designate the primary or default one that should be used with a property value of http://open-services/ns/core#default
+     *
+     * @return usages
+     */
 	@OslcDescription("An identifier URI for the domain specified usage of this dialog. If a service provides multiple selection or creation dialogs, it may designate the primary or default one that should be used with a property value of http://open-services/ns/core#default")
 	@OslcName("usage")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")

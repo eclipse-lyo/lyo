@@ -63,6 +63,11 @@ public class QueryCapability extends AbstractResource {
 		this.usages.add(usage);
 	}
 
+    /**
+     * Very short label for use in menu items
+     *
+     * @return label
+     */
 	@OslcDescription("Very short label for use in menu items")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "label")
 	@OslcReadOnly
@@ -71,6 +76,11 @@ public class QueryCapability extends AbstractResource {
 		return label;
 	}
 
+    /**
+     * The base URI to use for queries. Queries are invoked via HTTP GET on a query URI formed by appending a key=value pair to the base URI, as described in Query Capabilities section
+     *
+     * @return queryBase
+     */
 	@OslcDescription("The base URI to use for queries. Queries are invoked via HTTP GET on a query URI formed by appending a key=value pair to the base URI, as described in Query Capabilities section")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "queryBase")
@@ -80,6 +90,11 @@ public class QueryCapability extends AbstractResource {
 		return queryBase;
 	}
 
+    /**
+     * The Query Capability SHOULD provide a Resource Shape that describes the query base URI
+     *
+     * @return resourceShape
+     */
 	@OslcDescription("The Query Capability SHOULD provide a Resource Shape that describes the query base URI")
 	@OslcName("resourceShape")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "resourceShape")
@@ -91,6 +106,11 @@ public class QueryCapability extends AbstractResource {
 		return resourceShape;
 	}
 
+    /**
+     * The expected resource type URI that will be returned with this query capability. These would be the URIs found in the result resource's rdf:type property
+     *
+     * @return resourceTypes
+     */
 	@OslcDescription("The expected resource type URI that will be returned with this query capability. These would be the URIs found in the result resource's rdf:type property")
 	@OslcName("resourceType")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "resourceType")
@@ -100,6 +120,11 @@ public class QueryCapability extends AbstractResource {
 		return resourceTypes.toArray(new URI[resourceTypes.size()]);
 	}
 
+    /**
+     * Title string that could be used for display
+     *
+     * @return title
+     */
 	@OslcDescription("Title string that could be used for display")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
@@ -110,6 +135,11 @@ public class QueryCapability extends AbstractResource {
 		return title;
 	}
 
+    /**
+     * An identifier URI for the domain specified usage of this query capability. If a service provides multiple query capabilities, it may designate the primary or default one that should be used with a property value of http://open-services/ns/core#default
+     *
+     * @return usages
+     */
 	@OslcDescription("An identifier URI for the domain specified usage of this query capability. If a service provides multiple query capabilities, it may designate the primary or default one that should be used with a property value of http://open-services/ns/core#default")
 	@OslcName("usage")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")

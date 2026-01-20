@@ -59,6 +59,11 @@ public class ServiceProvider extends AbstractResource{
 		this.services.add(srvc);
 	}
 
+    /**
+     * The date and time that this resource was created
+     *
+     * @return created
+     */
 	@OslcDescription("The date and time that this resource was created")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "created")
 	@OslcReadOnly
@@ -67,6 +72,11 @@ public class ServiceProvider extends AbstractResource{
 		return created;
 	}
 
+    /**
+     * Description of the service provider
+     *
+     * @return description
+     */
 	@OslcDescription("Description of the service provider")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
 	@OslcReadOnly
@@ -76,6 +86,11 @@ public class ServiceProvider extends AbstractResource{
 		return description;
 	}
 
+    /**
+     * URLs that may be used to retrieve web pages to determine additional details about the service provider
+     *
+     * @return details
+     */
 	@OslcDescription("URLs that may be used to retrieve web pages to determine additional details about the service provider")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "details")
 	@OslcReadOnly
@@ -84,6 +99,11 @@ public class ServiceProvider extends AbstractResource{
 		return details.toArray(new URI[details.size()]);
 	}
 
+    /**
+     * A unique identifier for this resource
+     *
+     * @return identifier
+     */
 	@OslcDescription("A unique identifier for this resource")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
 	@OslcReadOnly
@@ -92,6 +112,11 @@ public class ServiceProvider extends AbstractResource{
 		return identifier;
 	}
 
+    /**
+     * Defines the three OAuth URIs required for a client to act as an OAuth consumer
+     *
+     * @return oauthConfiguration
+     */
 	@OslcDescription("Defines the three OAuth URIs required for a client to act as an OAuth consumer")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthConfiguration")
 	@OslcRange(OslcConstants.TYPE_O_AUTH_CONFIGURATION)
@@ -104,6 +129,11 @@ public class ServiceProvider extends AbstractResource{
 		return oauthConfiguration;
 	}
 
+    /**
+     * Defines namespace prefixes for use in JSON representations and in forming OSLC Query Syntax strings
+     *
+     * @return prefixDefinitions
+     */
 	@OslcDescription("Defines namespace prefixes for use in JSON representations and in forming OSLC Query Syntax strings")
 	@OslcName("prefixDefinition")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "prefixDefinition")
@@ -117,6 +147,11 @@ public class ServiceProvider extends AbstractResource{
 		return prefixDefinitions.toArray(new PrefixDefinition[prefixDefinitions.size()]);
 	}
 
+    /**
+     * Describes the software product that provides the implementation
+     *
+     * @return publisher
+     */
 	@OslcDescription("Describes the software product that provides the implementation")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "publisher")
 	@OslcRange(OslcConstants.TYPE_PUBLISHER)
@@ -129,6 +164,11 @@ public class ServiceProvider extends AbstractResource{
 		return publisher;
 	}
 
+    /**
+     * Describes services offered by the service provider
+     *
+     * @return services
+     */
 	@OslcDescription("Describes services offered by the service provider")
 	@OslcName("service")
 	@OslcOccurs(Occurs.OneOrMany)
@@ -143,6 +183,11 @@ public class ServiceProvider extends AbstractResource{
 		return services.toArray(new Service[services.size()]);
 	}
 
+    /**
+     * Title of the service provider
+     *
+     * @return title
+     */
 	@OslcDescription("Title of the service provider")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly

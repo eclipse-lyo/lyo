@@ -87,6 +87,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return name.compareTo(o.getName());
 	}
 
+    /**
+     * Resource with allowed values for the property being defined
+     *
+     * @return allowedValuesRef
+     */
 	@OslcDescription("Resource with allowed values for the property being defined")
 	@OslcName("allowedValues")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "allowedValues")
@@ -113,6 +118,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return (o instanceof String) ? (String) o : null;
 	}
 
+    /**
+     * Description of the property. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element
+     *
+     * @return description
+     */
 	@OslcDescription("Description of the property. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
 	@OslcReadOnly
@@ -122,6 +132,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return description;
 	}
 
+    /**
+     * For String properties only, specifies maximum characters allowed. If not set, then there is no maximum or maximum is specified elsewhere
+     *
+     * @return maxSize
+     */
 	@OslcDescription("For String properties only, specifies maximum characters allowed. If not set, then there is no maximum or maximum is specified elsewhere")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "maxSize")
 	@OslcReadOnly
@@ -130,6 +145,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return maxSize;
 	}
 
+    /**
+     * Name of property being defined, i.e. second part of property's Prefixed Name
+     *
+     * @return name
+     */
 	@OslcDescription("Name of property being defined, i.e. second part of property's Prefixed Name")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "name")
@@ -139,6 +159,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return name;
 	}
 
+    /**
+     * MUST be either http://open-services.net/ns/core#Exactly-one, http://open-services.net/ns/core#Zero-or-one, http://open-services.net/ns/core#Zero-or-many or http://open-services.net/ns/core#One-or-many
+     *
+     * @return occurs
+     */
 	@OslcAllowedValue({OslcConstants.OSLC_CORE_NAMESPACE + "Exactly-one",
 					   OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-one",
 					   OslcConstants.OSLC_CORE_NAMESPACE + "Zero-or-many",
@@ -161,6 +186,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return null;
 	}
 
+    /**
+     * URI of the property whose usage is being described
+     *
+     * @return propertyDefinition
+     */
 	@OslcDescription("URI of the property whose usage is being described")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "propertyDefinition")
@@ -170,6 +200,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return propertyDefinition;
 	}
 
+    /**
+     * For properties with a resource value-type, Providers MAY also specify the range of possible resource classes allowed, each specified by URI. The default range is http://open-services.net/ns/core#Any
+     *
+     * @return range
+     */
 	@OslcDescription("For properties with a resource value-type, Providers MAY also specify the range of possible resource classes allowed, each specified by URI. The default range is http://open-services.net/ns/core#Any")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "range")
 	@OslcReadOnly
@@ -178,6 +213,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return range.toArray(new URI[0]);
 	}
 
+    /**
+     * Should be http://open-services.net/ns/core#Reference, http://open-services.net/ns/core#Inline or http://open-services.net/ns/core#Either
+     *
+     * @return representation
+     */
 	@OslcAllowedValue({OslcConstants.OSLC_CORE_NAMESPACE + "Reference",
 					   OslcConstants.OSLC_CORE_NAMESPACE + "Inline",
 					   OslcConstants.OSLC_CORE_NAMESPACE + "Either"})
@@ -198,6 +238,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return null;
 	}
 
+    /**
+     * Title of the property. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element
+     *
+     * @return title
+     */
 	@OslcDescription("Title of the property. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
@@ -207,6 +252,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return title;
 	}
 
+    /**
+     * if the value-type is a resource type, then Property MAY provide a shape value to indicate the Resource Shape that applies to the resource
+     *
+     * @return valueShape
+     */
 	@OslcDescription("if the value-type is a resource type, then Property MAY provide a shape value to indicate the Resource Shape that applies to the resource")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "valueShape")
 	@OslcRange(OslcConstants.TYPE_RESOURCE_SHAPE)
@@ -216,6 +266,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return valueShape;
 	}
 
+    /**
+     * See list of allowed values for oslc:valueType
+     *
+     * @return valueType
+     */
 	@OslcAllowedValue({OslcConstants.XML_NAMESPACE + "boolean",
 					   OslcConstants.XML_NAMESPACE + "dateTime",
 					   OslcConstants.XML_NAMESPACE + "decimal",
@@ -245,6 +300,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return null;
 	}
 
+    /**
+     * A hint that indicates that property MAY be hidden when presented in a user interface
+     *
+     * @return hidden
+     */
 	@OslcDescription("A hint that indicates that property MAY be hidden when presented in a user interface")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "hidden")
 	@OslcReadOnly
@@ -253,6 +313,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return hidden;
 	}
 
+    /**
+     * If set to true, this indicates that the property is a membership property, as described in the Query Syntax Specification: Member List Patterns. This is useful when the resource whose shape is being defined is viewed as a container of other resources. For example, look at the last example in Appendix B's RDF/XML Representation Examples: Specifying the shape of a query result, where blog:comment is defined as a membership property and comment that matches the query is returned as value of that property.
+     *
+     * @return isMemberProperty
+     */
 	@OslcDescription("If set to true, this indicates that the property is a membership property, as described in the Query Syntax Specification: Member List Patterns. This is useful when the resource whose shape is being defined is viewed as a container of other resources. For example, look at the last example in Appendix B's RDF/XML Representation Examples: Specifying the shape of a query result, where blog:comment is defined as a membership property and comment that matches the query is returned as value of that property.")
 	@OslcName("isMemberProperty")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "isMemberProperty")
@@ -262,6 +327,11 @@ public final class Property extends AbstractResource implements Comparable<Prope
 		return memberProperty;
 	}
 
+    /**
+     * true if the property is read-only. If not set, or set to false, then the property is writable. Providers SHOULD declare a property read-only when changes to the value of that property will not be accepted on PUT. Consumers should note that the converse does not apply: Providers MAY reject a change to the value of a writable property.
+     *
+     * @return readOnly
+     */
 	@OslcDescription("true if the property is read-only. If not set, or set to false, then the property is writable. Providers SHOULD declare a property read-only when changes to the value of that property will not be accepted on PUT. Consumers should note that the converse does not apply: Providers MAY reject a change to the value of a writable property.")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "readOnly")
 	@OslcReadOnly
