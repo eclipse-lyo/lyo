@@ -79,10 +79,15 @@ public class TrsProviderHandler implements IProviderHandler {
             pollAndProcessChanges();
         } catch (Exception e) {
             // FIXME Andrew@2019-07-15: can get stuck in the loop
-            log.warn("Force rebase", e);
+            log.warn("Force rebase");
+            log.debug("Force rebase exception: {}", e);
             lastProcessedChangeEventUri = null;
-            handler.rebase();
-            throw new RuntimeException("Failed to update TRS", e);
+            try {
+                handler.rebase();
+            } catch (Exception rebaseException) {
+                log.error("Error during rebase", rebaseException);
+                throw new RuntimeException("Failed to update TRS", e);
+            }
         }
     }
 
@@ -117,7 +122,7 @@ public class TrsProviderHandler implements IProviderHandler {
      */
     private void pollAndProcessChanges() {
 
-        log.info("started dealing with TRS Provider: " + trsUriBase);
+        log.debug("started dealing with TRS Provider: " + trsUriBase);
 
         TrackedResourceSet updatedTrs = trsClient.extractRemoteTrs(trsUriBase);
         boolean indexingStage = false;
@@ -263,27 +268,28 @@ public class TrsProviderHandler implements IProviderHandler {
      */
     private boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
         boolean foundChangeEvent = false;
-        if (lastProcessedChangeEventUri == null || RDF.nil.getURI().equals(lastProcessedChangeEventUri.toString())) {
-            foundChangeEvent = true;
-        }
-        
-        while (currentChangeLog != null) {
-            changeLogs.add(currentChangeLog);
-            if (lastProcessedChangeEventUri != null && !RDF.nil.getURI().equals(lastProcessedChangeEventUri.toString())) {
+        URI previousChangeLog;
+        do {
+            if (currentChangeLog != null) {
+                changeLogs.add(currentChangeLog);
                 if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
                         currentChangeLog)) {
                     foundChangeEvent = true;
                     break;
                 }
-            }
-            
-            URI previousChangeLog = currentChangeLog.getPrevious();
-            if (previousChangeLog == null || RDF.nil.getURI().equals(previousChangeLog.toString())) {
+                previousChangeLog = currentChangeLog.getPrevious();
+                if (ProviderUtil.isNilUri(lastProcessedChangeEventUri) && ProviderUtil.isNilUri(previousChangeLog)) {
+                    foundChangeEvent = true;
+                    break;
+                }
+                if (previousChangeLog == null) {
+                    break;
+                }
+                currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
+            } else {
                 break;
             }
-            
-            currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
-        }
+        } while (previousChangeLog != null && !RDF.nil.getURI().equals(previousChangeLog.toString()));
         return foundChangeEvent;
     }
 

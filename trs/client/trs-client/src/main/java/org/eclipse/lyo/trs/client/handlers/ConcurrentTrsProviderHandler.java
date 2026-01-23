@@ -120,7 +120,7 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
     private void pollAndProcessChanges() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date processingDateStart = new Date();
-        log.info("started dealing with TRS Provider: " + trsUriBase);
+        log.debug("started dealing with TRS Provider: " + trsUriBase);
 
         TrackedResourceSet updatedTrs = trsClient.extractRemoteTrs(trsUriBase);
         boolean indexingStage = false;
