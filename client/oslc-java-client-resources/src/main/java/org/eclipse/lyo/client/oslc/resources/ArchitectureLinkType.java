@@ -33,7 +33,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 /**
- * @see <a href="http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/">http://open-services.net/wiki/architecture-management/OSLC-Architecture-Management-Specification-Version-2.0/</a>
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/am/v3.0/os/architecture-management-spec.html">https://docs.oasis-open-projects.org/oslc-op/am/v3.0/os/architecture-management-spec.html</a>
  */
 @Deprecated
 @OslcResourceShape(title = "Architecture Management LinkType Resource Shape", describes = ArchitectureConstants.TYPE_ARCHITECTURE_LINK_TYPE)

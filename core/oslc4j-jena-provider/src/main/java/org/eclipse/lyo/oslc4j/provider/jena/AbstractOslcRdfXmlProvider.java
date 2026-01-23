@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -305,7 +305,7 @@ public abstract class AbstractOslcRdfXmlProvider {
       // resolve relative URIs commonly used to in reified statements
       // for OSLC link labels. See this section of the CM specification
       // for an example:
-      // http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+      // https://docs.oasis-open-projects.org/oslc-op/cm/v3.0/errata01/os/change-mgt-spec.html#labels
 
       // TODO: cleanup
       byte[] data = inputStream.readAllBytes();

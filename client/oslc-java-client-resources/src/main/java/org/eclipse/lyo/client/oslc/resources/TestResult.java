@@ -33,7 +33,7 @@ import org.eclipse.lyo.oslc4j.core.model.Occurs;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
- * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestResult</a>
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestResultShape">https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestResultShape</a>
  */
 @Deprecated
 @OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_RESULT)

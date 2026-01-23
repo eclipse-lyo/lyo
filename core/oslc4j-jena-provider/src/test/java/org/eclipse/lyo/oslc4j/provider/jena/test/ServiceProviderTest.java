@@ -32,7 +32,7 @@ import org.junit.Test;
 public class ServiceProviderTest {
 	@Test
 	public void testUsage() throws Exception {
-		// Based on http://open-services.net/bin/view/Main/OSLCCoreSpecTurtleExamples?sortcol=table;up=#Service_Provider_Resource
+		// Based on https://archive.open-services.net/bin/view/Main/OSLCCoreSpecTurtleExamples#Service_Provider_Resource
 		// (oslc:usage added)
 		InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.ttl");
 		assertNotNull("Could not read file: provider.ttl", is);

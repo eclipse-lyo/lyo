@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -24,11 +24,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 /**
  * OSLC Extended Error resource.
- * 
+ *
  * <p>This class extends {@link AbstractResource} to support extended properties
  * as required by the OSLC Core specification.
- * 
- * @see <a href="http://open-services.net/bin/view/Main/OslcCoreSpecification?sortcol=table;up=#Unknown_properties_and_content">OSLC Core 2.0: Unknown properties and content</a>
+ *
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/core/v3.0/os/oslc-core.html">OSLC Core 3.0: Unknown properties and content</a>
  * @see <a href="https://github.com/oslc-op/oslc-specs/issues/466">OSLC Spec Issue #466</a>
  */
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
