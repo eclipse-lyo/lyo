@@ -147,9 +147,26 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mock-server</groupId>
+      <artifactId>mockserver-netty</artifactId>
+      <version>5.15.0</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.diffplug.selfie</groupId>
+      <artifactId>selfie-runner-junit5</artifactId>
+      <version>2.5.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
