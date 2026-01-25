@@ -772,6 +772,8 @@ public final class JenaModelHelper {
 
             if (String.class == setMethodComponentParameterClass) {
               parameter = stringValue;
+            } else if (XMLLiteral.class == setMethodComponentParameterClass) {
+              parameter = new XMLLiteral(literal.getString());
             } else if ((Boolean.class == setMethodComponentParameterClass)
                 || (Boolean.TYPE == setMethodComponentParameterClass)) {
               // XML supports both 'true' and '1' for a true Boolean.
@@ -1750,6 +1752,14 @@ public final class JenaModelHelper {
         nestedNode = model.createTypedLiteral(value.toString(), XMLLiteralType.theXMLLiteralType);
       } else {
         nestedNode = model.createLiteral(value.toString());
+      }
+    } else if (value instanceof XMLLiteral) {
+      if (xmlLiteral) {
+        nestedNode =
+            model.createTypedLiteral(
+                ((XMLLiteral) value).getValue(), XMLLiteralType.theXMLLiteralType);
+      } else {
+        throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
       }
     }
     // Floats need special handling for infinite values.
