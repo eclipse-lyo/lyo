@@ -66,6 +66,7 @@ import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Alt;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Bag;
@@ -114,6 +115,7 @@ import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.MultiStatementLink;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
@@ -618,8 +620,8 @@ public final class JenaModelHelper {
     // Ensure a single-value property is not set more than once
     final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
-    final StmtIterator listProperties = resource.listProperties();
-
+    final StmtIterator listProperties = resource.listProperties(); 
+    
     final IExtendedResource extendedResource;
     final Map<QName, Object> extendedProperties;
     if (bean instanceof IExtendedResource) {
@@ -1150,8 +1152,52 @@ public final class JenaModelHelper {
       if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute()) {
         throw new OslcCoreRelativeURIException(beanClass, "<none>", nestedResourceURI);
       }
+        
+      Model model = object.getModel();
+      Graph graph = model.getGraph();
 
-      return nestedResourceURI;
+      //Iterate over all base triples, and check on  each whether any reified nodes exist
+      boolean foundAnyReification = false;
+      ExtendedIterator<Triple> tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
+      while (tripleIter.hasNext()) {
+          Triple triple = tripleIter.next();
+          ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
+          if (reifiedNodes.hasNext()) {
+              foundAnyReification = true;
+              break;
+          }
+      }
+      if (!foundAnyReification) {
+          return nestedResourceURI;
+      }
+
+      //There are reifications, so store them in a MultiStatementLink
+      tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
+      MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
+      while (tripleIter.hasNext()) {
+          Triple triple = tripleIter.next();
+          ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
+          while (reifiedNodes.hasNext()) {
+              Node reifiedNode = reifiedNodes.next();
+              Resource reifiedNodeAsResource = model.wrapAsResource(reifiedNode);
+              StmtIterator properties = reifiedNodeAsResource.listProperties();
+              while (properties.hasNext()) {
+                  Statement statement = properties.next();
+                  Property predicate = statement.getPredicate();
+                  if (predicate.equals(RDF.type)
+                      || predicate.equals(RDF.subject)
+                      || predicate.equals(RDF.predicate)
+                      || predicate.equals(RDF.object)) {
+                      continue;
+                  }
+
+                  QName key = new QName(predicate.getNameSpace(), predicate.getLocalName());
+                  Object value = handleExtendedPropertyValue(beanClass, statement.getObject(), visitedResources, key, rdfTypes);
+                  multiStatementLink.addStatement(key, value);
+              }
+          }
+      }
+      return multiStatementLink;
     }
   }
 

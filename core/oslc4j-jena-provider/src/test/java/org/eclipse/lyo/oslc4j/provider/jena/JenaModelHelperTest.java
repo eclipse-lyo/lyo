@@ -16,6 +16,7 @@ package org.eclipse.lyo.oslc4j.provider.jena;
 
 import static org.eclipse.lyo.oslc4j.provider.jena.helpers.JenaAssert.*;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -31,6 +32,8 @@ import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.MultiStatementLink;
+import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
@@ -158,6 +161,7 @@ public class JenaModelHelperTest {
     final ServiceProvider unmarshalled = roundTrip(sp);
     final Map<QName, Object> props = unmarshalled.getExtendedProperties();
 
+    assertInstanceOf(URI.class, props.get(uriProp));
     assertEquals(uriValue, props.get(uriProp));
   }
 
@@ -205,7 +209,7 @@ public class JenaModelHelperTest {
   }
 
   @Test
-  public void testExtendedProperties_Link_Single()
+  public void testExtendedProperties_Link_WithoutLabel()
       throws Exception {
     final ServiceProvider sp = new ServiceProvider();
     sp.setAbout(URI.create("http://example.com/sp"));
@@ -217,13 +221,10 @@ public class JenaModelHelperTest {
     final ServiceProvider unmarshalled = roundTrip(sp);
     final Map<QName, Object> props = unmarshalled.getExtendedProperties();
 
+    //If it is a Link without label, it should be unmarshalled as URI
     Object linkRet = props.get(linkProp);
-    // Without label, it might degrade to URI or Link depending on implementation
-    if (linkRet instanceof Link) {
-      assertEquals(linkValue, linkRet);
-    } else {
-      assertEquals(linkValue.getValue(), linkRet);
-    }
+    assertInstanceOf(URI.class, linkRet);
+    assertEquals(linkValue.getValue(), linkRet);
   }
 
   @Test
@@ -232,7 +233,7 @@ public class JenaModelHelperTest {
     final ServiceProvider sp = new ServiceProvider();
     sp.setAbout(URI.create("http://example.com/sp"));
     final QName linkWithLabelProp = new QName("http://example.com/ns#", "linkWithLabel");
-    final Link linkWithLabelValue = new Link(URI.create("http://example.com/l1b"), "Label");
+    final Link linkWithLabelValue = new Link(URI.create("http://example.com/l1b"), "someLabel");
 
     sp.getExtendedProperties().put(linkWithLabelProp, linkWithLabelValue);
 
@@ -240,19 +241,17 @@ public class JenaModelHelperTest {
     final Map<QName, Object> props = unmarshalled.getExtendedProperties();
 
     Object linkWithLabelRet = props.get(linkWithLabelProp);
-    // With label, it should be identifiable
-    if (linkWithLabelRet instanceof Link) {
-      assertEquals(linkWithLabelValue, linkWithLabelRet);
-    } else {
-      assertNotNull(linkWithLabelRet);
-      if (linkWithLabelRet instanceof URI) {
-        assertEquals(linkWithLabelValue.getValue(), linkWithLabelRet);
-      }
-    }
+
+    //assert that linkWithLabelRet is an instance of MultiStatementLink
+    assertInstanceOf(MultiStatementLink.class, linkWithLabelRet);
+    MultiStatementLink extendedProperty = (MultiStatementLink)linkWithLabelRet;
+    assertEquals(linkWithLabelValue.getValue(), extendedProperty.getValue());
+    assertEquals(linkWithLabelValue.getLabel(), extendedProperty.getStatements().
+            get(new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
   }
 
   @Test
-  public void testExtendedProperties_Link_Array()
+  public void testExtendedProperties_Link_Array_WithoutLabels()
       throws Exception {
     final ServiceProvider sp = new ServiceProvider();
     sp.setAbout(URI.create("http://example.com/sp"));
@@ -271,23 +270,22 @@ public class JenaModelHelperTest {
     Collection<?> linkArrayCol = (Collection<?>) linkArrayRet;
     assertEquals(2, linkArrayCol.size());
     for(Object item : linkArrayCol) {
-        assertTrue(item instanceof URI || item instanceof Link);
-        // Verify values are present (simplistic check)
-        URI uri = (item instanceof Link) ? ((Link)item).getValue() : (URI)item;
-        assertTrue(uri.toString().contains("example.com/l"));
+        assertTrue(item instanceof URI);
+        Arrays.asList(linkArrayValue).stream().
+            anyMatch(link -> link.getValue().equals((URI)item));
     }
   }
 
   @Test
-  public void testExtendedProperties_Link_List()
+  public void testExtendedProperties_Link_List_WithLabels()
       throws Exception {
     final ServiceProvider sp = new ServiceProvider();
     sp.setAbout(URI.create("http://example.com/sp"));
     final QName linkListProp = new QName("http://example.com/ns#", "linkList");
     final List<Link> linkListValue =
         Arrays.asList(
-            new Link(URI.create("http://example.com/l4")),
-            new Link(URI.create("http://example.com/l5")));
+            new Link(URI.create("http://example.com/l4"), "label4"),
+            new Link(URI.create("http://example.com/l5"), "label5"));
 
     sp.getExtendedProperties().put(linkListProp, linkListValue);
 
@@ -298,16 +296,20 @@ public class JenaModelHelperTest {
     assertTrue(linkListRet instanceof Collection);
     Collection<?> linkListCol = (Collection<?>) linkListRet;
     assertEquals(2, linkListCol.size());
-    // Verify containment
-    boolean foundL4 = false;
-    boolean foundL5 = false;
-    for(Object item : linkListCol) {
-        URI uri = (item instanceof Link) ? ((Link)item).getValue() : (URI)item;
-        if (uri.toString().equals("http://example.com/l4")) foundL4 = true;
-        if (uri.toString().equals("http://example.com/l5")) foundL5 = true;
+    
+    for(Object linkReturned : linkListCol) {
+        assertTrue(linkReturned instanceof MultiStatementLink);
+        MultiStatementLink msl = (MultiStatementLink)linkReturned;
+        if (msl.getValue().toString().equals("http://example.com/l4")) {
+            assertEquals("label4", msl.getStatements().get(
+                new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
+        } else if (msl.getValue().toString().equals("http://example.com/l5")) {
+            assertEquals("label5", msl.getStatements().get(
+                new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
+        } else {
+            fail("Unexpected Link value: " + msl.getValue());
+        }
     }
-    assertTrue(foundL4);
-    assertTrue(foundL5);
   }
 
   @Test
@@ -339,6 +341,7 @@ public class JenaModelHelperTest {
     assertTrue(uriIterableCol.contains(URI.create("http://example.com/u7")));
   }
 
+ 
   private ServiceProvider roundTrip(ServiceProvider sp)
       throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
       InvocationTargetException, OslcCoreApplicationException, LyoModelException {
