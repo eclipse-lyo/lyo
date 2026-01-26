@@ -26,6 +26,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Publisher Resource Shape", describes = OslcConstants.TYPE_PUBLISHER)
+/**
+ * OSLC Publisher resource
+ */
 public class Publisher extends AbstractResource {
 	private URI	   icon;
 	private String identifier;
@@ -43,6 +46,11 @@ public class Publisher extends AbstractResource {
 		this.identifier = identifier;
 	}
 
+    /**
+     * URL to an icon file that represents the provider. This icon should be a favicon format and 16x16 pixels in size
+     *
+     * @return icon
+     */
 	@OslcDescription("URL to an icon file that represents the provider. This icon should be a favicon format and 16x16 pixels in size")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "icon")
 	@OslcReadOnly
@@ -51,6 +59,11 @@ public class Publisher extends AbstractResource {
 		return icon;
 	}
 
+    /**
+     * A URN that uniquely identifies the implementation
+     *
+     * @return identifier
+     */
 	@OslcDescription("A URN that uniquely identifies the implementation")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "identifier")
@@ -60,6 +73,11 @@ public class Publisher extends AbstractResource {
 		return identifier;
 	}
 
+    /**
+     * Very short label for use in menu items
+     *
+     * @return label
+     */
 	@OslcDescription("Very short label for use in menu items")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "label")
 	@OslcReadOnly
@@ -68,6 +86,11 @@ public class Publisher extends AbstractResource {
 		return label;
 	}
 
+    /**
+     * Title string that could be used for display
+     *
+     * @return title
+     */
 	@OslcDescription("Title string that could be used for display")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")

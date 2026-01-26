@@ -45,6 +45,9 @@ public class ResponseInfoArray<T extends Object> extends ResponseInfo<T[]>
 		super(array, properties, totalCount, nextPage);
 	}
 	
+	/**
+	 * Array of resources
+	 */
 	public T[]
 	array() { return resource(); }
 }

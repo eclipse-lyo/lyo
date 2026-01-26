@@ -33,7 +33,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
- * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestScript">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestScript</a>
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestScriptShape">https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestScriptShape</a>
  */
 @Deprecated
 @OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_SCRIPT)

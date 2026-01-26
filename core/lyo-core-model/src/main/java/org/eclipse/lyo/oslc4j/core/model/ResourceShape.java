@@ -34,6 +34,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Resource Shape Resource Shape", describes = OslcConstants.TYPE_RESOURCE_SHAPE)
+/**
+ * OSLC ResourceShape resource
+ */
 public final class ResourceShape extends AbstractResource {
 	private final SortedSet<URI> describes= new TreeSet<>();
 	private final TreeMap<URI, Property> properties = new TreeMap<>();
@@ -63,6 +66,11 @@ public final class ResourceShape extends AbstractResource {
 		return properties.get(definition);
 	}
 
+    /**
+     * Type or types of resource described by this shape
+     *
+     * @return describes
+     */
 	@OslcDescription("Type or types of resource described by this shape")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "describes")
 	@OslcReadOnly
@@ -71,6 +79,11 @@ public final class ResourceShape extends AbstractResource {
 		return describes.toArray(new URI[describes.size()]);
 	}
 
+    /**
+     * The properties that are allowed or required by this shape
+     *
+     * @return properties
+     */
 	@OslcDescription("The properties that are allowed or required by this shape")
 	@OslcName("property")
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "property")
@@ -84,6 +97,11 @@ public final class ResourceShape extends AbstractResource {
 		return properties.values().toArray(new Property[properties.size()]);
 	}
 
+    /**
+     * The local name of the defined resource
+     *
+     * @return name
+     */
     @OslcDescription("The local name of the defined resource")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "name")
@@ -93,6 +111,11 @@ public final class ResourceShape extends AbstractResource {
         return name;
     }
 
+    /**
+     * Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element
+     *
+     * @return title
+     */
 	@OslcDescription("Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
 	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
 	@OslcReadOnly
@@ -102,6 +125,11 @@ public final class ResourceShape extends AbstractResource {
 		return title;
 	}
 
+    /**
+     * The description of the defined constraint.
+     *
+     * @return description
+     */
     @OslcDescription("The description of the defined constraint.")
     @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
     @OslcReadOnly

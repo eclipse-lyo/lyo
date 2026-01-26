@@ -52,9 +52,15 @@ public abstract class ResponseInfo<T extends Object>
 		this.container = new FilteredResource<>(resource, properties);
 	}
 
+	/**
+	 * Total count of resource
+	 */
 	public Integer
 	totalCount() { return totalCount; }
 
+	/**
+	 * Next page in paged output
+	 */
 	public String
 	nextPage() { return nextPage; }
 

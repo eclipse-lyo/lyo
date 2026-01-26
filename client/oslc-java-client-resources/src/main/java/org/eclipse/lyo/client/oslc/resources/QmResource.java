@@ -33,7 +33,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 /**
- * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2">http://open-services.net/bin/view/Main/QmSpecificationV2</a>
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-spec.html">https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-spec.html</a>
  */
 @Deprecated
 public abstract class QmResource

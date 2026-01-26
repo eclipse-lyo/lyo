@@ -15,6 +15,10 @@ package org.eclipse.lyo.oslc4j.core.model;
 
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * Constant strings and static MediaType representing OSLC media types
+ * @see jakarta.ws.rs.core.MediaType
+ */
 public interface OslcMediaType {
 
 	public final static String APPLICATION = "application";

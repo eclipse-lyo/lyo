@@ -46,6 +46,9 @@ public class ResponseInfoCollection<T extends Object> extends ResponseInfo<Colle
 		super(collection, properties, totalCount, nextPage);
 	}
 	
+	/**
+	 * Collection of resources
+	 */
 	public Collection<T>
 	collection() { return resource(); }
 }

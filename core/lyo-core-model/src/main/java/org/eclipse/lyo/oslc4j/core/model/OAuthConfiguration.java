@@ -25,6 +25,9 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC OAuth Configuration Resource Shape", describes = OslcConstants.TYPE_O_AUTH_CONFIGURATION)
+/**
+ * An OSLC OAuth configuration resource
+ */
 public class OAuthConfiguration extends AbstractResource {
 	private URI authorizationURI;
 	private URI oauthAccessTokenURI;
@@ -42,6 +45,11 @@ public class OAuthConfiguration extends AbstractResource {
 		this.oauthAccessTokenURI = oauthAccessTokenURI;
 	}
 
+    /**
+     * URI for obtaining OAuth authorization
+     *
+     * @return authorizationURI
+     */
 	@OslcDescription("URI for obtaining OAuth authorization")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "authorizationURI")
@@ -51,6 +59,11 @@ public class OAuthConfiguration extends AbstractResource {
 		return authorizationURI;
 	}
 
+    /**
+     * URI for obtaining OAuth access token
+     *
+     * @return oauthAccessTokenURI
+     */
 	@OslcDescription("URI for obtaining OAuth access token")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthAccessTokenURI")
@@ -60,6 +73,11 @@ public class OAuthConfiguration extends AbstractResource {
 		return oauthAccessTokenURI;
 	}
 
+    /**
+     * URI for obtaining OAuth request token
+     *
+     * @return oauthRequestTokenURI
+     */
 	@OslcDescription("URI for obtaining OAuth request token")
 	@OslcOccurs(Occurs.ExactlyOne)
 	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "oauthRequestTokenURI")

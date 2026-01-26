@@ -31,7 +31,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 /**
- * @see <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestExecutionRecord">http://open-services.net/bin/view/Main/QmSpecificationV2#Resource_TestExecutionRecord</a>
+ * @see <a href="https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestExecutionRecordShape">https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-shapes.html#TestExecutionRecordShape</a>
  */
 @Deprecated
 @OslcResourceShape(title = "Quality Management Resource Shape", describes = QmConstants.TYPE_TEST_EXECUTION_RECORD)
