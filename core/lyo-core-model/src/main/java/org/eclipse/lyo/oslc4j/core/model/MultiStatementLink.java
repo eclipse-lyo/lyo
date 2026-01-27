@@ -14,6 +14,7 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class MultiStatementLink extends AbstractReifiedResource<URI> {
     }
 
     public Map<QName, Object> getStatements() {
-        return statements;
+        return Collections.unmodifiableMap(statements);
     }
 
     public void addStatement(QName qName, Object object) {
