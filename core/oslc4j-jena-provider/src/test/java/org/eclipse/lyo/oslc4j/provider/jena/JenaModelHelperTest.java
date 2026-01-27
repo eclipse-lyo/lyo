@@ -242,12 +242,11 @@ public class JenaModelHelperTest {
 
     Object linkWithLabelRet = props.get(linkWithLabelProp);
 
-    //assert that linkWithLabelRet is an instance of MultiStatementLink
-    assertInstanceOf(MultiStatementLink.class, linkWithLabelRet);
-    MultiStatementLink extendedProperty = (MultiStatementLink)linkWithLabelRet;
+    //assert that linkWithLabelRet is an instance of Link
+    assertInstanceOf(Link.class, linkWithLabelRet);
+    Link extendedProperty = (Link)linkWithLabelRet;
     assertEquals(linkWithLabelValue.getValue(), extendedProperty.getValue());
-    assertEquals(linkWithLabelValue.getLabel(), extendedProperty.getStatements().
-            get(new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
+    assertEquals(linkWithLabelValue.getLabel(), extendedProperty.getLabel());
   }
 
   @Test
@@ -298,14 +297,12 @@ public class JenaModelHelperTest {
     assertEquals(2, linkListCol.size());
     
     for(Object linkReturned : linkListCol) {
-        assertTrue(linkReturned instanceof MultiStatementLink);
-        MultiStatementLink msl = (MultiStatementLink)linkReturned;
+        assertTrue(linkReturned instanceof Link);
+        Link msl = (Link)linkReturned;
         if (msl.getValue().toString().equals("http://example.com/l4")) {
-            assertEquals("label4", msl.getStatements().get(
-                new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
+            assertEquals("label4", msl.getLabel());
         } else if (msl.getValue().toString().equals("http://example.com/l5")) {
-            assertEquals("label5", msl.getStatements().get(
-                new QName(OslcConstants.DCTERMS_NAMESPACE, "title")));
+            assertEquals("label5", msl.getLabel());
         } else {
             fail("Unexpected Link value: " + msl.getValue());
         }
