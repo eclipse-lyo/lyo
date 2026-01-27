@@ -10,7 +10,7 @@
 ### Added
 
 - Extended properties on resources now support arrays and any iterables as well as Link objects.
-- Reified statements on an Extended Properties are unmarshalled into a data structure that holds all reified statements. 
+- Reified statements on extended properties are unmarshalled into a data structure that holds all reified statements.
 
 ### Changed
 
