@@ -620,8 +620,7 @@ public final class JenaModelHelper {
     // Ensure a single-value property is not set more than once
     final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
-    final StmtIterator listProperties = resource.listProperties(); 
-    
+    final StmtIterator listProperties = resource.listProperties();
     final IExtendedResource extendedResource;
     final Map<QName, Object> extendedProperties;
     if (bean instanceof IExtendedResource) {
