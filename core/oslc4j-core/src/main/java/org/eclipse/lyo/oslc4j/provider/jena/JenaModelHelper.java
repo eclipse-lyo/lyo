@@ -663,7 +663,7 @@ public final class JenaModelHelper {
             }
             final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
             final Object value =
-                handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes);
+                handleExtendedPropertyValue(beanClass, statement, object, visitedResources, key, rdfTypes);
             final Object previous = extendedProperties.get(key);
 
             if (previous == null) {
@@ -1053,6 +1053,7 @@ public final class JenaModelHelper {
 
   private static Object handleExtendedPropertyValue(
       final Class<?> beanClass,
+      final Statement statement,
       final RDFNode object,
       Map<String, Object> visitedResources,
       final QName propertyQName,
@@ -1155,50 +1156,38 @@ public final class JenaModelHelper {
       Model model = object.getModel();
       Graph graph = model.getGraph();
 
-      //Iterate over all base triples, and check on  each whether any reified nodes exist
-      boolean foundAnyReification = false;
-      ExtendedIterator<Triple> tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
-      while (tripleIter.hasNext()) {
-          Triple triple = tripleIter.next();
-          ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
-          if (reifiedNodes.hasNext()) {
-              foundAnyReification = true;
-              break;
-          }
-      }
-      if (!foundAnyReification) {
+      //Check if the specific statement being unmarshalled has any reified nodes
+      ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, statement.asTriple());
+      if (!reifiedNodes.hasNext()) {
+          reifiedNodes.close();
           return nestedResourceURI;
       }
+      reifiedNodes.close();
 
     //There are reifications, so examine them and either create a Link (single dcterms:title)
     //or a MultiStatementLink (multiple/other predicates)
-    tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
+    reifiedNodes = ReifierStd.allNodes(graph, statement.asTriple());
 
     //Collect all reified properties
     List<Statement> collectedProps = new ArrayList<>();
-    while (tripleIter.hasNext()) {
-        Triple triple = tripleIter.next();
-        ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
-        while (reifiedNodes.hasNext()) {
-            Node reifiedNode = reifiedNodes.next();
-            Resource reifiedNodeAsResource = getResource(model, reifiedNode);
-            StmtIterator properties = reifiedNodeAsResource.listProperties();
-            while (properties.hasNext()) {
-                Statement statement = properties.next();
-                Property predicate = statement.getPredicate();
-                if (predicate.equals(RDF.type)
-                    || predicate.equals(RDF.subject)
-                    || predicate.equals(RDF.predicate)
-                    || predicate.equals(RDF.object)) {
-                    continue;
-                }
-                collectedProps.add(statement);
+    while (reifiedNodes.hasNext()) {
+        Node reifiedNode = reifiedNodes.next();
+        Resource reifiedNodeAsResource = getResource(model, reifiedNode);
+        StmtIterator properties = reifiedNodeAsResource.listProperties();
+        while (properties.hasNext()) {
+            Statement reifiedStatement = properties.next();
+            Property predicate = reifiedStatement.getPredicate();
+            if (predicate.equals(RDF.type)
+                || predicate.equals(RDF.subject)
+                || predicate.equals(RDF.predicate)
+                || predicate.equals(RDF.object)) {
+                continue;
             }
-            properties.close();
+            collectedProps.add(reifiedStatement);
         }
-        reifiedNodes.close();
+        properties.close();
     }
-    tripleIter.close();
+    reifiedNodes.close();
 
     // Check for the special case: exactly one reified statement and predicate is dcterms:title
     final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
@@ -1226,7 +1215,7 @@ public final class JenaModelHelper {
         }
         QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
         Object value =
-            handleExtendedPropertyValue(beanClass, statement.getObject(), visitedResources, key, rdfTypes);
+            handleExtendedPropertyValue(beanClass, statement, statement.getObject(), visitedResources, key, rdfTypes);
         multiStatementLink.addStatement(key, value);
     }
     return multiStatementLink;      
