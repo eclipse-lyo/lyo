@@ -1207,15 +1207,15 @@ public final class JenaModelHelper {
 
     // Fallback: create a MultiStatementLink as before
     MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
-    for (Statement statement : collectedProps) {
-        Property predicate = statement.getPredicate();
+    for (Statement reifiedStatement : collectedProps) {
+        Property predicate = reifiedStatement.getPredicate();
         String prefix = model.getNsURIPrefix(predicate.getNameSpace());
         if (prefix == null) {
             prefix = generatePrefix(model, predicate.getNameSpace());
         }
         QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
         Object value =
-            handleExtendedPropertyValue(beanClass, statement, statement.getObject(), visitedResources, key, rdfTypes);
+            handleExtendedPropertyValue(beanClass, reifiedStatement, reifiedStatement.getObject(), visitedResources, key, rdfTypes);
         multiStatementLink.addStatement(key, value);
     }
     return multiStatementLink;      
