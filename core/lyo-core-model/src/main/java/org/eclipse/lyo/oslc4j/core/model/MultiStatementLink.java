@@ -14,6 +14,7 @@
 package org.eclipse.lyo.oslc4j.core.model;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class MultiStatementLink extends AbstractReifiedResource<URI> {
     /**
      * A set of predicate-object statements associated with the link.
      */
-    private Map<QName, Object> statements = new HashMap<>();
+    private final Map<QName, Object> statements = new HashMap<>();
 
     public MultiStatementLink() {
     }
@@ -37,11 +38,14 @@ public class MultiStatementLink extends AbstractReifiedResource<URI> {
     }
 
     public void setStatements(final Map<QName, Object> statements) {
-        this.statements = statements;
+        this.statements.clear();
+        if (statements != null) {
+            this.statements.putAll(statements);
+        }
     }
 
     public Map<QName, Object> getStatements() {
-        return statements;
+        return Collections.unmodifiableMap(statements);
     }
 
     public void addStatement(QName qName, Object object) {
