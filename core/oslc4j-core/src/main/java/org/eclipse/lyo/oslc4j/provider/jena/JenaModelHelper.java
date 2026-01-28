@@ -66,6 +66,7 @@ import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Alt;
 import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Bag;
@@ -114,6 +115,7 @@ import org.eclipse.lyo.oslc4j.core.model.IReifiedResource;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 import org.eclipse.lyo.oslc4j.core.model.InheritedMethodAnnotationHelper;
 import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.MultiStatementLink;
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
@@ -619,7 +621,6 @@ public final class JenaModelHelper {
     final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
     final StmtIterator listProperties = resource.listProperties();
-
     final IExtendedResource extendedResource;
     final Map<QName, Object> extendedProperties;
     if (bean instanceof IExtendedResource) {
@@ -1150,8 +1151,86 @@ public final class JenaModelHelper {
       if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute()) {
         throw new OslcCoreRelativeURIException(beanClass, "<none>", nestedResourceURI);
       }
+        
+      Model model = object.getModel();
+      Graph graph = model.getGraph();
 
-      return nestedResourceURI;
+      //Iterate over all base triples, and check on  each whether any reified nodes exist
+      boolean foundAnyReification = false;
+      ExtendedIterator<Triple> tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
+      while (tripleIter.hasNext()) {
+          Triple triple = tripleIter.next();
+          ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
+          if (reifiedNodes.hasNext()) {
+              foundAnyReification = true;
+              break;
+          }
+      }
+      if (!foundAnyReification) {
+          return nestedResourceURI;
+      }
+
+    //There are reifications, so examine them and either create a Link (single dcterms:title)
+    //or a MultiStatementLink (multiple/other predicates)
+    tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
+
+    //Collect all reified properties
+    List<Statement> collectedProps = new ArrayList<>();
+    while (tripleIter.hasNext()) {
+        Triple triple = tripleIter.next();
+        ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
+        while (reifiedNodes.hasNext()) {
+            Node reifiedNode = reifiedNodes.next();
+            Resource reifiedNodeAsResource = getResource(model, reifiedNode);
+            StmtIterator properties = reifiedNodeAsResource.listProperties();
+            while (properties.hasNext()) {
+                Statement statement = properties.next();
+                Property predicate = statement.getPredicate();
+                if (predicate.equals(RDF.type)
+                    || predicate.equals(RDF.subject)
+                    || predicate.equals(RDF.predicate)
+                    || predicate.equals(RDF.object)) {
+                    continue;
+                }
+                collectedProps.add(statement);
+            }
+            properties.close();
+        }
+        reifiedNodes.close();
+    }
+    tripleIter.close();
+
+    // Check for the special case: exactly one reified statement and predicate is dcterms:title
+    final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
+    if (collectedProps.size() == 1
+        && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
+        Statement only = collectedProps.get(0);
+        RDFNode val = only.getObject();
+        if (val.isLiteral()) {
+            String title = val.asLiteral().getString();
+            Link link = new Link(nestedResourceURI);
+            // set the title/label on the Link if available in your Link API
+            // typical Lyo Link API: link.setLabel(title);
+            link.setLabel(title);
+            return link;
+        }
+    }
+
+    // Fallback: create a MultiStatementLink as before
+    MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
+    for (Statement statement : collectedProps) {
+        Property predicate = statement.getPredicate();
+        String prefix = model.getNsURIPrefix(predicate.getNameSpace());
+        if (prefix == null) {
+            prefix = generatePrefix(model, predicate.getNameSpace());
+        }
+        QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
+        Object value =
+            handleExtendedPropertyValue(beanClass, statement.getObject(), visitedResources, key, rdfTypes);
+        multiStatementLink.addStatement(key, value);
+    }
+    return multiStatementLink;      
+      
     }
   }
 
