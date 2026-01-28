@@ -270,8 +270,9 @@ public class JenaModelHelperTest {
     assertEquals(2, linkArrayCol.size());
     for(Object item : linkArrayCol) {
         assertTrue(item instanceof URI);
-        Arrays.asList(linkArrayValue).stream().
+        boolean matched = Arrays.asList(linkArrayValue).stream().
             anyMatch(link -> link.getValue().equals((URI)item));
+        assertTrue("URI " + item + " should match one of the expected link values", matched);
     }
   }
 
