@@ -1152,11 +1152,59 @@ public final class JenaModelHelper {
       if (OSLC4JUtils.relativeURIsAreDisabled() && !nestedResourceURI.isAbsolute()) {
         throw new OslcCoreRelativeURIException(beanClass, "<none>", nestedResourceURI);
       }
-        
-      Model model = object.getModel();
+
+      List<Statement> collectedProps = collectReifiedProperties(statement);
+      // If no reified properties found, return plain URI
+      if (collectedProps.isEmpty()) {
+        return nestedResourceURI;
+      }
+      return constructReifiedResource(statement, collectedProps, nestedResourceURI, beanClass, visitedResources, rdfTypes);
+      
+    }
+  }
+
+  private static Object constructReifiedResource(final Statement statement, List<Statement> collectedProps, final URI nestedResourceURI, 
+          final Class<?> beanClass, Map<String, Object> visitedResources, final HashSet<String> rdfTypes)
+        throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException,
+        InvocationTargetException, OslcCoreApplicationException, NoSuchMethodException {
+    // Check for the special case: exactly one reified statement and predicate is dcterms:title
+      final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
+      if (collectedProps.size() == 1
+          && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
+        Statement only = collectedProps.get(0);
+        RDFNode val = only.getObject();
+        if (val.isLiteral()) {
+          String title = val.asLiteral().getString();
+          Link link = new Link(nestedResourceURI);
+          // set the title/label on the Link if available in your Link API
+          // typical Lyo Link API: link.setLabel(title);
+          link.setLabel(title);
+          return link;
+        }
+      }
+
+      // Fallback: create a MultiStatementLink as before
+      Model model = statement.getModel();
+      MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
+      for (Statement reifiedStatement : collectedProps) {
+        Property predicate = reifiedStatement.getPredicate();
+        String prefix = model.getNsURIPrefix(predicate.getNameSpace());
+        if (prefix == null) {
+          prefix = generatePrefix(model, predicate.getNameSpace());
+        }
+        QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
+        Object value =
+            handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
+        multiStatementLink.addStatement(key, value);
+      }
+      return multiStatementLink;
+  }
+
+  private static List<Statement> collectReifiedProperties(final Statement statement) {
+      Model model = statement.getModel();
       Graph graph = model.getGraph();
 
-      // Check if the specific statement being unmarshalled has any reified nodes
+    // Check if the specific statement being unmarshalled has any reified nodes
       // and collect all reified properties
       ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, statement.asTriple());
       
@@ -1180,44 +1228,7 @@ public final class JenaModelHelper {
         properties.close();
       }
       reifiedNodes.close();
-      
-      // If no reified properties found, return plain URI
-      if (collectedProps.isEmpty()) {
-        return nestedResourceURI;
-      }
-
-      // Check for the special case: exactly one reified statement and predicate is dcterms:title
-      final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
-      if (collectedProps.size() == 1
-          && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
-        Statement only = collectedProps.get(0);
-        RDFNode val = only.getObject();
-        if (val.isLiteral()) {
-          String title = val.asLiteral().getString();
-          Link link = new Link(nestedResourceURI);
-          // set the title/label on the Link if available in your Link API
-          // typical Lyo Link API: link.setLabel(title);
-          link.setLabel(title);
-          return link;
-        }
-      }
-
-      // Fallback: create a MultiStatementLink as before
-      MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
-      for (Statement reifiedStatement : collectedProps) {
-        Property predicate = reifiedStatement.getPredicate();
-        String prefix = model.getNsURIPrefix(predicate.getNameSpace());
-        if (prefix == null) {
-          prefix = generatePrefix(model, predicate.getNameSpace());
-        }
-        QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-        Object value =
-            handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
-        multiStatementLink.addStatement(key, value);
-      }
-      return multiStatementLink;
-      
-    }
+    return collectedProps;
   }
 
   private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
