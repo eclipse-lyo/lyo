@@ -19,19 +19,23 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.MultiStatementLink;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.helpers.RDFHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Container;
@@ -39,6 +43,8 @@ import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Element;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
+import org.eclipse.lyo.oslc4j.provider.jena.test.ServiceProviderTest;
+import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -335,6 +341,37 @@ public class JenaModelHelperTest {
     Collection<?> uriIterableCol = (Collection<?>) uriIterableRet;
     assertTrue(uriIterableCol.contains(URI.create("http://example.com/u6")));
     assertTrue(uriIterableCol.contains(URI.create("http://example.com/u7")));
+  }
+
+  @Test
+  public void testReificationIntoMultiStatementLink () throws Exception {
+      InputStream is = ServiceProviderTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl");
+      assertNotNull("Could not read file: extendedPropertyWithMultipleStatements.ttl", is);
+      Model m = ModelFactory.createDefaultModel();
+      m.read(is, null, "TURTLE");
+
+      TestResource resource = JenaModelHelper.unmarshalSingle(m, TestResource.class);
+      
+      Map<QName, Object> extendedProperties = resource.getExtendedProperties();
+
+      QName propertyAsLink = new QName("http://example.com/ns#", "asLink");
+      Object propertyAsLinkRet = extendedProperties.get(propertyAsLink);
+      assertTrue(propertyAsLinkRet instanceof Link);
+
+      QName property1AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement1");
+      Object property1AsMultiStatementRet = extendedProperties.get(property1AsMultiStatement);
+      assertTrue(property1AsMultiStatementRet instanceof MultiStatementLink);
+      MultiStatementLink prop1 = (MultiStatementLink)property1AsMultiStatementRet;
+      assertTrue(prop1.getStatements().size() == 2);
+      assertEquals(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "title")), "object_2_title");
+      assertTrue(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "created")) instanceof Date);
+      
+      QName property2AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement2");
+      Object property2AsMultiStatementRet = extendedProperties.get(property2AsMultiStatement);
+      assertTrue(property2AsMultiStatementRet instanceof MultiStatementLink);
+      MultiStatementLink prop2 = (MultiStatementLink)property2AsMultiStatementRet;
+      assertTrue(prop2.getStatements().size() == 1);
+      assertEquals(prop2.getStatements().get(new QName("http://purl.org/dc/terms/", "creator")), URI.create("http://example.com/creator"));
   }
 
  
