@@ -1176,8 +1176,7 @@ public final class JenaModelHelper {
         if (val.isLiteral()) {
           String title = val.asLiteral().getString();
           Link link = new Link(nestedResourceURI);
-          // set the title/label on the Link if available in your Link API
-          // typical Lyo Link API: link.setLabel(title);
+          // Use the dcterms:title value as the Link label.
           link.setLabel(title);
           return link;
         }
