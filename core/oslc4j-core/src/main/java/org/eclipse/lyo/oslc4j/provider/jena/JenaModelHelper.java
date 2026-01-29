@@ -663,7 +663,7 @@ public final class JenaModelHelper {
             }
             final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
             final Object value =
-                handleExtendedPropertyValue(beanClass, statement, object, visitedResources, key, rdfTypes);
+                handleExtendedPropertyValue(beanClass, statement, visitedResources, key, rdfTypes);
             final Object previous = extendedProperties.get(key);
 
             if (previous == null) {
@@ -1054,7 +1054,6 @@ public final class JenaModelHelper {
   private static Object handleExtendedPropertyValue(
       final Class<?> beanClass,
       final Statement statement,
-      final RDFNode object,
       Map<String, Object> visitedResources,
       final QName propertyQName,
       final HashSet<String> rdfTypes)
@@ -1067,6 +1066,7 @@ public final class JenaModelHelper {
           InvocationTargetException,
           OslcCoreApplicationException,
           NoSuchMethodException {
+    final RDFNode object = statement.getObject();
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
@@ -1212,10 +1212,10 @@ public final class JenaModelHelper {
         }
         QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
         Object value =
-            handleExtendedPropertyValue(beanClass, reifiedStatement, reifiedStatement.getObject(), visitedResources, key, rdfTypes);
+            handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
         multiStatementLink.addStatement(key, value);
       }
-      return multiStatementLink;      
+      return multiStatementLink;
       
     }
   }
