@@ -663,7 +663,7 @@ public final class JenaModelHelper {
             }
             final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
             final Object value =
-                handleExtendedPropertyValue(beanClass, object, visitedResources, key, rdfTypes);
+                handleExtendedPropertyValue(beanClass, statement, visitedResources, key, rdfTypes);
             final Object previous = extendedProperties.get(key);
 
             if (previous == null) {
@@ -1053,7 +1053,7 @@ public final class JenaModelHelper {
 
   private static Object handleExtendedPropertyValue(
       final Class<?> beanClass,
-      final RDFNode object,
+      final Statement statement,
       Map<String, Object> visitedResources,
       final QName propertyQName,
       final HashSet<String> rdfTypes)
@@ -1066,6 +1066,7 @@ public final class JenaModelHelper {
           InvocationTargetException,
           OslcCoreApplicationException,
           NoSuchMethodException {
+    final RDFNode object = statement.getObject();
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
@@ -1155,81 +1156,66 @@ public final class JenaModelHelper {
       Model model = object.getModel();
       Graph graph = model.getGraph();
 
-      //Iterate over all base triples, and check on  each whether any reified nodes exist
-      boolean foundAnyReification = false;
-      ExtendedIterator<Triple> tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
-      while (tripleIter.hasNext()) {
-          Triple triple = tripleIter.next();
-          ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
-          if (reifiedNodes.hasNext()) {
-              foundAnyReification = true;
-              break;
+      // Check if the specific statement being unmarshalled has any reified nodes
+      // and collect all reified properties
+      ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, statement.asTriple());
+      
+      // Collect all reified properties
+      List<Statement> collectedProps = new ArrayList<>();
+      while (reifiedNodes.hasNext()) {
+        Node reifiedNode = reifiedNodes.next();
+        Resource reifiedNodeAsResource = getResource(model, reifiedNode);
+        StmtIterator properties = reifiedNodeAsResource.listProperties();
+        while (properties.hasNext()) {
+          Statement reifiedStatement = properties.next();
+          Property predicate = reifiedStatement.getPredicate();
+          if (predicate.equals(RDF.type)
+              || predicate.equals(RDF.subject)
+              || predicate.equals(RDF.predicate)
+              || predicate.equals(RDF.object)) {
+            continue;
           }
-      }
-      if (!foundAnyReification) {
-          return nestedResourceURI;
-      }
-
-    //There are reifications, so examine them and either create a Link (single dcterms:title)
-    //or a MultiStatementLink (multiple/other predicates)
-    tripleIter = graph.find(Node.ANY, Node.ANY, object.asNode());
-
-    //Collect all reified properties
-    List<Statement> collectedProps = new ArrayList<>();
-    while (tripleIter.hasNext()) {
-        Triple triple = tripleIter.next();
-        ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, triple);
-        while (reifiedNodes.hasNext()) {
-            Node reifiedNode = reifiedNodes.next();
-            Resource reifiedNodeAsResource = getResource(model, reifiedNode);
-            StmtIterator properties = reifiedNodeAsResource.listProperties();
-            while (properties.hasNext()) {
-                Statement statement = properties.next();
-                Property predicate = statement.getPredicate();
-                if (predicate.equals(RDF.type)
-                    || predicate.equals(RDF.subject)
-                    || predicate.equals(RDF.predicate)
-                    || predicate.equals(RDF.object)) {
-                    continue;
-                }
-                collectedProps.add(statement);
-            }
-            properties.close();
+          collectedProps.add(reifiedStatement);
         }
-        reifiedNodes.close();
-    }
-    tripleIter.close();
+        properties.close();
+      }
+      reifiedNodes.close();
+      
+      // If no reified properties found, return plain URI
+      if (collectedProps.isEmpty()) {
+        return nestedResourceURI;
+      }
 
-    // Check for the special case: exactly one reified statement and predicate is dcterms:title
-    final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
-    if (collectedProps.size() == 1
-        && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
+      // Check for the special case: exactly one reified statement and predicate is dcterms:title
+      final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
+      if (collectedProps.size() == 1
+          && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
         Statement only = collectedProps.get(0);
         RDFNode val = only.getObject();
         if (val.isLiteral()) {
-            String title = val.asLiteral().getString();
-            Link link = new Link(nestedResourceURI);
-            // set the title/label on the Link if available in your Link API
-            // typical Lyo Link API: link.setLabel(title);
-            link.setLabel(title);
-            return link;
+          String title = val.asLiteral().getString();
+          Link link = new Link(nestedResourceURI);
+          // set the title/label on the Link if available in your Link API
+          // typical Lyo Link API: link.setLabel(title);
+          link.setLabel(title);
+          return link;
         }
-    }
+      }
 
-    // Fallback: create a MultiStatementLink as before
-    MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
-    for (Statement statement : collectedProps) {
-        Property predicate = statement.getPredicate();
+      // Fallback: create a MultiStatementLink as before
+      MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
+      for (Statement reifiedStatement : collectedProps) {
+        Property predicate = reifiedStatement.getPredicate();
         String prefix = model.getNsURIPrefix(predicate.getNameSpace());
         if (prefix == null) {
-            prefix = generatePrefix(model, predicate.getNameSpace());
+          prefix = generatePrefix(model, predicate.getNameSpace());
         }
         QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
         Object value =
-            handleExtendedPropertyValue(beanClass, statement.getObject(), visitedResources, key, rdfTypes);
+            handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
         multiStatementLink.addStatement(key, value);
-    }
-    return multiStatementLink;      
+      }
+      return multiStatementLink;
       
     }
   }
