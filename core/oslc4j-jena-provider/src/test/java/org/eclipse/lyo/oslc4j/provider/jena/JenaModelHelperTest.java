@@ -362,16 +362,16 @@ public class JenaModelHelperTest {
       Object property1AsMultiStatementRet = extendedProperties.get(property1AsMultiStatement);
       assertTrue(property1AsMultiStatementRet instanceof MultiStatementLink);
       MultiStatementLink prop1 = (MultiStatementLink)property1AsMultiStatementRet;
-      assertTrue(prop1.getStatements().size() == 2);
-      assertEquals(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "title")), "object_2_title");
+      assertEquals(2, prop1.getStatements().size());
+      assertEquals("object_2_title", prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "title")));
       assertTrue(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "created")) instanceof Date);
       
       QName property2AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement2");
       Object property2AsMultiStatementRet = extendedProperties.get(property2AsMultiStatement);
       assertTrue(property2AsMultiStatementRet instanceof MultiStatementLink);
       MultiStatementLink prop2 = (MultiStatementLink)property2AsMultiStatementRet;
-      assertTrue(prop2.getStatements().size() == 1);
-      assertEquals(prop2.getStatements().get(new QName("http://purl.org/dc/terms/", "creator")), URI.create("http://example.com/creator"));
+      assertEquals(1, prop2.getStatements().size());
+      assertEquals(URI.create("http://example.com/creator"), prop2.getStatements().get(new QName("http://purl.org/dc/terms/", "creator")));
   }
 
  
