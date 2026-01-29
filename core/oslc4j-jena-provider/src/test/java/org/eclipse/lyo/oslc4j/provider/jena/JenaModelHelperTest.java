@@ -43,7 +43,6 @@ import org.eclipse.lyo.oslc4j.provider.jena.resources.Dog;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Element;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Person;
 import org.eclipse.lyo.oslc4j.provider.jena.resources.Pet;
-import org.eclipse.lyo.oslc4j.provider.jena.test.ServiceProviderTest;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.Test;
 import org.slf4j.Logger;
