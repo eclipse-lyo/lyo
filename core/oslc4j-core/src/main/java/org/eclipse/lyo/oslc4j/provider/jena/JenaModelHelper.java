@@ -1167,9 +1167,9 @@ public final class JenaModelHelper {
         throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException,
         InvocationTargetException, OslcCoreApplicationException, NoSuchMethodException {
     // Check for the special case: exactly one reified statement and predicate is dcterms:title
-      final String DCTERMS_TITLE_URI = OslcConstants.DCTERMS_NAMESPACE + "title";
+      final String dctermsTitleUri = OslcConstants.DCTERMS_NAMESPACE + "title";
       if (collectedProps.size() == 1
-          && DCTERMS_TITLE_URI.equals(collectedProps.get(0).getPredicate().getURI())) {
+          && dctermsTitleUri.equals(collectedProps.get(0).getPredicate().getURI())) {
         Statement only = collectedProps.get(0);
         RDFNode val = only.getObject();
         if (val.isLiteral()) {
