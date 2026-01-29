@@ -32,4 +32,4 @@
         dcterms:identifier   "76";
         <http://example.com/ns#asLink>      <http://example.com/object_1>;
         <http://example.com/ns#asMultiStatement1> <http://example.com/object_2>;
-        <http://example.com/ns#asMultiStatement2> <http://example.com/object_3>
+        <http://example.com/ns#asMultiStatement2> <http://example.com/object_3> .
