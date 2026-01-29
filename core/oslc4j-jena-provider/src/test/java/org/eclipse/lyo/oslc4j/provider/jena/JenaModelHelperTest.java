@@ -344,7 +344,7 @@ public class JenaModelHelperTest {
   }
 
   @Test
-  public void testReificationIntoMultiStatementLink () throws Exception {
+  public void testReificationIntoMultiStatementLink() throws Exception {
       try(InputStream is = JenaModelHelperTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl")) {
           assertNotNull("Could not read file: extendedPropertyWithMultipleStatements.ttl", is);
           Model m = ModelFactory.createDefaultModel();
