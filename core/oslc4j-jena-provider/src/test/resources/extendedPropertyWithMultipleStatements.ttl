@@ -1,8 +1,8 @@
-PREFIX dcterms:   <http://purl.org/dc/terms/>
-PREFIX oslc:      <http://open-services.net/ns/core#>
-PREFIX oslc_data: <http://open-services.net/ns/servicemanagement/1.0/>
-PREFIX rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs:      <http://www.w3.org/2000/01/rdf-schema#>
+@prefix dcterms:   <http://purl.org/dc/terms/> .
+@prefix oslc:      <http://open-services.net/ns/core#> .
+@prefix oslc_data: <http://open-services.net/ns/servicemanagement/1.0/> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
 
 [ rdf:type       rdf:Statement;
   rdf:subject    <http://example.com/subject_1>;
