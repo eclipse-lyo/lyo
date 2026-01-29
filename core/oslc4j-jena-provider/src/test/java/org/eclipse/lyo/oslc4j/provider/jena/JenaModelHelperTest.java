@@ -345,33 +345,34 @@ public class JenaModelHelperTest {
 
   @Test
   public void testReificationIntoMultiStatementLink () throws Exception {
-      InputStream is = ServiceProviderTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl");
-      assertNotNull("Could not read file: extendedPropertyWithMultipleStatements.ttl", is);
-      Model m = ModelFactory.createDefaultModel();
-      m.read(is, null, "TURTLE");
+      try(InputStream is = ServiceProviderTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl")) {
+          assertNotNull("Could not read file: extendedPropertyWithMultipleStatements.ttl", is);
+          Model m = ModelFactory.createDefaultModel();
+          m.read(is, null, "TURTLE");
 
-      TestResource resource = JenaModelHelper.unmarshalSingle(m, TestResource.class);
-      
-      Map<QName, Object> extendedProperties = resource.getExtendedProperties();
+          TestResource resource = JenaModelHelper.unmarshalSingle(m, TestResource.class);
+          
+          Map<QName, Object> extendedProperties = resource.getExtendedProperties();
 
-      QName propertyAsLink = new QName("http://example.com/ns#", "asLink");
-      Object propertyAsLinkRet = extendedProperties.get(propertyAsLink);
-      assertTrue(propertyAsLinkRet instanceof Link);
+          QName propertyAsLink = new QName("http://example.com/ns#", "asLink");
+          Object propertyAsLinkRet = extendedProperties.get(propertyAsLink);
+          assertTrue(propertyAsLinkRet instanceof Link);
 
-      QName property1AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement1");
-      Object property1AsMultiStatementRet = extendedProperties.get(property1AsMultiStatement);
-      assertTrue(property1AsMultiStatementRet instanceof MultiStatementLink);
-      MultiStatementLink prop1 = (MultiStatementLink)property1AsMultiStatementRet;
-      assertEquals(2, prop1.getStatements().size());
-      assertEquals("object_2_title", prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "title")));
-      assertTrue(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "created")) instanceof Date);
-      
-      QName property2AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement2");
-      Object property2AsMultiStatementRet = extendedProperties.get(property2AsMultiStatement);
-      assertTrue(property2AsMultiStatementRet instanceof MultiStatementLink);
-      MultiStatementLink prop2 = (MultiStatementLink)property2AsMultiStatementRet;
-      assertEquals(1, prop2.getStatements().size());
-      assertEquals(URI.create("http://example.com/creator"), prop2.getStatements().get(new QName("http://purl.org/dc/terms/", "creator")));
+          QName property1AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement1");
+          Object property1AsMultiStatementRet = extendedProperties.get(property1AsMultiStatement);
+          assertTrue(property1AsMultiStatementRet instanceof MultiStatementLink);
+          MultiStatementLink prop1 = (MultiStatementLink)property1AsMultiStatementRet;
+          assertEquals(2, prop1.getStatements().size());
+          assertEquals("object_2_title", prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "title")));
+          assertTrue(prop1.getStatements().get(new QName("http://purl.org/dc/terms/", "created")) instanceof Date);
+          
+          QName property2AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement2");
+          Object property2AsMultiStatementRet = extendedProperties.get(property2AsMultiStatement);
+          assertTrue(property2AsMultiStatementRet instanceof MultiStatementLink);
+          MultiStatementLink prop2 = (MultiStatementLink)property2AsMultiStatementRet;
+          assertEquals(1, prop2.getStatements().size());
+          assertEquals(URI.create("http://example.com/creator"), prop2.getStatements().get(new QName("http://purl.org/dc/terms/", "creator")));
+      }
   }
 
  
