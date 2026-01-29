@@ -295,15 +295,15 @@ public class JenaModelHelperTest {
     Collection<?> linkListCol = (Collection<?>) linkListRet;
     assertEquals(2, linkListCol.size());
     
-    for(Object linkReturned : linkListCol) {
+    for (Object linkReturned : linkListCol) {
         assertTrue(linkReturned instanceof Link);
-        Link msl = (Link)linkReturned;
-        if (msl.getValue().toString().equals("http://example.com/l4")) {
-            assertEquals("label4", msl.getLabel());
-        } else if (msl.getValue().toString().equals("http://example.com/l5")) {
-            assertEquals("label5", msl.getLabel());
+        Link link = (Link) linkReturned;
+        if (link.getValue().toString().equals("http://example.com/l4")) {
+            assertEquals("label4", link.getLabel());
+        } else if (link.getValue().toString().equals("http://example.com/l5")) {
+            assertEquals("label5", link.getLabel());
         } else {
-            fail("Unexpected Link value: " + msl.getValue());
+            fail("Unexpected Link value: " + link.getValue());
         }
     }
   }
