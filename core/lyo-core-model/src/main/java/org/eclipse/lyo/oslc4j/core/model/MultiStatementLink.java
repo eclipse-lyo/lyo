@@ -32,8 +32,6 @@ import javax.xml.namespace.QName;
  * metadata. If you need to preserve reified statements during serialization, you must use
  * {@link IExtendedResource} with appropriate OSLC annotations, or implement custom marshalling logic.
  * 
- * @see JenaModelHelper
- * @see IExtendedResource
  */
 public class MultiStatementLink extends AbstractReifiedResource<URI> {
 
