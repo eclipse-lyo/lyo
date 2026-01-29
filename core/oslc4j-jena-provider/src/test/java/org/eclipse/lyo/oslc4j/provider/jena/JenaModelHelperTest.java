@@ -345,7 +345,7 @@ public class JenaModelHelperTest {
 
   @Test
   public void testReificationIntoMultiStatementLink () throws Exception {
-      try(InputStream is = ServiceProviderTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl")) {
+      try(InputStream is = JenaModelHelperTest.class.getResourceAsStream("/extendedPropertyWithMultipleStatements.ttl")) {
           assertNotNull("Could not read file: extendedPropertyWithMultipleStatements.ttl", is);
           Model m = ModelFactory.createDefaultModel();
           m.read(is, null, "TURTLE");
@@ -357,6 +357,8 @@ public class JenaModelHelperTest {
           QName propertyAsLink = new QName("http://example.com/ns#", "asLink");
           Object propertyAsLinkRet = extendedProperties.get(propertyAsLink);
           assertTrue(propertyAsLinkRet instanceof Link);
+          assertEquals(URI.create("http://example.com/object_1"), ((Link)propertyAsLinkRet).getValue());
+          assertEquals("creator_label", ((Link)propertyAsLinkRet).getLabel());
 
           QName property1AsMultiStatement = new QName("http://example.com/ns#", "asMultiStatement1");
           Object property1AsMultiStatementRet = extendedProperties.get(property1AsMultiStatement);

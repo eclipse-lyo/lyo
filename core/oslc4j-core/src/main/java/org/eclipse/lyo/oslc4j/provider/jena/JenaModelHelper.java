@@ -1162,38 +1162,38 @@ public final class JenaModelHelper {
     }
   }
 
-  private static Object constructReifiedResource(final Statement statement, List<Statement> collectedProps, final URI nestedResourceURI, 
-          final Class<?> beanClass, Map<String, Object> visitedResources, final HashSet<String> rdfTypes)
-        throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException,
-        InvocationTargetException, OslcCoreApplicationException, NoSuchMethodException {
-    // Check for the special case: exactly one reified statement and predicate is dcterms:title
+  private static Object constructReifiedResource(final Statement statement, List<Statement> collectedProps,
+          final URI nestedResourceURI, final Class<?> beanClass, Map<String, Object> visitedResources,
+          final HashSet<String> rdfTypes)
+          throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException,
+          InvocationTargetException, OslcCoreApplicationException, NoSuchMethodException {
+      // Check for the special case: exactly one reified statement and predicate is
+      // dcterms:title
       final String dctermsTitleUri = OslcConstants.DCTERMS_NAMESPACE + "title";
-      if (collectedProps.size() == 1
-          && dctermsTitleUri.equals(collectedProps.get(0).getPredicate().getURI())) {
-        Statement only = collectedProps.get(0);
-        RDFNode val = only.getObject();
-        if (val.isLiteral()) {
-          String title = val.asLiteral().getString();
-          Link link = new Link(nestedResourceURI);
-          // Use the dcterms:title value as the Link label.
-          link.setLabel(title);
-          return link;
-        }
+      if (collectedProps.size() == 1 && dctermsTitleUri.equals(collectedProps.get(0).getPredicate().getURI())) {
+          Statement only = collectedProps.get(0);
+          RDFNode val = only.getObject();
+          if (val.isLiteral()) {
+              String title = val.asLiteral().getString();
+              Link link = new Link(nestedResourceURI);
+              // Use the dcterms:title value as the Link label.
+              link.setLabel(title);
+              return link;
+          }
       }
 
       // Fallback: create a MultiStatementLink as before
       Model model = statement.getModel();
       MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
       for (Statement reifiedStatement : collectedProps) {
-        Property predicate = reifiedStatement.getPredicate();
-        String prefix = model.getNsURIPrefix(predicate.getNameSpace());
-        if (prefix == null) {
-          prefix = generatePrefix(model, predicate.getNameSpace());
-        }
-        QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-        Object value =
-            handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
-        multiStatementLink.addStatement(key, value);
+          Property predicate = reifiedStatement.getPredicate();
+          String prefix = model.getNsURIPrefix(predicate.getNameSpace());
+          if (prefix == null) {
+              prefix = generatePrefix(model, predicate.getNameSpace());
+          }
+          QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
+          Object value = handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes);
+          multiStatementLink.addStatement(key, value);
       }
       return multiStatementLink;
   }
