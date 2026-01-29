@@ -22,6 +22,18 @@ import javax.xml.namespace.QName;
 
 /**
  * Holds multiple arbitrary reified statements associated with a link.
+ * 
+ * <p><strong>Important:</strong> This class is designed for <em>unmarshalling only</em>.
+ * It captures reified metadata when reading RDF data, but this metadata is <strong>not preserved</strong>
+ * during serialization (marshalling). When a {@code MultiStatementLink} is re-serialized to RDF,
+ * only the URI reference is written; all statements stored in the internal map are discarded.
+ * 
+ * <p>This means that round-trip processing (read → modify → write) will lose the reified
+ * metadata. If you need to preserve reified statements during serialization, you must use
+ * {@link IExtendedResource} with appropriate OSLC annotations, or implement custom marshalling logic.
+ * 
+ * @see JenaModelHelper
+ * @see IExtendedResource
  */
 public class MultiStatementLink extends AbstractReifiedResource<URI> {
 
