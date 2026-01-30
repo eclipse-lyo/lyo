@@ -1279,37 +1279,6 @@ public final class JenaModelHelper {
       return cache;
   }
 
-  private static List<Statement> collectReifiedProperties(final Statement statement) {
-      Model model = statement.getModel();
-      Graph graph = model.getGraph();
-
-    // Check if the specific statement being unmarshalled has any reified nodes
-      // and collect all reified properties
-      ExtendedIterator<Node> reifiedNodes = ReifierStd.allNodes(graph, statement.asTriple());
-
-      // Collect all reified properties
-      List<Statement> collectedProps = new ArrayList<>();
-      while (reifiedNodes.hasNext()) {
-        Node reifiedNode = reifiedNodes.next();
-        Resource reifiedNodeAsResource = getResource(model, reifiedNode);
-        StmtIterator properties = reifiedNodeAsResource.listProperties();
-        while (properties.hasNext()) {
-          Statement reifiedStatement = properties.next();
-          Property predicate = reifiedStatement.getPredicate();
-          if (predicate.equals(RDF.type)
-              || predicate.equals(RDF.subject)
-              || predicate.equals(RDF.predicate)
-              || predicate.equals(RDF.object)) {
-            continue;
-          }
-          collectedProps.add(reifiedStatement);
-        }
-        properties.close();
-      }
-      reifiedNodes.close();
-    return collectedProps;
-  }
-
   private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
       throws OslcCoreApplicationException {
     final Map<String, Method> result = new HashMap<>();
