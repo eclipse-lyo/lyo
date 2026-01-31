@@ -1225,7 +1225,6 @@ public final class JenaModelHelper {
    */
   private static Map<org.apache.jena.graph.Triple, List<Statement>> buildReificationCache(final Model model) {
       Map<org.apache.jena.graph.Triple, List<Statement>> cache = new HashMap<>();
-      Graph graph = model.getGraph();
 
       // Find all reification statements (resources with rdf:type rdf:Statement)
       ResIterator reifiedResources = model.listSubjectsWithProperty(RDF.type, RDF.Statement);
