@@ -54,6 +54,7 @@
         <executions>
           <execution>
             <id>default-jar</id>
+            <phase>process-classes</phase>
             <goals>
               <goal>jar</goal>
             </goals>
