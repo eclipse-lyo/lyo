@@ -489,21 +489,6 @@ public class JenaModelHelperTest {
   }
 
   /**
-   * Helper method to find a Link with a specific label in extended properties
-   */
-  private Link findLinkWithLabel(Map<QName, Object> extendedProperties, String targetLabel) {
-    for (Object value : extendedProperties.values()) {
-      if (value instanceof Link) {
-        Link link = (Link) value;
-        if (targetLabel.equals(link.getLabel())) {
-          return link;
-        }
-      }
-    }
-    return null;
-  }
-
-  /**
    * Tests that the cache correctly handles incomplete reifications (missing subject, predicate, or object).
    * Such incomplete reifications should be skipped without causing errors.
    */
