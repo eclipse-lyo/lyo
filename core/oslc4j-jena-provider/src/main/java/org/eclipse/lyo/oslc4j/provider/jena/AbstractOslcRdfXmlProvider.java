@@ -22,7 +22,6 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.ext.Providers;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
@@ -307,23 +306,13 @@ public abstract class AbstractOslcRdfXmlProvider {
       // for an example:
       // https://docs.oasis-open-projects.org/oslc-op/cm/v3.0/errata01/os/change-mgt-spec.html#labels
 
-      // TODO: cleanup
-      byte[] data = inputStream.readAllBytes();
-
-      // Convert to String and print
-      String content = new String(data, "UTF-8");
-      System.out.println(content);
-
-      // Create a new InputStream for further consumption
-      InputStream clonedStream = new ByteArrayInputStream(data);
-      // -----------------------
-
       var jenaSafeType = mapMimeToSafeJena(mediaType);
       Lang jenaLang = RDFLanguages.contentTypeToLang(jenaSafeType);
       if (jenaLang == null) {
         jenaLang = Lang.RDFXML;
       }
-      RDFDataMgr.read(model, clonedStream, "", jenaLang);
+
+      RDFDataMgr.read(model, inputStream, "", jenaLang);
       //			reader.read(model, inputStream, "");
 
       return JenaModelHelper.unmarshal(model, type);

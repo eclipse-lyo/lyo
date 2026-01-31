@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
-import org.apache.jena.datatypes.DatatypeFormatException;
+import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.RDF;
@@ -136,20 +136,28 @@ public class JenaModelHelperTest {
     assertEquals(2, resource.getExtendedProperties().size());
   }
 
-  @Test(expected = DatatypeFormatException.class)
+  @Test
   public void testExtendedEscapeMalformed() throws IOException, LyoModelException {
     final Model model = RDFHelper.loadResourceModel("escape-malformed.ttl");
     final ServiceProvider resource =
         JenaModelHelper.unmarshal(
             model.getResource("http://example.com/test"), ServiceProvider.class);
+    final QName xmlLiteralProp = new QName("http://purl.org/dc/terms/", "nonExistent2");
+    final Object xmlLiteralValue = resource.getExtendedProperties().get(xmlLiteralProp);
+    assertInstanceOf(XMLLiteral.class, xmlLiteralValue);
+    assertEquals("<open>", ((XMLLiteral) xmlLiteralValue).getValue());
   }
 
-  @Test(expected = DatatypeFormatException.class)
+  @Test
   public void testExtendedEscapeXMLMalformed() throws IOException, LyoModelException {
     final Model model = RDFHelper.loadResourceModel("escape-malformed.xml");
     final ServiceProvider resource =
         JenaModelHelper.unmarshal(
             model.getResource("http://example.com/test"), ServiceProvider.class);
+    final QName xmlLiteralProp = new QName("http://purl.org/dc/terms/", "nonExistent4");
+    final Object xmlLiteralValue = resource.getExtendedProperties().get(xmlLiteralProp);
+    assertInstanceOf(XMLLiteral.class, xmlLiteralValue);
+    assertEquals("<open>", ((XMLLiteral) xmlLiteralValue).getValue());
   }
 
   @Test

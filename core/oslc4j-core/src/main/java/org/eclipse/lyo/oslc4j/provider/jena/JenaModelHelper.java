@@ -786,6 +786,8 @@ public final class JenaModelHelper {
 
             if (String.class == setMethodComponentParameterClass) {
               parameter = stringValue;
+            } else if (XMLLiteral.class == setMethodComponentParameterClass) {
+              parameter = new XMLLiteral(literal.getString());
             } else if ((Boolean.class == setMethodComponentParameterClass)
                 || (Boolean.TYPE == setMethodComponentParameterClass)) {
               // XML supports both 'true' and '1' for a true Boolean.
@@ -1086,6 +1088,9 @@ public final class JenaModelHelper {
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
+      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
+        return new XMLLiteral(literal.getString());
+      }
       // fix for Bug 412789
       if (OSLC4JUtils.inferTypeFromShape()) {
 
@@ -1128,10 +1133,6 @@ public final class JenaModelHelper {
       if (literalValue instanceof XSDDateTime) {
         final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
         return xsdDateTime.asCalendar().getTime();
-      }
-
-      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
-        return new XMLLiteral(literal.getString());
       }
 
       if (XSDDatatype.XSDdecimal.getURI().equals(literal.getDatatypeURI())) {
@@ -1875,6 +1876,14 @@ public final class JenaModelHelper {
         nestedNode = model.createTypedLiteral(value.toString(), XMLLiteralType.theXMLLiteralType);
       } else {
         nestedNode = model.createLiteral(value.toString());
+      }
+    } else if (value instanceof XMLLiteral) {
+      if (xmlLiteral) {
+        nestedNode =
+            model.createTypedLiteral(
+                ((XMLLiteral) value).getValue(), XMLLiteralType.theXMLLiteralType);
+      } else {
+        throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
       }
     }
     // Floats need special handling for infinite values.
