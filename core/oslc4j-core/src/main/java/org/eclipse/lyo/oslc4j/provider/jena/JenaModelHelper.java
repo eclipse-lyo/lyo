@@ -452,6 +452,7 @@ public final class JenaModelHelper {
     Instant start = Instant.now();
 
     final List<Object> results = new ArrayList<>();
+
     // Build reification cache once for all resources in the model
     final Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache = buildReificationCache(model);
 
