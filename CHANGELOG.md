@@ -9,11 +9,13 @@
 
 ### Added
 
-This release does not contain new features.
+- Extended properties on resources now support arrays and any iterables as well as Link objects.
+- Reified statements on extended properties are unmarshalled into a data structure that holds all reified statements.
 
 ### Changed
 
 - 🧨 Migrated to Jena 5. JDK 21 is the baseline requirement. JSON-LD 1.1 is used instead of JSON-LD 1.0.
+- Lyo Validation now uses Jena's native support for SHACL instead of relying on ShaclEx
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
 - `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.

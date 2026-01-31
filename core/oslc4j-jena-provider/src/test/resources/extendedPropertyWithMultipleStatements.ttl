@@ -1,0 +1,35 @@
+@prefix dcterms:   <http://purl.org/dc/terms/> .
+@prefix oslc:      <http://open-services.net/ns/core#> .
+@prefix oslc_data: <http://open-services.net/ns/servicemanagement/1.0/> .
+@prefix rdf:       <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:      <http://www.w3.org/2000/01/rdf-schema#> .
+
+[ rdf:type       rdf:Statement;
+  rdf:subject    <http://example.com/subject_1>;
+  rdf:predicate  <http://example.com/ns#asLink>;
+  rdf:object     <http://example.com/object_1>;
+  dcterms:title  "creator_label"
+] .
+
+[ rdf:type       rdf:Statement;
+  rdf:subject    <http://example.com/subject_1>;
+  rdf:predicate  <http://example.com/ns#asMultiStatement1>;
+  rdf:object     <http://example.com/object_2>;
+  dcterms:title  "object_2_title";
+  dcterms:created      "2025-03-19T13:21:02.67Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>
+  ] .
+
+[ rdf:type       rdf:Statement;
+  rdf:subject    <http://example.com/subject_1>;
+  rdf:predicate  <http://example.com/ns#asMultiStatement2>;
+  rdf:object     <http://example.com/object_3>;
+  dcterms:creator  <http://example.com/creator>
+] .
+
+
+<http://example.com/subject_1>
+        rdf:type             <http://example.com/ns#Test>;
+        dcterms:identifier   "76";
+        <http://example.com/ns#asLink>      <http://example.com/object_1>;
+        <http://example.com/ns#asMultiStatement1> <http://example.com/object_2>;
+        <http://example.com/ns#asMultiStatement2> <http://example.com/object_3> .
