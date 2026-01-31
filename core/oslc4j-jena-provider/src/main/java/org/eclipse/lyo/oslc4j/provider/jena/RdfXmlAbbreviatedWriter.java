@@ -41,7 +41,7 @@ import org.apache.jena.vocabulary.RDF;
  * <p>Supported features include:</p>
  *
  * <ul>
- * <li>Reification serialization compliant with the <a href="http://open-services.net/bin/view/Main/QmSpecificationV2#Labels_for_Relationships">OSLC Quality Management V 2.0 Specification (Labels for Relationships)</a>
+ * <li>Reification serialization compliant with the <a href="https://docs.oasis-open-projects.org/oslc-op/qm/v2.1/os/quality-management-spec.html#labels">OSLC Quality Management v2.1 Specification (Labels for Relationships)</a>
  * guidance.</li>
  * <li>Properties:
  * <ul>
