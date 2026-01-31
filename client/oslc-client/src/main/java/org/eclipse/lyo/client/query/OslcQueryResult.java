@@ -300,7 +300,7 @@ public class OslcQueryResult implements Iterator<OslcQueryResult> {
    * @param memberPredicate the RDF predicate for member resources from the provider's
    *                        query shape
    * @see
-   * <a href="http://open-services.net/bin/view/Main/OSLCCoreSpecRDFXMLExamples?sortcol=table;up=#Specifying_the_shape_of_a_query">Specifying the sahpe of a query</a>
+   * <a href="https://archive.open-services.net/bin/view/Main/OSLCCoreSpecRDFXMLExamples#Specifying_the_shape_of_a_query">Specifying the shape of a query</a>
    */
   public void setMemberProperty(String memberPredicate) {
     this.memberProperty = ModelFactory.createDefaultModel().createProperty(memberPredicate);

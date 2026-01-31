@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.eclipse.lyo.oslc4j.core.model.Service;
@@ -30,27 +29,29 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.junit.Test;
 
 public class ServiceProviderTest {
-	@Test
-	public void testUsage() throws Exception {
-		// Based on http://open-services.net/bin/view/Main/OSLCCoreSpecTurtleExamples?sortcol=table;up=#Service_Provider_Resource
-		// (oslc:usage added)
-		InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.ttl");
-		assertNotNull("Could not read file: provider.ttl", is);
-		Model m = ModelFactory.createDefaultModel();
-		m.read(is, null, "TURTLE");
+  @Test
+  public void testUsage() throws Exception {
+    // Based on
+    // https://archive.open-services.net/bin/view/Main/OSLCCoreSpecTurtleExamples#Service_Provider_Resource
+    // (oslc:usage added)
+    InputStream is = ServiceProviderTest.class.getResourceAsStream("/provider.ttl");
+    assertNotNull("Could not read file: provider.ttl", is);
+    Model m = ModelFactory.createDefaultModel();
+    m.read(is, null, "TURTLE");
 
-		ServiceProvider[] providers = (ServiceProvider[]) JenaModelHelper.fromJenaModel(m, ServiceProvider.class);
+    ServiceProvider[] providers =
+        (ServiceProvider[]) JenaModelHelper.fromJenaModel(m, ServiceProvider.class);
 
-		// Do some basic validation on the service provider document read in.
-		assertEquals("Incorrect number of service providers", 1, providers.length);
-		Service[] services = providers[0].getServices();
-		assertEquals(1, services.length);
-		URI[] usages = services[0].getUsages();
-		assertEquals("Incorrect number of services", 2, usages.length);
+    // Do some basic validation on the service provider document read in.
+    assertEquals("Incorrect number of service providers", 1, providers.length);
+    Service[] services = providers[0].getServices();
+    assertEquals(1, services.length);
+    URI[] usages = services[0].getUsages();
+    assertEquals("Incorrect number of services", 2, usages.length);
 
-		// Check that the usages are there.
-		List<URI> usageList = Arrays.asList(usages);
-		assertTrue("Missing ex:usage1", usageList.contains(new URI("http://example.com/ns#usage1")));
-		assertTrue("Missing ex:usage2", usageList.contains(new URI("http://example.com/ns#usage2")));
-	}
+    // Check that the usages are there.
+    List<URI> usageList = Arrays.asList(usages);
+    assertTrue("Missing ex:usage1", usageList.contains(new URI("http://example.com/ns#usage1")));
+    assertTrue("Missing ex:usage2", usageList.contains(new URI("http://example.com/ns#usage2")));
+  }
 }
