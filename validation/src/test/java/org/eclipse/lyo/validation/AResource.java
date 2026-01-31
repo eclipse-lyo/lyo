@@ -61,7 +61,6 @@ import org.eclipse.lyo.shacl.annotations.ShaclMinInclusive;
 import org.eclipse.lyo.shacl.annotations.ShaclMinLength;
 import org.eclipse.lyo.shacl.annotations.ShaclPattern;
 import org.eclipse.lyo.shacl.annotations.ShaclTargetClass;
-import org.eclipse.lyo.validation.impl.ShaclExValidatorImpl;
 
 /**
  * @since 2.3.0
@@ -99,7 +98,7 @@ public class AResource extends AbstractResource {
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             DatatypeConfigurationException, OslcCoreApplicationException, URISyntaxException,
             ParseException, InstantiationException, SecurityException, NoSuchMethodException {
-        return new ShaclExValidatorImpl().validate(this);
+        return ValidatorFactory.createShaclExValidator().validate(this);
     }
 
     @OslcName("anIntegerProperty")
