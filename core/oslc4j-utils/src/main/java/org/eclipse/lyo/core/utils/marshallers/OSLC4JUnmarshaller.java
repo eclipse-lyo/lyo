@@ -57,7 +57,7 @@ public class OSLC4JUnmarshaller {
     // resolve relative URIs commonly used to in reified statements
     // for OSLC link labels. See this section of the CM specification
     // for an example:
-    // http://open-services.net/bin/view/Main/CmSpecificationV2?sortcol=table;up=#Labels_for_Relationships
+    // https://docs.oasis-open-projects.org/oslc-op/cm/v3.0/errata01/os/change-mgt-spec.html#labels
     reader.read(model, inputStream, "");
 
     Object[] result = JenaModelHelper.fromJenaModel(model, clazz);
