@@ -110,7 +110,6 @@ public class ResourceShapeFactory {
     return createResourceShape(
         baseURI, resourceShapesPath, resourceShapePath, resourceClass, verifiedClasses);
   }
-
   private static ResourceShape createResourceShape(
       final String baseURI,
       final String resourceShapesPath,

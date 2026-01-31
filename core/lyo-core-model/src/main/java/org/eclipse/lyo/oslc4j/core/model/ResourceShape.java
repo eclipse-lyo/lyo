@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDescription;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcNamespace;
@@ -32,112 +31,142 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
+/**
+ * OSLC ResourceShape resource
+ */
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
-@OslcResourceShape(title = "OSLC Resource Shape Resource Shape", describes = OslcConstants.TYPE_RESOURCE_SHAPE)
+@OslcResourceShape(
+    title = "OSLC Resource Shape Resource Shape",
+    describes = OslcConstants.TYPE_RESOURCE_SHAPE)
 public final class ResourceShape extends AbstractResource {
-	private final SortedSet<URI> describes= new TreeSet<>();
-	private final TreeMap<URI, Property> properties = new TreeMap<>();
+  private final SortedSet<URI> describes = new TreeSet<>();
+  private final TreeMap<URI, Property> properties = new TreeMap<>();
 
-    private String name;
-	private String title;
-    private String description;
+  private String name;
+  private String title;
+  private String description;
 
-	public ResourceShape() {
-		super();
-	}
+  public ResourceShape() {
+    super();
+  }
 
-	public ResourceShape(final URI about) {
-		super(about);
-	}
+  public ResourceShape(final URI about) {
+    super(about);
+  }
 
-	public void addDescribeItem(final URI describeItem) {
-		this.describes.add(describeItem);
-	}
+  public void addDescribeItem(final URI describeItem) {
+    this.describes.add(describeItem);
+  }
 
-	public void addProperty(final Property property) {
-		this.properties.put(property.getPropertyDefinition(), property);
-	}
+  public void addProperty(final Property property) {
+    this.properties.put(property.getPropertyDefinition(), property);
+  }
 
-	//Bugzilla 392780
-	public Property getProperty(URI definition) {
-		return properties.get(definition);
-	}
+  // Bugzilla 392780
+  public Property getProperty(URI definition) {
+    return properties.get(definition);
+  }
 
-	@OslcDescription("Type or types of resource described by this shape")
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "describes")
-	@OslcReadOnly
-	@OslcTitle("Describes")
-	public URI[] getDescribes() {
-		return describes.toArray(new URI[describes.size()]);
-	}
+  /**
+   * Type or types of resource described by this shape
+   *
+   * @return describes
+   */
+  @OslcDescription("Type or types of resource described by this shape")
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "describes")
+  @OslcReadOnly
+  @OslcTitle("Describes")
+  public URI[] getDescribes() {
+    return describes.toArray(new URI[describes.size()]);
+  }
 
-	@OslcDescription("The properties that are allowed or required by this shape")
-	@OslcName("property")
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "property")
-	@OslcRange(OslcConstants.TYPE_PROPERTY)
-	@OslcReadOnly
-	@OslcRepresentation(Representation.Inline)
-	@OslcTitle("Properties")
-	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PROPERTY)
-	@OslcValueType(ValueType.LocalResource)
-	public Property[] getProperties() {
-		return properties.values().toArray(new Property[properties.size()]);
-	}
+  /**
+   * The properties that are allowed or required by this shape
+   *
+   * @return properties
+   */
+  @OslcDescription("The properties that are allowed or required by this shape")
+  @OslcName("property")
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "property")
+  @OslcRange(OslcConstants.TYPE_PROPERTY)
+  @OslcReadOnly
+  @OslcRepresentation(Representation.Inline)
+  @OslcTitle("Properties")
+  @OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_PROPERTY)
+  @OslcValueType(ValueType.LocalResource)
+  public Property[] getProperties() {
+    return properties.values().toArray(new Property[properties.size()]);
+  }
 
-    @OslcDescription("The local name of the defined resource")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "name")
-    @OslcReadOnly
-    @OslcTitle("Name")
-    public String getName() {
-        return name;
+  /**
+   * The local name of the defined resource
+   *
+   * @return name
+   */
+  @OslcDescription("The local name of the defined resource")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "name")
+  @OslcReadOnly
+  @OslcTitle("Name")
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element
+   *
+   * @return title
+   */
+  @OslcDescription(
+      "Title of the resource shape. SHOULD include only content that is valid and suitable inside"
+          + " an XHTML <div> element")
+  @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
+  @OslcReadOnly
+  @OslcTitle("Title")
+  @OslcValueType(ValueType.XMLLiteral)
+  public String getTitle() {
+    return title;
+  }
+
+  /**
+   * The description of the defined constraint.
+   *
+   * @return description
+   */
+  @OslcDescription("The description of the defined constraint.")
+  @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
+  @OslcReadOnly
+  @OslcTitle("Description")
+  @OslcValueType(ValueType.XMLLiteral)
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescribes(final URI[] describes) {
+    this.describes.clear();
+    if (describes != null) {
+      this.describes.addAll(Arrays.asList(describes));
     }
+  }
 
-	@OslcDescription("Title of the resource shape. SHOULD include only content that is valid and suitable inside an XHTML <div> element")
-	@OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "title")
-	@OslcReadOnly
-	@OslcTitle("Title")
-	@OslcValueType(ValueType.XMLLiteral)
-	public String getTitle() {
-		return title;
-	}
-
-    @OslcDescription("The description of the defined constraint.")
-    @OslcPropertyDefinition(OslcConstants.DCTERMS_NAMESPACE + "description")
-    @OslcReadOnly
-    @OslcTitle("Description")
-    @OslcValueType(ValueType.XMLLiteral)
-    public String getDescription() {
-        return description;
+  public void setProperties(final Property[] properties) {
+    this.properties.clear();
+    if (properties != null) {
+      for (Property prop : properties) {
+        this.properties.put(prop.getPropertyDefinition(), prop);
+      }
     }
+  }
 
-	public void setDescribes(final URI[] describes) {
-		this.describes.clear();
-		if (describes != null) {
-			this.describes.addAll(Arrays.asList(describes));
-		}
-	}
+  public void setName(final String name) {
+    this.name = name;
+  }
 
+  public void setTitle(final String title) {
+    this.title = title;
+  }
 
-	public void setProperties(final Property[] properties) {
-		this.properties.clear();
-		if (properties != null) {
-			for(Property prop :properties) {
-				this.properties.put(prop.getPropertyDefinition(), prop);
-			}
-		}
-	}
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-	public void setTitle(final String title) {
-		this.title = title;
-	}
-
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
+  public void setDescription(final String description) {
+    this.description = description;
+  }
 }

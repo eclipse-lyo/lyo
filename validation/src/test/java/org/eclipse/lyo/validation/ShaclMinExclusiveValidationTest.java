@@ -52,7 +52,7 @@ public class ShaclMinExclusiveValidationTest {
             aResource.addASetOfDates(new Date());
 
             TestHelper.assertNegative(
-                    TestHelper.performTest(aResource), "minExclusive violation. Expected 5 > 5");
+                    TestHelper.performTest(aResource), "Data value 5 is not greater than 5");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -51,8 +51,8 @@ public interface IValidationResult
     @OslcReadOnly(false)
     public URI getFocusNode();
 
-    @OslcName("message")
-    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "message")
+    @OslcName("resultMessage")
+    @OslcPropertyDefinition(ShDomainConstants.SHACL_NAMSPACE + "resultMessage")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
