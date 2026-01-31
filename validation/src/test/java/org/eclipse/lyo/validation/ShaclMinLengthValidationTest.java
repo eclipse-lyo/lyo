@@ -55,7 +55,7 @@ public class ShaclMinLengthValidationTest {
 
             TestHelper.assertNegative(
                     TestHelper.performTest(aResource),
-                    "minLength violation. Expected length(\"Betwee\") >= 7");
+                    "MinLengthConstraint[7]: String too short: Betwee");
 
         } catch (Exception e) {
             e.printStackTrace();

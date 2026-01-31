@@ -53,7 +53,7 @@ public class ShaclPatternValidationTest {
                 () -> {
                     TestHelper.assertNegative(
                             TestHelper.performTest(aResource),
-                            "pattern violation. Expected \"Catalyzer\" to match '^B'");
+                            "Pattern[^B]: Does not match: 'Catalyzer'");
                 });
     }
 

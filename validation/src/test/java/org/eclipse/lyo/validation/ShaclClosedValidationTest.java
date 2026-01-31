@@ -69,7 +69,7 @@ public class ShaclClosedValidationTest {
             Validator validator = ValidatorFactory.createShaclExValidator();
             ValidationReport vr = validator.validate(dataModel, shapeModel);
 
-            TestHelper.assertNegative(vr, "closed violation.");
+            TestHelper.assertNegative(vr, "Closed");
 
         } catch (Exception e) {
             e.printStackTrace();
