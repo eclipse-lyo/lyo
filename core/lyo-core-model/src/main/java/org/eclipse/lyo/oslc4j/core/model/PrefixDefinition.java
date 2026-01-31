@@ -22,13 +22,13 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcReadOnly;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 
+/**
+ * OSLC PrefixDefinition resource
+ */
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(
     title = "OSLC Prefix Definition Resource Shape",
     describes = OslcConstants.TYPE_PREFIX_DEFINITION)
-/**
- * OSLC PrefixDefinition resource
- */
 public class PrefixDefinition extends AbstractResource {
   private String prefix;
   private URI prefixBase;

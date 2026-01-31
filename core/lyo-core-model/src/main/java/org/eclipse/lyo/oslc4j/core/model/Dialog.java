@@ -27,11 +27,11 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
-@OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
-@OslcResourceShape(title = "OSLC Dialog Resource Shape", describes = OslcConstants.TYPE_DIALOG)
 /**
  * OSLC Dialog resource
  */
+@OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
+@OslcResourceShape(title = "OSLC Dialog Resource Shape", describes = OslcConstants.TYPE_DIALOG)
 public class Dialog extends AbstractResource {
   private final SortedSet<URI> resourceTypes = new TreeSet<>();
   private final SortedSet<URI> usages = new TreeSet<>();

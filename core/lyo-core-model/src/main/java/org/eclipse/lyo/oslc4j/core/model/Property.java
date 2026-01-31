@@ -34,13 +34,13 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcTitle;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueShape;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 
-@OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
-@OslcResourceShape(title = "OSLC Property Resource Shape", describes = OslcConstants.TYPE_PROPERTY)
 /**
  * OSLC Property attributes
  *
  * See https://docs.oasis-open-projects.org/oslc-op/core/v3.0/os/core-vocab.html
  */
+@OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
+@OslcResourceShape(title = "OSLC Property Resource Shape", describes = OslcConstants.TYPE_PROPERTY)
 public final class Property extends AbstractResource implements Comparable<Property> {
   private static final QName PROPERTY_ALLOWED_VALUE =
       new QName(OslcConstants.OSLC_CORE_NAMESPACE, "allowedValue");
