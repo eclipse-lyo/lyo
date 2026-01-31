@@ -456,7 +456,9 @@ public final class JenaModelHelper {
     // Build reification cache once for all resources in the model
     final Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache = buildReificationCache(model);
 
-    if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
+    if (Model.class.isAssignableFrom(beanClass)) {
+      return new Model[] {model};
+    } else if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
       ResIterator listSubjects;
 
       // Fix for defect 412755
