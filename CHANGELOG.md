@@ -10,7 +10,8 @@
 ### Added
 
 - Extended properties on resources now support arrays and any iterables as well as Link objects.
-- Reified statements on extended properties are unmarshalled into a data structure that holds all reified statements.
+- Reified statements on extended properties are deserialized into a data structure that holds all reified statements.
+- OSLC RDF graphs may now be deserialized into raw Jena Models (`Model.class`) instead of Lyo POJOs for OSLC shapes.
 
 ### Changed
 
