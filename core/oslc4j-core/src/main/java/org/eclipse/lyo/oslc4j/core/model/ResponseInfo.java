@@ -38,7 +38,7 @@ public abstract class ResponseInfo<T extends Object> extends FilteredResource<T>
   }
 
   /**
-   * Total count of resource
+   * Total count of resources
    */
   public Integer totalCount() {
     return totalCount;
