@@ -532,40 +532,6 @@ public class JenaModelHelperTest {
     assertInstanceOf(URI.class, testProp);
   }
 
-  /**
-   * Helper method to create a resource with a reified statement in the model.
-   */
-  private void createResourceWithReification(Model model, String resourceUri, String ns,
-                                             String propName, String objUri, String label) {
-    org.apache.jena.rdf.model.Resource resource = model.createResource(resourceUri);
-    resource.addProperty(
-        model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#", "type"),
-        model.createResource(ns + "Test"));
-
-    org.apache.jena.rdf.model.Property prop = model.createProperty(ns, propName);
-    org.apache.jena.rdf.model.Resource obj = model.createResource(objUri);
-    resource.addProperty(prop, obj);
-
-    // Create reification
-    org.apache.jena.rdf.model.Resource reification = model.createResource();
-    reification.addProperty(
-        RDF.type,
-        RDF.Statement);
-    reification.addProperty(
-        RDF.subject,
-        resource);
-    reification.addProperty(
-        RDF.predicate,
-        prop);
-    reification.addProperty(
-        RDF.object,
-        obj);
-    reification.addLiteral(
-        model.createProperty("http://purl.org/dc/terms/", "title"),
-        label);
-  }
-
-
   private ServiceProvider roundTrip(ServiceProvider sp)
       throws DatatypeConfigurationException, IllegalAccessException, IllegalArgumentException,
       InvocationTargetException, OslcCoreApplicationException, LyoModelException {
