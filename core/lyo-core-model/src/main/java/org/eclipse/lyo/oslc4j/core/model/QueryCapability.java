@@ -78,7 +78,8 @@ public class QueryCapability extends AbstractResource {
   }
 
   /**
-   * The base URI to use for queries. Queries are invoked via HTTP GET on a query URI formed by appending a key=value pair to the base URI, as described in Query Capabilities section
+   * The base URI to use for queries. Queries are invoked via HTTP GET on a query URI formed by 
+   * appending a key=value pair to the base URI, as described in Query Capabilities section
    *
    * @return queryBase
    */
@@ -112,7 +113,8 @@ public class QueryCapability extends AbstractResource {
   }
 
   /**
-   * The expected resource type URI that will be returned with this query capability. These would be the URIs found in the result resource's rdf:type property
+   * The expected resource type URI that will be returned with this query capability. These would be
+   * the URIs found in the result resource's rdf:type property
    *
    * @return resourceTypes
    */
@@ -143,14 +145,16 @@ public class QueryCapability extends AbstractResource {
   }
 
   /**
-   * An identifier URI for the domain specified usage of this query capability. If a service provides multiple query capabilities, it may designate the primary or default one that should be used with a property value of http://open-services/ns/core#default
+   * An identifier URI for the domain specified usage of this query capability. If a service provides
+   * multiple query capabilities, it may designate the primary or default one that should be used
+   * with a property value of http://open-services.net/ns/core#default
    *
    * @return usages
    */
   @OslcDescription(
       "An identifier URI for the domain specified usage of this query capability. If a service"
           + " provides multiple query capabilities, it may designate the primary or default one"
-          + " that should be used with a property value of http://open-services/ns/core#default")
+          + " that should be used with a property value of http://open-services.net/ns/core#default")
   @OslcName("usage")
   @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "usage")
   @OslcReadOnly
