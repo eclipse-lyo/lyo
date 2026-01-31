@@ -1,0 +1,18 @@
+[
+  {
+    "@id": "urn:x-oslc:resource_1",
+    "@type": "http://example.com/ns#TestResourceWithLiterals",
+    "http://xmlns.com/foaf/0.1/firstName": {
+      "@value": "<span>David & Mary</span>",
+      "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"
+    },
+    "http://purl.org/dc/terms/title": {
+      "@value": "<span>David & Mary</span>",
+      "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"
+    },
+    "http://purl.org/dc/terms/description": {
+      "@value": "<span>David & Mary</span>",
+      "@type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral"
+    }
+  }
+]

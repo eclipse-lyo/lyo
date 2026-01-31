@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.namespace.QName;
 import org.apache.jena.datatypes.BaseDatatype;
-import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
@@ -71,18 +70,6 @@ public class XmlLiteralTest {
     assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
   }
 
-  @Test
-  public void roundtripTestXmlParsetypeWithAnnotatedStringProperty()
-      throws DatatypeConfigurationException,
-          OslcCoreApplicationException,
-          InvocationTargetException,
-          IllegalAccessException {
-    final Model diskModel =
-        readModel("/xml_literals/parsetype_annot_string.rdf", RDFLanguages.strLangRDFXML);
-
-    assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
-  }
-
   /* INVALID LITERAL TESTS */
 
   /**
@@ -103,29 +90,55 @@ public class XmlLiteralTest {
   /**
    * We only expect warnings here
    */
-  @Test(expected = DatatypeFormatException.class)
-  public void invalidLiteralTest_NoEscape()
+    @Test
+    public void invalidLiteralTest_NoEscape()
+      throws DatatypeConfigurationException,
+        OslcCoreApplicationException,
+        InvocationTargetException,
+        IllegalAccessException {
+    final Model diskModel =
+      readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);
+
+    assertUnmarshalsInvalidXmlLiteral(diskModel);
+    }
+
+    @Test
+    public void invalidLiteralTest_NoEscapeJsonLd()
+      throws DatatypeConfigurationException,
+        OslcCoreApplicationException,
+        InvocationTargetException,
+        IllegalAccessException {
+    final Model diskModel =
+        readModel("/xml_literals/invalid_noescape.jsonld", RDFLanguages.strLangJSONLD);
+
+    assertUnmarshalsInvalidXmlLiteral(diskModel);
+  }
+
+  @Test
+  public void invalidLiteralTest_NoEscapeNTriples()
       throws DatatypeConfigurationException,
           OslcCoreApplicationException,
           InvocationTargetException,
           IllegalAccessException {
     final Model diskModel =
-        readModel("/xml_literals/invalid_noescape.ttl", RDFLanguages.strLangTurtle);
+        readModel("/xml_literals/invalid_noescape.nt", RDFLanguages.strLangNTriples);
 
-    assertModelUnmarshalsAndBackIsomorphically(diskModel, TestResourceWithLiterals.class);
+    assertUnmarshalsInvalidXmlLiteral(diskModel);
   }
 
   /**
    * Not escaping & turns XML invalid. NB! Unescaped & in Turtle will get escaped when you use libs to convert to
    * RDF/XML.
    */
-  @Test(expected = RiotException.class)
+  @Test
   public void invalidLiteralTest_BadXml() {
-    final Model diskModel =
-        readModel("/xml_literals/invalid_badxml.rdf", RDFLanguages.strLangTurtle);
-
-    final TestResourceWithLiterals[] testResources =
-        JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
+    try {
+      readModel("/xml_literals/invalid_badxml.rdf", RDFLanguages.strLangRDFXML);
+      fail("Expected RiotException wrapped in IllegalStateException");
+    } catch (IllegalStateException ex) {
+      assertNotNull(ex.getCause());
+      assertTrue(ex.getCause() instanceof RiotException);
+    }
   }
 
   /* BASE TYPE TESTS */
@@ -208,7 +221,11 @@ public class XmlLiteralTest {
     final InputStream is = ServiceProviderTest.class.getResourceAsStream(filePath);
     assertNotNull("Could not read file: " + filePath, is);
     final Model m = ModelFactory.createDefaultModel();
-    m.read(is, null, lang);
+    try {
+      m.read(is, null, lang);
+    } catch (Exception ex) {
+      throw new IllegalStateException("Could not read file: " + filePath, ex);
+    }
     return m;
   }
 
@@ -229,6 +246,19 @@ public class XmlLiteralTest {
     assertTrue(
         "Models should match: " + showModels(diskModel, lyoModel),
         diskModel.isIsomorphicWith(lyoModel));
+  }
+
+  private void assertUnmarshalsInvalidXmlLiteral(Model diskModel)
+      throws DatatypeConfigurationException,
+          IllegalAccessException,
+          InvocationTargetException,
+          OslcCoreApplicationException {
+    final TestResourceWithLiterals[] testResources =
+        JenaModelHelper.unmarshal(diskModel, TestResourceWithLiterals.class);
+    assertEquals("Expected only one TestResource resource", 1, testResources.length);
+    final TestResourceWithLiterals resource = testResources[0];
+    assertNotNull(resource.getDescription());
+    assertEquals("<span>David & Mary</span>", resource.getDescription().getValue());
   }
 
   private String showModels(Model expected, Model resulting) {

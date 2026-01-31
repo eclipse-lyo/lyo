@@ -1086,6 +1086,9 @@ public final class JenaModelHelper {
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
+      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
+        return new XMLLiteral(literal.getString());
+      }
       // fix for Bug 412789
       if (OSLC4JUtils.inferTypeFromShape()) {
 
@@ -1128,10 +1131,6 @@ public final class JenaModelHelper {
       if (literalValue instanceof XSDDateTime) {
         final XSDDateTime xsdDateTime = (XSDDateTime) literalValue;
         return xsdDateTime.asCalendar().getTime();
-      }
-
-      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
-        return new XMLLiteral(literal.getString());
       }
 
       if (XSDDatatype.XSDdecimal.getURI().equals(literal.getDatatypeURI())) {

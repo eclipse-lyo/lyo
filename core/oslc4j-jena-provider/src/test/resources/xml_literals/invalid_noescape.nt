@@ -1,0 +1,4 @@
+<urn:x-oslc:resource_1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#TestResourceWithLiterals> .
+<urn:x-oslc:resource_1> <http://xmlns.com/foaf/0.1/firstName> "<span>David & Mary</span>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral> .
+<urn:x-oslc:resource_1> <http://purl.org/dc/terms/title> "<span>David & Mary</span>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral> .
+<urn:x-oslc:resource_1> <http://purl.org/dc/terms/description> "<span>David & Mary</span>"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral> .
