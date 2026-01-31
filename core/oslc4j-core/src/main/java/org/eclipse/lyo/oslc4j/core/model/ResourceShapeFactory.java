@@ -179,7 +179,7 @@ public class ResourceShapeFactory {
 		return resourceShape;
 	}
 
-	@SuppressWarnings("rawtypes") // supress warning when casting Arrays.asList() to a Collection
+	@SuppressWarnings("rawtypes") // suppress warning when casting Arrays.asList() to a Collection
 	private static Property createProperty(final String baseURI, final Class<?> resourceClass, final Method method, final OslcPropertyDefinition propertyDefinitionAnnotation, final Set<Class<?>> verifiedClasses) throws OslcCoreApplicationException, URISyntaxException {
 		final String name;
 		final OslcName nameAnnotation = InheritedMethodAnnotationHelper.getAnnotation(method, OslcName.class);
