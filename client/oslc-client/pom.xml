@@ -21,6 +21,12 @@
       <artifactId>oslc-client-base</artifactId>
       <version>${v.lyo}</version>
     </dependency>
+    <!-- Access to domain vocabulary constants & QName helpers -->
+    <dependency>
+      <groupId>org.eclipse.lyo</groupId>
+      <artifactId>oslc-domains</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
