@@ -51,8 +51,7 @@ public class ShaclInValidationTest {
 
             TestHelper.assertNegative(
                     TestHelper.performTest(aResource),
-                    "In violation. Expected \"D\" to be in List(LiteralValue(\"C\"),"
-                            + " LiteralValue(\"B\"), LiteralValue(\"A\"))");
+                    "InConstraint[\"A\", \"B\", \"C\"] : RDF term \"D\" not in expected values");
 
         } catch (Exception e) {
             e.printStackTrace();

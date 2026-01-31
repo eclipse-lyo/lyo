@@ -52,7 +52,7 @@ public class ShaclMinCountValidationTest {
 
             TestHelper.assertNegative(
                     TestHelper.performTest(aResource),
-                    "MinCount violation. Expected 1, obtained: 0");
+                    "minCount[1]: Invalid cardinality: expected min 1: Got count = 0");
 
         } catch (Exception e) {
             e.printStackTrace();

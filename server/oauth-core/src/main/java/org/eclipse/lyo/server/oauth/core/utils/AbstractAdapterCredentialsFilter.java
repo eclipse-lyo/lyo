@@ -83,7 +83,7 @@ import net.oauth.server.OAuthServlet;
  *  <li>{@link #createConsumerStore()}
  *  <li>{@link #logout(Object, HttpSession)} (optional)
  * </ul>
- * Then, add the follwoing filter-mapping to your web.xml:
+ * Then, add the following filter-mapping to your web.xml:
  * <pre>
  *   &lt;filter&gt;
  *    &lt;display-name&gt;[YOUR FILTER CLASS NAME (MyFilter)]&lt;/display-name&gt;
@@ -149,13 +149,13 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 
     /**
      * Create connection to your tool using the given credentials, and returns the connection.
-     * @param crdentials credentials for login
+     * @param credentials credentials for login
      * @param request {@link HttpServletRequest}
      * @return connection that represents the successful login session
      * @throws UnauthorizedException credentials is invalid
      * @throws ServletException other exceptional situation
      */
-    abstract protected Connection login(Credentials crdentials, HttpServletRequest request) throws UnauthorizedException, ServletException;
+    abstract protected Connection login(Credentials credentials, HttpServletRequest request) throws UnauthorizedException, ServletException;
 
     /**
      * Logout
@@ -290,7 +290,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
                 log.trace("{} on session {} - an oauth1 token is found. trying to remove from cache.", request.getPathInfo(), request.getSession().getId());
                 Object connector = myself.tokenToConnectionCache.remove(message.getToken());
                 if (connector == null) {
-                    log.warn("{} on session {} - an oauth1 token is found, but no Connector is associated with it. This should not happen. Will do nothing anwyay!", request.getPathInfo(), request.getSession().getId());
+                    log.warn("{} on session {} - an oauth1 token is found, but no Connector is associated with it. This should not happen. Will do nothing anyway!", request.getPathInfo(), request.getSession().getId());
                 }
                 else {
                     log.trace("{} on session {} - an oauth1 token is found, and removed.", request.getPathInfo(), request.getSession().getId());
@@ -394,7 +394,7 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
                     try {
                         Credentials credentials;
                         if (isTwoLeggedOAuthRequest) {
-                            log.trace("{} on session {} - This is TwoLeggedOAuthRequest. Dealing wiht it.", request.getPathInfo(), request.getSession().getId());
+                            log.trace("{} on session {} - This is TwoLeggedOAuthRequest. Dealing with it.", request.getPathInfo(), request.getSession().getId());
                             connector = tokenToConnectionCache.get("");
                             if (connector == null) {
                                 credentials = getCredentialsForOAuth(OAUTH_EMPTY_TOKEN_KEY, twoLeggedOAuthConsumerKey);
@@ -402,10 +402,10 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
                                 tokenToConnectionCache.put("", connector);
                             }
                             credentials = null; // TODO; Do we need to keep the credentials for this path ??
-                            log.debug("{} on session {} - This is TwoLeggedOAuthRequest. Done dealing wiht it.", request.getPathInfo(), request.getSession().getId());
+                            log.debug("{} on session {} - This is TwoLeggedOAuthRequest. Done dealing with it.", request.getPathInfo(), request.getSession().getId());
                         } else {
                             log.trace("{} on session {} - This is NOT TwoLeggedOAuthRequest.", request.getPathInfo(), request.getSession().getId());
-                            log.trace("{} on session {} - Tring to find credentials in session or request", request.getPathInfo(), request.getSession().getId());
+                            log.trace("{} on session {} - Trying to find credentials in session or request", request.getPathInfo(), request.getSession().getId());
                             credentials = (Credentials) request.getSession().getAttribute(CREDENTIALS_ATTRIBUTE);
                             if (credentials == null)
                             {
@@ -431,19 +431,19 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
 
                     } catch (UnauthorizedException e)
                     {
-                        log.debug("{} - UnauthorizedException occured while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
+                        log.debug("{} - UnauthorizedException occurred while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
                         sendUnauthorizedResponse(response, e);
                         //Do not call chain.doFilter().
                         return;
                     } catch (ServletException ce)
                     {
-                        log.trace("{} - ServletException occured while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
+                        log.trace("{} - ServletException occurred while checking for Basic authentication", request.getPathInfo(), request.getSession().getId());
                         throw ce;
                     }
                 }
 
                 if (connector != null) {
-                    log.trace("{} on session {} - Conncector Found", request.getPathInfo(), request.getSession().getId());
+                    log.trace("{} on session {} - Connector Found", request.getPathInfo(), request.getSession().getId());
                     doChainDoFilterWithConnector(request, response, chain, connector);
                     return;
                 }

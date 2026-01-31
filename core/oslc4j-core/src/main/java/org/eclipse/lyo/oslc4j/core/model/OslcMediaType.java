@@ -15,37 +15,46 @@ package org.eclipse.lyo.oslc4j.core.model;
 
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * Constant strings and static MediaType representing OSLC media types
+ * @see jakarta.ws.rs.core.MediaType
+ */
 public interface OslcMediaType {
 
-	public final static String APPLICATION = "application";
-	public final static String TEXT = "text";
+  public static final String APPLICATION = "application";
+  public static final String TEXT = "text";
 
-	public final static String RDF_XML = "rdf+xml";
-	public final static String APPLICATION_RDF_XML = APPLICATION + "/" + RDF_XML;
-	public final static MediaType APPLICATION_RDF_XML_TYPE = new MediaType(APPLICATION, RDF_XML);
+  public static final String RDF_XML = "rdf+xml";
+  public static final String APPLICATION_RDF_XML = APPLICATION + "/" + RDF_XML;
+  public static final MediaType APPLICATION_RDF_XML_TYPE = new MediaType(APPLICATION, RDF_XML);
 
-	public final static String JSON_LD = "ld+json";
-	public final static String APPLICATION_JSON_LD = APPLICATION + "/" + JSON_LD;
-	public final static MediaType APPLICATION_JSON_LD_TYPE = new MediaType(APPLICATION, JSON_LD);
+  public static final String JSON_LD = "ld+json";
+  public static final String APPLICATION_JSON_LD = APPLICATION + "/" + JSON_LD;
+  public static final MediaType APPLICATION_JSON_LD_TYPE = new MediaType(APPLICATION, JSON_LD);
 
-	public final static String APPLICATION_JSON = MediaType.APPLICATION_JSON;
-	public final static MediaType APPLICATION_JSON_TYPE = MediaType.APPLICATION_JSON_TYPE;
+  public static final String APPLICATION_JSON = MediaType.APPLICATION_JSON;
+  public static final MediaType APPLICATION_JSON_TYPE = MediaType.APPLICATION_JSON_TYPE;
 
-	public final static String APPLICATION_XML = MediaType.APPLICATION_XML;
-	public final static MediaType APPLICATION_XML_TYPE = MediaType.APPLICATION_XML_TYPE;
+  public static final String APPLICATION_XML = MediaType.APPLICATION_XML;
+  public static final MediaType APPLICATION_XML_TYPE = MediaType.APPLICATION_XML_TYPE;
 
-	public final static String TEXT_XML = MediaType.TEXT_XML;
-	public final static MediaType TEXT_XML_TYPE = MediaType.TEXT_XML_TYPE;
+  public static final String TEXT_XML = MediaType.TEXT_XML;
+  public static final MediaType TEXT_XML_TYPE = MediaType.TEXT_XML_TYPE;
 
-	public final static String TURTLE="turtle";
-	public final static String TEXT_TURTLE = TEXT + "/" + TURTLE;
-	public final static MediaType TEXT_TURTLE_TYPE = new MediaType(TEXT, TURTLE);
+  public static final String TURTLE = "turtle";
+  public static final String TEXT_TURTLE = TEXT + "/" + TURTLE;
+  public static final MediaType TEXT_TURTLE_TYPE = new MediaType(TEXT, TURTLE);
 
-	public final static String X_OSLC_COMPACT_XML = "x-oslc-compact+xml";
-	public final static String APPLICATION_X_OSLC_COMPACT_XML = APPLICATION + "/" + X_OSLC_COMPACT_XML;
-	public final static MediaType APPLICATION_X_OSLC_COMPACT_XML_TYPE = new MediaType(APPLICATION, X_OSLC_COMPACT_XML);
+  public static final String X_OSLC_COMPACT_XML = "x-oslc-compact+xml";
+  public static final String APPLICATION_X_OSLC_COMPACT_XML =
+      APPLICATION + "/" + X_OSLC_COMPACT_XML;
+  public static final MediaType APPLICATION_X_OSLC_COMPACT_XML_TYPE =
+      new MediaType(APPLICATION, X_OSLC_COMPACT_XML);
 
-	public final static String X_OSLC_COMPACT_JSON = "x-oslc-compact+json"; // TODO - Compact media type never defined in the OSLC spec for JSON
-	public final static String APPLICATION_X_OSLC_COMPACT_JSON = APPLICATION + "/" + X_OSLC_COMPACT_JSON;
-	public final static MediaType APPLICATION_X_OSLC_COMPACT_JSON_TYPE = new MediaType(APPLICATION, X_OSLC_COMPACT_JSON);
+  public static final String X_OSLC_COMPACT_JSON =
+      "x-oslc-compact+json"; // TODO - Compact media type never defined in the OSLC spec for JSON
+  public static final String APPLICATION_X_OSLC_COMPACT_JSON =
+      APPLICATION + "/" + X_OSLC_COMPACT_JSON;
+  public static final MediaType APPLICATION_X_OSLC_COMPACT_JSON_TYPE =
+      new MediaType(APPLICATION, X_OSLC_COMPACT_JSON);
 }
