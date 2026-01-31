@@ -21,33 +21,21 @@ import java.util.Map;
  * Concrete ResponseInfo collection wrapper where resource are sent
  * as an array
  */
-public class ResponseInfoArray<T extends Object> extends ResponseInfo<T[]>
-{
-	public
-	ResponseInfoArray(
-		T[] array,
-		Map<String, Object> properties,
-		Integer totalCount,
-		String nextPage
-	)
-	{
-		super(array, properties, totalCount, nextPage);
-	}
-	
-	public
-	ResponseInfoArray(
-		T[] array,
-		Map<String, Object> properties,
-		Integer totalCount,
-		URI nextPage
-	)
-	{
-		super(array, properties, totalCount, nextPage);
-	}
-	
-	/**
-	 * Array of resources
-	 */
-	public T[]
-	array() { return resource(); }
+public class ResponseInfoArray<T extends Object> extends ResponseInfo<T[]> {
+  public ResponseInfoArray(
+      T[] array, Map<String, Object> properties, Integer totalCount, String nextPage) {
+    super(array, properties, totalCount, nextPage);
+  }
+
+  public ResponseInfoArray(
+      T[] array, Map<String, Object> properties, Integer totalCount, URI nextPage) {
+    super(array, properties, totalCount, nextPage);
+  }
+
+  /**
+   * Array of resources
+   */
+  public T[] array() {
+    return resource();
+  }
 }

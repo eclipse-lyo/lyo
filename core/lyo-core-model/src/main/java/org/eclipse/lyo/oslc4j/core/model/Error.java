@@ -38,53 +38,53 @@ import org.eclipse.lyo.oslc4j.core.annotation.OslcValueType;
 @OslcNamespace(OslcConstants.OSLC_CORE_NAMESPACE)
 @OslcResourceShape(title = "OSLC Error Resource Shape", describes = OslcConstants.TYPE_ERROR)
 public class Error extends AbstractResource {
-	private ExtendedError extendedError;
-	private String		  message;
-	private String		  statusCode;
+  private ExtendedError extendedError;
+  private String message;
+  private String statusCode;
 
-	public Error() {
-		super();
-	}
+  public Error() {
+    super();
+  }
 
-	@OslcDescription("Extended error information.")
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "extendedError")
-	@OslcRange(OslcConstants.TYPE_EXTENDED_ERROR)
-	@OslcReadOnly
-	@OslcRepresentation(Representation.Inline)
-	@OslcTitle("Extended Error")
-	@OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_EXTENDED_ERROR)
-	@OslcValueType(ValueType.LocalResource)
-	public ExtendedError getExtendedError() {
-		return extendedError;
-	}
+  @OslcDescription("Extended error information.")
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "extendedError")
+  @OslcRange(OslcConstants.TYPE_EXTENDED_ERROR)
+  @OslcReadOnly
+  @OslcRepresentation(Representation.Inline)
+  @OslcTitle("Extended Error")
+  @OslcValueShape(OslcConstants.PATH_RESOURCE_SHAPES + "/" + OslcConstants.PATH_EXTENDED_ERROR)
+  @OslcValueType(ValueType.LocalResource)
+  public ExtendedError getExtendedError() {
+    return extendedError;
+  }
 
-	@OslcDescription("An informative message describing the error that occurred.")
-	@OslcOccurs(Occurs.ExactlyOne)
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "message")
-	@OslcReadOnly
-	@OslcTitle("Message")
-	public String getMessage() {
-		return message;
-	}
+  @OslcDescription("An informative message describing the error that occurred.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "message")
+  @OslcReadOnly
+  @OslcTitle("Message")
+  public String getMessage() {
+    return message;
+  }
 
-	@OslcDescription("The HTTP status code reported with the error.")
-	@OslcOccurs(Occurs.ExactlyOne)
-	@OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "statusCode")
-	@OslcReadOnly
-	@OslcTitle("Status Code")
-	public String getStatusCode() {
-		return statusCode;
-	}
+  @OslcDescription("The HTTP status code reported with the error.")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcPropertyDefinition(OslcConstants.OSLC_CORE_NAMESPACE + "statusCode")
+  @OslcReadOnly
+  @OslcTitle("Status Code")
+  public String getStatusCode() {
+    return statusCode;
+  }
 
-	public void setExtendedError(final ExtendedError extendedError) {
-		this.extendedError = extendedError;
-	}
+  public void setExtendedError(final ExtendedError extendedError) {
+    this.extendedError = extendedError;
+  }
 
-	public void setMessage(final String message) {
-		this.message = message;
-	}
+  public void setMessage(final String message) {
+    this.message = message;
+  }
 
-	public void setStatusCode(final String statusCode) {
-		this.statusCode = statusCode;
-	}
+  public void setStatusCode(final String statusCode) {
+    this.statusCode = statusCode;
+  }
 }

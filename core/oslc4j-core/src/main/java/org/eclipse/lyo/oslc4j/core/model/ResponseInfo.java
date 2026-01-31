@@ -21,54 +21,41 @@ import java.util.Map;
  * Wrapper for a collection or resources returned from an HTTP GET
  * to wrap that collection in a oslc:ResponseInfo element
  */
-public abstract class ResponseInfo<T extends Object>
-	extends FilteredResource<T>
-{
-	public
-	ResponseInfo(
-		T resource,
-		Map<String, Object> properties,
-		Integer totalCount,
-		String nextPage
-	)
-	{
-		super(resource, properties);
+public abstract class ResponseInfo<T extends Object> extends FilteredResource<T> {
+  public ResponseInfo(
+      T resource, Map<String, Object> properties, Integer totalCount, String nextPage) {
+    super(resource, properties);
 
-		this.totalCount = totalCount;
-		this.nextPage = nextPage;
-		this.container = new FilteredResource<>(resource, properties);
-	}
+    this.totalCount = totalCount;
+    this.nextPage = nextPage;
+    this.container = new FilteredResource<>(resource, properties);
+  }
 
-	public
-	ResponseInfo(
-		T resource,
-		Map<String, Object> properties,
-		Integer totalCount,
-		URI nextPage
-	)
-	{
-		this(resource, properties, totalCount,
-			 nextPage == null ? null : nextPage.toString());
-		this.container = new FilteredResource<>(resource, properties);
-	}
+  public ResponseInfo(
+      T resource, Map<String, Object> properties, Integer totalCount, URI nextPage) {
+    this(resource, properties, totalCount, nextPage == null ? null : nextPage.toString());
+    this.container = new FilteredResource<>(resource, properties);
+  }
 
-	/**
-	 * Total count of resource
-	 */
-	public Integer
-	totalCount() { return totalCount; }
+  /**
+   * Total count of resource
+   */
+  public Integer totalCount() {
+    return totalCount;
+  }
 
-	/**
-	 * Next page in paged output
-	 */
-	public String
-	nextPage() { return nextPage; }
+  /**
+   * Next page in paged output
+   */
+  public String nextPage() {
+    return nextPage;
+  }
 
-	private final Integer totalCount;
-	private final String nextPage;
-	private FilteredResource<T> container;
+  private final Integer totalCount;
+  private final String nextPage;
+  private FilteredResource<T> container;
 
-	public FilteredResource<T> getContainer() {
-		return container;
-	}
+  public FilteredResource<T> getContainer() {
+    return container;
+  }
 }
