@@ -1,0 +1,19 @@
+#-----------------------------------------------------------------------------
+#  Test case for multiple top-level resources.
+#  All three resources should be unmarshaled.
+#-----------------------------------------------------------------------------
+
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex:    <http://example.com/ns#> .
+
+<http://example.com/resource1>
+    a ex:TestType ;
+    ex:title "Resource 1" .
+
+<http://example.com/resource2>
+    a ex:TestType ;
+    ex:title "Resource 2" .
+
+<http://example.com/resource3>
+    a ex:TestType ;
+    ex:title "Resource 3" .

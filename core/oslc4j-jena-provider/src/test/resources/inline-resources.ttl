@@ -1,0 +1,17 @@
+#-----------------------------------------------------------------------------
+#  Test case for inline/nested resources.
+#  Only the top-level resource should be unmarshaled, not the inline one.
+#-----------------------------------------------------------------------------
+
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex:    <http://example.com/ns#> .
+
+<http://example.com/toplevel>
+    a ex:TopLevel ;
+    ex:title "Top Level Resource" ;
+    ex:hasInline <http://example.com/inline> .
+
+# This resource is inline (nested) and should be filtered out
+<http://example.com/inline>
+    a ex:Inline ;
+    ex:title "Inline Resource" .

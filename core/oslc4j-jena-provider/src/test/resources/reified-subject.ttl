@@ -1,0 +1,18 @@
+#-----------------------------------------------------------------------------
+#  Test case for reified statement subjects.
+#  The actual resource should be included despite being referenced by rdf:subject.
+#-----------------------------------------------------------------------------
+
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex:    <http://example.com/ns#> .
+
+<http://example.com/resource1>
+    a ex:TestType ;
+    ex:title "Test" .
+
+# Reification referencing the resource via rdf:subject
+[]  a rdf:Statement ;
+    rdf:subject <http://example.com/resource1> ;
+    rdf:predicate ex:title ;
+    rdf:object "Test" ;
+    ex:reificationLabel "Title Label" .
