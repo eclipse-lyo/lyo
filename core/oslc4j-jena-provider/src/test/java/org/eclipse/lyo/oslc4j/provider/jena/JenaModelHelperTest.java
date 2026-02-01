@@ -578,19 +578,26 @@ public class JenaModelHelperTest {
   }
 
   /**
-   * Tests that inline/nested URI resources are excluded from the result list.
-   * Only top-level resources should be returned.
+   * Tests that both top-level and inline URI resources are included in the result list.
+   * The distinction between "top-level" and "inline" is artificial in RDF - if a resource
+   * has rdf:type and properties, it should be unmarshaled regardless.
    */
   @Test
-  public void testBuildResourceListExcludesInlineResources() throws Exception {
+  public void testBuildResourceListIncludesInlineResources() throws Exception {
     final Model model = RDFHelper.loadResourceModel("inline-resources.ttl");
 
     final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
 
-    // Should only find the top-level resource, not the inline one
+    // Should find BOTH resources - the "top-level" one and the "inline" one
     assertNotNull(resources);
-    assertEquals("Should find only top-level resources, not inline ones", 1, resources.length);
-    assertEquals(URI.create("http://example.com/toplevel"), resources[0].getAbout());
+    assertEquals("Should find all resources with rdf:type and properties", 2, resources.length);
+    
+    // Verify both URIs are present
+    List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+    assertTrue("Should include the top-level resource", 
+        uris.contains(URI.create("http://example.com/toplevel")));
+    assertTrue("Should include the inline resource", 
+        uris.contains(URI.create("http://example.com/inline")));
   }
 
   /**
@@ -644,4 +651,126 @@ public class JenaModelHelperTest {
     assertTrue(uris.contains(URI.create("http://example.com/resource2")));
     assertTrue(uris.contains(URI.create("http://example.com/resource3")));
   }
+
+  /**
+   * Tests that top-level resources with circular references are correctly included.
+   * 
+   * <p>This test demonstrates a critical issue with the current isTopLevelResource() logic:
+   * when two top-level resources reference each other (e.g., a Requirement that is
+   * "implementedBy" a ChangeRequest, and that ChangeRequest "implements" the same Requirement),
+   * BOTH resources are incorrectly excluded from the result list because each appears as
+   * the object of the other's statement.
+   * 
+   * <p>Expected behavior: Both resources should be included since they are both top-level
+   * resources with rdf:type properties that simply happen to reference each other.
+   * 
+   * <p>Actual behavior (BUG): The current logic filters them both out as "inline" resources
+   * because each appears as an object in a statement.
+   */
+  @Test
+  public void testBuildResourceListWithCircularReferences() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("circular-reference.xml");
+
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // EXPECTED: Should find both resources despite circular references
+    // ACTUAL BUG: Current implementation excludes both resources because they reference each other
+    assertNotNull(resources);
+    assertEquals("Should find both top-level resources despite circular references", 2, resources.length);
+
+    // Verify both URIs are present
+    List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+    assertTrue("Should include the Requirement resource", 
+        uris.contains(URI.create("http://example.com/requirements/REQ-123")));
+    assertTrue("Should include the ChangeRequest resource", 
+        uris.contains(URI.create("http://example.com/changeRequests/CR-456")));
+  }
+
+  /**
+   * Tests what JenaModelHelper does when unmarshaling a model containing two resources
+   * of the same type where one references the other.
+   * 
+   * <p>This test demonstrates the actual behavior of the current implementation:
+   * <ul>
+   *   <li>Both resources are returned in the results array (both have rdf:type and properties)</li>
+   *   <li>The referencing resource has its relatedResource property populated with the referenced resource</li>
+   *   <li><strong>IMPORTANT:</strong> The referenced resource is a DIFFERENT object instance than the one in the array.
+   *       JenaModelHelper creates separate instances when unmarshaling nested/referenced resources.</li>
+   * </ul>
+   * 
+   * <p>This means:
+   * <ul>
+   *   <li>Resource2 appears TWICE in memory: once in the results array, once as resource1's relatedResource property</li>
+   *   <li>They have the same URI and property values, but are different Java object instances</li>
+   *   <li>Modifying one does NOT affect the other</li>
+   * </ul>
+   */
+  @Test
+  public void testUnmarshalTwoResourcesWhereOneReferencesOther() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("two-resources-one-references-other.xml");
+
+    // Unmarshal to TestResource - should get both resources
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // Verify we get both resources back
+    assertNotNull("Resources array should not be null", resources);
+    assertEquals("Should find both resources in the model", 2, resources.length);
+
+    // Find resource1 and resource2 in the results
+    TestResource resource1 = null;
+    TestResource resource2 = null;
+    for (TestResource r : resources) {
+      if (r.getAbout().toString().equals("http://example.com/resource1")) {
+        resource1 = r;
+      } else if (r.getAbout().toString().equals("http://example.com/resource2")) {
+        resource2 = r;
+      }
+    }
+
+    assertNotNull("Resource1 should be in the results", resource1);
+    assertNotNull("Resource2 should be in the results", resource2);
+
+    // Verify properties
+    assertEquals("Resource1 should have correct property value", "Resource 1", resource1.getAproperty());
+    assertEquals("Resource2 should have correct property value", "Resource 2", resource2.getAproperty());
+
+    // CRITICAL TEST: Verify that resource1's reference to resource2 is populated
+    assertNotNull("Resource1 should have relatedResource populated", resource1.getRelatedResource());
+    assertEquals("Resource1's relatedResource should point to resource2", 
+        URI.create("http://example.com/resource2"), 
+        resource1.getRelatedResource().getAbout());
+
+    // CRITICAL FINDING: The referenced resource is a DIFFERENT instance than the one in the array
+    // This is the actual behavior of JenaModelHelper - it creates duplicate instances for referenced resources
+    assertNotSame("ACTUAL BEHAVIOR: The relatedResource is a DIFFERENT instance than resource2 from the array", 
+        resource2, 
+        resource1.getRelatedResource());
+    
+    // Even though they're different instances, they should have the same URI and property values
+    assertEquals("Both instances should have the same URI", 
+        resource2.getAbout(), 
+        resource1.getRelatedResource().getAbout());
+    assertEquals("Both instances should have the same property value", 
+        resource2.getAproperty(), 
+        resource1.getRelatedResource().getAproperty());
+
+    log.info("=== Test Results: JenaModelHelper Unmarshaling Behavior ===");
+    log.info("Total resources unmarshaled: {}", resources.length);
+    log.info("");
+    log.info("Resource1 (from array):");
+    log.info("  URI: {}", resource1.getAbout());
+    log.info("  Property: {}", resource1.getAproperty());
+    log.info("  RelatedResource URI: {}", resource1.getRelatedResource().getAbout());
+    log.info("  RelatedResource instance: {}", System.identityHashCode(resource1.getRelatedResource()));
+    log.info("");
+    log.info("Resource2 (from array):");
+    log.info("  URI: {}", resource2.getAbout());
+    log.info("  Property: {}", resource2.getAproperty());
+    log.info("  Instance: {}", System.identityHashCode(resource2));
+    log.info("");
+    log.info("FINDING: Are they the same instance? {}", resource1.getRelatedResource() == resource2);
+    log.info("FINDING: JenaModelHelper creates SEPARATE instances for referenced resources");
+    log.info("FINDING: Resource2 exists TWICE in memory with the same data but different object identities");
+  }
 }
+

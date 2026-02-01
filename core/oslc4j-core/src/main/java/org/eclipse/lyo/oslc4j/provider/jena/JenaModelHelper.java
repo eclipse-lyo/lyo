@@ -487,13 +487,15 @@ public final class JenaModelHelper {
    * <ul>
    * <li>If {@code false} (default, for backward compatibility with bug 
    * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>): 
-   * Returns all resources whose {@code rdf:type} matches the qualified name derived from the bean class's OSLC Annotations.
-   * If no resources match the type, falls back to returning top-level resources.</li>
-   * <li>If {@code true}: Returns only top-level (non-inline) resources that have an {@code rdf:type} property.
-   * Inline resources are excluded by filtering out any resource that appears as the object 
-   * of another statement (i.e., resources that have a parent node). This ensures that only 
-   * root-level resources are unmarshaled, not nested/embedded resources within the RDF graph.</li>
+   * Attempts to return all resources whose {@code rdf:type} matches the qualified name derived from the bean class's OSLC annotations.
+   * If no resources match the type, falls back to returning all unmarshalable resources from the model.</li>
+   * <li>If {@code true}: Returns all unmarshalable resources that have an {@code rdf:type} property and properties as subjects.
+   * This includes all resources with data, regardless of whether they reference or are referenced by other resources in the graph.</li>
    * </ul>
+   * <p>
+   * Note: In RDF, there is no inherent concept of "top-level" vs "inline" resources. All URI resources with properties
+   * are potentially meaningful and may need to be unmarshaled, including resources involved in bidirectional relationships
+   * or circular references (common in OSLC scenarios like Requirement ↔ ChangeRequest).
    * 
    * @param model the Jena model to extract resources from
    * @param beanClass the bean class to determine resource selection strategy
@@ -510,65 +512,55 @@ public final class JenaModelHelper {
       listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
       List<Resource> resourceList = listSubjects.toList();
       
-      // If no resources match the type, fall back to top-level resources
+      // If no resources match the type, fall back to all unmarshalable resources
       if (resourceList.isEmpty()) {
-        return buildTopLevelResourceList(model);
+        return buildUnmarshalableResourceList(model);
       }
       return resourceList;
     } else {
-      return buildTopLevelResourceList(model);
+      return buildUnmarshalableResourceList(model);
     }
   }
 
   /**
-   * Builds a list of top-level (non-inline) resources from the model.
+   * Builds a list of unmarshalable resources from the model.
    * <p>
-   * Returns only URI resources that have an {@code rdf:type} property and are not inline/nested.
+   * Returns only URI resources that have an {@code rdf:type} property and have their own
+   * properties (i.e., are actual resources with data, not just URI references).
    * Blank nodes (including reification nodes) are excluded by filtering to only URI resources.
-   * Inline resources are excluded by checking that the resource does not appear as the object
-   * of any statement, except when referenced via {@code rdf:subject} (reified statement subjects).
    * 
    * @param model the Jena model to extract resources from
-   * @return a list of top-level URI resources
+   * @return a list of URI resources that can be unmarshaled
    */
-  private static List<Resource> buildTopLevelResourceList(Model model) {
+  private static List<Resource> buildUnmarshalableResourceList(Model model) {
     return model.listSubjectsWithProperty(RDF.type).toList().stream()
         .filter(r -> r.isURIResource())
-        .filter(r -> isTopLevelResource(model, r))
+        .filter(r -> hasResourceProperties(model, r))
         .toList();
   }
 
   /**
-   * Checks if a resource is a top-level resource (not inline/nested).
+   * Checks if a resource has properties and should be included in the unmarshaling process.
    * <p>
-   * A resource is considered top-level if it is not the object of any statement,
-   * or if it only appears as the object of {@code rdf:subject} (reified statement subject).
+   * A resource is included if it has properties as a subject (i.e., it's a real resource
+   * with data, not just a URI reference). This includes resources regardless of whether
+   * they are referenced by other resources in the graph.
+   * <p>
+   * This approach:
+   * <ul>
+   *   <li>Includes all resources with rdf:type and properties</li>
+   *   <li>Handles circular references correctly (all resources included)</li>
+   *   <li>Excludes bare URI references without properties</li>
+   * </ul>
    * 
    * @param model the Jena model
    * @param resource the resource to check
-   * @return true if the resource is top-level, false if it's inline/nested
+   * @return true if the resource has properties and should be unmarshaled
    */
-  private static boolean isTopLevelResource(Model model, Resource resource) {
-    StmtIterator listStatements = model.listStatements(null, null, resource);
-    try {
-      while (listStatements.hasNext()) {
-        Statement stmt = listStatements.next();
-        Property predicate = stmt.getPredicate();
-
-        // If referenced by rdf:subject, it's the subject of a reified statement - still top-level
-        if (RDF.subject.equals(predicate)) {
-          continue;
-        }
-
-        // Referenced by some other property - it's inline/nested
-        return false;
-      }
-
-      // Not referenced as an object (or only via rdf:subject) - it's top-level
-      return true;
-    } finally {
-      listStatements.close();
-    }
+  private static boolean hasResourceProperties(Model model, Resource resource) {
+    // Include the resource if it has any properties as a subject
+    // This means it's a real resource with data, not just a bare reference
+    return model.listStatements(resource, null, (RDFNode) null).hasNext();
   }
 
   /**

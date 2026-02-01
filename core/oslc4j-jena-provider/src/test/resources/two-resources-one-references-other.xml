@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ex="http://example.com/ns#"
+    xmlns:dcterms="http://purl.org/dc/terms/">
+    
+    <!-- First resource -->
+    <ex:Test rdf:about="http://example.com/resource1">
+        <ex:aproperty>Resource 1</ex:aproperty>
+        <ex:relatedResource rdf:resource="http://example.com/resource2"/>
+    </ex:Test>
+    
+    <!-- Second resource (referenced by the first) -->
+    <ex:Test rdf:about="http://example.com/resource2">
+        <ex:aproperty>Resource 2</ex:aproperty>
+    </ex:Test>
+    
+</rdf:RDF>
