@@ -464,13 +464,17 @@ public final class JenaModelHelper {
 
     } else if (URI.class.equals(beanClass)) {
       StmtIterator memberIterator = model.listStatements(null, RDFS.member, (RDFNode) null);
-      while (memberIterator.hasNext()) {
-        Statement memberStatement = memberIterator.next();
-        RDFNode memberObject = memberStatement.getObject();
-        if (memberObject.isURIResource()) {
-          URI memberURI = URI.create(memberObject.asResource().getURI());
-          results.add(memberURI);
+      try {
+        while (memberIterator.hasNext()) {
+          Statement memberStatement = memberIterator.next();
+          RDFNode memberObject = memberStatement.getObject();
+          if (memberObject.isURIResource()) {
+            URI memberURI = URI.create(memberObject.asResource().getURI());
+            results.add(memberURI);
+          }
         }
+      } finally {
+        memberIterator.close();
       }
     }
 
@@ -502,21 +506,23 @@ public final class JenaModelHelper {
    * @return a list of resources matching the criteria
    */
   private static List<Resource> buildResourceList(Model model, Class<?> beanClass) {
-    ResIterator listSubjects;
-
     // Fix for defect 412755
     // keep the same behavior, i.e. use the class name to match the resource rdf:type
     if (!OSLC4JUtils.useBeanClassForParsing()) {
 
       final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
-      listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
-      List<Resource> resourceList = listSubjects.toList();
-      
-      // If no resources match the type, fall back to all unmarshalable resources
-      if (resourceList.isEmpty()) {
-        return buildUnmarshalableResourceList(model);
+      ResIterator listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
+      try {
+        List<Resource> resourceList = listSubjects.toList();
+        
+        // If no resources match the type, fall back to all unmarshalable resources
+        if (resourceList.isEmpty()) {
+          return buildUnmarshalableResourceList(model);
+        }
+        return resourceList;
+      } finally {
+        listSubjects.close();
       }
-      return resourceList;
     } else {
       return buildUnmarshalableResourceList(model);
     }
@@ -533,10 +539,15 @@ public final class JenaModelHelper {
    * @return a list of URI resources that can be unmarshaled
    */
   private static List<Resource> buildUnmarshalableResourceList(Model model) {
-    return model.listSubjectsWithProperty(RDF.type).toList().stream()
-        .filter(r -> r.isURIResource())
-        .filter(r -> hasResourceProperties(model, r))
-        .toList();
+    ResIterator resIterator = model.listSubjectsWithProperty(RDF.type);
+    try {
+      return resIterator.toList().stream()
+          .filter(r -> r.isURIResource())
+          .filter(r -> hasResourceProperties(model, r))
+          .toList();
+    } finally {
+      resIterator.close();
+    }
   }
 
   /**
@@ -560,7 +571,12 @@ public final class JenaModelHelper {
   private static boolean hasResourceProperties(Model model, Resource resource) {
     // Include the resource if it has any properties as a subject
     // This means it's a real resource with data, not just a bare reference
-    return model.listStatements(resource, null, (RDFNode) null).hasNext();
+    StmtIterator stmtIterator = model.listStatements(resource, null, (RDFNode) null);
+    try {
+      return stmtIterator.hasNext();
+    } finally {
+      stmtIterator.close();
+    }
   }
 
   /**
@@ -684,7 +700,6 @@ public final class JenaModelHelper {
     // Ensure a single-value property is not set more than once
     final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
-    final StmtIterator listProperties = resource.listProperties();
     final IExtendedResource extendedResource;
     final Map<QName, Object> extendedProperties;
     if (bean instanceof IExtendedResource) {
@@ -699,7 +714,9 @@ public final class JenaModelHelper {
     // get the list of resource rdf type
     rdfTypes = getTypesFromResource(resource, rdfTypes);
 
-    while (listProperties.hasNext()) {
+    final StmtIterator listProperties = resource.listProperties();
+    try {
+      while (listProperties.hasNext()) {
 
       final Statement statement = listProperties.next();
       final Property predicate = statement.getPredicate();
@@ -939,17 +956,21 @@ public final class JenaModelHelper {
               Graph stmtGraph = statement.getModel().getGraph();
               ExtendedIterator<Node> reifiedTriplesIter =
                   ReifierStd.allNodes(stmtGraph, statement.asTriple());
-              while (reifiedTriplesIter.hasNext()) {
-                Node reifiedNode = reifiedTriplesIter.next();
-                Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
-                fromResource(
-                    classPropertyDefinitionsToSetMethods,
-                    reifiedClass,
-                    reifiedResource,
-                    reifiedStatement,
-                    visitedResources,
-                    rdfTypes,
-                    reificationCache);
+              try {
+                while (reifiedTriplesIter.hasNext()) {
+                  Node reifiedNode = reifiedTriplesIter.next();
+                  Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
+                  fromResource(
+                      classPropertyDefinitionsToSetMethods,
+                      reifiedClass,
+                      reifiedResource,
+                      reifiedStatement,
+                      visitedResources,
+                      rdfTypes,
+                      reificationCache);
+                }
+              } finally {
+                reifiedTriplesIter.close();
               }
 
               parameter = reifiedResource;
@@ -972,6 +993,9 @@ public final class JenaModelHelper {
           }
         }
       }
+    }
+    } finally {
+      listProperties.close();
     }
 
     // Now, handle array and collection values since all are collected.
@@ -1281,52 +1305,57 @@ public final class JenaModelHelper {
 
       // Find all reification statements (resources with rdf:type rdf:Statement)
       ResIterator reifiedResources = model.listSubjectsWithProperty(RDF.type, RDF.Statement);
+      try {
+        while (reifiedResources.hasNext()) {
+            Resource reifiedNode = reifiedResources.next();
 
-      while (reifiedResources.hasNext()) {
-          Resource reifiedNode = reifiedResources.next();
+            // Get the triple components from the reified statement
+            Statement subjStmt = reifiedNode.getProperty(RDF.subject);
+            Statement predStmt = reifiedNode.getProperty(RDF.predicate);
+            Statement objStmt = reifiedNode.getProperty(RDF.object);
 
-          // Get the triple components from the reified statement
-          Statement subjStmt = reifiedNode.getProperty(RDF.subject);
-          Statement predStmt = reifiedNode.getProperty(RDF.predicate);
-          Statement objStmt = reifiedNode.getProperty(RDF.object);
+            if (subjStmt == null || predStmt == null || objStmt == null) {
+                // Incomplete reification, skip
+                continue;
+            }
 
-          if (subjStmt == null || predStmt == null || objStmt == null) {
-              // Incomplete reification, skip
-              continue;
-          }
+            // Construct the triple being reified
+            Resource subject = subjStmt.getResource();
+            Resource predicate = predStmt.getResource();
+            RDFNode object = objStmt.getObject();
 
-          // Construct the triple being reified
-          Resource subject = subjStmt.getResource();
-          Resource predicate = predStmt.getResource();
-          RDFNode object = objStmt.getObject();
+            org.apache.jena.graph.Triple triple = org.apache.jena.graph.Triple.create(
+                subject.asNode(),
+                predicate.asNode(),
+                object.asNode()
+            );
 
-          org.apache.jena.graph.Triple triple = org.apache.jena.graph.Triple.create(
-              subject.asNode(),
-              predicate.asNode(),
-              object.asNode()
-          );
-
-          // Collect all metadata properties (excluding the standard reification properties)
-          List<Statement> reifiedProps = new ArrayList<>();
-          StmtIterator properties = reifiedNode.listProperties();
-          while (properties.hasNext()) {
-              Statement reifiedStatement = properties.next();
-              Property prop = reifiedStatement.getPredicate();
-              if (prop.equals(RDF.type)
-                  || prop.equals(RDF.subject)
-                  || prop.equals(RDF.predicate)
-                  || prop.equals(RDF.object)) {
-                  continue;
+            // Collect all metadata properties (excluding the standard reification properties)
+            List<Statement> reifiedProps = new ArrayList<>();
+            StmtIterator properties = reifiedNode.listProperties();
+            try {
+              while (properties.hasNext()) {
+                  Statement reifiedStatement = properties.next();
+                  Property prop = reifiedStatement.getPredicate();
+                  if (prop.equals(RDF.type)
+                      || prop.equals(RDF.subject)
+                      || prop.equals(RDF.predicate)
+                      || prop.equals(RDF.object)) {
+                      continue;
+                  }
+                  reifiedProps.add(reifiedStatement);
               }
-              reifiedProps.add(reifiedStatement);
-          }
-          properties.close();
+            } finally {
+              properties.close();
+            }
 
-          if (!reifiedProps.isEmpty()) {
-              cache.put(triple, reifiedProps);
-          }
+            if (!reifiedProps.isEmpty()) {
+                cache.put(triple, reifiedProps);
+            }
+        }
+      } finally {
+        reifiedResources.close();
       }
-      reifiedResources.close();
 
       return cache;
   }
