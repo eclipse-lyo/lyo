@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Test case for reified statements.
+  The resource http://example.com/issue/ADC-37 should be unmarshaled,
+  but the rdf:Statement blank node should be excluded.
+-->
+<rdf:RDF
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ex="http://example.com/ns#"
+    xmlns:rm="http://open-services.net/ns/rm#">
+    <rdf:Statement>
+        <dcterms:title>A Title</dcterms:title>
+        <rdf:object rdf:resource="https://example.com/user1"/>
+        <rdf:predicate rdf:resource="http://purl.org/dc/terms/creator"/>
+        <rdf:subject>
+            <ex:Issue rdf:about="http://example.com/issue/ADC-37">
+                <dcterms:identifier>ADC-37</dcterms:identifier>
+                <dcterms:creator rdf:resource="https://example.com/user1"/>
+                <dcterms:title>Story1</dcterms:title>
+                <rdf:type rdf:resource="http://open-services.net/ns/rm#Requirement"/>
+            </ex:Issue>
+        </rdf:subject>
+    </rdf:Statement>
+</rdf:RDF>
