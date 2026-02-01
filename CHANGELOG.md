@@ -21,7 +21,7 @@
 - RootServicesHelper can be initialized using an InputStream
 - `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.
 - InMemPagedTRS handles concurrency.
-- When marshaling the RDF model, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC Annotaions is found.
+- When marshaling the RDF model, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC Annotations is found.
 
 ### Deprecated
 

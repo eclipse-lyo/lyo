@@ -487,7 +487,7 @@ public final class JenaModelHelper {
    * <ul>
    * <li>If {@code false} (default, for backward compatibility with bug 
    * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>): 
-   * Returns all resources whose {@code rdf:type} matches the qualified name derived from the bean class'a OSLC Annotaions.
+   * Returns all resources whose {@code rdf:type} matches the qualified name derived from the bean class's OSLC Annotations.
    * If no resources match the type, falls back to returning top-level resources.</li>
    * <li>If {@code true}: Returns only top-level (non-inline) resources that have an {@code rdf:type} property.
    * Inline resources are excluded by filtering out any resource that appears as the object 
@@ -511,7 +511,7 @@ public final class JenaModelHelper {
       List<Resource> resourceList = listSubjects.toList();
       
       // If no resources match the type, fall back to top-level resources
-      if (resourceList == null || resourceList.isEmpty()) {
+      if (resourceList.isEmpty()) {
         return buildTopLevelResourceList(model);
       }
       return resourceList;
@@ -550,22 +550,25 @@ public final class JenaModelHelper {
    */
   private static boolean isTopLevelResource(Model model, Resource resource) {
     StmtIterator listStatements = model.listStatements(null, null, resource);
-    
-    while (listStatements.hasNext()) {
-      Statement stmt = listStatements.next();
-      Property predicate = stmt.getPredicate();
-      
-      // If referenced by rdf:subject, it's the subject of a reified statement - still top-level
-      if (RDF.subject.equals(predicate)) {
-        continue;
+    try {
+      while (listStatements.hasNext()) {
+        Statement stmt = listStatements.next();
+        Property predicate = stmt.getPredicate();
+
+        // If referenced by rdf:subject, it's the subject of a reified statement - still top-level
+        if (RDF.subject.equals(predicate)) {
+          continue;
+        }
+
+        // Referenced by some other property - it's inline/nested
+        return false;
       }
-      
-      // Referenced by some other property - it's inline/nested
-      return false;
+
+      // Not referenced as an object (or only via rdf:subject) - it's top-level
+      return true;
+    } finally {
+      listStatements.close();
     }
-    
-    // Not referenced as an object (or only via rdf:subject) - it's top-level
-    return true;
   }
 
   /**
