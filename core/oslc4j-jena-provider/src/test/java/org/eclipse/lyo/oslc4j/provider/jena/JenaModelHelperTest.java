@@ -681,7 +681,7 @@ public class JenaModelHelperTest {
   }
 
   /**
-   * Tests that when unmarshaling a model containing two resources where one references the other,
+   * Tests that when unmarshaling a model containing two resources - of the same type - where one references the other,
    * both resources are included in the results and the reference is properly populated.
    * 
    * <ul>
