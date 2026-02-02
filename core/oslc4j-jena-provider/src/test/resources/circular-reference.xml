@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Test case: Two top-level resources with circular references -->
-<!-- A Requirement is implementedBy a ChangeRequest, and the ChangeRequest implements the Requirement -->
-<!-- Both resources should be unmarshaled, but current logic may exclude them as "inline" -->
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:dcterms="http://purl.org/dc/terms/"

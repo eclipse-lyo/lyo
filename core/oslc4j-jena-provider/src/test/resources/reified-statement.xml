@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Test case for reified statements.
-  The resource http://example.com/issue/ADC-37 should be unmarshaled,
-  but the rdf:Statement blank node should be excluded.
--->
 <rdf:RDF
     xmlns:dcterms="http://purl.org/dc/terms/"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"

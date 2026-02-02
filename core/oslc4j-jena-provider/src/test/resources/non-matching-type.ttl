@@ -1,9 +1,3 @@
-#-----------------------------------------------------------------------------
-#  Test case for type mismatch fallback.
-#  Resource has a type that won't match TestResource's expected type,
-#  but should still be found via fallback logic.
-#-----------------------------------------------------------------------------
-
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ex:    <http://example.com/ns#> .
 

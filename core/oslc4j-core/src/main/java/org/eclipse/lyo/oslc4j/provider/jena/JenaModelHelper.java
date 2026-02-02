@@ -48,6 +48,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -58,6 +59,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -487,7 +489,8 @@ public final class JenaModelHelper {
   /**
    * Builds a list of resources from the model based on the bean class and parsing configuration.
    * <p>
-   * The behavior depends on the {@code OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property:
+   * The behavior depends on the {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
+   * (see {@link OSLC4JUtils#useBeanClassForParsing()}):
    * <ul>
    * <li>If {@code false} (default, for backward compatibility with bug 
    * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>): 
@@ -553,27 +556,34 @@ public final class JenaModelHelper {
   /**
    * Checks if a resource has properties and should be included in the unmarshaling process.
    * <p>
-   * A resource is included if it has properties as a subject (i.e., it's a real resource
-   * with data, not just a URI reference). This includes resources regardless of whether
-   * they are referenced by other resources in the graph.
+   * A resource is included if it has properties as a subject beyond just {@code rdf:type}
+   * (i.e., it's a real resource with data, not just a type declaration). This includes 
+   * resources regardless of whether they are referenced by other resources in the graph.
    * <p>
    * This approach:
    * <ul>
-   *   <li>Includes all resources with rdf:type and properties</li>
+   *   <li>Includes all resources with rdf:type and additional properties</li>
    *   <li>Handles circular references correctly (all resources included)</li>
+   *   <li>Excludes resources with only rdf:type (type-only declarations)</li>
    *   <li>Excludes bare URI references without properties</li>
    * </ul>
    * 
    * @param model the Jena model
    * @param resource the resource to check
-   * @return true if the resource has properties and should be unmarshaled
+   * @return true if the resource has properties beyond rdf:type and should be unmarshaled
    */
   private static boolean hasResourceProperties(Model model, Resource resource) {
-    // Include the resource if it has any properties as a subject
-    // This means it's a real resource with data, not just a bare reference
+    // Include the resource if it has any properties other than rdf:type
+    // This means it's a real resource with data, not just a type-only declaration
     StmtIterator stmtIterator = model.listStatements(resource, null, (RDFNode) null);
     try {
-      return stmtIterator.hasNext();
+      while (stmtIterator.hasNext()) {
+        Statement stmt = stmtIterator.next();
+        if (!stmt.getPredicate().equals(RDF.type)) {
+          return true; // Found a property other than rdf:type
+        }
+      }
+      return false; // Only rdf:type statements found (or no statements)
     } finally {
       stmtIterator.close();
     }
