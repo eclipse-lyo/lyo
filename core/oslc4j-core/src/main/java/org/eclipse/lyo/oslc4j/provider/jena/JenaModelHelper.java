@@ -545,7 +545,7 @@ public final class JenaModelHelper {
     ResIterator resIterator = model.listSubjectsWithProperty(RDF.type);
     try {
       return resIterator.toList().stream()
-          .filter(r -> r.isURIResource())
+          .filter(Resource::isURIResource)
           .filter(r -> hasResourceProperties(model, r))
           .toList();
     } finally {
