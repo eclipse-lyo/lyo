@@ -1,8 +1,3 @@
-#-----------------------------------------------------------------------------
-#  Test case for blank nodes.
-#  Only the URI resource should be unmarshaled, not the blank node.
-#-----------------------------------------------------------------------------
-
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ex:    <http://example.com/ns#> .
 
