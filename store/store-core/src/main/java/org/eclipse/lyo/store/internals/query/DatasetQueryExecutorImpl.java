@@ -39,72 +39,72 @@ import org.slf4j.LoggerFactory;
  * @since 0.14.0
  */
 public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
-    private static final Logger log = LoggerFactory.getLogger(DatasetQueryExecutorImpl.class);
-    private final Dataset dataset;
-    private volatile boolean released = false;
+  private static final Logger log = LoggerFactory.getLogger(DatasetQueryExecutorImpl.class);
+  private final Dataset dataset;
+  private volatile boolean released = false;
 
-    /**
-     * Use {@link StoreFactory} instead.
-     */
-    public DatasetQueryExecutorImpl() {
-        this(TDB1Factory.createDataset());
-    }
+  /**
+   * Use {@link StoreFactory} instead.
+   */
+  public DatasetQueryExecutorImpl() {
+    this(TDB1Factory.createDataset());
+  }
 
-    public DatasetQueryExecutorImpl(final Dataset dataset) {
-        this.dataset = dataset;
-    }
+  public DatasetQueryExecutorImpl(final Dataset dataset) {
+    this.dataset = dataset;
+  }
 
-    @Override
-    public QueryExecution prepareSparqlQuery(final String query) {
-        if(released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
-        }
-        log.debug("Running query: '{}'", query);
-        return QueryExecutionFactory.create(query, dataset);
+  @Override
+  public QueryExecution prepareSparqlQuery(final String query) {
+    if (released) {
+      throw new IllegalStateException("Cannot execute queries after releasing the connection");
     }
+    log.debug("Running query: '{}'", query);
+    return QueryExecutionFactory.create(query, dataset);
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
-        if(released) {
-            throw new IllegalStateException("Cannot execute queries after releasing the connection");
-        }
-        return UpdateExecutionFactory.create(updateRequest, dataset);
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final UpdateRequest updateRequest) {
+    if (released) {
+      throw new IllegalStateException("Cannot execute queries after releasing the connection");
     }
+    return UpdateExecutionFactory.create(updateRequest, dataset);
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final Update update) {
-        return prepareSparqlUpdate(new UpdateRequest(update));
-    }
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final Update update) {
+    return prepareSparqlUpdate(new UpdateRequest(update));
+  }
 
-    @Override
-    public UpdateProcessor prepareSparqlUpdate(final String query) {
-        return prepareSparqlUpdate(UpdateFactory.create(query));
-    }
+  @Override
+  public UpdateProcessor prepareSparqlUpdate(final String query) {
+    return prepareSparqlUpdate(UpdateFactory.create(query));
+  }
 
-    @Override
-    public void release() {
-        TDB1.sync(dataset);
-        released = true;
-        dataset.close();
-    }
+  @Override
+  public void release() {
+    TDB1.sync(dataset);
+    released = true;
+    dataset.close();
+  }
 
-    @Override
-    public void beginWrite() {
-        dataset.begin(ReadWrite.WRITE);
-    }
+  @Override
+  public void beginWrite() {
+    dataset.begin(ReadWrite.WRITE);
+  }
 
-    @Override
-    public void beginRead() {
-        dataset.begin(ReadWrite.READ);
-    }
+  @Override
+  public void beginRead() {
+    dataset.begin(ReadWrite.READ);
+  }
 
-    @Override
-    public void commit() {
-        dataset.commit();
-    }
+  @Override
+  public void commit() {
+    dataset.commit();
+  }
 
-    @Override
-    public void end() {
-        dataset.end();
-    }
+  @Override
+  public void end() {
+    dataset.end();
+  }
 }

@@ -1,9 +1,3 @@
-package org.eclipse.lyo.store.internals;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -17,7 +11,11 @@ import java.nio.file.Path;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
+package org.eclipse.lyo.store.internals;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.tdb1.TDB1;
@@ -34,30 +32,30 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings("WeakerAccess")
 public class DatasetBuilder {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DatasetBuilder.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DatasetBuilder.class);
 
-    /**
-     * Initialises a persistent Jena TDB Dataset instance in a given subdirectory (created if
-     * doesn't exist).
-     *
-     * @return An instance of a TDB Dataset
-     *
-     * @throws IOException if a Dataset can't be initialised in the given
-     *                     directory (check write permissions).
-     */
-    public static Dataset buildPersistent(final Path path) throws IOException {
-        try {
-            Files.createDirectories(path);
-            LOGGER.info("Path {} should exists now", path);
-            Dataset dataset = TDB1Factory.createDataset(path.toString());
-            // see https://jena.apache.org/documentation/tdb/datasets.html
-            // (http://archive.is/2F7EA)
-            // TODO per dataset only?
-            ARQ.getContext().set(TDB1.symUnionDefaultGraph, true);
-            return dataset;
-        } catch (final IOException e) {
-            LOGGER.error(String.valueOf(e));
-            throw e;
-        }
+  /**
+   * Initialises a persistent Jena TDB Dataset instance in a given subdirectory (created if
+   * doesn't exist).
+   *
+   * @return An instance of a TDB Dataset
+   *
+   * @throws IOException if a Dataset can't be initialised in the given
+   *                     directory (check write permissions).
+   */
+  public static Dataset buildPersistent(final Path path) throws IOException {
+    try {
+      Files.createDirectories(path);
+      LOGGER.info("Path {} should exists now", path);
+      Dataset dataset = TDB1Factory.createDataset(path.toString());
+      // see https://jena.apache.org/documentation/tdb/datasets.html
+      // (http://archive.is/2F7EA)
+      // TODO per dataset only?
+      ARQ.getContext().set(TDB1.symUnionDefaultGraph, true);
+      return dataset;
+    } catch (final IOException e) {
+      LOGGER.error(String.valueOf(e));
+      throw e;
     }
+  }
 }

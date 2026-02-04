@@ -788,7 +788,7 @@
             <toggleOffOn />
             <!-- apply a specific flavor of google-java-format and reflow long strings -->
             <googleJavaFormat>
-              <version>1.27.0</version>
+              <version>1.33.0</version>
               <style>GOOGLE</style>
               <reflowLongStrings>true</reflowLongStrings>
               <formatJavadoc>false</formatJavadoc>
