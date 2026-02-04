@@ -28,37 +28,36 @@ import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
  */
 public class StoreFactory {
 
-    /**
-     * Initialise a SPARQL-compatible Store implementation that does not require authentication.
-     *
-     * @param queryUrl  SPARQL Query endpoint URI
-     * @param updateUrl SPARQL Update endpoint URI
-     * @return Store implementation that communicates with the triplestore via SPARQL.
-     *
-     */
-    public static Store sparql(final String queryUrl, final String updateUrl) {
-        return new SparqlStoreImpl(queryUrl, updateUrl);
-    }
+  /**
+   * Initialise a SPARQL-compatible Store implementation that does not require authentication.
+   *
+   * @param queryUrl  SPARQL Query endpoint URI
+   * @param updateUrl SPARQL Update endpoint URI
+   * @return Store implementation that communicates with the triplestore via SPARQL.
+   *
+   */
+  public static Store sparql(final String queryUrl, final String updateUrl) {
+    return new SparqlStoreImpl(queryUrl, updateUrl);
+  }
 
-    public static Store sparqlInMem() {
-        return new SparqlStoreImpl(new DatasetQueryExecutorImpl(TDB1Factory.createDataset()));
-    }
+  public static Store sparqlInMem() {
+    return new SparqlStoreImpl(new DatasetQueryExecutorImpl(TDB1Factory.createDataset()));
+  }
 
-    /**
-     * Initialise a SPARQL-compatible Store implementation with authentication via username and
-     * password
-     * combinations. Authentication works with the basic and digest HTTP authentication schemes.
-     *
-     * @param queryUrl  SPARQL Query endpoint URI
-     * @param updateUrl SPARQL Update endpoint URI
-     * @param username  Username
-     * @param password  Password
-     * @return Store implementation that communicates with the triplestore via SPARQL.
-     *
-     */
-    public static Store sparql(final String queryUrl, final String updateUrl, final String username,
-            final String password) {
-        return new SparqlStoreImpl(queryUrl, updateUrl, username, password);
-    }
-
+  /**
+   * Initialise a SPARQL-compatible Store implementation with authentication via username and
+   * password
+   * combinations. Authentication works with the basic and digest HTTP authentication schemes.
+   *
+   * @param queryUrl  SPARQL Query endpoint URI
+   * @param updateUrl SPARQL Update endpoint URI
+   * @param username  Username
+   * @param password  Password
+   * @return Store implementation that communicates with the triplestore via SPARQL.
+   *
+   */
+  public static Store sparql(
+      final String queryUrl, final String updateUrl, final String username, final String password) {
+    return new SparqlStoreImpl(queryUrl, updateUrl, username, password);
+  }
 }

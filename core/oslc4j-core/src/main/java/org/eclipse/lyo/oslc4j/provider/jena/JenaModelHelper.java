@@ -453,7 +453,8 @@ public final class JenaModelHelper {
     final List<Object> results = new ArrayList<>();
 
     // Build reification cache once for all resources in the model
-    final Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache = buildReificationCache(model);
+    final Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache =
+        buildReificationCache(model);
 
     if (Model.class.isAssignableFrom(beanClass)) {
       return new Model[] {model};
@@ -539,7 +540,9 @@ public final class JenaModelHelper {
   }
 
   private static List<Object> createObjectResultList(
-      Class<?> beanClass, List<Object> results, List<Resource> listSubjects,
+      Class<?> beanClass,
+      List<Object> results,
+      List<Resource> listSubjects,
       Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache)
       throws IllegalAccessException,
           InstantiationException,
@@ -675,7 +678,8 @@ public final class JenaModelHelper {
             }
             final QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
             final Object value =
-                handleExtendedPropertyValue(beanClass, statement, visitedResources, key, rdfTypes, reificationCache);
+                handleExtendedPropertyValue(
+                    beanClass, statement, visitedResources, key, rdfTypes, reificationCache);
             final Object previous = extendedProperties.get(key);
 
             if (previous == null) {
@@ -1169,51 +1173,70 @@ public final class JenaModelHelper {
         throw new OslcCoreRelativeURIException(beanClass, "<none>", nestedResourceURI);
       }
 
-      List<Statement> collectedProps = reificationCache.getOrDefault(statement.asTriple(), Collections.emptyList());
+      List<Statement> collectedProps =
+          reificationCache.getOrDefault(statement.asTriple(), Collections.emptyList());
       // If no reified properties found, return plain URI
       if (collectedProps.isEmpty()) {
         return nestedResourceURI;
       }
-      return constructReifiedResource(statement, collectedProps, nestedResourceURI, beanClass, visitedResources, rdfTypes, reificationCache);
-
+      return constructReifiedResource(
+          statement,
+          collectedProps,
+          nestedResourceURI,
+          beanClass,
+          visitedResources,
+          rdfTypes,
+          reificationCache);
     }
   }
 
-  private static Object constructReifiedResource(final Statement statement, List<Statement> collectedProps,
-          final URI nestedResourceURI, final Class<?> beanClass, Map<String, Object> visitedResources,
-          final HashSet<String> rdfTypes,
-          Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache)
-          throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException,
-          InvocationTargetException, OslcCoreApplicationException, NoSuchMethodException {
-      // Check for the special case: exactly one reified statement and predicate is
-      // dcterms:title
-      final String dctermsTitleUri = OslcConstants.DCTERMS_NAMESPACE + "title";
-      if (collectedProps.size() == 1 && dctermsTitleUri.equals(collectedProps.get(0).getPredicate().getURI())) {
-          Statement only = collectedProps.get(0);
-          RDFNode val = only.getObject();
-          if (val.isLiteral()) {
-              String title = val.asLiteral().getString();
-              Link link = new Link(nestedResourceURI);
-              // Use the dcterms:title value as the Link label.
-              link.setLabel(title);
-              return link;
-          }
+  private static Object constructReifiedResource(
+      final Statement statement,
+      List<Statement> collectedProps,
+      final URI nestedResourceURI,
+      final Class<?> beanClass,
+      Map<String, Object> visitedResources,
+      final HashSet<String> rdfTypes,
+      Map<org.apache.jena.graph.Triple, List<Statement>> reificationCache)
+      throws URISyntaxException,
+          DatatypeConfigurationException,
+          IllegalAccessException,
+          InstantiationException,
+          InvocationTargetException,
+          OslcCoreApplicationException,
+          NoSuchMethodException {
+    // Check for the special case: exactly one reified statement and predicate is
+    // dcterms:title
+    final String dctermsTitleUri = OslcConstants.DCTERMS_NAMESPACE + "title";
+    if (collectedProps.size() == 1
+        && dctermsTitleUri.equals(collectedProps.get(0).getPredicate().getURI())) {
+      Statement only = collectedProps.get(0);
+      RDFNode val = only.getObject();
+      if (val.isLiteral()) {
+        String title = val.asLiteral().getString();
+        Link link = new Link(nestedResourceURI);
+        // Use the dcterms:title value as the Link label.
+        link.setLabel(title);
+        return link;
       }
+    }
 
-      // Fallback: create a MultiStatementLink as before
-      Model model = statement.getModel();
-      MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
-      for (Statement reifiedStatement : collectedProps) {
-          Property predicate = reifiedStatement.getPredicate();
-          String prefix = model.getNsURIPrefix(predicate.getNameSpace());
-          if (prefix == null) {
-              prefix = generatePrefix(model, predicate.getNameSpace());
-          }
-          QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
-          Object value = handleExtendedPropertyValue(beanClass, reifiedStatement, visitedResources, key, rdfTypes, reificationCache);
-          multiStatementLink.addStatement(key, value);
+    // Fallback: create a MultiStatementLink as before
+    Model model = statement.getModel();
+    MultiStatementLink multiStatementLink = new MultiStatementLink(nestedResourceURI);
+    for (Statement reifiedStatement : collectedProps) {
+      Property predicate = reifiedStatement.getPredicate();
+      String prefix = model.getNsURIPrefix(predicate.getNameSpace());
+      if (prefix == null) {
+        prefix = generatePrefix(model, predicate.getNameSpace());
       }
-      return multiStatementLink;
+      QName key = new QName(predicate.getNameSpace(), predicate.getLocalName(), prefix);
+      Object value =
+          handleExtendedPropertyValue(
+              beanClass, reifiedStatement, visitedResources, key, rdfTypes, reificationCache);
+      multiStatementLink.addStatement(key, value);
+    }
+    return multiStatementLink;
   }
 
   /**
@@ -1224,59 +1247,58 @@ public final class JenaModelHelper {
    * @param model the Jena model to scan for reified statements
    * @return a map from Triple to their associated reified property statements
    */
-  private static Map<org.apache.jena.graph.Triple, List<Statement>> buildReificationCache(final Model model) {
-      Map<org.apache.jena.graph.Triple, List<Statement>> cache = new HashMap<>();
+  private static Map<org.apache.jena.graph.Triple, List<Statement>> buildReificationCache(
+      final Model model) {
+    Map<org.apache.jena.graph.Triple, List<Statement>> cache = new HashMap<>();
 
-      // Find all reification statements (resources with rdf:type rdf:Statement)
-      ResIterator reifiedResources = model.listSubjectsWithProperty(RDF.type, RDF.Statement);
+    // Find all reification statements (resources with rdf:type rdf:Statement)
+    ResIterator reifiedResources = model.listSubjectsWithProperty(RDF.type, RDF.Statement);
 
-      while (reifiedResources.hasNext()) {
-          Resource reifiedNode = reifiedResources.next();
+    while (reifiedResources.hasNext()) {
+      Resource reifiedNode = reifiedResources.next();
 
-          // Get the triple components from the reified statement
-          Statement subjStmt = reifiedNode.getProperty(RDF.subject);
-          Statement predStmt = reifiedNode.getProperty(RDF.predicate);
-          Statement objStmt = reifiedNode.getProperty(RDF.object);
+      // Get the triple components from the reified statement
+      Statement subjStmt = reifiedNode.getProperty(RDF.subject);
+      Statement predStmt = reifiedNode.getProperty(RDF.predicate);
+      Statement objStmt = reifiedNode.getProperty(RDF.object);
 
-          if (subjStmt == null || predStmt == null || objStmt == null) {
-              // Incomplete reification, skip
-              continue;
-          }
-
-          // Construct the triple being reified
-          Resource subject = subjStmt.getResource();
-          Resource predicate = predStmt.getResource();
-          RDFNode object = objStmt.getObject();
-
-          org.apache.jena.graph.Triple triple = org.apache.jena.graph.Triple.create(
-              subject.asNode(),
-              predicate.asNode(),
-              object.asNode()
-          );
-
-          // Collect all metadata properties (excluding the standard reification properties)
-          List<Statement> reifiedProps = new ArrayList<>();
-          StmtIterator properties = reifiedNode.listProperties();
-          while (properties.hasNext()) {
-              Statement reifiedStatement = properties.next();
-              Property prop = reifiedStatement.getPredicate();
-              if (prop.equals(RDF.type)
-                  || prop.equals(RDF.subject)
-                  || prop.equals(RDF.predicate)
-                  || prop.equals(RDF.object)) {
-                  continue;
-              }
-              reifiedProps.add(reifiedStatement);
-          }
-          properties.close();
-
-          if (!reifiedProps.isEmpty()) {
-              cache.put(triple, reifiedProps);
-          }
+      if (subjStmt == null || predStmt == null || objStmt == null) {
+        // Incomplete reification, skip
+        continue;
       }
-      reifiedResources.close();
 
-      return cache;
+      // Construct the triple being reified
+      Resource subject = subjStmt.getResource();
+      Resource predicate = predStmt.getResource();
+      RDFNode object = objStmt.getObject();
+
+      org.apache.jena.graph.Triple triple =
+          org.apache.jena.graph.Triple.create(
+              subject.asNode(), predicate.asNode(), object.asNode());
+
+      // Collect all metadata properties (excluding the standard reification properties)
+      List<Statement> reifiedProps = new ArrayList<>();
+      StmtIterator properties = reifiedNode.listProperties();
+      while (properties.hasNext()) {
+        Statement reifiedStatement = properties.next();
+        Property prop = reifiedStatement.getPredicate();
+        if (prop.equals(RDF.type)
+            || prop.equals(RDF.subject)
+            || prop.equals(RDF.predicate)
+            || prop.equals(RDF.object)) {
+          continue;
+        }
+        reifiedProps.add(reifiedStatement);
+      }
+      properties.close();
+
+      if (!reifiedProps.isEmpty()) {
+        cache.put(triple, reifiedProps);
+      }
+    }
+    reifiedResources.close();
+
+    return cache;
   }
 
   private static Map<String, Method> createPropertyDefinitionToSetMethods(final Class<?> beanClass)
@@ -1607,8 +1629,7 @@ public final class JenaModelHelper {
 
     } else if (value instanceof XMLLiteral) {
       final XMLLiteral xmlLiteral = (XMLLiteral) value;
-      final Literal xmlString =
-          model.createTypedLiteral(xmlLiteral.getValue(), RDF.dtXMLLiteral);
+      final Literal xmlString = model.createTypedLiteral(xmlLiteral.getValue(), RDF.dtXMLLiteral);
 
       resource.addProperty(property, xmlString);
     } else if (value instanceof Element) {
