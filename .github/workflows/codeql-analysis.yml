@@ -5,6 +5,8 @@ on:
     branches: [master, main]
     paths:
       - '**.java'
+      - '**/pom.xml'
+      - '.github/workflows/codeql-analysis.yml'
   push:
     branches: [master, main]
 
