@@ -6,6 +6,7 @@ on:
     paths:
       - '**.java'
       - '**/pom.xml'
+      - 'pom.xml'
       - '.github/workflows/codeql-analysis.yml'
   push:
     branches: [master, main]
@@ -18,7 +19,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci:nolint') && ( !contains(github.event.pull_request.labels.*.name, 'dependencies') ||  contains(github.event.pull_request.labels.*.name, 'ci:full')) }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') || (!contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
