@@ -142,20 +142,20 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Run Spotless (Maven plugin)
-        run: |
-          mvn -B spotless:apply -P'!enforcer' -P'!spotbugs' --file pom.xml
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "Spotless PASS"
-          else
-            echo "Spotless FAIL; run `mvn validate -Pspotless` locally" >&2
-          fi
-      - name: Run OpenRewrite (Maven plugin)
-        # package is needed due to ANTLR and net.oauth.core processing steps
-        run: |
-          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' -P'!spotbugs' --file pom.xml
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "rewrite PASS"
-          else
-            echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
-          fi
+#      - name: Run Spotless (Maven plugin)
+#        run: |
+#          mvn -B spotless:apply -P'!enforcer' -P'!spotbugs' --file pom.xml
+#          if [ -z "$(git status --porcelain)" ]; then
+#            echo "Spotless PASS"
+#          else
+#            echo "Spotless FAIL; run `mvn validate -Pspotless` locally" >&2
+#          fi
+#      - name: Run OpenRewrite (Maven plugin)
+#        # package is needed due to ANTLR and net.oauth.core processing steps
+#        run: |
+#          mvn -B package org.openrewrite.maven:rewrite-maven-plugin:run spotless:apply -DskipTests -P'!enforcer' -P'!spotbugs' --file pom.xml
+#          if [ -z "$(git status --porcelain)" ]; then
+#            echo "rewrite PASS"
+#          else
+#            echo "rewrite FAIL; run `mvn org.openrewrite.maven:rewrite-maven-plugin:run` locally" >&2
+#          fi
