@@ -18,8 +18,8 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ReadWrite;
-import org.apache.jena.tdb.TDB;
-import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb1.TDB1;
+import org.apache.jena.tdb1.TDB1Factory;
 import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -47,7 +47,7 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
      * Use {@link StoreFactory} instead.
      */
     public DatasetQueryExecutorImpl() {
-        this(TDBFactory.createDataset());
+        this(TDB1Factory.createDataset());
     }
 
     public DatasetQueryExecutorImpl(final Dataset dataset) {
@@ -83,7 +83,7 @@ public class DatasetQueryExecutorImpl implements JenaQueryExecutor {
 
     @Override
     public void release() {
-        TDB.sync(dataset);
+        TDB1.sync(dataset);
         released = true;
         dataset.close();
     }
