@@ -20,8 +20,8 @@ import java.nio.file.Path;
 
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.tdb.TDB;
-import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb1.TDB1;
+import org.apache.jena.tdb1.TDB1Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +49,11 @@ public class DatasetBuilder {
         try {
             Files.createDirectories(path);
             LOGGER.info("Path {} should exists now", path);
-            Dataset dataset = TDBFactory.createDataset(path.toString());
+            Dataset dataset = TDB1Factory.createDataset(path.toString());
             // see https://jena.apache.org/documentation/tdb/datasets.html
             // (http://archive.is/2F7EA)
             // TODO per dataset only?
-            ARQ.getContext().set(TDB.symUnionDefaultGraph, true);
+            ARQ.getContext().set(TDB1.symUnionDefaultGraph, true);
             return dataset;
         } catch (final IOException e) {
             LOGGER.error(String.valueOf(e));
