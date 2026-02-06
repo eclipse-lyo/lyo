@@ -20,13 +20,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo.trs</groupId>
   <artifactId>trs-server</artifactId>
-  <version>7.0.0-SNAPSHOT</version>
+  <version>7.0.0.Alpha9</version>
   <name>Lyo :: TRS :: Server</name>
 
   <parent>
     <groupId>org.eclipse.lyo</groupId>
     <artifactId>lyo-parent</artifactId>
-    <version>7.0.0-SNAPSHOT</version>
+    <version>7.0.0.Alpha9</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
