@@ -19,7 +19,7 @@ import java.util.concurrent.BlockingQueue;
  */
 
 import org.apache.jena.query.Dataset;
-import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb1.TDB1Factory;
 import org.eclipse.lyo.store.internals.SparqlStoreImpl;
 import org.eclipse.lyo.store.internals.query.DatasetQueryExecutorImpl;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class StorePool {
     public StorePool(int poolSize, URI defaultNamedGraphUri) {
         this.defaultNamedGraphUri = defaultNamedGraphUri;
         this.storePool = new ArrayBlockingQueue<>(poolSize);
-        Dataset dataset = TDBFactory.createDataset();
+        Dataset dataset = TDB1Factory.createDataset();
         DatasetQueryExecutorImpl queryExecutor = new DatasetQueryExecutorImpl(dataset);
         for (int i = 0; i < poolSize; i++) {
             // the reason StoreFactory#sparqlInMem is not used here because we want to reuse the dataset
