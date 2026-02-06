@@ -785,6 +785,8 @@ public final class JenaModelHelper {
 
             if (String.class == setMethodComponentParameterClass) {
               parameter = stringValue;
+            } else if (XMLLiteral.class == setMethodComponentParameterClass) {
+              parameter = new XMLLiteral(literal.getString());
             } else if ((Boolean.class == setMethodComponentParameterClass)
                 || (Boolean.TYPE == setMethodComponentParameterClass)) {
               // XML supports both 'true' and '1' for a true Boolean.
@@ -1085,6 +1087,9 @@ public final class JenaModelHelper {
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
+      if (RDF.dtXMLLiteral.getURI().equals(literal.getDatatypeURI())) {
+        return new XMLLiteral(literal.getString());
+      }
       // fix for Bug 412789
       if (OSLC4JUtils.inferTypeFromShape()) {
 
@@ -1874,6 +1879,14 @@ public final class JenaModelHelper {
         nestedNode = model.createTypedLiteral(value.toString(), RDF.dtXMLLiteral);
       } else {
         nestedNode = model.createLiteral(value.toString());
+      }
+    } else if (value instanceof XMLLiteral) {
+      if (xmlLiteral) {
+        nestedNode =
+            model.createTypedLiteral(
+                ((XMLLiteral) value).getValue(), RDF.dtXMLLiteral);
+      } else {
+        throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
       }
     }
     // Floats need special handling for infinite values.
