@@ -64,7 +64,6 @@ import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
-import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.datatypes.xsd.impl.XSDDateType;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
@@ -1215,7 +1214,7 @@ public final class JenaModelHelper {
         return xsdDateTime.asCalendar().getTime();
       }
 
-      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
+      if (RDF.dtXMLLiteral.getURI().equals(literal.getDatatypeURI())) {
         return new XMLLiteral(literal.getString());
       }
 
@@ -1699,7 +1698,7 @@ public final class JenaModelHelper {
     } else if (value instanceof XMLLiteral) {
       final XMLLiteral xmlLiteral = (XMLLiteral) value;
       final Literal xmlString =
-          model.createTypedLiteral(xmlLiteral.getValue(), XMLLiteralType.theXMLLiteralType);
+          model.createTypedLiteral(xmlLiteral.getValue(), RDF.dtXMLLiteral);
 
       resource.addProperty(property, xmlString);
     } else if (value instanceof Element) {
@@ -1962,7 +1961,7 @@ public final class JenaModelHelper {
       }
 
       if (xmlLiteral) {
-        nestedNode = model.createTypedLiteral(value.toString(), XMLLiteralType.theXMLLiteralType);
+        nestedNode = model.createTypedLiteral(value.toString(), RDF.dtXMLLiteral);
       } else {
         nestedNode = model.createLiteral(value.toString());
       }
