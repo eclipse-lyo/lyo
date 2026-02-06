@@ -21,7 +21,7 @@
     <v.jersey>3.1.11</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>5.6.0</v.jena>
+    <v.jena>6.0.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
     <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
@@ -506,7 +506,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.1</version>
+          <version>3.15.0</version>
           <configuration>
             <compilerArgument>
               -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
