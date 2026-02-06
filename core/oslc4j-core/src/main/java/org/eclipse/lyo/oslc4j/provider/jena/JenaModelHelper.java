@@ -1087,7 +1087,7 @@ public final class JenaModelHelper {
     if (object.isLiteral()) {
 
       final Literal literal = object.asLiteral();
-      if (XMLLiteralType.theXMLLiteralType.getURI().equals(literal.getDatatypeURI())) {
+      if (RDF.dtXMLLiteral.getURI().equals(literal.getDatatypeURI())) {
         return new XMLLiteral(literal.getString());
       }
       // fix for Bug 412789
@@ -1884,7 +1884,7 @@ public final class JenaModelHelper {
       if (xmlLiteral) {
         nestedNode =
             model.createTypedLiteral(
-                ((XMLLiteral) value).getValue(), XMLLiteralType.theXMLLiteralType);
+                ((XMLLiteral) value).getValue(), RDF.dtXMLLiteral);
       } else {
         throw new IllegalStateException("xmlLiteral flag not set on a value of type XMLLiteral");
       }
