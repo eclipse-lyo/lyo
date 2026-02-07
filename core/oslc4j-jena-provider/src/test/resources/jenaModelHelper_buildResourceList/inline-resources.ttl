@@ -2,10 +2,10 @@
 @prefix ex:    <http://example.com/ns#> .
 
 <http://example.com/toplevel>
-    a ex:TopLevel ;
+    a ex:Test ;
     ex:title "Top Level Resource" ;
     ex:hasInline <http://example.com/inline> .
 
 <http://example.com/inline>
-    a ex:Inline ;
+    a ex:Test ;
     ex:title "Inline Resource" .

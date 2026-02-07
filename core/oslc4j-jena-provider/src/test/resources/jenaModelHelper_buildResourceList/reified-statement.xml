@@ -14,6 +14,7 @@
                 <dcterms:creator rdf:resource="https://example.com/user1"/>
                 <dcterms:title>Story1</dcterms:title>
                 <rdf:type rdf:resource="http://open-services.net/ns/rm#Requirement"/>
+                <rdf:type rdf:resource="http://example.com/ns#Test"/>
             </ex:Issue>
         </rdf:subject>
     </rdf:Statement>

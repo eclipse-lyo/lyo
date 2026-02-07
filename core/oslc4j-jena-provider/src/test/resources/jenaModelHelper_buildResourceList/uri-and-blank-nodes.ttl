@@ -2,7 +2,7 @@
 @prefix ex:    <http://example.com/ns#> .
 
 <http://example.com/resource1>
-    a ex:TestType ;
+    a ex:Test ;
     ex:title "URI Resource" .
 
 # This blank node should be filtered out

@@ -2,7 +2,7 @@
 @prefix ex:    <http://example.com/ns#> .
 
 <http://example.com/resource1>
-    a ex:TestType ;
+    a ex:Test ;
     ex:title "Test" .
 
 # Reification referencing the resource via rdf:subject

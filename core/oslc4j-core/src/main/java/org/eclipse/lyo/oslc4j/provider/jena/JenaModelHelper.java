@@ -489,14 +489,17 @@ public final class JenaModelHelper {
   /**
    * Builds a list of resources from the model based on the bean class and parsing configuration.
    * <p>
-   * The behavior depends on the {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
+   * This method always first attempts to find resources whose {@code rdf:type} matches the qualified name 
+   * derived from the bean class's OSLC annotations. The fallback behavior depends on the 
+   * {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
    * (see {@link OSLC4JUtils#useBeanClassForParsing()}):
    * <ul>
-   * <li>If {@code false} (default, for backward compatibility with bug 
-   * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>): 
-   * Attempts to return all resources whose {@code rdf:type} matches the qualified name derived from the bean class's OSLC annotations.
-   * If no resources match the type, falls back to returning all unmarshalable resources from the model.</li>
-   * <li>If {@code true}: Returns all unmarshalable resources that have an {@code rdf:type} property and properties as subjects.
+   * <li>If resources are found matching the type: returns those resources.</li>
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code false} (default, 
+   * for backward compatibility with bug <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>):
+   * returns an empty list.</li>
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code true}: 
+   * falls back to returning all unmarshalable resources that have an {@code rdf:type} property and properties as subjects.
    * This includes all resources with data, regardless of whether they reference or are referenced by other resources in the graph.</li>
    * </ul>
    * <p>
@@ -506,29 +509,23 @@ public final class JenaModelHelper {
    * 
    * @param model the Jena model to extract resources from
    * @param beanClass the bean class to determine resource selection strategy
-   * @return a list of resources matching the criteria
+   * @return a list of resources matching the criteria (may be empty if no matches found and fallback is disabled)
    */
   private static List<Resource> buildResourceList(Model model, Class<?> beanClass) {
-    // Fix for defect 412755
-    // keep the same behavior, i.e. use the class name to match the resource rdf:type
-    if (!OSLC4JUtils.useBeanClassForParsing()) {
-
       final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
       ResIterator listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
       try {
         List<Resource> resourceList = listSubjects.toList();
         
-        // If no resources match the type, fall back to all unmarshalable resources
-        if (resourceList.isEmpty()) {
+        // Fix for defect 412755
+        // If no resources match the type, and useBeanClassForParsing, then fall back to all unmarshalable resources
+        if (resourceList.isEmpty() && OSLC4JUtils.useBeanClassForParsing()) {
           return buildUnmarshalableResourceList(model);
         }
         return resourceList;
       } finally {
         listSubjects.close();
       }
-    } else {
-      return buildUnmarshalableResourceList(model);
-    }
   }
 
   /**

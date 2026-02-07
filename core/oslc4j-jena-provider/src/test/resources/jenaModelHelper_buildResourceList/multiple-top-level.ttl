@@ -2,13 +2,17 @@
 @prefix ex:    <http://example.com/ns#> .
 
 <http://example.com/resource1>
-    a ex:TestType ;
+    a ex:Test ;
     ex:title "Resource 1" .
 
 <http://example.com/resource2>
-    a ex:TestType ;
+    a ex:Test ;
     ex:title "Resource 2" .
 
 <http://example.com/resource3>
-    a ex:TestType ;
+    a ex:Test ;
     ex:title "Resource 3" .
+
+<http://example.com/resource4>
+    a ex:DifferentType ;
+    ex:title "Resource 4 with different type" .

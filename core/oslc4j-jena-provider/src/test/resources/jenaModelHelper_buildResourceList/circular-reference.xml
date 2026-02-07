@@ -2,12 +2,14 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:ex="http://example.com/ns#"
     xmlns:oslc_cm="http://open-services.net/ns/cm#"
     xmlns:oslc_rm="http://open-services.net/ns/rm#">
     
     <!-- First resource: A Requirement -->
     <rdf:Description rdf:about="http://example.com/requirements/REQ-123">
         <rdf:type rdf:resource="http://open-services.net/ns/rm#Requirement"/>
+        <rdf:type rdf:resource="http://example.com/ns#Test"/>
         <dcterms:identifier>REQ-123</dcterms:identifier>
         <dcterms:title>User Authentication Feature</dcterms:title>
         <oslc_rm:implementedBy rdf:resource="http://example.com/changeRequests/CR-456"/>
@@ -16,6 +18,7 @@
     <!-- Second resource: A ChangeRequest that implements the requirement -->
     <rdf:Description rdf:about="http://example.com/changeRequests/CR-456">
         <rdf:type rdf:resource="http://open-services.net/ns/cm#ChangeRequest"/>
+        <rdf:type rdf:resource="http://example.com/ns#Test"/>
         <dcterms:identifier>CR-456</dcterms:identifier>
         <dcterms:title>Implement OAuth2 Authentication</dcterms:title>
         <oslc_cm:implementsRequirement rdf:resource="http://example.com/requirements/REQ-123"/>
