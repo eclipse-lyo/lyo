@@ -1,0 +1,11 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex:    <http://example.com/ns#> .
+
+<http://example.com/toplevel>
+    a ex:Test ;
+    ex:title "Top Level Resource" ;
+    ex:hasInline <http://example.com/inline> .
+
+<http://example.com/inline>
+    a ex:Test ;
+    ex:title "Inline Resource" .
