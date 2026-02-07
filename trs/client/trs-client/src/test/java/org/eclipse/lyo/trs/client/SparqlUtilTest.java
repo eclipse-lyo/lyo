@@ -28,7 +28,7 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.tdb.TDBLoader;
+import org.apache.jena.tdb1.TDB1Loader;
 import org.apache.jena.tdb1.TDB1Factory;
 import org.apache.jena.tdb1.sys.TDBInternal;
 import org.apache.jena.update.UpdateAction;
@@ -86,7 +86,7 @@ public class SparqlUtilTest {
       File elvisModelFile = FileUtils.toFile(elvisModel);
       try (InputStream in =
           new BufferedInputStream(new FileInputStream(elvisModelFile.getAbsolutePath()))) {
-        TDBLoader.load(
+        TDB1Loader.load(
             TDBInternal.getDatasetGraphTDB(dataset.asDatasetGraph()),
             in,
             Lang.NTRIPLES,
