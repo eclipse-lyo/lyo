@@ -33,6 +33,7 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Link;
@@ -547,4 +548,315 @@ public class JenaModelHelperTest {
     return JenaModelHelper.unmarshal(
             model.getResource(sp.getAbout().toString()), ServiceProvider.class);
   }
+
+  // ===================================================================
+  // Tests for buildResourceList() behavior
+  // ===================================================================
+  //
+  // The buildResourceList() method has two modes of operation controlled by
+  // the OSLC4J_USE_BEAN_CLASS_FOR_PARSING system property:
+  //
+  // 1. Type-Specific Mode (default, useBeanClassForParsing = false):
+  //    - Always tries to find resources matching the bean class's rdf:type
+  //    - If no matches found, returns empty list (backward compatible with bug 412755)
+  //
+  // 2. Fallback Mode (useBeanClassForParsing = true):
+  //    - First tries to find resources matching the bean class's rdf:type
+  //    - If no matches found, falls back to all unmarshalable resources
+  //      (URI resources with rdf:type and properties)
+  //
+  // ===================================================================
+
+  /**
+   * Section: Type-Specific Mode Tests (default behavior)
+   * 
+   * These tests verify the default behavior when useBeanClassForParsing is false.
+   * Resources must match the bean class's rdf:type to be included.
+   */
+
+  /**
+   * Tests that resources with matching type are found in type-specific mode,
+   * and resources with non-matching types are excluded.
+   * The model contains 3 resources with ex:Test type and 1 with ex:DifferentType.
+   * Only the 3 matching resources should be returned.
+   */
+  @Test
+  public void testTypeSpecificMode_MatchingType() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/multiple-top-level.ttl");
+
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    assertNotNull(resources);
+    assertEquals("Should find only resources with matching type (3), excluding the one with different type", 
+        3, resources.length);
+
+    // Verify only the matching type URIs are present
+    List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+    assertTrue(uris.contains(URI.create("http://example.com/resource1")));
+    assertTrue(uris.contains(URI.create("http://example.com/resource2")));
+    assertTrue(uris.contains(URI.create("http://example.com/resource3")));
+    
+    // Verify resource4 with different type is NOT included
+    assertFalse("Resource with different type should be excluded", 
+        uris.contains(URI.create("http://example.com/resource4")));
+  }
+
+  /**
+   * Tests that resources with non-matching type are NOT found in type-specific mode (default).
+   * This is the backward-compatible behavior from bug 412755.
+   */
+  @Test
+  public void testTypeSpecificMode_NonMatchingType_ReturnsEmpty() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/non-matching-type.ttl");
+
+    // With default behavior, non-matching types return empty
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    assertNotNull(resources);
+    assertEquals("Should return empty array when type doesn't match in type-specific mode", 
+        0, resources.length);
+  }
+
+  /**
+   * Tests that inline resources with matching type are included (they're just regular resources).
+   */
+  @Test
+  public void testTypeSpecificMode_IncludesInlineResourcesWithMatchingType() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/inline-resources.ttl");
+
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // Should find BOTH resources - the "top-level" one and the "inline" one
+    assertNotNull(resources);
+    assertEquals("Should find all resources with matching type and properties", 2, resources.length);
+    
+    // Verify both URIs are present
+    List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+    assertTrue("Should include the top-level resource", 
+        uris.contains(URI.create("http://example.com/toplevel")));
+    assertTrue("Should include the inline resource", 
+        uris.contains(URI.create("http://example.com/inline")));
+  }
+
+  /**
+   * Tests that reified statement blank nodes are excluded, but the actual resources are included.
+   */
+  @Test
+  public void testTypeSpecificMode_WithReifiedStatement() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/reified-statement.xml");
+
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // Should find the resource with matching type, not the reification node
+    assertNotNull(resources);
+    assertEquals("Should find resource with matching type (not the rdf:Statement node)", 1, resources.length);
+    assertEquals("Should be the actual resource URI", 
+        URI.create("http://example.com/issue/ADC-37"), 
+        resources[0].getAbout());
+  }
+
+  /**
+   * Tests that resources involved in circular references are all included when types match.
+   */
+  @Test
+  public void testTypeSpecificMode_CircularReferences() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/circular-reference.xml");
+
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // Should find both resources if they have matching types
+    assertNotNull(resources);
+    assertEquals("Should find all resources with matching types despite circular references", 
+        2, resources.length);
+
+    // Verify both URIs are present
+    List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+    assertTrue("Should include the first resource", 
+        uris.contains(URI.create("http://example.com/requirements/REQ-123")));
+    assertTrue("Should include the second resource", 
+        uris.contains(URI.create("http://example.com/changeRequests/CR-456")));
+  }
+
+  /**
+   * Tests that when unmarshaling a model containing two resources - of the same type - where one references the other,
+   * both resources are included in the results and the reference is properly populated.
+   * 
+   * <ul>
+   *   <li>Both resources are returned in the results array (both have rdf:type and properties)</li>
+   *   <li>The referencing resource has its relatedResource property populated with correct URI and values</li>
+   * </ul>
+   */
+  @Test
+  public void testUnmarshalTwoResourcesWhereOneReferencesOther() throws Exception {
+    final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/two-resources-one-references-other.xml");
+
+    // Unmarshal to TestResource - should get both resources
+    final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+    // Verify we get both resources back
+    assertNotNull("Resources array should not be null", resources);
+    assertEquals("Should find both resources in the model", 2, resources.length);
+
+    // Find resource1 and resource2 in the results
+    TestResource resource1 = null;
+    TestResource resource2 = null;
+    for (TestResource r : resources) {
+      if (r.getAbout().toString().equals("http://example.com/resource1")) {
+        resource1 = r;
+      } else if (r.getAbout().toString().equals("http://example.com/resource2")) {
+        resource2 = r;
+      }
+    }
+
+    assertNotNull("Resource1 should be in the results", resource1);
+    assertNotNull("Resource2 should be in the results", resource2);
+
+    // Verify properties
+    assertEquals("Resource1 should have correct property value", "Resource 1", resource1.getAproperty());
+    assertEquals("Resource2 should have correct property value", "Resource 2", resource2.getAproperty());
+
+    // Verify that resource1's reference to resource2 is properly populated
+    assertNotNull("Resource1 should have relatedResource populated", resource1.getRelatedResource());
+    assertEquals("Resource1's relatedResource should point to resource2", 
+        URI.create("http://example.com/resource2"), 
+        resource1.getRelatedResource().getAbout());
+    assertEquals("Resource1's relatedResource should have correct property value",
+        "Resource 2",
+        resource1.getRelatedResource().getAproperty());
+  }
+
+  /**
+   * Section: Fallback Mode Tests (useBeanClassForParsing = true)
+   * 
+   * These tests verify the fallback behavior when useBeanClassForParsing is true.
+   * If type-specific matching fails, the system falls back to all unmarshalable resources.
+   */
+
+  /**
+   * Tests fallback mode when no resources match the type - should return all unmarshalable resources.
+   */
+  @Test
+  public void testFallbackMode_NonMatchingType_ReturnsAll() throws Exception {
+    // Enable fallback mode
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/non-matching-type.ttl");
+
+      // With fallback enabled, should find the resource even though type doesn't match
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      assertNotNull(resources);
+      assertEquals("Should find resource via fallback when type doesn't match", 1, resources.length);
+      assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+    } finally {
+      // Reset to default
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * Tests fallback mode with matching type - should still use type-specific matching first.
+   * The model contains 3 resources with ex:Test type and 1 with ex:DifferentType.
+   * Even in fallback mode, when types match, only the matching types should be returned.
+   */
+  @Test
+  public void testFallbackMode_MatchingType_UsesTypeSpecific() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/multiple-top-level.ttl");
+
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      // Should use type-specific matching first (same as without fallback)
+      assertNotNull(resources);
+      assertEquals("Should find only resources with matching type (3), not all resources", 3, resources.length);
+      
+      // Verify only matching type URIs are present
+      List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
+      assertTrue(uris.contains(URI.create("http://example.com/resource1")));
+      assertTrue(uris.contains(URI.create("http://example.com/resource2")));
+      assertTrue(uris.contains(URI.create("http://example.com/resource3")));
+      
+      // Verify resource4 with different type is NOT included even in fallback mode
+      assertFalse("Resource with different type should be excluded even in fallback mode when type matching succeeds", 
+          uris.contains(URI.create("http://example.com/resource4")));
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * Tests fallback mode when NO types match - should return ALL unmarshalable resources.
+   * The model contains 3 resources with ex:Test type and 1 with ex:DifferentType (4 total).
+   * When requesting a completely different type (e.g., Dog.class) that doesn't match any,
+   * fallback should return all 4 resources.
+   */
+  @Test
+  public void testFallbackMode_NoTypeMatch_ReturnsAllResources() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/multiple-top-level.ttl");
+
+      // Request Dog.class which doesn't match ANY resource type in the model
+      // With fallback enabled, should get ALL 4 resources (3 ex:Test + 1 ex:DifferentType)
+      final Dog[] resources = JenaModelHelper.unmarshal(model, Dog.class);
+
+      assertNotNull(resources);
+      assertEquals("Should find all 4 resources via fallback when no types match", 4, resources.length);
+      
+      // Verify all 4 URIs are present (including the one with different type)
+      List<URI> uris = Arrays.stream(resources).map(Dog::getAbout).toList();
+      assertTrue("Should include resource1", uris.contains(URI.create("http://example.com/resource1")));
+      assertTrue("Should include resource2", uris.contains(URI.create("http://example.com/resource2")));
+      assertTrue("Should include resource3", uris.contains(URI.create("http://example.com/resource3")));
+      assertTrue("Should include resource4 with different type in fallback mode", 
+          uris.contains(URI.create("http://example.com/resource4")));
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * Tests fallback mode excludes blank nodes when falling back.
+   */
+  @Test
+  public void testFallbackMode_ExcludesBlankNodes() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/uri-and-blank-nodes.ttl");
+
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      // Should only find the URI resource, not the blank node
+      assertNotNull(resources);
+      assertEquals("Should find only URI resources, not blank nodes (even in fallback mode)", 
+          1, resources.length);
+      assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * Tests fallback mode includes all resources with rdf:type and properties.
+   */
+  @Test
+  public void testFallbackMode_IncludesAllUnmarshalableResources() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model = RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/reified-subject.ttl");
+
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      // Should include the resource even if referenced by rdf:subject
+      assertNotNull(resources);
+      assertEquals("Should find the resource (fallback includes all unmarshalable resources)", 
+          1, resources.length);
+      assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
 }
+

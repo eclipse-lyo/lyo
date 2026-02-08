@@ -48,6 +48,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import javax.xml.XMLConstants;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -58,6 +59,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
@@ -458,50 +460,22 @@ public final class JenaModelHelper {
     if (Model.class.isAssignableFrom(beanClass)) {
       return new Model[] {model};
     } else if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
-      ResIterator listSubjects;
-
-      // Fix for defect 412755
-      // keep the same behavior, i.e. use the class name to match the resource rdf:type
-      if (!OSLC4JUtils.useBeanClassForParsing()) {
-
-        final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
-        listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
-        List<Resource> resourceList = listSubjects.toList();
-
-        createObjectResultList(beanClass, results, resourceList, reificationCache);
-      } else {
-        // get the list of subjects that have rdf:type element
-        listSubjects = model.listSubjectsWithProperty(RDF.type);
-
-        List<Resource> resourceList = new ArrayList<>();
-
-        // iterate over the list of subjects to create a list of
-        // subjects that does not contain inline resources
-        while (listSubjects.hasNext()) {
-          final Resource resource = listSubjects.next();
-
-          // check if the current resource is not an inline resource,
-          // i.e, check if it does not have a parent node
-          StmtIterator listStatements = model.listStatements(null, null, resource);
-          if (!listStatements.hasNext()) {
-            // the current resource is not an inline resource, it
-            // should be considered in the list of subjects
-            resourceList.add(resource);
-          }
-        }
-
-        createObjectResultList(beanClass, results, resourceList, reificationCache);
-      }
+      List<Resource> resourceList = buildResourceList(model, beanClass);
+      createObjectResultList(beanClass, results, resourceList, reificationCache);
 
     } else if (URI.class.equals(beanClass)) {
       StmtIterator memberIterator = model.listStatements(null, RDFS.member, (RDFNode) null);
-      while (memberIterator.hasNext()) {
-        Statement memberStatement = memberIterator.next();
-        RDFNode memberObject = memberStatement.getObject();
-        if (memberObject.isURIResource()) {
-          URI memberURI = URI.create(memberObject.asResource().getURI());
-          results.add(memberURI);
+      try {
+        while (memberIterator.hasNext()) {
+          Statement memberStatement = memberIterator.next();
+          RDFNode memberObject = memberStatement.getObject();
+          if (memberObject.isURIResource()) {
+            URI memberURI = URI.create(memberObject.asResource().getURI());
+            results.add(memberURI);
+          }
         }
+      } finally {
+        memberIterator.close();
       }
     }
 
@@ -509,6 +483,106 @@ public final class JenaModelHelper {
     logger.trace(
         "fromJenaModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
     return results.toArray((Object[]) Array.newInstance(beanClass, results.size()));
+  }
+
+  /**
+   * Builds a list of resources from the model based on the bean class and parsing configuration.
+   * <p>
+   * This method always first attempts to find resources whose {@code rdf:type} matches the qualified name 
+   * derived from the bean class's OSLC annotations. The fallback behavior depends on the 
+   * {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
+   * (see {@link OSLC4JUtils#useBeanClassForParsing()}):
+   * <ul>
+   * <li>If resources are found matching the type: returns those resources.</li>
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code false} (default, 
+   * for backward compatibility with bug <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>):
+   * returns an empty list.</li>
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code true}: 
+   * falls back to returning all unmarshalable resources that have an {@code rdf:type} property and properties as subjects.
+   * This includes all resources with data, regardless of whether they reference or are referenced by other resources in the graph.</li>
+   * </ul>
+   * <p>
+   * Note: In RDF, there is no inherent concept of "top-level" vs "inline" resources. All URI resources with properties
+   * are potentially meaningful and may need to be unmarshaled, including resources involved in bidirectional relationships
+   * or circular references (common in OSLC scenarios like Requirement ↔ ChangeRequest).
+   * 
+   * @param model the Jena model to extract resources from
+   * @param beanClass the bean class to determine resource selection strategy
+   * @return a list of resources matching the criteria (may be empty if no matches found and fallback is disabled)
+   */
+  private static List<Resource> buildResourceList(Model model, Class<?> beanClass) {
+      final String qualifiedName = TypeFactory.getQualifiedName(beanClass);
+      ResIterator listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
+      try {
+        List<Resource> resourceList = listSubjects.toList();
+        
+        // Fix for defect 412755
+        // If no resources match the type, and useBeanClassForParsing, then fall back to all unmarshalable resources
+        if (resourceList.isEmpty() && OSLC4JUtils.useBeanClassForParsing()) {
+          return buildUnmarshalableResourceList(model);
+        }
+        return resourceList;
+      } finally {
+        listSubjects.close();
+      }
+  }
+
+  /**
+   * Builds a list of unmarshalable resources from the model.
+   * <p>
+   * Returns only URI resources that have an {@code rdf:type} property and have their own
+   * properties (i.e., are actual resources with data, not just URI references).
+   * Blank nodes (including reification nodes) are excluded by filtering to only URI resources.
+   * 
+   * @param model the Jena model to extract resources from
+   * @return a list of URI resources that can be unmarshaled
+   */
+  private static List<Resource> buildUnmarshalableResourceList(Model model) {
+    ResIterator resIterator = model.listSubjectsWithProperty(RDF.type);
+    try {
+      return resIterator.toList().stream()
+          .filter(Resource::isURIResource)
+          .filter(r -> hasResourceProperties(model, r))
+          .toList();
+    } finally {
+      resIterator.close();
+    }
+  }
+
+  /**
+   * Checks if a resource has properties and should be included in the unmarshaling process.
+   * <p>
+   * A resource is included if it has properties as a subject beyond just {@code rdf:type}
+   * (i.e., it's a real resource with data, not just a type declaration). This includes 
+   * resources regardless of whether they are referenced by other resources in the graph.
+   * <p>
+   * This approach:
+   * <ul>
+   *   <li>Includes all resources with rdf:type and additional properties</li>
+   *   <li>Handles circular references correctly (all resources included)</li>
+   *   <li>Excludes resources with only rdf:type (type-only declarations)</li>
+   *   <li>Excludes bare URI references without properties</li>
+   * </ul>
+   * 
+   * @param model the Jena model
+   * @param resource the resource to check
+   * @return true if the resource has properties beyond rdf:type and should be unmarshaled
+   */
+  private static boolean hasResourceProperties(Model model, Resource resource) {
+    // Include the resource if it has any properties other than rdf:type
+    // This means it's a real resource with data, not just a type-only declaration
+    StmtIterator stmtIterator = model.listStatements(resource, null, (RDFNode) null);
+    try {
+      while (stmtIterator.hasNext()) {
+        Statement stmt = stmtIterator.next();
+        if (!stmt.getPredicate().equals(RDF.type)) {
+          return true; // Found a property other than rdf:type
+        }
+      }
+      return false; // Only rdf:type statements found (or no statements)
+    } finally {
+      stmtIterator.close();
+    }
   }
 
   /**
@@ -632,7 +706,6 @@ public final class JenaModelHelper {
     // Ensure a single-value property is not set more than once
     final Set<Method> singleValueMethodsUsed = new HashSet<>();
 
-    final StmtIterator listProperties = resource.listProperties();
     final IExtendedResource extendedResource;
     final Map<QName, Object> extendedProperties;
     if (bean instanceof IExtendedResource) {
@@ -647,7 +720,9 @@ public final class JenaModelHelper {
     // get the list of resource rdf type
     rdfTypes = getTypesFromResource(resource, rdfTypes);
 
-    while (listProperties.hasNext()) {
+    final StmtIterator listProperties = resource.listProperties();
+    try {
+      while (listProperties.hasNext()) {
 
       final Statement statement = listProperties.next();
       final Property predicate = statement.getPredicate();
@@ -889,17 +964,21 @@ public final class JenaModelHelper {
               Graph stmtGraph = statement.getModel().getGraph();
               ExtendedIterator<Node> reifiedTriplesIter =
                   ReifierStd.allNodes(stmtGraph, statement.asTriple());
-              while (reifiedTriplesIter.hasNext()) {
-                Node reifiedNode = reifiedTriplesIter.next();
-                Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
-                fromResource(
-                    classPropertyDefinitionsToSetMethods,
-                    reifiedClass,
-                    reifiedResource,
-                    reifiedStatement,
-                    visitedResources,
-                    rdfTypes,
-                    reificationCache);
+              try {
+                while (reifiedTriplesIter.hasNext()) {
+                  Node reifiedNode = reifiedTriplesIter.next();
+                  Resource reifiedStatement = getResource(statement.getModel(), reifiedNode);
+                  fromResource(
+                      classPropertyDefinitionsToSetMethods,
+                      reifiedClass,
+                      reifiedResource,
+                      reifiedStatement,
+                      visitedResources,
+                      rdfTypes,
+                      reificationCache);
+                }
+              } finally {
+                reifiedTriplesIter.close();
               }
 
               parameter = reifiedResource;
@@ -922,6 +1001,9 @@ public final class JenaModelHelper {
           }
         }
       }
+    }
+    } finally {
+      listProperties.close();
     }
 
     // Now, handle array and collection values since all are collected.
@@ -1234,52 +1316,57 @@ public final class JenaModelHelper {
 
       // Find all reification statements (resources with rdf:type rdf:Statement)
       ResIterator reifiedResources = model.listSubjectsWithProperty(RDF.type, RDF.Statement);
+      try {
+        while (reifiedResources.hasNext()) {
+            Resource reifiedNode = reifiedResources.next();
 
-      while (reifiedResources.hasNext()) {
-          Resource reifiedNode = reifiedResources.next();
+            // Get the triple components from the reified statement
+            Statement subjStmt = reifiedNode.getProperty(RDF.subject);
+            Statement predStmt = reifiedNode.getProperty(RDF.predicate);
+            Statement objStmt = reifiedNode.getProperty(RDF.object);
 
-          // Get the triple components from the reified statement
-          Statement subjStmt = reifiedNode.getProperty(RDF.subject);
-          Statement predStmt = reifiedNode.getProperty(RDF.predicate);
-          Statement objStmt = reifiedNode.getProperty(RDF.object);
+            if (subjStmt == null || predStmt == null || objStmt == null) {
+                // Incomplete reification, skip
+                continue;
+            }
 
-          if (subjStmt == null || predStmt == null || objStmt == null) {
-              // Incomplete reification, skip
-              continue;
-          }
+            // Construct the triple being reified
+            Resource subject = subjStmt.getResource();
+            Resource predicate = predStmt.getResource();
+            RDFNode object = objStmt.getObject();
 
-          // Construct the triple being reified
-          Resource subject = subjStmt.getResource();
-          Resource predicate = predStmt.getResource();
-          RDFNode object = objStmt.getObject();
+            org.apache.jena.graph.Triple triple = org.apache.jena.graph.Triple.create(
+                subject.asNode(),
+                predicate.asNode(),
+                object.asNode()
+            );
 
-          org.apache.jena.graph.Triple triple = org.apache.jena.graph.Triple.create(
-              subject.asNode(),
-              predicate.asNode(),
-              object.asNode()
-          );
-
-          // Collect all metadata properties (excluding the standard reification properties)
-          List<Statement> reifiedProps = new ArrayList<>();
-          StmtIterator properties = reifiedNode.listProperties();
-          while (properties.hasNext()) {
-              Statement reifiedStatement = properties.next();
-              Property prop = reifiedStatement.getPredicate();
-              if (prop.equals(RDF.type)
-                  || prop.equals(RDF.subject)
-                  || prop.equals(RDF.predicate)
-                  || prop.equals(RDF.object)) {
-                  continue;
+            // Collect all metadata properties (excluding the standard reification properties)
+            List<Statement> reifiedProps = new ArrayList<>();
+            StmtIterator properties = reifiedNode.listProperties();
+            try {
+              while (properties.hasNext()) {
+                  Statement reifiedStatement = properties.next();
+                  Property prop = reifiedStatement.getPredicate();
+                  if (prop.equals(RDF.type)
+                      || prop.equals(RDF.subject)
+                      || prop.equals(RDF.predicate)
+                      || prop.equals(RDF.object)) {
+                      continue;
+                  }
+                  reifiedProps.add(reifiedStatement);
               }
-              reifiedProps.add(reifiedStatement);
-          }
-          properties.close();
+            } finally {
+              properties.close();
+            }
 
-          if (!reifiedProps.isEmpty()) {
-              cache.put(triple, reifiedProps);
-          }
+            if (!reifiedProps.isEmpty()) {
+                cache.put(triple, reifiedProps);
+            }
+        }
+      } finally {
+        reifiedResources.close();
       }
-      reifiedResources.close();
 
       return cache;
   }
