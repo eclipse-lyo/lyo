@@ -307,6 +307,11 @@
         <version>3.0.2</version>
       </dependency>
       <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>lyo-server-common</artifactId>
+        <version>${v.lyo}</version>
+      </dependency>
+      <dependency>
         <groupId>org.eclipse.lyo.oslc4j.core</groupId>
         <artifactId>oslc4j-core</artifactId>
         <version>${v.lyo}</version>
