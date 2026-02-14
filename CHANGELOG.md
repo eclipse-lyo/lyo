@@ -35,6 +35,7 @@
 - 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
 - TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
+- Any mentions of `lyo-releases` or `lyo-snapshots`. Use Maven Central only.
 
 ### Fixed
 
