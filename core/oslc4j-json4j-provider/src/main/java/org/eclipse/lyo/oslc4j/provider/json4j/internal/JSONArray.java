@@ -29,7 +29,7 @@ import jakarta.json.JsonValue;
  * This class aims to wrap Jakarta JsonArray to be usable in JsonHelper as before.
  * Unlike Wink's JSONArray, Jakarta ones are immutable, which makes us work with JsonArrayBuilder before building the object.
  */
-public class JSONArray implements Iterable<JsonValue> {
+public class JSONArray implements Iterable<Object> {
 
     private JsonArrayBuilder builder;
 
@@ -66,8 +66,8 @@ public class JSONArray implements Iterable<JsonValue> {
         return build().size();
     }
 
-    public JsonValue get(int index) {
-        return build().get(index);
+    public Object get(int index) {
+        return JSONObject.toValue(build().get(index));
     }
 
     public JSONObject getJSONObject(int index) {
@@ -111,8 +111,28 @@ public class JSONArray implements Iterable<JsonValue> {
     }
 
     @Override
-    public Iterator<JsonValue> iterator() {
-        return build().iterator();
+    public Iterator<Object> iterator() {
+        return new Iterator<Object>() {
+            private final Iterator<JsonValue> it = build().iterator();
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            @Override
+            public Object next() {
+                return JSONObject.toValue(it.next());
+            }
+        };
+    }
+
+    public String write() {
+        return toString();
+    }
+
+    public void write(java.io.Writer writer) {
+        Json.createWriter(writer).write(build());
     }
 
 }

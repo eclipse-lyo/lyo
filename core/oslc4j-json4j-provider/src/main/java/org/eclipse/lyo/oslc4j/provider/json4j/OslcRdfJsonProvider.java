@@ -24,14 +24,14 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyReader;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
 
 import org.eclipse.lyo.oslc4j.core.model.FilteredResource;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
@@ -39,7 +39,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 import org.eclipse.lyo.oslc4j.core.model.ResponseInfoCollection;
 
-import com.sodius.oslc.core.provider.internal.LyoProviderUtils;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.LyoProviderUtils;
 
 @Provider
 @Produces(OslcMediaType.APPLICATION_JSON)

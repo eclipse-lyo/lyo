@@ -15,7 +15,7 @@ package org.eclipse.lyo.oslc4j.provider.json4j.internal;
 
 import javax.xml.namespace.QName;
 
-import com.sodius.oslc.core.provider.internal.NamespaceMappings;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.NamespaceMappings;
 
 /*
  * Common constants and methods for reading and writing Json content

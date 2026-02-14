@@ -54,7 +54,7 @@ public class JSONObjectTest {
         JSONArray retrievedArray = json.getJSONArray("arrayKey");
         assertNotNull(retrievedArray);
         assertEquals(2, retrievedArray.size());
-        assertEquals("item1", retrievedArray.get(0).toString().replace(""", "")); // JsonString.toString() includes quotes
+        assertEquals("item1", retrievedArray.get(0));
     }
     
     @Test
@@ -62,6 +62,6 @@ public class JSONObjectTest {
         JSONObject json = new JSONObject();
         json.put("k", "v");
         String s = json.toString();
-        assertTrue(s.contains(""k":"v"") || s.contains(""k": "v""));
+        assertTrue(s.contains("\"k\":\"v\"") || s.contains("\"k\": \"v\""));
     }
 }

@@ -48,11 +48,11 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sodius.oslc.core.provider.internal.JavaResourceShape;
-import com.sodius.oslc.core.provider.internal.LyoProviderUtils;
-import com.sodius.oslc.core.provider.internal.NamespaceMappings;
-import com.sodius.oslc.core.provider.internal.PropertyAccessor;
-import com.sodius.oslc.core.provider.internal.RdfCollections;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JavaResourceShape;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.LyoProviderUtils;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.NamespaceMappings;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.PropertyAccessor;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.RdfCollections;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
 import jakarta.json.JsonArray;
@@ -320,7 +320,7 @@ public class JSONModelBuilder extends AbstractBuilder {
         String rdfTypeKey = getRdfKey(PROPERTY_TYPE);
         JSONArray typesJSONArray;
         if (jsonObject.containsKey(rdfTypeKey)) {
-            typesJSONArray = new JSONArray((JsonArray) jsonObject.get(rdfTypeKey));
+            typesJSONArray = (JSONArray) jsonObject.get(rdfTypeKey);
         } else {
             typesJSONArray = new JSONArray();
         }
@@ -387,8 +387,8 @@ public class JSONModelBuilder extends AbstractBuilder {
 
             // make sure we don't add a type already part of the array
             Set<String> knownTypes = new HashSet<>();
-            for (JsonValue jsonValue : typesJSONArray) {
-                String typeName = ((JsonObject) jsonValue).getString(getRdfKey(PROPERTY_RESOURCE));
+            for (Object jsonValue : typesJSONArray) {
+                String typeName = ((JSONObject) jsonValue).getString(getRdfKey(PROPERTY_RESOURCE));
                 knownTypes.add(typeName);
             }
 

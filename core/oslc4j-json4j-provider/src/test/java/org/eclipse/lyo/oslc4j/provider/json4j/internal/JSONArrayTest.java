@@ -31,7 +31,7 @@ public class JSONArrayTest {
         array.add("B");
         
         int count = 0;
-        for (JsonValue v : array) {
+        for (Object v : array) {
             count++;
         }
         assertEquals(2, count);

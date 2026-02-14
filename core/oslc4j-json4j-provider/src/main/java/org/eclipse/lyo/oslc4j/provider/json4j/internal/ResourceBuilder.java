@@ -55,13 +55,13 @@ import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sodius.oslc.core.provider.internal.CollectionSetterInvoker;
-import com.sodius.oslc.core.provider.internal.JavaResourceShape;
-import com.sodius.oslc.core.provider.internal.LyoProviderUtils;
-import com.sodius.oslc.core.provider.internal.NamespaceMappings;
-import com.sodius.oslc.core.provider.internal.PropertyAccessor;
-import com.sodius.oslc.core.provider.internal.RdfCollections;
-import com.sodius.oslc.core.provider.internal.ResourceShapes;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.CollectionSetterInvoker;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JavaResourceShape;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.LyoProviderUtils;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.NamespaceMappings;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.PropertyAccessor;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.RdfCollections;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
 import jakarta.json.JsonArray;
@@ -115,17 +115,17 @@ public final class ResourceBuilder extends AbstractBuilder {
         JSONObject jsonObject = new JSONObject(jakartaObject);
 
         // First read the prefixes and set up maps so we can create full property definition values later
-        Object prefixes = jsonObject.opt(PREFIXES);
+        JsonValue prefixes = jakartaObject.get(PREFIXES);
         if (prefixes instanceof JsonObject) {
             JSONObject prefixesJSONObject = new JSONObject((JsonObject) prefixes);
             addMappings(prefixesJSONObject);
         }
 
-        JSONArray jsonArray = null;
+        JsonArray jsonArray = null;
 
         // Look for rdfs:member
         if (getNamespaceMappings().containsPrefix(OslcConstants.RDFS_NAMESPACE_PREFIX)) {
-            Object members = jsonObject.opt(getRdfsKey(PROPERTY_MEMBER));
+            JsonValue members = jakartaObject.get(getRdfsKey(PROPERTY_MEMBER));
             if (members instanceof JsonArray) {
 
                 // If the Java class defines an accessor for rdfs:member property,
@@ -134,16 +134,16 @@ public final class ResourceBuilder extends AbstractBuilder {
                 Optional<PropertyAccessor> membersAccessor = JavaResourceShape.valueOf(beanClass)
                         .getAccessor(OslcConstants.RDFS_NAMESPACE + PROPERTY_MEMBER);
                 if (membersAccessor.isEmpty()) {
-                    jsonArray = new JSONArray((JsonArray) members);
+                    jsonArray = (JsonArray) members;
                 }
             }
         }
 
         // Look for oslc:results. Seen in ChangeManagement.
         if ((jsonArray == null) && getNamespaceMappings().containsPrefix(OslcConstants.OSLC_CORE_NAMESPACE_PREFIX)) {
-            Object results = jsonObject.opt(getOslcKey(PROPERTY_RESULTS));
+            JsonValue results = jakartaObject.get(getOslcKey(PROPERTY_RESULTS));
             if (results instanceof JsonArray) {
-                jsonArray = new JSONArray((JsonArray) results);
+                jsonArray = (JsonArray) results;
             }
         }
 
@@ -178,7 +178,6 @@ public final class ResourceBuilder extends AbstractBuilder {
      * populated if the property inferTypeFromShape is set to true.
      *
      * @param jsonObject
-     * @param rdfPrefix
      * @param types
      * @return List of rdf:types
      * @throws OslcCoreMissingNamespaceDeclarationException
@@ -189,7 +188,7 @@ public final class ResourceBuilder extends AbstractBuilder {
         // This is necessary because for an inline object, the retuned
         // rdf:type is not from the parent object, it is from the actual
         // resource.
-        if (ResourceShapes.inferTypeFromShape() && types.isEmpty()) {
+        if (OSLC4JUtils.inferTypeFromShape() && types.isEmpty()) {
             String typeProperty = getRdfKey(PROPERTY_TYPE);
             if (jsonObject.has(typeProperty)) {
                 JSONArray array = jsonObject.getJSONArray(typeProperty);
@@ -213,8 +212,8 @@ public final class ResourceBuilder extends AbstractBuilder {
         if (bean instanceof IResource) {
             Object aboutURIObject = jsonObject.opt(getRdfKey(PROPERTY_ABOUT));
 
-            if (aboutURIObject instanceof JsonString) {
-                URI aboutURI = new URI(((JsonString) aboutURIObject).getString());
+            if (aboutURIObject instanceof String) {
+                URI aboutURI = new URI((String) aboutURIObject);
                 if (LyoProviderUtils.relativeURIsAreDisabled() && !aboutURI.isAbsolute()) {
                     throw new OslcCoreRelativeURIException(beanClass, "setAbout", aboutURI);
                 }
@@ -372,8 +371,7 @@ public final class ResourceBuilder extends AbstractBuilder {
 
         // number?
         else if (jsonValue instanceof JsonNumber) {
-            JsonNumber jsonNumber = (JsonNumber) jsonValue;
-            return buildExtendedNumber(jsonNumber, propertyQName, rdfTypes);
+            return buildExtendedNumber(((JsonNumber) jsonValue).numberValue(), propertyQName, rdfTypes);
         }
 
         // boolean?
@@ -384,7 +382,7 @@ public final class ResourceBuilder extends AbstractBuilder {
         }
 
         // null?
-        else if (JsonValue.NULL.equals(jsonValue)) {
+        else if ((jsonValue == null) || (JsonValue.NULL.equals(jsonValue))) {
             return null;
         }
 
@@ -395,18 +393,18 @@ public final class ResourceBuilder extends AbstractBuilder {
     }
 
     @SuppressWarnings("java:S1130") // InvocationTargetException can be raised by early Lyo versions
-    private Object buildExtendedNumber(JsonNumber value, QName propertyQName, Set<String> rdfTypes)
+    private Object buildExtendedNumber(Number value, QName propertyQName, Set<String> rdfTypes)
             throws DatatypeConfigurationException, InstantiationException, InvocationTargetException {
 
-        if (value.isIntegral()) {
+        if (value instanceof Integer || value instanceof Long || value instanceof Short || value instanceof Byte || value instanceof BigInteger) {
             // fix for Bug 412789
             // There is no need to infer data type from resource shapes as integer values do not have ambiguity cases
-            return value.intValue();
+            return value;
         } else {
             // fix for Bug 412789
             // try to infer data type from resource shapes for Double
-            if (ResourceShapes.inferTypeFromShape()) {
-                Object newObject = ResourceShapes.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, value.doubleValue());
+            if (OSLC4JUtils.inferTypeFromShape()) {
+                Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(new HashSet<>(rdfTypes), propertyQName, value.doubleValue());
 
                 // return the value only if the type was really inferred from
                 // the resource shape, otherwise keep the same behavior
@@ -429,8 +427,8 @@ public final class ResourceBuilder extends AbstractBuilder {
 
         // fix for Bug 412789
         // try to infer the data type from resource shapes for Strings
-        if (ResourceShapes.inferTypeFromShape()) {
-            Object newObject = ResourceShapes.getValueBasedOnResourceShapeType(rdfTypes, propertyQName, value);
+        if (OSLC4JUtils.inferTypeFromShape()) {
+            Object newObject = OSLC4JUtils.getValueBasedOnResourceShapeType(new HashSet<>(rdfTypes), propertyQName, value);
 
             // return the value only if the type was really inferred from
             // the resource shape, otherwise keep the same behavior
@@ -499,11 +497,11 @@ public final class ResourceBuilder extends AbstractBuilder {
     private Object buildExtendedSequence(JSONArray sequenceMembers, Class<?> beanClass, QName propertyQName, Set<String> rdfTypes)
             throws URISyntaxException, DatatypeConfigurationException, IllegalAccessException, InstantiationException, InvocationTargetException,
             OslcCoreApplicationException, NoSuchMethodException {
-
         List<Object> sequence = RdfCollections.createSequence();
-        for (JsonValue jsonValue : sequenceMembers) {
-            Object value = buildExtendedValue(jsonValue, beanClass, propertyQName, rdfTypes);
-            sequence.add(value);
+        JsonArray jakartaArray = sequenceMembers.build();
+        for (JsonValue v : jakartaArray) {
+                Object value = buildExtendedValue(v, beanClass, propertyQName, rdfTypes);
+                sequence.add(value);
         }
         return sequence;
     }
@@ -513,7 +511,7 @@ public final class ResourceBuilder extends AbstractBuilder {
             OslcCoreApplicationException, NoSuchMethodException {
 
         List<Object> collection = new ArrayList<>();
-        for (JsonValue element : new JSONArray(array)) {
+        for (JsonValue element : array) {
             collection.add(buildExtendedValue(element, beanClass, propertyQName, rdfTypes));
         }
         return collection;
@@ -532,7 +530,7 @@ public final class ResourceBuilder extends AbstractBuilder {
         }
     }
 
-    private boolean isRdfListNode(PropertyAccessor accessor, Object jsonValue) throws OslcCoreMissingNamespaceDeclarationException {
+    private boolean isRdfListNode(PropertyAccessor accessor, JsonValue jsonValue) throws OslcCoreMissingNamespaceDeclarationException {
         if (!(jsonValue instanceof JsonObject)) {
             return false;
         }
@@ -565,16 +563,19 @@ public final class ResourceBuilder extends AbstractBuilder {
 
         // determine whether the object is a RDF collection container
         boolean isRdfContainerNode = isRdfListNode(accessor, jsonValue);
-        JSONArray container = null;
+        JsonArray container = null;
         if (!isRdfContainerNode && (jsonValue instanceof JsonObject)) {
             JSONObject parent = new JSONObject((JsonObject) jsonValue);
 
-            container = parent.optJSONArray(getRdfKey(RdfCollections.RDF_ALT));
-            if (container == null) {
-                container = parent.optJSONArray(getRdfKey(RdfCollections.RDF_BAG));
+            JSONArray c = parent.optJSONArray(getRdfKey(RdfCollections.RDF_ALT));
+            if (c == null) {
+                c = parent.optJSONArray(getRdfKey(RdfCollections.RDF_BAG));
             }
-            if (container == null) {
-                container = parent.optJSONArray(getRdfKey(RdfCollections.RDF_SEQ));
+            if (c == null) {
+                c = parent.optJSONArray(getRdfKey(RdfCollections.RDF_SEQ));
+            }
+            if (c != null) {
+                container = c.build();
             }
             isRdfContainerNode = container != null;
         }
@@ -587,8 +588,8 @@ public final class ResourceBuilder extends AbstractBuilder {
                 // If this is the special case for an rdf:resource?
                 Object uriObject = nestedJSONObject.opt(getRdfKey(PROPERTY_RESOURCE));
 
-                if (uriObject instanceof JsonString) {
-                    URI uri = new URI(((JsonString) uriObject).getString());
+                if (uriObject instanceof String) {
+                    URI uri = new URI((String) uriObject);
 
                     if (LyoProviderUtils.relativeURIsAreDisabled() && !uri.isAbsolute()) {
                         throw new OslcCoreRelativeURIException(beanClass, accessor.getSetter().getName(), uri);
@@ -605,23 +606,22 @@ public final class ResourceBuilder extends AbstractBuilder {
 
         // json array?
         else if ((jsonValue instanceof JsonArray) || isRdfContainerNode) {
-            JSONArray jsonArray;
+            JsonArray jsonArray;
 
             if (isRdfContainerNode && (container == null)) {
-                jsonArray = new JSONArray();
+                JSONArray wrapperArray = new JSONArray();
 
                 JSONObject listNode = new JSONObject((JsonObject) jsonValue);
                 while ((listNode != null) && !RDF_NIL_URI.equals(listNode.opt(getRdfKey(PROPERTY_RESOURCE)))) {
                     Object o = listNode.opt(getRdfKey(PROPERTY_FIRST));
-                    jsonArray.add(o);
+                    wrapperArray.add(o);
                     listNode = listNode.optJSONObject(getRdfKey(PROPERTY_REST));
                 }
+                jsonArray = wrapperArray.build();
             } else if (isRdfContainerNode) {
-                JSONArray array = container;
-                jsonArray = array;
+                jsonArray = container;
             } else {
-                JSONArray array = new JSONArray((JsonArray) jsonValue);
-                jsonArray = array;
+                jsonArray = (JsonArray) jsonValue;
             }
 
             // build the array/collection members
@@ -667,7 +667,7 @@ public final class ResourceBuilder extends AbstractBuilder {
         }
 
         // null?
-        else if ((jsonValue == null) || JsonValue.NULL.equals(jsonValue)) {
+        else if ((jsonValue == null) || (JsonValue.NULL.equals(jsonValue))) {
             return buildAccessorNullValue(setMethodComponentParameterClass);
         }
 
@@ -783,7 +783,7 @@ public final class ResourceBuilder extends AbstractBuilder {
     private void addMappings(JSONObject prefixes) {
         for (Entry<String, JsonValue> prefixEntry : prefixes.entrySet()) {
             String prefix = prefixEntry.getKey();
-            Object namespace = prefixEntry.getValue();
+            JsonValue namespace = prefixEntry.getValue();
 
             if (namespace instanceof JsonString) {
                 String namespaceString = ((JsonString) namespace).getString();

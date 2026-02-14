@@ -63,15 +63,37 @@ public class JSONObject {
     }
 
     public Object opt(String key) {
-        return build().get(key);
+        return build().containsKey(key) ? toValue(build().get(key)) : null;
     }
 
     public Object get(String key) {
         JsonObject object = build();
         if (object.containsKey(key)) {
-            return object.get(key);
+            return toValue(object.get(key));
         } else {
             throw new JsonException("The key [" + key + "] was not in the map.");
+        }
+    }
+
+    public static Object toValue(JsonValue value) {
+        if (value == null) return null;
+        switch (value.getValueType()) {
+            case STRING:
+                return ((jakarta.json.JsonString) value).getString();
+            case NUMBER:
+                return ((jakarta.json.JsonNumber) value).numberValue();
+            case TRUE:
+                return Boolean.TRUE;
+            case FALSE:
+                return Boolean.FALSE;
+            case NULL:
+                return null;
+            case OBJECT:
+                return new JSONObject((JsonObject) value);
+            case ARRAY:
+                return new JSONArray((jakarta.json.JsonArray) value);
+            default:
+                return value;
         }
     }
 
@@ -97,6 +119,15 @@ public class JSONObject {
     public JSONObject optJSONObject(String key) {
         JsonObject object = build();
         return object.containsKey(key) ? new JSONObject(object.getJsonObject(key)) : null;
+    }
+
+    public JSONObject getJSONObject(String key) {
+        JsonObject object = build();
+        if (object.containsKey(key)) {
+            return new JSONObject(object.getJsonObject(key));
+        } else {
+            throw new JsonException("The value for key: [" + key + "] was null.  Object required.");
+        }
     }
 
     public JSONArray getJSONArray(String key) {
@@ -159,6 +190,14 @@ public class JSONObject {
 
     public boolean isEmpty() {
         return build().isEmpty();
+    }
+
+    public String write() {
+        return toString();
+    }
+
+    public void write(java.io.Writer writer) {
+        Json.createWriter(writer).write(build());
     }
 
 }

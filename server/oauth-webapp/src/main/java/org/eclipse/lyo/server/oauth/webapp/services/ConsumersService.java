@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONArray;
 import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONObject;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;

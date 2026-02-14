@@ -134,7 +134,7 @@ public class JsonOslcNameTest {
 		List<String> actualRdfTypesList = new ArrayList<>();
 		for (Object node : rdfTypes) {
 			JSONObject obj = (JSONObject) node;
-			String type = obj.build().values().iterator().next().toString();
+			String type = obj.getString("rdf:resource");
 			actualRdfTypesList.add(type);
 		}
 		for (String expectedRdfType : expectedRDFTypes) {

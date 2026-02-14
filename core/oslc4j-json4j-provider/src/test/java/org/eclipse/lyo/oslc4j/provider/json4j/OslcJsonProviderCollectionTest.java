@@ -107,7 +107,7 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
         });
         String rdfResponseString = response.readEntity(String.class);
         JSONObject responseJSON = new JSONObject(jakarta.json.Json.createReader(new java.io.StringReader(rdfResponseString)).readObject());
-        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
+        Object[] objects = JsonHelper.fromJSON(responseJSON.build(), TestResource.class);
 
 
         boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;

@@ -26,7 +26,7 @@ public class ServiceProviderTest {
         JsonReader reader = Json.createReader(is);
         JSONObject jsonObject = new JSONObject(reader.readObject());
 
-        Object[] objects = JsonHelper.fromJSON(jsonObject, ServiceProvider.class);
+        Object[] objects = JsonHelper.fromJSON(jsonObject.build(), ServiceProvider.class);
         // Cast each element or create new array
         ServiceProvider[] providers = new ServiceProvider[objects.length];
         System.arraycopy(objects, 0, providers, 0, objects.length);
