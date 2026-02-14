@@ -32,6 +32,7 @@
 - 🧨 Support for JDK 17 was removed. JDK 21 is the new baseline.
 - 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
+- Any mentions of `lyo-releases` or `lyo-snapshots`. Use Maven Central only.
 
 ### Fixed
 
