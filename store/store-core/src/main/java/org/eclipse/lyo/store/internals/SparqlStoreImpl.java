@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
+ * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+ */
 package org.eclipse.lyo.store.internals;
 
 import java.lang.reflect.Array;
@@ -16,23 +29,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
-/*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
- *
- * See the NOTICE file(s) distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License 2.0 which is available at
- * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License 1.0
- * which is available at http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
- */
-
 import org.apache.jena.arq.querybuilder.DescribeBuilder;
 import org.apache.jena.arq.querybuilder.ExprFactory;
 import org.apache.jena.arq.querybuilder.Order;
@@ -95,6 +92,7 @@ public class SparqlStoreImpl implements Store {
      * Could be used to prevent extremely large results
      */
     public static final int TRIPLE_LIMIT = 10001;
+
     private static final Logger log = LoggerFactory.getLogger(SparqlStoreImpl.class);
     private final JenaQueryExecutor queryExecutor;
 
@@ -122,10 +120,14 @@ public class SparqlStoreImpl implements Store {
      * @param username       Username
      * @param password       Password
      */
-    public SparqlStoreImpl(final String queryEndpoint, final String updateEndpoint,
-            final String username, final String password) {
-        this(new SparqlQueryExecutorBasicAuthImpl(queryEndpoint, updateEndpoint, username,
-                password));
+    public SparqlStoreImpl(
+            final String queryEndpoint,
+            final String updateEndpoint,
+            final String username,
+            final String password) {
+        this(
+                new SparqlQueryExecutorBasicAuthImpl(
+                        queryEndpoint, updateEndpoint, username, password));
     }
 
     /**
@@ -165,13 +167,15 @@ public class SparqlStoreImpl implements Store {
             final Model model = JenaModelHelper.createJenaModel(resources);
             insertJenaModel(namedGraph, model);
             return true;
-        } catch (DatatypeConfigurationException | IllegalAccessException |
-                OslcCoreApplicationException | InvocationTargetException e) {
+        } catch (DatatypeConfigurationException
+                | IllegalAccessException
+                | OslcCoreApplicationException
+                | InvocationTargetException e) {
             throw new StoreAccessException(e);
         }
     }
 
-    //this is highly inefficient. I need to replace with a single query that removes all nodes.
+    // this is highly inefficient. I need to replace with a single query that removes all nodes.
     @Override
     public void deleteResources(final URI namedGraphUri, final URI... subjectUris) {
         final QuerySolutionMap map = new QuerySolutionMap();
@@ -179,9 +183,11 @@ public class SparqlStoreImpl implements Store {
             map.clear();
             map.add("graph", new ResourceImpl(String.valueOf(namedGraphUri)));
             map.add("subject", new ResourceImpl(String.valueOf(uris)));
-            final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
-                "WITH ?graph DELETE  { ?s ?p ?v } WHERE {?s ?p ?v . FILTER(?s = ?subject)}",
-                map);
+            final ParameterizedSparqlString sparqlString =
+                    new ParameterizedSparqlString(
+                            "WITH ?graph DELETE  { ?s ?p ?v } WHERE {?s ?p ?v . FILTER(?s ="
+                                    + " ?subject)}",
+                            map);
             final String query = sparqlString.toString();
             final UpdateProcessor updateProcessor = queryExecutor.prepareSparqlUpdate(query);
             updateProcessor.execute();
@@ -201,13 +207,15 @@ public class SparqlStoreImpl implements Store {
     public boolean namedGraphExists(final URI namedGraphUri) {
         final QuerySolutionMap map = new QuerySolutionMap();
         map.add("g", new ResourceImpl(String.valueOf(namedGraphUri)));
-        final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
-                "ASK {GRAPH ?g {?s ?p ?o} }", map);
-        final String query = sparqlString.toString();
+
+        // Check if graph exists by looking for any triples in the graph
+        final ParameterizedSparqlString sparqlString =
+                new ParameterizedSparqlString("ASK WHERE { GRAPH ?g { ?s ?p ?o } }", map);
 
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query);
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(sparqlString.toString());
             return queryExecution.execAsk();
         } finally {
             queryExecutor.end();
@@ -219,8 +227,8 @@ public class SparqlStoreImpl implements Store {
         final QuerySolutionMap map = new QuerySolutionMap();
         map.add("g", new ResourceImpl(String.valueOf(namedGraphUri)));
         map.add("s", new ResourceImpl(String.valueOf(resourceUri)));
-        final ParameterizedSparqlString sparqlString = new ParameterizedSparqlString(
-                "ASK {GRAPH ?g {?s ?p ?o} }", map);
+        final ParameterizedSparqlString sparqlString =
+                new ParameterizedSparqlString("ASK {GRAPH ?g {?s ?p ?o} }", map);
         final String query = sparqlString.toString();
 
         queryExecutor.beginRead();
@@ -236,103 +244,153 @@ public class SparqlStoreImpl implements Store {
     public Model getJenaModelForSubject(final URI namedGraphUri, final URI subject)
             throws NoSuchElementException {
         if (!namedGraphExists(namedGraphUri)) {
-            throw new NoSuchElementException("namedGraph '" + namedGraphUri + "' is missing from the triplestore");
+            throw new NoSuchElementException(
+                    "namedGraph '" + namedGraphUri + "' is missing from the triplestore");
         }
         final Model model;
         model = modelFromQueryByUri(namedGraphUri, subject);
         if (model.isEmpty()) {
-            throw new NoSuchElementException("resource '" + subject + "' is missing from the triplestore at namedGraph '"
-                + namedGraphUri + "'");
+            throw new NoSuchElementException(
+                    "resource '"
+                            + subject
+                            + "' is missing from the triplestore at namedGraph '"
+                            + namedGraphUri
+                            + "'");
         }
         return model;
     }
 
     @Override
-    public <T extends IResource> List<T> getResources(final URI namedGraph,
-            final Class<T> clazz) throws StoreAccessException, ModelUnmarshallingException {
+    public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz)
+            throws StoreAccessException, ModelUnmarshallingException {
         if (namedGraphExists(namedGraph)) {
             final Model model;
             model = modelFromQueryFlat(namedGraph);
             return getResourcesFromModel(model, clazz);
         } else {
-            throw new IllegalArgumentException("Named graph"
-                                               + namedGraph
-                                               + " was missing from "
-                                               + "the triplestore");
+            throw new IllegalArgumentException(
+                    "Named graph" + namedGraph + " was missing from " + "the triplestore");
         }
     }
 
     @Override
-    public <T extends IResource> List<T> getResources(final URI namedGraph,
-            final Class<T> clazz, final int limit, final int offset)
+    public <T extends IResource> List<T> getResources(
+            final URI namedGraph, final Class<T> clazz, final int limit, final int offset)
             throws StoreAccessException, ModelUnmarshallingException {
         if (namedGraphExists(namedGraph)) {
             final Model model;
             model = modelFromQueryFlatPaged(namedGraph, getResourceNsUri(clazz), limit, offset);
             return getResourcesFromModel(model, clazz);
         } else {
-            throw new IllegalArgumentException("Named graph"
-                                               + namedGraph
-                                               + " was missing from "
-                                               + "the triplestore");
+            throw new IllegalArgumentException(
+                    "Named graph" + namedGraph + " was missing from " + "the triplestore");
         }
     }
 
     @Override
-    public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
-            final String where, final String searchTerms, final int limit, final int offset)
+    public <T extends IResource> List<T> getResources(
+            final URI namedGraph,
+            final Class<T> clazz,
+            final String prefixes,
+            final String where,
+            final String searchTerms,
+            final int limit,
+            final int offset)
             throws StoreAccessException, ModelUnmarshallingException {
-        return getResources(namedGraph, clazz, prefixes, where, searchTerms, limit, offset,
-            null, null);
+        return getResources(
+                namedGraph, clazz, prefixes, where, searchTerms, limit, offset, null, null);
     }
 
     @Override
-    public <T extends IResource> List<T> getResources(final URI namedGraph, final Class<T> clazz, final String prefixes,
-            final String where, final String searchTerms, final int limit, final int offset,
-            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter)
-        throws StoreAccessException, ModelUnmarshallingException {
+    public <T extends IResource> List<T> getResources(
+            final URI namedGraph,
+            final Class<T> clazz,
+            final String prefixes,
+            final String where,
+            final String searchTerms,
+            final int limit,
+            final int offset,
+            List<String> additionalDistinctVars,
+            SelectBuilder additionalQueryFilter)
+            throws StoreAccessException, ModelUnmarshallingException {
 
         String _prefixes = prefixes;
         String _where = where;
 
-        _prefixes = (StringUtils.isNullOrEmpty(_prefixes) ? "" : _prefixes + ",") + oslcQueryPrefixes(clazz);
-        _where = (StringUtils.isNullOrEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
-        Model model = getResources(namedGraph, _prefixes, _where, searchTerms, limit, offset, additionalDistinctVars,
-            additionalQueryFilter);
+        _prefixes =
+                (StringUtils.isNullOrEmpty(_prefixes) ? "" : _prefixes + ",")
+                        + oslcQueryPrefixes(clazz);
+        _where =
+                (StringUtils.isNullOrEmpty(_where) ? "" : _where + " and ") + oslcQueryWhere(clazz);
+        Model model =
+                getResources(
+                        namedGraph,
+                        _prefixes,
+                        _where,
+                        searchTerms,
+                        limit,
+                        offset,
+                        additionalDistinctVars,
+                        additionalQueryFilter);
         return getResourcesFromModel(model, clazz);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final int limit,
-                              final int offset) {
+    public Model getResources(
+            final URI namedGraph,
+            final String prefixes,
+            final String where,
+            final int limit,
+            final int offset) {
         return getResources(namedGraph, prefixes, where, null, limit, offset);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms,
-                              final int limit, final int offset) {
-        return getResources(namedGraph, prefixes, where, searchTerms, limit, offset,
-            null, null);
+    public Model getResources(
+            final URI namedGraph,
+            final String prefixes,
+            final String where,
+            final String searchTerms,
+            final int limit,
+            final int offset) {
+        return getResources(namedGraph, prefixes, where, searchTerms, limit, offset, null, null);
     }
 
     @Override
-    public Model getResources(final URI namedGraph, final String prefixes, final String where, final String searchTerms,
-                              final int limit, final int offset, List<String> additionalDistinctVars,
-                              SelectBuilder additionalQueryFilter) {
+    public Model getResources(
+            final URI namedGraph,
+            final String prefixes,
+            final String where,
+            final String searchTerms,
+            final int limit,
+            final int offset,
+            List<String> additionalDistinctVars,
+            SelectBuilder additionalQueryFilter) {
 
         if (namedGraph != null) {
-            //Make sure the designated namedGraph exists, if it is specified.
-            //Otherwise, the search occurs across all named graphs.
+            // Make sure the designated namedGraph exists, if it is specified.
+            // Otherwise, the search occurs across all named graphs.
             if (!namedGraphExists(namedGraph)) {
-                throw new IllegalArgumentException("Named graph" + namedGraph + " was missing from the triplestore");
+                throw new IllegalArgumentException(
+                        "Named graph" + namedGraph + " was missing from the triplestore");
             }
         }
 
-        SelectBuilder sparqlWhereQuery = constructSparqlWhere (prefixes, where, searchTerms, limit, offset,
-            additionalDistinctVars, additionalQueryFilter);
+        SelectBuilder sparqlWhereQuery =
+                constructSparqlWhere(
+                        prefixes,
+                        where,
+                        searchTerms,
+                        limit,
+                        offset,
+                        additionalDistinctVars,
+                        additionalQueryFilter);
         DescribeBuilder describeBuilder = new DescribeBuilder();
-        describeBuilder.addVar("s")
-        .addGraph((namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g", sparqlWhereQuery);
+        describeBuilder
+                .addVar("s")
+                .addGraph(
+                        (namedGraph != null) ? new ResourceImpl(String.valueOf(namedGraph)) : "?g",
+                        sparqlWhereQuery);
 
         if (null != additionalDistinctVars) {
             for (String additionalDistinctVar : additionalDistinctVars) {
@@ -340,22 +398,30 @@ public class SparqlStoreImpl implements Store {
             }
         }
 
-        Query describeQuery = describeBuilder.build() ;
+        Query describeQuery = describeBuilder.build();
         String describeQueryString = describeQuery.toString();
         Model execDescribe;
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(describeQueryString);
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(describeQueryString);
 
             try {
-                log.trace("SPARQL Describe query for oslc.where='{}':\n{}", where, describeQueryString);
+                log.trace(
+                        "SPARQL Describe query for oslc.where='{}':\n{}",
+                        where,
+                        describeQueryString);
                 Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
                 Instant finish = Instant.now();
-                log.trace("GetResources - SPARQL Query Execution Duration: {} ms", Duration.between(start, finish).toMillis());
+                log.trace(
+                        "GetResources - SPARQL Query Execution Duration: {} ms",
+                        Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
-                //a request that returns an empty set seems to cause an exception when using Marklogic.
-                if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                // a request that returns an empty set seems to cause an exception when using
+                // Marklogic.
+                if ((e.getCause() == null)
+                        && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
                     return ModelFactory.createDefaultModel();
                 }
                 // Otherwise, there is a proper exception that we need to deal with!
@@ -368,31 +434,33 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
-    public <T extends IResource> T getResource(final URI namedGraphUri,
-            final URI resourceUri, final Class<T> clazz)
+    public <T extends IResource> T getResource(
+            final URI namedGraphUri, final URI resourceUri, final Class<T> clazz)
             throws NoSuchElementException, StoreAccessException, ModelUnmarshallingException {
         final Model model = getJenaModelForSubject(namedGraphUri, resourceUri);
         final List<T> modelResources = getResourcesFromModel(model, clazz);
         if (modelResources == null || modelResources.isEmpty()) {
             throw new NoSuchElementException(
-                    "Empty Jena model for the subject " + resourceUri + ". Use resourceExists(g," +
-                            "r) method to check for resource existence before calling this method" +
-                            ".");
+                    "Empty Jena model for the subject "
+                            + resourceUri
+                            + ". Use resourceExists(g,"
+                            + "r) method to check for resource existence before calling this method"
+                            + ".");
         }
         return modelResources.get(0);
     }
 
     @Override
-    public <T extends IResource> boolean updateResources(final URI namedGraphUri,
-            final T... resources) throws StoreAccessException {
-        //No need to check if the resource exists. just delete it - if it is there.
+    public <T extends IResource> boolean updateResources(
+            final URI namedGraphUri, final T... resources) throws StoreAccessException {
+        // No need to check if the resource exists. just delete it - if it is there.
         deleteResources(namedGraphUri, resources);
         return insertResources(namedGraphUri, resources);
     }
 
     @Override
-    public <T extends IResource> boolean putResources(final URI uri,
-            final Collection<T> resources) throws StoreAccessException {
+    public <T extends IResource> boolean putResources(final URI uri, final Collection<T> resources)
+            throws StoreAccessException {
         if (namedGraphExists(uri)) {
             clear(uri);
         }
@@ -400,16 +468,16 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
-    public <T extends IResource> boolean appendResources(final URI namedGraph,
-            final Collection<T> resources) throws StoreAccessException {
+    public <T extends IResource> boolean appendResources(
+            final URI namedGraph, final Collection<T> resources) throws StoreAccessException {
         return insertResources(namedGraph, resources.toArray());
     }
 
     @Override
     public void clear(final URI namedGraph) {
         final QuerySolutionMap map = getGraphMap(namedGraph);
-        final ParameterizedSparqlString query = new ParameterizedSparqlString("CLEAR GRAPH ?g",
-                map);
+        final ParameterizedSparqlString query =
+                new ParameterizedSparqlString("CLEAR GRAPH ?g", map);
         queryExecutor.beginWrite();
         try {
             final UpdateProcessor up = queryExecutor.prepareSparqlUpdate(query.toString());
@@ -437,6 +505,22 @@ public class SparqlStoreImpl implements Store {
         log.debug("Underlying SPARQL connection has been released");
     }
 
+    @Override
+    public void rawUpdateQuery(String updateQuery) throws StoreAccessException {
+        queryExecutor.beginWrite();
+        try {
+            final UpdateProcessor updateProcessor =
+                    queryExecutor.prepareSparqlUpdate(updateQuery);
+            updateProcessor.execute();
+            queryExecutor.commit();
+        } catch (Exception e) {
+            // Don't commit on error - just end the transaction which will abort it
+            throw new StoreAccessException("Failed to execute raw update query", e);
+        } finally {
+            queryExecutor.end();
+        }
+    }
+
     private <T extends IResource> String oslcQueryPrefixes(final Class<T> clazz) {
         return "rdf=" + "<" + org.apache.jena.vocabulary.RDF.uri + ">";
     }
@@ -445,25 +529,34 @@ public class SparqlStoreImpl implements Store {
         return "rdf:type=" + "<" + getResourceNsUri(clazz) + ">";
     }
 
-    private <T extends IResource> List<T> getResourcesFromModel(final Model model,
-            final Class<T> clazz) throws ModelUnmarshallingException, StoreAccessException {
+    private <T extends IResource> List<T> getResourcesFromModel(
+            final Model model, final Class<T> clazz)
+            throws ModelUnmarshallingException, StoreAccessException {
         try {
             Instant start = Instant.now();
             final Object[] obj = JenaModelHelper.fromJenaModel(model, clazz);
-            @SuppressWarnings("unchecked") final T[] castObjects = (T[]) Array.newInstance(clazz,
-                    obj.length);
+            @SuppressWarnings("unchecked")
+            final T[] castObjects = (T[]) Array.newInstance(clazz, obj.length);
             for (int i = 0; i < obj.length; i++) {
                 castObjects[i] = clazz.cast(obj[i]);
             }
             Instant finish = Instant.now();
-            log.trace("getResourcesFromModel - Execution Duration: {} ms", Duration.between(start, finish).toMillis());
-            //The Model is most likely obtained via Select query that is orded by the subject (ascending)
-            //See sparql construction in constructSparqlWhere()
-            //Order the list below accordingly.
+            log.trace(
+                    "getResourcesFromModel - Execution Duration: {} ms",
+                    Duration.between(start, finish).toMillis());
+            // The Model is most likely obtained via Select query that is orded by the subject
+            // (ascending)
+            // See sparql construction in constructSparqlWhere()
+            // Order the list below accordingly.
             return Arrays.stream(castObjects)
-                .sorted(Comparator.comparing(IResource::getAbout)).collect(Collectors.toList());
-        } catch (InvocationTargetException | OslcCoreApplicationException | NoSuchMethodException
-                | URISyntaxException | DatatypeConfigurationException | InstantiationException e) {
+                    .sorted(Comparator.comparing(IResource::getAbout))
+                    .collect(Collectors.toList());
+        } catch (InvocationTargetException
+                | OslcCoreApplicationException
+                | NoSuchMethodException
+                | URISyntaxException
+                | DatatypeConfigurationException
+                | InstantiationException e) {
             throw new ModelUnmarshallingException(e);
         } catch (final IllegalAccessException e) {
             throw new StoreAccessException(e);
@@ -492,14 +585,13 @@ public class SparqlStoreImpl implements Store {
     private Model modelFromQueryFlat(final URI namedGraph) {
         // TODO avoid CONSTRUCT query
         final QuerySolutionMap map = getGraphMap(namedGraph);
-        final String queryTemplate = "DESCRIBE ?s WHERE { GRAPH ?g { ?s "
-                                     + "?p "
-                                     + "?o } }";
+        final String queryTemplate = "DESCRIBE ?s WHERE { GRAPH ?g { ?s " + "?p " + "?o } }";
         final ParameterizedSparqlString query = new ParameterizedSparqlString(queryTemplate, map);
 
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(query.toString());
             return queryExecution.execDescribe();
         } finally {
             queryExecutor.end();
@@ -522,10 +614,14 @@ public class SparqlStoreImpl implements Store {
                 Instant start = Instant.now();
                 execDescribe = queryExecution.execDescribe();
                 Instant finish = Instant.now();
-                log.trace("GetResource - SPARQL Query Execution Duration: {} ms", Duration.between(start, finish).toMillis());
+                log.trace(
+                        "GetResource - SPARQL Query Execution Duration: {} ms",
+                        Duration.between(start, finish).toMillis());
             } catch (RiotException e) {
-                //a request that returns an empty set seems to cause an exception when using Marklogic.
-                if ((e.getCause() == null) && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
+                // a request that returns an empty set seems to cause an exception when using
+                // Marklogic.
+                if ((e.getCause() == null)
+                        && (e.getMessage().equals("[line: 2, col: 2 ] Out of place: [DOT]"))) {
                     return ModelFactory.createDefaultModel();
                 }
                 // Otherwise, there is a proper exception that we need to deal with!
@@ -535,36 +631,36 @@ public class SparqlStoreImpl implements Store {
             queryExecutor.end();
         }
         return execDescribe;
-
     }
 
-    private Model modelFromQueryFlatPaged(final URI namedGraph, final URI type, final int limit,
-            final int offset) {
+    private Model modelFromQueryFlatPaged(
+            final URI namedGraph, final URI type, final int limit, final int offset) {
         // TODO avoid CONSTRUCT query
         final Model m = ModelFactory.createDefaultModel();
         final Resource typeResource = m.createResource(type.toString());
 
         final QuerySolutionMap map = getGraphMap(namedGraph);
         map.add("t", typeResource);
-        final String queryTemplate = "PREFIX rdf: <http://www"
-                                     + ".w3.org/1999/02/22-rdf-syntax-ns#>\n"
-                                     + "DESCRIBE ?s\n"
-                                     + "WHERE {\n"
-                                     + "  GRAPH ?g {\n"
-                                     + "    ?s ?p ?o\n"
-                                     + "    {\n"
-                                     + "      SELECT DISTINCT ?s\n"
-                                     + "      WHERE {\n"
-                                     + "        ?s ?p ?o .\n"
-                                     + "        ?s rdf:type ?t.\n"
-                                     + "   }\n"
-                                     + "      ORDER BY ASC(?s)\n"
-                                     + "      LIMIT ?l\n"
-                                     + "      OFFSET "
-                                     + "?f\n"
-                                     + "}\n"
-                                     + "}\n"
-                                     + "}\n";
+        final String queryTemplate =
+                "PREFIX rdf: <http://www"
+                        + ".w3.org/1999/02/22-rdf-syntax-ns#>\n"
+                        + "DESCRIBE ?s\n"
+                        + "WHERE {\n"
+                        + "  GRAPH ?g {\n"
+                        + "    ?s ?p ?o\n"
+                        + "    {\n"
+                        + "      SELECT DISTINCT ?s\n"
+                        + "      WHERE {\n"
+                        + "        ?s ?p ?o .\n"
+                        + "        ?s rdf:type ?t.\n"
+                        + "   }\n"
+                        + "      ORDER BY ASC(?s)\n"
+                        + "      LIMIT ?l\n"
+                        + "      OFFSET "
+                        + "?f\n"
+                        + "}\n"
+                        + "}\n"
+                        + "}\n";
 
         // TODO: 15.02.17 add global triple limit just in case
         //                + "\n" + "LIMIT " + TRIPLE_LIMIT + "\n" + "\n" + "\n";
@@ -575,7 +671,8 @@ public class SparqlStoreImpl implements Store {
 
         queryExecutor.beginRead();
         try {
-            final QueryExecution queryExecution = queryExecutor.prepareSparqlQuery(query.toString());
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(query.toString());
             return queryExecution.execDescribe();
         } finally {
             queryExecutor.end();
@@ -586,13 +683,18 @@ public class SparqlStoreImpl implements Store {
      * This method currently only provides support for terms of type {@link Type#COMPARISON}, where the operator is
      * 'EQUALS', and the operand is either a {@link String} or a {@link URI}.
      */
-    private SelectBuilder constructSparqlWhere(final String prefixes, final String where, final String searchTerms,
-                                               final int limit, final int offset, List<String> additionalDistinctVars,
-                                               SelectBuilder additionalQueryFilter) {
+    private SelectBuilder constructSparqlWhere(
+            final String prefixes,
+            final String where,
+            final String searchTerms,
+            final int limit,
+            final int offset,
+            List<String> additionalDistinctVars,
+            SelectBuilder additionalQueryFilter) {
 
         SelectBuilder distinctResourcesQuery = new SelectBuilder();
 
-        //Setup prefixes
+        // Setup prefixes
         Map<String, String> prefixesMap = new HashMap<>();
         try {
             if (!StringUtils.isNullOrEmpty(prefixes)) {
@@ -605,10 +707,7 @@ public class SparqlStoreImpl implements Store {
             throw new IllegalArgumentException("prefixesExpression could not be parsed", e);
         }
 
-        distinctResourcesQuery
-        .addVar( "s" )
-        .setDistinct(true)
-        .addWhere( "?s", "?p", "?o");
+        distinctResourcesQuery.addVar("s").setDistinct(true).addWhere("?s", "?p", "?o");
 
         if (null != additionalDistinctVars) {
             for (String additionalDistinctVar : additionalDistinctVars) {
@@ -619,7 +718,7 @@ public class SparqlStoreImpl implements Store {
             distinctResourcesQuery.addWhere(additionalQueryFilter);
         }
 
-        //Setup where
+        // Setup where
         WhereClause whereClause = null;
         try {
             if (!StringUtils.isNullOrEmpty(where)) {
@@ -630,12 +729,14 @@ public class SparqlStoreImpl implements Store {
                     PName property = simpleTerm.property();
 
                     if (!termType.equals(Type.COMPARISON)) {
-                        throw new UnsupportedOperationException("only support for terms of type Comparisons");
+                        throw new UnsupportedOperationException(
+                                "only support for terms of type Comparisons");
                     }
                     ComparisonTerm aComparisonTerm = (ComparisonTerm) simpleTerm;
                     if (!aComparisonTerm.operator().equals(Operator.EQUALS)) {
                         throw new UnsupportedOperationException(
-                            "only support for terms of type Comparisons, where the operator is 'EQUALS'");
+                                "only support for terms of type Comparisons, where the operator is"
+                                        + " 'EQUALS'");
                     }
 
                     Value comparisonOperand = aComparisonTerm.operand();
@@ -650,19 +751,24 @@ public class SparqlStoreImpl implements Store {
                     switch (operandType) {
                         case DECIMAL:
                             DecimalValue decimalOperand = (DecimalValue) comparisonOperand;
-                            distinctResourcesQuery.addWhere("?s", predicate, decimalOperand.value());
+                            distinctResourcesQuery.addWhere(
+                                    "?s", predicate, decimalOperand.value());
                             break;
                         case STRING:
                             StringValue stringOperand = (StringValue) comparisonOperand;
-                            distinctResourcesQuery.addWhere("?s", predicate, "\"" + stringOperand.value() + "\"");
+                            distinctResourcesQuery.addWhere(
+                                    "?s", predicate, "\"" + stringOperand.value() + "\"");
                             break;
                         case URI_REF:
                             UriRefValue uriOperand = (UriRefValue) comparisonOperand;
-                            distinctResourcesQuery.addWhere("?s", predicate, new ResourceImpl(uriOperand.value()));
+                            distinctResourcesQuery.addWhere(
+                                    "?s", predicate, new ResourceImpl(uriOperand.value()));
                             break;
                         default:
-                            throw new UnsupportedOperationException("only support for terms of type Comparisons," +
-                                " where the operator is 'EQUALS', and the operand is either a String, an Integer or a URI");
+                            throw new UnsupportedOperationException(
+                                    "only support for terms of type Comparisons, where the operator"
+                                            + " is 'EQUALS', and the operand is either a String, an"
+                                            + " Integer or a URI");
                     }
                 }
             }
@@ -670,16 +776,16 @@ public class SparqlStoreImpl implements Store {
             throw new IllegalArgumentException("whereExpression could not be parsed", e);
         }
 
-        //Setup searchTerms
-        //Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the distinctResourcesQuery
+        // Setup searchTerms
+        // Add a sparql filter "FILTER regex(?o, "<searchTerms>", "i")" to the
+        // distinctResourcesQuery
         if (!StringUtils.isNullOrEmpty(searchTerms)) {
             ExprFactory factory = new ExprFactory();
             E_Regex regex = factory.regex(factory.str("?o"), searchTerms, "i");
             distinctResourcesQuery.addFilter(regex);
         }
 
-
-        if ((limit > 0 || offset > 0) && (! OSLC4JUtils.isLyoStorePagingUnsafe())) {
+        if ((limit > 0 || offset > 0) && (!OSLC4JUtils.isLyoStorePagingUnsafe())) {
             distinctResourcesQuery.addOrderBy("?s", Order.ASCENDING);
         }
 
@@ -691,10 +797,8 @@ public class SparqlStoreImpl implements Store {
         }
 
         SelectBuilder constructSelectQuery = new SelectBuilder();
-        constructSelectQuery.addVar( "s p o" )
-            .addSubQuery(distinctResourcesQuery);
+        constructSelectQuery.addVar("s p o").addSubQuery(distinctResourcesQuery);
 
         return constructSelectQuery;
     }
-
 }
