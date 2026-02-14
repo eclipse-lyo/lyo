@@ -12,6 +12,7 @@
 - Extended properties on resources now support arrays and any iterables as well as Link objects.
 - Reified statements on extended properties are deserialized into a data structure that holds all reified statements.
 - OSLC RDF graphs may now be deserialized into raw Jena Models (`Model.class`) instead of Lyo POJOs for OSLC shapes.
+- `Store.rawUpdateQuery(String)` allows making raw SPARQL UPDATE queries.
 
 ### Changed
 
@@ -33,6 +34,7 @@
 - 🧨 Support for JDK 17 was removed. JDK 21 is the new baseline.
 - 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
+- TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
 
 ### Fixed
 
@@ -48,14 +50,26 @@ This release does not contain security updates.
 
 ### Added
 
-- Introducing capability to set the servletUri to be used by the OAuthConfiguration
-- `Store.rawUpdateQuery(String)` allows making raw SPARQL UPDATE queries.
+- Introducing capability to set the `servletUri` to be used by the `OAuthConfiguration`
+- OSLC PROMCODE domain model and generated POJOs
+- Support for additional request headers to `OslcQuery` 
 
 ### Changed
 
-- Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with `kotlin-stdlib` due to [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
-- Allow application to reset the oauth token cached within the server, when it deems that it is no longer valid
-- 🧨Corrected cardinality and range of the oslc_config:acceptedBy property (from String[0..1] to Resource[0..*])
+
+- 🧨 Migrated from Java EE (`javax.` namespace) to Jakarta packages
+- Upgrade to Jersey 3.1.5
+- **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has 
+  been tested using JDK 17, 21, 23, and 24-ea.
+- Kotlin 1.9.0 is used; `kotlin-stdlib-jdk8` dependency was replaced with 
+  `kotlin-stdlib` due to 
+  [Kotlin updates](https://kotlinlang.org/docs/whatsnew18.html#updated-jvm-compilation-target).
+- Allow application to reset the OAuth token cached within the server, when it
+  deems that it is no longer valid
+- 🧨 Corrected cardinality and range of the `oslc_config:acceptedBy` property (from
+  String[0..1] to Resource[0..*])
+- Changed scope of dependencies in `oauth-webapp` to avoid inclusion multiple times
+  during runtime.
 
 ### Deprecated
 
@@ -64,7 +78,6 @@ This release does not introduce deprecations.
 ### Removed
 
 - 🧨 Support for JDK 11 (and all versions below 17) is removed. **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
-- TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
 
 ### Fixed
 
