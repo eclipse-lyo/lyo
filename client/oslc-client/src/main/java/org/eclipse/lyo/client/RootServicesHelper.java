@@ -13,7 +13,8 @@
  */
 package org.eclipse.lyo.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONObject;
+import jakarta.json.Json;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
@@ -343,10 +344,8 @@ public class RootServicesHelper {
       // trying to be liberal with all possible JSON content types
       throw new IllegalStateException("Server returned something else than JSON in the response");
     }
-    ObjectMapper mapper = new ObjectMapper();
-    Map<String, Object> jsonData = new HashMap<>();
-    jsonData = mapper.readValue(content, Map.class);
-    String consumerKey = (String) jsonData.get("key");
+    JSONObject jsonData = new JSONObject(Json.createReader(content).readObject());
+    String consumerKey = jsonData.getString("key");
     logger.debug(
         "Consumer should redirect user to this approval URL, to approve the OAuth consumer: "
             + getConsumerApprovalUrl(consumerKey));
