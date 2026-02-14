@@ -80,6 +80,36 @@ public class SparqlBatchingHandlerTest {
   }
 
   @Test
+  @DisplayName("Test finishCycle wraps StoreAccessException in RuntimeException")
+  public void testFinishCycleWrapsStoreAccessException() throws StoreAccessException {
+    // Create mock Store
+    Store mockStore = mock(Store.class);
+
+    // Add some test operations so finishCycle will attempt an update
+    BaseMember baseMember = createTestBaseMember();
+    handler.handleBaseMember(baseMember);
+
+    // Configure the Store to throw StoreAccessException on update
+    when(mockStore.rawUpdateQuery(anyString()))
+        .thenThrow(new StoreAccessException("Simulated store failure"));
+
+    // Mock StoreFactory.sparql method
+    try (MockedStatic<StoreFactory> mockedStoreFactory = mockStatic(StoreFactory.class)) {
+      mockedStoreFactory
+          .when(() -> StoreFactory.sparql(null, sparqlUpdateEndpoint, username, password))
+          .thenReturn(mockStore);
+
+      RuntimeException ex =
+          assertThrows(RuntimeException.class, () -> handler.finishCycle());
+      assertNotNull(ex.getCause());
+      assertTrue(ex.getCause() instanceof StoreAccessException);
+
+      // Verify that close was called on the store even in error case
+      verify(mockStore).close();
+    }
+  }
+
+  @Test
   @DisplayName("Test handleBaseMember creates proper queries")
   public void testHandleBaseMember() throws StoreAccessException {
     BaseMember baseMember = createTestBaseMember();

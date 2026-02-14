@@ -424,7 +424,7 @@ public interface Store {
     /**
      * Execute a raw SPARQL query against the UPDATE endpoint.
      *
-     * @param finalQueryString
+     * @param updateQuery raw SPARQL UPDATE query string to execute
      */
-    void rawUpdateQuery(String finalQueryString) throws StoreAccessException;
+    void rawUpdateQuery(String updateQuery) throws StoreAccessException;
 }

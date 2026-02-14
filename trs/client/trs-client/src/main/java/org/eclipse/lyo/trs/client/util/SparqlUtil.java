@@ -63,7 +63,7 @@ public class SparqlUtil {
   }
 
   /**
-   * returns the query deleting siltently the graph with the given name
+   * returns the query deleting silently the graph with the given name
    *
    * @param namedGraphUrl
    *            the name of the graph to be deleted
@@ -179,7 +179,7 @@ public class SparqlUtil {
   }
 
   /**
-   * For a change event return a sparql update relfecting the change event.
+   * For a change event return a sparql update reflecting the change event.
    *
    * @param changeEvent
    *            the change event for which the sparql update is created
@@ -469,7 +469,7 @@ public class SparqlUtil {
   // String pwd) {
   //        SPARQLRepository repo = new SPARQLRepository(queryEndpoint);
   //        if (user != null && pwd != null && !user.isEmpty() && !pwd.isEmpty()) {
-  //            repo.setUsernameAndPassword("okacimi", "nohheis4ae");
+  //            repo.setUsernameAndPassword(user, pwd);
   //        }
   //        repo.initialize();
   //        try {
@@ -572,7 +572,7 @@ public class SparqlUtil {
    *            repo connection sesame object
    * @param sparqlQuery
    *            sparql query to evaluate
-   * @return the queri's evaluation result
+   * @return the query's evaluation result
    */
   //    public static TupleQueryResult evalQuery(RepositoryConnection conn, String sparqlQuery) {
   //        TupleQueryResult result = null;
@@ -632,8 +632,8 @@ public class SparqlUtil {
 
   /**
    * Create a triple with the link type as a predicate the src as subject and
-   * destination as object. This is a conveniece for enabling the creation of
-   * links in a ageneric way
+   * destination as object. This is a convenience for enabling the creation of
+   * links in a generic way
    *
    * @param src
    *            source of the link

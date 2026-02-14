@@ -506,11 +506,11 @@ public class SparqlStoreImpl implements Store {
     }
 
     @Override
-    public void rawUpdateQuery(String finalQueryString) throws StoreAccessException {
+    public void rawUpdateQuery(String updateQuery) throws StoreAccessException {
         queryExecutor.beginWrite();
         try {
             final UpdateProcessor updateProcessor =
-                    queryExecutor.prepareSparqlUpdate(finalQueryString);
+                    queryExecutor.prepareSparqlUpdate(updateQuery);
             updateProcessor.execute();
             queryExecutor.commit();
         } catch (Exception e) {
