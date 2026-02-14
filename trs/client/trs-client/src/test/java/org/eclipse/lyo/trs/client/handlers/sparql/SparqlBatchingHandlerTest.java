@@ -89,13 +89,15 @@ public class SparqlBatchingHandlerTest {
     BaseMember baseMember = createTestBaseMember();
     handler.handleBaseMember(baseMember);
 
-    // Configure the Store to throw StoreAccessException on update
-    when(mockStore.rawUpdateQuery(anyString()))
-        .thenThrow(new StoreAccessException("Simulated store failure"));
 
-    // Mock StoreFactory.sparql method
     try (MockedStatic<StoreFactory> mockedStoreFactory = mockStatic(StoreFactory.class)) {
-      mockedStoreFactory
+        // Configure the Store to throw StoreAccessException on update
+        mockedStoreFactory
+            .when(() -> mockStore.rawUpdateQuery(anyString()))
+            .thenThrow(new StoreAccessException("Simulated store failure"));
+
+        // Mock StoreFactory.sparql method
+        mockedStoreFactory
           .when(() -> StoreFactory.sparql(null, sparqlUpdateEndpoint, username, password))
           .thenReturn(mockStore);
 
