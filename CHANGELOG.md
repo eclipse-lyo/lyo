@@ -12,6 +12,7 @@
 - Extended properties on resources now support arrays and any iterables as well as Link objects.
 - Reified statements on extended properties are deserialized into a data structure that holds all reified statements.
 - OSLC RDF graphs may now be deserialized into raw Jena Models (`Model.class`) instead of Lyo POJOs for OSLC shapes.
+- `Store.rawUpdateQuery(String)` allows making raw SPARQL UPDATE queries.
 
 ### Changed
 
@@ -19,8 +20,10 @@
 - Lyo Validation now uses Jena's native support for SHACL instead of relying on ShaclEx
 - InputStream is now the preferred interface for initializing OslcQueryResult
 - RootServicesHelper can be initialized using an InputStream
+- TRS Client uses Lyo Store instead of using Eclipse RDF4J directly.
 - `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.
 - InMemPagedTRS handles concurrency.
+- When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
 
 ### Deprecated
 
@@ -31,6 +34,7 @@
 - 🧨 Support for JDK 17 was removed. JDK 21 is the new baseline.
 - 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
+- TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
 
 ### Fixed
 
