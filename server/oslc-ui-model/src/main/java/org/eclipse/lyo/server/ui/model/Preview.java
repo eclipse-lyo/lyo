@@ -17,12 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonbPropertyOrder({
     "properties"
 })
 public class Preview {
@@ -32,7 +30,7 @@ public class Preview {
      * (Required)
      *
      */
-    @JsonProperty("properties")
+    @JsonbProperty("properties")
     private List<Property> properties = new ArrayList<>();
 
     /**
@@ -40,7 +38,7 @@ public class Preview {
      * (Required)
      *
      */
-    @JsonProperty("properties")
+    @JsonbProperty("properties")
     public List<Property> getProperties() {
         return properties;
     }
@@ -50,7 +48,7 @@ public class Preview {
      * (Required)
      *
      */
-    @JsonProperty("properties")
+    @JsonbProperty("properties")
     public void setProperties(List<Property> properties) {
         this.properties = properties;
     }

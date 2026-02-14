@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,22 +16,14 @@ package org.eclipse.lyo.oslc4j.provider.json4j;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.apache.wink.json4j.JSONObject;
-import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
-import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
-import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
-import org.eclipse.lyo.oslc4j.core.model.Error;
-import org.eclipse.lyo.oslc4j.core.model.IResource;
-import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
-import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -41,282 +33,253 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.ext.Providers;
 
-/**
- * Use JSON-LD support in Jena provider.
- */
-@Deprecated
-public abstract class AbstractOslcRdfJsonProvider
-{
-	private static final Logger logger = Logger.getLogger(AbstractOslcRdfJsonProvider.class.getName());
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape;
+import org.eclipse.lyo.oslc4j.core.exception.MessageExtractor;
+import org.eclipse.lyo.oslc4j.core.model.Error;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfo;
+import org.eclipse.lyo.oslc4j.core.model.ResponseInfoArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
-	private static final Class<Error> CLASS_OSLC_ERROR		  = Error.class;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.LyoProviderUtils;
 
-	private @Context HttpHeaders		  httpHeaders;		  // Available only on the server
-	protected @Context HttpServletRequest httpServletRequest; // Available only on the server
-	private @Context Providers			  providers;		  // Available on both client and server
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonWriter;
+import jakarta.json.stream.JsonGenerator;
 
-	protected AbstractOslcRdfJsonProvider()
-	{
-		super();
-	}
+public abstract class AbstractOslcRdfJsonProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractOslcRdfJsonProvider.class);
 
-	protected static boolean isWriteable(final Class<?>		klass,
-										 final Annotation[] annotations,
-										 final MediaType	requiredMediaType,
-										 final MediaType	actualMediaType)
-	{
-        // we leave media type and annotation checks to Jersey &c.
-        boolean hasOslcResourceShapeAnnot = klass.getAnnotation(OslcResourceShape.class) != null;
-        boolean subclassOfIResource = IResource.class.isAssignableFrom(klass);
-        return hasOslcResourceShapeAnnot || subclassOfIResource;
-	}
+    private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
+    private static final Class<Error> CLASS_OSLC_ERROR = Error.class;
 
-	protected void writeTo(final boolean						queryResult,
-						   final Object[]						objects,
-						   final MediaType						errorMediaType,
-						   final MultivaluedMap<String, Object> map,
-						   final OutputStream					outputStream)
-			  throws WebApplicationException
-	{
-		boolean isClientSide = false;
+    private @Context HttpHeaders httpHeaders; // Available only on the server
+    protected @Context HttpServletRequest httpServletRequest; // Available only on the server
+    private @Context Providers providers; // Available on both client and server
 
-		try {
-			httpServletRequest.getMethod();
-		} catch (RuntimeException e) {
-			isClientSide = true;
-		}
+    protected AbstractOslcRdfJsonProvider() {
+        super();
+    }
 
-		String descriptionURI  = null;
-		String responseInfoURI = null;
+    @SuppressWarnings("java:S3776") // Complex legacy method
+    protected static boolean isWriteable(final Class<?> type, final Annotation[] annotations, final MediaType requiredMediaType,
+            final MediaType actualMediaType) {
+        if (type.getAnnotation(OslcResourceShape.class) != null) {
+            // When handling "recursive" writing of an OSLC Error object, we get a zero-length array of annotations
+            if ((annotations != null) && ((annotations.length > 0) || (Error.class != type))) {
+                for (final Annotation annotation : annotations) {
+                    if (annotation instanceof Produces) {
+                        final Produces producesAnnotation = (Produces) annotation;
 
-		if (queryResult && ! isClientSide)
-		{
+                        for (final String value : producesAnnotation.value()) {
+                            if (requiredMediaType.isCompatible(MediaType.valueOf(value))) {
+                                return true;
+                            }
+                        }
+                    }
+                }
 
-			final String method = httpServletRequest.getMethod();
-			if ("GET".equals(method))
-			{
-				descriptionURI =  OSLC4JUtils.resolveURI(httpServletRequest,true);
-				responseInfoURI = descriptionURI;
+                return false;
+            }
 
-				final String queryString = httpServletRequest.getQueryString();
-				if ((queryString != null) &&
-					(isOslcQuery(queryString)))
-				{
-					responseInfoURI += "?" + queryString;
-				}
-			}
+            // We do not have annotations when running from the non-web client.
+            return requiredMediaType.isCompatible(actualMediaType);
+        }
 
-		}
+        return false;
+    }
 
-		final JSONObject jsonObject;
+    protected void writeTo(final boolean queryResult, final Object[] objects, final MediaType errorMediaType,
+            final MultivaluedMap<String, Object> map, final OutputStream outputStream) throws WebApplicationException {
+        boolean isClientSide = false;
 
-		@SuppressWarnings("unchecked")
-		final Map<String, Object> properties = isClientSide ?
-			null :
-			(Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
-		final String nextPageURI = isClientSide ?
-				null :
-				(String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
-		final Integer totalCount = isClientSide ?
-				null :
-				(Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
+        try {
+            httpServletRequest.getMethod();
+        } catch (RuntimeException e) {
+            isClientSide = true;
+        }
 
-		ResponseInfo<?> responseInfo = new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
+        String descriptionURI = null;
+        String responseInfoURI = null;
 
-		try
-		{
-			jsonObject = JsonHelper.createJSON(descriptionURI,
-											   responseInfoURI,
-											   responseInfo,
-											   objects,
-											   properties);
+        if (queryResult && !isClientSide) {
 
-			jsonObject.write(outputStream,
-							 true);
-		}
-		catch (final Exception exception)
-		{
-			logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
-			throw new WebApplicationException(exception);
-		}
-	}
+            final String method = httpServletRequest.getMethod();
+            if ("GET".equals(method)) {
+                descriptionURI = LyoProviderUtils.resolveURI(httpServletRequest);
+                responseInfoURI = descriptionURI;
 
-	protected void writeTo(final Object[]						objects,
-						   final MediaType						errorMediaType,
-						   final MultivaluedMap<String, Object> map,
-						   final OutputStream					outputStream,
-						   final Map<String, Object>			properties,
-						   final String							descriptionURI,
-						   final String							responseInfoURI,
-						   final ResponseInfo<?>					responseInfo)
-				throws WebApplicationException
-	{
-		final JSONObject jsonObject;
+                final String queryString = httpServletRequest.getQueryString();
+                if ((queryString != null) && (isOslcQuery(queryString))) {
+                    responseInfoURI += "?" + queryString;
+                }
+            }
 
-		try
-		{
-			jsonObject = JsonHelper.createJSON(descriptionURI,
-											   responseInfoURI,
-											   responseInfo,
-											   objects,
-											   properties);
+        }
 
-			jsonObject.write(outputStream, true);
-		}
-		catch (final Exception exception)
-		{
-			logger.log(Level.FINE, MessageExtractor.getMessage("ErrorSerializingResource"), exception);
-			throw new WebApplicationException(exception);
-		}
-	}
+        final JsonObject jsonObject;
 
-	 protected static boolean isReadable(final Class<?>	 type,
-										final MediaType requiredMediaType,
-										final MediaType actualMediaType)
-	{
-		return (type.getAnnotation(OslcResourceShape.class) != null) &&
-			   (requiredMediaType.isCompatible(actualMediaType));
-	}
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> properties = isClientSide ? null
+                : (Map<String, Object>) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
+        final String nextPageURI = isClientSide ? null : (String) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+        final Integer totalCount = isClientSide ? null : (Integer) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
 
-	protected Object[] readFrom(final Class<?>						 type,
-								final MediaType						 errorMediaType,
-								final MultivaluedMap<String, String> map,
-								final InputStream					 inputStream)
-		   throws WebApplicationException
-	{
-		try
-		{
-			final JSONObject jsonObject = new JSONObject(inputStream);
+        ResponseInfo<?> responseInfo = new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
 
-			return JsonHelper.fromJSON(jsonObject,
-									   type);
-		}
-		catch (final Exception exception)
-		{
-			throw new WebApplicationException(exception,
-											  buildBadRequestResponse(exception,
-																	  errorMediaType,
-																	  map));
-		}
-	}
+        try {
+            jsonObject = JsonHelper.createJSON(descriptionURI, responseInfoURI, responseInfo, objects, properties);
 
-	protected Response buildBadRequestResponse(final Exception				   exception,
-											   final MediaType				   errorMediaType,
-											   final MultivaluedMap<String, ?> map)
-	{
-		final MediaType determinedErrorMediaType = determineErrorMediaType(errorMediaType,
-																		   map);
+            createPrettyPrintingWriter(outputStream).writeObject(jsonObject);
+        } catch (final Exception exception) { // NOSONAR
+            LOGGER.warn(MessageExtractor.getMessage("ErrorSerializingResource"), exception);
+            throw new WebApplicationException(exception, buildServerErrorResponse(exception, errorMediaType, map));
+        }
+    }
 
-		final Error error = new Error();
+    @SuppressWarnings("java:S107") // too many params on legacy method
+    protected void writeTo(final Object[] objects, final MediaType errorMediaType, final MultivaluedMap<String, Object> map,
+            final OutputStream outputStream, final Map<String, Object> properties, final String descriptionURI, final String responseInfoURI,
+            final ResponseInfo<?> responseInfo) throws WebApplicationException {
+        final JsonObject jsonObject;
 
-		error.setStatusCode(String.valueOf(Response.Status.BAD_REQUEST.getStatusCode()));
-		error.setMessage(exception.getMessage());
+        try {
+            jsonObject = JsonHelper.createJSON(descriptionURI, responseInfoURI, responseInfo, objects, properties);
 
-		final ResponseBuilder responseBuilder = Response.status(Response.Status.BAD_REQUEST);
-		return responseBuilder.type(determinedErrorMediaType).entity(error).build();
-	}
+            createPrettyPrintingWriter(outputStream).writeObject(jsonObject);
+        } catch (final Exception exception) {// NOSONAR
+            LOGGER.warn(MessageExtractor.getMessage("ErrorSerializingResource"), exception);
+            throw new WebApplicationException(exception, buildServerErrorResponse(exception, errorMediaType, map));
+        }
+    }
 
-	/**
-	 * We handle the case where a client requests an accept type different than their content type.
-	 * This will work correctly in the successful case.	 But, in the error case where our
-	 * MessageBodyReader/MessageBodyWriter fails internally, we respect the client's requested accept type.
-	 */
-	private MediaType determineErrorMediaType(final MediaType				  initialErrorMediaType,
-											  final MultivaluedMap<String, ?> map)
-	{
-		try
-		{
-			// HttpHeaders will not be available on the client side and will throw a NullPointerException
-			final List<MediaType> acceptableMediaTypes = httpHeaders.getAcceptableMediaTypes();
+    private static JsonWriter createPrettyPrintingWriter(OutputStream outputStream) {
+        Map<String, Object> properties = Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        return Json.createWriterFactory(properties).createWriter(outputStream);
+    }
 
-			// Since we got here, we know we are executing on the server
+    protected static boolean isReadable(final Class<?> type, final MediaType requiredMediaType, final MediaType actualMediaType) {
+        return (type.getAnnotation(OslcResourceShape.class) != null) && (requiredMediaType.isCompatible(actualMediaType));
+    }
 
-			if (acceptableMediaTypes != null)
-			{
-				for (final MediaType acceptableMediaType : acceptableMediaTypes)
-				{
-					// If a concrete media type with a MessageBodyWriter
-					if (isAcceptableMediaType(acceptableMediaType))
-					{
-						return acceptableMediaType;
-					}
-				}
-			}
-		}
-		catch (final NullPointerException exception)
-		{
-			// Ignore NullPointerException since this means the context has not been set since we are on the client
+    protected Object[] readFrom(final Class<?> type, final MediaType errorMediaType, final MultivaluedMap<String, String> map,
+            final InputStream inputStream) throws WebApplicationException {
+        try (JsonReader reader = Json.createReader(inputStream)) {
+            final JsonObject jsonObject = reader.readObject();
+            return JsonHelper.fromJSON(jsonObject, type);
+        } catch (final Exception exception) {
+            throw new WebApplicationException(exception, buildBadRequestResponse(exception, errorMediaType, map));
+        }
+    }
 
-			// See if the MultivaluedMap for headers is available
-			if (map != null)
-			{
-				final Object acceptObject = map.getFirst("Accept");
+    protected Response buildBadRequestResponse(final Exception exception, final MediaType errorMediaType, final MultivaluedMap<String, ?> map) {
+        return buildResponse(exception, errorMediaType, map, Response.Status.BAD_REQUEST);
+    }
 
-				if (acceptObject instanceof String)
-				{
-					final String[] accepts = acceptObject.toString().split(",");
+    protected Response buildServerErrorResponse(final Exception exception, final MediaType errorMediaType, final MultivaluedMap<String, ?> map) {
+        return buildResponse(exception, errorMediaType, map, Response.Status.INTERNAL_SERVER_ERROR);
+    }
 
-					double	  winningQ		   = 0.0D;
-					MediaType winningMediaType = null;
+    private Response buildResponse(final Exception exception, final MediaType errorMediaType, final MultivaluedMap<String, ?> map,
+            Response.Status status) {
+        try {
+            final MediaType determinedErrorMediaType = determineErrorMediaType(errorMediaType, map);
 
-					for (final String accept : accepts)
-					{
-						final MediaType acceptMediaType = MediaType.valueOf(accept);
+            final Error error = new Error();
 
-						// If a concrete media type with a MessageBodyWriter
-						if (isAcceptableMediaType(acceptMediaType))
-						{
-							final String stringQ = acceptMediaType.getParameters().get("q");
+            error.setStatusCode(String.valueOf(status.getStatusCode()));
+            error.setMessage(exception.getMessage());
 
-							final double q = stringQ == null ? 1.0D : Double.parseDouble(stringQ);
+            final ResponseBuilder responseBuilder = Response.status(status);
+            return responseBuilder.type(determinedErrorMediaType).entity(error).build();
+        } catch (UndeclaredThrowableException e) {
+            // determineErrorMediaType may raise an UndeclaredThrowableException with an infinite stack trace
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
-							// Make sure and exclude blackballed media type
-							if (Double.compare(q, 0.0D) > 0)
-							{
-								if ((winningMediaType == null) ||
-									(Double.compare(q, winningQ) > 0))
-								{
-									winningMediaType = acceptMediaType;
-									winningQ		 = q;
-								}
-							}
-						}
-					}
+    /**
+     * We handle the case where a client requests an accept type different than their content type.
+     * This will work correctly in the successful case. But, in the error case where our
+     * MessageBodyReader/MessageBodyWriter fails internally, we respect the client's requested accept type.
+     */
+    @SuppressWarnings("java:S3776") // Complex legacy method
+    private MediaType determineErrorMediaType(final MediaType initialErrorMediaType, final MultivaluedMap<String, ?> map) {
+        try {
+            // HttpHeaders will not be available on the client side and will throw a NullPointerException
+            final List<MediaType> acceptableMediaTypes = httpHeaders.getAcceptableMediaTypes();
 
-					if (winningMediaType != null)
-					{
-						return winningMediaType;
-					}
-				}
-			}
-		}
+            // Since we got here, we know we are executing on the server
 
-		return initialErrorMediaType;
-	}
+            if (acceptableMediaTypes != null) {
+                for (final MediaType acceptableMediaType : acceptableMediaTypes) {
+                    // If a concrete media type with a MessageBodyWriter
+                    if (isAcceptableMediaType(acceptableMediaType)) {
+                        return acceptableMediaType;
+                    }
+                }
+            }
+        } catch (final NullPointerException exception) {
+            // Ignore NullPointerException since this means the context has not been set since we are on the client
 
-	/**
-	 * Only allow media types that are not wildcards and have a related MessageBodyWriter for OSLC Error.
-	 */
-	private boolean isAcceptableMediaType(final MediaType mediaType)
-	{
-		return (!mediaType.isWildcardType()) &&
-			   (!mediaType.isWildcardSubtype()) &&
-			   (providers.getMessageBodyWriter(CLASS_OSLC_ERROR,
-											   CLASS_OSLC_ERROR,
-											   ANNOTATIONS_EMPTY_ARRAY,
-											   mediaType) != null);
-	}
-	protected static boolean isOslcQuery(final String parmString)
-	{
-		boolean containsOslcParm = false;
+            // See if the MultivaluedMap for headers is available
+            if (map != null) {
+                final Object acceptObject = map.getFirst("Accept");
 
-		final String [] uriParts = parmString.toLowerCase().split("oslc\\.",2);
-		if (uriParts.length > 1)
-		{
-			containsOslcParm = true;
-		}
+                if (acceptObject instanceof String) {
+                    final String[] accepts = acceptObject.toString().split(",");
 
-		return containsOslcParm;
-	}
+                    double winningQ = 0.0D;
+                    MediaType winningMediaType = null;
+
+                    for (final String accept : accepts) {
+                        final MediaType acceptMediaType = MediaType.valueOf(accept);
+
+                        // If a concrete media type with a MessageBodyWriter
+                        if (isAcceptableMediaType(acceptMediaType)) {
+                            final String stringQ = acceptMediaType.getParameters().get("q");
+
+                            final double q = stringQ == null ? 1.0D : Double.parseDouble(stringQ);
+
+                            // Make sure and exclude blackballed media type
+                            if (Double.compare(q, 0.0D) > 0) {
+                                if ((winningMediaType == null) || (Double.compare(q, winningQ) > 0)) { // NOSONAR
+                                    winningMediaType = acceptMediaType;
+                                    winningQ = q;
+                                }
+                            }
+                        }
+                    }
+
+                    if (winningMediaType != null) {
+                        return winningMediaType;
+                    }
+                }
+            }
+        }
+
+        return initialErrorMediaType;
+    }
+
+    /**
+     * Only allow media types that are not wildcards and have a related MessageBodyWriter for OSLC Error.
+     */
+    private boolean isAcceptableMediaType(final MediaType mediaType) {
+        return (!mediaType.isWildcardType()) && (!mediaType.isWildcardSubtype())
+                && (providers.getMessageBodyWriter(CLASS_OSLC_ERROR, CLASS_OSLC_ERROR, ANNOTATIONS_EMPTY_ARRAY, mediaType) != null);
+    }
+
+    protected static boolean isOslcQuery(final String parmString) {
+        boolean containsOslcParm = false;
+
+        final String[] uriParts = parmString.toLowerCase(Locale.getDefault()).split("oslc\\.", 2);
+        if (uriParts.length > 1) {
+            containsOslcParm = true;
+        }
+
+        return containsOslcParm;
+    }
 }
