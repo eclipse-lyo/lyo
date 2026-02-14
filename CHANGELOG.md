@@ -56,7 +56,6 @@ This release does not contain security updates.
 
 ### Changed
 
-
 - 🧨 Migrated from Java EE (`javax.` namespace) to Jakarta packages
 - Upgrade to Jersey 3.1.5
 - **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has 
@@ -77,7 +76,8 @@ This release does not introduce deprecations.
 
 ### Removed
 
-- 🧨 Support for JDK 11 (and all versions below 17) is removed. **JDK 17 is the new baseline for Eclipse Lyo.** The SDK and sample code has been tested using JDK 17, 20, and 21-ea.
+- 🧨 Support for JDK 11 (and all versions below 17) is removed.
+- 🧨 Support for Java EE and Jakarta EE 8 is removed.
 
 ### Fixed
 
