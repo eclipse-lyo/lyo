@@ -1196,6 +1196,25 @@ public final class JenaModelHelper {
         String datatype = literal.getDatatypeURI();
 
         if ("false".equals(System.getProperty(OSLC4J_STRICT_DATATYPES))) {
+          // Try to parse date-only values (xsd:date format) that are incorrectly
+          // tagged as xsd:dateTime. This is common with systems like DOORS that
+          // send dates in date-only format but with dateTime type annotation.
+          // See: https://github.com/eclipse/lyo/issues/242
+          if (XSDDatatype.XSDdateTime.getURI().equals(datatype)) {
+            try {
+              // Attempt to parse as xsd:date
+              Object dateValue = XSDDatatype.XSDdate.parse(rawValue);
+              if (dateValue instanceof XSDDateTime) {
+                return ((XSDDateTime) dateValue).asCalendar().getTime();
+              }
+            } catch (DatatypeFormatException dateParseException) {
+              // Could not parse as date either, fall through to UnparseableLiteral
+              logger.debug(
+                  "Could not parse '{}' as xsd:date either: {}",
+                  rawValue,
+                  dateParseException.getMessage());
+            }
+          }
           String propUri = propertyQName.getNamespaceURI() + propertyQName.getLocalPart();
           logger.warn(
               "Property {} could not be parsed as datatype {}", propUri, literal.getDatatype());
