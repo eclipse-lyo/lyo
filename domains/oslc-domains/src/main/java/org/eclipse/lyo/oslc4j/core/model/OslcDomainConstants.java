@@ -25,6 +25,11 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 public interface OslcDomainConstants
 {
     // Start of user code user constants
+    // FIXME: RefImpl CM generates a ref to "OslcDomainConstants.ALLOWEDVALUES_PATH" which does not exist. 
+    public static String ALLOWEDVALUES_PATH = OslcDomainConstants.ALLOWED_VALUES_PATH;
+    public static String ALLOWEDVALUES_NAMESPACE = OslcDomainConstants.ALLOWED_VALUES_NAMESPACE; //namespace of the rdfs:class the resource describes
+    public static String ALLOWEDVALUES_LOCALNAME = OslcDomainConstants.ALLOWED_VALUES_LOCALNAME; //localName of the rdfs:class the resource describes
+    public static String ALLOWEDVALUES_TYPE = OslcDomainConstants.ALLOWED_VALUES_TYPE; //fullname of the rdfs:class the resource describes
     // End of user code
 
     public static String OSLC_DOMAIN = "http://open-services.net/ns/core#";

@@ -63,7 +63,10 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -103,7 +106,7 @@ public class Resource extends AbstractResource implements IResource {
   private String title;
   // Start of user code attributeAnnotation:type
   // End of user code
-  private Set<String> type = new HashSet<String>();
+  private Set<Link> type = new HashSet<Link>();
   // Start of user code attributeAnnotation:instanceShape
   // End of user code
   private Set<Link> instanceShape = new HashSet<Link>();
@@ -193,7 +196,7 @@ public class Resource extends AbstractResource implements IResource {
     this.creator.add(creator);
   }
 
-  public void addType(final String type) {
+  public void addType(final Link type) {
     this.type.add(type);
   }
 
@@ -356,9 +359,9 @@ public class Resource extends AbstractResource implements IResource {
   @OslcName("type")
   @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "type")
   @OslcOccurs(Occurs.ZeroOrMany)
-  @OslcValueType(ValueType.String)
+  @OslcValueType(ValueType.Resource)
   @OslcReadOnly(false)
-  public Set<String> getType() {
+  public Set<Link> getType() {
     // Start of user code getterInit:type
     // End of user code
     return type;
@@ -367,7 +370,7 @@ public class Resource extends AbstractResource implements IResource {
   // Start of user code getterAnnotation:instanceShape
   // End of user code
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -378,6 +381,7 @@ public class Resource extends AbstractResource implements IResource {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.RESOURCESHAPE_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getInstanceShape() {
     // Start of user code getterInit:instanceShape
@@ -388,7 +392,7 @@ public class Resource extends AbstractResource implements IResource {
   // Start of user code getterAnnotation:serviceProvider
   // End of user code
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -396,6 +400,7 @@ public class Resource extends AbstractResource implements IResource {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.SERVICEPROVIDER_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getServiceProvider() {
     // Start of user code getterInit:serviceProvider
@@ -406,7 +411,7 @@ public class Resource extends AbstractResource implements IResource {
   // Start of user code getterAnnotation:shortTitle
   // End of user code
   @OslcName("shortTitle")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "shortTitle")
   @OslcDescription(
       "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
           + " SHOULD include only content that is valid inside an XHTML <span> element.")
@@ -592,7 +597,7 @@ public class Resource extends AbstractResource implements IResource {
 
   // Start of user code setterAnnotation:type
   // End of user code
-  public void setType(final Set<String> type) {
+  public void setType(final Set<Link> type) {
     // Start of user code setterInit:type
     // End of user code
     this.type.clear();

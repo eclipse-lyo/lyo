@@ -56,9 +56,9 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
@@ -66,6 +66,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
@@ -74,6 +75,9 @@ import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.cm.Severity;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
@@ -85,11 +89,11 @@ import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.CHANGEREQUEST_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME)
 @OslcResourceShape(
     title = "ChangeRequest Shape",
-    describes = Oslc_cmDomainConstants.CHANGEREQUEST_TYPE)
+    describes = Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE)
 public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code attributeAnnotation:shortTitle
   // End of user code
@@ -184,6 +188,33 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code attributeAnnotation:authorizer
   // End of user code
   private Set<Link> authorizer = new HashSet<Link>();
+  // Start of user code attributeAnnotation:type
+  // End of user code
+  private Set<Link> type = new HashSet<Link>();
+  // Start of user code attributeAnnotation:testedByTestCase
+  // End of user code
+  private Set<Link> testedByTestCase = new HashSet<Link>();
+  // Start of user code attributeAnnotation:affectsTestResult
+  // End of user code
+  private Set<Link> affectsTestResult = new HashSet<Link>();
+  // Start of user code attributeAnnotation:blocksTestExecutionRecord
+  // End of user code
+  private Set<Link> blocksTestExecutionRecord = new HashSet<Link>();
+  // Start of user code attributeAnnotation:relatedTestExecutionRecord
+  // End of user code
+  private Set<Link> relatedTestExecutionRecord = new HashSet<Link>();
+  // Start of user code attributeAnnotation:relatedTestCase
+  // End of user code
+  private Set<Link> relatedTestCase = new HashSet<Link>();
+  // Start of user code attributeAnnotation:relatedTestPlan
+  // End of user code
+  private Set<Link> relatedTestPlan = new HashSet<Link>();
+  // Start of user code attributeAnnotation:relatedTestScript
+  // End of user code
+  private Set<Link> relatedTestScript = new HashSet<Link>();
+  // Start of user code attributeAnnotation:severity
+  // End of user code
+  private Set<Link> severity = new HashSet<Link>();
 
   // Start of user code classAttributes
   // End of user code
@@ -208,7 +239,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
     return ResourceShapeFactory.createResourceShape(
         OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.CHANGEREQUEST_PATH,
+        Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH,
         ChangeRequest.class);
   }
 
@@ -302,10 +333,46 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
     this.authorizer.add(authorizer);
   }
 
+  public void addType(final Link type) {
+    this.type.add(type);
+  }
+
+  public void addTestedByTestCase(final Link testedByTestCase) {
+    this.testedByTestCase.add(testedByTestCase);
+  }
+
+  public void addAffectsTestResult(final Link affectsTestResult) {
+    this.affectsTestResult.add(affectsTestResult);
+  }
+
+  public void addBlocksTestExecutionRecord(final Link blocksTestExecutionRecord) {
+    this.blocksTestExecutionRecord.add(blocksTestExecutionRecord);
+  }
+
+  public void addRelatedTestExecutionRecord(final Link relatedTestExecutionRecord) {
+    this.relatedTestExecutionRecord.add(relatedTestExecutionRecord);
+  }
+
+  public void addRelatedTestCase(final Link relatedTestCase) {
+    this.relatedTestCase.add(relatedTestCase);
+  }
+
+  public void addRelatedTestPlan(final Link relatedTestPlan) {
+    this.relatedTestPlan.add(relatedTestPlan);
+  }
+
+  public void addRelatedTestScript(final Link relatedTestScript) {
+    this.relatedTestScript.add(relatedTestScript);
+  }
+
+  public void addSeverity(final Link severity) {
+    this.severity.add(severity);
+  }
+
   // Start of user code getterAnnotation:shortTitle
   // End of user code
   @OslcName("shortTitle")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "shortTitle")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "shortTitle")
   @OslcDescription(
       "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
           + " SHOULD include only content that is valid inside an XHTML <span> element.")
@@ -448,7 +515,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:serviceProvider
   // End of user code
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -456,6 +523,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.SERVICEPROVIDER_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getServiceProvider() {
     // Start of user code getterInit:serviceProvider
@@ -466,7 +534,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:instanceShape
   // End of user code
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -477,6 +545,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.RESOURCESHAPE_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getInstanceShape() {
     // Start of user code getterInit:instanceShape
@@ -487,7 +556,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:discussedBy
   // End of user code
   @OslcName("discussedBy")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "discussedBy")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "discussedBy")
   @OslcDescription("A series of notes and comments about this resource.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Resource)
@@ -549,7 +618,8 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:inProgress
   // End of user code
   @OslcName("inProgress")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "inProgress")
   @OslcDescription(
       "Whether or not the Change Request in a state indicating that active work is occurring. If"
           + " oslc_cm:inprogress is true, then oslc_cm:fixed and oslc_cm:closed must also be false")
@@ -579,7 +649,8 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:approved
   // End of user code
   @OslcName("approved")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "approved")
   @OslcDescription("Whether or not the Change Request has been approved.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Boolean)
@@ -666,7 +737,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
-  @OslcRange({Oslc_cmDomainConstants.DEFECT_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.DEFECT_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getAffectedByDefect() {
     // Start of user code getterInit:affectedByDefect
@@ -678,7 +749,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // End of user code
   @OslcName("tracksRequirement")
   @OslcPropertyDefinition(
-      Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksRequirement")
   @OslcDescription(
       "Tracks the associated Requirement or Requirement ChangeSet resources. It is likely that the"
           + " target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
@@ -734,7 +805,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // End of user code
   @OslcName("tracksChangeSet")
   @OslcPropertyDefinition(
-      Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "tracksChangeSet")
   @OslcDescription(
       "Tracks SCM change set resource. It is likely that the target resource will be an"
           + " oslc_scm:ChangeSet but that is not necessarily the case.")
@@ -755,7 +826,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "parent")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getParent() {
     // Start of user code getterInit:parent
@@ -766,10 +837,11 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:priority
   // End of user code
   @OslcName("priority")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "priority")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.PRIORITY_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.PRIORITY_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getPriority() {
     // Start of user code getterInit:priority
@@ -783,7 +855,7 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "state")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Resource)
-  @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})
+  @OslcRange({Oslc_cm_shapesDomainConstants.STATE_TYPE})
   @OslcReadOnly(false)
   public Link getState() {
     // Start of user code getterInit:state
@@ -794,7 +866,8 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
   // Start of user code getterAnnotation:authorizer
   // End of user code
   @OslcName("authorizer")
-  @OslcPropertyDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
+  @OslcPropertyDefinition(
+      Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE + "authorizer")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRange({FoafDomainConstants.AGENT_TYPE})
@@ -803,6 +876,138 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
     // Start of user code getterInit:authorizer
     // End of user code
     return authorizer;
+  }
+
+  // Start of user code getterAnnotation:type
+  // End of user code
+  @OslcName("type")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "type")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Set<Link> getType() {
+    // Start of user code getterInit:type
+    // End of user code
+    return type;
+  }
+
+  // Start of user code getterAnnotation:testedByTestCase
+  // End of user code
+  @OslcName("testedByTestCase")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "testedByTestCase")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getTestedByTestCase() {
+    // Start of user code getterInit:testedByTestCase
+    // End of user code
+    return testedByTestCase;
+  }
+
+  // Start of user code getterAnnotation:affectsTestResult
+  // End of user code
+  @OslcName("affectsTestResult")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "affectsTestResult")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getAffectsTestResult() {
+    // Start of user code getterInit:affectsTestResult
+    // End of user code
+    return affectsTestResult;
+  }
+
+  // Start of user code getterAnnotation:blocksTestExecutionRecord
+  // End of user code
+  @OslcName("blocksTestExecutionRecord")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "blocksTestExecutionRecord")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getBlocksTestExecutionRecord() {
+    // Start of user code getterInit:blocksTestExecutionRecord
+    // End of user code
+    return blocksTestExecutionRecord;
+  }
+
+  // Start of user code getterAnnotation:relatedTestExecutionRecord
+  // End of user code
+  @OslcName("relatedTestExecutionRecord")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestExecutionRecord")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestExecutionRecord() {
+    // Start of user code getterInit:relatedTestExecutionRecord
+    // End of user code
+    return relatedTestExecutionRecord;
+  }
+
+  // Start of user code getterAnnotation:relatedTestCase
+  // End of user code
+  @OslcName("relatedTestCase")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestCase")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestCase() {
+    // Start of user code getterInit:relatedTestCase
+    // End of user code
+    return relatedTestCase;
+  }
+
+  // Start of user code getterAnnotation:relatedTestPlan
+  // End of user code
+  @OslcName("relatedTestPlan")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestPlan")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestPlan() {
+    // Start of user code getterInit:relatedTestPlan
+    // End of user code
+    return relatedTestPlan;
+  }
+
+  // Start of user code getterAnnotation:relatedTestScript
+  // End of user code
+  @OslcName("relatedTestScript")
+  @OslcPropertyDefinition(
+      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "relatedTestScript")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CHANGESET_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getRelatedTestScript() {
+    // Start of user code getterInit:relatedTestScript
+    // End of user code
+    return relatedTestScript;
+  }
+
+  // Start of user code getterAnnotation:severity
+  // End of user code
+  @OslcName("severity")
+  @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE + "severity")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_cm_shapesDomainConstants.SEVERITY_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getSeverity() {
+    // Start of user code getterInit:severity
+    // End of user code
+    return severity;
   }
 
   // Start of user code setterAnnotation:shortTitle
@@ -1157,6 +1362,123 @@ public class ChangeRequest extends AbstractResource implements IChangeRequest {
       this.authorizer.addAll(authorizer);
     }
     // Start of user code setterFinalize:authorizer
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:type
+  // End of user code
+  public void setType(final Set<Link> type) {
+    // Start of user code setterInit:type
+    // End of user code
+    this.type.clear();
+    if (type != null) {
+      this.type.addAll(type);
+    }
+    // Start of user code setterFinalize:type
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:testedByTestCase
+  // End of user code
+  public void setTestedByTestCase(final Set<Link> testedByTestCase) {
+    // Start of user code setterInit:testedByTestCase
+    // End of user code
+    this.testedByTestCase.clear();
+    if (testedByTestCase != null) {
+      this.testedByTestCase.addAll(testedByTestCase);
+    }
+    // Start of user code setterFinalize:testedByTestCase
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:affectsTestResult
+  // End of user code
+  public void setAffectsTestResult(final Set<Link> affectsTestResult) {
+    // Start of user code setterInit:affectsTestResult
+    // End of user code
+    this.affectsTestResult.clear();
+    if (affectsTestResult != null) {
+      this.affectsTestResult.addAll(affectsTestResult);
+    }
+    // Start of user code setterFinalize:affectsTestResult
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:blocksTestExecutionRecord
+  // End of user code
+  public void setBlocksTestExecutionRecord(final Set<Link> blocksTestExecutionRecord) {
+    // Start of user code setterInit:blocksTestExecutionRecord
+    // End of user code
+    this.blocksTestExecutionRecord.clear();
+    if (blocksTestExecutionRecord != null) {
+      this.blocksTestExecutionRecord.addAll(blocksTestExecutionRecord);
+    }
+    // Start of user code setterFinalize:blocksTestExecutionRecord
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:relatedTestExecutionRecord
+  // End of user code
+  public void setRelatedTestExecutionRecord(final Set<Link> relatedTestExecutionRecord) {
+    // Start of user code setterInit:relatedTestExecutionRecord
+    // End of user code
+    this.relatedTestExecutionRecord.clear();
+    if (relatedTestExecutionRecord != null) {
+      this.relatedTestExecutionRecord.addAll(relatedTestExecutionRecord);
+    }
+    // Start of user code setterFinalize:relatedTestExecutionRecord
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:relatedTestCase
+  // End of user code
+  public void setRelatedTestCase(final Set<Link> relatedTestCase) {
+    // Start of user code setterInit:relatedTestCase
+    // End of user code
+    this.relatedTestCase.clear();
+    if (relatedTestCase != null) {
+      this.relatedTestCase.addAll(relatedTestCase);
+    }
+    // Start of user code setterFinalize:relatedTestCase
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:relatedTestPlan
+  // End of user code
+  public void setRelatedTestPlan(final Set<Link> relatedTestPlan) {
+    // Start of user code setterInit:relatedTestPlan
+    // End of user code
+    this.relatedTestPlan.clear();
+    if (relatedTestPlan != null) {
+      this.relatedTestPlan.addAll(relatedTestPlan);
+    }
+    // Start of user code setterFinalize:relatedTestPlan
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:relatedTestScript
+  // End of user code
+  public void setRelatedTestScript(final Set<Link> relatedTestScript) {
+    // Start of user code setterInit:relatedTestScript
+    // End of user code
+    this.relatedTestScript.clear();
+    if (relatedTestScript != null) {
+      this.relatedTestScript.addAll(relatedTestScript);
+    }
+    // Start of user code setterFinalize:relatedTestScript
+    // End of user code
+  }
+
+  // Start of user code setterAnnotation:severity
+  // End of user code
+  public void setSeverity(final Set<Link> severity) {
+    // Start of user code setterInit:severity
+    // End of user code
+    this.severity.clear();
+    if (severity != null) {
+      this.severity.addAll(severity);
+    }
+    // Start of user code setterFinalize:severity
     // End of user code
   }
 }

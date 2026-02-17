@@ -56,7 +56,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 
 // Start of user code imports
 // End of user code
@@ -67,9 +67,9 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.STATE_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.STATE_LOCALNAME)
-@OslcResourceShape(title = "State Shape", describes = Oslc_cmDomainConstants.STATE_TYPE)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.STATE_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.STATE_LOCALNAME)
+@OslcResourceShape(title = "State Shape", describes = Oslc_cm_shapesDomainConstants.STATE_TYPE)
 public class State extends AbstractResource implements IState {
 
   // Start of user code classAttributes
@@ -95,7 +95,7 @@ public class State extends AbstractResource implements IState {
     return ResourceShapeFactory.createResourceShape(
         OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.STATE_PATH,
+        Oslc_cm_shapesDomainConstants.STATE_PATH,
         State.class);
   }
 

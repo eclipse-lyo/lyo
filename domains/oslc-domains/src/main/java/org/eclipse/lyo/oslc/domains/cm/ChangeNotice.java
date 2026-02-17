@@ -56,7 +56,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
@@ -66,6 +66,9 @@ import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.cm.Severity;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
@@ -76,11 +79,11 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.CHANGENOTICE_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.CHANGENOTICE_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME)
 @OslcResourceShape(
     title = "ChangeNotice Shape",
-    describes = Oslc_cmDomainConstants.CHANGENOTICE_TYPE)
+    describes = Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE)
 public class ChangeNotice extends ChangeRequest implements IChangeNotice {
 
   // Start of user code classAttributes
@@ -106,7 +109,7 @@ public class ChangeNotice extends ChangeRequest implements IChangeNotice {
     return ResourceShapeFactory.createResourceShape(
         OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.CHANGENOTICE_PATH,
+        Oslc_cm_shapesDomainConstants.CHANGENOTICE_PATH,
         ChangeNotice.class);
   }
 
