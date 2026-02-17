@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,32 +16,24 @@ package org.eclipse.lyo.oslc4j.provider.json4j;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Use JSON-LD support in Jena provider.
- */
-@Deprecated
-public final class Json4JProvidersRegistry
-{
-	private static final Set<Class<?>> PROVIDERS = new HashSet<>();
+public final class Json4JProvidersRegistry {
+    private static final Set<Class<?>> PROVIDERS = new HashSet<>();
 
-	static
-	{
-		PROVIDERS.add(OslcCompactJsonProvider.class);
-		PROVIDERS.add(OslcRdfJsonArrayProvider.class);
-		PROVIDERS.add(OslcRdfJsonCollectionProvider.class);
-		PROVIDERS.add(OslcRdfJsonProvider.class);
-	}
+    static {
+        PROVIDERS.add(OslcCompactJsonProvider.class);
+        PROVIDERS.add(OslcRdfJsonArrayProvider.class);
+        PROVIDERS.add(OslcRdfJsonCollectionProvider.class);
+        PROVIDERS.add(OslcRdfJsonProvider.class);
+    }
 
-	private Json4JProvidersRegistry()
-	{
-		super();
-	}
+    private Json4JProvidersRegistry() {
+        super();
+    }
 
-	/**
-	 * Returns a mutable set of provider classes.  Each request returns a new Set.
-	 */
-	public static final Set<Class<?>> getProviders()
-	{
-		return new HashSet<>(PROVIDERS);
-	}
+    /**
+     * Returns a mutable set of provider classes. Each request returns a new Set.
+     */
+    public static final Set<Class<?>> getProviders() {
+        return new HashSet<>(PROVIDERS);
+    }
 }

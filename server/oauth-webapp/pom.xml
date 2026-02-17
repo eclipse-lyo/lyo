@@ -51,8 +51,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.wink</groupId>
-            <artifactId>wink-json4j</artifactId>
+            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+            <artifactId>oslc4j-json4j-provider</artifactId>
+            <version>${v.lyo}</version>
             <scope>provided</scope>
         </dependency>
 
