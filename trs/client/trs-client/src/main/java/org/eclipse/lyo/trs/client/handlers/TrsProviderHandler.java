@@ -80,8 +80,15 @@ public class TrsProviderHandler implements IProviderHandler {
         } catch (Exception e) {
             // FIXME Andrew@2019-07-15: can get stuck in the loop
             log.warn("Force rebase");
+            log.debug("Force rebase exception", e);
             lastProcessedChangeEventUri = null;
-            handler.rebase();
+            try {
+                handler.rebase();
+            } catch (Exception rebaseException) {
+                log.error("Error during rebase", rebaseException);
+                rebaseException.addSuppressed(e);
+                throw new RuntimeException("Failed to update TRS", rebaseException);
+            }
         }
     }
 
@@ -116,7 +123,7 @@ public class TrsProviderHandler implements IProviderHandler {
      */
     private void pollAndProcessChanges() {
 
-        log.info("started dealing with TRS Provider: " + trsUriBase);
+        log.debug("started dealing with TRS Provider: {}", trsUriBase);
 
         TrackedResourceSet updatedTrs = trsClient.extractRemoteTrs(trsUriBase);
         boolean indexingStage = false;
@@ -272,6 +279,13 @@ public class TrsProviderHandler implements IProviderHandler {
                     break;
                 }
                 previousChangeLog = currentChangeLog.getPrevious();
+                if (ProviderUtil.isNilUri(lastProcessedChangeEventUri) && ProviderUtil.isNilUri(previousChangeLog)) {
+                    foundChangeEvent = true;
+                    break;
+                }
+                if (previousChangeLog == null) {
+                    break;
+                }
                 currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
             } else {
                 break;
