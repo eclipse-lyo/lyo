@@ -147,7 +147,7 @@ Other repositories that are no longer actively maintained but are kept to preser
 
 ## Contributing
 
-See [CONTRIBUTING.MD](CONTRIBUTING.MD)
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Useful information for Lyo committers
 
