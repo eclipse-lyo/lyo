@@ -63,99 +63,91 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 
 @OslcNamespace(Oslc_promcodeDomainConstants.PROJECT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.PROJECT_LOCALNAME)
-@OslcResourceShape(
-    title = "Project Shape",
-    description = "A project is software development work to achieve some business goal.",
-    describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
-public interface IProject {
+@OslcResourceShape(title = "Project Shape", description = "A project is software development work to achieve some business goal.", describes = Oslc_promcodeDomainConstants.PROJECT_TYPE)
+public interface IProject
+{
 
-  @OslcName("description")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.XMLLiteral)
-  @OslcReadOnly(false)
-  public String getDescription();
 
-  @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-  @OslcOccurs(Occurs.ExactlyOne)
-  @OslcValueType(ValueType.String)
-  @OslcReadOnly(false)
-  public String getIdentifier();
+    @OslcName("description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getDescription();
 
-  @OslcName("source")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "source")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.String)
-  @OslcReadOnly(false)
-  public String getSource();
+    @OslcName("identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getIdentifier();
 
-  @OslcName("title")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.XMLLiteral)
-  @OslcReadOnly(false)
-  public String getTitle();
+    @OslcName("source")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "source")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getSource();
 
-  @OslcName("actualEndDate")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.DateTime)
-  @OslcReadOnly(false)
-  public Date getActualEndDate();
+    @OslcName("title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getTitle();
 
-  @OslcName("actualStartDate")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualStartDate")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.DateTime)
-  @OslcReadOnly(false)
-  public Date getActualStartDate();
+    @OslcName("actualEndDate")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualEndDate")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.DateTime)
+    @OslcReadOnly(false)
+    public Date getActualEndDate();
 
-  @OslcName("metricOfScopeItemSize")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.Resource)
-  @OslcReadOnly(false)
-  public Link getMetricOfScopeItemSize();
+    @OslcName("actualStartDate")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "actualStartDate")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.DateTime)
+    @OslcReadOnly(false)
+    public Date getActualStartDate();
 
-  @OslcName("plannedEndDate")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedEndDate")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.DateTime)
-  @OslcReadOnly(false)
-  public Date getPlannedEndDate();
+    @OslcName("metricOfScopeItemSize")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfScopeItemSize")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public Link getMetricOfScopeItemSize();
 
-  @OslcName("plannedStartDate")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedStartDate")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.DateTime)
-  @OslcReadOnly(false)
-  public Date getPlannedStartDate();
+    @OslcName("plannedEndDate")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedEndDate")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.DateTime)
+    @OslcReadOnly(false)
+    public Date getPlannedEndDate();
 
-  @OslcName("unitOfScopeItemSize")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfScopeItemSize")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.Resource)
-  @OslcReadOnly(false)
-  public Link getUnitOfScopeItemSize();
+    @OslcName("plannedStartDate")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "plannedStartDate")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.DateTime)
+    @OslcReadOnly(false)
+    public Date getPlannedStartDate();
 
-  public void setDescription(final String description);
+    @OslcName("unitOfScopeItemSize")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfScopeItemSize")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public Link getUnitOfScopeItemSize();
 
-  public void setIdentifier(final String identifier);
 
-  public void setSource(final String source);
-
-  public void setTitle(final String title);
-
-  public void setActualEndDate(final Date actualEndDate);
-
-  public void setActualStartDate(final Date actualStartDate);
-
-  public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize);
-
-  public void setPlannedEndDate(final Date plannedEndDate);
-
-  public void setPlannedStartDate(final Date plannedStartDate);
-
-  public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize);
+    public void setDescription(final String description );
+    public void setIdentifier(final String identifier );
+    public void setSource(final String source );
+    public void setTitle(final String title );
+    public void setActualEndDate(final Date actualEndDate );
+    public void setActualStartDate(final Date actualStartDate );
+    public void setMetricOfScopeItemSize(final Link metricOfScopeItemSize );
+    public void setPlannedEndDate(final Date plannedEndDate );
+    public void setPlannedStartDate(final Date plannedStartDate );
+    public void setUnitOfScopeItemSize(final Link unitOfScopeItemSize );
 }
+

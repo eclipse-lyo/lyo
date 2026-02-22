@@ -25,7 +25,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <version.lyo>7.0.0-SNAPSHOT</version.lyo>
-        
+        <version.lynx-sdk>2.0.0-SNAPSHOT</version.lynx-sdk>
         <!-- Start of user code properties
             -->
     <!-- TODO: Add additional properties here to avoid them be overrriden upon
@@ -50,7 +50,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        
+        <repository>
+            <id>lynxwork-libs</id>
+            <name>lynxwork-libs</name>
+            <url>https://artifactory.lynxwork.com/artifactory/lynxwork-libs</url>
+        </repository>
     </repositories>
     <!-- Start of user code pre_dependencies
     -->

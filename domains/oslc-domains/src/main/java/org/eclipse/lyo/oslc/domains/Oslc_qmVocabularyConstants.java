@@ -1,6 +1,6 @@
 // Start of user code Copyright
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,75 +20,84 @@ package org.eclipse.lyo.oslc.domains;
 
 // spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import javax.xml.namespace.QName;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Start of user code imports
 // End of user code
 // spotless:on
 
-public interface Oslc_qmVocabularyConstants {
-  // Start of user code user constants
-  // End of user code
+public class Oslc_qmVocabularyConstants
+{
+    // Start of user code user constants
+    // End of user code
 
-  public static String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
-  public static String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm";
+    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTCASE_CLASS} instead.
-   */
-  @Deprecated public static String TESTCASE_CLASS = "TestCase";
+    /**
+     * @deprecated Use {@link #NS} instead.
+     */
+    @Deprecated
+    public static final String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTCASE_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TESTCASE = Oslc_qm.TESTCASE_CLASS;
+    /**
+     * @deprecated Use {@link #PREFIX} instead.
+     */
+    @Deprecated
+    public static final String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTEXECUTIONRECORD_CLASS} instead.
-   */
-  @Deprecated public static String TESTEXECUTIONRECORD_CLASS = "TestExecutionRecord";
+    public static final String NS = "http://open-services.net/ns/qm#";
+    public static final String PREFIX = "oslc_qm";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTEXECUTIONRECORD_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TESTEXECUTIONRECORD = Oslc_qm.TESTEXECUTIONRECORD_CLASS;
+    // static class
+    private Oslc_qmVocabularyConstants() {}
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTPLAN_CLASS} instead.
-   */
-  @Deprecated public static String TESTPLAN_CLASS = "TestPlan";
+    public static QName of(String local) { return get(local); }
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTPLAN_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TESTPLAN = Oslc_qm.TESTPLAN_CLASS;
+    public static final String TESTCASE_LOCAL_NAME = "TestCase";
+    public static final String TESTCASE_CLASS = NS + TESTCASE_LOCAL_NAME;
+    public static final String TESTEXECUTIONRECORD_LOCAL_NAME = "TestExecutionRecord";
+    public static final String TESTEXECUTIONRECORD_CLASS = NS + TESTEXECUTIONRECORD_LOCAL_NAME;
+    public static final String TESTPLAN_LOCAL_NAME = "TestPlan";
+    public static final String TESTPLAN_CLASS = NS + TESTPLAN_LOCAL_NAME;
+    public static final String TESTRESULT_LOCAL_NAME = "TestResult";
+    public static final String TESTRESULT_CLASS = NS + TESTRESULT_LOCAL_NAME;
+    public static final String TESTSCRIPT_LOCAL_NAME = "TestScript";
+    public static final String TESTSCRIPT_CLASS = NS + TESTSCRIPT_LOCAL_NAME;
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTRESULT_CLASS} instead.
-   */
-  @Deprecated public static String TESTRESULT_CLASS = "TestResult";
+    public static final String AFFECTEDBYCHANGEREQUEST_PROP = NS + "affectedByChangeRequest";
+    public static final String BLOCKEDBYCHANGEREQUEST_PROP = NS + "blockedByChangeRequest";
+    public static final String EXECUTESTESTSCRIPT_PROP = NS + "executesTestScript";
+    public static final String EXECUTIONINSTRUCTIONS_PROP = NS + "executionInstructions";
+    public static final String PRODUCEDBYTESTEXECUTIONRECORD_PROP = NS + "producedByTestExecutionRecord";
+    public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+    public static final String REPORTSONTESTCASE_PROP = NS + "reportsOnTestCase";
+    public static final String REPORTSONTESTPLAN_PROP = NS + "reportsOnTestPlan";
+    public static final String RUNSONTESTENVIRONMENT_PROP = NS + "runsOnTestEnvironment";
+    public static final String RUNSTESTCASE_PROP = NS + "runsTestCase";
+    public static final String TESTSCHANGEREQUEST_PROP = NS + "testsChangeRequest";
+    public static final String USESTESTCASE_PROP = NS + "usesTestCase";
+    public static final String USESTESTSCRIPT_PROP = NS + "usesTestScript";
+    public static final String VALIDATESREQUIREMENT_PROP = NS + "validatesRequirement";
+    public static final String VALIDATESREQUIREMENTCOLLECTION_PROP = NS + "validatesRequirementCollection";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTRESULT_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TESTRESULT = Oslc_qm.TESTRESULT_CLASS;
+    public static QName affectedByChangeRequest() { return get("affectedByChangeRequest"); }
+    public static QName blockedByChangeRequest() { return get("blockedByChangeRequest"); }
+    public static QName executesTestScript() { return get("executesTestScript"); }
+    public static QName executionInstructions() { return get("executionInstructions"); }
+    public static QName producedByTestExecutionRecord() { return get("producedByTestExecutionRecord"); }
+    public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
+    public static QName reportsOnTestCase() { return get("reportsOnTestCase"); }
+    public static QName reportsOnTestPlan() { return get("reportsOnTestPlan"); }
+    public static QName runsOnTestEnvironment() { return get("runsOnTestEnvironment"); }
+    public static QName runsTestCase() { return get("runsTestCase"); }
+    public static QName testsChangeRequest() { return get("testsChangeRequest"); }
+    public static QName usesTestCase() { return get("usesTestCase"); }
+    public static QName usesTestScript() { return get("usesTestScript"); }
+    public static QName validatesRequirement() { return get("validatesRequirement"); }
+    public static QName validatesRequirementCollection() { return get("validatesRequirementCollection"); }
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTSCRIPT_CLASS} instead.
-   */
-  @Deprecated public static String TESTSCRIPT_CLASS = "TestScript";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_qm#TESTSCRIPT_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TESTSCRIPT = Oslc_qm.TESTSCRIPT_CLASS;
+    private static QName get(String local) {
+        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+    }
 }

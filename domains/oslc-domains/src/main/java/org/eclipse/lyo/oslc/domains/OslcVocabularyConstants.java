@@ -1,6 +1,6 @@
 // Start of user code Copyright
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,15 +20,52 @@ package org.eclipse.lyo.oslc.domains;
 
 // spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import javax.xml.namespace.QName;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Start of user code imports
 // End of user code
 // spotless:on
 
-public interface OslcVocabularyConstants {
-  // Start of user code user constants
-  // End of user code
+public class OslcVocabularyConstants
+{
+    // Start of user code user constants
+    // End of user code
 
-  public static String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
-  public static String OSLC_CORE_NAMSPACE_PREFIX = "oslc";
+    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+
+    /**
+     * @deprecated Use {@link #NS} instead.
+     */
+    @Deprecated
+    public static final String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
+
+    /**
+     * @deprecated Use {@link #PREFIX} instead.
+     */
+    @Deprecated
+    public static final String OSLC_CORE_NAMSPACE_PREFIX = "oslc";
+
+    public static final String NS = "http://open-services.net/ns/core#";
+    public static final String PREFIX = "oslc";
+
+    // static class
+    private OslcVocabularyConstants() {}
+
+    public static QName of(String local) { return get(local); }
+
+
+    /**
+     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+     */
+    public static final String MODIFIEDBY_PROP = NS + "modifiedBy";
+
+    /**
+     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+     */
+    public static QName modifiedBy() { return get("modifiedBy"); }
+
+    private static QName get(String local) {
+        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+    }
 }

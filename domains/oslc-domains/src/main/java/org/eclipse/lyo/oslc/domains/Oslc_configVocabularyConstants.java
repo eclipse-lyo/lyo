@@ -1,6 +1,6 @@
 // Start of user code Copyright
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,40 +20,48 @@ package org.eclipse.lyo.oslc.domains;
 
 // spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import javax.xml.namespace.QName;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Start of user code imports
 // End of user code
 // spotless:on
 
-public interface Oslc_configVocabularyConstants {
-  // Start of user code user constants
-  // End of user code
+public class Oslc_configVocabularyConstants
+{
+    // Start of user code user constants
+    // End of user code
 
-  public static String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE =
-      "http://open-services.net/ns/config#";
-  public static String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config";
+    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_config#CHANGESET_CLASS} instead.
-   */
-  @Deprecated public static String CHANGESET_CLASS = "ChangeSet";
+    /**
+     * @deprecated Use {@link #NS} instead.
+     */
+    @Deprecated
+    public static final String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/config#";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_config#CHANGESET_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_CHANGESET = Oslc_config.CHANGESET_CLASS;
+    /**
+     * @deprecated Use {@link #PREFIX} instead.
+     */
+    @Deprecated
+    public static final String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_config#CONFIGURATION_CLASS} instead.
-   */
-  @Deprecated public static String CONFIGURATION_CLASS = "Configuration";
+    public static final String NS = "http://open-services.net/ns/config#";
+    public static final String PREFIX = "oslc_config";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_config#CONFIGURATION_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_CONFIGURATION = Oslc_config.CONFIGURATION_CLASS;
+    // static class
+    private Oslc_configVocabularyConstants() {}
+
+    public static QName of(String local) { return get(local); }
+
+    public static final String CHANGESET_LOCAL_NAME = "ChangeSet";
+    public static final String CHANGESET_CLASS = NS + CHANGESET_LOCAL_NAME;
+    public static final String CONFIGURATION_LOCAL_NAME = "Configuration";
+    public static final String CONFIGURATION_CLASS = NS + CONFIGURATION_LOCAL_NAME;
+
+
+
+    private static QName get(String local) {
+        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+    }
 }

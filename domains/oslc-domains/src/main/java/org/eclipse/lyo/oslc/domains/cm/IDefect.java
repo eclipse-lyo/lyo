@@ -71,4 +71,10 @@ import org.eclipse.lyo.oslc.domains.cm.IState;
 @OslcNamespace(Oslc_cmDomainConstants.DEFECT_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.DEFECT_LOCALNAME)
 @OslcResourceShape(title = "Defect Shape", describes = Oslc_cmDomainConstants.DEFECT_TYPE)
-public interface IDefect {}
+public interface IDefect
+{
+
+
+
+}
+

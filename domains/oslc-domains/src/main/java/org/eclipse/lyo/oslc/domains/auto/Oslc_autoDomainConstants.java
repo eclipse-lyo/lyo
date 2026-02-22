@@ -26,71 +26,66 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 // End of user code
 // spotless:on
 
-public interface Oslc_autoDomainConstants {
-  // Start of user code user constants
+public interface Oslc_autoDomainConstants
+{
+    // Start of user code user constants
   // End of user code
 
-  /**
-   * @deprecated use {@link Oslc_autoDomainConstants#AUTOMATION_NAMSPACE} or {@link Oslc_autoDomainConstants#AUTOMATION_DOMAIN_NAME} instead
-   */
-  @Deprecated(since = "5.0.1")
-  public static String AUTOMATION_DOMAIN = "http://open-services.net/ns/auto#";
+    /**
+     * @deprecated use {@link Oslc_autoDomainConstants#AUTOMATION_NAMSPACE} or {@link Oslc_autoDomainConstants#AUTOMATION_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String AUTOMATION_DOMAIN = "http://open-services.net/ns/auto#";
+    public static String AUTOMATION_DOMAIN_NAME = "Automation";
 
-  public static String AUTOMATION_DOMAIN_NAME = "Automation";
+    //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String AUTOMATION_NAMSPACE = "http://open-services.net/ns/auto#";
 
-  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String AUTOMATION_NAMSPACE = "http://open-services.net/ns/auto#";
+    //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
+    public static String AUTOMATION_NAMSPACE_PREFIX = "oslc_auto"; 
 
-  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String AUTOMATION_NAMSPACE_PREFIX = "oslc_auto";
-
-  // the relative path of the resource shape URL.
-  public static String AUTOMATIONPLAN_PATH = "automationPlan";
-
-  // namespace of the rdfs:class the resource describes
-  public static String AUTOMATIONPLAN_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String AUTOMATIONPLAN_LOCALNAME = "AutomationPlan";
-
-  // fullname of the rdfs:class the resource describes
-  public static String AUTOMATIONPLAN_TYPE = AUTOMATIONPLAN_NAMESPACE + AUTOMATIONPLAN_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String AUTOMATIONREQUEST_PATH = "automationRequest";
-
-  // namespace of the rdfs:class the resource describes
-  public static String AUTOMATIONREQUEST_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String AUTOMATIONREQUEST_LOCALNAME = "AutomationRequest";
-
-  // fullname of the rdfs:class the resource describes
-  public static String AUTOMATIONREQUEST_TYPE =
-      AUTOMATIONREQUEST_NAMESPACE + AUTOMATIONREQUEST_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String AUTOMATIONRESULT_PATH = "automationResult";
-
-  // namespace of the rdfs:class the resource describes
-  public static String AUTOMATIONRESULT_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String AUTOMATIONRESULT_LOCALNAME = "AutomationResult";
-
-  // fullname of the rdfs:class the resource describes
-  public static String AUTOMATIONRESULT_TYPE =
-      AUTOMATIONRESULT_NAMESPACE + AUTOMATIONRESULT_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String PARAMETERINSTANCE_PATH = "parameterInstance";
-
-  // namespace of the rdfs:class the resource describes
-  public static String PARAMETERINSTANCE_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String PARAMETERINSTANCE_LOCALNAME = "ParameterInstance";
-
-  // fullname of the rdfs:class the resource describes
-  public static String PARAMETERINSTANCE_TYPE =
-      PARAMETERINSTANCE_NAMESPACE + PARAMETERINSTANCE_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String AUTOMATIONPLAN_PATH = "automationPlan";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String AUTOMATIONPLAN_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
+    
+    // localName of the rdfs:class the resource describes
+    public static String AUTOMATIONPLAN_LOCALNAME = "AutomationPlan";
+    
+    // fullname of the rdfs:class the resource describes
+    public static String AUTOMATIONPLAN_TYPE = AUTOMATIONPLAN_NAMESPACE + AUTOMATIONPLAN_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String AUTOMATIONREQUEST_PATH = "automationRequest";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String AUTOMATIONREQUEST_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
+    
+    // localName of the rdfs:class the resource describes
+    public static String AUTOMATIONREQUEST_LOCALNAME = "AutomationRequest";
+    
+    // fullname of the rdfs:class the resource describes
+    public static String AUTOMATIONREQUEST_TYPE = AUTOMATIONREQUEST_NAMESPACE + AUTOMATIONREQUEST_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String AUTOMATIONRESULT_PATH = "automationResult";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String AUTOMATIONRESULT_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
+    
+    // localName of the rdfs:class the resource describes
+    public static String AUTOMATIONRESULT_LOCALNAME = "AutomationResult";
+    
+    // fullname of the rdfs:class the resource describes
+    public static String AUTOMATIONRESULT_TYPE = AUTOMATIONRESULT_NAMESPACE + AUTOMATIONRESULT_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String PARAMETERINSTANCE_PATH = "parameterInstance";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String PARAMETERINSTANCE_NAMESPACE = Oslc_autoDomainConstants.AUTOMATION_NAMSPACE;
+    
+    // localName of the rdfs:class the resource describes
+    public static String PARAMETERINSTANCE_LOCALNAME = "ParameterInstance";
+    
+    // fullname of the rdfs:class the resource describes
+    public static String PARAMETERINSTANCE_TYPE = PARAMETERINSTANCE_NAMESPACE + PARAMETERINSTANCE_LOCALNAME;
 }

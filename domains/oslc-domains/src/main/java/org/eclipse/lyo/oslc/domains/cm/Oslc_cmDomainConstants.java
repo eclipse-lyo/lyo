@@ -26,118 +26,110 @@ import org.eclipse.lyo.oslc.domains.Oslc_cmVocabularyConstants;
 // End of user code
 // spotless:on
 
-public interface Oslc_cmDomainConstants {
-  // Start of user code user constants
+public interface Oslc_cmDomainConstants
+{
+    // Start of user code user constants
   // End of user code
 
-  /**
-   * @deprecated use {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
-   */
-  @Deprecated(since = "5.0.1")
-  public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/cm#";
+    /**
+     * @deprecated use {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_cmDomainConstants#CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/cm#";
+    public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME = "Change Management shapes";
 
-  public static String CHANGE_MANAGEMENT_SHAPES_DOMAIN_NAME = "Change Management shapes";
+    //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/cm#";
 
-  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/cm#";
+    //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
+    public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_cm"; 
 
-  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_cm";
-
-  // the relative path of the resource shape URL.
-  public static String CHANGENOTICE_PATH = "changeNotice";
-
-  // namespace of the rdfs:class the resource describes
-  public static String CHANGENOTICE_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String CHANGENOTICE_LOCALNAME = Oslc_cmVocabularyConstants.CHANGENOTICE_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String CHANGENOTICE_TYPE = CHANGENOTICE_NAMESPACE + CHANGENOTICE_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String CHANGEREQUEST_PATH = "changeRequest";
-
-  // namespace of the rdfs:class the resource describes
-  public static String CHANGEREQUEST_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String CHANGEREQUEST_LOCALNAME = Oslc_cmVocabularyConstants.CHANGEREQUEST_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String CHANGEREQUEST_TYPE = CHANGEREQUEST_NAMESPACE + CHANGEREQUEST_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String DEFECT_PATH = "defect";
-
-  // namespace of the rdfs:class the resource describes
-  public static String DEFECT_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String DEFECT_LOCALNAME = Oslc_cmVocabularyConstants.DEFECT_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String DEFECT_TYPE = DEFECT_NAMESPACE + DEFECT_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String ENHANCEMENT_PATH = "enhancement";
-
-  // namespace of the rdfs:class the resource describes
-  public static String ENHANCEMENT_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String ENHANCEMENT_LOCALNAME = Oslc_cmVocabularyConstants.ENHANCEMENT_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String ENHANCEMENT_TYPE = ENHANCEMENT_NAMESPACE + ENHANCEMENT_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String PRIORITY_PATH = "priority";
-
-  // namespace of the rdfs:class the resource describes
-  public static String PRIORITY_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String PRIORITY_LOCALNAME = Oslc_cmVocabularyConstants.PRIORITY_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String PRIORITY_TYPE = PRIORITY_NAMESPACE + PRIORITY_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String REVIEWTASK_PATH = "reviewTask";
-
-  // namespace of the rdfs:class the resource describes
-  public static String REVIEWTASK_NAMESPACE =
-      Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String REVIEWTASK_LOCALNAME = Oslc_cmVocabularyConstants.REVIEWTASK_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String REVIEWTASK_TYPE = REVIEWTASK_NAMESPACE + REVIEWTASK_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String STATE_PATH = "state";
-
-  // namespace of the rdfs:class the resource describes
-  public static String STATE_NAMESPACE = Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String STATE_LOCALNAME = "State";
-
-  // fullname of the rdfs:class the resource describes
-  public static String STATE_TYPE = STATE_NAMESPACE + STATE_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String TASK_PATH = "task";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TASK_NAMESPACE = Oslc_cmVocabularyConstants.CHANGE_MANAGEMENT_VOCAB_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TASK_LOCALNAME = Oslc_cmVocabularyConstants.TASK_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TASK_TYPE = TASK_NAMESPACE + TASK_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String CHANGENOTICE_PATH = "changeNotice";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String CHANGENOTICE_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String CHANGENOTICE_LOCALNAME = Oslc_cmVocabularyConstants.CHANGENOTICE_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String CHANGENOTICE_TYPE = CHANGENOTICE_NAMESPACE + CHANGENOTICE_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String CHANGEREQUEST_PATH = "changeRequest";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String CHANGEREQUEST_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String CHANGEREQUEST_LOCALNAME = Oslc_cmVocabularyConstants.CHANGEREQUEST_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String CHANGEREQUEST_TYPE = CHANGEREQUEST_NAMESPACE + CHANGEREQUEST_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String DEFECT_PATH = "defect";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String DEFECT_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String DEFECT_LOCALNAME = Oslc_cmVocabularyConstants.DEFECT_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String DEFECT_TYPE = DEFECT_NAMESPACE + DEFECT_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String ENHANCEMENT_PATH = "enhancement";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String ENHANCEMENT_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String ENHANCEMENT_LOCALNAME = Oslc_cmVocabularyConstants.ENHANCEMENT_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String ENHANCEMENT_TYPE = ENHANCEMENT_NAMESPACE + ENHANCEMENT_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String PRIORITY_PATH = "priority";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String PRIORITY_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String PRIORITY_LOCALNAME = Oslc_cmVocabularyConstants.PRIORITY_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String PRIORITY_TYPE = PRIORITY_NAMESPACE + PRIORITY_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String REVIEWTASK_PATH = "reviewTask";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String REVIEWTASK_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String REVIEWTASK_LOCALNAME = Oslc_cmVocabularyConstants.REVIEWTASK_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String REVIEWTASK_TYPE = REVIEWTASK_NAMESPACE + REVIEWTASK_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String STATE_PATH = "state";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String STATE_NAMESPACE = Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE;
+    
+    // localName of the rdfs:class the resource describes
+    public static String STATE_LOCALNAME = "State";
+    
+    // fullname of the rdfs:class the resource describes
+    public static String STATE_TYPE = STATE_NAMESPACE + STATE_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TASK_PATH = "task";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TASK_NAMESPACE = Oslc_cmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TASK_LOCALNAME = Oslc_cmVocabularyConstants.TASK_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TASK_TYPE = TASK_NAMESPACE + TASK_LOCALNAME;
 }

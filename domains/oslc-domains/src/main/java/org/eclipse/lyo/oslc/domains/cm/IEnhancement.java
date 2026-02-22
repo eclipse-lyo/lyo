@@ -71,4 +71,10 @@ import org.eclipse.lyo.oslc.domains.cm.IState;
 @OslcNamespace(Oslc_cmDomainConstants.ENHANCEMENT_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME)
 @OslcResourceShape(title = "Enhancement Shape", describes = Oslc_cmDomainConstants.ENHANCEMENT_TYPE)
-public interface IEnhancement {}
+public interface IEnhancement
+{
+
+
+
+}
+

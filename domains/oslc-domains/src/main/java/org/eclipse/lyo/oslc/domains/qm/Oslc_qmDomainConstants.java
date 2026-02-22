@@ -26,84 +26,77 @@ import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 // End of user code
 // spotless:on
 
-public interface Oslc_qmDomainConstants {
-  // Start of user code user constants
+public interface Oslc_qmDomainConstants
+{
+    // Start of user code user constants
   // End of user code
 
-  /**
-   * @deprecated use {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_NAMSPACE} or {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_DOMAIN_NAME} instead
-   */
-  @Deprecated(since = "5.0.1")
-  public static String QUALITY_MANAGEMENT_DOMAIN = "http://open-services.net/ns/qm#";
+    /**
+     * @deprecated use {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_NAMSPACE} or {@link Oslc_qmDomainConstants#QUALITY_MANAGEMENT_DOMAIN_NAME} instead
+     */
+    @Deprecated(since = "5.0.1")
+    public static String QUALITY_MANAGEMENT_DOMAIN = "http://open-services.net/ns/qm#";
+    public static String QUALITY_MANAGEMENT_DOMAIN_NAME = "Quality Management";
 
-  public static String QUALITY_MANAGEMENT_DOMAIN_NAME = "Quality Management";
+    //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
+    public static String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
 
-  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
+    //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
+    public static String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm"; 
 
-  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
-  // (describes, or propertyDefinition) is defined
-  public static String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm";
-
-  // the relative path of the resource shape URL.
-  public static String TESTCASE_PATH = "testCase";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TESTCASE_NAMESPACE = Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TESTCASE_LOCALNAME = Oslc_qmVocabularyConstants.TESTCASE_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TESTCASE_TYPE = TESTCASE_NAMESPACE + TESTCASE_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String TESTEXECUTIONRECORD_PATH = "testExecutionRecord";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TESTEXECUTIONRECORD_NAMESPACE =
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TESTEXECUTIONRECORD_LOCALNAME =
-      Oslc_qmVocabularyConstants.TESTEXECUTIONRECORD_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TESTEXECUTIONRECORD_TYPE =
-      TESTEXECUTIONRECORD_NAMESPACE + TESTEXECUTIONRECORD_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String TESTPLAN_PATH = "testPlan";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TESTPLAN_NAMESPACE = Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TESTPLAN_LOCALNAME = Oslc_qmVocabularyConstants.TESTPLAN_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TESTPLAN_TYPE = TESTPLAN_NAMESPACE + TESTPLAN_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String TESTRESULT_PATH = "testResult";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TESTRESULT_NAMESPACE =
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TESTRESULT_LOCALNAME = Oslc_qmVocabularyConstants.TESTRESULT_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TESTRESULT_TYPE = TESTRESULT_NAMESPACE + TESTRESULT_LOCALNAME;
-  // the relative path of the resource shape URL.
-  public static String TESTSCRIPT_PATH = "testScript";
-
-  // namespace of the rdfs:class the resource describes
-  public static String TESTSCRIPT_NAMESPACE =
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE;
-
-  // localName of the rdfs:class the resource describes
-  public static String TESTSCRIPT_LOCALNAME = Oslc_qmVocabularyConstants.TESTSCRIPT_CLASS;
-
-  // fullname of the rdfs:class the resource describes
-  public static String TESTSCRIPT_TYPE = TESTSCRIPT_NAMESPACE + TESTSCRIPT_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TESTCASE_PATH = "testCase";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TESTCASE_NAMESPACE = Oslc_qmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TESTCASE_LOCALNAME = Oslc_qmVocabularyConstants.TESTCASE_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TESTCASE_TYPE = TESTCASE_NAMESPACE + TESTCASE_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TESTEXECUTIONRECORD_PATH = "testExecutionRecord";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TESTEXECUTIONRECORD_NAMESPACE = Oslc_qmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TESTEXECUTIONRECORD_LOCALNAME = Oslc_qmVocabularyConstants.TESTEXECUTIONRECORD_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TESTEXECUTIONRECORD_TYPE = TESTEXECUTIONRECORD_NAMESPACE + TESTEXECUTIONRECORD_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TESTPLAN_PATH = "testPlan";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TESTPLAN_NAMESPACE = Oslc_qmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TESTPLAN_LOCALNAME = Oslc_qmVocabularyConstants.TESTPLAN_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TESTPLAN_TYPE = TESTPLAN_NAMESPACE + TESTPLAN_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TESTRESULT_PATH = "testResult";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TESTRESULT_NAMESPACE = Oslc_qmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TESTRESULT_LOCALNAME = Oslc_qmVocabularyConstants.TESTRESULT_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TESTRESULT_TYPE = TESTRESULT_NAMESPACE + TESTRESULT_LOCALNAME;
+    // the relative path of the resource shape URL.
+    public static String TESTSCRIPT_PATH = "testScript";
+    
+    // namespace of the rdfs:class the resource describes
+    public static String TESTSCRIPT_NAMESPACE = Oslc_qmVocabularyConstants.NS;
+    
+    // localName of the rdfs:class the resource describes
+    public static String TESTSCRIPT_LOCALNAME = Oslc_qmVocabularyConstants.TESTSCRIPT_LOCAL_NAME;
+    
+    // fullname of the rdfs:class the resource describes
+    public static String TESTSCRIPT_TYPE = TESTSCRIPT_NAMESPACE + TESTSCRIPT_LOCALNAME;
 }

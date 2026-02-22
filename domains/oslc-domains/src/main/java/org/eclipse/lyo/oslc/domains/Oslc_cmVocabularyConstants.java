@@ -1,6 +1,6 @@
 // Start of user code Copyright
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,123 +20,156 @@ package org.eclipse.lyo.oslc.domains;
 
 // spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+import javax.xml.namespace.QName;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Start of user code imports
 // End of user code
 // spotless:on
 
-public interface Oslc_cmVocabularyConstants {
-  // Start of user code user constants
-  // End of user code
+public class Oslc_cmVocabularyConstants
+{
+    // Start of user code user constants
+    // End of user code
 
-  public static String CHANGE_MANAGEMENT_VOCAB_NAMSPACE = "http://open-services.net/ns/cm#";
-  public static String CHANGE_MANAGEMENT_VOCAB_NAMSPACE_PREFIX = "oslc_cm";
+    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#CHANGENOTICE_CLASS} instead.
-   */
-  @Deprecated public static String CHANGENOTICE_CLASS = "ChangeNotice";
+    /**
+     * @deprecated Use {@link #NS} instead.
+     */
+    @Deprecated
+    public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE = "http://open-services.net/ns/cm#";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#CHANGENOTICE_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_CHANGENOTICE = Oslc_cm.CHANGENOTICE_CLASS;
+    /**
+     * @deprecated Use {@link #PREFIX} instead.
+     */
+    @Deprecated
+    public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE_PREFIX = "oslc_cm";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#CHANGEREQUEST_CLASS} instead.
-   */
-  @Deprecated public static String CHANGEREQUEST_CLASS = "ChangeRequest";
+    public static final String NS = "http://open-services.net/ns/cm#";
+    public static final String PREFIX = "oslc_cm";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#CHANGEREQUEST_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_CHANGEREQUEST = Oslc_cm.CHANGEREQUEST_CLASS;
+    // static class
+    private Oslc_cmVocabularyConstants() {}
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#DEFECT_CLASS} instead.
-   */
-  @Deprecated public static String DEFECT_CLASS = "Defect";
+    public static QName of(String local) { return get(local); }
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#DEFECT_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_DEFECT = Oslc_cm.DEFECT_CLASS;
+    public static final String CHANGENOTICE_LOCAL_NAME = "ChangeNotice";
+    public static final String CHANGENOTICE_CLASS = NS + CHANGENOTICE_LOCAL_NAME;
+    public static final String CHANGEREQUEST_LOCAL_NAME = "ChangeRequest";
+    public static final String CHANGEREQUEST_CLASS = NS + CHANGEREQUEST_LOCAL_NAME;
+    public static final String DEFECT_LOCAL_NAME = "Defect";
+    public static final String DEFECT_CLASS = NS + DEFECT_LOCAL_NAME;
+    public static final String ENHANCEMENT_LOCAL_NAME = "Enhancement";
+    public static final String ENHANCEMENT_CLASS = NS + ENHANCEMENT_LOCAL_NAME;
+    public static final String PRIORITY_LOCAL_NAME = "Priority";
+    public static final String PRIORITY_CLASS = NS + PRIORITY_LOCAL_NAME;
+    public static final String REVIEWTASK_LOCAL_NAME = "ReviewTask";
+    public static final String REVIEWTASK_CLASS = NS + REVIEWTASK_LOCAL_NAME;
+    public static final String SEVERITY_LOCAL_NAME = "Severity";
+    public static final String SEVERITY_CLASS = NS + SEVERITY_LOCAL_NAME;
+    public static final String STATE_LOCAL_NAME = "State";
+    public static final String STATE_CLASS = NS + STATE_LOCAL_NAME;
+    public static final String TASK_LOCAL_NAME = "Task";
+    public static final String TASK_CLASS = NS + TASK_LOCAL_NAME;
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#ENHANCEMENT_CLASS} instead.
-   */
-  @Deprecated public static String ENHANCEMENT_CLASS = "Enhancement";
+    public static final String AFFECTEDBYDEFECT_PROP = NS + "affectedByDefect";
+    public static final String AFFECTSPLANITEM_PROP = NS + "affectsPlanItem";
+    public static final String AFFECTSREQUIREMENT_PROP = NS + "affectsRequirement";
+    public static final String AFFECTSTESTRESULT_PROP = NS + "affectsTestResult";
+    public static final String APPROVED_PROP = NS + "approved";
+    public static final String AUTHORIZER_PROP = NS + "authorizer";
+    public static final String BLOCKSTESTEXECUTIONRECORD_PROP = NS + "blocksTestExecutionRecord";
+    public static final String CLOSEDATE_PROP = NS + "closeDate";
+    public static final String CLOSED_PROP = NS + "closed";
+    public static final String FIXED_PROP = NS + "fixed";
+    public static final String IMPLEMENTSREQUIREMENT_PROP = NS + "implementsRequirement";
+    public static final String INPROGRESS_PROP = NS + "inProgress";
+    public static final String PARENT_PROP = NS + "parent";
+    public static final String PRIORITY_PROP = NS + "priority";
+    public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+    public static final String RELATEDTESTCASE_PROP = NS + "relatedTestCase";
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static final String RELATEDTESTEXECUTIONRECORD_PROP = NS + "relatedTestExecutionRecord";
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static final String RELATEDTESTPLAN_PROP = NS + "relatedTestPlan";
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static final String RELATEDTESTSCRIPT_PROP = NS + "relatedTestScript";
+    public static final String REVIEWED_PROP = NS + "reviewed";
+    public static final String SEVERITY_PROP = NS + "severity";
+    public static final String STATE_PROP = NS + "state";
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static final String STATUS_PROP = NS + "status";
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static final String TESTEDBYTESTCASE_PROP = NS + "testedByTestCase";
+    public static final String TRACKSCHANGESET_PROP = NS + "tracksChangeSet";
+    public static final String TRACKSREQUIREMENT_PROP = NS + "tracksRequirement";
+    public static final String VERIFIED_PROP = NS + "verified";
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#ENHANCEMENT_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_ENHANCEMENT = Oslc_cm.ENHANCEMENT_CLASS;
+    public static QName affectedByDefect() { return get("affectedByDefect"); }
+    public static QName affectsPlanItem() { return get("affectsPlanItem"); }
+    public static QName affectsRequirement() { return get("affectsRequirement"); }
+    public static QName affectsTestResult() { return get("affectsTestResult"); }
+    public static QName approved() { return get("approved"); }
+    public static QName authorizer() { return get("authorizer"); }
+    public static QName blocksTestExecutionRecord() { return get("blocksTestExecutionRecord"); }
+    public static QName closeDate() { return get("closeDate"); }
+    public static QName closed() { return get("closed"); }
+    public static QName fixed() { return get("fixed"); }
+    public static QName implementsRequirement() { return get("implementsRequirement"); }
+    public static QName inProgress() { return get("inProgress"); }
+    public static QName parent() { return get("parent"); }
+    public static QName priority() { return get("priority"); }
+    public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
+    public static QName relatedTestCase() { return get("relatedTestCase"); }
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static QName relatedTestExecutionRecord() { return get("relatedTestExecutionRecord"); }
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static QName relatedTestPlan() { return get("relatedTestPlan"); }
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static QName relatedTestScript() { return get("relatedTestScript"); }
+    public static QName reviewed() { return get("reviewed"); }
+    public static QName severity() { return get("severity"); }
+    public static QName state() { return get("state"); }
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static QName status() { return get("status"); }
+    /**
+     * @deprecated RDF model attribute is marked 'archaic'
+     */
+    @Deprecated
+    public static QName testedByTestCase() { return get("testedByTestCase"); }
+    public static QName tracksChangeSet() { return get("tracksChangeSet"); }
+    public static QName tracksRequirement() { return get("tracksRequirement"); }
+    public static QName verified() { return get("verified"); }
 
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#PRIORITY_CLASS} instead.
-   */
-  @Deprecated public static String PRIORITY_CLASS = "Priority";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#PRIORITY_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_PRIORITY = Oslc_cm.PRIORITY_CLASS;
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#REVIEWTASK_CLASS} instead.
-   */
-  @Deprecated public static String REVIEWTASK_CLASS = "ReviewTask";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#REVIEWTASK_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_REVIEWTASK = Oslc_cm.REVIEWTASK_CLASS;
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#SEVERITY_CLASS} instead.
-   */
-  @Deprecated public static String SEVERITY_CLASS = "Severity";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#SEVERITY_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_SEVERITY = Oslc_cm.SEVERITY_CLASS;
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#STATE_CLASS} instead.
-   */
-  @Deprecated public static String STATE_CLASS = "State";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#STATE_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_STATE = Oslc_cm.STATE_CLASS;
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#TASK_CLASS} instead.
-   */
-  @Deprecated public static String TASK_CLASS = "Task";
-
-  /**
-   *
-   * @deprecated Use {@link Oslc_cm#TASK_CLASS} instead.
-   */
-  @Deprecated public static String TYPE_TASK = Oslc_cm.TASK_CLASS;
+    private static QName get(String local) {
+        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+    }
 }

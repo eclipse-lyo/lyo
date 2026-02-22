@@ -73,218 +73,233 @@ import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 // End of user code
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASURE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASURE_LOCALNAME)
-@OslcResourceShape(
-    title = "Measure Shape",
-    description = "A measure is an observation of some measurable aspect of an artifact.",
-    describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
-public class Measure extends AbstractResource implements IMeasure {
-  // Start of user code attributeAnnotation:description
+@OslcResourceShape(title = "Measure Shape", description = "A measure is an observation of some measurable aspect of an artifact.", describes = Oslc_promcodeDomainConstants.MEASURE_TYPE)
+public class Measure
+    extends AbstractResource
+    implements IMeasure
+{
+    // Start of user code attributeAnnotation:description
   // End of user code
-  private String description;
-  // Start of user code attributeAnnotation:identifier
+    private String description;
+    // Start of user code attributeAnnotation:identifier
   // End of user code
-  private String identifier;
-  // Start of user code attributeAnnotation:title
+    private String identifier;
+    // Start of user code attributeAnnotation:title
   // End of user code
-  private String title;
-  // Start of user code attributeAnnotation:metricOfMeasure
+    private String title;
+    // Start of user code attributeAnnotation:metricOfMeasure
   // End of user code
-  private Link metricOfMeasure;
-  // Start of user code attributeAnnotation:unitOfMeasure
+    private Link metricOfMeasure;
+    // Start of user code attributeAnnotation:unitOfMeasure
   // End of user code
-  private Link unitOfMeasure;
-  // Start of user code attributeAnnotation:valueOfMeasure
+    private Link unitOfMeasure;
+    // Start of user code attributeAnnotation:valueOfMeasure
   // End of user code
-  private Float valueOfMeasure;
-
-  // Start of user code classAttributes
+    private Float valueOfMeasure;
+    
+    // Start of user code classAttributes
   // End of user code
-  // Start of user code classMethods
+    // Start of user code classMethods
   // End of user code
-  public Measure() {
-    super();
-
-    // Start of user code constructor1
+    public Measure()
+    {
+        super();
+    
+        // Start of user code constructor1
     // End of user code
-  }
-
-  public Measure(final URI about) {
-    super(about);
-
-    // Start of user code constructor2
+    }
+    
+    public Measure(final URI about)
+    {
+        super(about);
+    
+        // Start of user code constructor2
     // End of user code
-  }
-
-  public static ResourceShape createResourceShape()
-      throws OslcCoreApplicationException, URISyntaxException {
-    return ResourceShapeFactory.createResourceShape(
-        OSLC4JUtils.getServletURI(),
+    }
+    
+    public static ResourceShape createResourceShape() throws OslcCoreApplicationException, URISyntaxException {
+        return ResourceShapeFactory.createResourceShape(OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
         Oslc_promcodeDomainConstants.MEASURE_PATH,
         Measure.class);
-  }
-
-  public String toString() {
-    return toString(false);
-  }
-
-  public String toString(boolean asLocalResource) {
-    String result = "";
-    // Start of user code toString_init
+    }
+    
+    
+    public String toString()
+    {
+        return toString(false);
+    }
+    
+    public String toString(boolean asLocalResource)
+    {
+        String result = "";
+        // Start of user code toString_init
     // End of user code
-
-    if (asLocalResource) {
-      result =
-          result
-              + "{a Local Measure Resource} - update Measure.toString() to present resource as"
-              + " desired.";
-      // Start of user code toString_bodyForLocalResource
+    
+        if (asLocalResource) {
+            result = result + "{a Local Measure Resource} - update Measure.toString() to present resource as desired.";
+            // Start of user code toString_bodyForLocalResource
       // End of user code
-    } else {
-      result = String.valueOf(getAbout());
+        }
+        else {
+            result = String.valueOf(getAbout());
+        }
+    
+        // Start of user code toString_finalize
+    // End of user code
+    
+        return result;
+    }
+    
+    
+    // Start of user code getterAnnotation:description
+  // End of user code
+    @OslcName("description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getDescription()
+    {
+        // Start of user code getterInit:description
+    // End of user code
+        return description;
     }
 
-    // Start of user code toString_finalize
-    // End of user code
-
-    return result;
-  }
-
-  // Start of user code getterAnnotation:description
+    // Start of user code getterAnnotation:identifier
   // End of user code
-  @OslcName("description")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.XMLLiteral)
-  @OslcReadOnly(false)
-  public String getDescription() {
-    // Start of user code getterInit:description
+    @OslcName("identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.String)
+    @OslcReadOnly(false)
+    public String getIdentifier()
+    {
+        // Start of user code getterInit:identifier
     // End of user code
-    return description;
-  }
+        return identifier;
+    }
 
-  // Start of user code getterAnnotation:identifier
+    // Start of user code getterAnnotation:title
   // End of user code
-  @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
-  @OslcOccurs(Occurs.ExactlyOne)
-  @OslcValueType(ValueType.String)
-  @OslcReadOnly(false)
-  public String getIdentifier() {
-    // Start of user code getterInit:identifier
+    @OslcName("title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.XMLLiteral)
+    @OslcReadOnly(false)
+    public String getTitle()
+    {
+        // Start of user code getterInit:title
     // End of user code
-    return identifier;
-  }
+        return title;
+    }
 
-  // Start of user code getterAnnotation:title
+    // Start of user code getterAnnotation:metricOfMeasure
   // End of user code
-  @OslcName("title")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.XMLLiteral)
-  @OslcReadOnly(false)
-  public String getTitle() {
-    // Start of user code getterInit:title
+    @OslcName("metricOfMeasure")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfMeasure")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public Link getMetricOfMeasure()
+    {
+        // Start of user code getterInit:metricOfMeasure
     // End of user code
-    return title;
-  }
+        return metricOfMeasure;
+    }
 
-  // Start of user code getterAnnotation:metricOfMeasure
+    // Start of user code getterAnnotation:unitOfMeasure
   // End of user code
-  @OslcName("metricOfMeasure")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "metricOfMeasure")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.Resource)
-  @OslcReadOnly(false)
-  public Link getMetricOfMeasure() {
-    // Start of user code getterInit:metricOfMeasure
+    @OslcName("unitOfMeasure")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfMeasure")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public Link getUnitOfMeasure()
+    {
+        // Start of user code getterInit:unitOfMeasure
     // End of user code
-    return metricOfMeasure;
-  }
+        return unitOfMeasure;
+    }
 
-  // Start of user code getterAnnotation:unitOfMeasure
+    // Start of user code getterAnnotation:valueOfMeasure
   // End of user code
-  @OslcName("unitOfMeasure")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "unitOfMeasure")
-  @OslcOccurs(Occurs.ZeroOrOne)
-  @OslcValueType(ValueType.Resource)
-  @OslcReadOnly(false)
-  public Link getUnitOfMeasure() {
-    // Start of user code getterInit:unitOfMeasure
+    @OslcName("valueOfMeasure")
+    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
+    @OslcOccurs(Occurs.ExactlyOne)
+    @OslcValueType(ValueType.Float)
+    @OslcReadOnly(false)
+    public Float getValueOfMeasure()
+    {
+        // Start of user code getterInit:valueOfMeasure
     // End of user code
-    return unitOfMeasure;
-  }
+        return valueOfMeasure;
+    }
 
-  // Start of user code getterAnnotation:valueOfMeasure
+    // Start of user code setterAnnotation:description
   // End of user code
-  @OslcName("valueOfMeasure")
-  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "valueOfMeasure")
-  @OslcOccurs(Occurs.ExactlyOne)
-  @OslcValueType(ValueType.Float)
-  @OslcReadOnly(false)
-  public Float getValueOfMeasure() {
-    // Start of user code getterInit:valueOfMeasure
+    public void setDescription(final String description )
+    {
+        // Start of user code setterInit:description
     // End of user code
-    return valueOfMeasure;
-  }
+        this.description = description;
+        // Start of user code setterFinalize:description
+    // End of user code
+    }
 
-  // Start of user code setterAnnotation:description
+    // Start of user code setterAnnotation:identifier
   // End of user code
-  public void setDescription(final String description) {
-    // Start of user code setterInit:description
+    public void setIdentifier(final String identifier )
+    {
+        // Start of user code setterInit:identifier
     // End of user code
-    this.description = description;
-    // Start of user code setterFinalize:description
+        this.identifier = identifier;
+        // Start of user code setterFinalize:identifier
     // End of user code
-  }
+    }
 
-  // Start of user code setterAnnotation:identifier
+    // Start of user code setterAnnotation:title
   // End of user code
-  public void setIdentifier(final String identifier) {
-    // Start of user code setterInit:identifier
+    public void setTitle(final String title )
+    {
+        // Start of user code setterInit:title
     // End of user code
-    this.identifier = identifier;
-    // Start of user code setterFinalize:identifier
+        this.title = title;
+        // Start of user code setterFinalize:title
     // End of user code
-  }
+    }
 
-  // Start of user code setterAnnotation:title
+    // Start of user code setterAnnotation:metricOfMeasure
   // End of user code
-  public void setTitle(final String title) {
-    // Start of user code setterInit:title
+    public void setMetricOfMeasure(final Link metricOfMeasure )
+    {
+        // Start of user code setterInit:metricOfMeasure
     // End of user code
-    this.title = title;
-    // Start of user code setterFinalize:title
+        this.metricOfMeasure = metricOfMeasure;
+        // Start of user code setterFinalize:metricOfMeasure
     // End of user code
-  }
+    }
 
-  // Start of user code setterAnnotation:metricOfMeasure
+    // Start of user code setterAnnotation:unitOfMeasure
   // End of user code
-  public void setMetricOfMeasure(final Link metricOfMeasure) {
-    // Start of user code setterInit:metricOfMeasure
+    public void setUnitOfMeasure(final Link unitOfMeasure )
+    {
+        // Start of user code setterInit:unitOfMeasure
     // End of user code
-    this.metricOfMeasure = metricOfMeasure;
-    // Start of user code setterFinalize:metricOfMeasure
+        this.unitOfMeasure = unitOfMeasure;
+        // Start of user code setterFinalize:unitOfMeasure
     // End of user code
-  }
+    }
 
-  // Start of user code setterAnnotation:unitOfMeasure
+    // Start of user code setterAnnotation:valueOfMeasure
   // End of user code
-  public void setUnitOfMeasure(final Link unitOfMeasure) {
-    // Start of user code setterInit:unitOfMeasure
+    public void setValueOfMeasure(final Float valueOfMeasure )
+    {
+        // Start of user code setterInit:valueOfMeasure
     // End of user code
-    this.unitOfMeasure = unitOfMeasure;
-    // Start of user code setterFinalize:unitOfMeasure
+        this.valueOfMeasure = valueOfMeasure;
+        // Start of user code setterFinalize:valueOfMeasure
     // End of user code
-  }
+    }
 
-  // Start of user code setterAnnotation:valueOfMeasure
-  // End of user code
-  public void setValueOfMeasure(final Float valueOfMeasure) {
-    // Start of user code setterInit:valueOfMeasure
-    // End of user code
-    this.valueOfMeasure = valueOfMeasure;
-    // Start of user code setterFinalize:valueOfMeasure
-    // End of user code
-  }
 }

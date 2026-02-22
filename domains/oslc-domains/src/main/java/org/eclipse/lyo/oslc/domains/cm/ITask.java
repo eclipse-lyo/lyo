@@ -71,4 +71,10 @@ import org.eclipse.lyo.oslc.domains.cm.IState;
 @OslcNamespace(Oslc_cmDomainConstants.TASK_NAMESPACE)
 @OslcName(Oslc_cmDomainConstants.TASK_LOCALNAME)
 @OslcResourceShape(title = "Task Shape", describes = Oslc_cmDomainConstants.TASK_TYPE)
-public interface ITask {}
+public interface ITask
+{
+
+
+
+}
+
