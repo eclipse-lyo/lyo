@@ -18,7 +18,7 @@ import org.eclipse.lyo.server.oauth.core.consumer.AbstractConsumerStore;
 import org.eclipse.lyo.server.oauth.core.consumer.ConsumerStoreException;
 import org.eclipse.lyo.server.oauth.core.consumer.LyoOAuthConsumer;
 
-import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb1.TDB1Factory;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ResIterator;
@@ -83,7 +83,7 @@ public class RdfConsumerStore extends AbstractConsumerStore {
 
 	protected void createDataset() {
 		try {
-			this.dataset = TDBFactory.createDataset(DB);
+			this.dataset = TDB1Factory.createDataset(DB);
 		} catch (Exception e) {
 			log.error("Could not create dataset for OAuth consumer store.", e);
 		}

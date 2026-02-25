@@ -42,8 +42,8 @@ import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.datatypes.xsd.XSDDateTime;
-import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.XMLLiteral;
@@ -681,7 +681,7 @@ public class OSLC4JUtils {
 	}
 
 	private static boolean isXmlLiteralProperty(final URI propValueType) {
-		return XMLLiteralType.theXMLLiteralType.getURI().equals(propValueType.toString());
+		return RDF.dtXMLLiteral.getURI().equals(propValueType.toString());
 	}
 
 	/**

@@ -42,6 +42,7 @@ public class TestResource extends AbstractResource {
     }
 
     private String _aproperty;
+    private TestResource _relatedResource;
 
     @OslcName("aproperty")
     @OslcPropertyDefinition(TEST_NAMESPACE + "aproperty")
@@ -55,5 +56,19 @@ public class TestResource extends AbstractResource {
 
     public void setAproperty(String val) {
         _aproperty = val;
+    }
+
+    @OslcName("relatedResource")
+    @OslcPropertyDefinition(TEST_NAMESPACE + "relatedResource")
+    @OslcDescription("A related test resource.")
+    @OslcOccurs(Occurs.ZeroOrOne)
+    @OslcValueType(ValueType.Resource)
+    @OslcReadOnly(false)
+    public TestResource getRelatedResource() {
+        return _relatedResource;
+    }
+
+    public void setRelatedResource(TestResource val) {
+        _relatedResource = val;
     }
 }

@@ -21,7 +21,7 @@
     <v.jersey>3.1.11</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>5.6.0</v.jena>
+    <v.jena>6.0.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
     <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
@@ -150,37 +150,6 @@
           </snapshots>
         </repository> -->
       </repositories>
-    </profile>
-    <profile>
-      <id>eclipse-deploy</id>
-      <activation>
-        <!--TODO disable?-->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>lyo-releases</id>
-          <name>lyo-releases repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <repository>
-          <id>lyo-snapshots</id>
-          <name>lyo-snapshots repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </repository>
-      </repositories>
-      <distributionManagement>
-        <repository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Releases</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <snapshotRepository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Snapshots</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </snapshotRepository>
-      </distributionManagement>
     </profile>
     <profile>
       <id>central-deploy</id>
@@ -449,7 +418,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>6.0.2</version>
+        <version>6.0.3</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -553,7 +522,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.5</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
