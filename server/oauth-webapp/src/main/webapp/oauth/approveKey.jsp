@@ -14,10 +14,15 @@
 
     Sam Padgett	  	- initial API and implementation
 --%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
 <%@ page language="java" contentType="text/html; UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+  String servletBaseUri = OSLC4JUtils.getServletURI();
+%>
 
 <html lang="en">
 
@@ -40,7 +45,7 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 		on(dom.byId('approveConsumer'), 'submit', function(e) {
 			event.stop(e);
 			xhr.post({
-				url : 'consumers/' + encodeURIComponent(dom.byId('key').value),
+				url : '<%= UriBuilder.fromUri(servletBaseUri).path("/oauth/consumers/").build().toString() %>' + encodeURIComponent(dom.byId('key').value),
 				headers : {
 					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
 				},
@@ -62,7 +67,7 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 		on(dom.byId('deny'), 'click', function(e) {
 			event.stop(e);
 			xhr.del({
-				url : 'consumers/' + encodeURIComponent(dom.byId('key').value),
+				url : '<%= UriBuilder.fromUri(servletBaseUri).path("/oauth/consumers/").build().toString() %>' + encodeURIComponent(dom.byId('key').value),
 				headers : {
 					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
 				},
