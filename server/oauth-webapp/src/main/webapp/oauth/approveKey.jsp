@@ -21,7 +21,7 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-  String servletBaseUri = OSLC4JUtils.getServletURI();
+  String consumerPath = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/oauth/consumers/").build().toString();
 %>
 
 <html lang="en">
@@ -45,7 +45,7 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 		on(dom.byId('approveConsumer'), 'submit', function(e) {
 			event.stop(e);
 			xhr.post({
-				url : '<%= UriBuilder.fromUri(servletBaseUri).path("/oauth/consumers/").build().toString() %>' + encodeURIComponent(dom.byId('key').value),
+				url : '<%= consumerPath %>' + encodeURIComponent(dom.byId('key').value),
 				headers : {
 					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
 				},
@@ -67,7 +67,7 @@ require([ "dojo/dom", "dojo/dom-style", "dojo/on", "dojo/_base/event", "dojo/_ba
 		on(dom.byId('deny'), 'click', function(e) {
 			event.stop(e);
 			xhr.del({
-				url : '<%= UriBuilder.fromUri(servletBaseUri).path("/oauth/consumers/").build().toString() %>' + encodeURIComponent(dom.byId('key').value),
+				url : '<%= consumerPath %>' + encodeURIComponent(dom.byId('key').value),
 				headers : {
 					'X-CSRF-Prevent': lyoOAuthConfig.csrfPrevent
 				},
