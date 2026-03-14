@@ -152,37 +152,6 @@
       </repositories>
     </profile>
     <profile>
-      <id>eclipse-deploy</id>
-      <activation>
-        <!--TODO disable?-->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>lyo-releases</id>
-          <name>lyo-releases repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <repository>
-          <id>lyo-snapshots</id>
-          <name>lyo-snapshots repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </repository>
-      </repositories>
-      <distributionManagement>
-        <repository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Releases</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <snapshotRepository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Snapshots</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <profile>
       <id>central-deploy</id>
       <build>
         <plugins>
@@ -454,7 +423,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>6.0.2</version>
+        <version>6.0.3</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -558,7 +527,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.5</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->

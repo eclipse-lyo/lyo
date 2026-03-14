@@ -24,6 +24,7 @@
 - `Error` and `ExtendedError` classes now extend `AbstractResource`, implementing `IExtendedResource`. This allows setting extended properties like `dcterms:description` on OSLC error responses.
 - InMemPagedTRS handles concurrency.
 - When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
+- More stable construction of return URLs when approving OAuth 1 consumer keys
 
 ### Deprecated
 
@@ -35,6 +36,7 @@
 - 🧨 `lyo-validation` could not be migrated to Jena 5 due to a dependency on SHACLex and was removed from the build.
 - Dependency to deprecated oslc4j-json4j-provider
 - TRS Client no longer depends on Eclipse RDF4J. Helper methods for RDF4J were also removed.
+- Any mentions of `lyo-releases` or `lyo-snapshots`. Use Maven Central only.
 
 ### Fixed
 
