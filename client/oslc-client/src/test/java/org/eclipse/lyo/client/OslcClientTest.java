@@ -17,7 +17,6 @@ import jakarta.ws.rs.client.Invocation.Builder;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status.Family;
 import org.apache.http.HttpHeaders;
-import org.eclipse.lyo.oslc.domains.Dcterms;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -52,7 +51,7 @@ public class OslcClientTest {
             final OslcClient client = new OslcClient();
 
             final ServiceProvider request = new ServiceProvider();
-            request.setExtended(Dcterms.identifier(), "test-id-123");
+            request.setExtended(DctermsVocabularyConstants.identifier(), "test-id-123");
 
             Response response = client.createResource("http://open-services.net/" +
                     ".well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200",
@@ -175,13 +174,13 @@ public class OslcClientTest {
 
     @Test
     public void testDctermsQNameHelpers() {
-        QName titleQ = Dcterms.title();
+        QName titleQ = DctermsVocabularyConstants.title();
         assertEquals(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE, titleQ.getNamespaceURI());
         assertEquals("title", titleQ.getLocalPart());
         // Ensure caching returns same instance
-        assertSame(titleQ, Dcterms.title());
+        assertSame(titleQ, DctermsVocabularyConstants.title());
         // Verify identifier constant matches QName parts
-        QName idQ = Dcterms.identifier();
-        assertEquals(Dcterms.IDENTIFIER_PROP, idQ.getNamespaceURI() + idQ.getLocalPart());
+        QName idQ = DctermsVocabularyConstants.identifier();
+        assertEquals(DctermsVocabularyConstants.IDENTIFIER_PROP, idQ.getNamespaceURI() + idQ.getLocalPart());
     }
 }
