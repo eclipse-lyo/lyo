@@ -15,7 +15,7 @@
     <maven.compiler.release>21</maven.compiler.release>
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.2.21</v.kotlin>
+    <v.kotlin>2.3.10</v.kotlin>
     <v.dokka>2.1.0</v.dokka>
 
     <v.jersey>3.1.11</v.jersey>
@@ -179,7 +179,7 @@
           <plugin>
             <groupId>com.diffplug.spotless</groupId>
             <artifactId>spotless-maven-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>auto-style</id>
@@ -406,7 +406,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.21.0</version>
+        <version>5.23.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -532,7 +532,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -731,7 +731,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
           <ratchetFrom>origin/master</ratchetFrom>
