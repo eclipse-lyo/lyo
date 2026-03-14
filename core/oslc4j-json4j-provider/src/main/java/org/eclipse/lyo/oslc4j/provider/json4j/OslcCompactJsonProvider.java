@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,9 +19,6 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import org.eclipse.lyo.oslc4j.core.model.Compact;
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -31,102 +28,53 @@ import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
 
-/**
- * Use JSON-LD support in Jena provider.
- */
-@Deprecated
+import org.eclipse.lyo.oslc4j.core.model.Compact;
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+
 @Provider
 @Produces(OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON)
 @Consumes(OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON)
-public final class OslcCompactJsonProvider
-	   extends AbstractOslcRdfJsonProvider
-	   implements MessageBodyReader<Compact>,
-				  MessageBodyWriter<Compact>
-{
-	public OslcCompactJsonProvider()
-	{
-		super();
-	}
+public final class OslcCompactJsonProvider extends AbstractOslcRdfJsonProvider implements MessageBodyReader<Compact>, MessageBodyWriter<Compact> {
+    public OslcCompactJsonProvider() {
+        super();
+    }
 
-	@Override
-	public long getSize(final Compact	   compact,
-						final Class<?>	   type,
-						final Type		   genericType,
-						final Annotation[] annotation,
-						final MediaType	   mediaType)
-	{
-		return -1;
-	}
+    @Override
+    public long getSize(final Compact compact, final Class<?> type, final Type genericType, final Annotation[] annotation,
+            final MediaType mediaType) {
+        return -1;
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?>	  type,
-							   final Type		  genericType,
-							   final Annotation[] annotations,
-							   final MediaType	  mediaType)
-	{
-		return (Compact.class.isAssignableFrom(type)) &&
-			   (isWriteable(type,
-							annotations,
-							OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON_TYPE,
-							mediaType));
-	}
+    @Override
+    public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
+        return (Compact.class.isAssignableFrom(type))
+                && (isWriteable(type, annotations, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON_TYPE, mediaType));
+    }
 
-	@Override
-	public void writeTo(final Compact						 compact,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		writeTo(false,
-				new Compact[] {compact},
-				OslcMediaType.APPLICATION_JSON_TYPE,
-				map,
-				outputStream);
-	}
+    @Override
+    public void writeTo(final Compact compact, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
+            final MultivaluedMap<String, Object> map, final OutputStream outputStream) throws IOException, WebApplicationException {
+        writeTo(false, new Compact[] { compact }, OslcMediaType.APPLICATION_JSON_TYPE, map, outputStream);
+    }
 
-	@Override
-	public boolean isReadable(final Class<?>	 type,
-							  final Type		 genericType,
-							  final Annotation[] annotations,
-							  final MediaType	 mediaType)
-	{
-		return (Compact.class.isAssignableFrom(type)) &&
-			   (isReadable(type,
-						   OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON_TYPE,
-						   mediaType));
-	}
+    @Override
+    public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
+        return (Compact.class.isAssignableFrom(type)) && (isReadable(type, OslcMediaType.APPLICATION_X_OSLC_COMPACT_JSON_TYPE, mediaType));
+    }
 
-	@Override
-	public Compact readFrom(final Class<Compact>				 type,
-							final Type							 genericType,
-							final Annotation[]					 annotations,
-							final MediaType						 mediaType,
-							final MultivaluedMap<String, String> map,
-							final InputStream					 inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		final Object[] objects = readFrom(type,
-										  OslcMediaType.APPLICATION_JSON_TYPE,
-										  map,
-										  inputStream);
+    @Override
+    public Compact readFrom(final Class<Compact> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
+            final MultivaluedMap<String, String> map, final InputStream inputStream) throws IOException, WebApplicationException {
+        final Object[] objects = readFrom(type, OslcMediaType.APPLICATION_JSON_TYPE, map, inputStream);
 
-		if ((objects != null) &&
-			(objects.length > 0))
-		{
-			final Object object = objects[0];
+        if ((objects != null) && (objects.length > 0)) {
+            final Object object = objects[0];
 
-			if (object instanceof Compact)
-			{
-				return (Compact) object;
-			}
-		}
+            if (object instanceof Compact) {
+                return (Compact) object;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }
