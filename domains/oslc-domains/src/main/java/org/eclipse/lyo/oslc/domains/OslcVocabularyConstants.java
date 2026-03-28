@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class Oslc_configVocabularyConstants
+public class OslcVocabularyConstants
 {
     // Start of user code user constants
     // End of user code
@@ -38,28 +38,32 @@ public class Oslc_configVocabularyConstants
      * @deprecated Use {@link #NS} instead.
      */
     @Deprecated
-    public static final String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/config#";
+    public static final String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
 
     /**
      * @deprecated Use {@link #PREFIX} instead.
      */
     @Deprecated
-    public static final String OSLC_CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX = "oslc_config";
+    public static final String OSLC_CORE_NAMSPACE_PREFIX = "oslc";
 
-    public static final String NS = "http://open-services.net/ns/config#";
-    public static final String PREFIX = "oslc_config";
+    public static final String NS = "http://open-services.net/ns/core#";
+    public static final String PREFIX = "oslc";
 
     // static class
-    private Oslc_configVocabularyConstants() {}
+    private OslcVocabularyConstants() {}
 
     public static QName of(String local) { return get(local); }
 
-    public static final String CHANGESET_LOCAL_NAME = "ChangeSet";
-    public static final String CHANGESET_CLASS = NS + CHANGESET_LOCAL_NAME;
-    public static final String CONFIGURATION_LOCAL_NAME = "Configuration";
-    public static final String CONFIGURATION_CLASS = NS + CONFIGURATION_LOCAL_NAME;
 
+    /**
+     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+     */
+    public static final String MODIFIEDBY_PROP = NS + "modifiedBy";
 
+    /**
+     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+     */
+    public static QName modifiedBy() { return get("modifiedBy"); }
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
