@@ -52,7 +52,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.IAgent;
 import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.IChangeSet;
@@ -61,12 +61,16 @@ import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
 import org.eclipse.lyo.oslc.domains.IPerson;
 import org.eclipse.lyo.oslc.domains.cm.IPriority;
 import org.eclipse.lyo.oslc.domains.rm.IRequirement;
+
+import org.eclipse.lyo.oslc.domains.cm.ISeverity;
 import org.eclipse.lyo.oslc.domains.cm.IState;
 // Start of user code imports
 // End of user code
 // spotless:on
 
-@OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
-@OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.REVIEWTASK_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME)
+@OslcResourceShape(
+    title = "ReviewTask Shape",
+    describes = Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE)
 public interface IReviewTask {}
