@@ -47,10 +47,12 @@ jobs:
           # - jdk: '24'
           #   distribution: corretto
           #   experimental: true
+          
+          # dokka fails on Semeru in IPushHandlerFactory.kt, (698,934): Flight Recorder is not supported on this VM
           # -X on semeru slows down more than 10x
-          - jdk: '21'
-            distribution: semeru
-            experimental: false
+          # - jdk: '21'
+          #   distribution: semeru
+          #   experimental: false
           # - jdk: '25'
           #   distribution: oracle-openjdk
           #   experimental: true
