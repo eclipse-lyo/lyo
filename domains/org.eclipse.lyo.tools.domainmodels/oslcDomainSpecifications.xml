@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<oslc4j_ai:Specification xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface">
+<?xml version='1.0' encoding='UTF-8'?>
+<oslc4j_ai:Specification xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmi:version="2.0">
   <domainSpecifications name="Dublin Core" namespaceURI="http://purl.org/dc/terms/" namespacePrefix="//@domainPrefixes[name='dcterms']">
     <resourceProperties id="_pna4kZUdEeq-KoPaR9_Cfg" name="contributor" description="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg" representation="either">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='contributor']"/>
@@ -10,13 +10,13 @@
     <resourceProperties id="_pnXOMZUdEeq-KoPaR9_Cfg" name="created" description="Timestamp of resource creation" occurs="zeroOrOne" valueType="DateTime">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='created']"/>
     </resourceProperties>
-    <resourceProperties id="_pnXOMpUdEeq-KoPaR9_Cfg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element." occurs="zeroOrOne" valueType="XMLLiteral">
+    <resourceProperties id="_pnXOMpUdEeq-KoPaR9_Cfg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element." occurs="zeroOrOne" valueType="XMLLiteral">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='description']"/>
     </resourceProperties>
-    <resourceProperties id="_fdNWAFv1EeyHYL9SbPncDg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div> element." occurs="zeroOrOne" valueType="String">
+    <resourceProperties id="_fdNWAFv1EeyHYL9SbPncDg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element." occurs="zeroOrOne" valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='description']"/>
     </resourceProperties>
-    <resourceProperties id="_pnX1QJUdEeq-KoPaR9_Cfg" name="identifier" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display." valueType="String">
+    <resourceProperties id="_pnX1QJUdEeq-KoPaR9_Cfg" name="identifier" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display." valueType="String" occurs="oneOrOne">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='identifier']"/>
     </resourceProperties>
     <resourceProperties id="_pnYcUJUdEeq-KoPaR9_Cfg" name="modified" description="Timestamp of latest resource modification" occurs="zeroOrOne" valueType="DateTime">
@@ -28,7 +28,7 @@
     <resourceProperties id="_pnYcUZUdEeq-KoPaR9_Cfg" name="subject" title="" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource." occurs="zeroOrMany" valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='subject']"/>
     </resourceProperties>
-    <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." valueType="XMLLiteral">
+    <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span&gt; element." valueType="XMLLiteral" occurs="oneOrOne">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='title']"/>
     </resourceProperties>
     <resourceProperties id="_pnX1QZUdEeq-KoPaR9_Cfg" name="isVersionOf" description="The concept resource of which this resource is a version. The subject of this property must be the version resource URI." valueType="Resource" range="_jaDA0Be3Ee2Qoa8h9kRCOQ" representation="reference">
@@ -40,11 +40,11 @@
     <resourceProperties id="_poqOsJUdEeq-KoPaR9_Cfg" name="source" occurs="zeroOrOne" valueType="URI">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='source']"/>
     </resourceProperties>
-    <resourceProperties id="_poqOsZUdEeq-KoPaR9_Cfg" name="type" occurs="zeroOrMany" valueType="String">
+    <resourceProperties id="_poqOsZUdEeq-KoPaR9_Cfg" name="type" occurs="zeroOrMany" valueType="Resource">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='type']"/>
     </resourceProperties>
     <resourceProperties id="_tl7rcCKJEeuEW8NmTOtW7w" name="publisher" valueType="Resource" range="_nr5V8CKJEeuEW8NmTOtW7w" representation="inline"/>
-    <resourceProperties id="_iqdVIFv1EeyHYL9SbPncDg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." valueType="String">
+    <resourceProperties id="_iqdVIFv1EeyHYL9SbPncDg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span&gt; element." valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='title']"/>
     </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
@@ -115,8 +115,12 @@
     <resources id="_U_N-8yKKEeuEW8NmTOtW7w" name="CreationFactory" resourceProperties="_pnZDYJUdEeq-KoPaR9_Cfg _K5f2sCKLEeuEW8NmTOtW7w _K5f2sSKLEeuEW8NmTOtW7w _zKmGgCKMEeuEW8NmTOtW7w _jR7PkCKKEeuEW8NmTOtW7w _bLP8ACKNEeuEW8NmTOtW7w"/>
     <resources id="_U_N-9CKKEeuEW8NmTOtW7w" name="QueryCapability" resourceProperties="_pnZDYJUdEeq-KoPaR9_Cfg _zKmGgSKMEeuEW8NmTOtW7w _K5f2sSKLEeuEW8NmTOtW7w _zKmGgCKMEeuEW8NmTOtW7w _jR7PkCKKEeuEW8NmTOtW7w _bLP8ACKNEeuEW8NmTOtW7w"/>
     <resources id="_U_N-9SKKEeuEW8NmTOtW7w" name="Dialog" resourceProperties="_pnZDYJUdEeq-KoPaR9_Cfg _8X71QCKLEeuEW8NmTOtW7w _K5f2sSKLEeuEW8NmTOtW7w _zKmGgCKMEeuEW8NmTOtW7w _jR7PkCKKEeuEW8NmTOtW7w _zKmGgiKMEeuEW8NmTOtW7w _LKVSkCKMEeuEW8NmTOtW7w _bLP8ACKNEeuEW8NmTOtW7w"/>
-    <resourceProperties id="_pnZqdJUdEeq-KoPaR9_Cfg" name="serviceProvider" description="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property." occurs="zeroOrMany" valueType="Resource" representation="reference"/>
-    <resourceProperties id="_pnaRgZUdEeq-KoPaR9_Cfg" name="shortTitle" description="Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span> element." occurs="zeroOrOne" valueType="XMLLiteral"/>
+    <resourceProperties id="_pnZqdJUdEeq-KoPaR9_Cfg" name="serviceProvider" description="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property." occurs="zeroOrMany" valueType="Resource" range="_poPX8JUdEeq-KoPaR9_Cfg" representation="reference">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='OSLC%20Core']/@properties[name='serviceProvider']"/>
+    </resourceProperties>
+    <resourceProperties id="_pnaRgZUdEeq-KoPaR9_Cfg" name="shortTitle" description="Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span&gt; element." occurs="zeroOrOne" valueType="XMLLiteral">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='OSLC%20Core']/@properties[name='shortTitle']"/>
+    </resourceProperties>
     <resourceProperties id="_pnaRgJUdEeq-KoPaR9_Cfg" name="shortId" description="Shorter form of dcterms:identifier for the resource, such as a number." valueType="String"/>
     <resourceProperties id="_pnZqc5UdEeq-KoPaR9_Cfg" name="modifiedBy" description="The URI of a resource describing the entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property." occurs="zeroOrMany" valueType="Resource" range="_posq8JUdEeq-KoPaR9_Cfg"/>
     <resourceProperties id="_poPX8pUdEeq-KoPaR9_Cfg" name="describes" description="This shape describes resources that are of any of these types. Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T. " occurs="zeroOrMany" valueType="URI"/>
@@ -135,8 +139,12 @@
     <resourceProperties id="_poRNIJUdEeq-KoPaR9_Cfg" name="representation" description="Should be http://open-services.net/ns/core#Reference, http://open-services.net/ns/core#Inline or http://open-services.net/ns/core#Either" occurs="zeroOrOne" valueType="Resource"/>
     <resourceProperties id="_poRNIZUdEeq-KoPaR9_Cfg" name="valueType" description="See below for list of allowed values for oslc:valueType. If this property is omitted, then the value type is unconstrained." occurs="zeroOrMany" valueType="Resource"/>
     <resourceProperties id="_poTpYJUdEeq-KoPaR9_Cfg" name="valueShape" description="if the value-type is a resource type, then Property MAY provide a shape value to indicate the Resource Shape that applies to the resource." valueType="Resource" range="_poPX8ZUdEeq-KoPaR9_Cfg"/>
-    <resourceProperties id="_poTpYZUdEeq-KoPaR9_Cfg" name="discussedBy" description="A series of notes and comments about this resource." occurs="zeroOrOne" valueType="Resource" range="_poP_AJUdEeq-KoPaR9_Cfg"/>
-    <resourceProperties id="_pnZqcpUdEeq-KoPaR9_Cfg" name="instanceShape" description="The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached." occurs="zeroOrMany" valueType="Resource" representation="reference"/>
+    <resourceProperties id="_poTpYZUdEeq-KoPaR9_Cfg" name="discussedBy" description="A series of notes and comments about this resource." occurs="zeroOrOne" valueType="Resource" range="_poP_AJUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='OSLC%20Core']/@properties[name='discussedBy']"/>
+    </resourceProperties>
+    <resourceProperties id="_pnZqcpUdEeq-KoPaR9_Cfg" name="instanceShape" description="The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached." occurs="zeroOrMany" valueType="Resource" range="_poPX8ZUdEeq-KoPaR9_Cfg" representation="reference">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='OSLC%20Core']/@properties[name='instanceShape']"/>
+    </resourceProperties>
     <resourceProperties id="_gtlgACKJEeuEW8NmTOtW7w" name="serviceProvider" occurs="zeroOrMany" valueType="Resource" range="_poPX8JUdEeq-KoPaR9_Cfg"/>
     <resourceProperties id="_gtmHECKJEeuEW8NmTOtW7w" name="domain" occurs="zeroOrMany" valueType="URI"/>
     <resourceProperties id="_gtmHESKJEeuEW8NmTOtW7w" name="service" occurs="zeroOrMany" valueType="Resource" range="_gtmHEyKJEeuEW8NmTOtW7w" representation="inline"/>
@@ -160,8 +168,8 @@
       <generalConfiguration doNotGenerate="true" filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc4j.core.model"/>
     </configuration>
   </domainSpecifications>
-  <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm#" namespacePrefix="//@domainPrefixes[name='oslc_cm']">
-    <resources id="_poJRUJUdEeq-KoPaR9_Cfg" name="ChangeRequest" resourceProperties="_pnaRgZUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _poTpYZUdEeq-KoPaR9_Cfg _poJ4YJUdEeq-KoPaR9_Cfg _poJ4YZUdEeq-KoPaR9_Cfg _poJ4YpUdEeq-KoPaR9_Cfg _poJ4Y5UdEeq-KoPaR9_Cfg _poKfcJUdEeq-KoPaR9_Cfg _poKfcZUdEeq-KoPaR9_Cfg _poKfcpUdEeq-KoPaR9_Cfg _poKfc5UdEeq-KoPaR9_Cfg _poKfdJUdEeq-KoPaR9_Cfg _poKfdZUdEeq-KoPaR9_Cfg _poNiwJUdEeq-KoPaR9_Cfg _poKfeJUdEeq-KoPaR9_Cfg _poLGgJUdEeq-KoPaR9_Cfg _poLGgZUdEeq-KoPaR9_Cfg _poKfd5UdEeq-KoPaR9_Cfg _poOJ0JUdEeq-KoPaR9_Cfg _poOJ0ZUdEeq-KoPaR9_Cfg _poOJ0pUdEeq-KoPaR9_Cfg _poKfdpUdEeq-KoPaR9_Cfg">
+  <domainSpecifications name="Change Management shapes" namespaceURI="http://open-services.net/ns/cm/shapes/3.0#" namespacePrefix="//@domainPrefixes[name='oslc_cm_shapes']">
+    <resources id="_poJRUJUdEeq-KoPaR9_Cfg" name="ChangeRequest" resourceProperties="_pnaRgZUdEeq-KoPaR9_Cfg _pnXOMpUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pna4kJUdEeq-KoPaR9_Cfg _pna4kZUdEeq-KoPaR9_Cfg _pnXOMZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnZqdJUdEeq-KoPaR9_Cfg _pnZqcpUdEeq-KoPaR9_Cfg _poTpYZUdEeq-KoPaR9_Cfg _poJ4YJUdEeq-KoPaR9_Cfg _poJ4YZUdEeq-KoPaR9_Cfg _poJ4YpUdEeq-KoPaR9_Cfg _poJ4Y5UdEeq-KoPaR9_Cfg _poKfcJUdEeq-KoPaR9_Cfg _poKfcZUdEeq-KoPaR9_Cfg _poKfcpUdEeq-KoPaR9_Cfg _poKfc5UdEeq-KoPaR9_Cfg _poKfdJUdEeq-KoPaR9_Cfg _poKfdZUdEeq-KoPaR9_Cfg _poNiwJUdEeq-KoPaR9_Cfg _poKfeJUdEeq-KoPaR9_Cfg _poLGgJUdEeq-KoPaR9_Cfg _poLGgZUdEeq-KoPaR9_Cfg _poKfd5UdEeq-KoPaR9_Cfg _poOJ0JUdEeq-KoPaR9_Cfg _poOJ0ZUdEeq-KoPaR9_Cfg _poOJ0pUdEeq-KoPaR9_Cfg _poKfdpUdEeq-KoPaR9_Cfg _poqOsZUdEeq-KoPaR9_Cfg _rp_6613b8aa39f4 _rp_11ffc9054a1d _rp_a83c7ea0c1aa _rp_8c4dca5c02ab _rp_8855ede161a4 _rp_98c94143223e _rp_2b3e48a81fba _rp_5c0428ed7c6f">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='ChangeRequest']"/>
     </resources>
     <resources id="_poLGgpUdEeq-KoPaR9_Cfg" name="Defect" extends="_poJRUJUdEeq-KoPaR9_Cfg">
@@ -182,6 +190,9 @@
     </resources>
     <resources id="_poMUoZUdEeq-KoPaR9_Cfg" name="Enhancement" extends="_poJRUJUdEeq-KoPaR9_Cfg">
       <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Enhancement']"/>
+    </resources>
+    <resources id="_res_a0da1aef6606" name="Severity">
+      <describes href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@classes[name='Severity']"/>
     </resources>
     <resourceProperties id="_poJ4YJUdEeq-KoPaR9_Cfg" name="closeDate" description="The date at which no further activity or work is intended to be conducted." occurs="zeroOrOne" valueType="DateTime">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='closeDate']"/>
@@ -228,6 +239,30 @@
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='state']"/>
     </resourceProperties>
     <resourceProperties id="_poKfdpUdEeq-KoPaR9_Cfg" name="authorizer" occurs="zeroOrMany" valueType="Resource" range="_posq85UdEeq-KoPaR9_Cfg"/>
+    <resourceProperties id="_rp_6613b8aa39f4" name="testedByTestCase" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='testedByTestCase']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_11ffc9054a1d" name="affectsTestResult" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='affectsTestResult']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_a83c7ea0c1aa" name="blocksTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='blocksTestExecutionRecord']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_8c4dca5c02ab" name="relatedTestExecutionRecord" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='relatedTestExecutionRecord']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_8855ede161a4" name="relatedTestCase" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='relatedTestCase']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_98c94143223e" name="relatedTestPlan" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='relatedTestPlan']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_2b3e48a81fba" name="relatedTestScript" occurs="zeroOrMany" valueType="Resource" range="_pna4kpUdEeq-KoPaR9_Cfg">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='relatedTestScript']"/>
+    </resourceProperties>
+    <resourceProperties id="_rp_5c0428ed7c6f" name="severity" occurs="zeroOrMany" valueType="Resource" range="_res_a0da1aef6606">
+      <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Change%20Management%20vocab']/@properties[name='severity']"/>
+    </resourceProperties>
     <configuration xsi:type="oslc4j_ai:MavenSpecificationConfiguration">
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.cm"/>
     </configuration>
@@ -527,7 +562,7 @@
   <domainPrefixes name="rdf"/>
   <domainPrefixes name="rdfs"/>
   <domainPrefixes name="oslc"/>
-  <domainPrefixes name="oslc_cm"/>
+  <domainPrefixes name="oslc_cm_shapes"/>
   <domainPrefixes name="oslc_rm"/>
   <domainPrefixes name="oslc_qm"/>
   <domainPrefixes name="oslc_am"/>
