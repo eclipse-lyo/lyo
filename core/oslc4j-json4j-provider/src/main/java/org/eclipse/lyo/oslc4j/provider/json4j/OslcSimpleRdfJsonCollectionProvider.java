@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +19,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -28,39 +26,20 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.Provider;
 
-/**
- * Use JSON-LD support in Jena provider.
- */
-@Deprecated
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+
 @Provider
 @Produces(OslcMediaType.APPLICATION_JSON)
 @Consumes(OslcMediaType.APPLICATION_JSON)
-public final class OslcSimpleRdfJsonCollectionProvider
-	   extends OslcRdfJsonCollectionProvider
-{
-	public OslcSimpleRdfJsonCollectionProvider()
-	{
-		super();
-	}
+public final class OslcSimpleRdfJsonCollectionProvider extends OslcRdfJsonCollectionProvider {
+    public OslcSimpleRdfJsonCollectionProvider() {
+        super();
+    }
 
-	@Override
-	public void writeTo(final Collection<Object>			 collection,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		writeTo(collection.toArray(new Object[collection.size()]),
-				mediaType,
-				map,
-				outputStream,
-				null,
-				null,
-				null,
-				null);
-	}
+    @Override
+    public void writeTo(final Collection<Object> collection, final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType, final MultivaluedMap<String, Object> map, final OutputStream outputStream)
+            throws IOException, WebApplicationException {
+        writeTo(collection.toArray(new Object[collection.size()]), mediaType, map, outputStream, null, null, null, null);
+    }
 }

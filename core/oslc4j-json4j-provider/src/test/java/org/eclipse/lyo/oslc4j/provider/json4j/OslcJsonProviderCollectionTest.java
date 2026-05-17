@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
-import org.apache.wink.json4j.JSONException;
-import org.apache.wink.json4j.JSONObject;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONObject;
+import jakarta.json.JsonException;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.TestResource;
 import org.glassfish.jersey.client.ClientConfig;
@@ -96,7 +96,7 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
     @ParameterizedTest
     @ArgumentsSource(ProviderCollectionTestArguments.class)
     public void testQueryList(String path, boolean isExpectedQuery)
-        throws JSONException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
+        throws JsonException, DatatypeConfigurationException, URISyntaxException, OslcCoreApplicationException,
         InvocationTargetException, IllegalAccessException, InstantiationException {
         Response response = target(path).request(MediaType.APPLICATION_JSON).get();
         response.bufferEntity();
@@ -106,8 +106,8 @@ public class OslcJsonProviderCollectionTest extends JerseyTest {
         List<TestResource> rdfResponse = response.readEntity(new GenericType<>() {
         });
         String rdfResponseString = response.readEntity(String.class);
-        JSONObject responseJSON = new JSONObject(rdfResponseString);
-        Object[] objects = JsonHelper.fromJSON(responseJSON, TestResource.class);
+        JSONObject responseJSON = new JSONObject(jakarta.json.Json.createReader(new java.io.StringReader(rdfResponseString)).readObject());
+        Object[] objects = JsonHelper.fromJSON(responseJSON.build(), TestResource.class);
 
 
         boolean isQueryResponse = responseJSON.get("oslc:responseInfo") != null;

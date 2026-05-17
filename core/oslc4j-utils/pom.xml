@@ -24,11 +24,6 @@
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
         </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core-wink</artifactId>
-        <version>${v.lyo}</version><!--TODO: depManage-->
-      </dependency>
 
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
