@@ -11,65 +11,64 @@
     <artifactId>oslc4j-utils</artifactId>
     <description>Additional utilities such as the OSLC4J Marshaller and Unmarshaller</description>
 
-    <properties>
-    </properties>
+  <properties>
+  </properties>
 
-    <dependencies>
-        <!--TODO: Lyo6 ensure this module is split such that Wink is out of picture-->
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-json4j-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-jena-provider</artifactId>
-        </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core-wink</artifactId>
-        <version>${v.lyo}</version><!--TODO: depManage-->
-      </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-json4j-provider</artifactId>
+    </dependency>
+    <dependency>
+      <!--TODO: Lyo6 ensure this module is split such that Wink is out of picture-->
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core-wink</artifactId>
+      <version>${v.lyo}</version><!--TODO: depManage-->
+    </dependency>
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
+    <!-- TEST -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-common</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-        <!-- TEST -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-             <scope>test</scope>
-        </dependency>
-          <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-common</artifactId>
-             <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
