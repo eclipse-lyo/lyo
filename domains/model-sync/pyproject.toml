@@ -1,0 +1,16 @@
+[project]
+name = "lyo-model-sync"
+version = "0.0.1"
+description = "Sync RDF vocabularies and shapes into Lyo Designer model XML files"
+requires-python = ">=3.10"
+
+dependencies = [
+    "rdflib>=6.0",
+    "lxml>=4.8",
+    "click>=8.0",
+    "pytest>=7.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
