@@ -13,14 +13,12 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
 import java.util.Objects;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonbPropertyOrder({
     "data",
     "representAsList",
     "representationType"
@@ -32,16 +30,16 @@ public class PropertyValue {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     private Object data;
-    @JsonProperty("representAsList")
+    @JsonbProperty("representAsList")
     private Boolean representAsList;
     /**
      *
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     private PropertyDefintion.RepresentationType representationType;
 
     /**
@@ -49,7 +47,7 @@ public class PropertyValue {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     public Object getData() {
         return data;
     }
@@ -59,17 +57,17 @@ public class PropertyValue {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     public void setData(Object data) {
         this.data = data;
     }
 
-    @JsonProperty("representAsList")
+    @JsonbProperty("representAsList")
     public Boolean getRepresentAsList() {
         return representAsList;
     }
 
-    @JsonProperty("representAsList")
+    @JsonbProperty("representAsList")
     public void setRepresentAsList(Boolean representAsList) {
         this.representAsList = representAsList;
     }
@@ -79,7 +77,7 @@ public class PropertyValue {
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     public PropertyDefintion.RepresentationType getRepresentationType() {
         return representationType;
     }
@@ -89,7 +87,7 @@ public class PropertyValue {
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     public void setRepresentationType(PropertyDefintion.RepresentationType representationType) {
         this.representationType = representationType;
     }

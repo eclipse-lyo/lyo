@@ -13,14 +13,12 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
 import java.util.Objects;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonbPropertyOrder({
     "propertyDefintion",
     "propertyValue"
 })
@@ -31,14 +29,14 @@ public class Property {
      * (Required)
      *
      */
-    @JsonProperty("propertyDefintion")
+    @JsonbProperty("propertyDefintion")
     private PropertyDefintion propertyDefintion;
     /**
      *
      * (Required)
      *
      */
-    @JsonProperty("propertyValue")
+    @JsonbProperty("propertyValue")
     private PropertyValue propertyValue;
 
     /**
@@ -46,7 +44,7 @@ public class Property {
      * (Required)
      *
      */
-    @JsonProperty("propertyDefintion")
+    @JsonbProperty("propertyDefintion")
     public PropertyDefintion getPropertyDefintion() {
         return propertyDefintion;
     }
@@ -56,7 +54,7 @@ public class Property {
      * (Required)
      *
      */
-    @JsonProperty("propertyDefintion")
+    @JsonbProperty("propertyDefintion")
     public void setPropertyDefintion(PropertyDefintion propertyDefintion) {
         this.propertyDefintion = propertyDefintion;
     }
@@ -66,7 +64,7 @@ public class Property {
      * (Required)
      *
      */
-    @JsonProperty("propertyValue")
+    @JsonbProperty("propertyValue")
     public PropertyValue getPropertyValue() {
         return propertyValue;
     }
@@ -76,7 +74,7 @@ public class Property {
      * (Required)
      *
      */
-    @JsonProperty("propertyValue")
+    @JsonbProperty("propertyValue")
     public void setPropertyValue(PropertyValue propertyValue) {
         this.propertyValue = propertyValue;
     }
