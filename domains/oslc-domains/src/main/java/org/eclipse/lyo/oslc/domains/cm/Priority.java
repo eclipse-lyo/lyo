@@ -56,7 +56,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 
 // Start of user code imports
 // End of user code
@@ -67,9 +67,11 @@ import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.PRIORITY_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.PRIORITY_LOCALNAME)
-@OslcResourceShape(title = "Priority Shape", describes = Oslc_cmDomainConstants.PRIORITY_TYPE)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.PRIORITY_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.PRIORITY_LOCALNAME)
+@OslcResourceShape(
+    title = "Priority Shape",
+    describes = Oslc_cm_shapesDomainConstants.PRIORITY_TYPE)
 public class Priority extends AbstractResource implements IPriority {
 
   // Start of user code classAttributes
@@ -95,7 +97,7 @@ public class Priority extends AbstractResource implements IPriority {
     return ResourceShapeFactory.createResourceShape(
         OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.PRIORITY_PATH,
+        Oslc_cm_shapesDomainConstants.PRIORITY_PATH,
         Priority.class);
   }
 

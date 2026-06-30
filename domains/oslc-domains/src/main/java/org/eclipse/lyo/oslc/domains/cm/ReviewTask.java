@@ -56,7 +56,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Task;
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
@@ -66,6 +66,9 @@ import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.cm.Severity;
 import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
@@ -76,9 +79,11 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 
 // Start of user code classAnnotations
 // End of user code
-@OslcNamespace(Oslc_cmDomainConstants.REVIEWTASK_NAMESPACE)
-@OslcName(Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME)
-@OslcResourceShape(title = "ReviewTask Shape", describes = Oslc_cmDomainConstants.REVIEWTASK_TYPE)
+@OslcNamespace(Oslc_cm_shapesDomainConstants.REVIEWTASK_NAMESPACE)
+@OslcName(Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME)
+@OslcResourceShape(
+    title = "ReviewTask Shape",
+    describes = Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE)
 public class ReviewTask extends Task implements IReviewTask {
 
   // Start of user code classAttributes
@@ -104,7 +109,7 @@ public class ReviewTask extends Task implements IReviewTask {
     return ResourceShapeFactory.createResourceShape(
         OSLC4JUtils.getServletURI(),
         OslcConstants.PATH_RESOURCE_SHAPES,
-        Oslc_cmDomainConstants.REVIEWTASK_PATH,
+        Oslc_cm_shapesDomainConstants.REVIEWTASK_PATH,
         ReviewTask.class);
   }
 
