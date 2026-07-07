@@ -43,6 +43,7 @@
 - Prevent stack overflow in JenaModelHelper when resource graph contains loops (#827, thanks to Benjamin Röhl and PTC for the contribution!)
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
+- OSLC Queries using `<=` operator no longer attempt to parse a URI.
 
 ## [6.0.0]
 
