@@ -97,6 +97,11 @@
       <version>${v.lyo}</version>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.lyo</groupId>
+      <artifactId>oslc-domains</artifactId>
+      <version>${v.lyo}</version>
+    </dependency>
+    <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
       <version>${v.lyo}</version>
