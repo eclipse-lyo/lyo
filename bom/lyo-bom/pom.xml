@@ -156,7 +156,7 @@
       </dependency>
       <dependency>
         <groupId>org.eclipse.lyo</groupId>
-        <artifactId>validation</artifactId>
+        <artifactId>lyo-validation</artifactId>
         <version>${v.lyo}</version>
       </dependency>
 
