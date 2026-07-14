@@ -59,17 +59,17 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo.core.query</groupId>
         <artifactId>oslc-query</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>oslc-trs</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>shacl</artifactId>
         <version>${v.lyo}</version>
       </dependency>
