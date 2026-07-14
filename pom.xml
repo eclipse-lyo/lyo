@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
@@ -23,7 +23,8 @@
 
     <v.jena>6.1.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
-    <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
+    <!-- NOTE: ensure that the core version matches client's
+    https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
     <v.httpcore>4.4.16</v.httpcore>
     <v.slf4j>2.0.18</v.slf4j>
@@ -91,8 +92,7 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <!-- FIXME: SHACLEX has not been migrated to Jena 5 yet -->
-    <!-- <module>validation</module> -->
+    <module>validation</module>
   </modules>
 
   <profiles>
@@ -258,7 +258,8 @@
     <dependencies>
 
       <dependency>
-        <!--Manual enforcement due to security issues and lack of convergence transitively-->
+        <!--Manual
+        enforcement due to security issues and lack of convergence transitively-->
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${v.httpclient}</version>
@@ -308,13 +309,15 @@
       </dependency>
 
       <dependency>
-        <!--CQ 13716-->
+        <!--CQ
+        13716-->
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
-        <!--CQ 13717-->
+        <!--CQ
+        13717-->
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>${v.slf4j}</version>
@@ -325,7 +328,8 @@
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
-        <!--CQ 6582-->
+        <!--CQ
+        6582-->
         <groupId>stax</groupId>
         <artifactId>stax-api</artifactId>
         <version>1.0.1</version>
@@ -429,7 +433,8 @@
       </dependency>
 
 
-      <!--Maven Enforcer-->
+      <!--Maven
+      Enforcer-->
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
@@ -454,13 +459,15 @@
         <artifactId>commons-io</artifactId>
         <version>2.22.0</version>
       </dependency>
-      <!--jena and guava-->
+      <!--jena
+      and guava-->
       <!-- <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
         <version>3.36.0</version>
       </dependency> -->
-      <!--jena and guava-->
+      <!--jena
+      and guava-->
       <!-- <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
@@ -567,14 +574,16 @@
 
                       <!-- https://github.com/eclipse/lyo/pull/220 -->
                       <!--                    <exclude>log4j:log4j</exclude>-->
-                      <!--log4j v2 is not used, just for the future-->
+                      <!--log4j
+                      v2 is not used, just for the future-->
                       <exclude>org.apache.logging.log4j:log4j-core</exclude>
                     </excludes>
                   </bannedDependencies>
                   <banDuplicatePomDependencyVersions />
                   <requireUpperBoundDeps>
                     <excludes>
-                      <!--jersey and jena via commons-compress-->
+                      <!--jersey
+                      and jena via commons-compress-->
                       <exclude>org.osgi:org.osgi.core</exclude>
                     </excludes>
                   </requireUpperBoundDeps>
@@ -588,7 +597,8 @@
             </execution>
           </executions>
         </plugin>
-        <!--Ignore Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
+        <!--Ignore
+        Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
