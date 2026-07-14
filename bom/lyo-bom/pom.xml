@@ -59,17 +59,17 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo.core.query</groupId>
         <artifactId>oslc-query</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>oslc-trs</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>shacl</artifactId>
         <version>${v.lyo}</version>
       </dependency>
@@ -89,7 +89,7 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.client</groupId>
+        <groupId>org.eclipse.lyo.clients</groupId>
         <artifactId>oslc-java-client-resources</artifactId>
         <version>${v.lyo}</version>
       </dependency>
@@ -140,12 +140,12 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.trs.client</groupId>
+        <groupId>org.eclipse.lyo.trs</groupId>
         <artifactId>client-source-mqtt</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.trs.client</groupId>
+        <groupId>org.eclipse.lyo.trs</groupId>
         <artifactId>trs-client</artifactId>
         <version>${v.lyo}</version>
       </dependency>
@@ -156,7 +156,7 @@
       </dependency>
       <dependency>
         <groupId>org.eclipse.lyo</groupId>
-        <artifactId>validation</artifactId>
+        <artifactId>lyo-validation</artifactId>
         <version>${v.lyo}</version>
       </dependency>
 
