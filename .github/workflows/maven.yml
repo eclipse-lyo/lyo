@@ -98,7 +98,13 @@ jobs:
           if [ "${{ matrix.experimental }}" = "true" ]; then
             EXTRA_FLAGS="-X"
           fi
-            mvn -B $EXTRA_FLAGS verify --file pom.xml -P'!spotbugs'
+            mvn -B $EXTRA_FLAGS install --file pom.xml -P'!spotbugs'
+      - name: Verify BOM consumer
+        run: |
+          LYO_VERSION="$(mvn -q -N help:evaluate -Dexpression=project.version -DforceStdout)"
+          mvn -B verify \
+            -Drevision="$LYO_VERSION" \
+            --file bom/lyo-bom-consumer-test/pom.xml
   spotbugs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
