@@ -33,10 +33,14 @@ public class LyoConfigUtil {
                 () ->
                     getParamFromJvm(generatePackageBaseKey(klass, key))
                         .orElseGet(
-                            () ->
-                                getParamFromContext(
-                                        servletContext, generatePackageBaseKey(klass, key))
-                                    .orElse(defaultValue)));
+                            () -> getParamFromJvm(key)
+                                .orElseGet(
+                                    () ->
+                                        getParamFromContext(
+                                                servletContext, generatePackageBaseKey(klass, key))
+                                            .orElseGet(
+                                                () -> getParamFromContext(servletContext, key)
+                                                    .orElse(defaultValue)))));
     return value;
   }
 
@@ -57,7 +61,10 @@ public class LyoConfigUtil {
     String value =
         getParamFromEnvironment(generateEnvKey(key))
             .orElseGet(
-                () -> getParamFromJvm(generatePackageBaseKey(klass, key)).orElse(defaultValue));
+                () -> getParamFromJvm(generatePackageBaseKey(klass, key))
+                    .orElseGet(
+                        () -> getParamFromJvm(key)
+                            .orElse(defaultValue)));
     return value;
   }
 
@@ -77,12 +84,22 @@ public class LyoConfigUtil {
 
   public static Optional<String> getParamFromEnvironment(String basePathEnvKey) {
     final Map<String, String> env = System.getenv();
-    if (!env.containsKey(basePathEnvKey)) {
-      log.debug("ENV variable '{}' not defined", basePathEnvKey);
-      return Optional.empty();
+    if (env.containsKey(basePathEnvKey)) {
+      log.info("Found {} env variable", basePathEnvKey);
+      return Optional.of(env.get(basePathEnvKey));
     }
-    log.info("Found {} env variable", basePathEnvKey);
-    return Optional.of(env.get(basePathEnvKey));
+
+    // Fallback: check if the non-prefixed key is available
+    if (basePathEnvKey.startsWith("LYO_") && basePathEnvKey.length() > 4) {
+      String fallbackKey = basePathEnvKey.substring(4);
+      if (env.containsKey(fallbackKey)) {
+        log.info("Found {} env variable (fallback from {})", fallbackKey, basePathEnvKey);
+        return Optional.of(env.get(fallbackKey));
+      }
+    }
+
+    log.debug("ENV variable '{}' not defined", basePathEnvKey);
+    return Optional.empty();
   }
 
   public static Optional<String> getParamFromJvm(String basePathContextPropertyKey) {
