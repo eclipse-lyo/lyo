@@ -239,7 +239,7 @@
       </dependency>
       <dependency>
         <groupId>org.apache.jena</groupId>
-        <artifactId>apache-jena-libs</artifactId>
+        <artifactId>jena-bom</artifactId>
         <version>${v.jena}</version>
         <type>pom</type>
         <scope>import</scope>
