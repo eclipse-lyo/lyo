@@ -255,6 +255,11 @@
         <version>${v.jersey}</version>
       </dependency>
       <dependency>
+        <groupId>org.glassfish.jersey.connectors</groupId>
+        <artifactId>jersey-apache5-connector</artifactId>
+        <version>${v.jersey}</version>
+      </dependency>
+      <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
         <version>3.1.0</version>
