@@ -95,6 +95,11 @@
       </dependency>
       <dependency>
         <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>lyo-server-common</artifactId>
+        <version>${v.lyo}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
         <artifactId>net.oauth.core-oauth-consumer-jakarta</artifactId>
         <version>${v.lyo}</version>
       </dependency>
