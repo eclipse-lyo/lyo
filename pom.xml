@@ -32,7 +32,7 @@
 
 
   <!-- OSSRH mandated metadata -->
-  <url>https://eclipse.org/lyo</url>
+  <url>https://projects.eclipse.org/projects/technology.lyo</url>
   <description>
     The Eclipse Lyo project is focused on providing an SDK to enable adoption of
     OSLC specifications. OSLC (Open
