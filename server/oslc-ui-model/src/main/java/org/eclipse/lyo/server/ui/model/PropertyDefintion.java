@@ -17,14 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.json.bind.adapter.JsonbAdapter;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import jakarta.json.bind.annotation.JsonbTypeAdapter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonbPropertyOrder({
     "data",
     "representationType"
 })
@@ -35,14 +33,14 @@ public class PropertyDefintion {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     private Object data;
     /**
      *
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     private PropertyDefintion.RepresentationType representationType;
 
     /**
@@ -50,7 +48,7 @@ public class PropertyDefintion {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     public Object getData() {
         return data;
     }
@@ -60,7 +58,7 @@ public class PropertyDefintion {
      * (Required)
      *
      */
-    @JsonProperty("data")
+    @JsonbProperty("data")
     public void setData(Object data) {
         this.data = data;
     }
@@ -70,7 +68,7 @@ public class PropertyDefintion {
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     public PropertyDefintion.RepresentationType getRepresentationType() {
         return representationType;
     }
@@ -80,7 +78,7 @@ public class PropertyDefintion {
      * (Required)
      *
      */
-    @JsonProperty("representationType")
+    @JsonbProperty("representationType")
     public void setRepresentationType(PropertyDefintion.RepresentationType representationType) {
         this.representationType = representationType;
     }
@@ -125,6 +123,7 @@ public class PropertyDefintion {
         return ((Objects.equals(this.data, rhs.data))&&(Objects.equals(this.representationType, rhs.representationType)));
     }
 
+    @JsonbTypeAdapter(RepresentationTypeAdapter.class)
     public enum RepresentationType {
 
         TEXT("Text"),
@@ -147,12 +146,10 @@ public class PropertyDefintion {
             return this.value;
         }
 
-        @JsonValue
         public String value() {
             return this.value;
         }
 
-        @JsonCreator
         public static PropertyDefintion.RepresentationType fromValue(String value) {
             PropertyDefintion.RepresentationType constant = CONSTANTS.get(value);
             if (constant == null) {
@@ -162,6 +159,18 @@ public class PropertyDefintion {
             }
         }
 
+    }
+
+    public static class RepresentationTypeAdapter implements JsonbAdapter<RepresentationType, String> {
+        @Override
+        public String adaptToJson(RepresentationType obj) throws Exception {
+            return obj.value();
+        }
+
+        @Override
+        public RepresentationType adaptFromJson(String obj) throws Exception {
+            return RepresentationType.fromValue(obj);
+        }
     }
 
 }
