@@ -14,8 +14,6 @@
 
 package org.eclipse.lyo.trs.client.config;
 
-import com.google.common.base.Strings;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Properties;
+import org.eclipse.lyo.core.util.StringUtils;
 
 /**
  * Loads TRS Provider configuration from a .properties file.
@@ -37,24 +36,24 @@ import java.util.Properties;
  * @since 4.0.0
  */
 public class TrsConfigurationLoader {
-    public static TrsProviderConfiguration from(File f) throws IOException {
-        if (f == null) {
-            throw new IllegalArgumentException("File is null");
-        }
-
-        try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
-            Properties p = new Properties();
-            p.load(input);
-
-            String trsUriParam = p.getProperty("trs_uri");
-            if (Strings.isNullOrEmpty(trsUriParam)) {
-                throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
-            }
-
-            String user = p.getProperty("baseAuth_user");
-            String pass = p.getProperty("baseAuth_pwd");
-
-            return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
-        }
+  public static TrsProviderConfiguration from(File f) throws IOException {
+    if (f == null) {
+      throw new IllegalArgumentException("File is null");
     }
+
+    try (InputStream input = new BufferedInputStream(new FileInputStream(f))) {
+      Properties p = new Properties();
+      p.load(input);
+
+      String trsUriParam = p.getProperty("trs_uri");
+      if (StringUtils.isNullOrEmpty(trsUriParam)) {
+        throw new IllegalStateException("The 'trs_uri' field is missing in file " + f.getName());
+      }
+
+      String user = p.getProperty("baseAuth_user");
+      String pass = p.getProperty("baseAuth_pwd");
+
+      return new TrsProviderConfiguration(URI.create(trsUriParam), user, pass);
+    }
+  }
 }

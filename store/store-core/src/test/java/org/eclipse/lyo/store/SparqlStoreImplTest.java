@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
 import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
@@ -58,7 +56,8 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
         sp.setCreated(new Date());
         try {
             manager.putResources(testNg, Collections.singletonList(sp));
-            final List<ServiceProvider> providers = manager.getResources(testNg, ServiceProvider.class);
+            final List<ServiceProvider> providers =
+                    manager.getResources(testNg, ServiceProvider.class);
             assertThat(providers).hasSize(1);
         } catch (StoreAccessException | ModelUnmarshallingException e) {
             fail("Store failed", e);
@@ -77,12 +76,17 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
                 fail("Store failed", e);
             }
         }
-        System.out.printf("10 named graphs persisted (resources) in %s ms", Duration.between(start, Instant.now()).toMillis());
+        System.out.printf(
+                "10 named graphs persisted (resources) in %s ms",
+                Duration.between(start, Instant.now()).toMillis());
     }
 
     @Test
-    public void testInsertionPerfRaw() throws InvocationTargetException, DatatypeConfigurationException,
-            OslcCoreApplicationException, IllegalAccessException {
+    public void testInsertionPerfRaw()
+            throws InvocationTargetException,
+                    DatatypeConfigurationException,
+                    OslcCoreApplicationException,
+                    IllegalAccessException {
         final List<ServiceProvider> providers = genProviders();
         final Model jenaModel = JenaModelHelper.createJenaModel(providers.toArray());
         var start = Instant.now();
@@ -90,7 +94,44 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
             final URI testNg = URI.create("urn:test:" + i);
             manager.insertJenaModel(testNg, jenaModel);
         }
-        System.out.printf("10 named graphs persisted (raw Model) in %s ms", Duration.between(start, Instant.now()).toMillis());
+        System.out.printf(
+                "10 named graphs persisted (raw Model) in %s ms",
+                Duration.between(start, Instant.now()).toMillis());
+    }
+
+    @Test
+    public void testRawUpdateQuery() throws StoreAccessException {
+        final URI testNg = URI.create("urn:test:rawupdate");
+
+        // Create a graph using raw SPARQL UPDATE
+        String createGraphQuery = "CREATE GRAPH <" + testNg + ">";
+        manager.rawUpdateQuery(createGraphQuery);
+
+        // Verify the graph was created but is empty (should not exist according to our logic)
+        assertThat(manager.namedGraphExists(testNg))
+                .isFalse(); // Insert some data using raw SPARQL UPDATE
+        String insertDataQuery =
+                "INSERT DATA { GRAPH <"
+                        + testNg
+                        + "> { <http://example.org/subject> <http://example.org/predicate> \"test"
+                        + " value\" . } }";
+        manager.rawUpdateQuery(insertDataQuery);
+
+        // Now the graph should exist because it has data
+        assertThat(manager.namedGraphExists(testNg)).isTrue();
+
+        // Query the data to verify it was inserted
+        Model model =
+                manager.getJenaModelForSubject(testNg, URI.create("http://example.org/subject"));
+        assertThat(model).isNotNull();
+        assertThat(model.isEmpty()).isFalse();
+
+        // Clean up using raw SPARQL UPDATE
+        String dropGraphQuery = "DROP GRAPH <" + testNg + ">";
+        manager.rawUpdateQuery(dropGraphQuery);
+
+        // Verify the graph was dropped
+        assertThat(manager.namedGraphExists(testNg)).isFalse();
     }
 
     private List<ServiceProvider> genProviders() {
@@ -104,6 +145,4 @@ public class SparqlStoreImplTest extends StoreTestBase<SparqlStoreImpl> {
         }
         return providers;
     }
-
-
 }

@@ -15,18 +15,18 @@
     <maven.compiler.release>21</maven.compiler.release>
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.2.21</v.kotlin>
-    <v.dokka>2.1.0</v.dokka>
+    <v.kotlin>2.3.21</v.kotlin>
+    <v.dokka>2.2.0</v.dokka>
 
     <v.jersey>3.1.11</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>6.0.0</v.jena>
+    <v.jena>6.1.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
     <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
     <v.httpcore>4.4.16</v.httpcore>
-    <v.slf4j>2.0.17</v.slf4j>
+    <v.slf4j>2.0.18</v.slf4j>
   </properties>
 
 
@@ -152,44 +152,13 @@
       </repositories>
     </profile>
     <profile>
-      <id>eclipse-deploy</id>
-      <activation>
-        <!--TODO disable?-->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>lyo-releases</id>
-          <name>lyo-releases repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <repository>
-          <id>lyo-snapshots</id>
-          <name>lyo-snapshots repository</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </repository>
-      </repositories>
-      <distributionManagement>
-        <repository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Releases</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-        </repository>
-        <snapshotRepository>
-          <id>repo.eclipse.org</id>
-          <name>Eclipse Lyo Snapshots</name>
-          <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <profile>
       <id>central-deploy</id>
       <build>
         <plugins>
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.10.0</version>
+            <version>0.11.0</version>
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
@@ -210,7 +179,7 @@
           <plugin>
             <groupId>com.diffplug.spotless</groupId>
             <artifactId>spotless-maven-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.8.0</version>
             <executions>
               <execution>
                 <id>auto-style</id>
@@ -235,7 +204,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.6.2</version>
+            <version>3.6.3</version>
             <executions>
               <execution>
                 <id>enforce-maven</id>
@@ -437,7 +406,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.21.0</version>
+        <version>5.23.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -449,7 +418,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>6.0.2</version>
+        <version>6.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -464,7 +433,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.21.0</version>
+        <version>1.22.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -483,7 +452,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.21.0</version>
+        <version>2.22.0</version>
       </dependency>
       <!--jena and guava-->
       <!-- <dependency>
@@ -553,7 +522,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.4</version>
+          <version>3.5.6</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
@@ -563,12 +532,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.20.0</version>
+          <version>3.22.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -578,7 +547,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.6.2</version>
+          <version>3.6.3</version>
           <executions>
             <execution>
               <id>enforce-maven</id>
@@ -672,7 +641,7 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.9.8.2</version>
+          <version>4.10.2.0</version>
           <configuration>
             <effort>Max</effort>
             <threshold>High</threshold>
@@ -745,7 +714,7 @@
       <plugin>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>2.9.2</version>
         <configuration>
           <schemaVersion>1.4</schemaVersion>
           <projectType>library</projectType>
@@ -762,7 +731,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.8.0</version>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
           <ratchetFrom>origin/master</ratchetFrom>

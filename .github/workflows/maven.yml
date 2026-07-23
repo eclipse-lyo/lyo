@@ -47,10 +47,12 @@ jobs:
           # - jdk: '24'
           #   distribution: corretto
           #   experimental: true
+          
+          # dokka fails on Semeru in IPushHandlerFactory.kt, (698,934): Flight Recorder is not supported on this VM
           # -X on semeru slows down more than 10x
-          - jdk: '21'
-            distribution: semeru
-            experimental: false
+          # - jdk: '21'
+          #   distribution: semeru
+          #   experimental: false
           # - jdk: '25'
           #   distribution: oracle-openjdk
           #   experimental: true
@@ -65,7 +67,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0
@@ -104,7 +106,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           show-progress: false
       - name: Set up JDK
@@ -126,7 +128,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Needed for spotless to do the ratchet
           fetch-depth: 0

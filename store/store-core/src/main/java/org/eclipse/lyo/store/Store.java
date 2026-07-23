@@ -1,14 +1,3 @@
-package org.eclipse.lyo.store;
-
-import java.net.URI;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import org.apache.jena.arq.querybuilder.SelectBuilder;
-
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -22,7 +11,15 @@ import org.apache.jena.arq.querybuilder.SelectBuilder;
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
+package org.eclipse.lyo.store;
 
+import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 
@@ -106,8 +103,7 @@ public interface Store {
     /**
      * Retrieve a Jena {@link Model} for triples under the given subject from the corresponding named graph.
      */
-    Model getJenaModelForSubject(URI namedGraphUri, URI subject)
-            throws NoSuchElementException;
+    Model getJenaModelForSubject(URI namedGraphUri, URI subject) throws NoSuchElementException;
 
     /**
      * Retrieve the collection of {@link IResource} instances specified by the concrete
@@ -147,8 +143,9 @@ public interface Store {
      * @throws ModelUnmarshallingException if the classes cannot be instantiated or another error
      *                                     occurred when working with Jena model.
      */
-    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz, int limit,
-            int offset) throws StoreAccessException, ModelUnmarshallingException;
+    <T extends IResource> List<T> getResources(
+            URI namedGraphUri, Class<T> clazz, int limit, int offset)
+            throws StoreAccessException, ModelUnmarshallingException;
 
     /**
      * Alternative to {@link Store#getResources(URI, Class)} with paging on the OSLC resource level.
@@ -168,9 +165,15 @@ public interface Store {
      * @throws ModelUnmarshallingException if the classes cannot be instantiated or another error
      *                                     occurred when working with Jena model.
      */
-    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
-            String prefixes, String where, String searchTerms,
-            int limit, int offset) throws StoreAccessException, ModelUnmarshallingException;
+    <T extends IResource> List<T> getResources(
+            URI namedGraphUri,
+            Class<T> clazz,
+            String prefixes,
+            String where,
+            String searchTerms,
+            int limit,
+            int offset)
+            throws StoreAccessException, ModelUnmarshallingException;
 
     /**
      * Alternative to {@link Store#getResources(URI, Class, String, String, String, int, int)} with additional parameters for inlined resources.
@@ -219,10 +222,17 @@ public interface Store {
      * @param additionalDistinctVars
      * @param additionalQueryFilter
      */
-    <T extends IResource> List<T> getResources(URI namedGraphUri, Class<T> clazz,
-            String prefixes, String where, String searchTerms,
-            int limit, int offset,
-            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter) throws StoreAccessException, ModelUnmarshallingException;
+    <T extends IResource> List<T> getResources(
+            URI namedGraphUri,
+            Class<T> clazz,
+            String prefixes,
+            String where,
+            String searchTerms,
+            int limit,
+            int offset,
+            List<String> additionalDistinctVars,
+            SelectBuilder additionalQueryFilter)
+            throws StoreAccessException, ModelUnmarshallingException;
 
     /**
      * Retrieve a Jena model that satisfies the given where parameter as defined in the OSLC Query
@@ -268,8 +278,13 @@ public interface Store {
      * @return a Jena {@link Model} with the less than or equal to {@code limit} resources.
      *
      */
-    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset);
-
+    Model getResources(
+            URI namedGraph,
+            String prefixes,
+            String where,
+            String searchTerms,
+            int limit,
+            int offset);
 
     /**
      * Alternative to {@link Store#getResources(URI, String, String, String, int, int)} with
@@ -277,10 +292,17 @@ public interface Store {
      *
      * See {@link Store#getResources(URI, Class, String, String, String, int, int, List, SelectBuilder)}
      * for an explanation of these additional parameters.
-
+     *
      */
-    Model getResources(URI namedGraph, String prefixes, String where, String searchTerms, int limit, int offset,
-            List<String> additionalDistinctVars, SelectBuilder additionalQueryFilter);
+    Model getResources(
+            URI namedGraph,
+            String prefixes,
+            String where,
+            String searchTerms,
+            int limit,
+            int offset,
+            List<String> additionalDistinctVars,
+            SelectBuilder additionalQueryFilter);
 
     /**
      * Retrieve a single {@link IResource} instance specified by the concrete
@@ -398,4 +420,11 @@ public interface Store {
      * @since 4.1.0
      */
     void close();
+
+    /**
+     * Execute a raw SPARQL query against the UPDATE endpoint.
+     *
+     * @param updateQuery raw SPARQL UPDATE query string to execute
+     */
+    void rawUpdateQuery(String updateQuery) throws StoreAccessException;
 }

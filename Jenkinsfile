@@ -61,9 +61,9 @@ pipeline {
         }
         sh '''
         mvn -B -fae clean install -DskipTests javadoc:aggregate \
-            -P dev,gpg-sign,!eclipse-deploy,central-deploy
+            -P dev,gpg-sign,central-deploy
         mvn -B      deploy        -DskipTests -Dmaven.install.skip=true \
-            -P dev,gpg-sign,!eclipse-deploy,central-deploy
+            -P dev,gpg-sign,central-deploy
         '''
       }
     }
@@ -104,7 +104,7 @@ pipeline {
 //       steps {
 //         sh '''
 //         mvn -B      deploy        -DskipTests -Dmaven.install.skip=true \
-//             -P dev,gpg-sign,eclipse-deploy
+//             -P dev,gpg-sign,central-deploy
 //         '''
 //         // sh 'gpg --verify my-app/target/my-app-1.0-SNAPSHOT.jar.asc'
 //         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
