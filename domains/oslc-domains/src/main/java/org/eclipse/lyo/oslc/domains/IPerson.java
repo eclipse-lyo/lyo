@@ -69,7 +69,7 @@ public interface IPerson
 
 
     @OslcName("familyName")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "familyName")
+    @OslcPropertyDefinition(FoafVocabularyConstants.FAMILYNAME_PROP)
     @OslcDescription("Family name of person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -77,7 +77,7 @@ public interface IPerson
     public String getFamilyName();
 
     @OslcName("givenName")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "givenName")
+    @OslcPropertyDefinition(FoafVocabularyConstants.GIVENNAME_PROP)
     @OslcDescription("Given name of person expressed as simple text string. ")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -85,7 +85,7 @@ public interface IPerson
     public String getGivenName();
 
     @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.NAME_PROP)
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)

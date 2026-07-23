@@ -70,7 +70,7 @@ public interface IRdfsClass
 
 
     @OslcName("subClassOf")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.NS + "subClassOf")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.SUBCLASSOF_PROP)
     @OslcDescription("used to state that all the instances of one class are instances of another")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)

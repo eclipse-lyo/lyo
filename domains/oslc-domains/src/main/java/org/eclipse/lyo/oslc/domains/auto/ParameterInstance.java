@@ -175,7 +175,7 @@ public class ParameterInstance
     // Start of user code getterAnnotation:name
   // End of user code
     @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.NAME_PROP)
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -190,7 +190,7 @@ public class ParameterInstance
     // Start of user code getterAnnotation:value
   // End of user code
     @OslcName("value")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "value")
+    @OslcPropertyDefinition(RdfVocabularyConstants.VALUE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -204,7 +204,7 @@ public class ParameterInstance
     // Start of user code getterAnnotation:description
   // End of user code
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -219,7 +219,7 @@ public class ParameterInstance
     // Start of user code getterAnnotation:type
   // End of user code
     @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

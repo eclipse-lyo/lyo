@@ -107,7 +107,7 @@ public interface IChangeRequest
     public String getShortTitle();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -115,7 +115,7 @@ public interface IChangeRequest
     public String getDescription();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -123,7 +123,7 @@ public interface IChangeRequest
     public String getTitle();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -131,7 +131,7 @@ public interface IChangeRequest
     public String getIdentifier();
 
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -140,7 +140,7 @@ public interface IChangeRequest
     public Set<String> getSubject();
 
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -149,7 +149,7 @@ public interface IChangeRequest
     public Set<Link> getCreator();
 
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -158,7 +158,7 @@ public interface IChangeRequest
     public Set<Link> getContributor();
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -166,7 +166,7 @@ public interface IChangeRequest
     public Date getCreated();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -201,7 +201,7 @@ public interface IChangeRequest
     public Link getDiscussedBy();
 
     @OslcName("closeDate")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "closeDate")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CLOSEDATE_PROP)
     @OslcDescription("The date at which no further activity or work is intended to be conducted.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -209,7 +209,7 @@ public interface IChangeRequest
     public Date getCloseDate();
 
     @OslcName("status")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "status")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.STATUS_PROP)
     @OslcDescription("Used to indicate the status of the change request based on values defined by the service provider. Most often a read-only property. Some possible values may include: 'Submitted', 'Done', 'InProgress', etc.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
@@ -217,7 +217,7 @@ public interface IChangeRequest
     public String getStatus();
 
     @OslcName("closed")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "closed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.CLOSED_PROP)
     @OslcDescription("Whether or not the Change Request is completely done, no further fixes or fix verification is needed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -233,7 +233,7 @@ public interface IChangeRequest
     public Boolean isInProgress();
 
     @OslcName("fixed")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "fixed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.FIXED_PROP)
     @OslcDescription("Whether or not the Change Request has been fixed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -249,7 +249,7 @@ public interface IChangeRequest
     public Boolean isApproved();
 
     @OslcName("reviewed")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "reviewed")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.REVIEWED_PROP)
     @OslcDescription("Whether or not the Change Request has been reviewed.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -257,7 +257,7 @@ public interface IChangeRequest
     public Boolean isReviewed();
 
     @OslcName("verified")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "verified")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.VERIFIED_PROP)
     @OslcDescription("Whether or not the resolution or fix of the Change Request has been verified.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Boolean)
@@ -265,7 +265,7 @@ public interface IChangeRequest
     public Boolean isVerified();
 
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.RELATEDCHANGEREQUEST_PROP)
     @OslcDescription("This relationship is loosely coupled and has no specific meaning. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -274,7 +274,7 @@ public interface IChangeRequest
     public Set<Link> getRelatedChangeRequest();
 
     @OslcName("affectsPlanItem")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "affectsPlanItem")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.AFFECTSPLANITEM_PROP)
     @OslcDescription("Change request affects a plan item. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -283,7 +283,7 @@ public interface IChangeRequest
     public Set<Link> getAffectsPlanItem();
 
     @OslcName("affectedByDefect")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "affectedByDefect")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.AFFECTEDBYDEFECT_PROP)
     @OslcDescription("Change request is affected by a reported defect. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -302,7 +302,7 @@ public interface IChangeRequest
     public Set<Link> getTracksRequirement();
 
     @OslcName("implementsRequirement")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "implementsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.IMPLEMENTSREQUIREMENT_PROP)
     @OslcDescription("Implements associated Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -312,7 +312,7 @@ public interface IChangeRequest
     public Set<Link> getImplementsRequirement();
 
     @OslcName("affectsRequirement")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "affectsRequirement")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.AFFECTSREQUIREMENT_PROP)
     @OslcDescription("Change request affecting a Requirement. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -332,7 +332,7 @@ public interface IChangeRequest
     public Set<Link> getTracksChangeSet();
 
     @OslcName("parent")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "parent")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.PARENT_PROP)
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.CHANGEREQUEST_TYPE})
@@ -348,7 +348,7 @@ public interface IChangeRequest
     public Set<Link> getPriority();
 
     @OslcName("state")
-    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.NS + "state")
+    @OslcPropertyDefinition(Oslc_cmVocabularyConstants.STATE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_cmDomainConstants.STATE_TYPE})

@@ -60,36 +60,66 @@ public class Oslc_rmVocabularyConstants
     public static final String REQUIREMENTCOLLECTION_CLASS = NS + REQUIREMENTCOLLECTION_LOCAL_NAME;
 
     public static final String AFFECTEDBY_PROP = NS + "affectedBy";
+
     public static final String CONSTRAINEDBY_PROP = NS + "constrainedBy";
+
     public static final String CONSTRAINS_PROP = NS + "constrains";
+
     public static final String DECOMPOSEDBY_PROP = NS + "decomposedBy";
+
     public static final String DECOMPOSES_PROP = NS + "decomposes";
+
     public static final String ELABORATEDBY_PROP = NS + "elaboratedBy";
+
     public static final String ELABORATES_PROP = NS + "elaborates";
+
     public static final String IMPLEMENTEDBY_PROP = NS + "implementedBy";
+
     public static final String SATISFIEDBY_PROP = NS + "satisfiedBy";
+
     public static final String SATISFIES_PROP = NS + "satisfies";
+
     public static final String SPECIFIEDBY_PROP = NS + "specifiedBy";
+
     public static final String SPECIFIES_PROP = NS + "specifies";
+
     public static final String TRACKEDBY_PROP = NS + "trackedBy";
+
     public static final String USES_PROP = NS + "uses";
+
     public static final String VALIDATEDBY_PROP = NS + "validatedBy";
 
+
     public static QName affectedBy() { return get("affectedBy"); }
+
     public static QName constrainedBy() { return get("constrainedBy"); }
+
     public static QName constrains() { return get("constrains"); }
+
     public static QName decomposedBy() { return get("decomposedBy"); }
+
     public static QName decomposes() { return get("decomposes"); }
+
     public static QName elaboratedBy() { return get("elaboratedBy"); }
+
     public static QName elaborates() { return get("elaborates"); }
+
     public static QName implementedBy() { return get("implementedBy"); }
+
     public static QName satisfiedBy() { return get("satisfiedBy"); }
+
     public static QName satisfies() { return get("satisfies"); }
+
     public static QName specifiedBy() { return get("specifiedBy"); }
+
     public static QName specifies() { return get("specifies"); }
+
     public static QName trackedBy() { return get("trackedBy"); }
+
     public static QName uses() { return get("uses"); }
+
     public static QName validatedBy() { return get("validatedBy"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

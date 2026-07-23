@@ -60,10 +60,12 @@ public class OslcVocabularyConstants
      */
     public static final String MODIFIEDBY_PROP = NS + "modifiedBy";
 
+
     /**
      * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
      */
     public static QName modifiedBy() { return get("modifiedBy"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

@@ -255,7 +255,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:contributor
   // End of user code
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -271,7 +271,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:created
   // End of user code
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -286,7 +286,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:creator
   // End of user code
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -302,7 +302,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:identifier
   // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -317,7 +317,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:modified
   // End of user code
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -332,7 +332,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:type
   // End of user code
     @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -347,7 +347,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:subject
   // End of user code
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -363,7 +363,7 @@ public class AutomationResult
     // Start of user code getterAnnotation:title
   // End of user code
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)

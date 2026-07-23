@@ -74,100 +74,154 @@ public class Oslc_cmVocabularyConstants
     public static final String TASK_CLASS = NS + TASK_LOCAL_NAME;
 
     public static final String AFFECTEDBYDEFECT_PROP = NS + "affectedByDefect";
+
     public static final String AFFECTSPLANITEM_PROP = NS + "affectsPlanItem";
+
     public static final String AFFECTSREQUIREMENT_PROP = NS + "affectsRequirement";
+
     public static final String AFFECTSTESTRESULT_PROP = NS + "affectsTestResult";
+
     public static final String APPROVED_PROP = NS + "approved";
+
     public static final String AUTHORIZER_PROP = NS + "authorizer";
+
     public static final String BLOCKSTESTEXECUTIONRECORD_PROP = NS + "blocksTestExecutionRecord";
+
     public static final String CLOSEDATE_PROP = NS + "closeDate";
+
     public static final String CLOSED_PROP = NS + "closed";
+
     public static final String FIXED_PROP = NS + "fixed";
+
     public static final String IMPLEMENTSREQUIREMENT_PROP = NS + "implementsRequirement";
+
     public static final String INPROGRESS_PROP = NS + "inProgress";
+
     public static final String PARENT_PROP = NS + "parent";
+
     public static final String PRIORITY_PROP = NS + "priority";
+
     public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+
     public static final String RELATEDTESTCASE_PROP = NS + "relatedTestCase";
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static final String RELATEDTESTEXECUTIONRECORD_PROP = NS + "relatedTestExecutionRecord";
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static final String RELATEDTESTPLAN_PROP = NS + "relatedTestPlan";
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static final String RELATEDTESTSCRIPT_PROP = NS + "relatedTestScript";
+
     public static final String REVIEWED_PROP = NS + "reviewed";
+
     public static final String SEVERITY_PROP = NS + "severity";
+
     public static final String STATE_PROP = NS + "state";
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static final String STATUS_PROP = NS + "status";
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static final String TESTEDBYTESTCASE_PROP = NS + "testedByTestCase";
+
     public static final String TRACKSCHANGESET_PROP = NS + "tracksChangeSet";
+
     public static final String TRACKSREQUIREMENT_PROP = NS + "tracksRequirement";
+
     public static final String VERIFIED_PROP = NS + "verified";
 
+
     public static QName affectedByDefect() { return get("affectedByDefect"); }
+
     public static QName affectsPlanItem() { return get("affectsPlanItem"); }
+
     public static QName affectsRequirement() { return get("affectsRequirement"); }
+
     public static QName affectsTestResult() { return get("affectsTestResult"); }
+
     public static QName approved() { return get("approved"); }
+
     public static QName authorizer() { return get("authorizer"); }
+
     public static QName blocksTestExecutionRecord() { return get("blocksTestExecutionRecord"); }
+
     public static QName closeDate() { return get("closeDate"); }
+
     public static QName closed() { return get("closed"); }
+
     public static QName fixed() { return get("fixed"); }
+
     public static QName implementsRequirement() { return get("implementsRequirement"); }
+
     public static QName inProgress() { return get("inProgress"); }
+
     public static QName parent() { return get("parent"); }
+
     public static QName priority() { return get("priority"); }
+
     public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
+
     public static QName relatedTestCase() { return get("relatedTestCase"); }
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static QName relatedTestExecutionRecord() { return get("relatedTestExecutionRecord"); }
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static QName relatedTestPlan() { return get("relatedTestPlan"); }
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static QName relatedTestScript() { return get("relatedTestScript"); }
+
     public static QName reviewed() { return get("reviewed"); }
+
     public static QName severity() { return get("severity"); }
+
     public static QName state() { return get("state"); }
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static QName status() { return get("status"); }
+
     /**
      * @deprecated RDF model attribute is marked 'archaic'
      */
     @Deprecated
     public static QName testedByTestCase() { return get("testedByTestCase"); }
+
     public static QName tracksChangeSet() { return get("tracksChangeSet"); }
+
     public static QName tracksRequirement() { return get("tracksRequirement"); }
+
     public static QName verified() { return get("verified"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

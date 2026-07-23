@@ -84,7 +84,7 @@ public interface ITestResult
     public void addAffectedByChangeRequest(final Link affectedByChangeRequest );
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -92,7 +92,7 @@ public interface ITestResult
     public Date getCreated();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -100,7 +100,7 @@ public interface ITestResult
     public String getIdentifier();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -117,7 +117,7 @@ public interface ITestResult
     public Set<Link> getInstanceShape();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -125,7 +125,7 @@ public interface ITestResult
     public String getTitle();
 
     @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -150,7 +150,7 @@ public interface ITestResult
     public String getStatus();
 
     @OslcName("affectedByChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "affectedByChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.AFFECTEDBYCHANGEREQUEST_PROP)
     @OslcDescription("Change request that affects the Test Result. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -160,7 +160,7 @@ public interface ITestResult
     public Set<Link> getAffectedByChangeRequest();
 
     @OslcName("executesTestScript")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "executesTestScript")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.EXECUTESTESTSCRIPT_PROP)
     @OslcDescription("Test Script executed to produce the Test Result. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
@@ -170,7 +170,7 @@ public interface ITestResult
     public Link getExecutesTestScript();
 
     @OslcName("producedByTestExecutionRecord")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "producedByTestExecutionRecord")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.PRODUCEDBYTESTEXECUTIONRECORD_PROP)
     @OslcDescription("Test Execution Record that the Test Result was produced by. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
@@ -180,7 +180,7 @@ public interface ITestResult
     public Link getProducedByTestExecutionRecord();
 
     @OslcName("reportsOnTestCase")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "reportsOnTestCase")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.REPORTSONTESTCASE_PROP)
     @OslcDescription("Test Case that the Test Result reports on. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
@@ -189,7 +189,7 @@ public interface ITestResult
     public Link getReportsOnTestCase();
 
     @OslcName("reportsOnTestPlan")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "reportsOnTestPlan")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.REPORTSONTESTPLAN_PROP)
     @OslcDescription("Test Plan that the Test Execution Record reports on. It is likely that the target resource will be an oslc_qm:TestPlan but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)

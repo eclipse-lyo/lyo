@@ -69,28 +69,28 @@ public interface IProject
 
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getDescription();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getIdentifier();
 
     @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "source")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
     public String getSource();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)

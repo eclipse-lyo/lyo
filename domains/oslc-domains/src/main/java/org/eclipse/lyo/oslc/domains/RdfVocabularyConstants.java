@@ -59,19 +59,23 @@ public class RdfVocabularyConstants
      * The subject is an instance of a class.
      */
     public static final String TYPE_PROP = NS + "type";
+
     /**
      * Idiomatic property used for structured values.
      */
     public static final String VALUE_PROP = NS + "value";
 
+
     /**
      * The subject is an instance of a class.
      */
     public static QName type() { return get("type"); }
+
     /**
      * Idiomatic property used for structured values.
      */
     public static QName value() { return get("value"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

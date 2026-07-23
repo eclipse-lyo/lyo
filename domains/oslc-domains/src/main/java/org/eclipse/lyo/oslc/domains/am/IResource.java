@@ -84,7 +84,7 @@ public interface IResource
     public void addSatisfy(final Link satisfy );
 
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -93,7 +93,7 @@ public interface IResource
     public Set<Link> getContributor();
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -101,7 +101,7 @@ public interface IResource
     public Date getCreated();
 
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -110,7 +110,7 @@ public interface IResource
     public Set<Link> getCreator();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -118,7 +118,7 @@ public interface IResource
     public String getDescription();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -126,7 +126,7 @@ public interface IResource
     public String getIdentifier();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -134,13 +134,13 @@ public interface IResource
     public Date getModified();
 
     @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "source")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcReadOnly(false)
     public URI getSource();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -148,7 +148,7 @@ public interface IResource
     public String getTitle();
 
     @OslcName("type")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TYPE_PROP)
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)

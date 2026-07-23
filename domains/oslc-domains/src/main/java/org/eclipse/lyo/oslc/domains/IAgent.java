@@ -69,7 +69,7 @@ public interface IAgent
 
 
     @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.NAME_PROP)
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)

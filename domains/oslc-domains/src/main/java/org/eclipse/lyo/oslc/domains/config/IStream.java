@@ -104,7 +104,7 @@ public interface IStream
     public Link getPreviousBaseline();
 
     @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.NS + "wasDerivedFrom")
+    @OslcPropertyDefinition(ProvVocabularyConstants.WASDERIVEDFROM_PROP)
     @OslcDescription("")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

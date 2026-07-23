@@ -158,7 +158,7 @@ public class Artifact
     // Start of user code getterAnnotation:isPartOf
   // End of user code
     @OslcName("isPartOf")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "isPartOf")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.ISPARTOF_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})

@@ -59,19 +59,23 @@ public class ProvVocabularyConstants
      * A resource from which this version was derived. This is likely to reference a different concept resource; use of prov:wasRevisionOf is recommended to indicate an earlier version of the same concept resource. The subject of each instance of this property must be the concept resource URI; the object can be a version resource URI, or a concept resource URI (possibly for a non-versioned resource).
      */
     public static final String WASDERIVEDFROM_PROP = NS + "wasDerivedFrom";
+
     /**
      * A resource from which this version was derived. This is likely to reference an earlier version of the same concept resource; use of prov:wasDerivedFrom is recommended to indicate an earlier version of a different concept resource. The subject of each instance of this property must be the concept resource URI; the object is likely to be a version resource URI.
      */
     public static final String WASREVISIONOF_PROP = NS + "wasRevisionOf";
 
+
     /**
      * A resource from which this version was derived. This is likely to reference a different concept resource; use of prov:wasRevisionOf is recommended to indicate an earlier version of the same concept resource. The subject of each instance of this property must be the concept resource URI; the object can be a version resource URI, or a concept resource URI (possibly for a non-versioned resource).
      */
     public static QName wasDerivedFrom() { return get("wasDerivedFrom"); }
+
     /**
      * A resource from which this version was derived. This is likely to reference an earlier version of the same concept resource; use of prov:wasDerivedFrom is recommended to indicate an earlier version of a different concept resource. The subject of each instance of this property must be the concept resource URI; the object is likely to be a version resource URI.
      */
     public static QName wasRevisionOf() { return get("wasRevisionOf"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

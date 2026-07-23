@@ -189,7 +189,7 @@ public class LinkType
     // Start of user code getterAnnotation:contributor
   // End of user code
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -205,7 +205,7 @@ public class LinkType
     // Start of user code getterAnnotation:created
   // End of user code
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -220,7 +220,7 @@ public class LinkType
     // Start of user code getterAnnotation:creator
   // End of user code
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -236,7 +236,7 @@ public class LinkType
     // Start of user code getterAnnotation:identifier
   // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -251,7 +251,7 @@ public class LinkType
     // Start of user code getterAnnotation:modified
   // End of user code
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -298,7 +298,7 @@ public class LinkType
     // Start of user code getterAnnotation:comment
   // End of user code
     @OslcName("comment")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.NS + "comment")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.COMMENT_PROP)
     @OslcDescription("May be used to provide a human-readable description of a resource.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -313,7 +313,7 @@ public class LinkType
     // Start of user code getterAnnotation:label
   // End of user code
     @OslcName("label")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.NS + "label")
+    @OslcPropertyDefinition(RdfsVocabularyConstants.LABEL_PROP)
     @OslcDescription("May be used to provide a human-readable version of a resource's name.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)

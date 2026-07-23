@@ -320,7 +320,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:title
   // End of user code
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -335,7 +335,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:description
   // End of user code
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -350,7 +350,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:identifier
   // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -380,7 +380,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:subject
   // End of user code
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -396,7 +396,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:creator
   // End of user code
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -412,7 +412,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:contributor
   // End of user code
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -428,7 +428,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:created
   // End of user code
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -443,7 +443,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:modified
   // End of user code
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -490,7 +490,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:elaboratedBy
   // End of user code
     @OslcName("elaboratedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "elaboratedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.ELABORATEDBY_PROP)
     @OslcDescription("The subject is elaborated by the object. For example, a user requirement is elaborated by use case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -506,7 +506,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:elaborates
   // End of user code
     @OslcName("elaborates")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "elaborates")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.ELABORATES_PROP)
     @OslcDescription("The object is elaborated by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -522,7 +522,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:specifiedBy
   // End of user code
     @OslcName("specifiedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "specifiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SPECIFIEDBY_PROP)
     @OslcDescription("The subject is specified by the object. For example, a requirement is elaborated by a model element .")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -538,7 +538,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:specifies
   // End of user code
     @OslcName("specifies")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "specifies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SPECIFIES_PROP)
     @OslcDescription("The object is specified by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -554,7 +554,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:affectedBy
   // End of user code
     @OslcName("affectedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "affectedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.AFFECTEDBY_PROP)
     @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -570,7 +570,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:trackedBy
   // End of user code
     @OslcName("trackedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "trackedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.TRACKEDBY_PROP)
     @OslcDescription("Resource, such as a change request, which tracks this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -586,7 +586,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:implementedBy
   // End of user code
     @OslcName("implementedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "implementedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.IMPLEMENTEDBY_PROP)
     @OslcDescription("Resource, such as a change request, which implements this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -602,7 +602,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:validatedBy
   // End of user code
     @OslcName("validatedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "validatedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.VALIDATEDBY_PROP)
     @OslcDescription("Resource, such as a test case, which validates this requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -618,7 +618,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:satisfiedBy
   // End of user code
     @OslcName("satisfiedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "satisfiedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SATISFIEDBY_PROP)
     @OslcDescription("The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -634,7 +634,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:satisfies
   // End of user code
     @OslcName("satisfies")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "satisfies")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SATISFIES_PROP)
     @OslcDescription("The object is satisfied by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -650,7 +650,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:decomposedBy
   // End of user code
     @OslcName("decomposedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "decomposedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.DECOMPOSEDBY_PROP)
     @OslcDescription("The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -666,7 +666,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:decomposes
   // End of user code
     @OslcName("decomposes")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "decomposes")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.DECOMPOSES_PROP)
     @OslcDescription("The object is decomposed by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -682,7 +682,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:constrainedBy
   // End of user code
     @OslcName("constrainedBy")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "constrainedBy")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.CONSTRAINEDBY_PROP)
     @OslcDescription("The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -698,7 +698,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:constrains
   // End of user code
     @OslcName("constrains")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "constrains")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.CONSTRAINS_PROP)
     @OslcDescription("The object is constrained by the subject.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -714,7 +714,7 @@ public class RequirementCollection
     // Start of user code getterAnnotation:uses
   // End of user code
     @OslcName("uses")
-    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.NS + "uses")
+    @OslcPropertyDefinition(Oslc_rmVocabularyConstants.USES_PROP)
     @OslcDescription("A collection uses a resource - the resource is in the requirement collection. ")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

@@ -64,43 +64,53 @@ public class RdfsVocabularyConstants
      * A description of the subject resource.
      */
     public static final String COMMENT_PROP = NS + "comment";
+
     /**
      * A human-readable name for the subject.
      */
     public static final String LABEL_PROP = NS + "label";
+
     /**
      * A member of the subject resource.
      */
     public static final String MEMBER_PROP = NS + "member";
+
     /**
      * Further information about the subject resource.
      */
     public static final String SEEALSO_PROP = NS + "seeAlso";
+
     /**
      * The subject is a subclass of a class.
      */
     public static final String SUBCLASSOF_PROP = NS + "subClassOf";
 
+
     /**
      * A description of the subject resource.
      */
     public static QName comment() { return get("comment"); }
+
     /**
      * A human-readable name for the subject.
      */
     public static QName label() { return get("label"); }
+
     /**
      * A member of the subject resource.
      */
     public static QName member() { return get("member"); }
+
     /**
      * Further information about the subject resource.
      */
     public static QName seeAlso() { return get("seeAlso"); }
+
     /**
      * The subject is a subclass of a class.
      */
     public static QName subClassOf() { return get("subClassOf"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

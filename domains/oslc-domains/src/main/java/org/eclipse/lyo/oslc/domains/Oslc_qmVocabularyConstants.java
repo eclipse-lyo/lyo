@@ -66,36 +66,66 @@ public class Oslc_qmVocabularyConstants
     public static final String TESTSCRIPT_CLASS = NS + TESTSCRIPT_LOCAL_NAME;
 
     public static final String AFFECTEDBYCHANGEREQUEST_PROP = NS + "affectedByChangeRequest";
+
     public static final String BLOCKEDBYCHANGEREQUEST_PROP = NS + "blockedByChangeRequest";
+
     public static final String EXECUTESTESTSCRIPT_PROP = NS + "executesTestScript";
+
     public static final String EXECUTIONINSTRUCTIONS_PROP = NS + "executionInstructions";
+
     public static final String PRODUCEDBYTESTEXECUTIONRECORD_PROP = NS + "producedByTestExecutionRecord";
+
     public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+
     public static final String REPORTSONTESTCASE_PROP = NS + "reportsOnTestCase";
+
     public static final String REPORTSONTESTPLAN_PROP = NS + "reportsOnTestPlan";
+
     public static final String RUNSONTESTENVIRONMENT_PROP = NS + "runsOnTestEnvironment";
+
     public static final String RUNSTESTCASE_PROP = NS + "runsTestCase";
+
     public static final String TESTSCHANGEREQUEST_PROP = NS + "testsChangeRequest";
+
     public static final String USESTESTCASE_PROP = NS + "usesTestCase";
+
     public static final String USESTESTSCRIPT_PROP = NS + "usesTestScript";
+
     public static final String VALIDATESREQUIREMENT_PROP = NS + "validatesRequirement";
+
     public static final String VALIDATESREQUIREMENTCOLLECTION_PROP = NS + "validatesRequirementCollection";
 
+
     public static QName affectedByChangeRequest() { return get("affectedByChangeRequest"); }
+
     public static QName blockedByChangeRequest() { return get("blockedByChangeRequest"); }
+
     public static QName executesTestScript() { return get("executesTestScript"); }
+
     public static QName executionInstructions() { return get("executionInstructions"); }
+
     public static QName producedByTestExecutionRecord() { return get("producedByTestExecutionRecord"); }
+
     public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
+
     public static QName reportsOnTestCase() { return get("reportsOnTestCase"); }
+
     public static QName reportsOnTestPlan() { return get("reportsOnTestPlan"); }
+
     public static QName runsOnTestEnvironment() { return get("runsOnTestEnvironment"); }
+
     public static QName runsTestCase() { return get("runsTestCase"); }
+
     public static QName testsChangeRequest() { return get("testsChangeRequest"); }
+
     public static QName usesTestCase() { return get("usesTestCase"); }
+
     public static QName usesTestScript() { return get("usesTestScript"); }
+
     public static QName validatesRequirement() { return get("validatesRequirement"); }
+
     public static QName validatesRequirementCollection() { return get("validatesRequirementCollection"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

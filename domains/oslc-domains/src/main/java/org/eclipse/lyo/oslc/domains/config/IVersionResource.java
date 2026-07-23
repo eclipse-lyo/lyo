@@ -88,7 +88,7 @@ public interface IVersionResource
     public void addWasRevisionOf(final Link wasRevisionOf );
 
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -97,7 +97,7 @@ public interface IVersionResource
     public Set<Link> getContributor();
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -105,7 +105,7 @@ public interface IVersionResource
     public Date getCreated();
 
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -114,7 +114,7 @@ public interface IVersionResource
     public Set<Link> getCreator();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -122,7 +122,7 @@ public interface IVersionResource
     public String getDescription();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -130,7 +130,7 @@ public interface IVersionResource
     public String getIdentifier();
 
     @OslcName("isVersionOf")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "isVersionOf")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.ISVERSIONOF_PROP)
     @OslcDescription("The concept resource of which this resource is a version. The subject of this property must be the version resource URI.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.Resource)
@@ -140,7 +140,7 @@ public interface IVersionResource
     public Link getIsVersionOf();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -148,7 +148,7 @@ public interface IVersionResource
     public Date getModified();
 
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -157,7 +157,7 @@ public interface IVersionResource
     public Set<String> getSubject();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -215,7 +215,7 @@ public interface IVersionResource
     public Set<Link> getInstanceShape();
 
     @OslcName("modifiedBy")
-    @OslcPropertyDefinition(OslcVocabularyConstants.NS + "modifiedBy")
+    @OslcPropertyDefinition(OslcVocabularyConstants.MODIFIEDBY_PROP)
     @OslcDescription("The entity that most recently modified the subject resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -249,7 +249,7 @@ public interface IVersionResource
     public String getShortTitle();
 
     @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.NS + "wasDerivedFrom")
+    @OslcPropertyDefinition(ProvVocabularyConstants.WASDERIVEDFROM_PROP)
     @OslcDescription("")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -259,7 +259,7 @@ public interface IVersionResource
     public Set<Link> getWasDerivedFrom();
 
     @OslcName("wasRevisionOf")
-    @OslcPropertyDefinition(ProvVocabularyConstants.NS + "wasRevisionOf")
+    @OslcPropertyDefinition(ProvVocabularyConstants.WASREVISIONOF_PROP)
     @OslcDescription("")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

@@ -69,27 +69,33 @@ public class FoafVocabularyConstants
      * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
      */
     public static final String FAMILYNAME_PROP = NS + "familyName";
+
     /**
      * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
      */
     public static final String GIVENNAME_PROP = NS + "givenName";
+
     /**
      * The name of something is a simple textual string.
      */
     public static final String NAME_PROP = NS + "name";
 
+
     /**
      * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
      */
     public static QName familyName() { return get("familyName"); }
+
     /**
      * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
      */
     public static QName givenName() { return get("givenName"); }
+
     /**
      * The name of something is a simple textual string.
      */
     public static QName name() { return get("name"); }
+
 
     private static QName get(String local) {
         return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));

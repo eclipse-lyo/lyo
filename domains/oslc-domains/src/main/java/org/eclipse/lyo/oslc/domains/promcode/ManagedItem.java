@@ -152,7 +152,7 @@ public class ManagedItem
     // Start of user code getterAnnotation:description
   // End of user code
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
@@ -166,7 +166,7 @@ public class ManagedItem
     // Start of user code getterAnnotation:identifier
   // End of user code
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -180,7 +180,7 @@ public class ManagedItem
     // Start of user code getterAnnotation:source
   // End of user code
     @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "source")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.String)
     @OslcReadOnly(false)
@@ -194,7 +194,7 @@ public class ManagedItem
     // Start of user code getterAnnotation:title
   // End of user code
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)

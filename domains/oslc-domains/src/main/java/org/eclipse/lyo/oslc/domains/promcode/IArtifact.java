@@ -73,7 +73,7 @@ public interface IArtifact
     public void addTargets(final Link targets );
 
     @OslcName("isPartOf")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "isPartOf")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.ISPARTOF_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.Resource)
     @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})

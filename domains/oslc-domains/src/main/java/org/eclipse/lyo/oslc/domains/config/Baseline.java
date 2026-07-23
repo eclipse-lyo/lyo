@@ -232,7 +232,7 @@ public class Baseline
     // Start of user code getterAnnotation:wasDerivedFrom
   // End of user code
     @OslcName("wasDerivedFrom")
-    @OslcPropertyDefinition(ProvVocabularyConstants.NS + "wasDerivedFrom")
+    @OslcPropertyDefinition(ProvVocabularyConstants.WASDERIVEDFROM_PROP)
     @OslcDescription("")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

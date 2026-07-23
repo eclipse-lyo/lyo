@@ -77,7 +77,7 @@ public interface IParameterInstance
     public void addServiceProvider(final Link serviceProvider );
 
     @OslcName("name")
-    @OslcPropertyDefinition(FoafVocabularyConstants.NS + "name")
+    @OslcPropertyDefinition(FoafVocabularyConstants.NAME_PROP)
     @OslcDescription("The full name of a person expressed as simple text string.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -85,14 +85,14 @@ public interface IParameterInstance
     public String getName();
 
     @OslcName("value")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "value")
+    @OslcPropertyDefinition(RdfVocabularyConstants.VALUE_PROP)
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
     @OslcReadOnly(false)
     public String getValue();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -100,7 +100,7 @@ public interface IParameterInstance
     public String getDescription();
 
     @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)

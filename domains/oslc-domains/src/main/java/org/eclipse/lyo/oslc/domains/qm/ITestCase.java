@@ -91,7 +91,7 @@ public interface ITestCase
     public void addValidatesRequirement(final Link validatesRequirement );
 
     @OslcName("contributor")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "contributor")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
     @OslcDescription("Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -100,7 +100,7 @@ public interface ITestCase
     public Set<Link> getContributor();
 
     @OslcName("created")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "created")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
     @OslcDescription("Timestamp of resource creation")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -108,7 +108,7 @@ public interface ITestCase
     public Date getCreated();
 
     @OslcName("creator")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "creator")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
     @OslcDescription("Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -117,7 +117,7 @@ public interface ITestCase
     public Set<Link> getCreator();
 
     @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "description")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
     @OslcDescription("Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element.")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -125,7 +125,7 @@ public interface ITestCase
     public String getDescription();
 
     @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "identifier")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
     @OslcDescription("A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.String)
@@ -133,7 +133,7 @@ public interface ITestCase
     public String getIdentifier();
 
     @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "modified")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
     @OslcDescription("Timestamp of latest resource modification")
     @OslcOccurs(Occurs.ZeroOrOne)
     @OslcValueType(ValueType.DateTime)
@@ -159,7 +159,7 @@ public interface ITestCase
     public Set<Link> getServiceProvider();
 
     @OslcName("subject")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "subject")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
     @OslcDescription("Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.String)
@@ -168,7 +168,7 @@ public interface ITestCase
     public Set<String> getSubject();
 
     @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.NS + "title")
+    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
     @OslcDescription("Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element.")
     @OslcOccurs(Occurs.ExactlyOne)
     @OslcValueType(ValueType.XMLLiteral)
@@ -176,7 +176,7 @@ public interface ITestCase
     public String getTitle();
 
     @OslcName("type")
-    @OslcPropertyDefinition(RdfVocabularyConstants.NS + "type")
+    @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
     @OslcDescription("The resource type URIs")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -184,7 +184,7 @@ public interface ITestCase
     public Set<Link> getType();
 
     @OslcName("relatedChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "relatedChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.RELATEDCHANGEREQUEST_PROP)
     @OslcDescription("A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -194,7 +194,7 @@ public interface ITestCase
     public Set<Link> getRelatedChangeRequest();
 
     @OslcName("testsChangeRequest")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "testsChangeRequest")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.TESTSCHANGEREQUEST_PROP)
     @OslcDescription("Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
@@ -204,7 +204,7 @@ public interface ITestCase
     public Set<Link> getTestsChangeRequest();
 
     @OslcName("usesTestScript")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "usesTestScript")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.USESTESTSCRIPT_PROP)
     @OslcDescription("Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.")
     @OslcOccurs(Occurs.OneOrMany)
     @OslcValueType(ValueType.Resource)
@@ -213,7 +213,7 @@ public interface ITestCase
     public Set<Link> getUsesTestScript();
 
     @OslcName("validatesRequirement")
-    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.NS + "validatesRequirement")
+    @OslcPropertyDefinition(Oslc_qmVocabularyConstants.VALIDATESREQUIREMENT_PROP)
     @OslcDescription("Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.")
     @OslcOccurs(Occurs.ZeroOrMany)
     @OslcValueType(ValueType.Resource)
