@@ -123,7 +123,7 @@
     <properties name="wasRevisionOf" label="wasRevisionOf" comment="A resource from which this version was derived. This is likely to reference an earlier version of the same concept resource; use of prov:wasDerivedFrom is recommended to indicate an earlier version of a different concept resource. The subject of each instance of this property must be the concept resource URI; the object is likely to be a version resource URI."/>
     <properties name="wasDerivedFrom" label="wasDerivedFrom" comment="A resource from which this version was derived. This is likely to reference a different concept resource; use of prov:wasRevisionOf is recommended to indicate an earlier version of the same concept resource. The subject of each instance of this property must be the concept resource URI; the object can be a version resource URI, or a concept resource URI (possibly for a non-versioned resource)."/>
   </vocabularies>
-  <vocabularies namespaceURI="http://open-services.net/ns/core#" label="OSLC Core" preferredNamespacePrefix="oscl">
+  <vocabularies namespaceURI="http://open-services.net/ns/core#" label="OSLC Core" preferredNamespacePrefix="oslc">
     <properties name="modifiedBy" label="modifiedBy" comment="The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property."/>
   </vocabularies>
   <configuration>
