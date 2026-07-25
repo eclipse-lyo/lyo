@@ -64,6 +64,7 @@ import org.eclipse.lyo.oslc.domains.config.IComponent;
 import org.eclipse.lyo.oslc.domains.config.IConfiguration;
 import org.eclipse.lyo.oslc.domains.config.IContribution;
 import org.eclipse.lyo.oslc.domains.IPerson;
+
 import org.eclipse.lyo.oslc.domains.config.ISelections;
 // Start of user code imports
 // End of user code

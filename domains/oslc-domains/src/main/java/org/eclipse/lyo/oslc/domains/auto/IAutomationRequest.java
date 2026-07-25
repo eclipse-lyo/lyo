@@ -59,10 +59,12 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.auto.IAutomationPlan;
 import org.eclipse.lyo.oslc.domains.auto.IParameterInstance;
 import org.eclipse.lyo.oslc.domains.IPerson;
+
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -165,7 +167,7 @@ public interface IAutomationRequest {
   public String getTitle();
 
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -176,11 +178,12 @@ public interface IAutomationRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.RESOURCESHAPE_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getInstanceShape();
 
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OslcDomainConstants.OSLC_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -188,6 +191,7 @@ public interface IAutomationRequest {
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
   @OslcRepresentation(Representation.Reference)
+  @OslcRange({OslcDomainConstants.SERVICEPROVIDER_TYPE})
   @OslcReadOnly(false)
   public Set<Link> getServiceProvider();
 

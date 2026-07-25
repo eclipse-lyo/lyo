@@ -69,7 +69,9 @@ import org.eclipse.lyo.oslc.domains.config.Component;
 import org.eclipse.lyo.oslc.domains.config.Configuration;
 import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc.domains.config.Selections;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 // Start of user code imports
 // End of user code
 // spotless:on
