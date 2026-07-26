@@ -8,11 +8,6 @@ versions:
   obsolete-recent:
     - "5.1.1"
   milestone-warn:
-    - "7.0.0a2"
-    - "6.0.0.CR"
-    - "5.1.0a"
-    - "5.0.1.CR"
-  obsolete-snapshot:
     - "7.0.0a12"
     - "7.0.0a11"
     - "7.0.0a10"
@@ -25,6 +20,10 @@ versions:
     - "7.0.0a3"
     - "7.0.0a2"
     - "7.0.0a1"
+    - "6.0.0.CR"
+    - "5.1.0a"
+    - "5.0.1.CR"
+  obsolete-snapshot:
     - "6.0.0--S"
     - "5.2.0--S"
     - "5.1.0--S"
@@ -340,7 +339,7 @@ label-types:
   - name: "obsolete-snapshot"
     # color: "yellowgreen"
     # color: "f329da"
-    color: "E77728"
+    color: "570000"
   - name: "obsolete-old"
     color: "red"
   - name: "obsolete-danger"
