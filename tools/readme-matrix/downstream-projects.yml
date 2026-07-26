@@ -1,7 +1,7 @@
 versions:
   # shields.io requires '-' to be escaped thru '--'
   snapshot:
-    - "7.0.0a3"
+    - "7.0.0b1"
     - "7.0.0--S"
   stable:
     - "6.0.0"
@@ -13,6 +13,18 @@ versions:
     - "5.1.0a"
     - "5.0.1.CR"
   obsolete-snapshot:
+    - "7.0.0a12"
+    - "7.0.0a11"
+    - "7.0.0a10"
+    - "7.0.0a9"
+    - "7.0.0a8"
+    - "7.0.0a7"
+    - "7.0.0a6"
+    - "7.0.0a5"
+    - "7.0.0a4"
+    - "7.0.0a3"
+    - "7.0.0a2"
+    - "7.0.0a1"
     - "6.0.0--S"
     - "5.2.0--S"
     - "5.1.0--S"
@@ -90,7 +102,7 @@ projects:
     activity_badge: "https://img.shields.io/github/last-commit/OSLC/promcode-lyo-server?label="
   - slug: "lyo-samples/client-oauth-discovery-dui"
     link: "https://github.com/OSLC/lyo-samples"
-    version: "7.0.0a3"
+    version: "7.0.0b1"
     ci_badge: "https://img.shields.io/github/actions/workflow/status/OSLC/lyo-samples/maven-oauth-dui.yml"
     pr_badge: "https://img.shields.io/github/issues-pr/OSLC/lyo-samples?label=PR"
     pr_link: "https://github.com/OSLC/lyo-samples/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc"
