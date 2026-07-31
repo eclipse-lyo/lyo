@@ -21,7 +21,7 @@
     <v.jersey>3.1.12</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>6.1.0</v.jena>
+    <v.jena>6.2.0</v.jena>
     <v.jackson>2.19.2</v.jackson>
     <!-- NOTE: ensure that the core version matches client's
     https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
