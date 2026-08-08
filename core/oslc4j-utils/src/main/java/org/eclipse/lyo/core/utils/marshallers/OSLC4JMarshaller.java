@@ -24,10 +24,10 @@ import java.io.OutputStream;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFWriterI;
 import org.apache.jena.util.FileUtils;
-import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 
+import jakarta.json.JsonObject;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 
@@ -72,8 +72,8 @@ public class OSLC4JMarshaller {
 				}
 			}
 			else if(mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)){
-				JSONObject jo = JsonHelper.createJSON(null, null, null, resources, null);
-				jo.write(os);
+				JsonObject jo = JsonHelper.createJSON(null, null, null, resources, null);
+				jakarta.json.Json.createWriter(os).write(jo);
 			}
 			else{
 				throw new RuntimeException("Unknown Media Type: "  + mediaType);

@@ -24,9 +24,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.wink.json4j.JSON;
-import org.apache.wink.json4j.JSONException;
-import org.apache.wink.json4j.JSONObject;
+import jakarta.json.Json;
+import jakarta.json.JsonException;
+
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONObject;
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
@@ -278,7 +279,7 @@ public class OAuthService {
     public Response provisionalKey() throws NullPointerException, IOException {
         try {
             // Create the consumer from the request.
-            JSONObject request = (JSONObject) JSON.parse(httpRequest.getInputStream());
+            JSONObject request = new JSONObject(Json.createReader(httpRequest.getInputStream()).readObject());
 
             String name = null;
             if (request.has("name") && request.get("name") != null) {
@@ -309,9 +310,9 @@ public class OAuthService {
             JSONObject response = new JSONObject();
             response.put("key", key);
 
-            return Response.ok(response.write())
+            return Response.ok(response.toString())
                     .header(OAuthServerConstants.HDR_CACHE_CONTROL, OAuthServerConstants.NO_CACHE).build();
-        } catch (JSONException e) {
+        } catch (JsonException e) {
             log.info("Encountered an exception while processing JSON: {}", e.getMessage());
             return Response.status(Status.BAD_REQUEST).build();
         } catch (ConsumerStoreException e) {
