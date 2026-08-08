@@ -3,12 +3,16 @@ package org.eclipse.lyo.trs.client.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Creation;
@@ -99,6 +103,12 @@ class ClientUtil {
             baseObj = (Base) basesArray[0];
         }
 
+        // Handle Jazz/LDP servers that use ldp:DirectContainer instead of ldp:Container
+        if (baseObj == null) {
+            log.debug("Base not found via ldp:Container type, trying ldp:DirectContainer");
+            baseObj = extractBaseFromDirectContainer(rdFModel);
+        }
+
         if (baseObj == null) {
             log.error("Base page object is null");
             //FIXME nulls
@@ -114,6 +124,71 @@ class ClientUtil {
         }
         log.debug("finished extracting base from rdf model");
         return baseObj;
+    }
+
+    /**
+     * Extract Base from RDF model when the server uses ldp:DirectContainer type
+     * (e.g., IBM Jazz) instead of the expected ldp:Container type.
+     */
+    private static Base extractBaseFromDirectContainer(Model rdFModel) throws LyoModelException {
+        final String LDP_DIRECT_CONTAINER = "http://www.w3.org/ns/ldp#DirectContainer";
+        final String TRS_CUTOFF_EVENT = "http://open-services.net/ns/core/trs#cutoffEvent";
+        final String RDFS_MEMBER = "http://www.w3.org/2000/01/rdf-schema#member";
+        final String LDP_MEMBER = "http://www.w3.org/ns/ldp#member";
+
+        ResIterator directContainers = rdFModel.listSubjectsWithProperty(
+            RDF.type,
+            rdFModel.getResource(LDP_DIRECT_CONTAINER)
+        );
+
+        if (!directContainers.hasNext()) {
+            return null;
+        }
+
+        Resource containerResource = directContainers.next();
+        log.debug("Found ldp:DirectContainer at {}", containerResource.getURI());
+
+        Base base = new Base();
+        try {
+            base.setAbout(new URI(containerResource.getURI()));
+        } catch (URISyntaxException e) {
+            throw new LyoModelException(e);
+        }
+
+        // Extract cutoffEvent
+        if (containerResource.hasProperty(rdFModel.getProperty(TRS_CUTOFF_EVENT))) {
+            Resource cutoffResource = containerResource.getPropertyResourceValue(
+                rdFModel.getProperty(TRS_CUTOFF_EVENT)
+            );
+            if (cutoffResource != null && cutoffResource.isURIResource()) {
+                try {
+                    base.setCutoffEvent(new URI(cutoffResource.getURI()));
+                } catch (URISyntaxException e) {
+                    throw new LyoModelException(e);
+                }
+            }
+        }
+
+        // Extract members (try both rdfs:member and ldp:member)
+        org.apache.jena.rdf.model.Property memberProp = rdFModel.getProperty(RDFS_MEMBER);
+        if (!containerResource.hasProperty(memberProp)) {
+            memberProp = rdFModel.getProperty(LDP_MEMBER);
+        }
+
+        var memberStmts = containerResource.listProperties(memberProp);
+        while (memberStmts.hasNext()) {
+            var stmt = memberStmts.next();
+            if (stmt.getObject().isURIResource()) {
+                try {
+                    base.getMembers().add(new URI(stmt.getObject().asResource().getURI()));
+                } catch (URISyntaxException e) {
+                    log.warn("Invalid member URI: {}", stmt.getObject());
+                }
+            }
+        }
+
+        log.debug("Extracted Base with {} members from DirectContainer", base.getMembers().size());
+        return base;
     }
 
     /**
@@ -150,6 +225,8 @@ class ClientUtil {
             throws TrsEndpointConfigException, TrsEndpointErrorException, LyoModelException {
         final Response.StatusType responseInfo = response.getStatusInfo();
         final Response.Status.Family httpCodeType = responseInfo.getFamily();
+        log.info("HTTP response status: {} {}", responseInfo.getStatusCode(), responseInfo.getReasonPhrase());
+        log.info("HTTP response headers: {}", response.getHeaders());
         if (httpCodeType.equals(Response.Status.Family.CLIENT_ERROR)) {
 //            TODO these are not TRS exceptions but OSLC Client exceptions
             throw new TrsEndpointConfigException("Error " + responseInfo.getReasonPhrase());
