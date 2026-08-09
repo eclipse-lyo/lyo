@@ -1,5 +1,19 @@
 # Eclipse Lyo changelog
 
+## [6.0.1-SNAPSHOT]
+
+### Security
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## [6.0.0]
 
 ### Security
