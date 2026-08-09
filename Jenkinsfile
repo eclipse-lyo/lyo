@@ -25,6 +25,9 @@ pipeline {
           not {
             branch pattern: 'dependabot/*', comparator: 'REGEXP'
           }
+          not {
+            branch pattern: 'maint-.*', comparator: 'REGEXP'
+          }
         }
       }
       environment {
