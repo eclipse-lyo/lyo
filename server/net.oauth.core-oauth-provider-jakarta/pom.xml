@@ -9,6 +9,7 @@
     </parent>
   <groupId>org.eclipse.lyo.server</groupId>
   <artifactId>net.oauth.core-oauth-provider-jakarta</artifactId>
+  <name>net.oauth.core :: oauth-provider (Jakarta transformed)</name>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>

@@ -9,6 +9,7 @@
     </parent>
   <groupId>org.eclipse.lyo.server</groupId>
   <artifactId>net.oauth.core-oauth-httpclient4-jakarta</artifactId>
+  <name>net.oauth.core :: oauth-httpclient4 (Jakarta transformed)</name>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
