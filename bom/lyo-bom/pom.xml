@@ -17,7 +17,7 @@
   <description>Lyo Bill of Materials</description>
 
   <properties>
-    <swagger.version>2.2.53</swagger.version>
+    <swagger.version>2.2.54</swagger.version>
   </properties>
 
   <dependencyManagement>
