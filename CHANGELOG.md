@@ -1,18 +1,30 @@
 # Eclipse Lyo changelog
 
-## [6.0.1-SNAPSHOT]
+## [6.0.1]
 
 ### Security
 
+- **CVE-2026-18918** A vulnerability was discovered in Eclipse Lyo 6.0.0 and earlier versions, where the AbstractAdapterCredentialsFilter could be misused to bypass authentication when used in 2-legged OAuth flows. This release fixes the issue.
+
 ### Added
+
+n/a
 
 ### Changed
 
+n/a
+
 ### Deprecated
+
+n/a
 
 ### Removed
 
+n/a
+
 ### Fixed
+
+n/a
 
 ## [6.0.0]
 
