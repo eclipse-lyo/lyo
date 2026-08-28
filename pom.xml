@@ -25,7 +25,7 @@
     <v.jackson>2.22.1</v.jackson>
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
-    <v.classgraph>4.8.186</v.classgraph>
+    <v.classgraph>4.8.194</v.classgraph>
     <!-- NOTE: ensure that the core version matches client's
     https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
