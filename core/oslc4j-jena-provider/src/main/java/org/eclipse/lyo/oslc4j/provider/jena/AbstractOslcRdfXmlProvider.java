@@ -307,23 +307,28 @@ public abstract class AbstractOslcRdfXmlProvider {
       // for an example:
       // https://docs.oasis-open-projects.org/oslc-op/cm/v3.0/errata01/os/change-mgt-spec.html#labels
 
-      // TODO: cleanup
-      byte[] data = inputStream.readAllBytes();
-
-      // Convert to String and print
-      String content = new String(data, "UTF-8");
-      System.out.println(content);
-
-      // Create a new InputStream for further consumption
-      InputStream clonedStream = new ByteArrayInputStream(data);
-      // -----------------------
-
       var jenaSafeType = mapMimeToSafeJena(mediaType);
       Lang jenaLang = RDFLanguages.contentTypeToLang(jenaSafeType);
       if (jenaLang == null) {
         jenaLang = Lang.RDFXML;
       }
-      RDFDataMgr.read(model, clonedStream, "", jenaLang);
+
+      // Only buffer the stream when trace logging is enabled, so we can log the
+      // payload without paying the cost of an extra copy in production.
+      final InputStream rdfInputStream;
+      if (log.isTraceEnabled()) {
+        byte[] data = inputStream.readAllBytes();
+        log.trace(
+            "readFrom payload ({}, {} bytes):\n{}",
+            jenaLang.getName(),
+            data.length,
+            new String(data, StandardCharsets.UTF_8));
+        rdfInputStream = new ByteArrayInputStream(data);
+      } else {
+        rdfInputStream = inputStream;
+      }
+
+      RDFDataMgr.read(model, rdfInputStream, "", jenaLang);
       //			reader.read(model, inputStream, "");
 
       return JenaModelHelper.unmarshal(model, type);
