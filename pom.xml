@@ -22,7 +22,7 @@
     <v.servlet>6.1.0</v.servlet>
 
     <v.jena>6.2.0</v.jena>
-    <v.jackson>2.22.1</v.jackson>
+    <v.jackson>2.22.2</v.jackson>
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
     <v.classgraph>4.8.194</v.classgraph>
