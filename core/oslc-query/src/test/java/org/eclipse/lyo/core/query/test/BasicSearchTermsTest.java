@@ -44,4 +44,10 @@ public class BasicSearchTermsTest
 	{
 		QueryUtils.parseSearchTerms("");
 	}
+
+	@Test(expected=ParseException.class)
+	public void testMalformedSearchTerms() throws ParseException
+	{
+		QueryUtils.parseSearchTerms("-oslc:priority,+dcterms:title");
+	}
 }

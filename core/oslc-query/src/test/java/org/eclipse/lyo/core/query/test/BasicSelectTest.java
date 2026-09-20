@@ -28,7 +28,7 @@ import org.junit.Test;
 public class BasicSelectTest
 {
 	static final String PREFIXES = "qm=<http://qm.example.com/ns>," +
-			"olsc=<http://open-services.net/ns/core#>";
+			"oslc=<http://open-services.net/ns/core#>";
 
 	@Test
 	public void testSelect() throws ParseException
@@ -66,5 +66,77 @@ public class BasicSelectTest
 		}
 
 		QueryUtils.parseSelect("XXX", prefixMap);
+	}
+
+	@Test(expected=ParseException.class)
+	public void testUnknownPrefix() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(
+				"qm=<http://qm.example.com/ns/>");
+
+		QueryUtils.parseSelect("unknown:property", prefixMap);
+	}
+
+	@Test(expected=ParseException.class)
+	public void testUnknownDefaultPrefix() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(
+				"qm=<http://qm.example.com/ns/>");
+
+		QueryUtils.parseSelect(":property", prefixMap);
+	}
+
+	@Test(expected=ParseException.class)
+	public void testMalformedSelect() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+
+		QueryUtils.parseSelect("*Open\",\"In Progress\",\"Done\"", prefixMap);
+	}
+
+	@Test
+	public void testDuplicatePropertiesDoNotThrow() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+
+		Map<String, Object> result = QueryUtils.invertSelectedProperties(
+				QueryUtils.parseSelect("qm:property,qm:property", prefixMap));
+
+		assertEquals(1, result.size());
+	}
+
+	@Test
+	public void testDuplicateNestedPropertiesAreMerged() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(
+				"qm=<http://qm.example.com/ns/>," +
+				"dcterms=<http://purl.org/dc/terms/>," +
+				"oslc=<http://open-services.net/ns/core#>");
+
+		Map<String, Object> result = QueryUtils.invertSelectedProperties(
+				QueryUtils.parseSelect(
+						"qm:property{dcterms:title},qm:property{oslc:shortTitle}",
+						prefixMap));
+
+		assertEquals(1, result.size());
+		@SuppressWarnings("unchecked")
+		Map<String, Object> nested = (Map<String, Object>)
+				result.get("http://qm.example.com/ns/property");
+		assertTrue(nested.containsKey("http://purl.org/dc/terms/title"));
+		assertTrue(nested.containsKey("http://open-services.net/ns/core#shortTitle"));
+	}
+
+	@Test
+	public void testNestedWildcardWithSiblingPropertyDoesNotThrow() throws ParseException
+	{
+		Map<String, String> prefixMap = QueryUtils.parsePrefixes(
+				"qm=<http://qm.example.com/ns/>," +
+				"dcterms=<http://purl.org/dc/terms/>");
+
+		Map<String, Object> result = QueryUtils.invertSelectedProperties(
+				QueryUtils.parseSelect("qm:property,*{dcterms:title}", prefixMap));
+
+		assertEquals(1, result.size());
+		assertTrue(result.containsKey("http://qm.example.com/ns/property"));
 	}
 }

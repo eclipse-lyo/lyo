@@ -1,0 +1,37 @@
+name: Scheduled query fuzzing
+
+on:
+  schedule:
+    - cron: '30 3 * * 6'
+  workflow_dispatch:
+    inputs:
+      duration:
+        description: Fuzzing duration, for example 10m or 1h
+        required: false
+        default: 10m
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+        with:
+          show-progress: false
+      - name: Set up JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: actions/cache@v5
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-scheduled-fuzz-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-scheduled-fuzz-maven-
+      - name: Run OSLC query fuzzing
+        run: ./scripts/fuzz-oslc-query.sh "${{ inputs.duration || '10m' }}"

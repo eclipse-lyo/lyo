@@ -14,6 +14,7 @@
 - Reified statements on extended properties are deserialized into a data structure that holds all reified statements.
 - OSLC RDF graphs may now be deserialized into raw Jena Models (`Model.class`) instead of Lyo POJOs for OSLC shapes.
 - `Store.rawUpdateQuery(String)` allows making raw SPARQL UPDATE queries.
+- Added Jazzer fuzzing coverage for the OSLC query parsers and regression coverage for configuration-management and OSLC query expressions.
 
 ### Changed
 
@@ -45,6 +46,7 @@
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
+- OSLC query parsing now rejects unresolved prefixes and duplicate prefix declarations, and preserves all selected nested properties when the selection is inverted.
 
 ## [6.0.0]
 

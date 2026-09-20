@@ -21,3 +21,15 @@ You are also welcome to contact the development team via [lyo-dev mailing list](
 
 - Use `ci:nolint` label to skip CodeQL checks on all commits in a PR.
 - Use `ci:full` label to prevent CI from termanating running jobs if you push a new commit to a PR.
+
+## Query fuzzing
+
+The OSLC query parsers have an opt-in Jazzer fuzz target. Run the default 90-second
+fuzzing smoke test with:
+
+```sh
+./scripts/fuzz-oslc-query.sh
+```
+
+Pass a duration such as `10m` or `1h` to run longer fuzzing sessions. The target
+also runs as a regression test during the normal Maven test lifecycle.
