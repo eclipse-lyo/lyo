@@ -126,6 +126,15 @@ public class OslcQuerySpecificationTest {
   }
 
   @Test
+  public void parseWhereSupportsPrefixedUriValues() throws Exception {
+    Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
+    WhereClause where = QueryUtils.parseWhere("dcterms:relatedTo=oslc:Resource", prefixMap);
+
+    UriRefValue uriValue = (UriRefValue) ((ComparisonTerm) where.children().get(0)).operand();
+    assertEquals("http://open-services.net/ns/core#Resource", uriValue.value());
+  }
+
+  @Test
   public void parseSelectBuildsNestedPropertiesAndWildcards() throws Exception {
     Map<String, String> prefixMap = QueryUtils.parsePrefixes(PREFIXES);
     SelectClause select =

@@ -117,12 +117,14 @@ class ComparisonTermInvocationHandler extends SimpleTermInvocationHandler
 	{
 		switch (treeOperand.getType()) {
 		case OslcWhereParser.IRI_REF:
+		case OslcWhereParser.PNAME_LN:
+		case OslcWhereParser.PNAME_NS:
 			return
 				(Value)Proxy.newProxyInstance(
 						UriRefValue.class.getClassLoader(), 
 						new Class<?>[] { UriRefValue.class },
 						new UriRefValueInvocationHandler(
-							   treeOperand));
+							   treeOperand, prefixMap));
 		case OslcWhereParser.BOOLEAN:
 			return
 				(Value)Proxy.newProxyInstance(

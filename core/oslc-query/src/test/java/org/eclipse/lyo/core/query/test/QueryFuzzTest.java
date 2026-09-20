@@ -79,6 +79,7 @@ public class QueryFuzzTest {
         "oslc=<http://open-services.net/ns/core#>,qm=<http://qm.example.com/ns/>",
         DUPLICATE_PREFIXES,
         TRAILING_PREFIX_INPUT,
+        "dcterms:relatedTo=dcterms:title",
         "rdf:type=<http://open-services.net/ns/config#VersionResource> and "
             + "dcterms:title in [\"Baseline A\",\"Baseline B\",\"Active stream\"]",
         "oslc:status=\"Open\" and qm:priority>=1",
@@ -142,7 +143,9 @@ public class QueryFuzzTest {
         }
         visitTerms(((CompoundTerm) term).children());
       } else {
-        assertResolved(term.property());
+        if (term.property() != null) {
+          assertResolved(term.property());
+        }
         if (term instanceof ComparisonTerm) {
           assertResolvedValue(((ComparisonTerm) term).operand());
         } else if (term instanceof InTerm) {
