@@ -23,6 +23,7 @@
     <module>net.oauth.core-oauth-consumer-jakarta</module>
     <module>net.oauth.core-oauth-provider-jakarta</module>
     <module>net.oauth.core-oauth-httpclient4-jakarta</module>
+    <module>lyo-server-common</module>
   </modules>
 
   <dependencyManagement>
