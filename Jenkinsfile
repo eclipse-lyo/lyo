@@ -49,7 +49,6 @@ pipeline {
     stage('Publish (OSSRH)') {
       when {
         anyOf {
-          branch 'master'
           branch 'main'
           branch 'maint-*'
         }
@@ -70,7 +69,6 @@ pipeline {
     stage('Publish (Javadocs)') {
       when {
         anyOf {
-          branch 'master'
           branch 'main'
           branch 'maint-*'
         }
@@ -96,7 +94,6 @@ pipeline {
 //     stage('Publish (Eclipse)') {
 //       when {
 //         anyOf {
-//           branch 'master'
 //           branch 'main'
 //           branch 'maint-*'
 //         }
@@ -127,7 +124,7 @@ pipeline {
     stage('Publish HEAD Javadocs') {
       when {
         triggeredBy 'SCMTrigger'
-        branch 'master'
+        branch 'main'
       }
       steps {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {

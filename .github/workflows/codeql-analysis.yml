@@ -2,18 +2,18 @@ name: "CodeQL"
 
 on:
   pull_request:
-    branches: [master, main]
+    branches: [main]
     paths:
       - '**.java'
       - '**/pom.xml'
       - 'pom.xml'
       - '.github/workflows/codeql-analysis.yml'
   push:
-    branches: [master, main]
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   analyze:
