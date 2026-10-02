@@ -94,7 +94,6 @@ pipeline {
 //     stage('Publish (Eclipse)') {
 //       when {
 //         anyOf {
-//           branch 'master'
 //           branch 'main'
 //           branch 'maint-*'
 //         }
