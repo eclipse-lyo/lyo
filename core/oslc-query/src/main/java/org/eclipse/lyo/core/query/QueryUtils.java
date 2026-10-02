@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
@@ -75,6 +76,7 @@ public class QueryUtils
 			CommonTree rawTree = parser.oslc_prefixes().getTree();
 
 			checkErrors(parser.getErrors());
+			checkEndOfInput(parser.getTokenStream());
 
             PrefixMap prefixMap =
 				new PrefixMap(rawTree.getChildCount());
@@ -91,6 +93,10 @@ public class QueryUtils
 				String uri = rawPrefix.getChild(1).getText();
 
 				uri = uri.substring(1, uri.length() - 1);
+
+				if (prefixMap.containsKey(pn)) {
+					throw new ParseException("Duplicate prefix: " + pn);
+				}
 
 				prefixMap.put(pn, uri);
 			}
@@ -130,6 +136,8 @@ public class QueryUtils
 			checkErrors(parser.getErrors());
 
             CommonTree rawTree = resultTree.getTree();
+			validatePrefixReferences(
+					rawTree, prefixMap, OslcWhereParser.PNAME_LN, OslcWhereParser.PNAME_NS);
 			Tree child = rawTree.getChild(0);
 
 			if (child.getType() == Token.INVALID_TOKEN_TYPE) {
@@ -175,6 +183,8 @@ public class QueryUtils
 			checkErrors(parser.getErrors());
 
             CommonTree rawTree = resultTree.getTree();
+			validatePrefixReferences(
+					rawTree, prefixMap, OslcSelectParser.PNAME_LN, OslcSelectParser.PNAME_NS);
 
 			if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
 				throw ((CommonErrorNode)rawTree).trappedException;
@@ -220,6 +230,8 @@ public class QueryUtils
 			checkErrors(parser.getErrors());
 
             CommonTree rawTree = resultTree.getTree();
+			validatePrefixReferences(
+					rawTree, prefixMap, OslcSelectParser.PNAME_LN, OslcSelectParser.PNAME_NS);
 
 			if (rawTree.getType() == Token.INVALID_TOKEN_TYPE) {
 				throw ((CommonErrorNode)rawTree).trappedException;
@@ -265,6 +277,8 @@ public class QueryUtils
 			checkErrors(parser.getErrors());
 
             CommonTree rawTree = resultTree.getTree();
+			validatePrefixReferences(
+					rawTree, prefixMap, OslcOrderByParser.PNAME_LN, OslcOrderByParser.PNAME_NS);
 			Tree child = rawTree.getChild(0);
 
 			if (child.getType() == Token.INVALID_TOKEN_TYPE) {
@@ -332,7 +346,7 @@ public class QueryUtils
 						result = new BothWildcardPropertiesImpl(
 								(NestedWildcardPropertiesImpl)result);
 					} else {
-						result = new SingletonWildcardPropertiesImpl();
+						result = new SingletonWildcardPropertiesImpl(result);
 					}
 
 					break;
@@ -354,7 +368,8 @@ public class QueryUtils
 
 					if (! (result instanceof NestedWildcardProperties)) {
 						if (result instanceof SingletonWildcardProperties) {
-							result = new BothWildcardPropertiesImpl();
+							result = new BothWildcardPropertiesImpl(
+									new NestedWildcardPropertiesImpl(result));
 						} else {
 							result = new NestedWildcardPropertiesImpl(result);
 						}
@@ -371,9 +386,16 @@ public class QueryUtils
 					break;
 				}
 
-				result.put(propertyName,
-						   invertSelectedProperties(
-								   (NestedProperty)property));
+				Map<String, Object> nestedProperties =
+					invertSelectedProperties((NestedProperty)property);
+				Object existingProperties = result.get(propertyName);
+
+				if (existingProperties == null) {
+					result.put(propertyName, nestedProperties);
+				} else if (existingProperties instanceof Map && nestedProperties instanceof Map) {
+					mergePropertyMaps(
+							(Map<String, Object>)existingProperties, nestedProperties);
+				}
 
 				break;
 			}
@@ -388,13 +410,14 @@ public class QueryUtils
 
 		for (Map.Entry<String, Object> propertyMapping : result.entrySet()) {
 
-			@SuppressWarnings("unchecked")
-			Map<String, Object> nestedProperties =
-				(Map<String, Object>)propertyMapping.getValue();
+			Object selectedProperties = propertyMapping.getValue();
 
-			if (nestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
-				result.put(propertyMapping.getKey(), commonNestedProperties);
-			} else {
+			if (selectedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+				propertyMapping.setValue(commonNestedProperties);
+			} else if (selectedProperties instanceof Map) {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> nestedProperties =
+						(Map<String, Object>)selectedProperties;
 				mergePropertyMaps(nestedProperties, commonNestedProperties);
 			}
 		}
@@ -539,9 +562,15 @@ public class QueryUtils
 		implements SingletonWildcardProperties
 	{
 		public
+		SingletonWildcardPropertiesImpl(Map<String, Object> accumulated)
+		{
+			super(accumulated);
+		}
+
+		public
 		SingletonWildcardPropertiesImpl()
 		{
-			super(0);
+			this(new HashMap<>());
 		}
 
 		private static final long serialVersionUID = -5490896670186283412L;
@@ -615,29 +644,71 @@ public class QueryUtils
 	)
 	{
 
-        for (String propertyName : rhs.keySet()) {
+		for (Map.Entry<String, Object> property : rhs.entrySet()) {
 
-            @SuppressWarnings("unchecked")
-            Map<String, Object> lhsNestedProperties =
-                (Map<String, Object>) lhs.get(propertyName);
-            @SuppressWarnings("unchecked")
-            Map<String, Object> rhsNestedProperties =
-                (Map<String, Object>) rhs.get(propertyName);
+			String propertyName = property.getKey();
+			Object rhsProperties = property.getValue();
 
-            if (lhsNestedProperties == rhsNestedProperties) {
-                continue;
-            }
+			if (!lhs.containsKey(propertyName)) {
+				lhs.put(propertyName, rhsProperties);
+				continue;
+			}
 
-            if (lhsNestedProperties == null ||
-                lhsNestedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+			Object lhsProperties = lhs.get(propertyName);
 
-                lhs.put(propertyName, rhsNestedProperties);
+			if (lhsProperties == rhsProperties ||
+					lhsProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+				continue;
+			}
 
-                continue;
-            }
+			if (rhsProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+				lhs.put(propertyName, rhsProperties);
+				continue;
+			}
 
-            mergePropertyMaps(lhsNestedProperties, rhsNestedProperties);
-        }
+			if (lhsProperties instanceof Map && rhsProperties instanceof Map) {
+				@SuppressWarnings("unchecked")
+				Map<String, Object> lhsNestedProperties =
+						(Map<String, Object>)lhsProperties;
+				@SuppressWarnings("unchecked")
+				Map<String, Object> rhsNestedProperties =
+						(Map<String, Object>)rhsProperties;
+				mergePropertyMaps(lhsNestedProperties, rhsNestedProperties);
+			}
+		}
+	}
+
+	/**
+	 * Reject prefixed names that cannot be resolved by the supplied prefix map
+	 * before exposing lazy proxy-backed query objects.
+	 */
+	private static void
+	validatePrefixReferences(
+		Tree tree,
+		Map<String, String> prefixMap,
+		int prefixedNameToken,
+		int prefixedNamespaceToken
+	) throws ParseException
+	{
+		if (tree == null) {
+			return;
+		}
+
+		if (tree.getType() == prefixedNameToken ||
+				tree.getType() == prefixedNamespaceToken) {
+			String rawName = tree.getText();
+			int colon = rawName == null ? -1 : rawName.indexOf(':');
+
+			if (colon >= 0 && (prefixMap == null ||
+					!prefixMap.containsKey(rawName.substring(0, colon)))) {
+				throw new ParseException("Unknown prefix: " + rawName.substring(0, colon));
+			}
+		}
+
+		for (int index = 0; index < tree.getChildCount(); index++) {
+			validatePrefixReferences(
+					tree.getChild(index), prefixMap, prefixedNameToken, prefixedNamespaceToken);
+		}
 	}
 
 	/**
@@ -670,5 +741,17 @@ public class QueryUtils
 		}
 
 		throw new ParseException(buffer.toString());
+	}
+
+	/**
+	 * Reject input that the grammar did not consume instead of silently parsing
+	 * only its leading clause.
+	 */
+	private static void
+	checkEndOfInput(TokenStream tokenStream) throws ParseException
+	{
+		if (tokenStream.LA(1) != Token.EOF) {
+			throw new ParseException("Unexpected trailing input");
+		}
 	}
 }

@@ -6,6 +6,8 @@
 
 # Build systems & IDEs
 target/
+.cifuzz-corpus/
+core/oslc-query/crash-*
 overlays/
 pom.xml.versionsBackup
 dependency-reduced-pom.xml

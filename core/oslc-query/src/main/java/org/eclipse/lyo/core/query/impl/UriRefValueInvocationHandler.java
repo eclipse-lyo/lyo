@@ -15,8 +15,10 @@
 package org.eclipse.lyo.core.query.impl;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.antlr.runtime.tree.Tree;
+import org.eclipse.lyo.core.query.OslcWhereParser;
 import org.eclipse.lyo.core.query.UriRefValue;
 import org.eclipse.lyo.core.query.Value.Type;
 
@@ -28,7 +30,14 @@ class UriRefValueInvocationHandler extends ValueInvocationHandler
 	public
 	UriRefValueInvocationHandler(Tree tree)
 	{
+		this(tree, null);
+	}
+
+	public
+	UriRefValueInvocationHandler(Tree tree, Map<String, String> prefixMap)
+	{
 		super(tree, Type.URI_REF);
+		this.prefixMap = prefixMap;
 	}
 
 	/**
@@ -53,9 +62,19 @@ class UriRefValueInvocationHandler extends ValueInvocationHandler
 		if (value == null) {
 			
 			String rawValue = tree.getText();
-			
-			// XXX - determine if need to unescape
-			value = rawValue.substring(1, rawValue.length() - 1);
+
+			if (tree.getType() == OslcWhereParser.IRI_REF) {
+				// XXX - determine if need to unescape
+				value = rawValue.substring(1, rawValue.length() - 1);
+			} else {
+				int colon = rawValue.indexOf(':');
+				String prefix = rawValue.substring(0, colon);
+				String namespace = prefixMap == null ? null : prefixMap.get(prefix);
+				if (namespace == null) {
+					throw new IllegalStateException("Unresolved prefix: " + prefix);
+				}
+				value = namespace + rawValue.substring(colon + 1);
+			}
 		}
 		
 		if (isValue) {
@@ -66,4 +85,5 @@ class UriRefValueInvocationHandler extends ValueInvocationHandler
 	}
 	
 	private String value = null;
+	private final Map<String, String> prefixMap;
 }

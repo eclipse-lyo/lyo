@@ -26,7 +26,7 @@ public class BasicPrefixesTest
 	public void testPrefixes() throws ParseException
 	{
 		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>," +
-				"olsc=<http://open-services.net/ns/core#>," +
+				"oslc=<http://open-services.net/ns/core#>," +
 				"xs=<http://www.w3.org/2001/XMLSchema>");
 	}
 	
@@ -34,5 +34,20 @@ public class BasicPrefixesTest
 	public void testBadPrefixes() throws ParseException
 	{
 		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>,XXX>");
+	}
+
+	@Test(expected=ParseException.class)
+	public void testDuplicatePrefixes() throws ParseException
+	{
+		QueryUtils.parsePrefixes("qm=<http://qm.example.com/ns>," +
+				"qm=<http://qm.example.com/other/>");
+	}
+
+	@Test(expected=ParseException.class)
+	public void testTrailingPrefixInput() throws ParseException
+	{
+		QueryUtils.parsePrefixes(
+				"qm=<http://qmm.example.com/ns/q,>m=<.example.com/ns/q,>m=" +
+				"<http://qm.example.com/other/>");
 	}
 }

@@ -35,7 +35,7 @@ import org.junit.Test;
 public class BasicWhereTest {
   static final String PREFIXES =
       "qm=<http://qm.example.com/ns#>,"
-          + "olsc=<http://open-services.net/ns/core#>,"
+          + "oslc=<http://open-services.net/ns/core#>,"
           + "xs=<http://www.w3.org/2001/XMLSchema>";
 
   @Test
