@@ -385,7 +385,9 @@ public final class JenaModelHelper {
     }
     ResourcePackages.mapPackage(beanClass.getPackage());
     Optional<Class<?>> mostConcreteResourceClass = ResourcePackages.getClassOf(resource, beanClass);
-    if (mostConcreteResourceClass.isPresent()) {
+    if (mostConcreteResourceClass.isPresent()
+        && (beanClass.isAssignableFrom(mostConcreteResourceClass.get())
+            || !hasRequestedRdfType(resource, beanClass))) {
       beanClass = mostConcreteResourceClass.get();
     }
     final Object newInstance = beanClass.getDeclaredConstructor().newInstance();
@@ -642,7 +644,10 @@ public final class JenaModelHelper {
         if (mostConcreteResourceClass.isPresent()) {
           beanClass = mostConcreteResourceClass.get();
           if (!originalBeanClass.isAssignableFrom(beanClass)) {
-            continue;
+            // A secondary RDF parent cannot be Java's second superclass. Materialize
+            // the requested parent bean and preserve subtype data as extended properties.
+            if (!hasRequestedRdfType(resource, originalBeanClass)) continue;
+            beanClass = originalBeanClass;
           }
         }
         final Object newInstance = beanClass.getDeclaredConstructor().newInstance();
@@ -663,6 +668,11 @@ public final class JenaModelHelper {
     }
 
     return results;
+  }
+
+  private static boolean hasRequestedRdfType(Resource resource, Class<?> requestedType) {
+    String qualifiedName = TypeFactory.getQualifiedName(requestedType);
+    return qualifiedName != null && resource.hasProperty(RDF.type, resource.getModel().createResource(qualifiedName));
   }
 
   @SuppressWarnings("unchecked")
