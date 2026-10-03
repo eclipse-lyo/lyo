@@ -380,6 +380,9 @@ public final class JenaModelHelper {
           URISyntaxException,
           SecurityException,
           NoSuchMethodException {
+    if (beanClass.isRecord()) {
+      return RecordReader.read(resource, beanClass);
+    }
     ResourcePackages.mapPackage(beanClass.getPackage());
     Optional<Class<?>> mostConcreteResourceClass = ResourcePackages.getClassOf(resource, beanClass);
     if (mostConcreteResourceClass.isPresent()) {
@@ -459,6 +462,11 @@ public final class JenaModelHelper {
 
     if (Model.class.isAssignableFrom(beanClass)) {
       return new Model[] {model};
+    } else if (beanClass.isRecord()) {
+      String typeUri = TypeFactory.getQualifiedName(beanClass);
+      for (Resource subject : model.listSubjectsWithProperty(RDF.type, model.createResource(typeUri)).toList()) {
+        results.add(RecordReader.read(subject, beanClass));
+      }
     } else if (beanClass.getAnnotation(OslcResourceShape.class) != null) {
       List<Resource> resourceList = buildResourceList(model, beanClass);
       createObjectResultList(beanClass, results, resourceList, reificationCache);
