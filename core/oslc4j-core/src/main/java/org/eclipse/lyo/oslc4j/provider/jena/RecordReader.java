@@ -20,10 +20,18 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcAbout;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcPropertyDefinition;
+import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.model.Link;
+import org.eclipse.lyo.oslc4j.core.model.TypeFactory;
 import org.eclipse.lyo.oslc4j.core.exception.LyoModelException;
 
-/** Canonical-constructor reader. This prototype deliberately does not use mutable bean setters. */
+/**
+ * Canonical-constructor reader. Component predicates default to the record's
+ * namespace plus their Java name; {@link OslcName} overrides the local name and
+ * {@link OslcPropertyDefinition} overrides the complete predicate URI.
+ * {@link OslcAbout} identifies the subject rather than an RDF predicate.
+ * This prototype deliberately does not use mutable bean setters.
+ */
 final class RecordReader {
   private RecordReader() {}
 
@@ -43,10 +51,12 @@ final class RecordReader {
         continue;
       }
       OslcPropertyDefinition definition = component.getAccessor().getAnnotation(OslcPropertyDefinition.class);
-      if (definition == null) {
-        throw new IllegalArgumentException("Record component lacks @OslcPropertyDefinition: " + component.getName());
-      }
-      List<RDFNode> nodes = subject.listProperties(subject.getModel().createProperty(definition.value()))
+      // Explicit predicates allow components from another vocabulary. Otherwise
+      // use the record's namespace and the component's name (or explicit alias).
+      OslcName name = component.getAccessor().getAnnotation(OslcName.class);
+      String predicate = definition != null ? definition.value()
+          : TypeFactory.getNamespace(type) + (name != null ? name.value() : component.getName());
+      List<RDFNode> nodes = subject.listProperties(subject.getModel().createProperty(predicate))
           .mapWith(statement -> statement.getObject()).toList();
       arguments[i] = value(nodes, component.getGenericType(), component.getName());
     }

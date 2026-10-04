@@ -16,6 +16,42 @@ import org.junit.jupiter.api.Test;
 class RecordModelHelperTest {
   private static final String NS = "urn:record-test:";
 
+  @OslcNamespace(NS)
+  public record Inferred(
+      @OslcAbout URI about, String name, List<Link> links,
+      @OslcName("label") String displayName,
+      @OslcPropertyDefinition("urn:other:title") String title) {}
+
+  @OslcName("Renamed") @OslcNamespace(NS)
+  public record ExplicitType(String name) {}
+
+  @Test void recordNamesAndPredicatesDefaultToTheirJavaNames() throws Exception {
+    Model model = ModelFactory.createDefaultModel().read(new StringReader("""
+        <urn:item> a <urn:record-test:Inferred> ;
+          <urn:record-test:name> "item" ;
+          <urn:record-test:links> <urn:linked> ;
+          <urn:record-test:label> "Label" ;
+          <urn:other:title> "Explicit" ;
+          <urn:record-test:title> "Must not override" .
+        <urn:other> a <urn:record-test:Other> .
+        """), null, "TURTLE");
+    Inferred result = JenaModelHelper.unmarshalSingle(model, Inferred.class);
+    assertEquals(URI.create("urn:item"), result.about());
+    assertEquals("item", result.name());
+    assertEquals(URI.create("urn:linked"), result.links().getFirst().getValue());
+    assertEquals("Label", result.displayName());
+    assertEquals("Explicit", result.title());
+    assertEquals(result, JenaModelHelper.unmarshal(model.getResource("urn:item"), Inferred.class));
+  }
+
+  @Test void explicitTypeNameOverridesTheRecordName() throws Exception {
+    Model model = ModelFactory.createDefaultModel().read(new StringReader("""
+        <urn:item> a <urn:record-test:Renamed> ; <urn:record-test:name> "selected" .
+        <urn:other> a <urn:record-test:ExplicitType> ; <urn:record-test:name> "wrong" .
+        """), null, "TURTLE");
+    assertEquals("selected", JenaModelHelper.unmarshalSingle(model, ExplicitType.class).name());
+  }
+
   @OslcName("Element") @OslcNamespace(NS)
   public record Element(
       @OslcAbout URI about,
