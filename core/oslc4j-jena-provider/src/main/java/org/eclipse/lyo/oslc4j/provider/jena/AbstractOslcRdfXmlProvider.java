@@ -160,10 +160,16 @@ public abstract class AbstractOslcRdfXmlProvider {
     }
   }
 
+  @SuppressWarnings("deprecation")
   private RDFWriterI getRdfWriter(final String serializationLanguage, final Model model) {
     RDFWriterI writer;
     if (serializationLanguage.equals(FileUtils.langXMLAbbrev)) {
       writer = new RdfXmlAbbreviatedWriter();
+    } else if (serializationLanguage.equals(FileUtils.langXML)) {
+      // model.getWriter(FileUtils.langXML) is unreliable on Jena 6+ (returns abbreviated
+      // output); RDFXML_Basic is deprecated but is still what Jena's own non-deprecated
+      // RDFXML_PLAIN path constructs internally, so this is behaviorally identical.
+      writer = new org.apache.jena.rdfxml.xmloutput.impl.RDFXML_Basic();
     } else {
       writer = model.getWriter(serializationLanguage);
     }
