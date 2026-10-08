@@ -45,6 +45,7 @@
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
+- `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
 
 ## [6.0.0]
 

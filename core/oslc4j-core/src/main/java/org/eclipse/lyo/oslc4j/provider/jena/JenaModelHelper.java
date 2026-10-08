@@ -488,16 +488,16 @@ public final class JenaModelHelper {
   /**
    * Builds a list of resources from the model based on the bean class and parsing configuration.
    * <p>
-   * This method always first attempts to find resources whose {@code rdf:type} matches the qualified name 
-   * derived from the bean class's OSLC annotations. The fallback behavior depends on the 
+   * This method always first attempts to find resources whose {@code rdf:type} matches the qualified name
+   * derived from the bean class's OSLC annotations. The fallback behavior depends on the
    * {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
    * (see {@link OSLC4JUtils#useBeanClassForParsing()}):
    * <ul>
    * <li>If resources are found matching the type: returns those resources.</li>
-   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code false} (default, 
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code false} (default,
    * for backward compatibility with bug <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=412755">412755</a>):
    * returns an empty list.</li>
-   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code true}: 
+   * <li>If no resources match the type and {@code useBeanClassForParsing} is {@code true}:
    * falls back to returning all unmarshalable resources that have an {@code rdf:type} property and properties as subjects.
    * This includes all resources with data, regardless of whether they reference or are referenced by other resources in the graph.</li>
    * </ul>
@@ -505,7 +505,7 @@ public final class JenaModelHelper {
    * Note: In RDF, there is no inherent concept of "top-level" vs "inline" resources. All URI resources with properties
    * are potentially meaningful and may need to be unmarshaled, including resources involved in bidirectional relationships
    * or circular references (common in OSLC scenarios like Requirement ↔ ChangeRequest).
-   * 
+   *
    * @param model the Jena model to extract resources from
    * @param beanClass the bean class to determine resource selection strategy
    * @return a list of resources matching the criteria (may be empty if no matches found and fallback is disabled)
@@ -515,7 +515,7 @@ public final class JenaModelHelper {
       ResIterator listSubjects = model.listSubjectsWithProperty(RDF.type, model.getResource(qualifiedName));
       try {
         List<Resource> resourceList = listSubjects.toList();
-        
+
         // Fix for defect 412755
         // If no resources match the type, and useBeanClassForParsing, then fall back to all unmarshalable resources
         if (resourceList.isEmpty() && OSLC4JUtils.useBeanClassForParsing()) {
@@ -532,8 +532,11 @@ public final class JenaModelHelper {
    * <p>
    * Returns only URI resources that have an {@code rdf:type} property and have their own
    * properties (i.e., are actual resources with data, not just URI references).
-   * Blank nodes (including reification nodes) are excluded by filtering to only URI resources.
-   * 
+   * Reification nodes (anything typed {@code rdf:Statement}) are excluded, whether they are
+   * blank nodes (e.g. {@code rdf:nodeID}) or named URIs (e.g. {@code rdf:ID} striping that
+   * resolves to a document-local fragment) - both forms are metadata about a property
+   * (an OSLC "label for relationships"), not an independent top-level resource.
+   *
    * @param model the Jena model to extract resources from
    * @return a list of URI resources that can be unmarshaled
    */
@@ -542,6 +545,7 @@ public final class JenaModelHelper {
     try {
       return resIterator.toList().stream()
           .filter(Resource::isURIResource)
+          .filter(r -> !r.hasProperty(RDF.type, RDF.Statement))
           .filter(r -> hasResourceProperties(model, r))
           .toList();
     } finally {
@@ -553,7 +557,7 @@ public final class JenaModelHelper {
    * Checks if a resource has properties and should be included in the unmarshaling process.
    * <p>
    * A resource is included if it has properties as a subject beyond just {@code rdf:type}
-   * (i.e., it's a real resource with data, not just a type declaration). This includes 
+   * (i.e., it's a real resource with data, not just a type declaration). This includes
    * resources regardless of whether they are referenced by other resources in the graph.
    * <p>
    * This approach:
@@ -563,7 +567,7 @@ public final class JenaModelHelper {
    *   <li>Excludes resources with only rdf:type (type-only declarations)</li>
    *   <li>Excludes bare URI references without properties</li>
    * </ul>
-   * 
+   *
    * @param model the Jena model
    * @param resource the resource to check
    * @return true if the resource has properties beyond rdf:type and should be unmarshaled
