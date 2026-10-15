@@ -15,7 +15,7 @@
     <maven.compiler.release>21</maven.compiler.release>
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.3.21</v.kotlin>
+    <v.kotlin>2.4.21</v.kotlin>
     <v.dokka>2.2.0</v.dokka>
 
     <v.jersey>3.1.12</v.jersey>
@@ -25,12 +25,12 @@
     <v.jackson>2.22.1</v.jackson>
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
-    <v.classgraph>4.8.194</v.classgraph>
+    <v.classgraph>4.8.198</v.classgraph>
     <!-- NOTE: ensure that the core version matches client's
     https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
     <v.httpcore>4.4.16</v.httpcore>
-    <v.slf4j>2.0.19</v.slf4j>
+    <v.slf4j>2.0.20</v.slf4j>
   </properties>
 
 
@@ -182,7 +182,7 @@
           <plugin>
             <groupId>com.diffplug.spotless</groupId>
             <artifactId>spotless-maven-plugin</artifactId>
-            <version>3.10.2</version>
+            <version>3.10.4</version>
             <executions>
               <execution>
                 <id>auto-style</id>
@@ -411,14 +411,14 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.20.0</version>
+        <version>3.21.0</version>
       </dependency>
 
       <!--Test-->
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.23.0</version>
+        <version>5.24.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -446,7 +446,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.22.1</version>
+        <version>1.23.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -495,7 +495,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.15.0</version>
+          <version>3.16.0</version>
           <configuration>
             <compilerArgument>
               -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
@@ -649,12 +649,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.4</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.4</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -664,7 +664,7 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.10.4.1</version>
+          <version>4.10.5.0</version>
           <configuration>
             <effort>Max</effort>
             <threshold>High</threshold>
@@ -697,7 +697,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.21.0</version>
+        <version>2.23.0</version>
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
@@ -754,7 +754,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>3.10.2</version>
+        <version>3.10.4</version>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
           <ratchetFrom>origin/master</ratchetFrom>

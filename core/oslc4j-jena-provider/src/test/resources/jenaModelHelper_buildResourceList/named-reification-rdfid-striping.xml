@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xml:base="http://example.com/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:ex="http://example.com/ns#">
+  <!-- rdf:ID striping reifies this exact triple, implicitly creating a *named* (non-blank)
+       rdf:Statement node at the resolved URI http://example.com/#namedReif. -->
+  <rdf:Description rdf:about="http://example.com/resource1">
+    <rdf:type rdf:resource="http://example.com/ns#DifferentType"/>
+    <ex:aproperty rdf:ID="namedReif">Real resource</ex:aproperty>
+  </rdf:Description>
+  <!-- Gives the implicit reification node above an additional property, e.g. an OSLC
+       "label for relationships" title - merged by URI identity with the striped node. -->
+  <rdf:Description rdf:about="#namedReif">
+    <ex:reificationLabel>Named reification label</ex:reificationLabel>
+  </rdf:Description>
+</rdf:RDF>
