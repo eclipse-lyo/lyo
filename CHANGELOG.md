@@ -17,6 +17,11 @@
 
 ### Changed
 
+- 🧨 TRS Client reset callback `IProviderEventHandler.rebase()` is now `rebuild()`.
+  `ServerRollBackException` is now `RebuildRequiredException`: a missing sync event can
+  result from log truncation as well as rollback. Server rebases do not require fetching
+  the base again while the last processed event remains in the change log.
+
 - 🧨 Migrated to Jena 6. JDK 21 is the baseline requirement. JSON-LD 1.1 is used instead of JSON-LD 1.0.
 - Lyo Validation now uses Jena's native support for SHACL instead of relying on ShaclEx
 - InputStream is now the preferred interface for initializing OslcQueryResult
