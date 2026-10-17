@@ -23,7 +23,7 @@ import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.Deletion;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
-import org.eclipse.lyo.trs.client.exceptions.ServerRollBackException;
+import org.eclipse.lyo.trs.client.exceptions.RebuildRequiredException;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 import org.eclipse.lyo.trs.client.util.ITrackedResourceClient;
@@ -79,15 +79,15 @@ public class TrsProviderHandler implements IProviderHandler {
             pollAndProcessChanges();
         } catch (Exception e) {
             // FIXME Andrew@2019-07-15: can get stuck in the loop
-            log.warn("Force rebase");
-            log.debug("Force rebase exception", e);
+            log.warn("Force rebuild");
+            log.debug("Force rebuild exception", e);
             lastProcessedChangeEventUri = null;
             try {
-                handler.rebase();
-            } catch (Exception rebaseException) {
-                log.error("Error during rebase", rebaseException);
-                rebaseException.addSuppressed(e);
-                throw new RuntimeException("Failed to update TRS", rebaseException);
+                handler.rebuild();
+            } catch (Exception rebuildException) {
+                log.error("Error during rebuild", rebuildException);
+                rebuildException.addSuppressed(e);
+                throw new RuntimeException("Failed to update TRS", rebuildException);
             }
         }
     }
@@ -245,10 +245,9 @@ public class TrsProviderHandler implements IProviderHandler {
         foundSyncEvent = fetchRemoteChangeLogs(firstChangeLog, changeLogs);
         if (!foundSyncEvent) {
             lastProcessedChangeEventUri = null;
-            throw new ServerRollBackException(
-                    "The sync event can not be found. The sever provinding the trs at: " +
-                            trsUriBase + " seems to " + "have been rollecd back to a previous " +
-                            "state");
+            throw new RebuildRequiredException(
+                    "The last processed change event is no longer in the change log for "
+                            + trsUriBase + "; the client synchronization must be rebuilt");
         }
         return changeLogs;
     }
