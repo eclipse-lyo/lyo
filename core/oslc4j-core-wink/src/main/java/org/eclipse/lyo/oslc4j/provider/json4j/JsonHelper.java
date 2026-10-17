@@ -763,7 +763,7 @@ public final class JsonHelper
 				   JSONException,
 				   OslcCoreApplicationException
 	{
-		if (properties == OSLC4JConstants.LYO_PROPERTY_SINGLETON)
+		if (properties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON)
 		{
 			return;
 		}
@@ -802,7 +802,7 @@ public final class JsonHelper
 								else if (properties instanceof SingletonWildcardProperties &&
 										 ! (properties instanceof NestedWildcardProperties))
 								{
-									nestedProperties = OSLC4JConstants.LYO_PROPERTY_SINGLETON;
+									nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
 								}
 								else if (properties instanceof NestedWildcardProperties)
 								{
@@ -915,7 +915,7 @@ public final class JsonHelper
 				else if (properties instanceof SingletonWildcardProperties &&
 						 ! (properties instanceof NestedWildcardProperties))
 				{
-					nestedProperties = OSLC4JConstants.LYO_PROPERTY_SINGLETON;
+					nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
 				}
 				else if (properties instanceof NestedWildcardProperties)
 				{

@@ -19,7 +19,7 @@ package org.eclipse.lyo.oslc4j.core;
  * preserve the value when updating the resource with PUT. Strict
  * datatypes must be disabled.
  *
- * @see OSLC4JConstants#LYO_STRICT_DATATYPES
+ * @see "AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES"
  */
 
 public class UnparseableLiteral

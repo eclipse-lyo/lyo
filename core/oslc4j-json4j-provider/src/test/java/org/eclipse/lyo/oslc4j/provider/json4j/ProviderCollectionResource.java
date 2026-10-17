@@ -96,7 +96,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new TestResource[resources.size()]);
     }
@@ -150,7 +150,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
         return Response.ok(resources.toArray(new TestResource[resources.size()]))
@@ -206,7 +206,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources;
     }
@@ -260,7 +260,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
         return Response.ok(new GenericEntity<Collection<TestResource>>(resources){})
@@ -316,7 +316,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
         return Response.ok(new GenericEntity<Collection<TestResourceNonQ>>(resources){})
@@ -365,7 +365,7 @@ public class ProviderCollectionResource {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             // TODO decide if add to test matrix
-//            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+//            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
         return Response.ok(new GenericEntity<Collection<TestResourceNonQ>>(resources){})
@@ -416,7 +416,7 @@ public class ProviderCollectionResource {
             || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
             resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
-//            httpServletRequest.setAttribute(OSLC4JConstants.LYO_NEXT_PAGE, uriBuilder.build().toString());
+//            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
 
         return Response.ok(resources.toArray(new TestResource[resources.size()]))

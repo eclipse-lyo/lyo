@@ -153,7 +153,7 @@ public final class JenaModelHelper {
    * skip over invalid values in extended properties.
    */
   @Deprecated
-  public static final String OSLC4J_STRICT_DATATYPES = OSLC4JConstants.LYO_STRICT_DATATYPES;
+  public static final String OSLC4J_STRICT_DATATYPES = "org.eclipse.lyo.oslc4j.strictDatatypes";
 
   private static final Logger logger = LoggerFactory.getLogger(JenaModelHelper.class);
 
@@ -490,7 +490,7 @@ public final class JenaModelHelper {
    * <p>
    * This method always first attempts to find resources whose {@code rdf:type} matches the qualified name
    * derived from the bean class's OSLC annotations. The fallback behavior depends on the
-   * {@value OSLC4JConstants#LYO_USE_BEAN_CLASS_FOR_PARSING} system property
+   * {@value OSLC4JConstants#OSLC4J_USE_BEAN_CLASS_FOR_PARSING} system property
    * (see {@link OSLC4JUtils#useBeanClassForParsing()}):
    * <ul>
    * <li>If resources are found matching the type: returns those resources.</li>
@@ -1199,7 +1199,7 @@ public final class JenaModelHelper {
         String rawValue = literal.getString();
         String datatype = literal.getDatatypeURI();
 
-        if ("false".equals(System.getProperty(OSLC4JConstants.LYO_STRICT_DATATYPES))) {
+        if ("false".equals(System.getProperty(OSLC4J_STRICT_DATATYPES))) {
           String propUri = propertyQName.getNamespaceURI() + propertyQName.getLocalPart();
           logger.warn(
               "Property {} could not be parsed as datatype {}", propUri, literal.getDatatype());
@@ -1426,7 +1426,7 @@ public final class JenaModelHelper {
           IllegalArgumentException,
           InvocationTargetException,
           OslcCoreApplicationException {
-    if (properties == OSLC4JConstants.LYO_PROPERTY_SINGLETON) {
+    if (properties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
       return;
     }
 
@@ -1457,7 +1457,7 @@ public final class JenaModelHelper {
                   nestedProperties = map;
                 } else if (properties instanceof SingletonWildcardProperties
                     && !(properties instanceof NestedWildcardProperties)) {
-                  nestedProperties = OSLC4JConstants.LYO_PROPERTY_SINGLETON;
+                  nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
                 } else if (properties instanceof NestedWildcardProperties) {
                   nestedProperties =
                       ((NestedWildcardProperties) properties).commonNestedProperties();
@@ -1537,7 +1537,7 @@ public final class JenaModelHelper {
           nestedProperties = map;
         } else if (properties instanceof SingletonWildcardProperties
             && !(properties instanceof NestedWildcardProperties)) {
-          nestedProperties = OSLC4JConstants.LYO_PROPERTY_SINGLETON;
+          nestedProperties = OSLC4JConstants.OSL4J_PROPERTY_SINGLETON;
         } else if (properties instanceof NestedWildcardProperties) {
           nestedProperties = ((NestedWildcardProperties) properties).commonNestedProperties();
           onlyNested = !(properties instanceof SingletonWildcardProperties);
@@ -2097,7 +2097,7 @@ public final class JenaModelHelper {
         Statement statement = model.createStatement(resource, attribute, nestedNode);
 
         if (reifiedResource != null
-            && nestedProperties != OSLC4JConstants.LYO_PROPERTY_SINGLETON) {
+            && nestedProperties != OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
           addReifiedStatements(model, statement, reifiedResource, nestedProperties);
         }
 

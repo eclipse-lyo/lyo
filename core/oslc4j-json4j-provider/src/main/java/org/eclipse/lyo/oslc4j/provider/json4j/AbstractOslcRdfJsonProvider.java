@@ -114,13 +114,13 @@ public abstract class AbstractOslcRdfJsonProvider
 		@SuppressWarnings("unchecked")
 		final Map<String, Object> properties = isClientSide ?
 			null :
-			(Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.LYO_SELECTED_PROPERTIES);
+			(Map<String, Object>)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
 		final String nextPageURI = isClientSide ?
 				null :
-				(String)httpServletRequest.getAttribute(OSLC4JConstants.LYO_NEXT_PAGE);
+				(String)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
 		final Integer totalCount = isClientSide ?
 				null :
-				(Integer)httpServletRequest.getAttribute(OSLC4JConstants.LYO_TOTAL_COUNT);
+				(Integer)httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
 
 		ResponseInfo<?> responseInfo = new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
 

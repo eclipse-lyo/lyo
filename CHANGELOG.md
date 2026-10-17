@@ -31,7 +31,6 @@
 
 ### Deprecated
 
-- Constants in `OSLC4JConstants` now use the `LYO_` prefix. Existing names remain as deprecated aliases; system-property names and values are unchanged.
 - Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
 
 ### Removed

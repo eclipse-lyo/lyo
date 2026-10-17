@@ -31,7 +31,7 @@ public class OSLC4JUtilsTest {
 
     @Before
     public void clearPublicURISystemProperty() throws MalformedURLException {
-        System.setProperty(OSLC4JConstants.LYO_DISABLE_HOST_RESOLUTION, "true");
+        System.setProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, "true");
         OSLC4JUtils.setPublicURI(null);
         OSLC4JUtils.setServletPath(null);
     }
