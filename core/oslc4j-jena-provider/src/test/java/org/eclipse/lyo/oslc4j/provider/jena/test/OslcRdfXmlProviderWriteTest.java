@@ -46,14 +46,14 @@ public class OslcRdfXmlProviderWriteTest {
 
   @Test
   public void testRdfXmlSettingsAndDeclaration() throws Exception {
-    String oldPretty = System.getProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT);
-    String oldJazz = System.getProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY);
+    String oldPretty = System.getProperty(OSLC4JConstants.LYO_PRETTY_PRINT);
+    String oldJazz = System.getProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY);
     try {
       // Include unset values to verify both defaults as well as all explicit combinations.
       for (String pretty : new String[] {null, "true", "false"}) {
         for (String jazz : new String[] {null, "true", "false"}) {
-          restoreProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, pretty);
-          restoreProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, jazz);
+          restoreProperty(OSLC4JConstants.LYO_PRETTY_PRINT, pretty);
+          restoreProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY, jazz);
           for (String mediaType :
               new String[] {"application/rdf+xml", "text/xml", "application/xml"}) {
             TestResource resource = new TestResource(URI.create("http://example.com/resource1"));
@@ -90,34 +90,34 @@ public class OslcRdfXmlProviderWriteTest {
         }
       }
     } finally {
-      restoreProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, oldPretty);
-      restoreProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, oldJazz);
+      restoreProperty(OSLC4JConstants.LYO_PRETTY_PRINT, oldPretty);
+      restoreProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY, oldJazz);
     }
   }
 
   @Test
   public void testCompactTurtleAndJsonLdRoundTrips() throws Exception {
-    String oldPretty = System.getProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT);
+    String oldPretty = System.getProperty(OSLC4JConstants.LYO_PRETTY_PRINT);
     try {
-      System.setProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, "false");
+      System.setProperty(OSLC4JConstants.LYO_PRETTY_PRINT, "false");
       testTurtleRoundTrip();
       testJsonLdRoundTrip();
     } finally {
-      restoreProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, oldPretty);
+      restoreProperty(OSLC4JConstants.LYO_PRETTY_PRINT, oldPretty);
     }
   }
 
   @Test
   public void testServiceProviderAbbreviationOverridesJenaPrettyWriter() throws Exception {
-    String oldPretty = System.getProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT);
-    String oldJazz = System.getProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY);
+    String oldPretty = System.getProperty(OSLC4JConstants.LYO_PRETTY_PRINT);
+    String oldJazz = System.getProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY);
     try {
-      System.setProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, "true");
-      System.setProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, "false");
+      System.setProperty(OSLC4JConstants.LYO_PRETTY_PRINT, "true");
+      System.setProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY, "false");
       testServiceProviderCatalogUsesAbbreviatedWriterWhenForced();
     } finally {
-      restoreProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, oldPretty);
-      restoreProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, oldJazz);
+      restoreProperty(OSLC4JConstants.LYO_PRETTY_PRINT, oldPretty);
+      restoreProperty(OSLC4JConstants.LYO_JAZZ_COMPATIBILITY, oldJazz);
     }
   }
 
@@ -188,8 +188,8 @@ public class OslcRdfXmlProviderWriteTest {
 
   @Test
   public void testServiceProviderCatalogUsesAbbreviatedWriterWhenForced() throws Exception {
-    String oldAbbrev = System.getProperty(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS);
-    System.setProperty(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS, "true");
+    String oldAbbrev = System.getProperty(OSLC4JConstants.LYO_ALWAYS_XML_ABBREV_ONLY_PROVIDERS);
+    System.setProperty(OSLC4JConstants.LYO_ALWAYS_XML_ABBREV_ONLY_PROVIDERS, "true");
     try {
       OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
       ServiceProviderCatalog catalog = new ServiceProviderCatalog();
@@ -228,7 +228,7 @@ public class OslcRdfXmlProviderWriteTest {
           rdfXml,
           abbreviated.toString(StandardCharsets.UTF_8));
     } finally {
-      restoreProperty(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS, oldAbbrev);
+      restoreProperty(OSLC4JConstants.LYO_ALWAYS_XML_ABBREV_ONLY_PROVIDERS, oldAbbrev);
     }
   }
 
