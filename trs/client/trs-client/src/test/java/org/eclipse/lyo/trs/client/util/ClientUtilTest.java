@@ -187,15 +187,33 @@ class ClientUtilTest {
         }
     }
 
-    @Test
-    void testBlankNodeDirectContainerIsSkipped() throws Exception {
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings = {
+            "http://www.w3.org/2000/01/rdf-schema#member",
+            "http://www.w3.org/ns/ldp#member"
+    })
+    void testBlankNodeDirectContainerPreservesContents(String memberProperty) throws Exception {
         Model model = ModelFactory.createDefaultModel();
-        Resource type = model.createResource("http://www.w3.org/ns/ldp#DirectContainer");
-        model.createResource().addProperty(RDF.type, type);
-        org.junit.jupiter.api.Assertions.assertNull(ClientUtil.extractBaseFromRdfModel(model));
-        model.createResource(baseUri + "/base").addProperty(RDF.type, type);
-        org.junit.jupiter.api.Assertions.assertEquals(URI.create(baseUri + "/base"),
-                ClientUtil.extractBaseFromRdfModel(model).getAbout());
+        try {
+            URI cutoff = URI.create(baseUri + "/event1");
+            URI member = URI.create(baseUri + "/res1");
+            model.createResource()
+                    .addProperty(RDF.type,
+                            model.createResource("http://www.w3.org/ns/ldp#DirectContainer"))
+                    .addProperty(model.createProperty("http://open-services.net/ns/core/trs#cutoffEvent"),
+                            model.createResource(cutoff.toString()))
+                    .addProperty(model.createProperty(memberProperty),
+                            model.createResource(member.toString()));
+
+            Base base = ClientUtil.extractBaseFromRdfModel(model);
+
+            org.junit.jupiter.api.Assertions.assertNotNull(base);
+            org.junit.jupiter.api.Assertions.assertNull(base.getAbout());
+            org.junit.jupiter.api.Assertions.assertEquals(cutoff, base.getCutoffEvent());
+            org.junit.jupiter.api.Assertions.assertEquals(List.of(member), base.getMembers());
+        } finally {
+            model.close();
+        }
     }
 
     private Model loadModel(String fixtureName) throws IOException {

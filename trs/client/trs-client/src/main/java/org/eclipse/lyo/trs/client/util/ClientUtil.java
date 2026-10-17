@@ -144,17 +144,15 @@ class ClientUtil {
         try {
             while (directContainers.hasNext()) {
                 Resource containerResource = directContainers.next();
-                if (!containerResource.isURIResource()) {
-                    log.debug("Skipping blank-node ldp:DirectContainer");
-                    continue;
-                }
-                log.debug("Found ldp:DirectContainer at {}", containerResource.getURI());
+                log.debug("Found ldp:DirectContainer: {}", containerResource);
 
                 Base base = new Base();
-                try {
-                    base.setAbout(new URI(containerResource.getURI()));
-                } catch (URISyntaxException e) {
-                    throw new LyoModelException(e);
+                if (containerResource.isURIResource()) {
+                    try {
+                        base.setAbout(new URI(containerResource.getURI()));
+                    } catch (URISyntaxException e) {
+                        throw new LyoModelException(e);
+                    }
                 }
 
                 // Extract cutoffEvent
