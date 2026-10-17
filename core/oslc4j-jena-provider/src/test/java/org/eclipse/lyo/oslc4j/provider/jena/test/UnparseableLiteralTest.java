@@ -27,7 +27,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.DCTerms;
 import org.eclipse.lyo.oslc4j.core.UnparseableLiteral;
-import org.eclipse.lyo.oslc4j.provider.jena.AbstractOslcRdfXmlProvider;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.After;
@@ -39,12 +39,12 @@ import static org.junit.Assert.*;
 public class UnparseableLiteralTest {
 	@Before
 	public void before() {
-		System.setProperty(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES, "false");
+		System.setProperty(OSLC4JConstants.LYO_STRICT_DATATYPES, "false");
 	}
 
 	@After
 	public void after() {
-		System.getProperties().remove(AbstractOslcRdfXmlProvider.OSLC4J_STRICT_DATATYPES);
+		System.getProperties().remove(OSLC4JConstants.LYO_STRICT_DATATYPES);
 	}
 
 	@Test

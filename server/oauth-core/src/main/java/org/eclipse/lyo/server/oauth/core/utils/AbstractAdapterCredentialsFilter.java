@@ -499,18 +499,28 @@ abstract public class AbstractAdapterCredentialsFilter<Credentials, Connection> 
             URISyntaxException {
         OAuthConfiguration config = OAuthConfiguration.getInstance();
         LyoOAuthConsumer consumer = config.getConsumerStore().getConsumer(message.getConsumerKey());
-        if (consumer != null && consumer.isTrusted()) {
-            // The request can be a two-legged oauth request because it's a trusted consumer
-            // Validate the message with an empty token and an empty secret
-            OAuthAccessor accessor = new OAuthAccessor(consumer);
-            accessor.requestToken = "";
-            accessor.tokenSecret = "";
-            config.getValidator().validateMessage(message, accessor);
-        } else {
-            log.error("OAuth.Problems.TOKEN_REJECTED");
-            throw new OAuthProblemException(
-                    OAuth.Problems.TOKEN_REJECTED);
+        if (consumer == null) {
+            throw rejectTwoLeggedOAuth("consumer not found");
         }
+
+        if (consumer.isProvisional()) {
+            throw rejectTwoLeggedOAuth("consumer is provisional and has not been approved");
+        }
+
+        if (!consumer.isTrusted()) {
+            throw rejectTwoLeggedOAuth("consumer is not enabled for two-legged OAuth");
+        }
+
+        // Validate the message with an empty token and an empty secret.
+        OAuthAccessor accessor = new OAuthAccessor(consumer);
+        accessor.requestToken = "";
+        accessor.tokenSecret = "";
+        config.getValidator().validateMessage(message, accessor);
+    }
+
+    private OAuthProblemException rejectTwoLeggedOAuth(String reason) {
+        log.debug("Two-legged OAuth request rejected: {}", reason);
+        return new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
     }
 
     private HttpSessionListener listener = new HttpSessionListener() {

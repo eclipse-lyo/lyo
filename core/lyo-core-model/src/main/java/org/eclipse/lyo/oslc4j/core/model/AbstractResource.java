@@ -75,4 +75,12 @@ public abstract class AbstractResource implements IExtendedResource {
 	{
 		this.types.add(type);
 	}
+
+	/**
+	 * Sets an extended property on the same field. Will overwrite any existing value.
+	 */
+	public void setExtended(final QName name, final Object value)
+	{
+		this.extendedProperties.put(name, value);
+	}
 }

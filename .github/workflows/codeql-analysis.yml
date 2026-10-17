@@ -2,24 +2,33 @@ name: "CodeQL"
 
 on:
   pull_request:
-    branches: [master, main]
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - '**.java'
+      - '**.kt'
+      - '**.kts'
       - '**/pom.xml'
       - 'pom.xml'
       - '.github/workflows/codeql-analysis.yml'
   push:
-    branches: [master, main]
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') || (!contains(github.event.pull_request.labels.*.name, 'ci:nolint') && !contains(github.event.pull_request.labels.*.name, 'dependencies')) }}
+    # Validate Kotlin compiler and CodeQL action updates despite Dependabot's dependencies label.
+    if: >-
+      ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') ||
+          (!contains(github.event.pull_request.labels.*.name, 'ci:nolint') &&
+           (!contains(github.event.pull_request.labels.*.name, 'dependencies') ||
+            startsWith(github.head_ref, 'dependabot/maven/v.kotlin-') ||
+            startsWith(github.head_ref, 'dependabot/github_actions/github/codeql-action-'))) }}
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
@@ -31,9 +40,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://git.io/codeql-language-support
+        # Java and Kotlin share the same CodeQL analyzer.
+        language: [ 'java-kotlin' ]
 
     steps:
     - name: Checkout Code
@@ -45,14 +53,14 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
+      uses: github/codeql-action/init@v4.38.3
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
-    - uses: actions/cache@v5
+    - uses: actions/cache@v6
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-codeql-${{ hashFiles('.github/workflows/codeql-analysis.yml') }}
@@ -60,12 +68,12 @@ jobs:
         #   ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - uses: actions/setup-java@v5
+    - uses: actions/setup-java@v6
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '21'
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v4
+      uses: github/codeql-action/autobuild@v4.38.3
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
@@ -79,4 +87,4 @@ jobs:
     #   make release
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
+      uses: github/codeql-action/analyze@v4.38.3
