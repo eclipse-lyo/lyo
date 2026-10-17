@@ -287,9 +287,14 @@ public abstract class AbstractOslcRdfXmlProvider {
   private void buildMediaPairs() {
     mediaPairs = new ArrayList<>();
     boolean prettyPrint =
-        Boolean.parseBoolean(System.getProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, "true"));
+        Boolean.parseBoolean(
+            System.getProperty(
+                OSLC4JConstants.OSLC4J_PRETTY_PRINT, OSLC4JConstants.OSLC4J_PRETTY_PRINT_DEFAULT));
     boolean jazzCompatibility =
-        Boolean.parseBoolean(System.getProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, "true"));
+        Boolean.parseBoolean(
+            System.getProperty(
+                OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY,
+                OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY_DEFAULT));
     RDFFormat rdfXmlFormat =
         prettyPrint && !jazzCompatibility ? RDFFormat.RDFXML_PRETTY : RDFFormat.RDFXML_PLAIN;
     mediaPairs.add(

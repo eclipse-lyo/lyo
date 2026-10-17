@@ -79,18 +79,26 @@ public interface OSLC4JConstants {
   String OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS = OSLC4J + "alwaysXMLAbbrevOnlyProviders";
 
   /**
-   * System property {@value}: When "true" (default), pretty-print RIOT-backed RDF responses.
+   * System property {@value}: When "true" (default: {@value #OSLC4J_PRETTY_PRINT_DEFAULT}),
+   * pretty-print RIOT-backed RDF responses.
    * Set to "false" in production to use streaming writers for Turtle and flat JSON-LD.
    * RDF/XML uses the plain writer when disabled. The custom abbreviated XML writer is unaffected.
    * Jazz compatibility takes precedence over pretty printing for RDF/XML.
    */
   String OSLC4J_PRETTY_PRINT = OSLC4J + "prettyPrint";
 
+  /** Default value for the {@link #OSLC4J_PRETTY_PRINT} system property: {@value}. */
+  String OSLC4J_PRETTY_PRINT_DEFAULT = "true";
+
   /**
-   * System property {@value}: When "true" (default), use Jena's RDFXML_PLAIN writer for
+   * System property {@value}: When "true" (default: {@value #OSLC4J_JAZZ_COMPATIBILITY_DEFAULT}),
+   * use Jena's RDFXML_PLAIN writer for
    * application/rdf+xml and text/xml, regardless of the pretty-print setting, because Jazz
    * sometimes cannot consume Jena's pretty RDF/XML. Set to "false" to allow Jena's pretty writer.
    * Explicit abbreviated XML settings and application/xml continue to use the custom writer.
    */
   String OSLC4J_JAZZ_COMPATIBILITY = OSLC4J + "jazzCompatibility";
+
+  /** Default value for the {@link #OSLC4J_JAZZ_COMPATIBILITY} system property: {@value}. */
+  String OSLC4J_JAZZ_COMPATIBILITY_DEFAULT = "true";
 }
