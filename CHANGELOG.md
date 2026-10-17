@@ -26,6 +26,8 @@
 - InMemPagedTRS handles concurrency.
 - When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
 - More stable construction of return URLs when approving OAuth 1 consumer keys
+- `AbstractOslcRdfXmlProvider` now serializes RDF/XML, Turtle, and JSON-LD via Jena's RIOT `RDFFormat`/`RDFWriter` API instead of the deprecated `RDFXML_Basic` writer and the legacy string-based `model.getWriter(...)`.
+- RDF responses are pretty-printed by default. Set `org.eclipse.lyo.oslc4j.prettyPrint=false` in production to use streaming Turtle and flat JSON-LD writers. RDF/XML uses `RDFXML_PLAIN` by default for Jazz compatibility regardless of pretty printing; set `org.eclipse.lyo.oslc4j.jazzCompatibility=false` to allow Jena’s pretty RDF/XML writer when pretty printing is enabled. Explicit abbreviated XML settings and `application/xml` retain the custom abbreviated writer.
 
 ### Deprecated
 
@@ -46,6 +48,7 @@
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
 - `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
+- `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 
 ## [6.0.0]
 
