@@ -71,7 +71,7 @@ public abstract class AbstractOslcRdfXmlProvider {
    * @see RdfXmlAbbreviatedWriter
    */
   @Deprecated
-  public static final String OSLC4J_ALWAYS_XML_ABBREV = "org.eclipse.lyo.oslc4j.alwaysXMLAbbrev";
+  public static final String OSLC4J_ALWAYS_XML_ABBREV = OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV;
 
   /**
    * System property {@value} : When "true" (default), fail on when reading a
@@ -107,13 +107,13 @@ public abstract class AbstractOslcRdfXmlProvider {
 
     // This is a special case to handle RDNG GET on a ServiceProvider resource.
     // RDNG can only consume RDF/XML-ABBREV although its sometimes sends Accept=application/rdf+xml.
-    // The org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders system property is used
-    // to turn off this special case
-    if ((objects != null && objects[0] != null)
+    // The alwaysXMLAbbrevOnlyProviders system property enables this special case.
+    if ((objects != null && objects.length > 0 && objects[0] != null)
         && (objects[0] instanceof ServiceProviderCatalog || objects[0] instanceof ServiceProvider)
-        && serializationFormat.equals(Optional.of(RDFFormat.RDFXML_PLAIN))
+        && serializationFormat.isPresent()
+        && RDFLanguages.RDFXML.equals(serializationFormat.get().getLang())
         && "true"
-            .equals(System.getProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders"))) {
+            .equals(System.getProperty(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS))) {
       serializationFormat = Optional.empty();
       log.info("Using RDF/XML-ABBREV for ServiceProvider resources");
     }
@@ -144,7 +144,7 @@ public abstract class AbstractOslcRdfXmlProvider {
               descriptionURI, responseInfoURI, responseInfo, objects, properties);
 
       if (serializationFormat.isPresent()) {
-        if (serializationFormat.get().equals(RDFFormat.RDFXML_PLAIN)) {
+        if (RDFLanguages.RDFXML.equals(serializationFormat.get().getLang())) {
           writeXmlDeclaration(outputStream);
         }
         writeRdf(model, serializationFormat.get(), outputStream);
@@ -166,8 +166,8 @@ public abstract class AbstractOslcRdfXmlProvider {
   }
 
   private void writeXmlDeclaration(final OutputStream outputStream) throws IOException {
-    // XML (and Jena) default to UTF-8, but many libs default to ASCII, so need
-    // to set this explicitly
+    // Jena 6.2's showXmlDeclaration=true omits encoding="UTF-8" even for UTF-8 streams.
+    // Keep the encoding explicit for clients that otherwise assume ASCII.
     String xmlDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     outputStream.write(xmlDeclaration.getBytes(StandardCharsets.UTF_8));
   }
@@ -180,7 +180,8 @@ public abstract class AbstractOslcRdfXmlProvider {
    * Using a distinct {@link RDFFormat} per media type (rather than {@link Lang}) also lets
    * {@link #buildMediaPairs()} pick streaming/non-pretty variants for performance.
    */
-  private void writeRdf(final Model model, final RDFFormat format, final OutputStream outputStream) {
+  private void writeRdf(
+      final Model model, final RDFFormat format, final OutputStream outputStream) {
     RDFWriter.create()
         .source(model)
         .format(format)
@@ -257,9 +258,9 @@ public abstract class AbstractOslcRdfXmlProvider {
    * {@link Optional#empty()} if the custom abbreviated RDF/XML writer should be used instead
    * (it isn't a RIOT format, so it can't be represented as an {@link RDFFormat}).
    * <p>
-   * application/rdf+xml yields plain RDF/XML
+   * application/rdf+xml yields plain RDF/XML by default (Jazz compatibility)
    * <p>
-   * applicaton/xml yields abbreviated RDF/XML
+   * application/xml yields abbreviated RDF/XML
    */
   private Optional<RDFFormat> getSerializationFormat(final MediaType baseMediaType) {
     if (baseMediaType == null) {
@@ -285,14 +286,20 @@ public abstract class AbstractOslcRdfXmlProvider {
 
   private void buildMediaPairs() {
     mediaPairs = new ArrayList<>();
-    // BLOCKS/COMPACT_FLAT stream instead of buffering the whole graph like the PRETTY variants;
-    // same triples/JSON-LD shape, just less grouping/whitespace.
+    boolean prettyPrint =
+        Boolean.parseBoolean(System.getProperty(OSLC4JConstants.OSLC4J_PRETTY_PRINT, "true"));
+    boolean jazzCompatibility =
+        Boolean.parseBoolean(System.getProperty(OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY, "true"));
+    RDFFormat rdfXmlFormat =
+        prettyPrint && !jazzCompatibility ? RDFFormat.RDFXML_PRETTY : RDFFormat.RDFXML_PLAIN;
     mediaPairs.add(
         new AbstractMap.SimpleEntry<>(
-            OslcMediaType.TEXT_TURTLE_TYPE, Optional.of(RDFFormat.TURTLE_BLOCKS)));
+            OslcMediaType.TEXT_TURTLE_TYPE,
+            Optional.of(prettyPrint ? RDFFormat.TURTLE_PRETTY : RDFFormat.TURTLE_BLOCKS)));
     mediaPairs.add(
         new AbstractMap.SimpleEntry<>(
-            OslcMediaType.APPLICATION_JSON_LD_TYPE, Optional.of(RDFFormat.JSONLD_FLAT)));
+            OslcMediaType.APPLICATION_JSON_LD_TYPE,
+            Optional.of(prettyPrint ? RDFFormat.JSONLD_PRETTY : RDFFormat.JSONLD_FLAT)));
     if (OSLC4JUtils.alwaysAbbrevXML()) {
       // application/rdf+xml will be forcefully abbreviated
       mediaPairs.add(
@@ -300,15 +307,14 @@ public abstract class AbstractOslcRdfXmlProvider {
     } else {
       mediaPairs.add(
           new AbstractMap.SimpleEntry<>(
-              OslcMediaType.APPLICATION_RDF_XML_TYPE, Optional.of(RDFFormat.RDFXML_PLAIN)));
+              OslcMediaType.APPLICATION_RDF_XML_TYPE, Optional.of(rdfXmlFormat)));
     }
     // application/xml will be abbreviated for compat reasons
     mediaPairs.add(
         new AbstractMap.SimpleEntry<>(OslcMediaType.APPLICATION_XML_TYPE, Optional.empty()));
 
     mediaPairs.add(
-        new AbstractMap.SimpleEntry<>(
-            OslcMediaType.TEXT_XML_TYPE, Optional.of(RDFFormat.RDFXML_PLAIN)));
+        new AbstractMap.SimpleEntry<>(OslcMediaType.TEXT_XML_TYPE, Optional.of(rdfXmlFormat)));
   }
 
   protected Object[] readFrom(

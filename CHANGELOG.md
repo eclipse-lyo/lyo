@@ -27,7 +27,7 @@
 - When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
 - More stable construction of return URLs when approving OAuth 1 consumer keys
 - `AbstractOslcRdfXmlProvider` now serializes RDF/XML, Turtle, and JSON-LD via Jena's RIOT `RDFFormat`/`RDFWriter` API instead of the deprecated `RDFXML_Basic` writer and the legacy string-based `model.getWriter(...)`.
-- `text/turtle` and `application/ld+json` responses now use the streaming `TURTLE_BLOCKS`/`JSONLD_FLAT` `RDFFormat` variants instead of pretty-printed ones, improving performance on larger graphs. The resulting RDF is semantically identical; only grouping/whitespace differs.
+- RDF responses are pretty-printed by default. Set `org.eclipse.lyo.oslc4j.prettyPrint=false` in production to use streaming Turtle and flat JSON-LD writers. RDF/XML uses `RDFXML_PLAIN` by default for Jazz compatibility regardless of pretty printing; set `org.eclipse.lyo.oslc4j.jazzCompatibility=false` to allow Jena’s pretty RDF/XML writer when pretty printing is enabled. Explicit abbreviated XML settings and `application/xml` retain the custom abbreviated writer.
 
 ### Deprecated
 
