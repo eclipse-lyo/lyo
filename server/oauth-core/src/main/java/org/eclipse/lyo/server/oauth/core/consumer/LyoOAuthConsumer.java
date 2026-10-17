@@ -85,11 +85,15 @@ public class LyoOAuthConsumer extends OAuthConsumer {
 	}
 
 	/**
-	 * Answers if this consumer is trusted. If a consumer is trusted, a login
-	 * prompt might be skipped if the user is already authenticated with this
-	 * web page.
+	 * Answers whether this consumer is marked as eligible for two-legged OAuth.
+	 * This flag does not by itself mean that the consumer has been approved or
+	 * that its identity has been independently trusted. In particular, a
+	 * provisional consumer may have this flag set while it is awaiting approval;
+	 * callers must also check {@link #isProvisional()} before allowing
+	 * two-legged OAuth.
 	 * 
-	 * @return true if the consumer is trusted, false otherwise
+	 * @return true if the consumer is marked as eligible for two-legged OAuth,
+	 *         false otherwise
 	 */
 	public boolean isTrusted() {
 		return trusted;

@@ -63,7 +63,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OslcVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
@@ -183,7 +183,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:contributor
   // End of user code
   @OslcName("contributor")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
   @OslcDescription(
       "Contributor or contributors to the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -200,7 +200,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:created
   // End of user code
   @OslcName("created")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
   @OslcDescription("Timestamp of resource creation")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -214,7 +214,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:creator
   // End of user code
   @OslcName("creator")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
   @OslcDescription(
       "Creator or creators of the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -231,7 +231,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:identifier
   // End of user code
   @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
   @OslcDescription(
       "A unique identifier for a resource. Typically read-only and assigned by the service provider"
           + " when a resource is created. Not typically intended for end-user display.")
@@ -247,7 +247,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:modified
   // End of user code
   @OslcName("modified")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
   @OslcDescription("Timestamp of latest resource modification")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -261,7 +261,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:instanceShape
   // End of user code
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OslcVocabularyConstants.INSTANCESHAPE_PROP)
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -283,7 +283,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:serviceProvider
   // End of user code
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OslcVocabularyConstants.SERVICEPROVIDER_PROP)
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -302,7 +302,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:comment
   // End of user code
   @OslcName("comment")
-  @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "comment")
+  @OslcPropertyDefinition(RdfsVocabularyConstants.COMMENT_PROP)
   @OslcDescription("May be used to provide a human-readable description of a resource.")
   @OslcOccurs(Occurs.ExactlyOne)
   @OslcValueType(ValueType.XMLLiteral)
@@ -316,7 +316,7 @@ public class LinkType extends AbstractResource implements ILinkType {
   // Start of user code getterAnnotation:label
   // End of user code
   @OslcName("label")
-  @OslcPropertyDefinition(RdfsVocabularyConstants.RDFS_NAMSPACE + "label")
+  @OslcPropertyDefinition(RdfsVocabularyConstants.LABEL_PROP)
   @OslcDescription("May be used to provide a human-readable version of a resource's name.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.XMLLiteral)

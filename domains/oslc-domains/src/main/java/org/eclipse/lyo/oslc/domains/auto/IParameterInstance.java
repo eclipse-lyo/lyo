@@ -59,9 +59,10 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.FoafVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OslcVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -80,7 +81,7 @@ public interface IParameterInstance {
   public void addServiceProvider(final Link serviceProvider);
 
   @OslcName("name")
-  @OslcPropertyDefinition(FoafVocabularyConstants.FOAF_NAMSPACE + "name")
+  @OslcPropertyDefinition(FoafVocabularyConstants.NAME_PROP)
   @OslcDescription("The full name of a person expressed as simple text string.")
   @OslcOccurs(Occurs.ExactlyOne)
   @OslcValueType(ValueType.String)
@@ -88,14 +89,14 @@ public interface IParameterInstance {
   public String getName();
 
   @OslcName("value")
-  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "value")
+  @OslcPropertyDefinition(RdfVocabularyConstants.VALUE_PROP)
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.XMLLiteral)
   @OslcReadOnly(false)
   public String getValue();
 
   @OslcName("description")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
   @OslcDescription(
       "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
           + " only content that is valid and suitable inside an XHTML <div> element.")
@@ -105,7 +106,7 @@ public interface IParameterInstance {
   public String getDescription();
 
   @OslcName("type")
-  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
+  @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
   @OslcDescription("The resource type URIs")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -113,7 +114,7 @@ public interface IParameterInstance {
   public Set<Link> getType();
 
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OslcVocabularyConstants.INSTANCESHAPE_PROP)
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -129,7 +130,7 @@ public interface IParameterInstance {
   public Set<Link> getInstanceShape();
 
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OslcVocabularyConstants.SERVICEPROVIDER_PROP)
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"

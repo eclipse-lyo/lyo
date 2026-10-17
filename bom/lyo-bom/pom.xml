@@ -17,7 +17,7 @@
   <description>Lyo Bill of Materials</description>
 
   <properties>
-    <swagger.version>2.2.42</swagger.version>
+    <swagger.version>2.2.53</swagger.version>
   </properties>
 
   <dependencyManagement>
@@ -59,17 +59,17 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo.core.query</groupId>
         <artifactId>oslc-query</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>oslc-trs</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.core</groupId>
+        <groupId>org.eclipse.lyo</groupId>
         <artifactId>shacl</artifactId>
         <version>${v.lyo}</version>
       </dependency>
@@ -89,8 +89,13 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.client</groupId>
+        <groupId>org.eclipse.lyo.clients</groupId>
         <artifactId>oslc-java-client-resources</artifactId>
+        <version>${v.lyo}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.lyo.server</groupId>
+        <artifactId>lyo-server-common</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
@@ -140,12 +145,12 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.trs.client</groupId>
+        <groupId>org.eclipse.lyo.trs</groupId>
         <artifactId>client-source-mqtt</artifactId>
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.lyo.trs.client</groupId>
+        <groupId>org.eclipse.lyo.trs</groupId>
         <artifactId>trs-client</artifactId>
         <version>${v.lyo}</version>
       </dependency>
@@ -156,11 +161,198 @@
       </dependency>
       <dependency>
         <groupId>org.eclipse.lyo</groupId>
-        <artifactId>validation</artifactId>
+        <artifactId>lyo-validation</artifactId>
         <version>${v.lyo}</version>
       </dependency>
 
       <!-- Third-party dependencies - versions will use properties from lyo-parent -->
+
+      <!-- Apache Jena alignment without importing Jena's third-party management - mainly because Jena BOM breaks Spring Boot -->
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>apache-jena-libs</artifactId>
+          <version>${v.jena}</version>
+          <type>pom</type>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-base</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-core</artifactId>
+          <version>${v.jena}</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-log4j12</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>log4j</groupId>
+                  <artifactId>log4j</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-ontapi</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-arq</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-rdfpatch</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-tdb1</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-tdb2</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-rdfconnection</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-shacl</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-shex</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-text</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-geosparql</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-cmds</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-fuseki-server</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-fuseki-access</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-commonsrdf</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-querybuilder</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-fuseki-main</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-fuseki-core</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-fuseki-geosparql</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-base</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-index</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-index-test</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-storage</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-transaction</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-dboe-trans-data</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-iri3986</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.jena</groupId>
+          <artifactId>jena-langtag</artifactId>
+          <version>${v.jena}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
@@ -217,33 +409,6 @@
         <scope>import</scope>
 
       </dependency>
-      <!-- <dependency>
-                <groupId>stax</groupId>
-                <artifactId>stax-api</artifactId>
-                <version>1.0.1</version>
-            </dependency> -->
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-core</artifactId>
-        <version>${v.jena}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>apache-jena-libs</artifactId>
-        <version>${v.jena}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
       <dependency>
         <groupId>org.glassfish.jersey.core</groupId>
         <artifactId>jersey-client</artifactId>
@@ -252,6 +417,11 @@
       <dependency>
         <groupId>org.glassfish.jersey.connectors</groupId>
         <artifactId>jersey-apache-connector</artifactId>
+        <version>${v.jersey}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey.connectors</groupId>
+        <artifactId>jersey-apache5-connector</artifactId>
         <version>${v.jersey}</version>
       </dependency>
       <dependency>
@@ -292,12 +462,12 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.20.0</version>
+        <version>3.21.0</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.22.0</version>
+        <version>1.23.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -314,6 +484,21 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.22.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>2.7</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>${v.classgraph}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>${swagger.version}</version>
       </dependency>
       <dependency>
         <groupId>io.swagger.core.v3</groupId>
@@ -362,7 +547,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>${v.jackson}</version>
+        <version>${v.jackson.annotations}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.jakarta.rs</groupId>

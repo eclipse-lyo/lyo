@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.lyo</groupId>
   <artifactId>lyo-parent</artifactId>
@@ -15,23 +15,27 @@
     <maven.compiler.release>21</maven.compiler.release>
     <v.lyo>${project.version}</v.lyo>
 
-    <v.kotlin>2.3.21</v.kotlin>
+    <v.kotlin>2.4.21</v.kotlin>
     <v.dokka>2.2.0</v.dokka>
 
-    <v.jersey>3.1.11</v.jersey>
+    <v.jersey>3.1.12</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>6.1.0</v.jena>
-    <v.jackson>2.19.2</v.jackson>
-    <!-- NOTE: ensure that the core version matches client's https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
+    <v.jena>6.2.0</v.jena>
+    <v.jackson>2.22.1</v.jackson>
+    <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
+    <v.jackson.annotations>2.22</v.jackson.annotations>
+    <v.classgraph>4.8.198</v.classgraph>
+    <!-- NOTE: ensure that the core version matches client's
+    https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
     <v.httpcore>4.4.16</v.httpcore>
-    <v.slf4j>2.0.18</v.slf4j>
+    <v.slf4j>2.0.20</v.slf4j>
   </properties>
 
 
   <!-- OSSRH mandated metadata -->
-  <url>https://eclipse.org/lyo</url>
+  <url>https://projects.eclipse.org/projects/technology.lyo</url>
   <description>
     The Eclipse Lyo project is focused on providing an SDK to enable adoption of
     OSLC specifications. OSLC (Open
@@ -91,8 +95,7 @@
     <module>trs/server</module>
     <module>trs/client</module>
     <module>store</module>
-    <!-- FIXME: SHACLEX has not been migrated to Jena 5 yet -->
-    <!-- <module>validation</module> -->
+    <module>validation</module>
   </modules>
 
   <profiles>
@@ -158,7 +161,7 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.11.0</version>
+            <version>0.11.1</version>
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
@@ -179,7 +182,7 @@
           <plugin>
             <groupId>com.diffplug.spotless</groupId>
             <artifactId>spotless-maven-plugin</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.4</version>
             <executions>
               <execution>
                 <id>auto-style</id>
@@ -258,7 +261,8 @@
     <dependencies>
 
       <dependency>
-        <!--Manual enforcement due to security issues and lack of convergence transitively-->
+        <!--Manual
+        enforcement due to security issues and lack of convergence transitively-->
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${v.httpclient}</version>
@@ -291,6 +295,11 @@
         <version>${v.lyo}</version>
       </dependency>
       <dependency>
+        <groupId>org.eclipse.lyo</groupId>
+        <artifactId>oslc-domains</artifactId>
+        <version>${v.lyo}</version>
+      </dependency>
+      <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
         <version>4.0.2</version>
@@ -308,13 +317,15 @@
       </dependency>
 
       <dependency>
-        <!--CQ 13716-->
+        <!--CQ
+        13716-->
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
-        <!--CQ 13717-->
+        <!--CQ
+        13717-->
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>${v.slf4j}</version>
@@ -325,7 +336,8 @@
         <version>${v.slf4j}</version>
       </dependency>
       <dependency>
-        <!--CQ 6582-->
+        <!--CQ
+        6582-->
         <groupId>stax</groupId>
         <artifactId>stax-api</artifactId>
         <version>1.0.1</version>
@@ -399,13 +411,19 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.20.0</version>
+        <version>3.21.0</version>
       </dependency>
 
       <!--Test-->
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
+        <version>5.24.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
         <version>5.23.0</version>
         <scope>test</scope>
       </dependency>
@@ -418,7 +436,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>6.1.1</version>
+        <version>6.1.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -429,11 +447,12 @@
       </dependency>
 
 
-      <!--Maven Enforcer-->
+      <!--Maven
+      Enforcer-->
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.22.0</version>
+        <version>1.23.0</version>
       </dependency>
       <dependency>
         <groupId>jakarta.activation</groupId>
@@ -454,13 +473,20 @@
         <artifactId>commons-io</artifactId>
         <version>2.22.0</version>
       </dependency>
-      <!--jena and guava-->
+      <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>${v.classgraph}</version>
+      </dependency>
+      <!--jena
+      and guava-->
       <!-- <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
         <version>3.36.0</version>
       </dependency> -->
-      <!--jena and guava-->
+      <!--jena
+      and guava-->
       <!-- <dependency>
         <groupId>com.google.errorprone</groupId>
         <artifactId>error_prone_annotations</artifactId>
@@ -475,7 +501,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.15.0</version>
+          <version>3.16.0</version>
           <configuration>
             <compilerArgument>
               -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
@@ -522,7 +548,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.6</version>
+          <version>3.6.0</version>
           <configuration>
             <!-- Use the console, so we can see more detailed failures during
             Hudson builds. -->
@@ -567,14 +593,16 @@
 
                       <!-- https://github.com/eclipse/lyo/pull/220 -->
                       <!--                    <exclude>log4j:log4j</exclude>-->
-                      <!--log4j v2 is not used, just for the future-->
+                      <!--log4j
+                      v2 is not used, just for the future-->
                       <exclude>org.apache.logging.log4j:log4j-core</exclude>
                     </excludes>
                   </bannedDependencies>
                   <banDuplicatePomDependencyVersions />
                   <requireUpperBoundDeps>
                     <excludes>
-                      <!--jersey and jena via commons-compress-->
+                      <!--jersey
+                      and jena via commons-compress-->
                       <exclude>org.osgi:org.osgi.core</exclude>
                     </excludes>
                   </requireUpperBoundDeps>
@@ -588,7 +616,8 @@
             </execution>
           </executions>
         </plugin>
-        <!--Ignore Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
+        <!--Ignore
+        Dokka in Eclispe M2E configuration. It has no influence on the Maven build itself.-->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
@@ -600,7 +629,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.jetbrains.dokka</groupId>
                     <artifactId>dokka-maven-plugin</artifactId>
-                    <versionRange>[1.4.32,)</versionRange>
+<!--                                <versionRange>[1.4.32,)</versionRange>-->
                     <goals>
                       <goal>javadocJar</goal>
                     </goals>
@@ -626,22 +655,22 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.4</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.4</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.5.1</version>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.10.2.0</version>
+          <version>4.10.5.0</version>
           <configuration>
             <effort>Max</effort>
             <threshold>High</threshold>
@@ -674,7 +703,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.21.0</version>
+        <version>2.23.0</version>
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
@@ -714,7 +743,7 @@
       <plugin>
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
-        <version>2.9.2</version>
+        <version>2.9.3</version>
         <configuration>
           <schemaVersion>1.4</schemaVersion>
           <projectType>library</projectType>
@@ -731,7 +760,7 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.4</version>
         <configuration>
           <!-- optional: limit format enforcement to just the files changed by this feature branch -->
           <ratchetFrom>origin/master</ratchetFrom>

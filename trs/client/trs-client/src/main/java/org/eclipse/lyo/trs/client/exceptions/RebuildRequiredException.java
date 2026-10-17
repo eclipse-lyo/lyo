@@ -1,4 +1,3 @@
-// Start of user code Copyright
 /*
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
@@ -12,23 +11,21 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-// End of user code
+package org.eclipse.lyo.trs.client.exceptions;
 
-package org.eclipse.lyo.oslc.domains;
+/**
+ * Indicates that a provider's last processed change event is no longer available in the
+ * change log, so the client's synchronization must be rebuilt from the server's base.
+ * This can follow log truncation, a server rebase, or a server rollback.
+ *
+ * @since 2.3.0
+ */
+public class RebuildRequiredException extends RuntimeException {
 
-import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
+    private static final long serialVersionUID = -5190311252768510792L;
 
-
-// Start of user code imports
-// End of user code
-
-public interface ProvDomainConstants
-{
-    // Start of user code user constants
-    // End of user code
-
-    public static String PROVENANCE_DOMAIN = "http://www.w3.org/ns/prov#";
-    public static String PROVENANCE_NAMSPACE = "http://www.w3.org/ns/prov#";
-    public static String PROVENANCE_NAMSPACE_PREFIX = "prov";
+    public RebuildRequiredException(String string) {
+        super(string);
+    }
 
 }

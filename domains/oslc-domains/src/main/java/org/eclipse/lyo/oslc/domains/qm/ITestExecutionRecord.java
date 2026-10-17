@@ -60,14 +60,15 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OslcVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_qmVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.RdfVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
-import org.eclipse.lyo.oslc.domains.IPerson;
-
-import org.eclipse.lyo.oslc.domains.qm.ITestCase;
-import org.eclipse.lyo.oslc.domains.qm.ITestPlan;
+import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.qm.TestCase;
+import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -94,7 +95,7 @@ public interface ITestExecutionRecord {
   public void addRelatedChangeRequest(final Link relatedChangeRequest);
 
   @OslcName("contributor")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
   @OslcDescription(
       "Contributor or contributors to the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -105,7 +106,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getContributor();
 
   @OslcName("created")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
   @OslcDescription("Timestamp of resource creation")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -113,7 +114,7 @@ public interface ITestExecutionRecord {
   public Date getCreated();
 
   @OslcName("creator")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
   @OslcDescription(
       "Creator or creators of the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -124,7 +125,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getCreator();
 
   @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
   @OslcDescription(
       "A unique identifier for a resource. Typically read-only and assigned by the service provider"
           + " when a resource is created. Not typically intended for end-user display.")
@@ -134,7 +135,7 @@ public interface ITestExecutionRecord {
   public String getIdentifier();
 
   @OslcName("modified")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
   @OslcDescription("Timestamp of latest resource modification")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -142,7 +143,7 @@ public interface ITestExecutionRecord {
   public Date getModified();
 
   @OslcName("type")
-  @OslcPropertyDefinition(RdfVocabularyConstants.RDF_NAMSPACE + "type")
+  @OslcPropertyDefinition(RdfVocabularyConstants.TYPE_PROP)
   @OslcDescription("The resource type URIs")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -150,7 +151,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getType();
 
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OslcVocabularyConstants.INSTANCESHAPE_PROP)
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -166,7 +167,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getInstanceShape();
 
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OslcVocabularyConstants.SERVICEPROVIDER_PROP)
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -179,7 +180,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getServiceProvider();
 
   @OslcName("title")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
   @OslcDescription(
       "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
           + " that is valid inside an XHTML <span> element.")
@@ -189,8 +190,7 @@ public interface ITestExecutionRecord {
   public String getTitle();
 
   @OslcName("blockedByChangeRequest")
-  @OslcPropertyDefinition(
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "blockedByChangeRequest")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.BLOCKEDBYCHANGEREQUEST_PROP)
   @OslcDescription(
       "Change Request that prevents execution of the Test Execution Record. It is likely that the"
           + " target resource will be an oslc_cm:ChangeRequest but that is not necessarily the"
@@ -203,8 +203,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getBlockedByChangeRequest();
 
   @OslcName("relatedChangeRequest")
-  @OslcPropertyDefinition(
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "relatedChangeRequest")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.RELATEDCHANGEREQUEST_PROP)
   @OslcDescription(
       "A related change request. It is likely that the target resource will be an"
           + " oslc_cm:ChangeRequest but that is not necessarily the case.")
@@ -216,8 +215,7 @@ public interface ITestExecutionRecord {
   public Set<Link> getRelatedChangeRequest();
 
   @OslcName("reportsOnTestPlan")
-  @OslcPropertyDefinition(
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "reportsOnTestPlan")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.REPORTSONTESTPLAN_PROP)
   @OslcDescription(
       "Test Plan that the Test Execution Record reports on. It is likely that the target resource"
           + " will be an oslc_qm:TestPlan but that is not necessarily the case.")
@@ -228,8 +226,7 @@ public interface ITestExecutionRecord {
   public Link getReportsOnTestPlan();
 
   @OslcName("runsOnTestEnvironment")
-  @OslcPropertyDefinition(
-      Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsOnTestEnvironment")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.RUNSONTESTENVIRONMENT_PROP)
   @OslcDescription("Indicates the environment details of the test case for this execution record.")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.Resource)
@@ -238,7 +235,7 @@ public interface ITestExecutionRecord {
   public Link getRunsOnTestEnvironment();
 
   @OslcName("runsTestCase")
-  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.QUALITY_MANAGEMENT_NAMSPACE + "runsTestCase")
+  @OslcPropertyDefinition(Oslc_qmVocabularyConstants.RUNSTESTCASE_PROP)
   @OslcDescription(
       "Test Case run by the Test Execution Record. It is likely that the target resource will be an"
           + " oslc_qm:TestCase but that is not necessarily the case.")

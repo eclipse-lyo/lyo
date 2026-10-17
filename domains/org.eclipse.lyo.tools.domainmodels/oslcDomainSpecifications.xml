@@ -16,7 +16,7 @@
     <resourceProperties id="_fdNWAFv1EeyHYL9SbPncDg" name="description" description="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML &lt;div&gt; element." occurs="zeroOrOne" valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='description']"/>
     </resourceProperties>
-    <resourceProperties id="_pnX1QJUdEeq-KoPaR9_Cfg" name="identifier" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display." valueType="String" occurs="oneOrOne">
+    <resourceProperties id="_pnX1QJUdEeq-KoPaR9_Cfg" name="identifier" description="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display." valueType="String" occurs="exactlyOne">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='identifier']"/>
     </resourceProperties>
     <resourceProperties id="_pnYcUJUdEeq-KoPaR9_Cfg" name="modified" description="Timestamp of latest resource modification" occurs="zeroOrOne" valueType="DateTime">
@@ -28,7 +28,7 @@
     <resourceProperties id="_pnYcUZUdEeq-KoPaR9_Cfg" name="subject" title="" description="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource." occurs="zeroOrMany" valueType="String">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='subject']"/>
     </resourceProperties>
-    <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span&gt; element." valueType="XMLLiteral" occurs="oneOrOne">
+    <resourceProperties id="_pnZDYJUdEeq-KoPaR9_Cfg" name="title" description="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML &lt;span&gt; element." valueType="XMLLiteral" occurs="exactlyOne">
       <propertyDefinition href="vocabulary.xml#//@vocabularies[label='Dublin%20Core']/@properties[name='title']"/>
     </resourceProperties>
     <resourceProperties id="_pnX1QZUdEeq-KoPaR9_Cfg" name="isVersionOf" description="The concept resource of which this resource is a version. The subject of this property must be the version resource URI." valueType="Resource" range="_jaDA0Be3Ee2Qoa8h9kRCOQ" representation="reference">
@@ -396,7 +396,6 @@
       <generalConfiguration filesBasePath="" javaBasePackageName="org.eclipse.lyo.oslc.domains.am"/>
     </configuration>
   </domainSpecifications>
-  <domainSpecifications name="Matlab Domain" namespaceURI="http://your.organisation.domain/nsp10#" namespacePrefix="//@domainPrefixes[name='nsp10']"/>
   <domainSpecifications name="Configuration Management" namespaceURI="http://open-services.net/ns/config#" namespacePrefix="//@domainPrefixes[name='oslc_config']">
     <resources id="_pnXOMJUdEeq-KoPaR9_Cfg" name="VersionResource" resourceProperties="_YMpv8BfmEe2Qoa8h9kRCOQ _pnXOMZUdEeq-KoPaR9_Cfg _YMpv8RfmEe2Qoa8h9kRCOQ _pnXOMpUdEeq-KoPaR9_Cfg _pnX1QJUdEeq-KoPaR9_Cfg _pnX1QZUdEeq-KoPaR9_Cfg _pnYcUJUdEeq-KoPaR9_Cfg _pnYcUZUdEeq-KoPaR9_Cfg _pnZDYJUdEeq-KoPaR9_Cfg _pnZDYZUdEeq-KoPaR9_Cfg _pnZDYpUdEeq-KoPaR9_Cfg _pnZqcJUdEeq-KoPaR9_Cfg _pnZqcZUdEeq-KoPaR9_Cfg _fztfYBfPEe2Qoa8h9kRCOQ _pnZqcpUdEeq-KoPaR9_Cfg _YMpv8hfmEe2Qoa8h9kRCOQ _pnZqdJUdEeq-KoPaR9_Cfg _pnaRgJUdEeq-KoPaR9_Cfg _pnaRgZUdEeq-KoPaR9_Cfg _LlvhgBfgEe2Qoa8h9kRCOQ _pnaRhJUdEeq-KoPaR9_Cfg"/>
     <resources id="_pna4kpUdEeq-KoPaR9_Cfg" name="ChangeSet" extends="_jaDA0Re3Ee2Qoa8h9kRCOQ" resourceProperties="_HORQIBfOEe2Qoa8h9kRCOQ _Ncmd0BfSEe2Qoa8h9kRCOQ">
@@ -566,7 +565,6 @@
   <domainPrefixes name="oslc_rm"/>
   <domainPrefixes name="oslc_qm"/>
   <domainPrefixes name="oslc_am"/>
-  <domainPrefixes name="nsp10"/>
   <domainPrefixes name="oslc_config"/>
   <domainPrefixes name="oslc_auto"/>
   <domainPrefixes name="jazz_am"/>

@@ -58,9 +58,11 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.OsclVocabularyConstants;
+import org.eclipse.lyo.oslc.domains.OslcVocabularyConstants;
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.IPerson;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
@@ -110,7 +112,7 @@ public interface IRequirement {
   public void addConstrains(final Link constrains);
 
   @OslcName("title")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
   @OslcDescription(
       "Title of the resource represented as rich text in XHTML content. SHOULD include only content"
           + " that is valid inside an XHTML <span> element.")
@@ -120,7 +122,7 @@ public interface IRequirement {
   public String getTitle();
 
   @OslcName("description")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
   @OslcDescription(
       "Descriptive text about resource represented as rich text in XHTML content. SHOULD include"
           + " only content that is valid and suitable inside an XHTML <div> element.")
@@ -130,7 +132,7 @@ public interface IRequirement {
   public String getDescription();
 
   @OslcName("identifier")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
   @OslcDescription(
       "A unique identifier for a resource. Typically read-only and assigned by the service provider"
           + " when a resource is created. Not typically intended for end-user display.")
@@ -140,7 +142,7 @@ public interface IRequirement {
   public String getIdentifier();
 
   @OslcName("shortTitle")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "shortTitle")
+  @OslcPropertyDefinition(OslcVocabularyConstants.SHORTTITLE_PROP)
   @OslcDescription(
       "Shorter form of dcterms:title for the resource represented as rich text in XHTML content."
           + " SHOULD include only content that is valid inside an XHTML <span> element.")
@@ -150,7 +152,7 @@ public interface IRequirement {
   public String getShortTitle();
 
   @OslcName("subject")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "subject")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.SUBJECT_PROP)
   @OslcDescription(
       "Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an"
           + " additional tag for the resource.")
@@ -161,7 +163,7 @@ public interface IRequirement {
   public Set<String> getSubject();
 
   @OslcName("creator")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "creator")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATOR_PROP)
   @OslcDescription(
       "Creator or creators of the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -172,7 +174,7 @@ public interface IRequirement {
   public Set<Link> getCreator();
 
   @OslcName("contributor")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "contributor")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CONTRIBUTOR_PROP)
   @OslcDescription(
       "Contributor or contributors to the resource. It is likely that the target resource will be a"
           + " foaf:Person but that is not necessarily the case.")
@@ -183,7 +185,7 @@ public interface IRequirement {
   public Set<Link> getContributor();
 
   @OslcName("created")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "created")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.CREATED_PROP)
   @OslcDescription("Timestamp of resource creation")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -191,7 +193,7 @@ public interface IRequirement {
   public Date getCreated();
 
   @OslcName("modified")
-  @OslcPropertyDefinition(DctermsVocabularyConstants.DUBLIN_CORE_NAMSPACE + "modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
   @OslcDescription("Timestamp of latest resource modification")
   @OslcOccurs(Occurs.ZeroOrOne)
   @OslcValueType(ValueType.DateTime)
@@ -199,7 +201,7 @@ public interface IRequirement {
   public Date getModified();
 
   @OslcName("serviceProvider")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "serviceProvider")
+  @OslcPropertyDefinition(OslcVocabularyConstants.SERVICEPROVIDER_PROP)
   @OslcDescription(
       "A link to the resource's OSLC Service Provider. There may be cases when the subject resource"
           + " is available from a service provider that implements multiple domain specifications,"
@@ -212,7 +214,7 @@ public interface IRequirement {
   public Set<Link> getServiceProvider();
 
   @OslcName("instanceShape")
-  @OslcPropertyDefinition(OsclVocabularyConstants.OSLC_CORE_NAMSPACE + "instanceShape")
+  @OslcPropertyDefinition(OslcVocabularyConstants.INSTANCESHAPE_PROP)
   @OslcDescription(
       "The URI of a Resource Shape that describes the possible properties, occurrence, value types,"
           + " allowed values and labels. This shape information is useful in displaying the subject"
@@ -228,8 +230,7 @@ public interface IRequirement {
   public Set<Link> getInstanceShape();
 
   @OslcName("elaboratedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaboratedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.ELABORATEDBY_PROP)
   @OslcDescription(
       "The subject is elaborated by the object. For example, a user requirement is elaborated by"
           + " use case.")
@@ -240,8 +241,7 @@ public interface IRequirement {
   public Set<Link> getElaboratedBy();
 
   @OslcName("elaborates")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "elaborates")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.ELABORATES_PROP)
   @OslcDescription("The object is elaborated by the subject.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -250,8 +250,7 @@ public interface IRequirement {
   public Set<Link> getElaborates();
 
   @OslcName("specifiedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifiedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SPECIFIEDBY_PROP)
   @OslcDescription(
       "The subject is specified by the object. For example, a requirement is elaborated by a model"
           + " element .")
@@ -262,8 +261,7 @@ public interface IRequirement {
   public Set<Link> getSpecifiedBy();
 
   @OslcName("specifies")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "specifies")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SPECIFIES_PROP)
   @OslcDescription("The object is specified by the subject.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -272,8 +270,7 @@ public interface IRequirement {
   public Set<Link> getSpecifies();
 
   @OslcName("affectedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "affectedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.AFFECTEDBY_PROP)
   @OslcDescription("Requirement is affected by a resource, such as a defect or issue.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -282,8 +279,7 @@ public interface IRequirement {
   public Set<Link> getAffectedBy();
 
   @OslcName("trackedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "trackedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.TRACKEDBY_PROP)
   @OslcDescription("Resource, such as a change request, which tracks this requirement.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -292,8 +288,7 @@ public interface IRequirement {
   public Set<Link> getTrackedBy();
 
   @OslcName("implementedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "implementedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.IMPLEMENTEDBY_PROP)
   @OslcDescription("Resource, such as a change request, which implements this requirement.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -302,8 +297,7 @@ public interface IRequirement {
   public Set<Link> getImplementedBy();
 
   @OslcName("validatedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "validatedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.VALIDATEDBY_PROP)
   @OslcDescription("Resource, such as a test case, which validates this requirement.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -312,8 +306,7 @@ public interface IRequirement {
   public Set<Link> getValidatedBy();
 
   @OslcName("satisfiedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfiedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SATISFIEDBY_PROP)
   @OslcDescription(
       "The subject is satisfied by the object. For example, a user requirement is satisfied by a"
           + " system requirement.")
@@ -324,8 +317,7 @@ public interface IRequirement {
   public Set<Link> getSatisfiedBy();
 
   @OslcName("satisfies")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "satisfies")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.SATISFIES_PROP)
   @OslcDescription("The object is satisfied by the subject.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -334,8 +326,7 @@ public interface IRequirement {
   public Set<Link> getSatisfies();
 
   @OslcName("decomposedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.DECOMPOSEDBY_PROP)
   @OslcDescription(
       "The subject is decomposed by the object. For example, a system requirement is decomposed"
           + " into a collection of system requirements.")
@@ -346,8 +337,7 @@ public interface IRequirement {
   public Set<Link> getDecomposedBy();
 
   @OslcName("decomposes")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "decomposes")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.DECOMPOSES_PROP)
   @OslcDescription("The object is decomposed by the subject.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)
@@ -356,8 +346,7 @@ public interface IRequirement {
   public Set<Link> getDecomposes();
 
   @OslcName("constrainedBy")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrainedBy")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.CONSTRAINEDBY_PROP)
   @OslcDescription(
       "The subject is constrained by the object. For example, a functional requirement is"
           + " constrained by a safety requirement.")
@@ -368,8 +357,7 @@ public interface IRequirement {
   public Set<Link> getConstrainedBy();
 
   @OslcName("constrains")
-  @OslcPropertyDefinition(
-      Oslc_rmVocabularyConstants.REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE + "constrains")
+  @OslcPropertyDefinition(Oslc_rmVocabularyConstants.CONSTRAINS_PROP)
   @OslcDescription("The object is constrained by the subject.")
   @OslcOccurs(Occurs.ZeroOrMany)
   @OslcValueType(ValueType.Resource)

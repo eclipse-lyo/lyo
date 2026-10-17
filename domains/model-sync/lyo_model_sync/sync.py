@@ -847,7 +847,7 @@ def maybe_set_occurs(rp_element, p):
     if occurs:
         # map OSLC occurs URIs to model strings
         if occurs.endswith('#Exactly-one') or occurs.endswith('#Exactly-one') or occurs.endswith('Exactly-one'):
-            rp_element.set('occurs', 'oneOrOne')
+            rp_element.set('occurs', 'exactlyOne')
             return
         if occurs.endswith('Zero-or-one'):
             rp_element.set('occurs', 'zeroOrOne')
@@ -861,7 +861,7 @@ def maybe_set_occurs(rp_element, p):
     if minc is None and maxc is None:
         return
     if minc == 1 and (maxc is None or maxc == 1):
-        rp_element.set('occurs', 'oneOrOne')
+        rp_element.set('occurs', 'exactlyOne')
     elif minc == 0 and maxc == 1:
         rp_element.set('occurs', 'zeroOrOne')
     elif minc == 0 and (maxc is None or maxc > 1):

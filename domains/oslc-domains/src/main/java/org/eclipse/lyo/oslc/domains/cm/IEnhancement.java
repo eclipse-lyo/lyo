@@ -53,17 +53,18 @@ import org.eclipse.lyo.oslc4j.core.model.Representation;
 import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
-import org.eclipse.lyo.oslc.domains.IAgent;
-import org.eclipse.lyo.oslc.domains.cm.IChangeRequest;
-import org.eclipse.lyo.oslc.domains.config.IChangeSet;
-import org.eclipse.lyo.oslc.domains.cm.IDefect;
-import org.eclipse.lyo.oslc4j.core.model.IDiscussion;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc.domains.cm.IPriority;
-import org.eclipse.lyo.oslc.domains.rm.IRequirement;
-
-import org.eclipse.lyo.oslc.domains.cm.ISeverity;
-import org.eclipse.lyo.oslc.domains.cm.IState;
+import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.cm.Defect;
+import org.eclipse.lyo.oslc4j.core.model.Discussion;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc.domains.cm.Priority;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.cm.Severity;
+import org.eclipse.lyo.oslc.domains.cm.State;
 // Start of user code imports
 // End of user code
 // spotless:on
