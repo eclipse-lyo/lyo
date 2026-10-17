@@ -2,9 +2,9 @@ name: CI Parent
 
 on:
   push:
-    branches: [master, maint-*]
+    branches: [main, maint-*]
   pull_request:
-    branches: [master, maint-*]
+    branches: [main, maint-*]
 
 # Does not help, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=574043
 #permissions: read-all
@@ -74,7 +74,7 @@ jobs:
           show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
         if: matrix.distribution != 'oracle-openjdk'
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
@@ -86,7 +86,7 @@ jobs:
           release: EA
           version: stable
           # version: latest
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -98,7 +98,13 @@ jobs:
           if [ "${{ matrix.experimental }}" = "true" ]; then
             EXTRA_FLAGS="-X"
           fi
-            mvn -B $EXTRA_FLAGS verify --file pom.xml -P'!spotbugs'
+            mvn -B $EXTRA_FLAGS install --file pom.xml -P'!spotbugs'
+      - name: Verify BOM consumer
+        run: |
+          LYO_VERSION="$(mvn -q -N help:evaluate -Dexpression=project.version -DforceStdout)"
+          mvn -B verify \
+            -Drevision="$LYO_VERSION" \
+            --file bom/lyo-bom-consumer-test/pom.xml
   spotbugs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -110,11 +116,11 @@ jobs:
         with:
           show-progress: false
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -134,11 +140,11 @@ jobs:
           fetch-depth: 0
           show-progress: false
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: zulu
           java-version: 25
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}

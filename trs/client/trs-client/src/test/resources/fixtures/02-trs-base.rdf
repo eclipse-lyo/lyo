@@ -1,0 +1,21 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:lqe="http://jazz.net/ns/lqe#"
+    xmlns:trs1="http://jazz.net/ns/trs#"
+    xmlns:jazz="http://jazz.net/ns/jazz#"
+    xmlns:ldp="http://www.w3.org/ns/ldp#"
+    xmlns:trspatch="http://open-services.net/ns/core/trspatch#"
+    xmlns:trs2="http://open-services.net/ns/core/trs#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" > 
+  <rdf:Description rdf:about="http://localhost:8080/qm/trs2/base">
+    <ldp:member rdf:resource="http://localhost:8080/qm/oslc_config/resourceShapes/com.ibm.team.vvc.Component"/>
+    <trs2:cutoffEvent rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <ldp:hasMemberRelation rdf:resource="http://www.w3.org/ns/ldp#member"/>
+    <ldp:membershipResource rdf:resource="http://localhost:8080/qm/trs2/base"/>
+    <rdf:type rdf:resource="http://www.w3.org/ns/ldp#DirectContainer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://localhost:8080/qm/trs2/base/_BrxtQPiLEfCemrqJG70qgA?pageNum=0">
+    <ldp:nextPage rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+</rdf:RDF>

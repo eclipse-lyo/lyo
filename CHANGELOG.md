@@ -4,6 +4,7 @@
 
 ### Security
 
+- **CVE-2026-18918** A vulnerability was discovered in Eclipse Lyo 6.0.0 and earlier versions, where the AbstractAdapterCredentialsFilter could be misused to bypass authentication when used in 2-legged OAuth flows. This release fixes the issue.
 - 🔒️ Apache Jena dependency was updated from v4.8 to v4.10. Some changes have a breaking nature. **Addresses [CVE CVE-2023-32200](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-32200)** 
 - Apache Commons Lang 1 dependency was removed in favour of Apache Commons Lang 3. **Addresses [CVE-2025-48924](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-48924)**
 
@@ -16,6 +17,11 @@
 
 ### Changed
 
+- 🧨 TRS Client reset callback `IProviderEventHandler.rebase()` is now `rebuild()`.
+  `ServerRollBackException` is now `RebuildRequiredException`: a missing sync event can
+  result from log truncation as well as rollback. Server rebases do not require fetching
+  the base again while the last processed event remains in the change log.
+
 - 🧨 Migrated to Jena 6. JDK 21 is the baseline requirement. JSON-LD 1.1 is used instead of JSON-LD 1.0.
 - Lyo Validation now uses Jena's native support for SHACL instead of relying on ShaclEx
 - InputStream is now the preferred interface for initializing OslcQueryResult
@@ -25,9 +31,12 @@
 - InMemPagedTRS handles concurrency.
 - When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
 - More stable construction of return URLs when approving OAuth 1 consumer keys
+- `AbstractOslcRdfXmlProvider` now serializes RDF/XML, Turtle, and JSON-LD via Jena's RIOT `RDFFormat`/`RDFWriter` API instead of the deprecated `RDFXML_Basic` writer and the legacy string-based `model.getWriter(...)`.
+- RDF responses are pretty-printed by default. Set `org.eclipse.lyo.oslc4j.prettyPrint=false` in production to use streaming Turtle and flat JSON-LD writers. RDF/XML uses `RDFXML_PLAIN` by default for Jazz compatibility regardless of pretty printing; set `org.eclipse.lyo.oslc4j.jazzCompatibility=false` to allow Jena’s pretty RDF/XML writer when pretty printing is enabled. Explicit abbreviated XML settings and `application/xml` retain the custom abbreviated writer.
 
 ### Deprecated
 
+- Constants in `OSLC4JConstants` now use the `LYO_` prefix. Existing names remain as deprecated aliases; system-property names and values are unchanged.
 - Deprecate OslcQueryResult constructors that take a Response object. Use the new constructor accepting an InputStream instead.
 
 ### Removed
@@ -44,6 +53,8 @@
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
+- `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
+- `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 
 ## [6.0.0]
 

@@ -24,13 +24,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
 import org.eclipse.lyo.core.trs.TrackedResourceSet;
 import org.eclipse.lyo.trs.client.exceptions.RepresentationRetrievalException;
-import org.eclipse.lyo.trs.client.exceptions.ServerRollBackException;
+import org.eclipse.lyo.trs.client.exceptions.RebuildRequiredException;
 import org.eclipse.lyo.trs.client.model.BaseMember;
 import org.eclipse.lyo.trs.client.model.ChangeEventMessageTR;
 import org.eclipse.lyo.trs.client.util.ITrackedResourceClient;
@@ -67,9 +66,9 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
             pollAndProcessChanges();
         } catch (Exception e) {
             // FIXME Andrew@2019-07-15: can get stuck in the loop
-            log.warn("Force rebase");
+            log.warn("Force rebuild");
             lastProcessedChangeEventUri = null;
-            handler.rebase();
+            handler.rebuild();
         }
     }
 
@@ -88,39 +87,14 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
      * @return true if the last processed change event is found, false otherwise
      */
     public boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
-        boolean foundChangeEvent = false;
-        URI previousChangeLog;
-        do {
-            if (currentChangeLog != null) {
-                changeLogs.add(currentChangeLog);
-                if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
-                        currentChangeLog)) {
-                    foundChangeEvent = true;
-                    break;
-                }
-                previousChangeLog = currentChangeLog.getPrevious();
-                if(previousChangeLog == null || URI.create(RDF.nil.getURI()).equals(previousChangeLog)) {
-                    if(URI.create(RDF.nil.getURI()).equals(lastProcessedChangeEventUri)) {
-                        log.debug("First ChangeLog page reached");
-                        foundChangeEvent = true;
-                    }
-                    else {
-                        log.error("Changelog read to the end without finding the cutoff event URI");
-                    }
-                    break;
-                }
-                currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
-            } else {
-                break;
-            }
-        } while (!RDF.nil.getURI().equals(previousChangeLog.toString()));
-        return foundChangeEvent;
+        return ProviderUtil.fetchRemoteChangeLogs(
+                trsClient, lastProcessedChangeEventUri, currentChangeLog, changeLogs);
     }
 
     private void pollAndProcessChanges() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date processingDateStart = new Date();
-        log.info("started dealing with TRS Provider: " + trsUriBase);
+        log.debug("started dealing with TRS Provider: {}", trsUriBase);
 
         TrackedResourceSet updatedTrs = trsClient.extractRemoteTrs(trsUriBase);
         boolean indexingStage = false;
@@ -225,10 +199,9 @@ public class ConcurrentTrsProviderHandler implements IProviderHandler {
         foundSyncEvent = fetchRemoteChangeLogs(firstChangeLog, changeLogs);
         if (!foundSyncEvent) {
             lastProcessedChangeEventUri = null;
-            throw new ServerRollBackException(
-                    "The sync event can not be found. The sever provinding the trs at: " +
-                            trsUriBase + " seems to " + "have been rollecd back to a previous " +
-                            "state");
+            throw new RebuildRequiredException(
+                    "The last processed change event is no longer in the change log for "
+                            + trsUriBase + "; the client synchronization must be rebuilt");
         }
         return changeLogs;
     }

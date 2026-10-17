@@ -61,9 +61,9 @@ public class TrsConsumerUtils {
 //            try {
 //                // we actually need to wait here, but not in the listener
 //                trsProvider.pollAndProcessChanges();
-//            } catch (ServerRollBackException e) {
+//            } catch (RebuildRequiredException e) {
 //                log.warn(
-//                        "Cannot find the internal cutoff event in the Change Logs; treating this as a rebase/rollback scenario.");
+//                        "Cannot find the internal cutoff event in the Change Logs; treating this as a rebuild/rollback scenario.");
 //            } catch (Exception e) {
 //                log.error("Unknown error processing CEs from the TRS Server '{}'", trsProvider);
 //            }

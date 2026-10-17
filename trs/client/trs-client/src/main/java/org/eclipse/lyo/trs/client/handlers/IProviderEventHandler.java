@@ -24,5 +24,10 @@ public interface IProviderEventHandler {
 
     void handleChangeEvent(ChangeEventMessageTR eventMessageTR);
 
-    void rebase();
+    /**
+     * Discard the synchronized state for this provider before rebuilding it from the base
+     * and change log on the next update. A server rebase alone does not require a client
+     * rebuild while the last processed change event remains in the change log.
+     */
+    void rebuild();
 }
