@@ -225,8 +225,8 @@ class ClientUtil {
             throws TrsEndpointConfigException, TrsEndpointErrorException, LyoModelException {
         final Response.StatusType responseInfo = response.getStatusInfo();
         final Response.Status.Family httpCodeType = responseInfo.getFamily();
-        log.debug("HTTP response status: {} {}", responseInfo.getStatusCode(), responseInfo.getReasonPhrase());
-        log.debug("HTTP response headers: {}", response.getHeaders());
+        log.trace("HTTP response status: {} {}", responseInfo.getStatusCode(), responseInfo.getReasonPhrase());
+        log.trace("HTTP response headers: {}", response.getHeaders());
         if (httpCodeType.equals(Response.Status.Family.CLIENT_ERROR)) {
 //            TODO these are not TRS exceptions but OSLC Client exceptions
             throw new TrsEndpointConfigException("Error " + responseInfo.getReasonPhrase());
