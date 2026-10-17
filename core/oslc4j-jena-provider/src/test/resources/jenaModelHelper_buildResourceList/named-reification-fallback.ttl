@@ -1,0 +1,15 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ex:    <http://example.com/ns#> .
+
+<http://example.com/resource1>
+    a ex:DifferentType ;
+    ex:aproperty "Real resource" .
+
+# Named (non-blank) reification node, e.g. produced by RDF/XML rdf:ID striping resolving
+# to a document-local fragment URI. Must be excluded just like blank-node reifications are.
+<http://example.com/resource1#namedReif>
+    a rdf:Statement ;
+    rdf:subject <http://example.com/resource1> ;
+    rdf:predicate ex:aproperty ;
+    rdf:object "Real resource" ;
+    ex:reificationLabel "Named reification label" .

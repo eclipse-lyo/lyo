@@ -561,7 +561,7 @@ public class JenaModelHelperTest {
 
   /**
    * Section: Type-Specific Mode Tests (default behavior)
-   * 
+   *
    * These tests verify the default behavior when useBeanClassForParsing is false.
    * Resources must match the bean class's rdf:type to be included.
    */
@@ -579,7 +579,7 @@ public class JenaModelHelperTest {
     final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
 
     assertNotNull(resources);
-    assertEquals("Should find only resources with matching type (3), excluding the one with different type", 
+    assertEquals("Should find only resources with matching type (3), excluding the one with different type",
         3, resources.length);
 
     // Verify only the matching type URIs are present
@@ -587,9 +587,9 @@ public class JenaModelHelperTest {
     assertTrue(uris.contains(URI.create("http://example.com/resource1")));
     assertTrue(uris.contains(URI.create("http://example.com/resource2")));
     assertTrue(uris.contains(URI.create("http://example.com/resource3")));
-    
+
     // Verify resource4 with different type is NOT included
-    assertFalse("Resource with different type should be excluded", 
+    assertFalse("Resource with different type should be excluded",
         uris.contains(URI.create("http://example.com/resource4")));
   }
 
@@ -605,7 +605,7 @@ public class JenaModelHelperTest {
     final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
 
     assertNotNull(resources);
-    assertEquals("Should return empty array when type doesn't match in type-specific mode", 
+    assertEquals("Should return empty array when type doesn't match in type-specific mode",
         0, resources.length);
   }
 
@@ -621,12 +621,12 @@ public class JenaModelHelperTest {
     // Should find BOTH resources - the "top-level" one and the "inline" one
     assertNotNull(resources);
     assertEquals("Should find all resources with matching type and properties", 2, resources.length);
-    
+
     // Verify both URIs are present
     List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
-    assertTrue("Should include the top-level resource", 
+    assertTrue("Should include the top-level resource",
         uris.contains(URI.create("http://example.com/toplevel")));
-    assertTrue("Should include the inline resource", 
+    assertTrue("Should include the inline resource",
         uris.contains(URI.create("http://example.com/inline")));
   }
 
@@ -642,8 +642,8 @@ public class JenaModelHelperTest {
     // Should find the resource with matching type, not the reification node
     assertNotNull(resources);
     assertEquals("Should find resource with matching type (not the rdf:Statement node)", 1, resources.length);
-    assertEquals("Should be the actual resource URI", 
-        URI.create("http://example.com/issue/ADC-37"), 
+    assertEquals("Should be the actual resource URI",
+        URI.create("http://example.com/issue/ADC-37"),
         resources[0].getAbout());
   }
 
@@ -658,21 +658,21 @@ public class JenaModelHelperTest {
 
     // Should find both resources if they have matching types
     assertNotNull(resources);
-    assertEquals("Should find all resources with matching types despite circular references", 
+    assertEquals("Should find all resources with matching types despite circular references",
         2, resources.length);
 
     // Verify both URIs are present
     List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
-    assertTrue("Should include the first resource", 
+    assertTrue("Should include the first resource",
         uris.contains(URI.create("http://example.com/requirements/REQ-123")));
-    assertTrue("Should include the second resource", 
+    assertTrue("Should include the second resource",
         uris.contains(URI.create("http://example.com/changeRequests/CR-456")));
   }
 
   /**
    * Tests that when unmarshaling a model containing two resources - of the same type - where one references the other,
    * both resources are included in the results and the reference is properly populated.
-   * 
+   *
    * <ul>
    *   <li>Both resources are returned in the results array (both have rdf:type and properties)</li>
    *   <li>The referencing resource has its relatedResource property populated with correct URI and values</li>
@@ -709,8 +709,8 @@ public class JenaModelHelperTest {
 
     // Verify that resource1's reference to resource2 is properly populated
     assertNotNull("Resource1 should have relatedResource populated", resource1.getRelatedResource());
-    assertEquals("Resource1's relatedResource should point to resource2", 
-        URI.create("http://example.com/resource2"), 
+    assertEquals("Resource1's relatedResource should point to resource2",
+        URI.create("http://example.com/resource2"),
         resource1.getRelatedResource().getAbout());
     assertEquals("Resource1's relatedResource should have correct property value",
         "Resource 2",
@@ -719,7 +719,7 @@ public class JenaModelHelperTest {
 
   /**
    * Section: Fallback Mode Tests (useBeanClassForParsing = true)
-   * 
+   *
    * These tests verify the fallback behavior when useBeanClassForParsing is true.
    * If type-specific matching fails, the system falls back to all unmarshalable resources.
    */
@@ -762,15 +762,15 @@ public class JenaModelHelperTest {
       // Should use type-specific matching first (same as without fallback)
       assertNotNull(resources);
       assertEquals("Should find only resources with matching type (3), not all resources", 3, resources.length);
-      
+
       // Verify only matching type URIs are present
       List<URI> uris = Arrays.stream(resources).map(TestResource::getAbout).toList();
       assertTrue(uris.contains(URI.create("http://example.com/resource1")));
       assertTrue(uris.contains(URI.create("http://example.com/resource2")));
       assertTrue(uris.contains(URI.create("http://example.com/resource3")));
-      
+
       // Verify resource4 with different type is NOT included even in fallback mode
-      assertFalse("Resource with different type should be excluded even in fallback mode when type matching succeeds", 
+      assertFalse("Resource with different type should be excluded even in fallback mode when type matching succeeds",
           uris.contains(URI.create("http://example.com/resource4")));
     } finally {
       OSLC4JUtils.setUseBeanClassForParsing(null);
@@ -795,13 +795,13 @@ public class JenaModelHelperTest {
 
       assertNotNull(resources);
       assertEquals("Should find all 4 resources via fallback when no types match", 4, resources.length);
-      
+
       // Verify all 4 URIs are present (including the one with different type)
       List<URI> uris = Arrays.stream(resources).map(Dog::getAbout).toList();
       assertTrue("Should include resource1", uris.contains(URI.create("http://example.com/resource1")));
       assertTrue("Should include resource2", uris.contains(URI.create("http://example.com/resource2")));
       assertTrue("Should include resource3", uris.contains(URI.create("http://example.com/resource3")));
-      assertTrue("Should include resource4 with different type in fallback mode", 
+      assertTrue("Should include resource4 with different type in fallback mode",
           uris.contains(URI.create("http://example.com/resource4")));
     } finally {
       OSLC4JUtils.setUseBeanClassForParsing(null);
@@ -821,7 +821,7 @@ public class JenaModelHelperTest {
 
       // Should only find the URI resource, not the blank node
       assertNotNull(resources);
-      assertEquals("Should find only URI resources, not blank nodes (even in fallback mode)", 
+      assertEquals("Should find only URI resources, not blank nodes (even in fallback mode)",
           1, resources.length);
       assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
     } finally {
@@ -842,9 +842,60 @@ public class JenaModelHelperTest {
 
       // Should include the resource even if referenced by rdf:subject
       assertNotNull(resources);
-      assertEquals("Should find the resource (fallback includes all unmarshalable resources)", 
+      assertEquals("Should find the resource (fallback includes all unmarshalable resources)",
           1, resources.length);
       assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * Tests fallback mode excludes *named* (non-blank) reification nodes, not just blank-node
+   * ones. A reification node identified by an explicit URI (e.g. as produced by RDF/XML
+   * rdf:ID striping resolving to a document-local fragment) still passes isURIResource(), so
+   * it must be excluded via its rdf:type (rdf:Statement) instead.
+   */
+  @Test
+  public void testFallbackMode_ExcludesNamedReification() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model =
+          RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/named-reification-fallback.ttl");
+
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      assertNotNull(resources);
+      assertEquals(
+          "Should find only the real resource, excluding the named (URI) reification node",
+          1, resources.length);
+      assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+      assertEquals("Real resource", resources[0].getAproperty());
+    } finally {
+      OSLC4JUtils.setUseBeanClassForParsing(null);
+    }
+  }
+
+  /**
+   * End-to-end variant of {@link #testFallbackMode_ExcludesNamedReification()} using real
+   * RDF/XML rdf:ID property-attribute striping (as seen in the field) instead of a hand-written
+   * named reification triple, to also exercise the parser's base URI / fragment resolution.
+   */
+  @Test
+  public void testFallbackMode_ExcludesNamedReificationFromRdfIdStriping() throws Exception {
+    OSLC4JUtils.setUseBeanClassForParsing("true");
+    try {
+      final Model model =
+          RDFHelper.loadResourceModel("jenaModelHelper_buildResourceList/named-reification-rdfid-striping.xml");
+
+      final TestResource[] resources = JenaModelHelper.unmarshal(model, TestResource.class);
+
+      assertNotNull(resources);
+      assertEquals(
+          "Should find only the real resource, excluding the rdf:ID-striped reification node",
+          1, resources.length);
+      assertEquals(URI.create("http://example.com/resource1"), resources[0].getAbout());
+      assertEquals("Real resource", resources[0].getAproperty());
     } finally {
       OSLC4JUtils.setUseBeanClassForParsing(null);
     }
