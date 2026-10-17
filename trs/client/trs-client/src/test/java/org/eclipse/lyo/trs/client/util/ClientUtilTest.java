@@ -10,8 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -189,6 +187,17 @@ class ClientUtilTest {
         }
     }
 
+    @Test
+    void testBlankNodeDirectContainerIsSkipped() throws Exception {
+        Model model = ModelFactory.createDefaultModel();
+        Resource type = model.createResource("http://www.w3.org/ns/ldp#DirectContainer");
+        model.createResource().addProperty(RDF.type, type);
+        org.junit.jupiter.api.Assertions.assertNull(ClientUtil.extractBaseFromRdfModel(model));
+        model.createResource(baseUri + "/base").addProperty(RDF.type, type);
+        org.junit.jupiter.api.Assertions.assertEquals(URI.create(baseUri + "/base"),
+                ClientUtil.extractBaseFromRdfModel(model).getAbout());
+    }
+
     private Model loadModel(String fixtureName) throws IOException {
         String body = getFixtureBody(fixtureName);
         Model model = ModelFactory.createDefaultModel();
@@ -197,8 +206,11 @@ class ClientUtilTest {
     }
 
     private String getFixtureBody(String fixtureName) throws IOException {
-        Path path = Path.of("src/test/resources/fixtures", fixtureName);
-        return Files.readString(path).replace("http://localhost:8080", baseUri);
+        try (var stream = getClass().getResourceAsStream("/fixtures/" + fixtureName)) {
+            if (stream == null) throw new IOException("Missing fixture: " + fixtureName);
+            return new String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                    .replace("http://localhost:8080", baseUri);
+        }
     }
 
     private String stabilize(String content) {

@@ -37,6 +37,40 @@ class TrsClientRebuildTest {
         exerciseServerRebase(concurrent, false);
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void emptyBaseDoesNotRebuildWhileEventsAccumulate(boolean concurrent) throws Exception {
+        URI endpoint = URI.create("https://example.com/trs");
+        URI nil = URI.create(RDF.nil.getURI());
+        ITrackedResourceClient client = mock(ITrackedResourceClient.class);
+        IProviderEventHandler events = mock(IProviderEventHandler.class);
+        IProviderHandler provider = concurrent
+                ? new ConcurrentTrsProviderHandler(endpoint, client, events)
+                : new TrsProviderHandler(endpoint, client, events);
+        Base base = new Base();
+        base.setCutoffEvent(nil);
+        ChangeLog log = new ChangeLog();
+        log.setPrevious(nil);
+        TrackedResourceSet trs = new TrackedResourceSet();
+        trs.setChangeLog(log);
+        when(client.extractRemoteTrs(endpoint)).thenReturn(trs);
+        when(client.updateBases(trs)).thenReturn(List.of(base));
+
+        provider.update();
+        // Both supported end-of-log representations must preserve the empty-base cursor.
+        log.setPrevious(null);
+        provider.update();
+        log.getChange().add(deletion("first", 1));
+        provider.update();
+        log.getChange().add(deletion("second", 2));
+        provider.update();
+
+        verify(client).updateBases(trs);
+        verify(events, never()).rebuild();
+        verify(events, times(2)).handleChangeEvent(any());
+        verify(events, times(4)).finishCycle();
+    }
+
     private void exerciseServerRebase(boolean concurrent, boolean retainLastEvent) throws Exception {
         URI endpoint = URI.create("https://example.com/trs");
         URI nil = URI.create(RDF.nil.getURI());

@@ -141,54 +141,65 @@ class ClientUtil {
             rdFModel.getResource(LDP_DIRECT_CONTAINER)
         );
 
-        if (!directContainers.hasNext()) {
-            return null;
-        }
-
-        Resource containerResource = directContainers.next();
-        log.debug("Found ldp:DirectContainer at {}", containerResource.getURI());
-
-        Base base = new Base();
         try {
-            base.setAbout(new URI(containerResource.getURI()));
-        } catch (URISyntaxException e) {
-            throw new LyoModelException(e);
-        }
+            while (directContainers.hasNext()) {
+                Resource containerResource = directContainers.next();
+                if (!containerResource.isURIResource()) {
+                    log.debug("Skipping blank-node ldp:DirectContainer");
+                    continue;
+                }
+                log.debug("Found ldp:DirectContainer at {}", containerResource.getURI());
 
-        // Extract cutoffEvent
-        if (containerResource.hasProperty(rdFModel.getProperty(TRS_CUTOFF_EVENT))) {
-            Resource cutoffResource = containerResource.getPropertyResourceValue(
-                rdFModel.getProperty(TRS_CUTOFF_EVENT)
-            );
-            if (cutoffResource != null && cutoffResource.isURIResource()) {
+                Base base = new Base();
                 try {
-                    base.setCutoffEvent(new URI(cutoffResource.getURI()));
+                    base.setAbout(new URI(containerResource.getURI()));
                 } catch (URISyntaxException e) {
                     throw new LyoModelException(e);
                 }
-            }
-        }
 
-        // Extract members (try both rdfs:member and ldp:member)
-        org.apache.jena.rdf.model.Property memberProp = rdFModel.getProperty(RDFS_MEMBER);
-        if (!containerResource.hasProperty(memberProp)) {
-            memberProp = rdFModel.getProperty(LDP_MEMBER);
-        }
-
-        var memberStmts = containerResource.listProperties(memberProp);
-        while (memberStmts.hasNext()) {
-            var stmt = memberStmts.next();
-            if (stmt.getObject().isURIResource()) {
-                try {
-                    base.getMembers().add(new URI(stmt.getObject().asResource().getURI()));
-                } catch (URISyntaxException e) {
-                    log.warn("Invalid member URI: {}", stmt.getObject());
+                // Extract cutoffEvent
+                if (containerResource.hasProperty(rdFModel.getProperty(TRS_CUTOFF_EVENT))) {
+                    Resource cutoffResource = containerResource.getPropertyResourceValue(
+                        rdFModel.getProperty(TRS_CUTOFF_EVENT)
+                    );
+                    if (cutoffResource != null && cutoffResource.isURIResource()) {
+                        try {
+                            base.setCutoffEvent(new URI(cutoffResource.getURI()));
+                        } catch (URISyntaxException e) {
+                            throw new LyoModelException(e);
+                        }
+                    }
                 }
-            }
-        }
 
-        log.debug("Extracted Base with {} members from DirectContainer", base.getMembers().size());
-        return base;
+                // Extract members (try both rdfs:member and ldp:member)
+                org.apache.jena.rdf.model.Property memberProp = rdFModel.getProperty(RDFS_MEMBER);
+                if (!containerResource.hasProperty(memberProp)) {
+                    memberProp = rdFModel.getProperty(LDP_MEMBER);
+                }
+
+                var memberStmts = containerResource.listProperties(memberProp);
+                try {
+                    while (memberStmts.hasNext()) {
+                        var stmt = memberStmts.next();
+                        if (stmt.getObject().isURIResource()) {
+                            try {
+                                base.getMembers().add(new URI(stmt.getObject().asResource().getURI()));
+                            } catch (URISyntaxException e) {
+                                log.warn("Invalid member URI: {}", stmt.getObject());
+                            }
+                        }
+                    }
+                } finally {
+                    memberStmts.close();
+                }
+
+                log.debug("Extracted Base with {} members from DirectContainer", base.getMembers().size());
+                return base;
+            }
+            return null;
+        } finally {
+            directContainers.close();
+        }
     }
 
     /**

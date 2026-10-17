@@ -17,7 +17,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.vocabulary.RDF;
 import org.eclipse.lyo.core.trs.Base;
 import org.eclipse.lyo.core.trs.ChangeEvent;
 import org.eclipse.lyo.core.trs.ChangeLog;
@@ -267,30 +266,8 @@ public class TrsProviderHandler implements IProviderHandler {
      * @return true if the last processed change event is found, false otherwise
      */
     private boolean fetchRemoteChangeLogs(ChangeLog currentChangeLog, List<ChangeLog> changeLogs) {
-        boolean foundChangeEvent = false;
-        URI previousChangeLog;
-        do {
-            if (currentChangeLog != null) {
-                changeLogs.add(currentChangeLog);
-                if (ProviderUtil.changeLogContainsEvent(lastProcessedChangeEventUri,
-                        currentChangeLog)) {
-                    foundChangeEvent = true;
-                    break;
-                }
-                previousChangeLog = currentChangeLog.getPrevious();
-                if (ProviderUtil.isNilUri(lastProcessedChangeEventUri) && ProviderUtil.isNilUri(previousChangeLog)) {
-                    foundChangeEvent = true;
-                    break;
-                }
-                if (previousChangeLog == null) {
-                    break;
-                }
-                currentChangeLog = trsClient.fetchRemoteChangeLog(previousChangeLog);
-            } else {
-                break;
-            }
-        } while (!RDF.nil.getURI().equals(previousChangeLog.toString()));
-        return foundChangeEvent;
+        return ProviderUtil.fetchRemoteChangeLogs(
+                trsClient, lastProcessedChangeEventUri, currentChangeLog, changeLogs);
     }
 
 }
