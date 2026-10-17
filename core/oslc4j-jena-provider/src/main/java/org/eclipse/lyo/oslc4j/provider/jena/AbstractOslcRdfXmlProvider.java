@@ -71,7 +71,7 @@ public abstract class AbstractOslcRdfXmlProvider {
    * @see RdfXmlAbbreviatedWriter
    */
   @Deprecated
-  public static final String OSLC4J_ALWAYS_XML_ABBREV = OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV;
+  public static final String OSLC4J_ALWAYS_XML_ABBREV = OSLC4JConstants.LYO_ALWAYS_XML_ABBREV;
 
   /**
    * System property {@value} : When "true" (default), fail on when reading a
@@ -79,7 +79,7 @@ public abstract class AbstractOslcRdfXmlProvider {
    * skip over invalid values in extended properties.
    */
   @Deprecated
-  public static final String OSLC4J_STRICT_DATATYPES = JenaModelHelper.OSLC4J_STRICT_DATATYPES;
+  public static final String OSLC4J_STRICT_DATATYPES = OSLC4JConstants.LYO_STRICT_DATATYPES;
 
   private static final Annotation[] ANNOTATIONS_EMPTY_ARRAY = new Annotation[0];
   private static final Class<Error> CLASS_OSLC_ERROR = Error.class;
@@ -113,7 +113,7 @@ public abstract class AbstractOslcRdfXmlProvider {
         && serializationFormat.isPresent()
         && RDFLanguages.RDFXML.equals(serializationFormat.get().getLang())
         && "true"
-            .equals(System.getProperty(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV_ONLY_PROVIDERS))) {
+            .equals(System.getProperty(OSLC4JConstants.LYO_ALWAYS_XML_ABBREV_ONLY_PROVIDERS))) {
       serializationFormat = Optional.empty();
       log.info("Using RDF/XML-ABBREV for ServiceProvider resources");
     }
@@ -230,15 +230,15 @@ public abstract class AbstractOslcRdfXmlProvider {
         isClientSide
             ? null
             : (Map<String, Object>)
-                httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_SELECTED_PROPERTIES);
+                httpServletRequest.getAttribute(OSLC4JConstants.LYO_SELECTED_PROPERTIES);
     final String nextPageURI =
         isClientSide
             ? null
-            : (String) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
+            : (String) httpServletRequest.getAttribute(OSLC4JConstants.LYO_NEXT_PAGE);
     final Integer totalCount =
         isClientSide
             ? null
-            : (Integer) httpServletRequest.getAttribute(OSLC4JConstants.OSLC4J_TOTAL_COUNT);
+            : (Integer) httpServletRequest.getAttribute(OSLC4JConstants.LYO_TOTAL_COUNT);
 
     ResponseInfo<?> responseInfo =
         new ResponseInfoArray<>(null, properties, totalCount, nextPageURI);
@@ -289,12 +289,12 @@ public abstract class AbstractOslcRdfXmlProvider {
     boolean prettyPrint =
         Boolean.parseBoolean(
             System.getProperty(
-                OSLC4JConstants.OSLC4J_PRETTY_PRINT, OSLC4JConstants.OSLC4J_PRETTY_PRINT_DEFAULT));
+                OSLC4JConstants.LYO_PRETTY_PRINT, OSLC4JConstants.LYO_PRETTY_PRINT_DEFAULT));
     boolean jazzCompatibility =
         Boolean.parseBoolean(
             System.getProperty(
-                OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY,
-                OSLC4JConstants.OSLC4J_JAZZ_COMPATIBILITY_DEFAULT));
+                OSLC4JConstants.LYO_JAZZ_COMPATIBILITY,
+                OSLC4JConstants.LYO_JAZZ_COMPATIBILITY_DEFAULT));
     RDFFormat rdfXmlFormat =
         prettyPrint && !jazzCompatibility ? RDFFormat.RDFXML_PRETTY : RDFFormat.RDFXML_PLAIN;
     mediaPairs.add(
