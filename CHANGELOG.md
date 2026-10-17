@@ -47,6 +47,8 @@
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
 - OSLC query parsing now rejects unresolved prefixes and duplicate prefix declarations, and preserves all selected nested properties when the selection is inverted.
+- `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
+- `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 
 ## [6.0.0]
 

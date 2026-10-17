@@ -309,7 +309,7 @@ public class QueryUtils
 	 * <li> Wildcard, if all
 	 * properties at this level are to be output.  No recursion
 	 * below this level is to be done.</li>
-	 * <li> {@link org.eclipse.lyo.oslc4j.core.OSLC4JConstants#OSL4J_PROPERTY_SINGLETON OSLC4JConstants.OSL4J_PROPERTY_SINGLETON} - if only
+	 * <li> {@link org.eclipse.lyo.oslc4j.core.OSLC4JConstants#LYO_PROPERTY_SINGLETON OSLC4JConstants.LYO_PROPERTY_SINGLETON} - if only
 	 * the named property is to be output, without recursion</li>
 	 * <li> a nested property list to recurse through</li>
 	 * </ul>
@@ -359,7 +359,7 @@ public class QueryUtils
 				}
 
 				result.put(propertyName,
-						   OSLC4JConstants.OSL4J_PROPERTY_SINGLETON);
+						   OSLC4JConstants.LYO_PROPERTY_SINGLETON);
 
 				break;
 
@@ -412,7 +412,7 @@ public class QueryUtils
 
 			Object selectedProperties = propertyMapping.getValue();
 
-			if (selectedProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+			if (selectedProperties == OSLC4JConstants.LYO_PROPERTY_SINGLETON) {
 				propertyMapping.setValue(commonNestedProperties);
 			} else if (selectedProperties instanceof Map) {
 				@SuppressWarnings("unchecked")
@@ -657,11 +657,11 @@ public class QueryUtils
 			Object lhsProperties = lhs.get(propertyName);
 
 			if (lhsProperties == rhsProperties ||
-					lhsProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+					lhsProperties == OSLC4JConstants.LYO_PROPERTY_SINGLETON) {
 				continue;
 			}
 
-			if (rhsProperties == OSLC4JConstants.OSL4J_PROPERTY_SINGLETON) {
+			if (rhsProperties == OSLC4JConstants.LYO_PROPERTY_SINGLETON) {
 				lhs.put(propertyName, rhsProperties);
 				continue;
 			}
