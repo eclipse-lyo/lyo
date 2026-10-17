@@ -59,7 +59,7 @@ public class SparqlDirectHandler implements IProviderEventHandler {
     }
 
     @Override
-    public void rebase() {
+    public void rebuild() {
 
     }
 }
