@@ -81,8 +81,8 @@ public class SparqlBatchingHandler implements IProviderEventHandler {
   }
 
   @Override
-  public void rebase() {
-    log.warn("Rebase");
+  public void rebuild() {
+    log.warn("Rebuild");
   }
 
   private String buildYugeQuery(final List<String> queries) {

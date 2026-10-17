@@ -1,0 +1,155 @@
+package org.eclipse.lyo.core.utils.marshallers;
+
+import jakarta.servlet.ServletContext;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class LyoConfigUtil {
+  private static final Logger log = LoggerFactory.getLogger(LyoConfigUtil.class);
+
+  /**
+   * For a property 'scheme', this is the lookup priority:
+   * <p>
+   * <ol>
+   *     <li>LYO_SCHEME env variable</li>
+   *     <li>%pkg_name%.scheme JVM property, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+   *     <li>LYO_SCHEME JNDI env entry</li>
+   *     <li>%pkg_name%.scheme Servlet Context parameter, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+   * </ol>
+   * @param key property key name
+   * @param defaultValue default String value
+   * @param klass Class of the ServletListener
+   * @return value, if found, from ENV, JVM, JNDI, or Servlet Context (in this order)
+   */
+  public static String getOslcConfigProperty(
+      String key, String defaultValue, final ServletContext servletContext, Class<?> klass) {
+    String value =
+        getParamFromEnvironment(generateEnvKey(key))
+            .orElseGet(
+                () ->
+                    getParamFromJvm(generatePackageBaseKey(klass, key))
+                        .orElseGet(
+                            () -> getParamFromJvm(key)
+                                .orElseGet(
+                                    () -> getParamFromJndi(generateEnvKey(key))
+                                        .orElseGet(
+                                            () ->
+                                                getParamFromContext(
+                                                        servletContext, generatePackageBaseKey(klass, key))
+                                                    .orElseGet(
+                                                        () -> getParamFromContext(servletContext, key)
+                                                            .orElse(defaultValue))))));
+    return value;
+  }
+
+  /**
+   * For a property 'scheme', this is the lookup priority:
+   * <p>
+   * <ol>
+   *     <li>LYO_SCHEME env variable</li>
+   *     <li>%pkg_name%.scheme JVM property, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+   * </ol>
+   * @param key property key name
+   * @param defaultValue default String value
+   * @param klass Class of the ServletListener
+   * @return value, if found, from ENV or JVM (in this order)
+   */
+  public static String getOslcConfigPropertyNoContext(
+      String key, String defaultValue, Class<?> klass) {
+    String value =
+        getParamFromEnvironment(generateEnvKey(key))
+            .orElseGet(
+                () -> getParamFromJvm(generatePackageBaseKey(klass, key))
+                    .orElseGet(
+                        () -> getParamFromJvm(key)
+                            .orElse(defaultValue)));
+    return value;
+  }
+
+  /**
+   * property name 'scheme' would become "org.eclipse.lyo.oslc4j.core.servlet.scheme"
+   */
+  public static String generatePackageBaseKey(Class<?> klass, String key) {
+    return klass.getPackage().getName() + '.' + key;
+  }
+
+  /**
+   * web.xml property ending in '.scheme' would become "LYO_SCHEME"
+   */
+  public static String generateEnvKey(String key) {
+    return "LYO_" + key.toUpperCase(Locale.ROOT).replace('.', '_');
+  }
+
+  public static Optional<String> getParamFromEnvironment(String basePathEnvKey) {
+    final Map<String, String> env = System.getenv();
+    if (env.containsKey(basePathEnvKey)) {
+      log.info("Found {} env variable", basePathEnvKey);
+      return Optional.of(env.get(basePathEnvKey));
+    }
+
+    // Fallback: check if the non-prefixed key is available
+    if (basePathEnvKey.startsWith("LYO_") && basePathEnvKey.length() > 4) {
+      String fallbackKey = basePathEnvKey.substring(4);
+      if (env.containsKey(fallbackKey)) {
+        log.info("Found {} env variable (fallback from {})", fallbackKey, basePathEnvKey);
+        return Optional.of(env.get(fallbackKey));
+      }
+    }
+
+    log.debug("ENV variable '{}' not defined", basePathEnvKey);
+    return Optional.empty();
+  }
+
+  public static Optional<String> getParamFromJndi(String key) {
+    try {
+      Context initContext = new InitialContext();
+      Context environmentContext = (Context) initContext.lookup("java:comp/env");
+      Object value = environmentContext.lookup(key);
+      if (value != null) {
+        log.info("Found JNDI env entry with key {}", key);
+        return Optional.of(value.toString());
+      }
+    } catch (NamingException exception) {
+      // JNDI lookup failure is normal outside a container or when the property is not defined.
+      log.debug("JNDI lookup failed for key '{}': {}", key, exception.getMessage());
+    }
+    return Optional.empty();
+  }
+
+  public static Optional<String> getParamFromJvm(String basePathContextPropertyKey) {
+    String value = System.getProperty(basePathContextPropertyKey);
+    if (value == null || value.trim().isEmpty()) {
+      log.debug("System (JVM) property '{}' not defined", basePathContextPropertyKey);
+      return Optional.empty();
+    }
+    log.info("Found {} System (JVM) property", basePathContextPropertyKey);
+    return Optional.of(value);
+  }
+
+  public static Optional<String> getParamFromContext(
+      final ServletContext servletContext, String basePathContextPropertyKey) {
+    String value = servletContext.getInitParameter(basePathContextPropertyKey);
+    if (value == null || value.trim().isEmpty()) {
+      log.debug("Servlet Context parameter '{}' not defined", basePathContextPropertyKey);
+      return Optional.empty();
+    }
+    log.info("Found {} context parameter", basePathContextPropertyKey);
+    return Optional.of(value);
+  }
+
+  public static String getHost() {
+    try {
+      return InetAddress.getLocalHost().getCanonicalHostName();
+    } catch (final UnknownHostException exception) {
+      return "localhost";
+    }
+  }
+}
