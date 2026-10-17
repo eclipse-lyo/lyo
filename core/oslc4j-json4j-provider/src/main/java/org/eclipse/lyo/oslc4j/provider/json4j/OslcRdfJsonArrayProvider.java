@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +19,6 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -30,89 +28,42 @@ import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
 
-/**
- * Use JSON-LD support in Jena provider.
- */
-@Deprecated
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+
 @Provider
 @Produces(OslcMediaType.APPLICATION_JSON)
 @Consumes(OslcMediaType.APPLICATION_JSON)
-public class OslcRdfJsonArrayProvider
-	   extends AbstractOslcRdfJsonProvider
-	   implements MessageBodyReader<Object[]>,
-				  MessageBodyWriter<Object[]>
-{
-	public OslcRdfJsonArrayProvider()
-	{
-		super();
-	}
+public class OslcRdfJsonArrayProvider extends AbstractOslcRdfJsonProvider implements MessageBodyReader<Object[]>, MessageBodyWriter<Object[]> {
+    public OslcRdfJsonArrayProvider() {
+        super();
+    }
 
-	@Override
-	public long getSize(final Object[]	   objects,
-						final Class<?>	   type,
-						final Type		   genericType,
-						final Annotation[] annotation,
-						final MediaType	   mediaType)
-	{
-		return -1;
-	}
+    @Override
+    public long getSize(final Object[] objects, final Class<?> type, final Type genericType, final Annotation[] annotation,
+            final MediaType mediaType) {
+        return -1;
+    }
 
-	@Override
-	public boolean isWriteable(final Class<?>	  type,
-							   final Type		  genericType,
-							   final Annotation[] annotations,
-							   final MediaType	  mediaType)
-	{
-		return (type.isArray()) &&
-			   (isWriteable(type.getComponentType(),
-							annotations,
-							OslcMediaType.APPLICATION_JSON_TYPE,
-							mediaType));
-	}
+    @Override
+    public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
+        return (type.isArray()) && (isWriteable(type.getComponentType(), annotations, OslcMediaType.APPLICATION_JSON_TYPE, mediaType));
+    }
 
-	@Override
-	public void writeTo(final Object[]						 objects,
-						final Class<?>						 type,
-						final Type							 genericType,
-						final Annotation[]					 annotations,
-						final MediaType						 mediaType,
-						final MultivaluedMap<String, Object> map,
-						final OutputStream					 outputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		writeTo(true,
-				objects,
-				mediaType,
-				map,
-				outputStream);
-	}
+    @Override
+    public void writeTo(final Object[] objects, final Class<?> type, final Type genericType, final Annotation[] annotations,
+            final MediaType mediaType, final MultivaluedMap<String, Object> map, final OutputStream outputStream)
+            throws IOException, WebApplicationException {
+        writeTo(true, objects, mediaType, map, outputStream);
+    }
 
-	@Override
-	public boolean isReadable(final Class<?>	 type,
-							  final Type		 genericType,
-							  final Annotation[] annotations,
-							  final MediaType	 mediaType)
-	{
-		return (type.isArray()) &&
-			   (isReadable(type.getComponentType(),
-						   OslcMediaType.APPLICATION_JSON_TYPE,
-						   mediaType));
-	}
+    @Override
+    public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
+        return (type.isArray()) && (isReadable(type.getComponentType(), OslcMediaType.APPLICATION_JSON_TYPE, mediaType));
+    }
 
-	@Override
-	public Object[] readFrom(final Class<Object[]>				  type,
-							 final Type							  genericType,
-							 final Annotation[]					  annotations,
-							 final MediaType					  mediaType,
-							 final MultivaluedMap<String, String> map,
-							 final InputStream					  inputStream)
-		   throws IOException,
-				  WebApplicationException
-	{
-		return readFrom(type.getComponentType(),
-						mediaType,
-						map,
-						inputStream);
-	}
+    @Override
+    public Object[] readFrom(final Class<Object[]> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
+            final MultivaluedMap<String, String> map, final InputStream inputStream) throws IOException, WebApplicationException {
+        return readFrom(type.getComponentType(), mediaType, map, inputStream);
+    }
 }
