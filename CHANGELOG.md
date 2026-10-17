@@ -26,6 +26,8 @@
 - InMemPagedTRS handles concurrency.
 - When unmarshaling the RDF model, if OSLC4J_USE_BEAN_CLASS_FOR_PARSING is true, introduce a fallback mechanism to try to identify the rdf:type, if no match with the OSLC annotations is found.
 - More stable construction of return URLs when approving OAuth 1 consumer keys
+- `AbstractOslcRdfXmlProvider` now serializes RDF/XML, Turtle, and JSON-LD via Jena's RIOT `RDFFormat`/`RDFWriter` API instead of the deprecated `RDFXML_Basic` writer and the legacy string-based `model.getWriter(...)`.
+- `text/turtle` and `application/ld+json` responses now use the streaming `TURTLE_BLOCKS`/`JSONLD_FLAT` `RDFFormat` variants instead of pretty-printed ones, improving performance on larger graphs. The resulting RDF is semantically identical; only grouping/whitespace differs.
 
 ### Deprecated
 
@@ -45,8 +47,8 @@
 - Client now picks the correct ResponseInfo object when an OSLC Query response contains multiple ResponseInfo objects.
 - Lyo object-graph mapping (OGM) framework no longer registers duplicate classes when doing recursive scans. 
 - OSLC Queries using `<=` operator no longer attempt to parse a URI.
-- `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 - `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
+- `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 
 ## [6.0.0]
 

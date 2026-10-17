@@ -13,9 +13,11 @@
  */
 package org.eclipse.lyo.oslc4j.provider.jena.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
 import java.net.URI;
@@ -23,6 +25,8 @@ import java.nio.charset.StandardCharsets;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 
+import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
 import org.junit.Test;
@@ -90,5 +94,98 @@ public class OslcRdfXmlProviderWriteTest {
         // in the other direction.
         assertFalse("Abbreviated writer should not use the plain <rdf:Description> form",
             rdfXml.contains("<rdf:Description"));
+    }
+
+    @Test
+    public void testServiceProviderCatalogUsesAbbreviatedWriterWhenForced() throws Exception {
+        System.setProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders", "true");
+        try {
+            OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
+            ServiceProviderCatalog catalog = new ServiceProviderCatalog();
+            catalog.setAbout(URI.create("http://example.com/catalog"));
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            provider.writeTo(
+                catalog,
+                ServiceProviderCatalog.class,
+                ServiceProviderCatalog.class,
+                new Annotation[]{},
+                MediaType.valueOf("application/rdf+xml"),
+                new MultivaluedHashMap<>(),
+                outputStream
+            );
+
+            String rdfXml = outputStream.toString(StandardCharsets.UTF_8);
+
+            // RDNG workaround: even with Accept=application/rdf+xml, the forced-abbrev system
+            // property should route ServiceProviderCatalog through the abbreviated writer.
+            assertFalse("ServiceProviderCatalog should use the abbreviated writer when "
+                    + "alwaysXMLAbbrevOnlyProviders is set, got: " + rdfXml,
+                rdfXml.contains("<rdf:Description"));
+        } finally {
+            System.clearProperty("org.eclipse.lyo.oslc4j.alwaysXMLAbbrevOnlyProviders");
+        }
+    }
+
+    @Test
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void testTurtleRoundTrip() throws Exception {
+        OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
+
+        TestResource resource = new TestResource(URI.create("http://example.com/resource1"));
+        resource.setAproperty("value1");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        provider.writeTo(
+            resource,
+            TestResource.class,
+            TestResource.class,
+            new Annotation[]{},
+            OslcMediaType.TEXT_TURTLE_TYPE,
+            new MultivaluedHashMap<>(),
+            outputStream
+        );
+
+        TestResource roundTripped = (TestResource) provider.readFrom(
+            (Class) TestResource.class,
+            TestResource.class,
+            new Annotation[]{},
+            OslcMediaType.TEXT_TURTLE_TYPE,
+            new MultivaluedHashMap<>(),
+            new ByteArrayInputStream(outputStream.toByteArray())
+        );
+
+        assertEquals("value1", roundTripped.getAproperty());
+    }
+
+    @Test
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void testJsonLdRoundTrip() throws Exception {
+        OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
+
+        TestResource resource = new TestResource(URI.create("http://example.com/resource1"));
+        resource.setAproperty("value1");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        provider.writeTo(
+            resource,
+            TestResource.class,
+            TestResource.class,
+            new Annotation[]{},
+            OslcMediaType.APPLICATION_JSON_LD_TYPE,
+            new MultivaluedHashMap<>(),
+            outputStream
+        );
+
+        TestResource roundTripped = (TestResource) provider.readFrom(
+            (Class) TestResource.class,
+            TestResource.class,
+            new Annotation[]{},
+            OslcMediaType.APPLICATION_JSON_LD_TYPE,
+            new MultivaluedHashMap<>(),
+            new ByteArrayInputStream(outputStream.toByteArray())
+        );
+
+        assertEquals("value1", roundTripped.getAproperty());
     }
 }
