@@ -28,15 +28,15 @@ import org.junit.Test;
 public class BasicOrderByTest
 {
 	static final String prefixes = "qm=<http://qm.example.com/ns>," +
-			"olsc=<http://open-services.net/ns/core#>";
+			"oslc=<http://open-services.net/ns/core#>";
 
 	@Test
 	public void testOrderBy() throws ParseException
 	{
 		String[] expressions = {
-				"+gm:priority",
-				"+gm:priority,-oscl:name",
-				"gm:tested_by{+oslc:description}"
+				"+qm:priority",
+				"+qm:priority,-oslc:name",
+				"qm:tested_by{+oslc:description}"
 		};
 
 		Map<String, String> prefixMap = QueryUtils.parsePrefixes(prefixes);
