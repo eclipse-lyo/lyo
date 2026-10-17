@@ -6,6 +6,9 @@ import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +21,13 @@ public class LyoConfigUtil {
    * <ol>
    *     <li>LYO_SCHEME env variable</li>
    *     <li>%pkg_name%.scheme JVM property, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+   *     <li>LYO_SCHEME JNDI env entry</li>
    *     <li>%pkg_name%.scheme Servlet Context parameter, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
    * </ol>
    * @param key property key name
    * @param defaultValue default String value
    * @param klass Class of the ServletListener
-   * @return value, if found, from ENV, JVM, or Servlet Context (in this order)
+   * @return value, if found, from ENV, JVM, JNDI, or Servlet Context (in this order)
    */
   public static String getOslcConfigProperty(
       String key, String defaultValue, final ServletContext servletContext, Class<?> klass) {
@@ -35,12 +39,14 @@ public class LyoConfigUtil {
                         .orElseGet(
                             () -> getParamFromJvm(key)
                                 .orElseGet(
-                                    () ->
-                                        getParamFromContext(
-                                                servletContext, generatePackageBaseKey(klass, key))
-                                            .orElseGet(
-                                                () -> getParamFromContext(servletContext, key)
-                                                    .orElse(defaultValue)))));
+                                    () -> getParamFromJndi(generateEnvKey(key))
+                                        .orElseGet(
+                                            () ->
+                                                getParamFromContext(
+                                                        servletContext, generatePackageBaseKey(klass, key))
+                                                    .orElseGet(
+                                                        () -> getParamFromContext(servletContext, key)
+                                                            .orElse(defaultValue))))));
     return value;
   }
 
@@ -99,6 +105,22 @@ public class LyoConfigUtil {
     }
 
     log.debug("ENV variable '{}' not defined", basePathEnvKey);
+    return Optional.empty();
+  }
+
+  public static Optional<String> getParamFromJndi(String key) {
+    try {
+      Context initContext = new InitialContext();
+      Context environmentContext = (Context) initContext.lookup("java:comp/env");
+      Object value = environmentContext.lookup(key);
+      if (value != null) {
+        log.info("Found JNDI env entry with key {}", key);
+        return Optional.of(value.toString());
+      }
+    } catch (NamingException exception) {
+      // JNDI lookup failure is normal outside a container or when the property is not defined.
+      log.debug("JNDI lookup failed for key '{}': {}", key, exception.getMessage());
+    }
     return Optional.empty();
   }
 
