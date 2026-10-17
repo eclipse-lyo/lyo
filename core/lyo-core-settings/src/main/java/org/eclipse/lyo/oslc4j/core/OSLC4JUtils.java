@@ -68,7 +68,7 @@ public class OSLC4JUtils {
 	 * This would result in a servletURI which is a concatenation of the baseURI and its servletPath.
 	 * (localhost:8080/adaptor-webapp/services)
 	 */
-	private static String publicURI = System.getProperty(OSLC4JConstants.OSLC4J_PUBLIC_URI);
+	private static String publicURI = System.getProperty(OSLC4JConstants.LYO_PUBLIC_URI);
 	private static String servletPath = null;
 	private static String servletURI = null;
 
@@ -77,7 +77,7 @@ public class OSLC4JUtils {
 	 * the describes parameter of the OslcResourceShape annotation. By default
 	 * this is set to false. This is part of the fix for defect 412755.
 	 */
-	private static String useBeanClassForParsing = System.getProperty(OSLC4JConstants.OSLC4J_USE_BEAN_CLASS_FOR_PARSING);
+	private static String useBeanClassForParsing = System.getProperty(OSLC4JConstants.LYO_USE_BEAN_CLASS_FOR_PARSING);
 
 	/**
 	 * This constant should be set to true when the property type is not
@@ -85,7 +85,7 @@ public class OSLC4JUtils {
 	 * default this is set to false. This is part of the fix for defect
 	 * 412789.
 	 */
-	private static String inferTypeFromShape = System.getProperty(OSLC4JConstants.OSLC4J_INFER_TYPE_FROM_SHAPE);
+	private static String inferTypeFromShape = System.getProperty(OSLC4JConstants.LYO_INFER_TYPE_FROM_SHAPE);
 
 	/**
 	 * List of available ResourceShapes. This list will be used to infer the
@@ -96,11 +96,11 @@ public class OSLC4JUtils {
 	private static List<ResourceShape> shapes = new ArrayList<>();
 
 	public static boolean useStrictDatatypes() {
-		return parseBooleanPropertyOrDefault(OSLC4JConstants.OSLC4J_STRICT_DATATYPES, true);
+		return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_STRICT_DATATYPES, true);
 	}
 
 	public static boolean alwaysAbbrevXML() {
-		return parseBooleanPropertyOrDefault(OSLC4JConstants.OSLC4J_ALWAYS_XML_ABBREV, false);
+		return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_ALWAYS_XML_ABBREV, false);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class OSLC4JUtils {
 	 * @return true if relative URIs are disabled, or if the property is not set or invalid.
 	 */
 	public static boolean relativeURIsAreDisabled() {
-		return parseBooleanPropertyOrDefault(OSLC4JConstants.OSLC4J_DISABLE_RELATIVE_URIS, true);
+		return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_DISABLE_RELATIVE_URIS, true);
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class OSLC4JUtils {
 	 * @return true if host resolution is disabled, false if not set or invalid
 	 */
 	public static boolean isHostResolutionDisabled() {
-		return parseBooleanPropertyOrDefault(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, false);
+		return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_DISABLE_HOST_RESOLUTION, false);
 	}
 
 	/**
@@ -381,7 +381,7 @@ public class OSLC4JUtils {
 	 * or there will be no type. Default is no type.
 	 */
 	public static boolean isQueryResultListAsContainer() {
-		return parseBooleanPropertyOrDefault(OSLC4JConstants.OSLC4J_QUERY_RESULT_LIST_AS_CONTAINER,
+		return parseBooleanPropertyOrDefault(OSLC4JConstants.LYO_QUERY_RESULT_LIST_AS_CONTAINER,
 											 false
 		);
 	}
@@ -393,7 +393,7 @@ public class OSLC4JUtils {
 
 	public static void setHostResolutionDisabled(boolean hostResDisabled)
 	{
-		System.setProperty(OSLC4JConstants.OSLC4J_DISABLE_HOST_RESOLUTION, Boolean.toString(hostResDisabled));
+		System.setProperty(OSLC4JConstants.LYO_DISABLE_HOST_RESOLUTION, Boolean.toString(hostResDisabled));
 	}
 
 	/**
