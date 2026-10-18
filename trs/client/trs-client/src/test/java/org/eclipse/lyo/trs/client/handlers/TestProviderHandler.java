@@ -34,7 +34,7 @@ public class TestProviderHandler implements IProviderEventHandler {
     }
 
     @Override
-    public void rebase() {
+    public void rebuild() {
 
     }
 }

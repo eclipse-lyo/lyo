@@ -48,6 +48,26 @@ public class ProviderUtil {
         return deletions != null && deletions.length > 0;
     }
 
+    /**
+     * Collect change log pages until the last processed event is found. A nil cutoff
+     * represents an initially empty base and requires traversal to the end of the log.
+     */
+    public static boolean fetchRemoteChangeLogs(ITrackedResourceClient client,
+            URI lastProcessedEvent, ChangeLog currentLog, List<ChangeLog> changeLogs) {
+        while (currentLog != null) {
+            changeLogs.add(currentLog);
+            if (changeLogContainsEvent(lastProcessedEvent, currentLog)) {
+                return true;
+            }
+            URI previous = currentLog.getPrevious();
+            if (isNilUri(previous)) {
+                return isNilUri(lastProcessedEvent);
+            }
+            currentLog = client.fetchRemoteChangeLog(previous);
+        }
+        return false;
+    }
+
     public static boolean isNilUri(URI currentPageUri) {
         return currentPageUri == null || currentPageUri.toString().equals(RDF.nil.getURI());
     }

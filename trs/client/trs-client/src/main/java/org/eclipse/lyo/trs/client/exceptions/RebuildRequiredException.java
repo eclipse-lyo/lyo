@@ -14,17 +14,17 @@
 package org.eclipse.lyo.trs.client.exceptions;
 
 /**
- * Thrown normally by a TRS Provider when the last change event which was processed can not be found
- * in the list of change logs which was retrieved from the server meaning probably that the server
- * has been rolled back to a state previous to that change event
+ * Indicates that a provider's last processed change event is no longer available in the
+ * change log, so the client's synchronization must be rebuilt from the server's base.
+ * This can follow log truncation, a server rebase, or a server rollback.
  *
  * @since 2.3.0
  */
-public class ServerRollBackException extends RuntimeException {
+public class RebuildRequiredException extends RuntimeException {
 
     private static final long serialVersionUID = -5190311252768510792L;
 
-    public ServerRollBackException(String string) {
+    public RebuildRequiredException(String string) {
         super(string);
     }
 
