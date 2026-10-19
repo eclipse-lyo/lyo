@@ -27,10 +27,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.wink.json4j.JSONArray;
-import org.apache.wink.json4j.JSONException;
-import org.apache.wink.json4j.JSONObject;
-import org.apache.wink.json4j.OrderedJSONObject;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONArray;
+import jakarta.json.JsonException;
+import org.eclipse.lyo.oslc4j.provider.json4j.internal.JSONObject;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.json4j.OslcRdfJsonProvider;
 import org.eclipse.lyo.oslc4j.provider.json4j.test.resources.EmptyNameResource;
@@ -71,12 +70,12 @@ public class JsonOslcNameTest {
 	}
 
 	private JSONObject getJSONObject(Object resource, final OslcRdfJsonProvider oslcRdfJsonProvider)
-			throws IOException, WebApplicationException, JSONException {
+			throws IOException, WebApplicationException, JsonException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		oslcRdfJsonProvider.writeTo(resource, resource.getClass(), resource.getClass(), new Annotation[0],
 				MediaType.APPLICATION_JSON_TYPE, null, outputStream);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-		JSONObject jsonObject = new JSONObject(inputStream);
+		JSONObject jsonObject = new JSONObject(jakarta.json.Json.createReader(inputStream).readObject());
 		return jsonObject;
 	}
 
@@ -131,11 +130,11 @@ public class JsonOslcNameTest {
 		verifyRDFTypes(new String[] { typeToAdd, TestResource.TEST_NAMESPACE + "UnnamedResource" }, rdfTypes);
 	}
 
-	private void verifyRDFTypes(String[] expectedRDFTypes, JSONArray rdfTypes) throws JSONException {
+	private void verifyRDFTypes(String[] expectedRDFTypes, JSONArray rdfTypes) throws JsonException {
 		List<String> actualRdfTypesList = new ArrayList<>();
 		for (Object node : rdfTypes) {
-			OrderedJSONObject obj = (OrderedJSONObject) node;
-			String type = obj.values().iterator().next().toString();
+			JSONObject obj = (JSONObject) node;
+			String type = obj.getString("rdf:resource");
 			actualRdfTypesList.add(type);
 		}
 		for (String expectedRdfType : expectedRDFTypes) {

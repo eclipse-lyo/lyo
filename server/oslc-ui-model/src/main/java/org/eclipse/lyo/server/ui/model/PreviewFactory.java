@@ -13,8 +13,8 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import org.eclipse.lyo.core.util.StringUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcName;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcOccurs;
@@ -98,12 +98,13 @@ public class PreviewFactory {
 
     public static String getPreviewAsJsonString(final AbstractResource aResource, List<String> getterMethodNames,
                                                 boolean showPropertyHeadingsAsLinks) throws IllegalAccessException,
-        IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException,
-        JsonProcessingException {
+        IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Preview preview = PreviewFactory.getPreview(aResource, getterMethodNames, showPropertyHeadingsAsLinks);
-        ObjectMapper mapper = new ObjectMapper();
-        String previewAsString = mapper.writeValueAsString(preview);
-        return previewAsString;
+        try (Jsonb jsonb = JsonbBuilder.create()) {
+            return jsonb.toJson(preview);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
