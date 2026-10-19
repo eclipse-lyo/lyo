@@ -175,7 +175,7 @@
     <dependency>
       <groupId>com.diffplug.selfie</groupId>
       <artifactId>selfie-runner-junit5</artifactId>
-      <version>2.5.5</version>
+      <version>3.1.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
