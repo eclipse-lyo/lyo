@@ -27,203 +27,464 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class Oslc_cmVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class Oslc_cmVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE = "http://open-services.net/ns/cm#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated
+  public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE = "http://open-services.net/ns/cm#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE_PREFIX = "oslc_cm";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String CHANGE_MANAGEMENT_VOCAB_NAMSPACE_PREFIX = "oslc_cm";
 
-    public static final String NS = "http://open-services.net/ns/cm#";
-    public static final String PREFIX = "oslc_cm";
-
-    // static class
-    private Oslc_cmVocabularyConstants() {}
-
-    public static QName of(String local) { return get(local); }
-
-    public static final String CHANGENOTICE_LOCAL_NAME = "ChangeNotice";
-    public static final String CHANGENOTICE_CLASS = NS + CHANGENOTICE_LOCAL_NAME;
-    public static final String CHANGEREQUEST_LOCAL_NAME = "ChangeRequest";
-    public static final String CHANGEREQUEST_CLASS = NS + CHANGEREQUEST_LOCAL_NAME;
-    public static final String DEFECT_LOCAL_NAME = "Defect";
-    public static final String DEFECT_CLASS = NS + DEFECT_LOCAL_NAME;
-    public static final String ENHANCEMENT_LOCAL_NAME = "Enhancement";
-    public static final String ENHANCEMENT_CLASS = NS + ENHANCEMENT_LOCAL_NAME;
-    public static final String PRIORITY_LOCAL_NAME = "Priority";
-    public static final String PRIORITY_CLASS = NS + PRIORITY_LOCAL_NAME;
-    public static final String REVIEWTASK_LOCAL_NAME = "ReviewTask";
-    public static final String REVIEWTASK_CLASS = NS + REVIEWTASK_LOCAL_NAME;
-    public static final String SEVERITY_LOCAL_NAME = "Severity";
-    public static final String SEVERITY_CLASS = NS + SEVERITY_LOCAL_NAME;
-    public static final String STATE_LOCAL_NAME = "State";
-    public static final String STATE_CLASS = NS + STATE_LOCAL_NAME;
-    public static final String TASK_LOCAL_NAME = "Task";
-    public static final String TASK_CLASS = NS + TASK_LOCAL_NAME;
-
-    public static final String AFFECTEDBYDEFECT_PROP = NS + "affectedByDefect";
-
-    public static final String AFFECTSPLANITEM_PROP = NS + "affectsPlanItem";
-
-    public static final String AFFECTSREQUIREMENT_PROP = NS + "affectsRequirement";
-
-    public static final String AFFECTSTESTRESULT_PROP = NS + "affectsTestResult";
-
-    public static final String APPROVED_PROP = NS + "approved";
-
-    public static final String AUTHORIZER_PROP = NS + "authorizer";
-
-    public static final String BLOCKSTESTEXECUTIONRECORD_PROP = NS + "blocksTestExecutionRecord";
-
-    public static final String CLOSEDATE_PROP = NS + "closeDate";
-
-    public static final String CLOSED_PROP = NS + "closed";
-
-    public static final String FIXED_PROP = NS + "fixed";
-
-    public static final String IMPLEMENTSREQUIREMENT_PROP = NS + "implementsRequirement";
-
-    public static final String INPROGRESS_PROP = NS + "inProgress";
-
-    public static final String PARENT_PROP = NS + "parent";
-
-    public static final String PRIORITY_PROP = NS + "priority";
-
-    public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
-
-    public static final String RELATEDTESTCASE_PROP = NS + "relatedTestCase";
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static final String RELATEDTESTEXECUTIONRECORD_PROP = NS + "relatedTestExecutionRecord";
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static final String RELATEDTESTPLAN_PROP = NS + "relatedTestPlan";
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static final String RELATEDTESTSCRIPT_PROP = NS + "relatedTestScript";
-
-    public static final String REVIEWED_PROP = NS + "reviewed";
-
-    public static final String SEVERITY_PROP = NS + "severity";
-
-    public static final String STATE_PROP = NS + "state";
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static final String STATUS_PROP = NS + "status";
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static final String TESTEDBYTESTCASE_PROP = NS + "testedByTestCase";
-
-    public static final String TRACKSCHANGESET_PROP = NS + "tracksChangeSet";
-
-    public static final String TRACKSREQUIREMENT_PROP = NS + "tracksRequirement";
-
-    public static final String VERIFIED_PROP = NS + "verified";
-
-
-    public static QName affectedByDefect() { return get("affectedByDefect"); }
-
-    public static QName affectsPlanItem() { return get("affectsPlanItem"); }
-
-    public static QName affectsRequirement() { return get("affectsRequirement"); }
-
-    public static QName affectsTestResult() { return get("affectsTestResult"); }
-
-    public static QName approved() { return get("approved"); }
-
-    public static QName authorizer() { return get("authorizer"); }
-
-    public static QName blocksTestExecutionRecord() { return get("blocksTestExecutionRecord"); }
-
-    public static QName closeDate() { return get("closeDate"); }
-
-    public static QName closed() { return get("closed"); }
-
-    public static QName fixed() { return get("fixed"); }
-
-    public static QName implementsRequirement() { return get("implementsRequirement"); }
-
-    public static QName inProgress() { return get("inProgress"); }
-
-    public static QName parent() { return get("parent"); }
-
-    public static QName priority() { return get("priority"); }
-
-    public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
-
-    public static QName relatedTestCase() { return get("relatedTestCase"); }
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static QName relatedTestExecutionRecord() { return get("relatedTestExecutionRecord"); }
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static QName relatedTestPlan() { return get("relatedTestPlan"); }
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static QName relatedTestScript() { return get("relatedTestScript"); }
-
-    public static QName reviewed() { return get("reviewed"); }
-
-    public static QName severity() { return get("severity"); }
-
-    public static QName state() { return get("state"); }
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static QName status() { return get("status"); }
-
-    /**
-     * @deprecated RDF model attribute is marked 'archaic'
-     */
-    @Deprecated
-    public static QName testedByTestCase() { return get("testedByTestCase"); }
-
-    public static QName tracksChangeSet() { return get("tracksChangeSet"); }
-
-    public static QName tracksRequirement() { return get("tracksRequirement"); }
-
-    public static QName verified() { return get("verified"); }
-
-
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  public static final String NS = "http://open-services.net/ns/cm#";
+  public static final String PREFIX = "oslc_cm";
+
+  // static class
+  private Oslc_cmVocabularyConstants() {}
+
+  public static QName of(String local) {
+    return get(local);
+  }
+
+  public static final String CHANGENOTICE_LOCAL_NAME = "ChangeNotice";
+
+  /**
+   * Represents an assignment notification of a change request. May be used also to bestow authority onto the assigned user to effect the changes.
+   */
+  public static final String CHANGENOTICE_CLASS = NS + CHANGENOTICE_LOCAL_NAME;
+
+  public static final String CHANGEREQUEST_LOCAL_NAME = "ChangeRequest";
+
+  /**
+   * The CM Change Request resource.
+   */
+  public static final String CHANGEREQUEST_CLASS = NS + CHANGEREQUEST_LOCAL_NAME;
+
+  public static final String DEFECT_LOCAL_NAME = "Defect";
+
+  /**
+   * A software or product defect.
+   */
+  public static final String DEFECT_CLASS = NS + DEFECT_LOCAL_NAME;
+
+  public static final String ENHANCEMENT_LOCAL_NAME = "Enhancement";
+
+  /**
+   * A request for new functionality.
+   */
+  public static final String ENHANCEMENT_CLASS = NS + ENHANCEMENT_LOCAL_NAME;
+
+  public static final String PRIORITY_LOCAL_NAME = "Priority";
+
+  /**
+   * Defines the possible oslc_cm:priority property values.
+   */
+  public static final String PRIORITY_CLASS = NS + PRIORITY_LOCAL_NAME;
+
+  public static final String REVIEWTASK_LOCAL_NAME = "ReviewTask";
+
+  /**
+   * A request to make a change and review the change.
+   */
+  public static final String REVIEWTASK_CLASS = NS + REVIEWTASK_LOCAL_NAME;
+
+  public static final String SEVERITY_LOCAL_NAME = "Severity";
+
+  /**
+   * Defines the possible oslc_cm:severity property values.
+   */
+  public static final String SEVERITY_CLASS = NS + SEVERITY_LOCAL_NAME;
+
+  public static final String STATE_LOCAL_NAME = "State";
+
+  /**
+   * Defines the possible oslc_cm:state property values.
+   */
+  public static final String STATE_CLASS = NS + STATE_LOCAL_NAME;
+
+  public static final String TASK_LOCAL_NAME = "Task";
+
+  /**
+   * An executable and trackable activity.
+   */
+  public static final String TASK_CLASS = NS + TASK_LOCAL_NAME;
+
+  /**
+   * Change request is affected by a reported defect. It is
+   * likely that the target resource will be an oslc_cm:Defect.
+   */
+  public static final String AFFECTEDBYDEFECT_PROP = NS + "affectedByDefect";
+
+  /**
+   * Change request affects a plan item. It is likely that
+   * the target resource will be an oslc_cm:ChangeRequest.
+   */
+  public static final String AFFECTSPLANITEM_PROP = NS + "affectsPlanItem";
+
+  /**
+   * The ChangeRequest affects a Requirement. It is likely
+   * that the target resource will be an oslc_rm:Requirement.
+   */
+  public static final String AFFECTSREQUIREMENT_PROP = NS + "affectsRequirement";
+
+  /**
+   * Associated resource that is affected by this Change
+   * Request. It is likely that the target resource will be an
+   * oslc_qm:TestResult.
+   */
+  public static final String AFFECTSTESTRESULT_PROP = NS + "affectsTestResult";
+
+  /**
+   * Whether or not the Change Request has been approved.
+   */
+  public static final String APPROVED_PROP = NS + "approved";
+
+  /**
+   * The URI of a resource describing an agent who is responsible authorizing for and/or has authorized effort to be expended to address a set of change requests.
+   */
+  public static final String AUTHORIZER_PROP = NS + "authorizer";
+
+  /**
+   * Associated resource that is blocked by this Change
+   * Request. It is likely that the target resource will be an
+   * oslc_qm:TestExecutionRecord.
+   */
+  public static final String BLOCKSTESTEXECUTIONRECORD_PROP = NS + "blocksTestExecutionRecord";
+
+  /**
+   * The date at which no further activity or work is intended to be conducted.
+   */
+  public static final String CLOSEDATE_PROP = NS + "closeDate";
+
+  /**
+   * Whether or not the Change Request is completely done, no further fixes or fix verification is needed.
+   */
+  public static final String CLOSED_PROP = NS + "closed";
+
+  /**
+   * Whether or not the Change Request has been fixed.
+   */
+  public static final String FIXED_PROP = NS + "fixed";
+
+  /**
+   * The ChangeRequest implements the associated Requirement. It is likely that the
+   * target resource will be an oslc_rm:Requirement.
+   */
+  public static final String IMPLEMENTSREQUIREMENT_PROP = NS + "implementsRequirement";
+
+  /**
+   * Whether or not the Change Request in a state indicating that active work is occurring.
+   */
+  public static final String INPROGRESS_PROP = NS + "inProgress";
+
+  /**
+   * The related parent change requests of the subject change request.
+   */
+  public static final String PARENT_PROP = NS + "parent";
+
+  /**
+   * Used to indicate the relative importance of ChangeRequests.
+   * It is likely that the target resource will be an
+   * oslc_cm:Priority.
+   */
+  public static final String PRIORITY_PROP = NS + "priority";
+
+  /**
+   * This relationship is loosely coupled, has no specific
+   * meaning, and can be used to link related change requests. It is likely
+   * that the target resource will be an oslc_cm:ChangeRequest.
+   */
+  public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+
+  /**
+   * Related test case resource. It is likely that the
+   * target resource will be an oslc_qm:TestCase.
+   */
+  public static final String RELATEDTESTCASE_PROP = NS + "relatedTestCase";
+
+  /**
+   * Related to a test execution resource. It is likely
+   * that the target resource will be an oslc_qm:TestExecutionRecord.
+   */
+  public static final String RELATEDTESTEXECUTIONRECORD_PROP = NS + "relatedTestExecutionRecord";
+
+  /**
+   * Related test plan resource. It is likely that the
+   * target resource will be an oslc_qm:TestPlan.
+   */
+  public static final String RELATEDTESTPLAN_PROP = NS + "relatedTestPlan";
+
+  /**
+   * Related test script resource. It is likely that the
+   * target resource will be an oslc_qm:TestScript.
+   */
+  public static final String RELATEDTESTSCRIPT_PROP = NS + "relatedTestScript";
+
+  /**
+   * Whether or not the Change Request has been reviewed.
+   */
+  public static final String REVIEWED_PROP = NS + "reviewed";
+
+  /**
+   * Used to indicate the severity or potential impact of a defect.
+   * It is likely that the target resource will be an oslc_cm:Severity.
+   */
+  public static final String SEVERITY_PROP = NS + "severity";
+
+  /**
+   * Used to indicate the status of the change request.
+   */
+  public static final String STATE_PROP = NS + "state";
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated public static final String STATUS_PROP = NS + "status";
+
+  /**
+   * Test case by which this change request is tested. It is
+   * likely that the target resource will be an oslc_qm:TestCase.
+   */
+  public static final String TESTEDBYTESTCASE_PROP = NS + "testedByTestCase";
+
+  /**
+   * Tracks a change set resource. It is likely that the
+   * target resource will be an oslc_config:ChangeSet.
+   */
+  public static final String TRACKSCHANGESET_PROP = NS + "tracksChangeSet";
+
+  /**
+   * Tracks the associated Requirement or Requirement
+   * ChangeSet resources. It is likely that the target resource will be an
+   * oslc_rm:Requirement.
+   */
+  public static final String TRACKSREQUIREMENT_PROP = NS + "tracksRequirement";
+
+  /**
+   * Whether or not the resolution or fix of the Change Request has been verified.
+   */
+  public static final String VERIFIED_PROP = NS + "verified";
+
+  /**
+   * Change request is affected by a reported defect. It is
+   * likely that the target resource will be an oslc_cm:Defect.
+   */
+  public static QName affectedByDefect() {
+    return get("affectedByDefect");
+  }
+
+  /**
+   * Change request affects a plan item. It is likely that
+   * the target resource will be an oslc_cm:ChangeRequest.
+   */
+  public static QName affectsPlanItem() {
+    return get("affectsPlanItem");
+  }
+
+  /**
+   * The ChangeRequest affects a Requirement. It is likely
+   * that the target resource will be an oslc_rm:Requirement.
+   */
+  public static QName affectsRequirement() {
+    return get("affectsRequirement");
+  }
+
+  /**
+   * Associated resource that is affected by this Change
+   * Request. It is likely that the target resource will be an
+   * oslc_qm:TestResult.
+   */
+  public static QName affectsTestResult() {
+    return get("affectsTestResult");
+  }
+
+  /**
+   * Whether or not the Change Request has been approved.
+   */
+  public static QName approved() {
+    return get("approved");
+  }
+
+  /**
+   * The URI of a resource describing an agent who is responsible authorizing for and/or has authorized effort to be expended to address a set of change requests.
+   */
+  public static QName authorizer() {
+    return get("authorizer");
+  }
+
+  /**
+   * Associated resource that is blocked by this Change
+   * Request. It is likely that the target resource will be an
+   * oslc_qm:TestExecutionRecord.
+   */
+  public static QName blocksTestExecutionRecord() {
+    return get("blocksTestExecutionRecord");
+  }
+
+  /**
+   * The date at which no further activity or work is intended to be conducted.
+   */
+  public static QName closeDate() {
+    return get("closeDate");
+  }
+
+  /**
+   * Whether or not the Change Request is completely done, no further fixes or fix verification is needed.
+   */
+  public static QName closed() {
+    return get("closed");
+  }
+
+  /**
+   * Whether or not the Change Request has been fixed.
+   */
+  public static QName fixed() {
+    return get("fixed");
+  }
+
+  /**
+   * The ChangeRequest implements the associated Requirement. It is likely that the
+   * target resource will be an oslc_rm:Requirement.
+   */
+  public static QName implementsRequirement() {
+    return get("implementsRequirement");
+  }
+
+  /**
+   * Whether or not the Change Request in a state indicating that active work is occurring.
+   */
+  public static QName inProgress() {
+    return get("inProgress");
+  }
+
+  /**
+   * The related parent change requests of the subject change request.
+   */
+  public static QName parent() {
+    return get("parent");
+  }
+
+  /**
+   * Used to indicate the relative importance of ChangeRequests.
+   * It is likely that the target resource will be an
+   * oslc_cm:Priority.
+   */
+  public static QName priority() {
+    return get("priority");
+  }
+
+  /**
+   * This relationship is loosely coupled, has no specific
+   * meaning, and can be used to link related change requests. It is likely
+   * that the target resource will be an oslc_cm:ChangeRequest.
+   */
+  public static QName relatedChangeRequest() {
+    return get("relatedChangeRequest");
+  }
+
+  /**
+   * Related test case resource. It is likely that the
+   * target resource will be an oslc_qm:TestCase.
+   */
+  public static QName relatedTestCase() {
+    return get("relatedTestCase");
+  }
+
+  /**
+   * Related to a test execution resource. It is likely
+   * that the target resource will be an oslc_qm:TestExecutionRecord.
+   */
+  public static QName relatedTestExecutionRecord() {
+    return get("relatedTestExecutionRecord");
+  }
+
+  /**
+   * Related test plan resource. It is likely that the
+   * target resource will be an oslc_qm:TestPlan.
+   */
+  public static QName relatedTestPlan() {
+    return get("relatedTestPlan");
+  }
+
+  /**
+   * Related test script resource. It is likely that the
+   * target resource will be an oslc_qm:TestScript.
+   */
+  public static QName relatedTestScript() {
+    return get("relatedTestScript");
+  }
+
+  /**
+   * Whether or not the Change Request has been reviewed.
+   */
+  public static QName reviewed() {
+    return get("reviewed");
+  }
+
+  /**
+   * Used to indicate the severity or potential impact of a defect.
+   * It is likely that the target resource will be an oslc_cm:Severity.
+   */
+  public static QName severity() {
+    return get("severity");
+  }
+
+  /**
+   * Used to indicate the status of the change request.
+   */
+  public static QName state() {
+    return get("state");
+  }
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated
+  public static QName status() {
+    return get("status");
+  }
+
+  /**
+   * Test case by which this change request is tested. It is
+   * likely that the target resource will be an oslc_qm:TestCase.
+   */
+  public static QName testedByTestCase() {
+    return get("testedByTestCase");
+  }
+
+  /**
+   * Tracks a change set resource. It is likely that the
+   * target resource will be an oslc_config:ChangeSet.
+   */
+  public static QName tracksChangeSet() {
+    return get("tracksChangeSet");
+  }
+
+  /**
+   * Tracks the associated Requirement or Requirement
+   * ChangeSet resources. It is likely that the target resource will be an
+   * oslc_rm:Requirement.
+   */
+  public static QName tracksRequirement() {
+    return get("tracksRequirement");
+  }
+
+  /**
+   * Whether or not the resolution or fix of the Change Request has been verified.
+   */
+  public static QName verified() {
+    return get("verified");
+  }
+
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }

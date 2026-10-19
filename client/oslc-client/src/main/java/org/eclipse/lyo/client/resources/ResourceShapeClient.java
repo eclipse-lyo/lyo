@@ -25,7 +25,7 @@ import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
@@ -122,8 +122,8 @@ public final class ResourceShapeClient {
 
     return lookupShape(
         serviceProviderUri,
-        URI.create(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE),
-        URI.create(Oslc_cmDomainConstants.CHANGEREQUEST_TYPE),
+        URI.create(Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE),
+        URI.create(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE),
         shapeIdentifier);
   }
 

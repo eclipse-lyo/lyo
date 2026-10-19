@@ -57,88 +57,104 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IIssue;
-import org.eclipse.lyo.oslc.domains.promcode.IRisk;
-import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
+import org.eclipse.lyo.oslc.domains.promcode.Artifact;
+import org.eclipse.lyo.oslc.domains.promcode.Issue;
+import org.eclipse.lyo.oslc.domains.promcode.Risk;
+import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
+import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 // spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.ISSUE_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.ISSUE_LOCALNAME)
-@OslcResourceShape(title = "Issue Shape", description = "An issue is a situation that must be resolved in order to meet the objectives of a project. Failure to resolve the situation may result in negative consequences for the project, such as a schedule delay.", describes = Oslc_promcodeDomainConstants.ISSUE_TYPE)
-public interface IIssue
-{
+@OslcResourceShape(
+    title = "Issue Shape",
+    description =
+        "An issue is a situation that must be resolved in order to meet the objectives of a"
+            + " project. Failure to resolve the situation may result in negative consequences for"
+            + " the project, such as a schedule delay.",
+    describes = Oslc_promcodeDomainConstants.ISSUE_TYPE)
+public interface IIssue {
 
-    public void addRaisedBy(final Link raisedBy );
+  public void addRaisedBy(final Link raisedBy);
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource();
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
-    @OslcName("raisedDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getRaisedDate();
+  @OslcName("raisedDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getRaisedDate();
 
-    @OslcName("raisedBy")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedBy")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE, Oslc_promcodeDomainConstants.ISSUE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getRaisedBy();
+  @OslcName("raisedBy")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "raisedBy")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.RISK_TYPE,
+    Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE,
+    Oslc_promcodeDomainConstants.ISSUE_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<Link> getRaisedBy();
 
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
+  @OslcName("sequenceNumber")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Integer)
+  @OslcReadOnly(false)
+  public Integer getSequenceNumber();
 
-    @OslcName("stateOfIssue")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfIssue")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getStateOfIssue();
+  @OslcName("stateOfIssue")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfIssue")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getStateOfIssue();
 
+  public void setDescription(final String description);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setRaisedDate(final Date raisedDate );
-    public void setRaisedBy(final Set<Link> raisedBy );
-    public void setSequenceNumber(final Integer sequenceNumber );
-    public void setStateOfIssue(final Link stateOfIssue );
+  public void setIdentifier(final String identifier);
+
+  public void setSource(final String source);
+
+  public void setTitle(final String title);
+
+  public void setRaisedDate(final Date raisedDate);
+
+  public void setRaisedBy(final Set<Link> raisedBy);
+
+  public void setSequenceNumber(final Integer sequenceNumber);
+
+  public void setStateOfIssue(final Link stateOfIssue);
 }
-

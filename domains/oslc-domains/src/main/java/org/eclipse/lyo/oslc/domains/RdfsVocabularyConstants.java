@@ -27,92 +27,100 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class RdfsVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class RdfsVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated public static final String RDFS_NAMSPACE = "http://www.w3.org/2000/01/rdf-schema#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String RDFS_NAMSPACE_PREFIX = "rdfs";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String RDFS_NAMSPACE_PREFIX = "rdfs";
 
-    public static final String NS = "http://www.w3.org/2000/01/rdf-schema#";
-    public static final String PREFIX = "rdfs";
+  public static final String NS = "http://www.w3.org/2000/01/rdf-schema#";
+  public static final String PREFIX = "rdfs";
 
-    // static class
-    private RdfsVocabularyConstants() {}
+  // static class
+  private RdfsVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
-    public static final String RDFSCLASS_LOCAL_NAME = "RdfsClass";
-    /**
-     * The class resource, everything.
-     */
-    public static final String RDFSCLASS_CLASS = NS + RDFSCLASS_LOCAL_NAME;
+  public static final String RDFSCLASS_LOCAL_NAME = "Class";
 
-    /**
-     * A description of the subject resource.
-     */
-    public static final String COMMENT_PROP = NS + "comment";
+  /**
+   * The class resource, everything.
+   */
+  public static final String RDFSCLASS_CLASS = NS + RDFSCLASS_LOCAL_NAME;
 
-    /**
-     * A human-readable name for the subject.
-     */
-    public static final String LABEL_PROP = NS + "label";
+  /**
+   * A description of the subject resource.
+   */
+  public static final String COMMENT_PROP = NS + "comment";
 
-    /**
-     * A member of the subject resource.
-     */
-    public static final String MEMBER_PROP = NS + "member";
+  /**
+   * A human-readable name for the subject.
+   */
+  public static final String LABEL_PROP = NS + "label";
 
-    /**
-     * Further information about the subject resource.
-     */
-    public static final String SEEALSO_PROP = NS + "seeAlso";
+  /**
+   * A member of the subject resource.
+   */
+  public static final String MEMBER_PROP = NS + "member";
 
-    /**
-     * The subject is a subclass of a class.
-     */
-    public static final String SUBCLASSOF_PROP = NS + "subClassOf";
+  /**
+   * Further information about the subject resource.
+   */
+  public static final String SEEALSO_PROP = NS + "seeAlso";
 
+  /**
+   * The subject is a subclass of a class.
+   */
+  public static final String SUBCLASSOF_PROP = NS + "subClassOf";
 
-    /**
-     * A description of the subject resource.
-     */
-    public static QName comment() { return get("comment"); }
+  /**
+   * A description of the subject resource.
+   */
+  public static QName comment() {
+    return get("comment");
+  }
 
-    /**
-     * A human-readable name for the subject.
-     */
-    public static QName label() { return get("label"); }
+  /**
+   * A human-readable name for the subject.
+   */
+  public static QName label() {
+    return get("label");
+  }
 
-    /**
-     * A member of the subject resource.
-     */
-    public static QName member() { return get("member"); }
+  /**
+   * A member of the subject resource.
+   */
+  public static QName member() {
+    return get("member");
+  }
 
-    /**
-     * Further information about the subject resource.
-     */
-    public static QName seeAlso() { return get("seeAlso"); }
+  /**
+   * Further information about the subject resource.
+   */
+  public static QName seeAlso() {
+    return get("seeAlso");
+  }
 
-    /**
-     * The subject is a subclass of a class.
-     */
-    public static QName subClassOf() { return get("subClassOf"); }
+  /**
+   * The subject is a subclass of a class.
+   */
+  public static QName subClassOf() {
+    return get("subClassOf");
+  }
 
-
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }
