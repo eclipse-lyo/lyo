@@ -104,40 +104,27 @@ public class ResourcePackages {
      * belonging to different inheritance trees.
      */
     private static Class<?> getMostConcreteClassOf(List<Class<?>> candidates) {
-        int size = candidates.size();
-        int index = 0;
-        do {
-            Class<?> pivot = candidates.get(index);
-            Iterator<Class<?>> iterator = candidates.iterator();
-            int currentIndex = -1;
-            while(iterator.hasNext()) {
-                Class<?> current = iterator.next();
-                currentIndex++;
-                if (!current.equals(pivot) && current.isAssignableFrom(pivot)) {
-                    iterator.remove();
-                    if (currentIndex < index) {
-                        //if we are removing an item located before the pivot (index position),
-                        //then decrement the index, since the size of the array is also reduced, making sure the pivot index is correct
-                        //in relation to the new size.
-                        index--;
-                    }
-                }
-            }
-            size = candidates.size();
-        } while(++index < size);
-        if (candidates.size() > 1) {
-            Iterator<Class<?>> iterator = candidates.iterator();
-            StringBuilder sb = new StringBuilder("Multiple classes, ");
-            sb.append("not in the same inheritance tree, are annotated ");
-            sb.append("to map the same RDF:type: ");
-            sb.append(iterator.next().getName());
-            while(iterator.hasNext()) {
-                sb.append(", ");
-                sb.append(iterator.next().getName());
-            }
-            throw new IllegalStateException(sb.toString());
+        List<Class<?>> concrete = candidates.stream().distinct().filter(candidate ->
+                candidates.stream().noneMatch(other -> !candidate.equals(other)
+                        && (candidate.isAssignableFrom(other)
+                            || implementsRdfType(other, TypeFactory.getQualifiedName(candidate)))))
+                .toList();
+        if (concrete.size() != 1) {
+            throw new IllegalStateException("Cannot select one concrete class for RDF types: "
+                    + candidates.stream().map(Class::getName).distinct().sorted()
+                        .collect(java.util.stream.Collectors.joining(", ")));
         }
-        return candidates.get(0);
+        return concrete.get(0);
+    }
+    /** Lyo Designer represents secondary RDF parents with annotated Java interfaces. */
+    private static boolean implementsRdfType(Class<?> candidate, String rdfType) {
+        if (candidate == null || rdfType == null) return false;
+        for (Class<?> contract : candidate.getInterfaces()) {
+            if ((contract.getAnnotation(OslcResourceShape.class) != null
+                    && rdfType.equals(TypeFactory.getQualifiedName(contract)))
+                    || implementsRdfType(contract, rdfType)) return true;
+        }
+        return implementsRdfType(candidate.getSuperclass(), rdfType);
     }
 
     /**
