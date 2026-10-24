@@ -6,7 +6,7 @@ All notable changes to this project are documented here, following
 Release headings use the exact published version and a date when recorded.
 Older entries retain their original labels and dates; named links resolve to the actual tags.
 
-## [7.0.0.Beta4] - 2026-10-24
+## [UNRELEASED] - YYYY-MM-DD
 
 ### Security
 
@@ -347,5 +347,3 @@ This release does not contain bug fixes.
 [1.1.0]: https://github.com/eclipse-lyo/lyo/tree/v1.1.0-core
 [1.0.1]: https://github.com/eclipse-lyo/lyo/tree/v1.0.1-core
 [1.0.0]: https://github.com/eclipse-lyo/lyo/tree/v1.0.0-core
-
-[7.0.0.Beta4]: https://github.com/eclipse-lyo/lyo/compare/v7.0.0.Beta3...v7.0.0.Beta4
