@@ -16,6 +16,7 @@ Older entries retain their original labels and dates; named links resolve to the
 
 ### Added
 
+- Added `lyo-server-common` with `LyoAppConfiguration`, plus `LyoConfigUtil` for environment, system-property and JNDI configuration lookup.
 - Extended properties on resources now support arrays and any iterables as well as Link objects.
 - Reified statements on extended properties are deserialized into a data structure that holds all reified statements.
 - OSLC RDF graphs may now be deserialized into raw Jena Models (`Model.class`) instead of Lyo POJOs for OSLC shapes.
@@ -249,7 +250,7 @@ unless the returned array type is annotated with the
 - [Core] regression when `pathParameterValues` are not used ([#66](https://github.com/eclipse/lyo.core/pull/66))
 - [Client] JEEFormAuthenticator catches ProcessingException when closing the connection from last redirect
 
-## [3.0.0] - SKIPPED
+## 3.0.0 - SKIPPED
 
 > Where is Lyo 3.0? There was a Lyo 3.0.0-SNAPSHOT development effort long time ago (after 2.1.0 but before 2.2.0), which has been since abandoned and merged into Lyo 2.2. Furthermore, next version of OSLC will be OSLC 3 and Lyo 3 might mislead users that it adds OSLC 3 support.
 
@@ -279,7 +280,7 @@ See [release notes](https://open-services.net/news/2018-eclipse-lyo-2.4.0/) for 
 
 - Java 8 support
 
-## [2.1.1] - YANKED
+## 2.1.1 - YANKED
 
 *Not all components were released on Maven properly.*
 
