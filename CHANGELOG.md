@@ -1,6 +1,12 @@
 # Eclipse Lyo changelog
 
-## [7.0.0-SNAPSHOT]
+All notable changes to this project are documented here, following
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+Release headings use the exact published version and a date when recorded.
+Older entries retain their original labels and dates; named links resolve to the actual tags.
+
+## [UNRELEASED] - YYYY-MM-DD
 
 ### Security
 
@@ -294,7 +300,7 @@ Initial release. Used Apache Jena 2.7.1
 
 **Template**
 
-## [Unreleased]
+## [UNRELEASED] - YYYY-MM-DD
 
 ### Security
 
@@ -323,3 +329,20 @@ This release does not contain bug fixes.
 
 
 > See https://keepachangelog.com/en/1.0.0/ for more info.
+
+[UNRELEASED]: https://github.com/eclipse-lyo/lyo/compare/v7.0.0.Beta3...HEAD
+[6.0.0]: https://github.com/eclipse-lyo/lyo/tree/v6.0.0.Final
+[5.1.1]: https://github.com/eclipse-lyo/lyo/tree/v5.1.1.Final
+[5.1.0]: https://github.com/eclipse-lyo/lyo/tree/v5.1.0
+[5.0.0]: https://github.com/eclipse-lyo/lyo/tree/v5.0.0
+[4.1.0]: https://github.com/eclipse-lyo/lyo/tree/v4.1.0
+[4.0.0]: https://github.com/eclipse-lyo/lyo/tree/v4.0.0
+[2.4.0]: https://github.com/eclipse-lyo/lyo/tree/v2.4.0-core
+[2.3.0]: https://github.com/eclipse-lyo/lyo/tree/v2.3.0-core
+[2.2.0]: https://github.com/eclipse-lyo/lyo/tree/v2.2.0-core
+[2.1.2]: https://github.com/eclipse-lyo/lyo/tree/v2.1.2-core
+[2.1.0]: https://github.com/eclipse-lyo/lyo/tree/v2.1.0-core
+[2.0.0]: https://github.com/eclipse-lyo/lyo/tree/v2.0.0-core
+[1.1.0]: https://github.com/eclipse-lyo/lyo/tree/v1.1.0-core
+[1.0.1]: https://github.com/eclipse-lyo/lyo/tree/v1.0.1-core
+[1.0.0]: https://github.com/eclipse-lyo/lyo/tree/v1.0.0-core
