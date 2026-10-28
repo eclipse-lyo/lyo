@@ -30,6 +30,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.OslcRdfXmlProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.test.resources.TestResource;
@@ -157,6 +158,39 @@ public class OslcRdfXmlProviderWriteTest {
     assertTrue(
         "Plain RDF/XML writer should express the type as an explicit rdf:type statement",
         rdfXml.contains(TestResource.TEST_RESOURCE_TYPE));
+  }
+
+  @Test
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public void testXmlLiteralWithAmpersandIsWellFormedRdfXml() throws Exception {
+    OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
+
+    // ServiceProvider.title is an XMLLiteral; plain text containing '&' is not well-formed XML.
+    ServiceProvider serviceProvider = new ServiceProvider();
+    serviceProvider.setAbout(URI.create("http://example.com/sp1"));
+    serviceProvider.setTitle("Washer & Wiper");
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    provider.writeTo(
+        serviceProvider,
+        ServiceProvider.class,
+        ServiceProvider.class,
+        new Annotation[] {},
+        MediaType.valueOf("application/rdf+xml"),
+        new MultivaluedHashMap<>(),
+        outputStream);
+
+    ServiceProvider roundTripped =
+        (ServiceProvider)
+            provider.readFrom(
+                (Class) ServiceProvider.class,
+                ServiceProvider.class,
+                new Annotation[] {},
+                MediaType.valueOf("application/rdf+xml"),
+                new MultivaluedHashMap<>(),
+                new ByteArrayInputStream(outputStream.toByteArray()));
+
+    assertEquals("Washer & Wiper", roundTripped.getTitle());
   }
 
   @Test
