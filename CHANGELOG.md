@@ -64,6 +64,7 @@ Older entries retain their original labels and dates; named links resolve to the
 - `JenaModelHelper` no longer misidentifies named (`rdf:ID`-striped) reification nodes as independent top-level resources when falling back to `useBeanClassForParsing`; reification nodes are now excluded whether they are blank nodes or named URIs.
 - `application/rdf+xml` responses no longer silently fall back to abbreviated RDF/XML (typed nodes, nested resources) on Jena 6+.
 - `lyo-server-common` is now published under the `org.eclipse.lyo.server` groupId, matching `lyo-bom` and the other server modules. It was previously published as `org.eclipse.lyo.oslc4j.server` and could not be resolved through the BOM.
+- `application/rdf+xml` responses are well-formed again when an XMLLiteral (e.g. a title) is not well-formed XML, such as `Washer & Wiper`. The plain RDF/XML writer no longer emits XMLLiterals verbatim as `rdf:parseType="Literal"`, but escaped with `rdf:datatype`.
 
 ## [6.0.0]
 
