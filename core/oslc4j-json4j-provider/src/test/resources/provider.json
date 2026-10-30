@@ -1,0 +1,66 @@
+{
+  "prefixes": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "oslc": "http://open-services.net/ns/core#"
+  },
+  "rdf:about": "http://example.com/bugs/service-descriptor.xml",
+  "rdf:type": [
+    {
+      "rdf:resource": "http://open-services.net/ns/core#ServiceProvider"
+    }
+  ],
+  "dcterms:title": "Blogging Service",
+  "dcterms:description": "Example OSLC Blog Service",
+  "dcterms:contributor": [
+    {
+      "rdf:type": [
+        {
+          "rdf:resource": "http://open-services.net/ns/core#Contributor"
+        }
+      ],
+      "dcterms:title": "OSLC Core Workgroup documentation department",
+      "dcterms:identifier": "com.example.oslc.blogservice",
+      "oslc:icon": {
+        "rdf:resource": "http://example.com/icons/blogservice.ico"
+      }
+    }
+  ],
+  "oslc:service": [
+    {
+      "rdf:type": [
+          { "rdf:resource": "http://open-services.net/ns/core#Service" }
+      ],
+      "oslc:domain": "http://example.com/xmlns/example-cm#",
+      "oslc:usage": [
+          { "rdf:resource": "http://example.com/ns#usage1" },
+          { "rdf:resource": "http://example.com/ns#usage2" }
+      ],
+      "oslc:creationFactory": [
+          {
+              "rdf:type": [{ "rdf:resource": "http://open-services.net/ns/core#CreationFactory" }],
+              "dcterms:title": "Location for creation of Blog Comments",
+              "oslc:label": "Blog Comments",
+              "oslc:creation": { "rdf:resource": "http://example.com/creation/comments" },
+              "oslc:shape": { "rdf:resource": "http://example.com/shapes/blogcomment" }
+          },
+          {
+              "rdf:type": [{ "rdf:resource": "http://open-services.net/ns/core#CreationFactory" }],
+              "dcterms:title": "Location for creation of Blog Entries",
+              "oslc:label": "Blog Entries",
+              "oslc:creation": { "rdf:resource": "http://example.com/creation/entries" },
+              "oslc:shape": { "rdf:resource": "http://example.com/shapes/blogentry" }
+          }
+      ],
+      "oslc:queryCapability": [
+          {
+              "rdf:type": [{ "rdf:resource": "http://open-services.net/ns/core#QueryCapability" }],
+              "dcterms:title": "Blog Entry and Comment Query",
+              "oslc:label": "blogquery",
+              "oslc:queryBase": { "rdf:resource": "http://example.com/query" },
+              "oslc:shape": { "rdf:resource": "http://example.com/shapes/blogquery" }
+          }
+      ]
+    }
+  ]
+}
