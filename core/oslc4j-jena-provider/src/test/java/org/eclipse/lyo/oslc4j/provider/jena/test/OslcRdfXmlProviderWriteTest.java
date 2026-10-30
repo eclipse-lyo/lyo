@@ -161,36 +161,85 @@ public class OslcRdfXmlProviderWriteTest {
   }
 
   @Test
-  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testXmlLiteralWithAmpersandIsWellFormedRdfXml() throws Exception {
-    OslcRdfXmlProvider provider = new OslcRdfXmlProvider();
-
     // ServiceProvider.title is an XMLLiteral; plain text containing '&' is not well-formed XML.
-    ServiceProvider serviceProvider = new ServiceProvider();
-    serviceProvider.setAbout(URI.create("http://example.com/sp1"));
-    serviceProvider.setTitle("Washer & Wiper");
+    assertEquals("Washer & Wiper", roundTripTitle("Washer & Wiper"));
+  }
 
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    provider.writeTo(
-        serviceProvider,
-        ServiceProvider.class,
-        ServiceProvider.class,
-        new Annotation[] {},
-        MediaType.valueOf("application/rdf+xml"),
-        new MultivaluedHashMap<>(),
-        outputStream);
+  @Test
+  public void testXmlLiteralWithEscapedAmpersandIsKeptAsIs() throws Exception {
+    // Already well-formed XML: must not be unescaped (or escaped twice) on the way back.
+    assertEquals("Washer &amp; Wiper", roundTripTitle("Washer &amp; Wiper"));
+  }
 
-    ServiceProvider roundTripped =
-        (ServiceProvider)
-            provider.readFrom(
+  @Test
+  public void testXmlLiteralWithMarkupIsKeptAsIs() throws Exception {
+    assertEquals(
+        "<b>Washer</b> &amp; <i>Wiper</i>", roundTripTitle("<b>Washer</b> &amp; <i>Wiper</i>"));
+  }
+
+  @Test
+  public void testExternalXmlLiteralsAreReadAndPassedOnUnchanged() throws Exception {
+    // XMLLiterals as other servers may send them: as rdf:parseType="Literal" (embedded XML) or
+    // escaped with rdf:datatype. Both encodings of the same XML must give the same title, and
+    // writing that title out again must not alter it.
+    String[][] cases = {
+      {"<dcterms:title rdf:parseType=\"Literal\">Washer &amp; Wiper</dcterms:title>",
+        "Washer &amp; Wiper"},
+      {"<dcterms:title rdf:parseType=\"Literal\">Washer &amp; <b>Wiper</b></dcterms:title>",
+        "Washer &amp; <b>Wiper</b>"},
+      {"<dcterms:title rdf:parseType=\"Literal\">"
+          + "<b xmlns=\"http://www.w3.org/1999/xhtml\">Washer</b> &amp; Wiper</dcterms:title>",
+        "<b xmlns=\"http://www.w3.org/1999/xhtml\">Washer</b> &amp; Wiper"},
+      {"<dcterms:title rdf:datatype=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral\">"
+          + "Washer &amp;amp; &lt;b&gt;Wiper&lt;/b&gt;</dcterms:title>",
+        "Washer &amp; <b>Wiper</b>"},
+    };
+    for (String[] c : cases) {
+      String rdfXml =
+          "<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\""
+              + " xmlns:dcterms=\"http://purl.org/dc/terms/\""
+              + " xmlns:oslc=\"http://open-services.net/ns/core#\">"
+              + "<oslc:ServiceProvider rdf:about=\"http://example.com/sp1\">"
+              + c[0]
+              + "</oslc:ServiceProvider></rdf:RDF>";
+      String title = readServiceProvider(rdfXml.getBytes(StandardCharsets.UTF_8)).getTitle();
+      assertEquals("Read " + c[0], c[1], title);
+      assertEquals("Pass on " + c[0], c[1], roundTripTitle(title));
+    }
+  }
+
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private static ServiceProvider readServiceProvider(byte[] rdfXml) throws Exception {
+    return (ServiceProvider)
+        new OslcRdfXmlProvider()
+            .readFrom(
                 (Class) ServiceProvider.class,
                 ServiceProvider.class,
                 new Annotation[] {},
                 MediaType.valueOf("application/rdf+xml"),
                 new MultivaluedHashMap<>(),
-                new ByteArrayInputStream(outputStream.toByteArray()));
+                new ByteArrayInputStream(rdfXml));
+  }
 
-    assertEquals("Washer & Wiper", roundTripped.getTitle());
+  /** Writes a ServiceProvider with the given title as application/rdf+xml and reads it back. */
+  private static String roundTripTitle(String title) throws Exception {
+    ServiceProvider serviceProvider = new ServiceProvider();
+    serviceProvider.setAbout(URI.create("http://example.com/sp1"));
+    serviceProvider.setTitle(title);
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    new OslcRdfXmlProvider()
+        .writeTo(
+            serviceProvider,
+            ServiceProvider.class,
+            ServiceProvider.class,
+            new Annotation[] {},
+            MediaType.valueOf("application/rdf+xml"),
+            new MultivaluedHashMap<>(),
+            outputStream);
+
+    return readServiceProvider(outputStream.toByteArray()).getTitle();
   }
 
   @Test
