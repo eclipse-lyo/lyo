@@ -182,10 +182,18 @@ public abstract class AbstractOslcRdfXmlProvider {
    */
   private void writeRdf(
       final Model model, final RDFFormat format, final OutputStream outputStream) {
+    Map<String, Object> writerProperties =
+        RDFFormat.RDFXML_PLAIN.equals(format)
+            // The plain writer emits XMLLiterals verbatim as rdf:parseType="Literal", even when
+            // they are not well-formed XML (e.g. a dcterms:title of "Washer & Wiper"), which
+            // produces malformed RDF/XML. Blocking that rule writes them escaped, with
+            // rdf:datatype, as the abbreviated writers do.
+            ? Map.of("showXmlDeclaration", "false", "blockRules", "parseTypeLiteralPropertyElt")
+            : Map.of("showXmlDeclaration", "false");
     RDFWriter.create()
         .source(model)
         .format(format)
-        .set(SysRIOT.sysRdfWriterProperties, Map.of("showXmlDeclaration", "false"))
+        .set(SysRIOT.sysRdfWriterProperties, writerProperties)
         .output(outputStream);
   }
 
