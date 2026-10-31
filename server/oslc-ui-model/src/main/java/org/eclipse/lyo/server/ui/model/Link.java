@@ -13,14 +13,12 @@
  */
 package org.eclipse.lyo.server.ui.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbPropertyOrder;
 
 import java.util.Objects;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonbPropertyOrder({
     "link",
     "title"
 })
@@ -31,14 +29,14 @@ public class Link {
      * (Required)
      *
      */
-    @JsonProperty("link")
+    @JsonbProperty("link")
     private String link;
     /**
      *
      * (Required)
      *
      */
-    @JsonProperty("title")
+    @JsonbProperty("title")
     private String title;
 
     /**
@@ -46,7 +44,7 @@ public class Link {
      * (Required)
      *
      */
-    @JsonProperty("link")
+    @JsonbProperty("link")
     public String getLink() {
         return link;
     }
@@ -56,7 +54,7 @@ public class Link {
      * (Required)
      *
      */
-    @JsonProperty("link")
+    @JsonbProperty("link")
     public void setLink(String link) {
         this.link = link;
     }
@@ -66,7 +64,7 @@ public class Link {
      * (Required)
      *
      */
-    @JsonProperty("title")
+    @JsonbProperty("title")
     public String getTitle() {
         return title;
     }
@@ -76,7 +74,7 @@ public class Link {
      * (Required)
      *
      */
-    @JsonProperty("title")
+    @JsonbProperty("title")
     public void setTitle(String title) {
         this.title = title;
     }
