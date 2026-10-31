@@ -27,107 +27,263 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class Oslc_qmVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class Oslc_qmVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated
+  public static final String QUALITY_MANAGEMENT_NAMSPACE = "http://open-services.net/ns/qm#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String QUALITY_MANAGEMENT_NAMSPACE_PREFIX = "oslc_qm";
 
-    public static final String NS = "http://open-services.net/ns/qm#";
-    public static final String PREFIX = "oslc_qm";
+  public static final String NS = "http://open-services.net/ns/qm#";
+  public static final String PREFIX = "oslc_qm";
 
-    // static class
-    private Oslc_qmVocabularyConstants() {}
+  // static class
+  private Oslc_qmVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
-    public static final String TESTCASE_LOCAL_NAME = "TestCase";
-    public static final String TESTCASE_CLASS = NS + TESTCASE_LOCAL_NAME;
-    public static final String TESTEXECUTIONRECORD_LOCAL_NAME = "TestExecutionRecord";
-    public static final String TESTEXECUTIONRECORD_CLASS = NS + TESTEXECUTIONRECORD_LOCAL_NAME;
-    public static final String TESTPLAN_LOCAL_NAME = "TestPlan";
-    public static final String TESTPLAN_CLASS = NS + TESTPLAN_LOCAL_NAME;
-    public static final String TESTRESULT_LOCAL_NAME = "TestResult";
-    public static final String TESTRESULT_CLASS = NS + TESTRESULT_LOCAL_NAME;
-    public static final String TESTSCRIPT_LOCAL_NAME = "TestScript";
-    public static final String TESTSCRIPT_CLASS = NS + TESTSCRIPT_LOCAL_NAME;
+  public static final String TESTCASE_LOCAL_NAME = "TestCase";
 
-    public static final String AFFECTEDBYCHANGEREQUEST_PROP = NS + "affectedByChangeRequest";
+  /**
+   * The QM Test Case resource.
+   */
+  public static final String TESTCASE_CLASS = NS + TESTCASE_LOCAL_NAME;
 
-    public static final String BLOCKEDBYCHANGEREQUEST_PROP = NS + "blockedByChangeRequest";
+  public static final String TESTEXECUTIONRECORD_LOCAL_NAME = "TestExecutionRecord";
 
-    public static final String EXECUTESTESTSCRIPT_PROP = NS + "executesTestScript";
+  /**
+   * The QM Test Execution Record resource.
+   */
+  public static final String TESTEXECUTIONRECORD_CLASS = NS + TESTEXECUTIONRECORD_LOCAL_NAME;
 
-    public static final String EXECUTIONINSTRUCTIONS_PROP = NS + "executionInstructions";
+  public static final String TESTPLAN_LOCAL_NAME = "TestPlan";
 
-    public static final String PRODUCEDBYTESTEXECUTIONRECORD_PROP = NS + "producedByTestExecutionRecord";
+  /**
+   * The QM Test Plan resource.
+   */
+  public static final String TESTPLAN_CLASS = NS + TESTPLAN_LOCAL_NAME;
 
-    public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
+  public static final String TESTRESULT_LOCAL_NAME = "TestResult";
 
-    public static final String REPORTSONTESTCASE_PROP = NS + "reportsOnTestCase";
+  /**
+   * The QM Test Result resource.
+   */
+  public static final String TESTRESULT_CLASS = NS + TESTRESULT_LOCAL_NAME;
 
-    public static final String REPORTSONTESTPLAN_PROP = NS + "reportsOnTestPlan";
+  public static final String TESTSCRIPT_LOCAL_NAME = "TestScript";
 
-    public static final String RUNSONTESTENVIRONMENT_PROP = NS + "runsOnTestEnvironment";
+  /**
+   * The QM Test Script resource.
+   */
+  public static final String TESTSCRIPT_CLASS = NS + TESTSCRIPT_LOCAL_NAME;
 
-    public static final String RUNSTESTCASE_PROP = NS + "runsTestCase";
+  /**
+   * Change request that affects the Test Result. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static final String AFFECTEDBYCHANGEREQUEST_PROP = NS + "affectedByChangeRequest";
 
-    public static final String TESTSCHANGEREQUEST_PROP = NS + "testsChangeRequest";
+  /**
+   * Change Request that prevents execution of the Test Execution Record. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static final String BLOCKEDBYCHANGEREQUEST_PROP = NS + "blockedByChangeRequest";
 
-    public static final String USESTESTCASE_PROP = NS + "usesTestCase";
+  /**
+   * Test Script executed to produce the Test Result. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.
+   */
+  public static final String EXECUTESTESTSCRIPT_PROP = NS + "executesTestScript";
 
-    public static final String USESTESTSCRIPT_PROP = NS + "usesTestScript";
+  /**
+   * Instructions for executing the test script. Note that the value of Occurs is undefined. The resource shape document provided by the QM service provider may be consulted for its value.
+   */
+  public static final String EXECUTIONINSTRUCTIONS_PROP = NS + "executionInstructions";
 
-    public static final String VALIDATESREQUIREMENT_PROP = NS + "validatesRequirement";
+  /**
+   * Test Execution Record that the Test Result was produced by. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case.
+   */
+  public static final String PRODUCEDBYTESTEXECUTIONRECORD_PROP =
+      NS + "producedByTestExecutionRecord";
 
-    public static final String VALIDATESREQUIREMENTCOLLECTION_PROP = NS + "validatesRequirementCollection";
+  /**
+   * A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static final String RELATEDCHANGEREQUEST_PROP = NS + "relatedChangeRequest";
 
+  /**
+   * Test Case that the Test Result reports on. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static final String REPORTSONTESTCASE_PROP = NS + "reportsOnTestCase";
 
-    public static QName affectedByChangeRequest() { return get("affectedByChangeRequest"); }
+  /**
+   * Test Plan that a test or execution record reports on. It is likely that the target resource will be an oslc_qm:TestPlan but that is not necessarily the case.
+   */
+  public static final String REPORTSONTESTPLAN_PROP = NS + "reportsOnTestPlan";
 
-    public static QName blockedByChangeRequest() { return get("blockedByChangeRequest"); }
+  /**
+   * Indicates the environment details of the test case for this execution record.
+   */
+  public static final String RUNSONTESTENVIRONMENT_PROP = NS + "runsOnTestEnvironment";
 
-    public static QName executesTestScript() { return get("executesTestScript"); }
+  /**
+   * Test Case run by the Test Execution Record. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static final String RUNSTESTCASE_PROP = NS + "runsTestCase";
 
-    public static QName executionInstructions() { return get("executionInstructions"); }
+  /**
+   * Used to indicate the state of the Test Result based on values defined by the service provider.
+   */
+  public static final String STATUS_PROP = NS + "status";
 
-    public static QName producedByTestExecutionRecord() { return get("producedByTestExecutionRecord"); }
+  /**
+   * Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static final String TESTSCHANGEREQUEST_PROP = NS + "testsChangeRequest";
 
-    public static QName relatedChangeRequest() { return get("relatedChangeRequest"); }
+  /**
+   * Test Case used by the Test Plan. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static final String USESTESTCASE_PROP = NS + "usesTestCase";
 
-    public static QName reportsOnTestCase() { return get("reportsOnTestCase"); }
+  /**
+   * Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.
+   */
+  public static final String USESTESTSCRIPT_PROP = NS + "usesTestScript";
 
-    public static QName reportsOnTestPlan() { return get("reportsOnTestPlan"); }
+  /**
+   * Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.
+   */
+  public static final String VALIDATESREQUIREMENT_PROP = NS + "validatesRequirement";
 
-    public static QName runsOnTestEnvironment() { return get("runsOnTestEnvironment"); }
+  /**
+   * Requirement Collection that is validated by the Test Plan. It is likely that the target resource will be an oslc_rm:RequirementCollection but that is not necessarily the case.
+   */
+  public static final String VALIDATESREQUIREMENTCOLLECTION_PROP =
+      NS + "validatesRequirementCollection";
 
-    public static QName runsTestCase() { return get("runsTestCase"); }
+  /**
+   * Change request that affects the Test Result. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static QName affectedByChangeRequest() {
+    return get("affectedByChangeRequest");
+  }
 
-    public static QName testsChangeRequest() { return get("testsChangeRequest"); }
+  /**
+   * Change Request that prevents execution of the Test Execution Record. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static QName blockedByChangeRequest() {
+    return get("blockedByChangeRequest");
+  }
 
-    public static QName usesTestCase() { return get("usesTestCase"); }
+  /**
+   * Test Script executed to produce the Test Result. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.
+   */
+  public static QName executesTestScript() {
+    return get("executesTestScript");
+  }
 
-    public static QName usesTestScript() { return get("usesTestScript"); }
+  /**
+   * Instructions for executing the test script. Note that the value of Occurs is undefined. The resource shape document provided by the QM service provider may be consulted for its value.
+   */
+  public static QName executionInstructions() {
+    return get("executionInstructions");
+  }
 
-    public static QName validatesRequirement() { return get("validatesRequirement"); }
+  /**
+   * Test Execution Record that the Test Result was produced by. It is likely that the target resource will be an oslc_qm:TestExecutionRecord but that is not necessarily the case.
+   */
+  public static QName producedByTestExecutionRecord() {
+    return get("producedByTestExecutionRecord");
+  }
 
-    public static QName validatesRequirementCollection() { return get("validatesRequirementCollection"); }
+  /**
+   * A related change request. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static QName relatedChangeRequest() {
+    return get("relatedChangeRequest");
+  }
 
+  /**
+   * Test Case that the Test Result reports on. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static QName reportsOnTestCase() {
+    return get("reportsOnTestCase");
+  }
 
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  /**
+   * Test Plan that a test or execution record reports on. It is likely that the target resource will be an oslc_qm:TestPlan but that is not necessarily the case.
+   */
+  public static QName reportsOnTestPlan() {
+    return get("reportsOnTestPlan");
+  }
+
+  /**
+   * Indicates the environment details of the test case for this execution record.
+   */
+  public static QName runsOnTestEnvironment() {
+    return get("runsOnTestEnvironment");
+  }
+
+  /**
+   * Test Case run by the Test Execution Record. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static QName runsTestCase() {
+    return get("runsTestCase");
+  }
+
+  /**
+   * Used to indicate the state of the Test Result based on values defined by the service provider.
+   */
+  public static QName status() {
+    return get("status");
+  }
+
+  /**
+   * Change Request tested by the Test Case. It is likely that the target resource will be an oslc_cm:ChangeRequest but that is not necessarily the case.
+   */
+  public static QName testsChangeRequest() {
+    return get("testsChangeRequest");
+  }
+
+  /**
+   * Test Case used by the Test Plan. It is likely that the target resource will be an oslc_qm:TestCase but that is not necessarily the case.
+   */
+  public static QName usesTestCase() {
+    return get("usesTestCase");
+  }
+
+  /**
+   * Test Script used by the Test Case. It is likely that the target resource will be an oslc_qm:TestScript but that is not necessarily the case.
+   */
+  public static QName usesTestScript() {
+    return get("usesTestScript");
+  }
+
+  /**
+   * Requirement that is validated by the Test Case. It is likely that the target resource will be an oslc_rm:Requirement but that is not necessarily the case.
+   */
+  public static QName validatesRequirement() {
+    return get("validatesRequirement");
+  }
+
+  /**
+   * Requirement Collection that is validated by the Test Plan. It is likely that the target resource will be an oslc_rm:RequirementCollection but that is not necessarily the case.
+   */
+  public static QName validatesRequirementCollection() {
+    return get("validatesRequirementCollection");
+  }
+
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }

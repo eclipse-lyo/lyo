@@ -27,77 +27,83 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class FoafVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class FoafVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated public static final String FOAF_NAMSPACE = "http://xmlns.com/foaf/0.1/";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String FOAF_NAMSPACE_PREFIX = "foaf";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String FOAF_NAMSPACE_PREFIX = "foaf";
 
-    public static final String NS = "http://xmlns.com/foaf/0.1/";
-    public static final String PREFIX = "foaf";
+  public static final String NS = "http://xmlns.com/foaf/0.1/";
+  public static final String PREFIX = "foaf";
 
-    // static class
-    private FoafVocabularyConstants() {}
+  // static class
+  private FoafVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
-    public static final String AGENT_LOCAL_NAME = "Agent";
-    /**
-     * The Agent class is the class of agents; things that do stuff. A well known sub-class is Person, representing people. Other kinds of agents include Organization and Group. The Agent class is useful in a few places in FOAF where Person would have been overly specific. For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots.
-     */
-    public static final String AGENT_CLASS = NS + AGENT_LOCAL_NAME;
-    public static final String PERSON_LOCAL_NAME = "Person";
-    /**
-     * The Person class represents people. Something is a Person if it is a person. We don't nitpic about whether they're alive, dead, real, or imaginary. The Person class is a sub-class of the Agent class, since all people are considered 'agents' in FOAF.
-     */
-    public static final String PERSON_CLASS = NS + PERSON_LOCAL_NAME;
+  public static final String AGENT_LOCAL_NAME = "Agent";
 
-    /**
-     * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
-     */
-    public static final String FAMILYNAME_PROP = NS + "familyName";
+  /**
+   * The Agent class is the class of agents; things that do stuff. A well known sub-class is Person, representing people. Other kinds of agents include Organization and Group. The Agent class is useful in a few places in FOAF where Person would have been overly specific. For example, the IM chat ID properties such as jabberID are typically associated with people, but sometimes belong to software bots.
+   */
+  public static final String AGENT_CLASS = NS + AGENT_LOCAL_NAME;
 
-    /**
-     * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
-     */
-    public static final String GIVENNAME_PROP = NS + "givenName";
+  public static final String PERSON_LOCAL_NAME = "Person";
 
-    /**
-     * The name of something is a simple textual string.
-     */
-    public static final String NAME_PROP = NS + "name";
+  /**
+   * The Person class represents people. Something is a Person if it is a person. We don't nitpic about whether they're alive, dead, real, or imaginary. The Person class is a sub-class of the Agent class, since all people are considered 'agents' in FOAF.
+   */
+  public static final String PERSON_CLASS = NS + PERSON_LOCAL_NAME;
 
+  /**
+   * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
+   */
+  public static final String FAMILYNAME_PROP = NS + "familyName";
 
-    /**
-     * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
-     */
-    public static QName familyName() { return get("familyName"); }
+  /**
+   * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
+   */
+  public static final String GIVENNAME_PROP = NS + "givenName";
 
-    /**
-     * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
-     */
-    public static QName givenName() { return get("givenName"); }
+  /**
+   * The name of something is a simple textual string.
+   */
+  public static final String NAME_PROP = NS + "name";
 
-    /**
-     * The name of something is a simple textual string.
-     */
-    public static QName name() { return get("name"); }
+  /**
+   * The familyName property is provided (alongside givenName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
+   */
+  public static QName familyName() {
+    return get("familyName");
+  }
 
+  /**
+   * The givenName property is provided (alongside familyName) for use when describing parts of people's names. Although these concepts do not capture the full range of personal naming styles found world-wide, they are commonly used and have some value.
+   */
+  public static QName givenName() {
+    return get("givenName");
+  }
 
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  /**
+   * The name of something is a simple textual string.
+   */
+  public static QName name() {
+    return get("name");
+  }
+
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }
