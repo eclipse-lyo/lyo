@@ -172,25 +172,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- Align test-scoped transitives of MockServer and the Lyo BOM. -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>5.0.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jspecify</groupId>
-      <artifactId>jspecify</artifactId>
-      <version>1.0.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>4.0.5</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>com.diffplug.selfie</groupId>
       <artifactId>selfie-runner-junit5</artifactId>
