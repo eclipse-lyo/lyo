@@ -14,6 +14,33 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <!-- Keep MockServer's test-only transitives aligned without changing Lyo's published BOM versions. -->
+    <v.trs.test.classgraph>5.0.0</v.trs.test.classgraph>
+    <v.trs.test.jspecify>1.0.1</v.trs.test.jspecify>
+    <v.trs.test.jaxb>4.0.5</v.trs.test.jaxb>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>${v.trs.test.classgraph}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${v.trs.test.jspecify}</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>${v.trs.test.jaxb}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <modules>
     <module>trs-client</module>
     <module>client-source-mqtt</module>
