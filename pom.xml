@@ -26,6 +26,8 @@
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
     <v.classgraph>4.8.198</v.classgraph>
+    <v.jaxb>4.0.5</v.jaxb>
+    <v.jspecify>1.0.1</v.jspecify>
     <!-- NOTE: ensure that the core version matches client's
     https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
@@ -305,7 +307,7 @@
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>4.0.2</version>
+        <version>${v.jaxb}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.annotation</groupId>
@@ -485,6 +487,11 @@
         <groupId>io.github.classgraph</groupId>
         <artifactId>classgraph</artifactId>
         <version>${v.classgraph}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${v.jspecify}</version>
       </dependency>
       <!--jena
       and guava-->
