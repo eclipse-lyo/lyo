@@ -57,7 +57,7 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.IRdfsClass;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -65,20 +65,16 @@ import org.eclipse.lyo.oslc.domains.IRdfsClass;
 @OslcNamespace(RdfsDomainConstants.CLASS_NAMESPACE)
 @OslcName(RdfsDomainConstants.CLASS_LOCALNAME)
 @OslcResourceShape(title = "Class Shape", describes = RdfsDomainConstants.CLASS_TYPE)
-public interface IRdfsClass
-{
+public interface IRdfsClass {
 
+  @OslcName("subClassOf")
+  @OslcPropertyDefinition(RdfsVocabularyConstants.SUBCLASSOF_PROP)
+  @OslcDescription("used to state that all the instances of one class are instances of another")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Link getSubClassOf();
 
-    @OslcName("subClassOf")
-    @OslcPropertyDefinition(RdfsVocabularyConstants.SUBCLASSOF_PROP)
-    @OslcDescription("used to state that all the instances of one class are instances of another")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Link getSubClassOf();
-
-
-    public void setSubClassOf(final Link subClassOf );
+  public void setSubClassOf(final Link subClassOf);
 }
-

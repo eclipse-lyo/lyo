@@ -57,63 +57,67 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IMeasure;
+import org.eclipse.lyo.oslc.domains.promcode.Artifact;
+import org.eclipse.lyo.oslc.domains.promcode.Measure;
 // Start of user code imports
 // End of user code
 // spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.MEASUREMENT_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.MEASUREMENT_LOCALNAME)
-@OslcResourceShape(title = "Measurement Shape", description = "A measurement measures some aspect of an artifact at some point in time.", describes = Oslc_promcodeDomainConstants.MEASUREMENT_TYPE)
-public interface IMeasurement
-{
+@OslcResourceShape(
+    title = "Measurement Shape",
+    description = "A measurement measures some aspect of an artifact at some point in time.",
+    describes = Oslc_promcodeDomainConstants.MEASUREMENT_TYPE)
+public interface IMeasurement {
 
-    public void addObserves(final Measure observes );
+  public void addObserves(final Measure observes);
 
-    @OslcName("date")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DATE_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getDate();
+  @OslcName("date")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DATE_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getDate();
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("measures")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "measures")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
-    @OslcReadOnly(false)
-    public Link getMeasures();
+  @OslcName("measures")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "measures")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.ARTIFACT_TYPE})
+  @OslcReadOnly(false)
+  public Link getMeasures();
 
-    @OslcName("observes")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "observes")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRepresentation(Representation.Inline)
-    @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
-    @OslcReadOnly(false)
-    public Set<Measure> getObserves();
+  @OslcName("observes")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "observes")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRepresentation(Representation.Inline)
+  @OslcRange({Oslc_promcodeDomainConstants.MEASURE_TYPE})
+  @OslcReadOnly(false)
+  public Set<Measure> getObserves();
 
+  public void setDate(final Date date);
 
-    public void setDate(final Date date );
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setMeasures(final Link measures );
-    public void setObserves(final Set<Measure> observes );
+  public void setDescription(final String description);
+
+  public void setIdentifier(final String identifier);
+
+  public void setMeasures(final Link measures);
+
+  public void setObserves(final Set<Measure> observes);
 }
-

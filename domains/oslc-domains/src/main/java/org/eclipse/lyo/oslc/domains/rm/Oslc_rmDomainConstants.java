@@ -26,44 +26,49 @@ import org.eclipse.lyo.oslc.domains.Oslc_rmVocabularyConstants;
 // End of user code
 // spotless:on
 
-public interface Oslc_rmDomainConstants
-{
-    // Start of user code user constants
+public interface Oslc_rmDomainConstants {
+  // Start of user code user constants
   // End of user code
 
-    /**
-     * @deprecated use {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
-     */
-    @Deprecated(since = "5.0.1")
-    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/rm#";
-    public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME = "Requirements Management shapes";
+  /**
+   * @deprecated use {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE} or {@link Oslc_rmDomainConstants#REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME} instead
+   */
+  @Deprecated(since = "5.0.1")
+  public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN = "http://open-services.net/ns/rm#";
 
-    //Vocabulary namespace for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined 
-    public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/rm#";
+  public static String REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN_NAME =
+      "Requirements Management shapes";
 
-    //Vocabulary prefix for the resources and resource properties, when no explicit vocabulary (describes, or propertyDefinition) is defined
-    public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_rm"; 
+  // Vocabulary namespace for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE = "http://open-services.net/ns/rm#";
 
-    // the relative path of the resource shape URL.
-    public static String REQUIREMENT_PATH = "requirement";
-    
-    // namespace of the rdfs:class the resource describes
-    public static String REQUIREMENT_NAMESPACE = Oslc_rmVocabularyConstants.NS;
-    
-    // localName of the rdfs:class the resource describes
-    public static String REQUIREMENT_LOCALNAME = Oslc_rmVocabularyConstants.REQUIREMENT_LOCAL_NAME;
-    
-    // fullname of the rdfs:class the resource describes
-    public static String REQUIREMENT_TYPE = REQUIREMENT_NAMESPACE + REQUIREMENT_LOCALNAME;
-    // the relative path of the resource shape URL.
-    public static String REQUIREMENTCOLLECTION_PATH = "requirementCollection";
-    
-    // namespace of the rdfs:class the resource describes
-    public static String REQUIREMENTCOLLECTION_NAMESPACE = Oslc_rmVocabularyConstants.NS;
-    
-    // localName of the rdfs:class the resource describes
-    public static String REQUIREMENTCOLLECTION_LOCALNAME = Oslc_rmVocabularyConstants.REQUIREMENTCOLLECTION_LOCAL_NAME;
-    
-    // fullname of the rdfs:class the resource describes
-    public static String REQUIREMENTCOLLECTION_TYPE = REQUIREMENTCOLLECTION_NAMESPACE + REQUIREMENTCOLLECTION_LOCALNAME;
+  // Vocabulary prefix for the resources and resource properties, when no explicit vocabulary
+  // (describes, or propertyDefinition) is defined
+  public static String REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX = "oslc_rm";
+
+  // the relative path of the resource shape URL.
+  public static String REQUIREMENT_PATH = "requirement";
+
+  // namespace of the rdfs:class the resource describes
+  public static String REQUIREMENT_NAMESPACE = Oslc_rmVocabularyConstants.NS;
+
+  // localName of the rdfs:class the resource describes
+  public static String REQUIREMENT_LOCALNAME = Oslc_rmVocabularyConstants.REQUIREMENT_LOCAL_NAME;
+
+  // fullname of the rdfs:class the resource describes
+  public static String REQUIREMENT_TYPE = REQUIREMENT_NAMESPACE + REQUIREMENT_LOCALNAME;
+  // the relative path of the resource shape URL.
+  public static String REQUIREMENTCOLLECTION_PATH = "requirementCollection";
+
+  // namespace of the rdfs:class the resource describes
+  public static String REQUIREMENTCOLLECTION_NAMESPACE = Oslc_rmVocabularyConstants.NS;
+
+  // localName of the rdfs:class the resource describes
+  public static String REQUIREMENTCOLLECTION_LOCALNAME =
+      Oslc_rmVocabularyConstants.REQUIREMENTCOLLECTION_LOCAL_NAME;
+
+  // fullname of the rdfs:class the resource describes
+  public static String REQUIREMENTCOLLECTION_TYPE =
+      REQUIREMENTCOLLECTION_NAMESPACE + REQUIREMENTCOLLECTION_LOCALNAME;
 }

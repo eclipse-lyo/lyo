@@ -27,101 +27,230 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class Oslc_rmVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class Oslc_rmVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE = "http://open-services.net/ns/rm#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated
+  public static final String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE =
+      "http://open-services.net/ns/rm#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE_PREFIX = "oslc_rm";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated
+  public static final String REQUIREMENTS_MANAGEMENT_VOCABULARY_NAMSPACE_PREFIX = "oslc_rm";
 
-    public static final String NS = "http://open-services.net/ns/rm#";
-    public static final String PREFIX = "oslc_rm";
+  public static final String NS = "http://open-services.net/ns/rm#";
+  public static final String PREFIX = "oslc_rm";
 
-    // static class
-    private Oslc_rmVocabularyConstants() {}
+  // static class
+  private Oslc_rmVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
-    public static final String REQUIREMENT_LOCAL_NAME = "Requirement";
-    public static final String REQUIREMENT_CLASS = NS + REQUIREMENT_LOCAL_NAME;
-    public static final String REQUIREMENTCOLLECTION_LOCAL_NAME = "RequirementCollection";
-    public static final String REQUIREMENTCOLLECTION_CLASS = NS + REQUIREMENTCOLLECTION_LOCAL_NAME;
+  public static final String REQUIREMENT_LOCAL_NAME = "Requirement";
 
-    public static final String AFFECTEDBY_PROP = NS + "affectedBy";
+  /**
+   * Statement of need.
+   */
+  public static final String REQUIREMENT_CLASS = NS + REQUIREMENT_LOCAL_NAME;
 
-    public static final String CONSTRAINEDBY_PROP = NS + "constrainedBy";
+  public static final String REQUIREMENTCOLLECTION_LOCAL_NAME = "RequirementCollection";
 
-    public static final String CONSTRAINS_PROP = NS + "constrains";
+  /**
+   * Collection of requirements. A collection uses zero or more requirements.
+   */
+  public static final String REQUIREMENTCOLLECTION_CLASS = NS + REQUIREMENTCOLLECTION_LOCAL_NAME;
 
-    public static final String DECOMPOSEDBY_PROP = NS + "decomposedBy";
+  /**
+   * Expresses an affects relationship between entities, where the object entity in some way affects the subject entity. For example, a requirement is affected by a defect.
+   */
+  public static final String AFFECTEDBY_PROP = NS + "affectedBy";
 
-    public static final String DECOMPOSES_PROP = NS + "decomposes";
+  /**
+   * Expresses a constraining relationship between entities, where the object entity constrains the subject entity. For example, a functional requirement is constrained by a safety requirement.
+   */
+  public static final String CONSTRAINEDBY_PROP = NS + "constrainedBy";
 
-    public static final String ELABORATEDBY_PROP = NS + "elaboratedBy";
+  /**
+   * Expresses a constraining relationship between entities, where the subject entity constrains the object entity. For example, a safety requirement constrains a functional requirement.
+   */
+  public static final String CONSTRAINS_PROP = NS + "constrains";
 
-    public static final String ELABORATES_PROP = NS + "elaborates";
+  /**
+   * Expresses a decomposition relationship between entities, where the object entity decomposes the subject entity. For example, a system requirement is decomposed into a collection of system requirements.
+   */
+  public static final String DECOMPOSEDBY_PROP = NS + "decomposedBy";
 
-    public static final String IMPLEMENTEDBY_PROP = NS + "implementedBy";
+  /**
+   * Expresses a decomposition relationship between entities, where the subject entity decomposes the object entity. For example, a collection of system requirements decompose a system requirement.
+   */
+  public static final String DECOMPOSES_PROP = NS + "decomposes";
 
-    public static final String SATISFIEDBY_PROP = NS + "satisfiedBy";
+  /**
+   * Expresses an elaboration relationship between entities, where the object entity elaborates the subject entity. For example, a requirement is elaborated by a model element.
+   */
+  public static final String ELABORATEDBY_PROP = NS + "elaboratedBy";
 
-    public static final String SATISFIES_PROP = NS + "satisfies";
+  /**
+   * Expresses an elaboration relationship between entities, where the subject entity elaborates the object entity. For example, a model element elaborates a requirement.
+   */
+  public static final String ELABORATES_PROP = NS + "elaborates";
 
-    public static final String SPECIFIEDBY_PROP = NS + "specifiedBy";
+  /**
+   * Expresses an implementation relationship between entities, where the object entity is a necessary or desirable aspect of an implementation of the subject entity.
+   */
+  public static final String IMPLEMENTEDBY_PROP = NS + "implementedBy";
 
-    public static final String SPECIFIES_PROP = NS + "specifies";
+  /**
+   * The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.
+   */
+  public static final String SATISFIEDBY_PROP = NS + "satisfiedBy";
 
-    public static final String TRACKEDBY_PROP = NS + "trackedBy";
+  /**
+   * Expresses a relationship between entities, where the subject entity satisfies the object entity. For example, a system requirement satisfies a user requirement.
+   */
+  public static final String SATISFIES_PROP = NS + "satisfies";
 
-    public static final String USES_PROP = NS + "uses";
+  /**
+   * Expresses a specification relationship between entities, where the object entity further clarifies or specifies the subject entity. For example, a requirement is specified by a model element.
+   */
+  public static final String SPECIFIEDBY_PROP = NS + "specifiedBy";
 
-    public static final String VALIDATEDBY_PROP = NS + "validatedBy";
+  /**
+   * Expresses a specification relationship between entities, where the subject entity further clarifies or specifies the object entity. For example, a model element specifies a requirement.
+   */
+  public static final String SPECIFIES_PROP = NS + "specifies";
 
+  /**
+   * Expresses a tracking relationship between entities, where the object entity in some way tracks or governs the evolution of the subject entity. For example, a requirement may be said to be tracked by a change request, in that it governs the changes to a requirement according to some process machinery.
+   */
+  public static final String TRACKEDBY_PROP = NS + "trackedBy";
 
-    public static QName affectedBy() { return get("affectedBy"); }
+  /**
+   * Expresses a use relationship between entities, where the object entity is used by the subject entity. For example, a requirement collection may use a requirement.
+   */
+  public static final String USES_PROP = NS + "uses";
 
-    public static QName constrainedBy() { return get("constrainedBy"); }
+  /**
+   * Expresses a validation relationship between entities, where the object entity in some way validates the subject entity. For example, a requirement collection may be said to be validated by a test plan.
+   */
+  public static final String VALIDATEDBY_PROP = NS + "validatedBy";
 
-    public static QName constrains() { return get("constrains"); }
+  /**
+   * Expresses an affects relationship between entities, where the object entity in some way affects the subject entity. For example, a requirement is affected by a defect.
+   */
+  public static QName affectedBy() {
+    return get("affectedBy");
+  }
 
-    public static QName decomposedBy() { return get("decomposedBy"); }
+  /**
+   * Expresses a constraining relationship between entities, where the object entity constrains the subject entity. For example, a functional requirement is constrained by a safety requirement.
+   */
+  public static QName constrainedBy() {
+    return get("constrainedBy");
+  }
 
-    public static QName decomposes() { return get("decomposes"); }
+  /**
+   * Expresses a constraining relationship between entities, where the subject entity constrains the object entity. For example, a safety requirement constrains a functional requirement.
+   */
+  public static QName constrains() {
+    return get("constrains");
+  }
 
-    public static QName elaboratedBy() { return get("elaboratedBy"); }
+  /**
+   * Expresses a decomposition relationship between entities, where the object entity decomposes the subject entity. For example, a system requirement is decomposed into a collection of system requirements.
+   */
+  public static QName decomposedBy() {
+    return get("decomposedBy");
+  }
 
-    public static QName elaborates() { return get("elaborates"); }
+  /**
+   * Expresses a decomposition relationship between entities, where the subject entity decomposes the object entity. For example, a collection of system requirements decompose a system requirement.
+   */
+  public static QName decomposes() {
+    return get("decomposes");
+  }
 
-    public static QName implementedBy() { return get("implementedBy"); }
+  /**
+   * Expresses an elaboration relationship between entities, where the object entity elaborates the subject entity. For example, a requirement is elaborated by a model element.
+   */
+  public static QName elaboratedBy() {
+    return get("elaboratedBy");
+  }
 
-    public static QName satisfiedBy() { return get("satisfiedBy"); }
+  /**
+   * Expresses an elaboration relationship between entities, where the subject entity elaborates the object entity. For example, a model element elaborates a requirement.
+   */
+  public static QName elaborates() {
+    return get("elaborates");
+  }
 
-    public static QName satisfies() { return get("satisfies"); }
+  /**
+   * Expresses an implementation relationship between entities, where the object entity is a necessary or desirable aspect of an implementation of the subject entity.
+   */
+  public static QName implementedBy() {
+    return get("implementedBy");
+  }
 
-    public static QName specifiedBy() { return get("specifiedBy"); }
+  /**
+   * The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement.
+   */
+  public static QName satisfiedBy() {
+    return get("satisfiedBy");
+  }
 
-    public static QName specifies() { return get("specifies"); }
+  /**
+   * Expresses a relationship between entities, where the subject entity satisfies the object entity. For example, a system requirement satisfies a user requirement.
+   */
+  public static QName satisfies() {
+    return get("satisfies");
+  }
 
-    public static QName trackedBy() { return get("trackedBy"); }
+  /**
+   * Expresses a specification relationship between entities, where the object entity further clarifies or specifies the subject entity. For example, a requirement is specified by a model element.
+   */
+  public static QName specifiedBy() {
+    return get("specifiedBy");
+  }
 
-    public static QName uses() { return get("uses"); }
+  /**
+   * Expresses a specification relationship between entities, where the subject entity further clarifies or specifies the object entity. For example, a model element specifies a requirement.
+   */
+  public static QName specifies() {
+    return get("specifies");
+  }
 
-    public static QName validatedBy() { return get("validatedBy"); }
+  /**
+   * Expresses a tracking relationship between entities, where the object entity in some way tracks or governs the evolution of the subject entity. For example, a requirement may be said to be tracked by a change request, in that it governs the changes to a requirement according to some process machinery.
+   */
+  public static QName trackedBy() {
+    return get("trackedBy");
+  }
 
+  /**
+   * Expresses a use relationship between entities, where the object entity is used by the subject entity. For example, a requirement collection may use a requirement.
+   */
+  public static QName uses() {
+    return get("uses");
+  }
 
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  /**
+   * Expresses a validation relationship between entities, where the object entity in some way validates the subject entity. For example, a requirement collection may be said to be validated by a test plan.
+   */
+  public static QName validatedBy() {
+    return get("validatedBy");
+  }
+
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }

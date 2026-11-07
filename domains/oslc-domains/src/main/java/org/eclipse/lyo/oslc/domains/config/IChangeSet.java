@@ -57,13 +57,15 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
-import org.eclipse.lyo.oslc.domains.IAgent;
-import org.eclipse.lyo.oslc.domains.IRdfsClass;
-import org.eclipse.lyo.oslc.domains.config.IComponent;
-import org.eclipse.lyo.oslc.domains.config.IConfiguration;
-import org.eclipse.lyo.oslc.domains.config.IContribution;
-import org.eclipse.lyo.oslc.domains.IPerson;
-import org.eclipse.lyo.oslc.domains.config.ISelections;
+import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
+import org.eclipse.lyo.oslc.domains.config.Component;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
+import org.eclipse.lyo.oslc.domains.config.Contribution;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
+import org.eclipse.lyo.oslc.domains.config.Selections;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -71,29 +73,28 @@ import org.eclipse.lyo.oslc.domains.config.ISelections;
 @OslcNamespace(Oslc_configDomainConstants.CHANGESET_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CHANGESET_LOCALNAME)
 @OslcResourceShape(title = "ChangeSet Shape", describes = Oslc_configDomainConstants.CHANGESET_TYPE)
-public interface IChangeSet
-{
+public interface IChangeSet {
 
-    public void addAccepts(final Link accepts );
+  public void addAccepts(final Link accepts);
 
-    @OslcName("accepts")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({RdfsDomainConstants.CLASS_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getAccepts();
+  @OslcName("accepts")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "accepts")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({RdfsDomainConstants.CLASS_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getAccepts();
 
-    @OslcName("overrides")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getOverrides();
+  @OslcName("overrides")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getOverrides();
 
+  public void setAccepts(final Set<Link> accepts);
 
-    public void setAccepts(final Set<Link> accepts );
-    public void setOverrides(final Link overrides );
+  public void setOverrides(final Link overrides);
 }
-

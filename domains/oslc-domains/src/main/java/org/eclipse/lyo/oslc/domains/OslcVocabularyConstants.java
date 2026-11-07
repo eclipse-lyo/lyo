@@ -27,47 +27,1235 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class OslcVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class OslcVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated public static final String OSLC_CORE_NAMSPACE = "http://open-services.net/ns/core#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String OSLC_CORE_NAMSPACE_PREFIX = "oslc";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String OSLC_CORE_NAMSPACE_PREFIX = "oslc";
 
-    public static final String NS = "http://open-services.net/ns/core#";
-    public static final String PREFIX = "oslc";
+  public static final String NS = "http://open-services.net/ns/core#";
+  public static final String PREFIX = "oslc";
 
-    // static class
-    private OslcVocabularyConstants() {}
+  // static class
+  private OslcVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
+  public static final String ALLOWEDVALUES_LOCAL_NAME = "AllowedValues";
 
-    /**
-     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
-     */
-    public static final String MODIFIEDBY_PROP = NS + "modifiedBy";
+  /**
+   * Provides a way to specify allowed values for one or more properties.
+   */
+  public static final String ALLOWEDVALUES_CLASS = NS + ALLOWEDVALUES_LOCAL_NAME;
 
+  public static final String ANY_LOCAL_NAME = "Any";
 
-    /**
-     * The URI of a resource describing the entity that most recently modified this resource. The link target is usually a foaf:Person or foaf:Agent, but could be any type. This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
-     */
-    public static QName modifiedBy() { return get("modifiedBy"); }
+  /**
+   * Any value type is allowed.
+   */
+  public static final String ANY_CLASS = NS + ANY_LOCAL_NAME;
 
+  public static final String ATTACHMENTCONTAINER_LOCAL_NAME = "AttachmentContainer";
 
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  /**
+   * An LDP-C that contains attachments for a resource.
+   */
+  public static final String ATTACHMENTCONTAINER_CLASS = NS + ATTACHMENTCONTAINER_LOCAL_NAME;
+
+  public static final String ATTACHMENTDESCRIPTOR_LOCAL_NAME = "AttachmentDescriptor";
+
+  /**
+   * An LDP-RS that contains additional data about an attachment.
+   */
+  public static final String ATTACHMENTDESCRIPTOR_CLASS = NS + ATTACHMENTDESCRIPTOR_LOCAL_NAME;
+
+  public static final String CARDINALITY_LOCAL_NAME = "Cardinality";
+
+  /**
+   * The number of allowed values for a property.
+   */
+  public static final String CARDINALITY_CLASS = NS + CARDINALITY_LOCAL_NAME;
+
+  public static final String COMMENT_LOCAL_NAME = "Comment";
+
+  /**
+   * A Comment resource represents a single note, or comment, in a discussion thread.
+   */
+  public static final String COMMENT_CLASS = NS + COMMENT_LOCAL_NAME;
+
+  public static final String COMPACT_LOCAL_NAME = "Compact";
+
+  /**
+   * A resource describing how to display a link and Preview for another, associated resource.
+   */
+  public static final String COMPACT_CLASS = NS + COMPACT_LOCAL_NAME;
+
+  public static final String CREATIONFACTORY_LOCAL_NAME = "CreationFactory";
+
+  /**
+   * The CreationFactory definition included in a ServiceProvider.
+   */
+  public static final String CREATIONFACTORY_CLASS = NS + CREATIONFACTORY_LOCAL_NAME;
+
+  public static final String DIALOG_LOCAL_NAME = "Dialog";
+
+  /**
+   * Describes information about a dialog such as its title and dimensions.
+   */
+  public static final String DIALOG_CLASS = NS + DIALOG_LOCAL_NAME;
+
+  public static final String DISCUSSION_LOCAL_NAME = "Discussion";
+
+  /**
+   * A Discussion resource is intended to represent a sequence of comments or notes regarding the associated resource.
+   */
+  public static final String DISCUSSION_CLASS = NS + DISCUSSION_LOCAL_NAME;
+
+  public static final String ERROR_LOCAL_NAME = "Error";
+
+  /**
+   * Basis for forming an error response.
+   */
+  public static final String ERROR_CLASS = NS + ERROR_LOCAL_NAME;
+
+  public static final String EXTENDEDERROR_LOCAL_NAME = "ExtendedError";
+
+  /**
+   * Extended error information.
+   */
+  public static final String EXTENDEDERROR_CLASS = NS + EXTENDEDERROR_LOCAL_NAME;
+
+  public static final String IMPACTTYPE_LOCAL_NAME = "ImpactType";
+
+  /**
+   * An enumeration of specifying different impact types or a property.
+   */
+  public static final String IMPACTTYPE_CLASS = NS + IMPACTTYPE_LOCAL_NAME;
+
+  public static final String OAUTHCONFIGURATION_LOCAL_NAME = "OAuthConfiguration";
+
+  /**
+   * The OAuthConfiguration definition included in ServiceProvider.
+   */
+  public static final String OAUTHCONFIGURATION_CLASS = NS + OAUTHCONFIGURATION_LOCAL_NAME;
+
+  public static final String PREFIXDEFINITION_LOCAL_NAME = "PrefixDefinition";
+
+  /**
+   * The PrefixDefinition definition included in ServiceProvider.
+   */
+  public static final String PREFIXDEFINITION_CLASS = NS + PREFIXDEFINITION_LOCAL_NAME;
+
+  public static final String PREVIEW_LOCAL_NAME = "Preview";
+
+  /**
+   * An HTML representation of a resource that can be embedded in another user interface.
+   */
+  public static final String PREVIEW_CLASS = NS + PREVIEW_LOCAL_NAME;
+
+  public static final String PROPERTY_LOCAL_NAME = "Property";
+
+  /**
+   * A Property resource describes one allowed or required property of a resource.
+   */
+  public static final String PROPERTY_CLASS = NS + PROPERTY_LOCAL_NAME;
+
+  public static final String PUBLISHER_LOCAL_NAME = "Publisher";
+
+  /**
+   * The Publisher definition included in ServiceProvider.
+   */
+  public static final String PUBLISHER_CLASS = NS + PUBLISHER_LOCAL_NAME;
+
+  public static final String QUERYCAPABILITY_LOCAL_NAME = "QueryCapability";
+
+  /**
+   * The QueryCapability definition included in a ServiceProvider.
+   */
+  public static final String QUERYCAPABILITY_CLASS = NS + QUERYCAPABILITY_LOCAL_NAME;
+
+  public static final String REPRESENTATION_LOCAL_NAME = "Representation";
+
+  /**
+   * Specifies how a resource is represented in a document.
+   */
+  public static final String REPRESENTATION_CLASS = NS + REPRESENTATION_LOCAL_NAME;
+
+  public static final String RESOURCESHAPE_LOCAL_NAME = "ResourceShape";
+
+  /**
+   * The Resource Shape used for creation, query and modify.  Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T, or if there is a triple R oslc:instanceShape S.
+   */
+  public static final String RESOURCESHAPE_CLASS = NS + RESOURCESHAPE_LOCAL_NAME;
+
+  public static final String RESOURCESHAPECONSTRAINTS_LOCAL_NAME = "ResourceShapeConstraints";
+
+  /**
+   * Resource Shape Constraints metadata
+   */
+  public static final String RESOURCESHAPECONSTRAINTS_CLASS =
+      NS + RESOURCESHAPECONSTRAINTS_LOCAL_NAME;
+
+  public static final String RESOURCEVALUETYPE_LOCAL_NAME = "ResourceValueType";
+
+  /**
+   * Specifies how an object reference is represented in a document.
+   */
+  public static final String RESOURCEVALUETYPE_CLASS = NS + RESOURCEVALUETYPE_LOCAL_NAME;
+
+  public static final String RESPONSEINFO_LOCAL_NAME = "ResponseInfo";
+
+  /**
+   * The ResponseInfo included in query results.
+   */
+  public static final String RESPONSEINFO_CLASS = NS + RESPONSEINFO_LOCAL_NAME;
+
+  public static final String SERVICE_LOCAL_NAME = "Service";
+
+  /**
+   * The Service definition included in a ServiceProvider.
+   */
+  public static final String SERVICE_CLASS = NS + SERVICE_LOCAL_NAME;
+
+  public static final String SERVICEPROVIDER_LOCAL_NAME = "ServiceProvider";
+
+  /**
+   * The Service Provider resource.
+   */
+  public static final String SERVICEPROVIDER_CLASS = NS + SERVICEPROVIDER_LOCAL_NAME;
+
+  public static final String SERVICEPROVIDERCATALOG_LOCAL_NAME = "ServiceProviderCatalog";
+
+  /**
+   * The Service Provider Catalog resource.
+   */
+  public static final String SERVICEPROVIDERCATALOG_CLASS = NS + SERVICEPROVIDERCATALOG_LOCAL_NAME;
+
+  /**
+   * Specifies the allowed values for a property (may be more than one).
+   */
+  public static final String ALLOWEDVALUE_PROP = NS + "allowedValue";
+
+  /**
+   * Reference to an AllowedValues resource that specifies the allowed values for the property.
+   */
+  public static final String ALLOWEDVALUES_PROP = NS + "allowedValues";
+
+  /**
+   * Indicates whether the subject has been marked as archived, no longer an actively updating resource.
+   */
+  public static final String ARCHIVED_PROP = NS + "archived";
+
+  /**
+   * An attachment associated with a resource. May be used as a membership predicate for an attachment container.
+   */
+  public static final String ATTACHMENT_PROP = NS + "attachment";
+
+  /**
+   * Size in bytes of the attachment content.
+   */
+  public static final String ATTACHMENTSIZE_PROP = NS + "attachmentSize";
+
+  /**
+   * URI for obtaining OAuth authorization.
+   */
+  public static final String AUTHORIZATIONURI_PROP = NS + "authorizationURI";
+
+  /**
+   * An error that is a cause of this error.
+   */
+  public static final String CAUSE_PROP = NS + "cause";
+
+  /**
+   * Comment about the resource.
+   */
+  public static final String COMMENT_PROP = NS + "comment";
+
+  /**
+   * To create a new resource via the factory, post it to this URI.
+   */
+  public static final String CREATION_PROP = NS + "creation";
+
+  /**
+   * Enables clients to create a resource via UI.
+   */
+  public static final String CREATIONDIALOG_PROP = NS + "creationDialog";
+
+  /**
+   * Enables clients to create new resources.
+   */
+  public static final String CREATIONFACTORY_PROP = NS + "creationFactory";
+
+  /**
+   * Used in conjunction with oslc:usage property used to identify
+   * which service is the default usage.
+   */
+  public static final String OSLCDEFAULT_PROP = NS + "default";
+
+  /**
+   * A default value for property, inlined into property definition.
+   */
+  public static final String DEFAULTVALUE_PROP = NS + "defaultValue";
+
+  /**
+   * This shape describes resources that are of the RDF type given by the object of the oslc:describes predicate. Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T.
+   */
+  public static final String DESCRIBES_PROP = NS + "describes";
+
+  /**
+   * A URL that may be used to retrieve a resource to determine additional details about the service provider.
+   */
+  public static final String DETAILS_PROP = NS + "details";
+
+  /**
+   * The URI of the HTML dialog.
+   */
+  public static final String DIALOG_PROP = NS + "dialog";
+
+  /**
+   * A series of notes and comments about this resource.
+   */
+  public static final String DISCUSSEDBY_PROP = NS + "discussedBy";
+
+  /**
+   * Reference to associated resource.
+   */
+  public static final String DISCUSSIONABOUT_PROP = NS + "discussionAbout";
+
+  /**
+   * The URI of an HTML document to be used for the preview.
+   */
+  public static final String DOCUMENT_PROP = NS + "document";
+
+  /**
+   * Namespace URI of the specification that is implemented by this service. In most cases this namespace URI will be for an OSLC domain, but other URIs MAY be used.
+   */
+  public static final String DOMAIN_PROP = NS + "domain";
+
+  /**
+   * Error information that may be associated with a resource.
+   */
+  public static final String ERROR_PROP = NS + "error";
+
+  /**
+   * Link from a currently available action to the future action it realizes.
+   */
+  public static final String EXECUTES_PROP = NS + "executes";
+
+  /**
+   * Extended (additional) error information.
+   */
+  public static final String EXTENDEDERROR_PROP = NS + "extendedError";
+
+  /**
+   * A predicate that links to an action that is not currently executable on the subject resource,
+   * but may be executable in the future and/or on other resources.
+   * For example, in OSLC Automation this is expected to link from an oslc_auto:AutomationPlan to an
+   * oslc:Action resource with zero bindings (as it is not executable),
+   * with the meaning that the executable form of the action may be available on oslc_auto:AutomationResult resources
+   * generated by executing that Automation Plan.  Similarly, resource shapes can allow discovery of actions
+   * available on the output of a creation factory.
+   */
+  public static final String FUTUREACTION_PROP = NS + "futureAction";
+
+  /**
+   * A hint that indicates that property MAY be hidden when presented in a user interface.
+   */
+  public static final String HIDDEN_PROP = NS + "hidden";
+
+  /**
+   * Preferred height of a delegated user interface. Values must be expressed using length units as specified in Cascading Style Sheets 2.1.
+   */
+  public static final String HINTHEIGHT_PROP = NS + "hintHeight";
+
+  /**
+   * Preferred width of a delegated user interface. Values must be expressed using length units as specified in Cascading Style Sheets 2.1.
+   */
+  public static final String HINTWIDTH_PROP = NS + "hintWidth";
+
+  /**
+   * URI of an image applicable to the resource.
+   */
+  public static final String ICON_PROP = NS + "icon";
+
+  /**
+   * Alternative label used in association with the oslc:icon, such as HTML img tag's alt attribute.
+   */
+  public static final String ICONALTLABEL_PROP = NS + "iconAltLabel";
+
+  /**
+   * Specification of a set of images of different sizes based on HTML img element srcset attribute.
+   */
+  public static final String ICONSRCSET_PROP = NS + "iconSrcSet";
+
+  /**
+   * Title used in association with the oslc:icon, such as HTML img tag's title attribute.
+   */
+  public static final String ICONTITLE_PROP = NS + "iconTitle";
+
+  /**
+   * Asserts that the subject property is a dependency relation and gives the direction of impact.
+   */
+  public static final String IMPACTTYPE_PROP = NS + "impactType";
+
+  /**
+   * Reference to comment this comment is in reply to.
+   */
+  public static final String INREPLYTO_PROP = NS + "inReplyTo";
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated public static final String INITIALHEIGHT_PROP = NS + "initialHeight";
+
+  /**
+   * The URI of a Resource Shape that describes the possible properties.
+   */
+  public static final String INSTANCESHAPE_PROP = NS + "instanceShape";
+
+  /**
+   * Provides a human-readable label for the inverse of the subject property.
+   */
+  public static final String INVERSELABEL_PROP = NS + "inverseLabel";
+
+  /**
+   * Used to define when a property is a member of a container, useful for query.
+   */
+  public static final String ISMEMBERPROPERTY_PROP = NS + "isMemberProperty";
+
+  /**
+   * Very short label for use in menu items.
+   */
+  public static final String LABEL_PROP = NS + "label";
+
+  /**
+   * URI and sizing properties for an HTML document to be used for a large preview.
+   */
+  public static final String LARGEPREVIEW_PROP = NS + "largePreview";
+
+  /**
+   * For String properties only, specifies maximum characters allowed. If not set, then there is no maximum or maximum is specified elsewhere.
+   */
+  public static final String MAXSIZE_PROP = NS + "maxSize";
+
+  /**
+   * An informative message describing the error that occurred.
+   */
+  public static final String MESSAGE_PROP = NS + "message";
+
+  /**
+   * The URI of a resource describing the entity that most recently modified this resource.  The link target is usually a foaf:Person or foaf:Agent, but could be any type.  This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+   */
+  public static final String MODIFIEDBY_PROP = NS + "modifiedBy";
+
+  /**
+   * {{A resource giving more information on the error, with an HTML content-type.
+   */
+  public static final String MOREINFO_PROP = NS + "moreInfo";
+
+  /**
+   * Name of property being defined, i.e. second part of property's Prefixed Name. For all other uses, consider dcterms:title, rdfs:label, oslc:shortTitle or oslc:label.
+   */
+  public static final String NAME_PROP = NS + "name";
+
+  /**
+   * Link to next page of response.
+   */
+  public static final String NEXTPAGE_PROP = NS + "nextPage";
+
+  /**
+   * URI for obtaining OAuth access token.
+   */
+  public static final String OAUTHACCESSTOKENURI_PROP = NS + "oauthAccessTokenURI";
+
+  /**
+   * Defines the three OAuth URIs required for a client to act as an OAuth consumer.
+   */
+  public static final String OAUTHCONFIGURATION_PROP = NS + "oauthConfiguration";
+
+  /**
+   * URI for obtaining OAuth request token.
+   */
+  public static final String OAUTHREQUESTTOKENURI_PROP = NS + "oauthRequestTokenURI";
+
+  /**
+   * One of the values http://open-services.net/ns/core#Exactly-one, http://open-services.net/ns/core#Zero-or-one, http://open-services.net/ns/core#Zero-or-many or http://open-services.net/ns/core#One-or-many.
+   */
+  public static final String OCCURS_PROP = NS + "occurs";
+
+  /**
+   * A computed property for each member resource of a query with an orderBy clause
+   * supporting sorting of the RDF results.
+   */
+  public static final String ORDER_PROP = NS + "order";
+
+  /**
+   * Reference to owning Discussion resource .
+   */
+  public static final String PARTOFDISCUSSION_PROP = NS + "partOfDiscussion";
+
+  /**
+   * The body of a POST request to return the next page if the response was to a POST request.
+   * Where a paged resource supports POST with an application/x-www-form-urlencoded body as an alternative to GET to
+   * avoid the request URI exceeding server limitations, the oslc:ResponseInfo in the response to the POST SHOULD
+   * contain this property so that a client knows what to POST to get the next page.
+   */
+  public static final String POSTBODY_PROP = NS + "postBody";
+
+  /**
+   * Namespace prefix to be used for this namespace.
+   */
+  public static final String PREFIX_PROP = NS + "prefix";
+
+  /**
+   * The base URI of the namespace.
+   */
+  public static final String PREFIXBASE_PROP = NS + "prefixBase";
+
+  /**
+   * Defines a namespace prefix for use in JSON representations and in forming OSLC Query Syntax strings.
+   */
+  public static final String PREFIXDEFINITION_PROP = NS + "prefixDefinition";
+
+  /**
+   * The properties that are allowed or required by this shape.
+   */
+  public static final String PROPERTY_PROP = NS + "property";
+
+  /**
+   * URI of the property whose usage is being described.
+   */
+  public static final String PROPERTYDEFINITION_PROP = NS + "propertyDefinition";
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated public static final String PUBLISHER_PROP = NS + "publisher";
+
+  /**
+   * The base URI to use for queries. Queries may be invoked either by HTTP GET or HTTP POST. For HTTP GET, a query URI is formed by appending a key=value pair to the base URI. For HTTP POST, the query parameters are encoded as content with media type application/x-www-form-urlencoded and sent in the request body. The base URI MAY accept other query languages and media types in the request body, e.g. application/sparql-query for SPARQL queries.
+   */
+  public static final String QUERYBASE_PROP = NS + "queryBase";
+
+  /**
+   * Enables clients query across a collection of resources.
+   */
+  public static final String QUERYCAPABILITY_PROP = NS + "queryCapability";
+
+  /**
+   * Indicates whether a property is queryable (can appear in oslc.where and olsc.select clause) or not.
+   */
+  public static final String QUERYABLE_PROP = NS + "queryable";
+
+  /**
+   * For properties with a resource value-type, Providers MAY also specify the range of possible resource types allowed, each specified by URI. The default range is http://open-services.net/ns/core#Any.
+   */
+  public static final String RANGE_PROP = NS + "range";
+
+  /**
+   * true if the property is read-only. If omitted, or set to false, then the property is writable. Providers SHOULD declare a property read-only when changes to the value of that property will not be accepted after the resource has been created, e.g. on PUT/PATCH requests. Consumers should note that the converse does not apply: Providers MAY reject a change to the value of a writable property.
+   */
+  public static final String READONLY_PROP = NS + "readOnly";
+
+  /**
+   * If present and set to 'alternate' then indicates that work-around is provided, behavior for other values is undefined.
+   */
+  public static final String REL_PROP = NS + "rel";
+
+  /**
+   * Should be http://open-services.net/ns/core#Reference, http://open-services.net/ns/core#Inline or http://open-services.net/ns/core#Either.
+   */
+  public static final String REPRESENTATION_PROP = NS + "representation";
+
+  /**
+   * A Creation Factory MAY provide Resource Shapes that describe shapes of resources that may be created.
+   */
+  public static final String RESOURCESHAPE_PROP = NS + "resourceShape";
+
+  /**
+   * The expected resource type URI of the resource that will be created using this creation factory. These would be the URIs found in the result resource's rdf:type property.
+   */
+  public static final String RESOURCETYPE_PROP = NS + "resourceType";
+
+  /**
+   * Used to hold the results of dialog action or JSON query results (default).
+   * The JSON query result attribute 'oslc:results' is used whenever a provider doesn't have
+   * a suitable property already in its model for such purposes.
+   */
+  public static final String RESULTS_PROP = NS + "results";
+
+  /**
+   * A computed property for each member resource of a full text search query indicating the quality of the
+   * match, and sort them in descending order of score.
+   */
+  public static final String SCORE_PROP = NS + "score";
+
+  /**
+   * Enables clients to select a resource via a UI.
+   */
+  public static final String SELECTIONDIALOG_PROP = NS + "selectionDialog";
+
+  /**
+   * Describes a service offered by the service provider.
+   */
+  public static final String SERVICE_PROP = NS + "service";
+
+  /**
+   * A link to the resource's OSLC Service Provider.
+   */
+  public static final String SERVICEPROVIDER_PROP = NS + "serviceProvider";
+
+  /**
+   * Additional service provider catalog.
+   */
+  public static final String SERVICEPROVIDERCATALOG_PROP = NS + "serviceProviderCatalog";
+
+  /**
+   * A short, human-readable, plain text value. This value should be unique in some context that is apparent to human users of a service.
+   */
+  public static final String SHORTID_PROP = NS + "shortId";
+
+  /**
+   * Shorter form of dcterms:title for the resource.
+   */
+  public static final String SHORTTITLE_PROP = NS + "shortTitle";
+
+  /**
+   * URI and sizing properties for an HTML document to be used for a small preview.
+   */
+  public static final String SMALLPREVIEW_PROP = NS + "smallPreview";
+
+  /**
+   * The HTTP status code reported with the error.
+   */
+  public static final String STATUSCODE_PROP = NS + "statusCode";
+
+  /**
+   * This optional property indicates the total number of results across all pages,
+   * its value should be non-negative. In the context of a query resource, this value SHOULD
+   * be the total number of results, i.e. the number of resources that match the query.
+   * In the context of other resources, the value SHOULD be the total number of property
+   * values (i.e. RDF triples) of the resource. Unless Stable Paging is in effect, the
+   * total count MAY vary as a client retrieves subsequent pages.
+   */
+  public static final String TOTALCOUNT_PROP = NS + "totalCount";
+
+  /**
+   * An identifier URI for the domain specified usage of this creation factory. If a service provides multiple creation factories, it may designate the primary or default one that should be used with a property value of http://open-services.net/ns/core#default.
+   */
+  public static final String USAGE_PROP = NS + "usage";
+
+  /**
+   * if the value-type is a resource type, then Property MAY provide a shape value to indicate the Resource Shape that applies to the resource.
+   */
+  public static final String VALUESHAPE_PROP = NS + "valueShape";
+
+  /**
+   * A URI that indicates the value type, for example XML Schema or RDF URIs for literal value types, and OSLC-specified for others.  If this property is omitted, then the value type is unconstrained.
+   */
+  public static final String VALUETYPE_PROP = NS + "valueType";
+
+  /**
+   * Specifies the allowed values for a property (may be more than one).
+   */
+  public static QName allowedValue() {
+    return get("allowedValue");
+  }
+
+  /**
+   * Reference to an AllowedValues resource that specifies the allowed values for the property.
+   */
+  public static QName allowedValues() {
+    return get("allowedValues");
+  }
+
+  /**
+   * Indicates whether the subject has been marked as archived, no longer an actively updating resource.
+   */
+  public static QName archived() {
+    return get("archived");
+  }
+
+  /**
+   * An attachment associated with a resource. May be used as a membership predicate for an attachment container.
+   */
+  public static QName attachment() {
+    return get("attachment");
+  }
+
+  /**
+   * Size in bytes of the attachment content.
+   */
+  public static QName attachmentSize() {
+    return get("attachmentSize");
+  }
+
+  /**
+   * URI for obtaining OAuth authorization.
+   */
+  public static QName authorizationURI() {
+    return get("authorizationURI");
+  }
+
+  /**
+   * An error that is a cause of this error.
+   */
+  public static QName cause() {
+    return get("cause");
+  }
+
+  /**
+   * Comment about the resource.
+   */
+  public static QName comment() {
+    return get("comment");
+  }
+
+  /**
+   * To create a new resource via the factory, post it to this URI.
+   */
+  public static QName creation() {
+    return get("creation");
+  }
+
+  /**
+   * Enables clients to create a resource via UI.
+   */
+  public static QName creationDialog() {
+    return get("creationDialog");
+  }
+
+  /**
+   * Enables clients to create new resources.
+   */
+  public static QName creationFactory() {
+    return get("creationFactory");
+  }
+
+  /**
+   * Used in conjunction with oslc:usage property used to identify
+   * which service is the default usage.
+   */
+  public static QName oslcDefault() {
+    return get("default");
+  }
+
+  /**
+   * A default value for property, inlined into property definition.
+   */
+  public static QName defaultValue() {
+    return get("defaultValue");
+  }
+
+  /**
+   * This shape describes resources that are of the RDF type given by the object of the oslc:describes predicate. Formally, a shape S applies to a resource R if there is a triple R rdf:type T and there is a triple S oslc:describes T.
+   */
+  public static QName describes() {
+    return get("describes");
+  }
+
+  /**
+   * A URL that may be used to retrieve a resource to determine additional details about the service provider.
+   */
+  public static QName details() {
+    return get("details");
+  }
+
+  /**
+   * The URI of the HTML dialog.
+   */
+  public static QName dialog() {
+    return get("dialog");
+  }
+
+  /**
+   * A series of notes and comments about this resource.
+   */
+  public static QName discussedBy() {
+    return get("discussedBy");
+  }
+
+  /**
+   * Reference to associated resource.
+   */
+  public static QName discussionAbout() {
+    return get("discussionAbout");
+  }
+
+  /**
+   * The URI of an HTML document to be used for the preview.
+   */
+  public static QName document() {
+    return get("document");
+  }
+
+  /**
+   * Namespace URI of the specification that is implemented by this service. In most cases this namespace URI will be for an OSLC domain, but other URIs MAY be used.
+   */
+  public static QName domain() {
+    return get("domain");
+  }
+
+  /**
+   * Error information that may be associated with a resource.
+   */
+  public static QName error() {
+    return get("error");
+  }
+
+  /**
+   * Link from a currently available action to the future action it realizes.
+   */
+  public static QName executes() {
+    return get("executes");
+  }
+
+  /**
+   * Extended (additional) error information.
+   */
+  public static QName extendedError() {
+    return get("extendedError");
+  }
+
+  /**
+   * A predicate that links to an action that is not currently executable on the subject resource,
+   * but may be executable in the future and/or on other resources.
+   * For example, in OSLC Automation this is expected to link from an oslc_auto:AutomationPlan to an
+   * oslc:Action resource with zero bindings (as it is not executable),
+   * with the meaning that the executable form of the action may be available on oslc_auto:AutomationResult resources
+   * generated by executing that Automation Plan.  Similarly, resource shapes can allow discovery of actions
+   * available on the output of a creation factory.
+   */
+  public static QName futureAction() {
+    return get("futureAction");
+  }
+
+  /**
+   * A hint that indicates that property MAY be hidden when presented in a user interface.
+   */
+  public static QName hidden() {
+    return get("hidden");
+  }
+
+  /**
+   * Preferred height of a delegated user interface. Values must be expressed using length units as specified in Cascading Style Sheets 2.1.
+   */
+  public static QName hintHeight() {
+    return get("hintHeight");
+  }
+
+  /**
+   * Preferred width of a delegated user interface. Values must be expressed using length units as specified in Cascading Style Sheets 2.1.
+   */
+  public static QName hintWidth() {
+    return get("hintWidth");
+  }
+
+  /**
+   * URI of an image applicable to the resource.
+   */
+  public static QName icon() {
+    return get("icon");
+  }
+
+  /**
+   * Alternative label used in association with the oslc:icon, such as HTML img tag's alt attribute.
+   */
+  public static QName iconAltLabel() {
+    return get("iconAltLabel");
+  }
+
+  /**
+   * Specification of a set of images of different sizes based on HTML img element srcset attribute.
+   */
+  public static QName iconSrcSet() {
+    return get("iconSrcSet");
+  }
+
+  /**
+   * Title used in association with the oslc:icon, such as HTML img tag's title attribute.
+   */
+  public static QName iconTitle() {
+    return get("iconTitle");
+  }
+
+  /**
+   * Asserts that the subject property is a dependency relation and gives the direction of impact.
+   */
+  public static QName impactType() {
+    return get("impactType");
+  }
+
+  /**
+   * Reference to comment this comment is in reply to.
+   */
+  public static QName inReplyTo() {
+    return get("inReplyTo");
+  }
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated
+  public static QName initialHeight() {
+    return get("initialHeight");
+  }
+
+  /**
+   * The URI of a Resource Shape that describes the possible properties.
+   */
+  public static QName instanceShape() {
+    return get("instanceShape");
+  }
+
+  /**
+   * Provides a human-readable label for the inverse of the subject property.
+   */
+  public static QName inverseLabel() {
+    return get("inverseLabel");
+  }
+
+  /**
+   * Used to define when a property is a member of a container, useful for query.
+   */
+  public static QName isMemberProperty() {
+    return get("isMemberProperty");
+  }
+
+  /**
+   * Very short label for use in menu items.
+   */
+  public static QName label() {
+    return get("label");
+  }
+
+  /**
+   * URI and sizing properties for an HTML document to be used for a large preview.
+   */
+  public static QName largePreview() {
+    return get("largePreview");
+  }
+
+  /**
+   * For String properties only, specifies maximum characters allowed. If not set, then there is no maximum or maximum is specified elsewhere.
+   */
+  public static QName maxSize() {
+    return get("maxSize");
+  }
+
+  /**
+   * An informative message describing the error that occurred.
+   */
+  public static QName message() {
+    return get("message");
+  }
+
+  /**
+   * The URI of a resource describing the entity that most recently modified this resource.  The link target is usually a foaf:Person or foaf:Agent, but could be any type.  This is modeled after dcterms:creator, but Dublin Core currently has no equivalent property.
+   */
+  public static QName modifiedBy() {
+    return get("modifiedBy");
+  }
+
+  /**
+   * {{A resource giving more information on the error, with an HTML content-type.
+   */
+  public static QName moreInfo() {
+    return get("moreInfo");
+  }
+
+  /**
+   * Name of property being defined, i.e. second part of property's Prefixed Name. For all other uses, consider dcterms:title, rdfs:label, oslc:shortTitle or oslc:label.
+   */
+  public static QName name() {
+    return get("name");
+  }
+
+  /**
+   * Link to next page of response.
+   */
+  public static QName nextPage() {
+    return get("nextPage");
+  }
+
+  /**
+   * URI for obtaining OAuth access token.
+   */
+  public static QName oauthAccessTokenURI() {
+    return get("oauthAccessTokenURI");
+  }
+
+  /**
+   * Defines the three OAuth URIs required for a client to act as an OAuth consumer.
+   */
+  public static QName oauthConfiguration() {
+    return get("oauthConfiguration");
+  }
+
+  /**
+   * URI for obtaining OAuth request token.
+   */
+  public static QName oauthRequestTokenURI() {
+    return get("oauthRequestTokenURI");
+  }
+
+  /**
+   * One of the values http://open-services.net/ns/core#Exactly-one, http://open-services.net/ns/core#Zero-or-one, http://open-services.net/ns/core#Zero-or-many or http://open-services.net/ns/core#One-or-many.
+   */
+  public static QName occurs() {
+    return get("occurs");
+  }
+
+  /**
+   * A computed property for each member resource of a query with an orderBy clause
+   * supporting sorting of the RDF results.
+   */
+  public static QName order() {
+    return get("order");
+  }
+
+  /**
+   * Reference to owning Discussion resource .
+   */
+  public static QName partOfDiscussion() {
+    return get("partOfDiscussion");
+  }
+
+  /**
+   * The body of a POST request to return the next page if the response was to a POST request.
+   * Where a paged resource supports POST with an application/x-www-form-urlencoded body as an alternative to GET to
+   * avoid the request URI exceeding server limitations, the oslc:ResponseInfo in the response to the POST SHOULD
+   * contain this property so that a client knows what to POST to get the next page.
+   */
+  public static QName postBody() {
+    return get("postBody");
+  }
+
+  /**
+   * Namespace prefix to be used for this namespace.
+   */
+  public static QName prefix() {
+    return get("prefix");
+  }
+
+  /**
+   * The base URI of the namespace.
+   */
+  public static QName prefixBase() {
+    return get("prefixBase");
+  }
+
+  /**
+   * Defines a namespace prefix for use in JSON representations and in forming OSLC Query Syntax strings.
+   */
+  public static QName prefixDefinition() {
+    return get("prefixDefinition");
+  }
+
+  /**
+   * The properties that are allowed or required by this shape.
+   */
+  public static QName property() {
+    return get("property");
+  }
+
+  /**
+   * URI of the property whose usage is being described.
+   */
+  public static QName propertyDefinition() {
+    return get("propertyDefinition");
+  }
+
+  /**
+   * @deprecated RDF model attribute is marked 'archaic'
+   */
+  @Deprecated
+  public static QName publisher() {
+    return get("publisher");
+  }
+
+  /**
+   * The base URI to use for queries. Queries may be invoked either by HTTP GET or HTTP POST. For HTTP GET, a query URI is formed by appending a key=value pair to the base URI. For HTTP POST, the query parameters are encoded as content with media type application/x-www-form-urlencoded and sent in the request body. The base URI MAY accept other query languages and media types in the request body, e.g. application/sparql-query for SPARQL queries.
+   */
+  public static QName queryBase() {
+    return get("queryBase");
+  }
+
+  /**
+   * Enables clients query across a collection of resources.
+   */
+  public static QName queryCapability() {
+    return get("queryCapability");
+  }
+
+  /**
+   * Indicates whether a property is queryable (can appear in oslc.where and olsc.select clause) or not.
+   */
+  public static QName queryable() {
+    return get("queryable");
+  }
+
+  /**
+   * For properties with a resource value-type, Providers MAY also specify the range of possible resource types allowed, each specified by URI. The default range is http://open-services.net/ns/core#Any.
+   */
+  public static QName range() {
+    return get("range");
+  }
+
+  /**
+   * true if the property is read-only. If omitted, or set to false, then the property is writable. Providers SHOULD declare a property read-only when changes to the value of that property will not be accepted after the resource has been created, e.g. on PUT/PATCH requests. Consumers should note that the converse does not apply: Providers MAY reject a change to the value of a writable property.
+   */
+  public static QName readOnly() {
+    return get("readOnly");
+  }
+
+  /**
+   * If present and set to 'alternate' then indicates that work-around is provided, behavior for other values is undefined.
+   */
+  public static QName rel() {
+    return get("rel");
+  }
+
+  /**
+   * Should be http://open-services.net/ns/core#Reference, http://open-services.net/ns/core#Inline or http://open-services.net/ns/core#Either.
+   */
+  public static QName representation() {
+    return get("representation");
+  }
+
+  /**
+   * A Creation Factory MAY provide Resource Shapes that describe shapes of resources that may be created.
+   */
+  public static QName resourceShape() {
+    return get("resourceShape");
+  }
+
+  /**
+   * The expected resource type URI of the resource that will be created using this creation factory. These would be the URIs found in the result resource's rdf:type property.
+   */
+  public static QName resourceType() {
+    return get("resourceType");
+  }
+
+  /**
+   * Used to hold the results of dialog action or JSON query results (default).
+   * The JSON query result attribute 'oslc:results' is used whenever a provider doesn't have
+   * a suitable property already in its model for such purposes.
+   */
+  public static QName results() {
+    return get("results");
+  }
+
+  /**
+   * A computed property for each member resource of a full text search query indicating the quality of the
+   * match, and sort them in descending order of score.
+   */
+  public static QName score() {
+    return get("score");
+  }
+
+  /**
+   * Enables clients to select a resource via a UI.
+   */
+  public static QName selectionDialog() {
+    return get("selectionDialog");
+  }
+
+  /**
+   * Describes a service offered by the service provider.
+   */
+  public static QName service() {
+    return get("service");
+  }
+
+  /**
+   * A link to the resource's OSLC Service Provider.
+   */
+  public static QName serviceProvider() {
+    return get("serviceProvider");
+  }
+
+  /**
+   * Additional service provider catalog.
+   */
+  public static QName serviceProviderCatalog() {
+    return get("serviceProviderCatalog");
+  }
+
+  /**
+   * A short, human-readable, plain text value. This value should be unique in some context that is apparent to human users of a service.
+   */
+  public static QName shortId() {
+    return get("shortId");
+  }
+
+  /**
+   * Shorter form of dcterms:title for the resource.
+   */
+  public static QName shortTitle() {
+    return get("shortTitle");
+  }
+
+  /**
+   * URI and sizing properties for an HTML document to be used for a small preview.
+   */
+  public static QName smallPreview() {
+    return get("smallPreview");
+  }
+
+  /**
+   * The HTTP status code reported with the error.
+   */
+  public static QName statusCode() {
+    return get("statusCode");
+  }
+
+  /**
+   * This optional property indicates the total number of results across all pages,
+   * its value should be non-negative. In the context of a query resource, this value SHOULD
+   * be the total number of results, i.e. the number of resources that match the query.
+   * In the context of other resources, the value SHOULD be the total number of property
+   * values (i.e. RDF triples) of the resource. Unless Stable Paging is in effect, the
+   * total count MAY vary as a client retrieves subsequent pages.
+   */
+  public static QName totalCount() {
+    return get("totalCount");
+  }
+
+  /**
+   * An identifier URI for the domain specified usage of this creation factory. If a service provides multiple creation factories, it may designate the primary or default one that should be used with a property value of http://open-services.net/ns/core#default.
+   */
+  public static QName usage() {
+    return get("usage");
+  }
+
+  /**
+   * if the value-type is a resource type, then Property MAY provide a shape value to indicate the Resource Shape that applies to the resource.
+   */
+  public static QName valueShape() {
+    return get("valueShape");
+  }
+
+  /**
+   * A URI that indicates the value type, for example XML Schema or RDF URIs for literal value types, and OSLC-specified for others.  If this property is omitted, then the value type is unconstrained.
+   */
+  public static QName valueType() {
+    return get("valueType");
+  }
+
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }

@@ -58,53 +58,57 @@ import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.config.IConfiguration;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
 // Start of user code imports
 // End of user code
 // spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.CONTRIBUTION_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.CONTRIBUTION_LOCALNAME)
-@OslcResourceShape(title = "Contribution Shape", describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
-public interface IContribution
-{
+@OslcResourceShape(
+    title = "Contribution Shape",
+    describes = Oslc_configDomainConstants.CONTRIBUTION_TYPE)
+public interface IContribution {
 
+  @OslcName("modified")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
+  @OslcDescription("Timestamp of latest resource modification")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getModified();
 
-    @OslcName("modified")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.MODIFIED_PROP)
-    @OslcDescription("Timestamp of latest resource modification")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getModified();
+  @OslcName("configuration")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getConfiguration();
 
-    @OslcName("configuration")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "configuration")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getConfiguration();
+  @OslcName("contributionOrder")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getContributionOrder();
 
-    @OslcName("contributionOrder")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "contributionOrder")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getContributionOrder();
+  @OslcName("overrides")
+  @OslcPropertyDefinition(
+      Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
+  @OslcReadOnly(false)
+  public Link getOverrides();
 
-    @OslcName("overrides")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "overrides")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.CONFIGURATION_TYPE})
-    @OslcReadOnly(false)
-    public Link getOverrides();
+  public void setModified(final Date modified);
 
+  public void setConfiguration(final Link configuration);
 
-    public void setModified(final Date modified );
-    public void setConfiguration(final Link configuration );
-    public void setContributionOrder(final String contributionOrder );
-    public void setOverrides(final Link overrides );
+  public void setContributionOrder(final String contributionOrder);
+
+  public void setOverrides(final Link overrides);
 }
-
