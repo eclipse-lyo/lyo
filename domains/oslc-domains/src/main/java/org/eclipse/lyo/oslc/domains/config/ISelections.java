@@ -56,28 +56,29 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
-import org.eclipse.lyo.oslc.domains.config.IConceptResource;
-import org.eclipse.lyo.oslc.domains.config.IVersionResource;
+import org.eclipse.lyo.oslc.domains.config.ConceptResource;
+import org.eclipse.lyo.oslc.domains.config.VersionResource;
 // Start of user code imports
 // End of user code
 // spotless:on
 
 @OslcNamespace(Oslc_configDomainConstants.SELECTIONS_NAMESPACE)
 @OslcName(Oslc_configDomainConstants.SELECTIONS_LOCALNAME)
-@OslcResourceShape(title = "Selections Shape", describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
-public interface ISelections
-{
+@OslcResourceShape(
+    title = "Selections Shape",
+    describes = Oslc_configDomainConstants.SELECTIONS_TYPE)
+public interface ISelections {
 
+  @OslcName("selects")
+  @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_configDomainConstants.VERSIONRESOURCE_TYPE,
+    Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE
+  })
+  @OslcReadOnly(false)
+  public Link getSelects();
 
-    @OslcName("selects")
-    @OslcPropertyDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE + "selects")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_configDomainConstants.VERSIONRESOURCE_TYPE, Oslc_configDomainConstants.CONCEPTRESOURCE_TYPE})
-    @OslcReadOnly(false)
-    public Link getSelects();
-
-
-    public void setSelects(final Link selects );
+  public void setSelects(final Link selects);
 }
-

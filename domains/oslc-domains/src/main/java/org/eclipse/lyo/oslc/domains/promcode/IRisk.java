@@ -57,11 +57,11 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsVocabularyConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IIssue;
-import org.eclipse.lyo.oslc.domains.promcode.IRisk;
-import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
+import org.eclipse.lyo.oslc.domains.promcode.Artifact;
+import org.eclipse.lyo.oslc.domains.promcode.Issue;
+import org.eclipse.lyo.oslc.domains.promcode.Risk;
+import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
+import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 // spotless:on
@@ -69,76 +69,86 @@ import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
 @OslcNamespace(Oslc_promcodeDomainConstants.RISK_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISK_LOCALNAME)
 @OslcResourceShape(title = "Risk Shape", describes = Oslc_promcodeDomainConstants.RISK_TYPE)
-public interface IRisk
-{
+public interface IRisk {
 
-    public void addIdentifiedBy(final Link identifiedBy );
+  public void addIdentifiedBy(final Link identifiedBy);
 
-    @OslcName("description")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getDescription();
+  @OslcName("description")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.DESCRIPTION_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getDescription();
 
-    @OslcName("identifier")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getIdentifier();
+  @OslcName("identifier")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.IDENTIFIER_PROP)
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getIdentifier();
 
-    @OslcName("source")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.String)
-    @OslcReadOnly(false)
-    public String getSource();
+  @OslcName("source")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.SOURCE_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.String)
+  @OslcReadOnly(false)
+  public String getSource();
 
-    @OslcName("title")
-    @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.XMLLiteral)
-    @OslcReadOnly(false)
-    public String getTitle();
+  @OslcName("title")
+  @OslcPropertyDefinition(DctermsVocabularyConstants.TITLE_PROP)
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.XMLLiteral)
+  @OslcReadOnly(false)
+  public String getTitle();
 
-    @OslcName("identifiedBy")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedBy")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE, Oslc_promcodeDomainConstants.ISSUE_TYPE, Oslc_promcodeDomainConstants.ARTIFACT_TYPE, Oslc_promcodeDomainConstants.WORKITEM_TYPE, Oslc_promcodeDomainConstants.SCOPEITEM_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getIdentifiedBy();
+  @OslcName("identifiedBy")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedBy")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({
+    Oslc_promcodeDomainConstants.RISK_TYPE,
+    Oslc_promcodeDomainConstants.ISSUE_TYPE,
+    Oslc_promcodeDomainConstants.ARTIFACT_TYPE,
+    Oslc_promcodeDomainConstants.WORKITEM_TYPE,
+    Oslc_promcodeDomainConstants.SCOPEITEM_TYPE
+  })
+  @OslcReadOnly(false)
+  public Set<Link> getIdentifiedBy();
 
-    @OslcName("identifiedDate")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedDate")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.DateTime)
-    @OslcReadOnly(false)
-    public Date getIdentifiedDate();
+  @OslcName("identifiedDate")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "identifiedDate")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.DateTime)
+  @OslcReadOnly(false)
+  public Date getIdentifiedDate();
 
-    @OslcName("sequenceNumber")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
-    @OslcOccurs(Occurs.ZeroOrOne)
-    @OslcValueType(ValueType.Integer)
-    @OslcReadOnly(false)
-    public Integer getSequenceNumber();
+  @OslcName("sequenceNumber")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "sequenceNumber")
+  @OslcOccurs(Occurs.ZeroOrOne)
+  @OslcValueType(ValueType.Integer)
+  @OslcReadOnly(false)
+  public Integer getSequenceNumber();
 
-    @OslcName("stateOfRisk")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfRisk")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcReadOnly(false)
-    public Link getStateOfRisk();
+  @OslcName("stateOfRisk")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "stateOfRisk")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcReadOnly(false)
+  public Link getStateOfRisk();
 
+  public void setDescription(final String description);
 
-    public void setDescription(final String description );
-    public void setIdentifier(final String identifier );
-    public void setSource(final String source );
-    public void setTitle(final String title );
-    public void setIdentifiedBy(final Set<Link> identifiedBy );
-    public void setIdentifiedDate(final Date identifiedDate );
-    public void setSequenceNumber(final Integer sequenceNumber );
-    public void setStateOfRisk(final Link stateOfRisk );
+  public void setIdentifier(final String identifier);
+
+  public void setSource(final String source);
+
+  public void setTitle(final String title);
+
+  public void setIdentifiedBy(final Set<Link> identifiedBy);
+
+  public void setIdentifiedDate(final Date identifiedDate);
+
+  public void setSequenceNumber(final Integer sequenceNumber);
+
+  public void setStateOfRisk(final Link stateOfRisk);
 }
-

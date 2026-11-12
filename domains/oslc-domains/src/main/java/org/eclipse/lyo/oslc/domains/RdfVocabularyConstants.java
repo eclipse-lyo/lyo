@@ -27,57 +27,58 @@ import java.util.concurrent.ConcurrentHashMap;
 // End of user code
 // spotless:on
 
-public class RdfVocabularyConstants
-{
-    // Start of user code user constants
-    // End of user code
+public class RdfVocabularyConstants {
+  // Start of user code user constants
+  // End of user code
 
-    private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, QName> CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * @deprecated Use {@link #NS} instead.
-     */
-    @Deprecated
-    public static final String RDF_NAMSPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+  /**
+   * @deprecated Use {@link #NS} instead.
+   */
+  @Deprecated
+  public static final String RDF_NAMSPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-    /**
-     * @deprecated Use {@link #PREFIX} instead.
-     */
-    @Deprecated
-    public static final String RDF_NAMSPACE_PREFIX = "rdf";
+  /**
+   * @deprecated Use {@link #PREFIX} instead.
+   */
+  @Deprecated public static final String RDF_NAMSPACE_PREFIX = "rdf";
 
-    public static final String NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-    public static final String PREFIX = "rdf";
+  public static final String NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+  public static final String PREFIX = "rdf";
 
-    // static class
-    private RdfVocabularyConstants() {}
+  // static class
+  private RdfVocabularyConstants() {}
 
-    public static QName of(String local) { return get(local); }
+  public static QName of(String local) {
+    return get(local);
+  }
 
+  /**
+   * The subject is an instance of a class.
+   */
+  public static final String TYPE_PROP = NS + "type";
 
-    /**
-     * The subject is an instance of a class.
-     */
-    public static final String TYPE_PROP = NS + "type";
+  /**
+   * Idiomatic property used for structured values.
+   */
+  public static final String VALUE_PROP = NS + "value";
 
-    /**
-     * Idiomatic property used for structured values.
-     */
-    public static final String VALUE_PROP = NS + "value";
+  /**
+   * The subject is an instance of a class.
+   */
+  public static QName type() {
+    return get("type");
+  }
 
+  /**
+   * Idiomatic property used for structured values.
+   */
+  public static QName value() {
+    return get("value");
+  }
 
-    /**
-     * The subject is an instance of a class.
-     */
-    public static QName type() { return get("type"); }
-
-    /**
-     * Idiomatic property used for structured values.
-     */
-    public static QName value() { return get("value"); }
-
-
-    private static QName get(String local) {
-        return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
-    }
+  private static QName get(String local) {
+    return CACHE.computeIfAbsent(local, l -> new QName(NS, l, PREFIX));
+  }
 }
