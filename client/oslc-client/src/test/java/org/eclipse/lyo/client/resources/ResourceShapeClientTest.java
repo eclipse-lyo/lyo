@@ -32,7 +32,7 @@ import java.util.Map;
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.client.exception.ResourceNotFoundException;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
@@ -53,7 +53,7 @@ class ResourceShapeClientTest {
     var responses = new HashMap<URI, Response>();
 
     var ignoredService =
-        new Service(URI.create(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE));
+        new Service(URI.create(Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE));
     var ignoredFactory = new CreationFactory();
     ignoredFactory.setResourceTypes(
         new URI[] {URI.create(Oslc_rmDomainConstants.REQUIREMENT_TYPE)});

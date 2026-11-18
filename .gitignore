@@ -23,3 +23,13 @@ tools/readme-matrix/tmp.md
 .vscode/
 
 .DS_Store
+
+# Python
+
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+.venv/
+.pytest_cache/
