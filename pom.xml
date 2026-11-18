@@ -26,6 +26,9 @@
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
     <v.classgraph>4.8.198</v.classgraph>
+    <v.jaxb>4.0.5</v.jaxb>
+    <v.jspecify>1.0.1</v.jspecify>
+    <v.activation>2.1.4</v.activation>
     <!-- NOTE: ensure that the core version matches client's
     https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient - for the correct BOM -->
     <v.httpclient>4.5.14</v.httpclient>
@@ -207,7 +210,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.6.3</version>
+            <version>3.7.0</version>
             <executions>
               <execution>
                 <id>enforce-maven</id>
@@ -305,7 +308,7 @@
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>4.0.2</version>
+        <version>${v.jaxb}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.annotation</groupId>
@@ -465,7 +468,7 @@
       <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
-        <version>2.1.3</version>
+        <version>${v.activation}</version>
         <scope>provided</scope>
       </dependency>
 
@@ -485,6 +488,11 @@
         <groupId>io.github.classgraph</groupId>
         <artifactId>classgraph</artifactId>
         <version>${v.classgraph}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${v.jspecify}</version>
       </dependency>
       <!--jena
       and guava-->
@@ -581,7 +589,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.6.3</version>
+          <version>3.7.0</version>
           <executions>
             <execution>
               <id>enforce-maven</id>

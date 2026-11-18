@@ -14,6 +14,21 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <!-- Keep MockServer's test-only ClassGraph version scoped to TRS. -->
+    <v.trs.test.classgraph>5.0.0</v.trs.test.classgraph>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.github.classgraph</groupId>
+        <artifactId>classgraph</artifactId>
+        <version>${v.trs.test.classgraph}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <modules>
     <module>trs-client</module>
     <module>client-source-mqtt</module>
