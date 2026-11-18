@@ -39,7 +39,11 @@ import org.apache.jena.graph.Triple;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QueryParseException;
 import org.apache.jena.query.QuerySolutionMap;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -518,6 +522,86 @@ public class SparqlStoreImpl implements Store {
             throw new StoreAccessException("Failed to execute raw update query", e);
         } finally {
             queryExecutor.end();
+        }
+    }
+
+    @Override
+    public Model rawQuery(final String rawQuery) throws StoreAccessException {
+        final Query query = parseRawReadQuery(rawQuery);
+        if (!query.isConstructType() && !query.isDescribeType()) {
+            throw new StoreAccessException(
+                    "Unsupported raw query type. A Jena Model can only represent the results of a"
+                            + " CONSTRUCT or a DESCRIBE query: use rawSelectQuery(String) for"
+                            + " SELECT queries, rawAskQuery(String) for ASK queries or"
+                            + " rawUpdateQuery(String) for update requests");
+        }
+
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(query.toString());
+
+            if (query.isConstructType()) {
+                return queryExecution.execConstruct();
+            } else {
+                return queryExecution.execDescribe();
+            }
+        } catch (final Exception e) {
+            throw new StoreAccessException("Failed to execute the raw SPARQL query", e);
+        } finally {
+            queryExecutor.end();
+        }
+    }
+
+    @Override
+    public ResultSet rawSelectQuery(final String rawQuery) throws StoreAccessException {
+        final Query query = parseRawReadQuery(rawQuery);
+        if (!query.isSelectType()) {
+            throw new StoreAccessException(
+                    "Unsupported raw query type: rawSelectQuery(String) only accepts SELECT"
+                            + " queries");
+        }
+
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(query.toString());
+
+            // copy the solutions into memory before the read transaction ends
+            return ResultSetFactory.copyResults(queryExecution.execSelect());
+        } catch (final Exception e) {
+            throw new StoreAccessException("Failed to execute the raw SPARQL SELECT query", e);
+        } finally {
+            queryExecutor.end();
+        }
+    }
+
+    @Override
+    public boolean rawAskQuery(final String rawQuery) throws StoreAccessException {
+        final Query query = parseRawReadQuery(rawQuery);
+        if (!query.isAskType()) {
+            throw new StoreAccessException(
+                    "Unsupported raw query type: rawAskQuery(String) only accepts ASK queries");
+        }
+
+        queryExecutor.beginRead();
+        try {
+            final QueryExecution queryExecution =
+                    queryExecutor.prepareSparqlQuery(query.toString());
+
+            return queryExecution.execAsk();
+        } catch (final Exception e) {
+            throw new StoreAccessException("Failed to execute the raw SPARQL ASK query", e);
+        } finally {
+            queryExecutor.end();
+        }
+    }
+
+    private static Query parseRawReadQuery(final String rawQuery) throws StoreAccessException {
+        try {
+            return QueryFactory.create(rawQuery);
+        } catch (final QueryParseException e) {
+            throw new StoreAccessException("Failed to parse the raw SPARQL query", e);
         }
     }
 
