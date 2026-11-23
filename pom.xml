@@ -21,7 +21,7 @@
     <v.jersey>3.1.12</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>6.2.0</v.jena>
+    <v.jena>6.3.0</v.jena>
     <v.jackson>2.22.4</v.jackson>
     <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
     <v.jackson.annotations>2.22</v.jackson.annotations>
