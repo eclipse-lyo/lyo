@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import org.apache.jena.arq.querybuilder.SelectBuilder;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.eclipse.lyo.oslc4j.core.model.IResource;
 
@@ -427,4 +428,44 @@ public interface Store {
      * @param updateQuery raw SPARQL UPDATE query string to execute
      */
     void rawUpdateQuery(String updateQuery) throws StoreAccessException;
+
+    /**
+     * Execute a raw SPARQL CONSTRUCT or DESCRIBE query against the QUERY endpoint and return
+     * the resulting graph.
+     *
+     * @param query raw SPARQL query string. Must be a CONSTRUCT or a DESCRIBE query since a
+     *              Jena Model is returned.
+     * @return a Jena Model with the triples produced by the query
+     *
+     * @throws StoreAccessException if the query is not a CONSTRUCT or a DESCRIBE query or
+     *                              could not be parsed or executed
+     * @since 7.0.0
+     */
+    Model rawQuery(String query) throws StoreAccessException;
+
+    /**
+     * Execute a raw SPARQL SELECT query against the QUERY endpoint.
+     *
+     * @param query raw SPARQL SELECT query string
+     * @return a rewindable Jena {@link ResultSet} with the query solutions. The query results
+     *         are copied into memory, so the ResultSet remains usable after the method
+     *         returns.
+     *
+     * @throws StoreAccessException if the query is not a SELECT query or could not be parsed
+     *                              or executed
+     * @since 7.0.0
+     */
+    ResultSet rawSelectQuery(String query) throws StoreAccessException;
+
+    /**
+     * Execute a raw SPARQL ASK query against the QUERY endpoint.
+     *
+     * @param query raw SPARQL ASK query string
+     * @return the boolean ASK result
+     *
+     * @throws StoreAccessException if the query is not an ASK query or could not be parsed or
+     *                              executed
+     * @since 7.0.0
+     */
+    boolean rawAskQuery(String query) throws StoreAccessException;
 }
