@@ -59,9 +59,9 @@ pipeline {
           sh 'for fpr in $(gpg --list-keys --with-colons  | awk -F: \'/fpr:/ {print $10}\' | sort -u); do echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key ${fpr} trust; done'
         }
         sh '''
-        mvn -B -fae clean install -DskipTests javadoc:aggregate \
+        ./mvnw -B -fae clean install -DskipTests javadoc:aggregate \
             -P dev,gpg-sign,central-deploy
-        mvn -B      deploy        -DskipTests -Dmaven.install.skip=true \
+        ./mvnw -B      deploy        -DskipTests -Dmaven.install.skip=true \
             -P dev,gpg-sign,central-deploy
         '''
       }
@@ -77,7 +77,7 @@ pipeline {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
           sh '''
           DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
-          VERSION=$(mvn -q \
+          VERSION=$(./mvnw -q \
             -Dexec.executable="echo" \
             -Dexec.args='${project.version}' \
             --non-recursive \
@@ -130,7 +130,7 @@ pipeline {
         sshagent(['projects-storage.eclipse.org-bot-ssh']) {
           sh '''
           DOCS_HOME=/home/data/httpd/download.eclipse.org/lyo/docs/all
-          VERSION=$(mvn -q \
+          VERSION=$(./mvnw -q \
             -Dexec.executable="echo" \
             -Dexec.args='${project.version}' \
             --non-recursive \
