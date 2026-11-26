@@ -21,9 +21,9 @@
     <v.jersey>3.1.12</v.jersey>
     <v.servlet>6.1.0</v.servlet>
 
-    <v.jena>6.2.0</v.jena>
-    <v.jackson>2.22.4</v.jackson>
-    <!-- jackson-annotations is published at 2.22, not 2.22.1 -->
+    <v.jena>6.3.0</v.jena>
+    <v.jackson>2.23.0</v.jackson>
+    <!-- jackson-annotations is published without a patch version (2.23, not 2.23.0) -->
     <v.jackson.annotations>2.23</v.jackson.annotations>
     <v.classgraph>4.8.198</v.classgraph>
     <v.jaxb>4.0.5</v.jaxb>
@@ -447,7 +447,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>6.1.2</version>
+        <version>6.1.3</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
