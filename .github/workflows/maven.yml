@@ -98,11 +98,11 @@ jobs:
           if [ "${{ matrix.experimental }}" = "true" ]; then
             EXTRA_FLAGS="-X"
           fi
-            mvn -B $EXTRA_FLAGS install --file pom.xml -P'!spotbugs'
+            ./mvnw -B $EXTRA_FLAGS install --file pom.xml -P'!spotbugs'
       - name: Verify BOM consumer
         run: |
-          LYO_VERSION="$(mvn -q -N help:evaluate -Dexpression=project.version -DforceStdout)"
-          mvn -B verify \
+          LYO_VERSION="$(./mvnw -q -N help:evaluate -Dexpression=project.version -DforceStdout)"
+          ./mvnw -B verify \
             -Drevision="$LYO_VERSION" \
             --file bom/lyo-bom-consumer-test/pom.xml
   spotbugs:
@@ -128,7 +128,7 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Run SpotBugs
         run: |
-          mvn -B verify -DskipTests -P'!enforcer' --file pom.xml
+          ./mvnw -B verify -DskipTests -P'!enforcer' --file pom.xml
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
