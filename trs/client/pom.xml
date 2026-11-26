@@ -16,7 +16,7 @@
 
   <properties>
     <!-- Keep MockServer's test-only ClassGraph version scoped to TRS. -->
-    <v.trs.test.classgraph>5.0.0</v.trs.test.classgraph>
+    <v.trs.test.classgraph>5.0.2</v.trs.test.classgraph>
   </properties>
 
   <dependencyManagement>
