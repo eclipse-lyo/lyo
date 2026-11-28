@@ -56,42 +56,43 @@ import org.eclipse.lyo.oslc4j.core.model.ValueType;
 
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
 import org.eclipse.lyo.oslc.domains.promcode.Oslc_promcodeDomainConstants;
-import org.eclipse.lyo.oslc.domains.promcode.IArtifact;
-import org.eclipse.lyo.oslc.domains.promcode.IIssue;
-import org.eclipse.lyo.oslc.domains.promcode.IProject;
-import org.eclipse.lyo.oslc.domains.promcode.IRisk;
-import org.eclipse.lyo.oslc.domains.promcode.IScopeItem;
-import org.eclipse.lyo.oslc.domains.promcode.IWorkItem;
+import org.eclipse.lyo.oslc.domains.promcode.Artifact;
+import org.eclipse.lyo.oslc.domains.promcode.Issue;
+import org.eclipse.lyo.oslc.domains.promcode.Project;
+import org.eclipse.lyo.oslc.domains.promcode.Risk;
+import org.eclipse.lyo.oslc.domains.promcode.ScopeItem;
+import org.eclipse.lyo.oslc.domains.promcode.WorkItem;
 // Start of user code imports
 // End of user code
 // spotless:on
 
 @OslcNamespace(Oslc_promcodeDomainConstants.RISKCOLLECTION_NAMESPACE)
 @OslcName(Oslc_promcodeDomainConstants.RISKCOLLECTION_LOCALNAME)
-@OslcResourceShape(title = "RiskCollection Shape", description = "", describes = Oslc_promcodeDomainConstants.RISKCOLLECTION_TYPE)
-public interface IRiskCollection
-{
+@OslcResourceShape(
+    title = "RiskCollection Shape",
+    description = "",
+    describes = Oslc_promcodeDomainConstants.RISKCOLLECTION_TYPE)
+public interface IRiskCollection {
 
-    public void addOslc_promcodeCollects(final Link collects );
+  public void addOslc_promcodeCollects(final Link collects);
 
-    @OslcName("belongsTo")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
-    @OslcOccurs(Occurs.ExactlyOne)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
-    @OslcReadOnly(false)
-    public Link getOslc_promcodeBelongsTo();
+  @OslcName("belongsTo")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "belongsTo")
+  @OslcOccurs(Occurs.ExactlyOne)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.PROJECT_TYPE})
+  @OslcReadOnly(false)
+  public Link getBelongsTo();
 
-    @OslcName("collects")
-    @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
-    @OslcOccurs(Occurs.ZeroOrMany)
-    @OslcValueType(ValueType.Resource)
-    @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE})
-    @OslcReadOnly(false)
-    public Set<Link> getOslc_promcodeCollects();
+  @OslcName("collects")
+  @OslcPropertyDefinition(Oslc_promcodeDomainConstants.PROMCODE_NAMSPACE + "collects")
+  @OslcOccurs(Occurs.ZeroOrMany)
+  @OslcValueType(ValueType.Resource)
+  @OslcRange({Oslc_promcodeDomainConstants.RISK_TYPE})
+  @OslcReadOnly(false)
+  public Set<Link> getOslc_promcodeCollects();
 
+  public void setBelongsTo(final Link belongsTo);
 
-    public void setOslc_promcodeBelongsTo(final Link belongsTo );
-    public void setOslc_promcodeCollects(final Set<Link> collects );
+  public void setOslc_promcodeCollects(final Set<Link> collects);
 }
-
