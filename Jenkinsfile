@@ -146,18 +146,28 @@ pipeline {
     }
   }
   post {
-    // send a mail on unsuccessful and fixed builds
-    unsuccessful { // means unstable || failure || aborted
-      emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
-      body: '''Check console output at $BUILD_URL to view the results.''',
-      recipientProviders: [culprits(), requestor()],
-      to: 'andrew+ham@berezovskyi.me'
+    unsuccessful {
+      script {
+        notifyBuild()
+      }
     }
-    fixed { // back to normal
-      emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
-      body: '''Check console output at $BUILD_URL to view the results.''',
-      recipientProviders: [culprits(), requestor()],
-      to: 'andrew+ham@berezovskyi.me'
+    fixed {
+      script {
+        notifyBuild()
+      }
     }
   }
+}
+
+def notifyBuild() {
+    if (env.BRANCH_NAME == 'main') {
+        build job: '/lyo-build-notify',
+            wait: false,
+            parameters: [
+                string(name: 'BUILD_STATUS', value: currentBuild.currentResult),
+                string(name: 'PROJECT_NAME', value: env.JOB_NAME),
+                string(name: 'BUILD_NUMBER', value: env.BUILD_NUMBER),
+                string(name: 'BUILD_URL', value: env.BUILD_URL)
+            ]
+    }
 }
