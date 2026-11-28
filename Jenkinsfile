@@ -147,10 +147,14 @@ pipeline {
   }
   post {
     unsuccessful {
+      script {
         notifyBuild()
+      }
     }
     fixed {
+      script {
         notifyBuild()
+      }
     }
   }
 }
