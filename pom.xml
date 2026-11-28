@@ -25,7 +25,7 @@
     <v.jackson>2.23.0</v.jackson>
     <!-- jackson-annotations is published without a patch version (2.23, not 2.23.0) -->
     <v.jackson.annotations>2.23</v.jackson.annotations>
-    <v.classgraph>4.8.198</v.classgraph>
+    <v.classgraph>5.0.2</v.classgraph>
     <v.jaxb>4.0.5</v.jaxb>
     <v.jspecify>1.0.1</v.jspecify>
     <v.activation>2.1.4</v.activation>
