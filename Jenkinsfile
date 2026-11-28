@@ -157,7 +157,7 @@ pipeline {
 
 def notifyBuild() {
     if (env.BRANCH_NAME == 'main') {
-        build job: '/build-notification',
+        build job: '/lyo-build-notify',
             wait: false,
             parameters: [
                 string(name: 'BUILD_STATUS', value: currentBuild.currentResult),
